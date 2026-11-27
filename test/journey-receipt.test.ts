@@ -24,14 +24,15 @@ import { Heard } from './support/heard';
 // as the milestones tell them, and thirty-six journeys meet a bar, the danger, night and harm on the way; the bar
 // now the cudgel-men standing in the road as often as the pikes.)
 class Both {
-  static async begin(whole: boolean): Promise<{ host: EngineHost; frame: Frame }> {
+  static readonly alone = [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }];
+  static async begin(whole: boolean, party = Both.alone): Promise<{ host: EngineHost; frame: Frame }> {
     // A fight on the way is the page's to choose in: pressed through by the company's own tactics, as the page can.
     const host: EngineHost = new EngineHost((m: Message) => {
       if (m.kind === 'frame' && m.frame.combat) { setTimeout(() => void host.handle({ kind: 'fight', through: true }), 0); }
     });
     host.wholeLegs = whole;
     const frame = await host.handle({ kind: 'begin', campaign: 'world', seed: 'kite', origin: 'wanderer',
-      party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] }) as Frame;
+      party }) as Frame;
     // Told of every town, as the milestones tell them: the journeys are the matter here, not how the company hears of
     // where they go (the map draws what the company knows since OR-810, and a fresh wanderer's offered few).
     Heard.towns((host as unknown as { session: PlaySession }).session.campaign);
@@ -40,6 +41,11 @@ class Both {
   static digest(host: EngineHost): string {
     return Digest.of((host as unknown as { session: PlaySession }).session.campaign);
   }
+  // What the page's story keeps of the game (the transcript's entries), as each way told it.
+  static entries(host: EngineHost): string {
+    return JSON.stringify((host as unknown as { log: unknown[] }).log);
+  }
+  static campaign(host: EngineHost) { return (host as unknown as { session: PlaySession }).session.campaign; }
   // The frame as the page is given it, but for how long its parts took to build.
   static shown(frame: Frame): string { return JSON.stringify({ ...frame, timing: undefined }); }
   // Where a journey from here sets out for: the way held, gone on with; else one of the places the map offers (its
@@ -68,6 +74,7 @@ describe('a journey told leg by leg from its receipts', () => {
       screens.told += Costs.since(between).screen!.n;
       expect([n, Both.shown(b)]).toEqual([n, Both.shown(a)]);
       expect([n, Both.digest(told.host)]).toEqual([n, Both.digest(whole.host)]);
+      expect([n, Both.entries(told.host)]).toEqual([n, Both.entries(whole.host)]);
       stops.add((a.travel!.stopped ?? (a.travel!.arrived ? 'arrived' : '')).split(/[,.:]/)[0]!);
       legs += a.travel!.legs.length;
     }
@@ -80,5 +87,29 @@ describe('a journey told leg by leg from its receipts', () => {
     expect(held).toBeGreaterThan(0);
     expect(legs).toBeGreaterThan(30);
     expect(screens.told).toBeLessThan(screens.whole - legs / 2);
+  }, 600000);
+  // A company of two on the same roads, other journeys (every seventh place): the pikes, night, weariness, and a band
+  // that sets upon the company on the way, its fight with what one of the two calls out in it (a bark), each leg told
+  // by its receipt where it can be and the same frames, story and game as every leg's frame built whole (OR-1361).
+  it('comes to the same frames, story and game through a fight on the way, with a companion beside', async () => {
+    const two = [...Both.alone, { name: 'Tam', raceId: 'human', classId: 'thief' }];
+    const whole = await Both.begin(true, two), told = await Both.begin(false, two);
+    const stops = new Set<string>();
+    let [a, b] = [whole.frame, told.frame];
+    for (let n = 0; n < 45 && a.screen.running; n++) {
+      const offered = [...a.screen.roads ?? [], ...a.screen.destinations ?? [], ...a.screen.mapped ?? []];
+      const to = a.bound?.id ?? offered[(n * 7) % Math.max(1, offered.length)]?.id;
+      if (!to) { break; }
+      a = await whole.host.handle({ kind: 'travel', destination: to }) as Frame;
+      b = await told.host.handle({ kind: 'travel', destination: to }) as Frame;
+      expect([n, Both.shown(b)]).toEqual([n, Both.shown(a)]);
+      expect([n, Both.digest(told.host)]).toEqual([n, Both.digest(whole.host)]);
+      expect([n, Both.entries(told.host)]).toEqual([n, Both.entries(whole.host)]);
+      stops.add((a.travel!.stopped ?? (a.travel!.arrived ? 'arrived' : '')).split(/[,.:]/)[0]!);
+    }
+    expect([...stops]).toEqual(expect.arrayContaining(['arrived', 'Pikes come down across the road',
+      'Night has come on', 'You were set upon on the way']));
+    const history = Both.campaign(told.host).history;
+    expect(history.some(e => e.prelude && (e.voiced ?? []).some(v => v.kind === 'bark'))).toBe(true);
   }, 600000);
 });

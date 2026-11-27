@@ -196,19 +196,21 @@ export class EngineHost {
     return this.settled();
   }
   // The command done and kept as told, its frame not yet built: what the company perceives after it.
-  private async act(command: string, context: { said: string; move: boolean; named: boolean }) {
+  // A journey's leg (way: the act of the way taken) is read as its receipt tells it (PlayerView.glimpse: OR-1361), its
+  // frame built only where the journey ends; the row it was offered in is the way Travel chose, said in its own words.
+  private async act(command: string, context: { said: string; move: boolean; named: boolean; way?: string }) {
     const session = this.session!, game = this.game;
-    const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
+    const campaign = session.campaign, before = PlayerView.seen(campaign, !!context.way), started = performance.now();
     // Pressing on is for the fight it was pressed in: carried on, the next two fights at the hobs' hold, their chief's
     // among them, were fought out with no page at all (Mission 20's fourth round, F 144, 147).
     // A foregone fight (easily won) is one act: begun pressing, fought through unless it turns (see Foregone).
     this.fought = undefined; this.began = campaign.history.length; this.pressing = Foregone.is(this.screen, command);
-    this.doing = PlayerFrame.of(campaign).row(command)?.choice.name;
+    this.doing = context.way ? context.said : PlayerFrame.of(campaign).row(command)?.choice.name;
     try {
-      const event = await session.perform(command, this.controlling(game));
+      const event = await session.perform(command, this.controlling(game), context.way);
       if (game !== this.game) { throw new Error('That game is no longer under way.'); }
-      const after = PlayerView.observe(campaign), feedback = ActionFeedbackView.read(campaign, event, before);
-      const moved = before.location?.id !== after.location?.id;
+      const after = PlayerView.seen(campaign, !!context.way), moved = before.location?.id !== after.location?.id;
+      const feedback = ActionFeedbackView.read(campaign, event, before, after);
       this.log.push(PlayTranscript.entry(event, feedback, { ...context, id: this.next(), moved,
         place: after.location?.id ?? '', placeName: after.location?.name ?? '', elapsed: event.elapsed }));
       // A choice made from an opened list is echoed as the action it was ("You buy a torch for Bran").
@@ -286,8 +288,8 @@ export class EngineHost {
   // it tells all the page tells of it; else by its frame, built whole. wholeLegs: every leg by its frame, as before
   // the receipt (AX-05), the oracle the receipt is held equal to (test/journey-receipt).
   wholeLegs = false;
-  private async leg(trail: Trail, command: string, said: string): Promise<CampaignEvent> {
-    const view = await this.act(command, { said, move: true, named: false });
+  private async leg(trail: Trail, command: string, said: string, id: string): Promise<CampaignEvent> {
+    const view = await this.act(command, { said, move: true, named: false, ...this.wholeLegs ? {} : { way: id } });
     const passed = this.wholeLegs ? undefined : LegTold.of(this.session!.campaign, this.told!, view);
     if (passed) { this.passed(trail, passed); } else { this.framed(trail, this.settled()); }
     return this.session!.campaign.history.at(-1)!;

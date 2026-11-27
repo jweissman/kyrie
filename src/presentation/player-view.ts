@@ -239,8 +239,22 @@ export class PlayerView {
     const actor = this.actor(campaign);
     return this.kept(campaign).chronicle ??= Frozen.deep(Chronicle.of(campaign, actor, this.labels(campaign)));
   }
+  // What the company perceives as a journey's leg is told by its receipt (OR-1361; LegTold): its rows only the ways
+  // (as Travel reads them), and who is here not read (what they are about is a planner's reading), so that neither the
+  // whole frame nor the revision it is kept by (PlayerRevision, which asks for every act on offer) is worked out for a
+  // leg the page tells without its frame. A leg's feedback reads no more of it (ActionFeedbackView.read: the act's own
+  // row, and the rest of the rows only where the company stayed, where a journey stops and its frame is built whole).
+  // Not kept, and so not frozen against a later reader: it is the leg's alone.
+  static glimpse(campaign: Campaign): PlayerSnapshot {
+    return Costs.time('observe', () => this.perceive(campaign, this.only(campaign, this.ways)));
+  }
+  private static readonly ways: ReadonlySet<string> = new Set(['go', 'lie_still']);
+  // What is perceived, for a journey's leg (glimpse) or anything else (observe).
+  static seen(campaign: Campaign, leg = false): PlayerSnapshot {
+    return leg ? this.glimpse(campaign) : this.observe(campaign);
+  }
   private static kept(campaign: Campaign): Observed { return PlayerRevision.of(campaign).reading('observed', () => ({})); }
-  private static perceive(campaign: Campaign): PlayerSnapshot {
+  private static perceive(campaign: Campaign, narrow?: ReturnType<typeof PlayerView.only>): PlayerSnapshot {
     const actor = this.actor(campaign), world = campaign.world, labels = this.labels(campaign);
     const entities = campaign.module.entities, read = campaign.readout;
     const state = { elapsed: read.elapsed, creatures: read.creatures, partyIds: read.partyIds };
@@ -251,7 +265,7 @@ export class PlayerView {
       campaign.installations.map(m => ({ name: m.name, description: m.description ?? '' })) :
       [{ name: campaign.module.name, description: campaign.module.description }];
     // The frame's rows, the one row set of this revision (PlayerFrame), not a copy of its own.
-    const publicChoices = PlayerFrame.of(campaign).rows;
+    const publicChoices = narrow ?? PlayerFrame.of(campaign).rows;
     return { actor, title: campaign.module.name, situations, elapsed: state.elapsed, running: campaign.running,
       ...read.minutes ? { minutes: read.minutes } : {},
       ...(location ? { location: { id: location.id, name: ObservationText.label(world, location.id),
@@ -261,7 +275,7 @@ export class PlayerView {
       observations: perceiving && location ? [...dark ? [this.darkness] : [],
         ...LocalObservations.read(world, actor, dark)] : [],
       // Whoever could be here, in the module's order: not every entity there is.
-      present: perceiving && location ? this.present(campaign, actor, location.id, dark) : [],
+      present: perceiving && location && !narrow ? this.present(campaign, actor, location.id, dark) : [],
       items: state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c =>
         (c.state.inventory ?? []).map(i => {
         const d = campaign.catalog.get(i.definition);

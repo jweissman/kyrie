@@ -31,8 +31,12 @@ export class LegTold {
       lines: Narrator.passed(campaign, { place, observed: view.observations }, told), ...country ? { country } : {} };
   }
   // Whether what is told of the leg reads the place's screen: a warning here, or anyone here who could be fought.
+  // The fights' rows alone (PlayerFrame.only), as Travel reads them: not the whole frame, which a leg told by its
+  // receipt never builds (OR-1361).
+  private static readonly fights: ReadonlySet<string> = new Set(['attack']);
   private static screened(campaign: Campaign, view: PlayerSnapshot): boolean {
-    return PlayerFrame.of(campaign).rows.some(r => r.action.schema === 'attack' || /^attack\(/.test(r.choice.id))
+    return PlayerFrame.only(campaign, this.fights)
+      .some(r => r.action.schema === 'attack' || /^attack\(/.test(r.choice.id))
       || !!Patience.of(campaign, view.minutes).warned;
   }
 }

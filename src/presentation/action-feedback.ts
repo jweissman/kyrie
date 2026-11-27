@@ -358,8 +358,9 @@ export class ActionFeedbackView {
     return CombatProjection.told(campaign.catalog, Fought.of(campaign, [event]), campaign.readout.partyIds,
       fought ? BandNames.of(campaign) : undefined);
   }
-  static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
-    const after = PlayerView.observe(campaign);
+  // after: what is perceived now, as the one who asks has it read (a journey's leg, PlayerView.glimpse).
+  static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot,
+    after = PlayerView.observe(campaign)): ActionFeedback {
     const action = campaign.operator(event.action);
     // A command of the session that is no act of the world (an aim chosen to follow): said as it was.
     if (!action) { return this.session(event, after, before); }
