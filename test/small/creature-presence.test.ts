@@ -14,4 +14,15 @@ describe('a creature present', () => {
     expect(t.look().glance.life?.text).toBe('The keeper of the vault is here: a barrow ghoul. A gaunt grey thing that '
       + 'was a man, long-nailed and hollow-cheeked, crouched over bones.');
   });
+  // A band whose name already says its kind is not told it again, and never in a made-up plural: "The wolves are
+  // here: wolfs." (the porthalen loop's old stope, 26 November).
+  it('is not told its kind again where its name says it in the plural', async () => {
+    const t = await Tiny.start(`${Atlas.ground}
+      Person pack "the wolves" at green { Role "a pair of wolves that have made the green their den". Species wolf.
+        Numbers 2. Level 1. Temperament territorial. Lair green. }`,
+    { party: [{ name: 'Aud', raceId: 'human', classId: 'warrior' }] });
+    const said = t.look().glance.life?.text ?? '';
+    expect(said).toStartWith('The wolves are here, each ');
+    expect(said).not.toContain('wolfs');
+  });
 });
