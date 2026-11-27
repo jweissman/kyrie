@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 224 pins (193 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 722 live rows, 235 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 224 pins (193 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 723 live rows, 235 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -801,7 +801,7 @@ page's colours and opportunities.)
   - direction OR-1205 P2: Form and identity held apart in the kernel: a polymorph keeps identity and changes form, a…
   - requirement OR-726 P1: The player revision's remaining parts (split from OR-740, closed 26 Nov): the session's own state…
   - direction MT-08 P3: Step 8 (D): qualitative placement constraints realized deterministically, coordinates kept where…
-- **Architecture and layers** · 0 pins · 11 defects · 33 asks
+- **Architecture and layers** · 0 pins · 11 defects · 34 asks
   - requirement AR-01 P2: R1: campaign orchestration in one class; explicit command phases; lifecycle assertions around…
   - requirement AR-03 P2: R3: cache invalidation by convention across memo layers; cache and load telemetry;…
   - requirement AR-06 P2: One exported PlayerHost/PlayerFrame facade; nested PlayerSnapshot vs Screen/Leaf/Glance;…
@@ -818,7 +818,8 @@ page's colours and opportunities.)
   - requirement AX-08 P2: The kernel is not bounded: the compiler imports the catalog, the parser imports Deem, grounding…
   - requirement OR-66 P2: Kyr places carry literal coordinates ("room within X at 0, 0") whose units differ by level (a cell…
   - requirement BX-01 P2: The setting/framework boundary: can another setting define and execute its own game without…
-  - requirement BX-02 P1: The shared rules cannot be taken in part: a world of its own must install the whole standard set…
+  - requirement OR-1580 P1: The kernel still declares the two acts of conflict (split from BX-02): core's attack and assail,…
+  - requirement OR-1581 P2: Things and trade are installed with rule over places: belongings (and with it services and making)…
   - requirement OR-1250 P2: SettingPort's reckoning and sky remain process-wide, so distinct installations still take turns…
   - requirement OR-545 P2: Command state still in four places after OpenCommand's transitions were enforced (25 November):…
   - direction OR-1333 P1: One statement grammar: an ability's effect and an act's consequence are both sentences of world…
@@ -873,7 +874,7 @@ page's colours and opportunities.)
 
 ## Negative space
 
-### Common blockers (13)
+### Common blockers (12)
 
 Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
@@ -895,8 +896,6 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - OR-454 (Paintings by terrain, subject, season, weather and light), OA-14 (Paintings and portraits), CP-04 (Paintings and portraits), OR-46 (Paintings and portraits)
 - **OR-521** P2: An ordinary turn's time a quarter unattributed (36 ms, above the whole 30 ms target), and a journey leg builds a full frame (some 14 times its 5 ms target):… · blocks 4 (0 P0/P1) over 3 capabilities
   - OR-532 (Aims and the gold thread), TB-12 (Playing in the terminal), GR-09 (Aims and the gold thread), OR-219 (Architecture and layers)
-- **BX-02** P1: The shared rules cannot be taken in part: a world of its own must install the whole standard set (data/rules: core, passages, people, needs, services,… · blocks 1 (1 P0/P1) over 1 capabilities
-  - OR-407 (Testing instruments)
 - **OR-451** P2: Canonical cities as stable anchors (gamma G2): Aline, Marith, Dun Rìerdan, Garzab, Ydgn, the Lizardfolk name, rendered Andayeen by Northerners (the owner, 24… · blocks 1 (0 P0/P1) over 1 capabilities
   - OR-452 (Passage arranged between cities)
 - **AR-13** P3: Five composition mechanisms; unfilled placeholders pass silently; .kyrt values unescaped · blocks 1 (1 P0/P1) over 1 capabilities
@@ -938,7 +937,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Playing in the terminal** (The terminal): TM-04, TM-05, TB-03, TB-04, TB-06, TB-07, OR-747, TB-11
 - **Authoring forms and their lint** (Kyr and Deem): AU-01, AU-03, AU-07, AU-12, AU-13, AU-14, OB-07, OR-164, OR-224, OR-230, OR-522, OR-1112, OR-1113, OR-1116, OR-1212, OR-1213, OR-1215, OR-1216, OR-1339, OR-1340, OR-1341, OR-1342, OR-1105, OR-700, OR-1370, OR-1371, ST-05, ST-08, WB-07, AU-23, AU-24, AU-25, AU-29, AU-30, AU-31, AU-33, AU-39, AU-41, AU-42, AU-44, AU-45, AU-53, AU-57
 - **Generation and tables** (Kyr and Deem): AU-04, AU-10, AU-11, AB-12, OR-150, OR-405, OR-421, OR-671, OR-673, OR-781, OR-1111, OR-1115, KX-02, KX-04, AU-34, AU-51, AU-58, AU-60
-- **Architecture and layers** (The engine): AR-01, AR-03, AR-06, AR-07, AR-08, AR-09, AR-10, AR-12, AR-16, AR-18, AR-19, AX-04, AX-07, AX-08, OR-66, BX-01, BX-02, OR-1250, OR-545, OR-1333, OR-1334, OR-1335, OR-1336, OR-1202, OR-742, OR-744, OR-1071, OR-1097, OR-634, MT-07, MT-16, MT-28, MT-31
+- **Architecture and layers** (The engine): AR-01, AR-03, AR-06, AR-07, AR-08, AR-09, AR-10, AR-12, AR-16, AR-18, AR-19, AX-04, AX-07, AX-08, OR-66, BX-01, OR-1580, OR-1581, OR-1250, OR-545, OR-1333, OR-1334, OR-1335, OR-1336, OR-1202, OR-742, OR-744, OR-1071, OR-1097, OR-634, MT-07, MT-16, MT-28, MT-31
 - **Testing instruments** (The engine): TC-03, TC-04, TC-05, TC-07, TC-08, TC-09, TC-10, TC-11, TC-13, TC-14, OR-407, OR-456, OR-384, OR-389, OR-465, OR-508, OR-1151, OR-1080, OR-761, OR-1442, OR-1446, OR-1461, MT-29
 - **Documentation and the register** (The engine): DC-03, DC-05, DC-06, DC-07, DC-08, OB-03, OB-04
 

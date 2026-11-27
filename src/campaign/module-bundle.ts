@@ -26,6 +26,7 @@ import { Composition, type Composed, type ManifestEntry } from '../world/compose
 import { Routes } from '../lang/routes';
 import { ModuleExports, type ExportEntry } from './module-exports';
 import { ModuleFiles } from './module-files';
+import { RulePackages } from './rule-packages';
 // A file read ahead: its text, the kinds it was read among, and what was declared for it as values.
 interface Ahead { text: string; kinds: string; declared: FileSource['declared'] }
 
@@ -276,7 +277,7 @@ export class ModuleBundle {
   // time with a pause between, so that whatever else is asked meanwhile is answered; its loading then finds them.
   static async warm(context: VocabularyContext, path: string, source: BundleSource): Promise<void> {
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
-    const { situations, rules } = this.paths(manifest, path, source);
+    const { situations, rules } = await this.paths(manifest, path, source);
     await this.read(context, [...situations, ...rules], source, { own: situations.length,
       values: await this.sources(manifest, path, source) });
   }
@@ -286,7 +287,7 @@ export class ModuleBundle {
   static async prepare(context: VocabularyContext, path: string, source: BundleSource): Promise<void> {
     const local = context.fork();
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
-    const { situations, rules } = this.paths(manifest, path, source), read: Ahead[] = [];
+    const { situations, rules } = await this.paths(manifest, path, source), read: Ahead[] = [];
     const values = await this.sources(manifest, path, source);
     for (const [i, file] of [...situations, ...rules].entries()) {
       const text = await source.read(file), own = i < situations.length, declared = values[i]?.declared ?? [];
@@ -351,15 +352,17 @@ export class ModuleBundle {
     Promise<(FileSource | undefined)[]> {
     return ModuleSource.sources(manifest, path, source);
   }
-  private static paths(manifest: BundleManifest, path: string, source: BundleSource, canonless = false) {
+  // The shared rules it names are installed with what they read (RulePackages, BX-02): "world" as it is listed.
+  private static async paths(manifest: BundleManifest, path: string, source: BundleSource, canonless = false) {
     const rules = typeof manifest.rules === 'string' ? [manifest.rules] : manifest.rules;
     const world = canonless ? ModuleBundle.world.filter(r => r !== ModuleCanon.id) : ModuleBundle.world;
     const shared = rules.filter(r => ModuleBundle.ruleNames.includes(r) || r === 'world');
     if (!shared.length) { throw new Error(`${path} names none of the rules a module is played by (world, ...)`); }
+    const named = shared.flatMap(r => r === 'world' ? world : [r]);
+    const installed = await RulePackages.installed(named, shared.includes('world'), source);
     return { situations: [...typeof manifest.source === 'string' ? [manifest.source] : manifest.source,
       ...rules.filter(r => !shared.includes(r))].map(p => source.resolve(p, path)),
-    rules: shared.flatMap(r => r === 'world' ? world : [r])
-      .map(name => source.resolve(`data/rules/${name}.kyr`)) };
+    rules: installed.map(name => source.resolve(`data/rules/${name}.kyr`)) };
   }
   // people: who is in the world already, whose names a story's generated people are drawn apart from as the country's
   // folk's are (two stories in b2 each gave one of their people Rurik). kinds: the campaign's own, any of which the
@@ -379,7 +382,8 @@ export class ModuleBundle {
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
     ModuleBundle.check(manifest);
     const canon = ModuleCanon.is(path, source) ? undefined : await ModuleCanon.declarations(source, options.vocabulary);
-    const { situations: situationPaths, rules: rulePaths } = this.paths(manifest, path, source, options.canonless);
+    const { situations: situationPaths, rules: rulePaths } = await this.paths(manifest, path, source,
+      options.canonless);
     const texts = await ModuleFiles.read({ manifest, path, source, situations: situationPaths, rules: rulePaths });
     const files = [...situationPaths, ...rulePaths].map((p, i) => ({ path: p, text: texts[i]! }));
     // Its own files first, each read among every kind they declare (see `own`), and then the shared rules; or its own
