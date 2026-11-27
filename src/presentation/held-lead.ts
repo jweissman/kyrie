@@ -31,11 +31,19 @@ export class HeldLead {
     if (action?.movement) { return undefined; }
     const held = Undertakings.held(campaign);
     if (Undertakings.followed(campaign, held)) { return undefined; }
-    const rows = PlayerFrame.of(campaign).rows;
-    if (!held.some(o => AimAdvances.of(campaign, rows, o).has(command))) { return undefined; }
+    if (!held.some(o => AimAdvances.of(campaign, this.own(campaign, command), o).has(command))) { return undefined; }
     const view = PlayerView.observe(campaign);
     const pull = HeldActs.pull(Undertakings.shown(campaign, view.objectives ?? [], view.location?.id ?? '').aims ?? []);
     return pull && this.of(campaign, pull.id, AimSaid.short(pull.text)) === command ? pull.id : undefined;
+  }
+  // The command's own row, where its schema says which (a journey's leg, its way: PlayerView.only), else every row:
+  // whether a row moves an aim on is read of that row alone (AimAdvances.of), so the frame is not built to ask it of
+  // one act a leg told by its receipt never shows (OR-1361).
+  private static own(campaign: Campaign, command: string) {
+    const schema = /^([a-z0-9_]+)\(/.exec(command)?.[1];
+    return schema && schema !== 'ask' && campaign.module.actions.some(a => a.id === schema)
+      ? PlayerView.only(campaign, new Set([schema])).filter(r => r.choice.id === command)
+      : PlayerFrame.of(campaign).rows;
   }
   // The aim to follow folded into the act that is its step, where that act is led with or is one of the place's (a
   // talk the four fill in, Offers.scene): the act keeps its doing, and is placed, said, marked and noted as the aim to
