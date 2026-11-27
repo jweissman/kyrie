@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 224 pins (193 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 722 live rows, 235 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 226 pins (195 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 722 live rows, 234 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -162,7 +162,7 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 8 pins · 9 defects · 12 asks
+- **Journeys over known ways** · 8 pins · 9 defects · 13 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
@@ -180,11 +180,14 @@ page's colours and opportunities.)
   - direction AB-06 P2: People and bands that move on a clock (Route/Pursuit on a person)
   - requirement T24-25 P2: Three of cold review B's fixes unpinned: the hare said to go into the pack as food…
   - requirement OR-344 P2: Journeys over known ways: the capability as its pins hold it (the land is revealed as a journey…
+  - requirement OR-1540 P3: What is left blank in the reference game's first level, after the way on was marked (OR-1502):…
   - direction OB-19 P3: The middle scale inside a hex (the owner, 15 November): a gallery of existing hexes at local scale…
   - direction OB-20 P2: Wander (the owner, 15 November): a deterministic, authoritative exploration policy over known…
   - direction TR-03 P2: Travel cost (F): a six-to-eight-hex journey differs from one hex only in time
-- **Wayfinding and bearings** · 2 pins · 10 defects · 7 asks
+- **Wayfinding and bearings** · 4 pins · 10 defects · 7 asks
   - ○ a strategic map of countries above the hex map, and a hex view of the places within a hex
+  - ✓ marks the way from the shrine that leads on to the woods not yet seen, the woods' edge walked
+  - ✓ marks the way back out of a dead-end recess, toward the gallery not yet entered
   - ✓ is said alike by the terminal and the page, by the way's own command
   - requirement NM-17 P2: The map panel's hierarchy below its title unpinned: no spec asserts the eyebrow…
   - requirement CO-20 P1: The map menu's verbs by cell asserted by no spec: View for a place not in view, Travel to the one…
@@ -198,7 +201,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 21 defects · 19 asks
+- **Aims and the gold thread** · 16 pins · 20 defects · 19 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to

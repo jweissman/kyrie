@@ -1,5 +1,7 @@
 import type { PlaySession } from '../session/play-session';
 import { Companions } from '../presentation/companions';
+import { VisitedPlaces } from '../presentation/visited-places';
+import { KnownWays } from '../ui/known-ways';
 import type { Aspect, Glance, Promoted } from '../presentation/glance-types';
 
 // Whether each facet a glance draws is kept by what its act does (promise fidelity: the owner, 15 November). The act
@@ -39,9 +41,11 @@ export class RunnerFidelity {
       for (const aspect of aspects.filter(a => this.brings[a])) {
         drawn.add(aspect);
         const session = await fork(), checked = this.checked(session, act, aspect);
+        const before = aspect === 'exploration' && act.why === 'leads' ? this.unseen(session) : undefined;
         const changes = await this.done(session, act, aspect);
         if (!changes.some(c => this.brings[aspect]!.test(c) || (aspect === 'exploration' && this.seen(c, act, session)))
-          && !(aspect === 'companionship' && this.met(session))) {
+          && !(aspect === 'companionship' && this.met(session))
+          && !(before !== undefined && this.unseen(session) < before)) {
           if (checked) { chance.push(`${act.label}: drawn ${aspect}, not on this roll`); continue; }
           broken.push(`${act.label}: drawn ${aspect}, brought none`);
           traces.push(`${act.why} ${act.command} ${JSON.stringify(act.inside ?? [])}\n${changes.join('  ')}`);
@@ -49,6 +53,13 @@ export class RunnerFidelity {
       }
     }
     return { drawn: [...drawn], broken, traces, chance };
+  }
+  // How many legs, by the ways known and open to the company, to the nearest place it has not been: a way onward keeps
+  // its promise by bringing the company nearer the unseen it leads on to (OR-1502; see LeadsOn).
+  private static unseen(session: PlaySession): number {
+    const c = session.campaign, actor = c.playerActor ?? 'party', here = c.world.one('at', actor) ?? '';
+    const been = VisitedPlaces.of(c, actor);
+    return KnownWays.way(c, here, id => !been.has(id), { able: true })?.legs.length ?? Infinity;
   }
   // A way along which someone who might join is perceived (Perception: the Go mark's companion) keeps its promise by
   // coming to where they stand, to be asked: it had been judged by a joining that only asking does (the weir's errand,

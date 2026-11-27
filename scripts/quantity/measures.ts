@@ -129,7 +129,7 @@ export class QuantityMeasures {
         + 'ends where it ends; said, a ratchet up once it moves', read: 'connected' },
     { id: 'aimless', label: '5. Moves with nothing worth going to in reach, first hour (median a life)', kind: 'down',
       why: 'every place a company stands in shows what in reach is worth going to, and no stretch is blank (OR-1502); '
-        + 'may only fall (27 November: from 14)', read: 'aimless' },
+        + 'may only fall (27 November: from 14, then 1 with the way on marked, OR-1502)', read: 'aimless' },
     // The economy's ladder (OR-1124, OR-1125: scripts/quantity/ladder.ts), read from the five expeditions on s0.
     { id: 'rungs', label: '3. Rungs of the ladder with a ware in the reference town (of 4)', kind: 'band', floor: 4,
       why: 'something worth saving for at each rung: a start\'s purse, the first rung (26 to 250), the second (251 to '

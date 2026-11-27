@@ -14,10 +14,8 @@ import { KnownWays } from '../ui/known-ways'; import { LandModel } from '../ui/l
 import { Promotion, type Situation } from '../ui/promotion';
 import { SceneModel, type Scene } from '../ui/scene';
 import type { Act, Screen } from '../ui/screen-types';
-import { Engaged } from './engaged';
-import { Stakes } from '../ui/stakes';
-import { Undertakings } from './undertakings';
-import { TalkWeight } from './talk-weight';
+import { Engaged } from './engaged'; import { Stakes } from '../ui/stakes';
+import { Undertakings } from './undertakings'; import { TalkWeight } from './talk-weight';
 import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead'; import { AimContinuity } from './aim-continuity';
 import { AimAside } from './aim-aside'; import { LedAgain } from './led-again';
 import { Perception } from './perception'; import { Companions } from './companions';
@@ -25,7 +23,7 @@ import { Alternatives } from './alternatives';
 import { CompanyRecall } from './company-recall';
 import { Acquainted } from './acquainted'; import { DecisionFrame } from './decision-frame';
 import { Charge } from './charge'; import { Surfaces } from './surfaces';
-import { GlanceLines } from './glance-lines'; import { SiteOutsides } from './site-outsides';
+import { GlanceLines } from './glance-lines'; import { SiteOutsides } from './site-outsides'; import { LeadsOn } from './leads-on';
 import type { Arrival, Glance as View, Promoted, Sensed } from './glance-types';
 import { PlayerFrame } from './player-frame'; import { TalkingWith } from './talking-with';
 import type { Told } from './narrator'; import { ArrivalAttention } from './arrival-attention';
@@ -405,7 +403,7 @@ export class Glance {
   // The ways toward the aims, and into a site: no step across the country toward an aim while there is a way into a
   // site here (the barrow's door beside the company, and the page had led with the map "toward your aim").
   private static ways(campaign: Campaign, screen: Screen,
-    aims: { named: Set<string>; held: Set<string>; idle: Set<string> }): Pick<Reading, 'toward' | 'inward' | 'within'> {
+    aims: { named: Set<string>; held: Set<string>; idle: Set<string> }): Pick<Reading, 'toward' | 'inward' | 'within' | 'on'> {
     const inward = this.inward(campaign, screen), sought = this.sought(campaign, screen);
     const within = AimLeads.within(campaign, screen, aims.named);
     // Where what the aim waits on is hidden elsewhere and the way there is known, that way is the aim's, and no other.
@@ -414,7 +412,9 @@ export class Glance {
     if (inward.size) {
       for (const [id] of toward) { if (screen.exits.find(e => e.id === id)?.bearing) { toward.delete(id); } }
     }
-    return { toward, inward, within };
+    // Where every way goes somewhere been, the one that leads on to the unseen (OR-1502).
+    const on = LeadsOn.of(campaign, screen, { ways: KnownWays.unseen, named: aims.named, inward });
+    return { toward, inward, within, ...on };
   }
   // The first way toward the nearest place where something the aim waits on lies hidden (see AimAdvances.sought), from
   // anywhere but there, by the ways the world joins: a site's way back out included, which is otherwise never led.
