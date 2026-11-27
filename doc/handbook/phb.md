@@ -362,6 +362,30 @@ Faerie Charm: what they cast lasts 1 turn longer.
 
 > The fae keep courts in the deep woods, where the seasons turn as they please. Their rule is old, strange and bound by promises. A fae who walks among mortals does so out of curiosity, exile or a bargain, and keeps the letter of every word given.
 
+### Minotaur
+
+*Kyr · not chosen by players* · `ancestry:minotaur`
+
+- STR +4 · DEX 0 · CON +2 · INT −2 · WIS 0 · CHA −1
+- Build: Seven feet tall and heavy in the shoulder.
+- Ages: Grown at twenty; a keeper may hold one way for a century.
+- Callings: Warrior, Commoner
+- Born with: Humanoid Traits, Enduring, Berserker Rage
+
++1 against charms, +1 against fear.
+
+Enduring: +2 hit points each level.
+
++1 damage.
+
+> A bull-headed person, powerful and patient, a keeper of difficult ways.
+
+> A bull's head on a broad body taller than a door is made for, with horns that are mended, banded or carved, and never cut.
+
+> Minotaurs live alone or in pairs, each keeping one difficult way: a maze, a ford or a mill-race. A keeper takes a toll and keeps the way open in return. They count debts carefully and do not forget them.
+
+*Adapted: Kyr's keepers of difficult ways, met in the long campaign's hall of angles. The SRD minotaur's +8 Strength, +4 Constitution, -4 Intelligence and -2 Charisma, halved to this scale; its charge is the warrior's. A people rather than a catalogued monster until a minotaur is painted (every monster is painted by its own picture). Not a player ancestry.*
+
 ## Callings
 
 A calling is what a companion does in a fight and on the road: their hit die, the qualities it shapes, the arms they may bear and what they know from the start.

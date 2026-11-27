@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { ModuleWriter } from '../src/lang/module-writer';
+import { ModuleWriter } from '../src/lang';
 import { Journey } from '../src/session/journey';
 import { PlaySession } from '../src/session/play-session';
 import { Placed } from './support/placed';

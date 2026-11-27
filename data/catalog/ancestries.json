@@ -563,6 +563,39 @@
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
       }
+    },
+    "minotaur": {
+      "name": "Minotaur",
+      "description": "A bull-headed person, powerful and patient, a keeper of difficult ways.",
+      "appearance": "A bull's head on a broad body taller than a door is made for, with horns that are mended, banded or carved, and never cut.",
+      "society": "Minotaurs live alone or in pairs, each keeping one difficult way: a maze, a ford or a mill-race. A keeper takes a toll and keeps the way open in return. They count debts carefully and do not forget them.",
+      "build": "Seven feet tall and heavy in the shoulder.",
+      "ages": "Grown at twenty; a keeper may hold one way for a century.",
+      "nameGroup": "hero",
+      "classes": [
+        "warrior",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": 4,
+        "dexterity": 0,
+        "constitution": 2,
+        "intelligence": -2,
+        "wisdom": 0,
+        "charisma": -1
+      },
+      "traits": [
+        "humanoid",
+        "tough",
+        "fierce"
+      ],
+      "source": {
+        "kyr": true,
+        "srd35": "monster:minotaur",
+        "fidelity": "adapted",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "Kyr's keepers of difficult ways, met in the long campaign's hall of angles. The SRD minotaur's +8 Strength, +4 Constitution, -4 Intelligence and -2 Charisma, halved to this scale; its charge is the warrior's. A people rather than a catalogued monster until a minotaur is painted (every monster is painted by its own picture). Not a player ancestry."
+      }
     }
   }
 }

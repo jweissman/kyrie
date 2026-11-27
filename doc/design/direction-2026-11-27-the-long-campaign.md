@@ -43,7 +43,7 @@ factor: a reunion at Cador's can stop an order before it is bought, but cannot u
 Rill's family sword gains a real, limited opening strike after the reunion; with Rill at the brass pointer it grows
 stronger. It is an equipped item's field act before a fight, not a change to its ordinary melee attacks.
 Beyond her shelter, the keeper of a hall of angles accepts food or fights; a door behind the keeper opens a
-physical return to the Quiet Gallery. Its minotaur is an explicitly adapted body, not a faithful SRD stat block.
+physical return to the Quiet Gallery. The keeper is a minotaur warrior, a Kyr people adapted from the SRD (awaiting a painting before it can join the bestiary).
 The ring keeper also offers a tile game: each draw costs time, the
 company decides when to stop, and the wager changes real purses. Her pool can be fished: a bite gives a sign to
 answer, and a catch becomes a ration after six hours' smoking. An old balance beside the ring's arch offers a
@@ -327,6 +327,88 @@ encounter can be won head-on and no compulsory fight against an unkillable adver
 - **Use evidence rather than universal flags.** Knowledge, injuries, people, supplies, access and prior actions are
   the bridges. An independent episode remains comprehensible without another episode's flag; later scenes must
   respect its actual outcomes.
+
+## The turn and Act II: the Count
+
+Act I ends in an act of mercy: lifting the hook from the water behind the measure (`long-mirror.kyr`). Act II begins
+because of it. The standing water has seen Rill, and climbs out as three of her (`long-count.kyr`). At first this is a
+comedy of manners. One Rill eats a loaf from the wrong end at Lowen's table; one drills ducks at the trough; one sits on
+the bank writing sums in the mud. Asked whether there are four of her, each answers in character, and each answer is
+also evidence. Their habits and the numbers on their brass discs are rolled by Deem in the cell's template
+(`long_cell`, `longCountQuirks`), so no two Swallets meet the same three.
+
+The comedy is a clock. The reflections are counting, and what they were sent to count is Merren, who has kept the
+coalition's road ledger for a year. When the last one is unmasked, or after thirty-six watches, the count closes: the
+quartermaster is gone and a left-handed reflection sits in her chair writing numbers that go east. This loss is not
+avoidable once the count has begun. The player's choice is what Merren leaves behind, and what is done with the thing
+in her chair.
+
+### Unmasking, by calling
+
+| Company | Way in | What it costs or risks |
+|---|---|---|
+| Warrior | watch the hands, then force a spear into a right hand, or spar | a fight with a level-3 gnoll copy; sparring gives it an opening blow |
+| Thief | lift the disc from her coat | quiet; spends no fight, but hastens the close |
+| Mage | conjure light, and watch her shadow fall the wrong way | needs the spell known and castable |
+| Bard | sing Tavi's tune; she sings it back reversed | needs Rill's kin story, or that copy to have answered the "four" question |
+| Monk | sit in stillness; she breathes out as you breathe in | thirty minutes off the count's clock |
+| Cleric | show the holy sign; she makes it back mirrored | needs the calling |
+| Ranger | sees the fourth line of wet prints at once | leads straight to Merren, before the close |
+| Anyone | ask the bank copy, look at the floor, show Merren the prints | Merren gives her wheel and ledger; the count still closes |
+
+A copy beaten in a fight drops its disc by a rule, so violence and finesse reach the same evidence by different costs.
+
+### After the turn
+
+- **The reflection in the chair** can be unmade ("Tell her she is not Merren"), stopping the leak; turned with the paper
+  boat from Act I, which stops the leak and tells where Merren is held; or left, which feeds the Ash every march.
+- **The panes** behind the measure open on the one pane whose number is the sum of the three discs. Each wrong pane
+  bites (1d6 cold) and loses the count. The puzzle only opens to a company that has turned over a disc and seen the
+  window on its back. Behind the right pane: the counting city, and Merren at a table with her boots off.
+- **The Ferryman** comes back to the green. Told what happened, he can be asked to carry a boat east to her.
+- **The war of the eight marches** (`long-war.kyr`) begins when Merren is counted. Five of eight marches are held.
+  Each two days a march moves by comparing what Act I and Act II actually did: Merren lost, the leak, ledgers sold,
+  the cell fed or defied, the bank cleared or occupied, the road guard alive or broken, the crew arrived, the terms
+  refused, the reflection turned, the Ferryman's doubts, and whether the Ash's road scout got home or was bought off. Reading Merren's ledger shows the count.
+- **Victory** is possible: with the true count read and Merren's wheel (or the turned reflection's word), and at
+  least three things done for the West, the company can raise the wheel at the Calx Gate. The Rì's host arrives three (two, if Senn has freed the gate)
+  days later, and if it holds eight marches the Ash breaks.
+- **Defeat** is possible too: neglect lets the marches fall to none. Swallet is occupied; a garrison stands on the
+  green; and the Ash takes a ration a day from the company while it stays there. The rally is no longer offered.
+
+### The hero's journey, beat by beat
+
+| Beat | Where it is played |
+|---|---|
+| Ordinary world | Swallet: the green, the Chandler's Arms, Lowen's bread |
+| Call to adventure | Merren's road, and the Ferryman's road guard on the lane |
+| Refusal | the Ferryman's terms: accepting means a garrison, refusing means a raid |
+| Meeting the mentors | Merren, Senn, the willow |
+| Crossing the threshold | the hill road to the Calx |
+| Tests, allies, enemies | the generated cell, Rill and Tavi, the arena, the minotaur |
+| Approach to the inmost cave | the mirror plane, and the hook lifted from the water |
+| Ordeal | the Count: three Rills, and Merren taken |
+| Reward | the discs, the wheel, the true count |
+| The road back | the war of the eight marches, march by march |
+| Resurrection | the rally at the Calx Gate, or Swallet's fall |
+| Return with the elixir | the pane to the counting city, Act III's door |
+
+### The five colours in Act II
+
+- **Struggle:** the copies are real level-3 bodies; the war is lost by neglect.
+- **History:** Merren's ledger, the paper boats, Tavi's song reversed.
+- **Wonders:** water that remembers a face; nine panes of a counting city.
+- **Investigation:** hands, prints, habits and discs.
+- **Treasure:** the wheel, the discs and the true count, each of which opens something later.
+
+None of these colours is declared: each comes from what the acts teach or hand over.
+
+### Setups for Act III
+
+- Merren is alive behind the glass, at a table in the counting city.
+- The Ferryman goes east with a boat, carrying doubt into the Ash.
+- The reflection, if turned, is a double agent with a ledger.
+- The panes show that the Ash's war is a count: the third act is entering what does the counting.
 
 ## What would have to be proved
 

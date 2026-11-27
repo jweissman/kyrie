@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import type { TickHost } from '../src/campaign/campaign-tick';
 import { Consequences } from '../src/campaign/consequences';
-import { ModuleWriter } from '../src/lang/module-writer';
+import { ModuleWriter } from '../src/lang';
 import { Journey } from '../src/session/journey';
 import { Placed } from './support/placed';
 import { campaign } from './support/long-road';

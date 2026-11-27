@@ -1,0 +1,121 @@
+Module tallow "Tallow Deep" {
+  // The war between the Mere and the Calx, counted in eight marches. It begins when Merren is counted. Every two
+  // days the side with the heavier score takes or yields a march. What weighs is what happened: a drawing sold,
+  // a bank held, a road guard routed, a reflection left writing at Merren's table. Victory needs the Rì's host;
+  // defeat needs only neglect.
+  Relation lcWarBegun(group). Relation lcWarEnded(group). Relation lcRallied(group). Relation lcHostCame(group).
+  Relation lcAshBroken(group). Relation lcAshTriumph(group). Relation lcLedgerRead(group).
+  Relation lcAshRecon(group). Relation lcWestRecon(group). Relation lcHostQuick(group).
+  Measure lcAshScore(group). Measure lcWestScore(group). Measure lcMarches(group). Measure lcWarDue(group).
+  Measure lcHostDue(group). Measure lcTitheDue(group).
+  Relation lcAshMerren(group). Relation lcAshLeak(group). Relation lcAshSold(group). Relation lcAshFed(group).
+  Relation lcAshBank(group). Relation lcAshGuard(group). Relation lcAshTerms(group).
+  Relation lcWestCrew(group). Relation lcWestBank(group). Relation lcWestGuard(group). Relation lcWestKin(group).
+  Relation lcWestCell(group). Relation lcWestTurned(group). Relation lcWestFerry(group). Relation lcWestHost(group).
+  Discovery lc_war_known "The war between the Mere and the Calx is counted in eight marches.".
+
+  Rule lc_war_begins when lcMerrenCounted(party) and not lcWarBegun(party)
+    says "By evening there are carts on the lane going west with furniture in them. A carter says the Ash has taken three of the eight marches between the Mere and the Calx, and is counting the rest." teaches lc_war_known {
+    Assert lcWarBegun(party). Set lcMarches(party) to 5. Set lcWarDue(party) to watch(clock) + 288.
+  }
+
+  Rule lc_ash_merren_on when lcMerrenCounted(party) and not lcAshMerren(party) { Assert lcAshMerren(party). Increase lcAshScore(party) by 1. }
+  Rule lc_ash_leak_on when at(lc_merren_reflected, taproom) and able(lc_merren_reflected) and not lcReflectionTurned(party)
+    and not lcAshLeak(party) { Assert lcAshLeak(party). Increase lcAshScore(party) by 1. }
+  Rule lc_ash_leak_off when lcAshLeak(party) and (not at(lc_merren_reflected, taproom) or not able(lc_merren_reflected)
+    or lcReflectionTurned(party)) { Retract lcAshLeak(party). Decrease lcAshScore(party) by 1. }
+  Rule lc_ash_sold_on when lcSold(party) and not lcAshSold(party) { Assert lcAshSold(party). Increase lcAshScore(party) by 1. }
+  Rule lc_ash_fed_on when lcCellDelivered(party) and not lcAshFed(party) { Assert lcAshFed(party). Increase lcAshScore(party) by 1. }
+  Rule lc_ash_terms_on when lcAccepted(party) and not lcAshTerms(party) { Assert lcAshTerms(party). Increase lcAshScore(party) by 1. }
+  Rule lc_ash_bank_on when lcOccupied(party) and not lcAshBank(party) { Assert lcAshBank(party). Increase lcAshScore(party) by 1. }
+  Rule lc_ash_bank_off when lcAshBank(party) and not lcOccupied(party) { Retract lcAshBank(party). Decrease lcAshScore(party) by 1. }
+  Rule lc_ash_guard_on when lcVanguardArrived(party) and able(lc_vanguard) and not routed(lc_vanguard)
+    and not lcAshGuard(party) { Assert lcAshGuard(party). Increase lcAshScore(party) by 1. }
+  Rule lc_ash_guard_off when lcAshGuard(party) and (not able(lc_vanguard) or routed(lc_vanguard))
+    { Retract lcAshGuard(party). Decrease lcAshScore(party) by 1. }
+
+  Rule lc_ash_recon_on when lcReconReported(party) and not lcAshRecon(party) { Assert lcAshRecon(party). Increase lcAshScore(party) by 1. }
+
+  Rule lc_west_recon_on when lcReconBought(party) and not lcWestRecon(party) { Assert lcWestRecon(party). Increase lcWestScore(party) by 1. }
+  Rule lc_west_crew_on when lcCrewArrived(party) and not lcWestCrew(party) { Assert lcWestCrew(party). Increase lcWestScore(party) by 1. }
+  Rule lc_west_bank_on when lcCleared(party) and not lcWestBank(party) { Assert lcWestBank(party). Increase lcWestScore(party) by 1. }
+  Rule lc_west_bank_off when lcWestBank(party) and not lcCleared(party) { Retract lcWestBank(party). Decrease lcWestScore(party) by 1. }
+  Rule lc_west_guard_on when lcVanguardArrived(party) and (not able(lc_vanguard) or routed(lc_vanguard))
+    and not lcWestGuard(party) { Assert lcWestGuard(party). Increase lcWestScore(party) by 1. }
+  Rule lc_west_kin_on when lcFactorRefused(party) and not lcWestKin(party) { Assert lcWestKin(party). Increase lcWestScore(party) by 1. }
+  Rule lc_west_cell_on when (lcCellLeft(party) or lcCellDefied(party)) and not lcWestCell(party)
+    { Assert lcWestCell(party). Increase lcWestScore(party) by 1. }
+  Rule lc_west_turned_on when lcReflectionTurned(party) and not lcWestTurned(party) { Assert lcWestTurned(party). Increase lcWestScore(party) by 1. }
+  Rule lc_west_ferry_on when lcFerrymanDoubts(party) and not lcWestFerry(party) { Assert lcWestFerry(party). Increase lcWestScore(party) by 1. }
+  Rule lc_west_host_on when lcRallied(party) and not lcWestHost(party) { Assert lcWestHost(party). Increase lcWestScore(party) by 3. }
+
+  Rule lc_war_ash_turn when lcWarBegun(party) and not lcWarEnded(party) and watch(clock) >= lcWarDue(party)
+    and lcAshScore(party) > lcWestScore(party)
+    says "News comes up the lane: the Ash has taken another march. Its people count the sheep before they take them." {
+    Decrease lcMarches(party) by 1. Increase lcWarDue(party) by 288.
+  }
+  Rule lc_war_west_turn when lcWarBegun(party) and not lcWarEnded(party) and watch(clock) >= lcWarDue(party)
+    and lcWestScore(party) > lcAshScore(party) and lcMarches(party) < 8
+    says "News comes up the lane: a march has been taken back from the Ash. The people there are burning the tally-boards in the square." {
+    Increase lcMarches(party) by 1. Increase lcWarDue(party) by 288.
+  }
+  Rule lc_war_holds when lcWarBegun(party) and not lcWarEnded(party) and watch(clock) >= lcWarDue(party)
+    and lcAshScore(party) <= lcWestScore(party) and (lcWestScore(party) <= lcAshScore(party) or lcMarches(party) >= 8) {
+    Increase lcWarDue(party) by 288.
+  }
+
+  Observe lc_war_dire at green when lcWarBegun(party) and not lcWarEnded(party) and lcMarches(party) <= 2
+    "Carts go west along the lane all day. Nobody is going east.".
+  Observe lc_war_middling at green when lcWarBegun(party) and not lcWarEnded(party) and lcMarches(party) >= 3
+    and lcMarches(party) <= 5 "Two carters at the trough argue about which marches still stand. Neither is sure.".
+  Observe lc_war_hopeful at green when lcWarBegun(party) and not lcWarEnded(party) and lcMarches(party) >= 6
+    "A family with a handcart is going back east. The woman pushing it is singing.".
+  Action lc_read_war(actor: group) "Read the last page of Merren's ledger" {
+    Requires able(actor) and company(actor) and lcWarBegun(actor) and knows(actor, lc_true_count) and not lcWarEnded(actor).
+    Time 10 minutes.
+    On success { Assert lcLedgerRead(actor). }
+    Result "Of the eight marches between the Mere and the Calx, the free westerners hold {lcMarches(actor)}. Against the Ash, by Merren's reckoning, weigh {lcWestScore(actor)} things done; for it, {lcAshScore(actor)}.".
+  }
+
+  Person lc_free_host "the Rì's host" nowhere {
+    Role "the free westerners under the Rì's wheel banner". Ancestry human. Calling warrior. Level 4. Numbers 6. Peaceable. Manner stoic.
+    Greets "A captain with a brass wheel on her sleeve looks at the one in your hand. 'Merren's,' she says. 'Then we have come to the right lane.'".
+  }
+  Action lc_rally(actor: group, site: place) "Raise Merren's wheel at the Calx Gate and send the count west" {
+    Description "The Rì will come if the West has shown it can hold. Needs Merren's ledger, read to its last page, and her wheel, or her reflection's word.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_house)
+      and lcWarBegun(actor) and not lcWarEnded(actor) and not lcRallied(actor)
+      and knows(actor, lc_true_count) and lcLedgerRead(actor) and (lcWheelGiven(actor) or lcReflectionTurned(actor))
+      and lcWestScore(actor) >= 3.
+    Time 1 hour.
+    On success { Assert lcRallied(actor). Set lcHostDue(actor) to watch(clock) + 72. }
+    Result "You hang the brass wheel from the gate's chain and write out Merren's count for the carrier going west: every post, every ration. The carrier reads it twice and leaves at a run.".
+  }
+  Rule lc_host_quick when lcRallied(party) and not lcHostCame(party) and state(calx_gate, freed) and not lcHostQuick(party) {
+    Assert lcHostQuick(party). Decrease lcHostDue(party) by 24.
+  }
+  Rule lc_host_arrives when lcRallied(party) and not lcHostCame(party) and watch(clock) >= lcHostDue(party)
+    says "The Rì's host comes up the lane from the west: six score on foot, carts, and a wheel banner." {
+    Assert lcHostCame(party). Assert at(lc_free_host, green).
+  }
+
+  Rule lc_war_won when lcRallied(party) and lcMarches(party) >= 8 and not lcWarEnded(party)
+    says "The Ash's line breaks at the Calx. Its counters go east first, carrying their boards; its soldiers follow when they see the counters go." {
+    Assert lcWarEnded(party). Assert lcAshBroken(party). Retract at(lc_vanguard, calx_portal).
+  }
+  Rule lc_war_lost when lcWarBegun(party) and lcMarches(party) <= 0 and not lcWarEnded(party)
+    says "The last march falls. By morning the Ash's people are on the green with a tally-board, writing down everyone who lives in Swallet." {
+    Assert lcWarEnded(party). Assert lcAshTriumph(party). Assert lcOccupied(party).
+    Assert at(lc_garrison, green). Set lcTitheDue(party) to watch(clock) + 6.
+  }
+  Observe lc_ash_rules at green when lcAshTriumph(party)
+    "A grey tally-board stands by the trough, with every household in Swallet on it and a ration owed by each.".
+  Observe lc_ash_broken at green when lcAshBroken(party)
+    "Someone has nailed a grey tally-board to the trough upside down. Children are throwing mud at it.".
+  Rule lc_ash_tithe when lcAshTriumph(party) and at(party, green) and quantity(party, rations) >= 1
+    and watch(clock) >= lcTitheDue(party)
+    says "A soldier with a tally-board takes a ration from your packs and makes a mark against your name." {
+    Decrease quantity(party, rations) by 1. Increase quantity(lc_garrison, rations) by 1.
+    Set lcTitheDue(party) to watch(clock) + 144.
+  }
+}

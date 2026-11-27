@@ -5,7 +5,7 @@ import { Placed } from './support/placed';
 import { campaign, prepared } from './support/long-road';
 import { Journey } from '../src/session/journey';
 import { PlaySession } from '../src/session/play-session';
-import { ModuleWriter } from '../src/lang/module-writer';
+import { ModuleWriter } from '../src/lang';
 
 describe('The road crew', () => {
   it('does not clear the fall or describe work after the crew is killed', async () => {
