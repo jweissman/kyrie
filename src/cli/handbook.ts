@@ -6,11 +6,12 @@ import { HandbookPublisher } from '../handbook/publish';
 import { CanonVocabulary } from '../canon/canon-vocabulary';
 import { CatalogContext } from '../item-catalog';
 import { BookPresentationForPlayer } from '../presentation/book-presentation';
+import { BookWording } from '../presentation/book-wording';
 
 export class HandbookTool {
   static readonly root = resolve(import.meta.dir, '../..');
   static async main(args: string[]): Promise<number> {
-    const handbooks = new Handbooks(this.root, CanonVocabulary.context(), CatalogContext.canon);
+    const handbooks = new Handbooks(this.root, CanonVocabulary.context(), CatalogContext.canon, BookWording);
     await HandbookPublisher.markdown(handbooks, resolve(this.root, 'doc/handbook'));
     const at = args.indexOf('--html');
     if (at >= 0) {

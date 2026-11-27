@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { Creation } from './creation';
 import { CreationDefaults } from '../../src/creation/creation-defaults';
 import { CreationRules } from '../../src/creation/creation-rules';
@@ -22,13 +23,14 @@ export interface CreationState {
 // it asks for is the one the page's Begin asks (see EngineHost).
 export class EngineCreation {
   private flow?: CreationFlow;
+  private readonly references = new HandbookCreationReferences();
   // The choices a life is made from, read once (80 ms each time: Set out now's click had waited on it, OR-120); the
   // flow only reads it.
   private static catalog?: Catalog;
   private at?: { campaign: string; seed: string; terrain?: string };
   // The country a life is now made for: the flow begins again on it.
   begun(setting: Setting, at: { campaign: string; seed: string; terrain?: string }): Setting {
-    this.flow = new CreationFlow(setting, EngineCreation.catalog ??= Creation.catalog());
+    this.flow = new CreationFlow(setting, EngineCreation.catalog ??= Creation.catalog(), this.references);
     // The first reason for having come is chosen to begin with, as the page's own making had it: set out at once, a
     // life comes by its country's first origin, not by none (a drawn country had begun in its town square, unarrived).
     if (setting.origins?.[0]) { this.flow.origin = setting.origins[0].id; }

@@ -7,14 +7,29 @@ import { Handbooks } from '../src/handbook/handbooks';
 import { PlayChapters } from '../src/handbook/phb-play';
 import { HandbookStatus } from '../src/handbook/model';
 import { CapabilityAudit } from '../src/handbook/audit';
+import { BookWording } from '../src/presentation/book-wording';
+import { HandbookText } from '../src/handbook/text';
 
 // The handbooks are views of the definitions the game plays from: every definition appears once with the status the
 // catalog gives it, a spell nobody can cast says so, and nothing points at an entry that is in no book.
-const handbooks = new Handbooks(resolve(import.meta.dir, '..'), CanonVocabulary.context(), CatalogContext.canon);
+const handbooks = new Handbooks(resolve(import.meta.dir, '..'), CanonVocabulary.context(), CatalogContext.canon, BookWording);
 const index = handbooks.index();
 const coverage = handbooks.coverage();
 
+class OtherWords extends BookWording {
+  static override flight() { return 'a different flight'; }
+  static override modifiers() { return ['a different modifier']; }
+  static override ability(): never { throw new Error('wording failed'); }
+}
+
 describe('the handbooks', () => {
+  it('uses the supplied mechanics wording in the combat and conditions chapters', () => {
+    expect(PlayChapters.combat(OtherWords).intro!.join(' ')).toContain('a different flight');
+    expect(PlayChapters.conditions(OtherWords).entries![0]!.rules).toEqual(['A different modifier.']);
+  });
+  it('does not hide errors from the supplied item wording', () => {
+    expect(() => HandbookText.use('Heal 1 health to self.', OtherWords)).toThrow('wording failed');
+  });
   it('list every playable definition the game has', () => {
     const expected = [
       ...Object.keys(Canon.ancestries).map(id => `ancestry:${id}`),
@@ -39,9 +54,9 @@ describe('the handbooks', () => {
   it('reach ninth-level spells, and would mark a spell above every calling\'s slots unreachable', () => {
     expect(PlayChapters.reach()).toBe(9);
     expect(coverage.problems.filter(p => p.kind === 'unreachable' && p.entry.startsWith('ability:'))).toEqual([]);
-    expect(PlayChapters.spell('death_wave', 8).status).toBe('unreachable');
-    expect(PlayChapters.spell('weird', 8).status).toBe('unsupported');
-    expect(PlayChapters.spell('ice_storm', 3).status).toBe('unreachable');
+    expect(PlayChapters.spell('death_wave', 8, BookWording).status).toBe('unreachable');
+    expect(PlayChapters.spell('weird', 8, BookWording).status).toBe('unsupported');
+    expect(PlayChapters.spell('ice_storm', 3, BookWording).status).toBe('unreachable');
   });
   it('point only at entries some book has', () => {
     expect(coverage.problems.filter(p => p.kind === 'missing reference')).toEqual([]);

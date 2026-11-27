@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../client/creation-references';
 // `kyrie play`: a campaign played from the terminal by the labels a player sees, as its journeys are (see Journey,
 // whose steps these are). Steps come from a JSON file (a list, or named phases played in the order written) and then
 // from the command line; each is printed with what the page told of it. --probe asks the world afterwards: a fact
@@ -107,7 +108,7 @@ export class PlayTool {
     if (setting.origins?.some(o => o.id === 'wanderer')) { return 'wanderer'; }
     const catalog = Creation.catalog();
     const you = { ...setting.party[0]!, raceId: member.raceId, classId: member.classId, name: member.name } as Member;
-    const flow = new CreationFlow(setting, catalog, you);
+    const flow = new CreationFlow(setting, catalog, new HandbookCreationReferences(), you);
     const kind = catalog.backgrounds.find(b => b.id === member.backgroundId)?.kind;
     if (kind) { flow.choose('before', kind); }
     return flow.circumstance();

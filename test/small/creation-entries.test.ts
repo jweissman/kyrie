@@ -1,9 +1,11 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow, type CreationStep } from '../../src/creation/creation-flow';
 import type { Setting } from '../../src/creation/protocol';
 import { Content } from '../../src/content';
+import type { CreationReferences } from '../../src/creation/creation-references';
 
 // What creation sets beside a choice says what it is in play, from the catalog (OR-99, the owner, 18 November: "most
 // of the instruments next to the menu in character creation seem impoverished"): a people's qualities as a stat line
@@ -19,8 +21,23 @@ const card = (steps: CreationStep[], step: string, id?: string) => {
 };
 
 describe('the entry beside a choice', () => {
+  it('keeps reference entries and their cached cards separate between flows', () => {
+    const references = (name: string): CreationReferences => ({
+      reference: () => ({ facts: [['Source', name]], rules: [] }),
+      kind: () => ({ facts: [['Source', name]], rules: [] }),
+      ability: id => id,
+      trait: () => [],
+    });
+    const catalog = Creation.catalog();
+    const first = new CreationFlow(setting, catalog, references('first'));
+    const second = new CreationFlow(setting, catalog, references('second'));
+    expect(card(first.steps(), 'you', 'human').facts).toContainEqual(['Source', 'first']);
+    expect(card(second.steps(), 'you', 'human').facts).toContainEqual(['Source', 'second']);
+    expect(card(first.steps(), 'you', 'human').facts).toContainEqual(['Source', 'first']);
+  });
+
   it('says a people by its qualities and its gifts by birth', () => {
-    const flow = new CreationFlow(setting, Creation.catalog()), elf = card(flow.steps(), 'you', 'elf');
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences()), elf = card(flow.steps(), 'you', 'elf');
     expect(elf.play).toBe('Str −1 · Dex +2 · Con −1 · Int +1 · Wis +2 · Cha +1');
     expect(card(flow.steps(), 'you', 'human').play).toBe('+1 to every quality');
     expect(elf.groups![0]!.heading).toBe('Born with');
@@ -29,7 +46,7 @@ describe('the entry beside a choice', () => {
   });
 
   it('says a calling by its hit die and armour, and what it knows from the start by what each does', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     const warrior = card(flow.steps(), 'calling', 'warrior'), mage = card(flow.steps(), 'calling', 'mage');
     expect(warrior.play).toBe('d12 hit die · any armour');
     expect(mage.play).toBe('d4 hit die · no armour · casts by Intelligence');
@@ -42,7 +59,7 @@ describe('the entry beside a choice', () => {
   });
 
   it('says a sign\'s gifts by their rules, and a trade by what it adds, its coin and its skills', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     flow.choose('sign', 'sign_bear');
     // Both gifts are the sign's (OR-117: given with it, no step of their own), said on its entry by their rules.
     expect(card(flow.steps(), 'sign', 'sign_bear').facts).toContainEqual(['Gifts', 'Unturned and Hard to fell']);
@@ -59,7 +76,8 @@ describe('the entry beside a choice', () => {
   it('promises only what a life can be and do', () => {
     const catalog = Creation.catalog();
     for (const a of catalog.ancestries) {
-      const flow = new CreationFlow({ ...setting, names: { ...names, [a.id]: names.human } }, catalog);
+      const flow = new CreationFlow({ ...setting, names: { ...names, [a.id]: names.human } }, catalog,
+        new HandbookCreationReferences());
       const said = card(flow.steps(), 'you', a.id).facts.find(([k]) => k === 'Callings')?.[1].split(', ') ?? [];
       const offered = a.callings.map(c => catalog.callings.find(x => x.id === c)!.name);
       expect([a.id, said.sort()]).toEqual([a.id, offered.sort()]);
@@ -72,14 +90,14 @@ describe('the entry beside a choice', () => {
         }
       }
     }
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     expect(card(flow.steps(), 'calling', 'cleric').after).toContain('Its first prayers are its god\'s, chosen next.');
   });
 
   // The purse at setting out (OR-257, the first blind cold play's P56) had 13 coin, where creation had said the bard's
   // "Gold 25" and the inquisitor's "70 gold": the calling's gold is given to no one, and a trade's is paid as coin.
   it('says only the coin a life is given, as the purse counts it', () => {
-    const catalog = Creation.catalog(), flow = new CreationFlow(setting, catalog);
+    const catalog = Creation.catalog(), flow = new CreationFlow(setting, catalog, new HandbookCreationReferences());
     for (const c of catalog.callings) {
       expect([c.id, card(flow.steps(), 'calling', c.id).facts.map(([k]) => k)]).not.toContainEqual([c.id,
         expect.arrayContaining(['Gold'])]);

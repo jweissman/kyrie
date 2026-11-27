@@ -6,13 +6,14 @@ import { Encyclopedia, type Land } from '../src/handbook/encyclopedia';
 import { EncyclopediaHtml } from '../src/handbook/encyclopedia-html';
 import { HandbookPublisher } from '../src/handbook/publish';
 import { BookPresentationForPlayer } from '../src/presentation/book-presentation';
+import { BookWording } from '../src/presentation/book-wording';
 
 // The Encyclopedia of Imbar (Mission 19, Priority Eight): the reader's book, made from the entries the authors'
 // handbooks are, so that what it says a spell does is what the game does; only what the game plays, nothing of how
 // it was made (statuses, Orsino, the handbooks), and of the adventures' lands only what is said of them.
 describe('the Encyclopedia of Imbar', () => {
   const vocabulary = CanonVocabulary.context();
-  const handbooks = new Handbooks(process.cwd(), vocabulary, CatalogContext.canon);
+  const handbooks = new Handbooks(process.cwd(), vocabulary, CatalogContext.canon, BookWording);
   const lands = (Handbooks.read(process.cwd(), 'data/adventures/countries.json') as { countries: Land[] }).countries
     .filter(c => c.heard);
   const book = new Encyclopedia(handbooks, lands, Encyclopedia.canon(process.cwd(), vocabulary),

@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../../src/content';
@@ -23,7 +24,7 @@ const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading:
   origins: [{ id: 'debt', title: 'A debt', choice: 'You owe money' }], names,
   party: [Creation.protagonist('human', 'mage-casts', names)] };
 const made = () => {
-  const flow = new CreationFlow(setting, Creation.catalog());
+  const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
   flow.choose('calling', 'mage');
   const school = Creation.catalog().callings.find(c => c.id === 'mage')!.specializations.find(s => s.id === 'abjurer')!;
   flow.choose('specialty', school.id);

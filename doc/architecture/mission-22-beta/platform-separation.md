@@ -24,12 +24,14 @@ lines, painting fit has no restrictions, and the editorial rules are empty. Embl
 painting resources are not yet behind this port.
 
 The static handbook and encyclopedia renderers accept their branding and emblem renderer from the CLI composition
-root. They no longer import player presentation for those details. Catalog wording and the creation-to-handbook
-dependency still form the handbook cycle; this injection alone does not break it.
+root. The books also receive their mechanics wording explicitly. No setting imports player presentation; creation
+receives reference entries through an explicit client-supplied provider, rather than importing handbook components.
+The character sheet still imports handbook text.
 
 `src/client/drawn-world` is the shared composition root that assembles a world and starts its player session.
 Moving that wiring out of the setting removes the last world-to-player edge; it also breaks a folder-level cycle
-and reduces its baseline from 632 to 402 edges. The remaining five setting-to-player edges are handbook wording.
+and reduces its baseline from 632 to 402 edges. Wording injection removes the remaining five setting-to-player
+edges and reduces the cycle baseline to 396.
 
 At the review's measurement, 154 edges:
 

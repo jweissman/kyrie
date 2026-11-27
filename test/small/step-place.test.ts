@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../src/creation/creation-flow';
@@ -11,7 +12,7 @@ const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading:
   party: [Creation.protagonist('human', 'flow', names)] };
 describe('a step of creation, placed', () => {
   it('says where each step stands and how many there are, setting out the last', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     for (const calling of ['warrior', 'mage']) {
       flow.choose('calling', calling);
       const steps = flow.steps();

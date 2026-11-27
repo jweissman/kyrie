@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../src/creation/creation-flow';
@@ -12,7 +13,7 @@ const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading:
   party: [Creation.protagonist('human', 'flow', names)] };
 describe('creation\'s first step', () => {
   it('says that coming to a row reads it and a press chooses it, and no later step says it again', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     const [first, ...rest] = flow.steps();
     expect([first!.id, first!.how]).toEqual(['you',
       'Come to one to read of it. A press chooses it; Back undoes the choice.']);

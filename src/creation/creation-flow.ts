@@ -3,12 +3,11 @@ import { CreationDefaults } from './creation-defaults';
 import { BackgroundCatalog } from '../rules/background-catalog';
 import { CreationRules } from './creation-rules';
 import { Words } from '../presentation/words';
-import { CompanyChapters } from '../handbook/phb-company';
 import type { Catalog, Member, Setting } from './protocol';
+import type { CreationReferences } from './creation-references';
 import { CreationPerks } from './creation-perks';
 import { CreationSpells, type SpellStepId } from './creation-spells';
 import { CreationEntries } from './creation-entries';
-import { CatalogContext } from '../item-catalog';
 
 // One card of a step: what it is, in a few words and a sentence, the group it is shown under (a trade's kind), and why
 // it cannot be taken, where it cannot (a way an elf may not take).
@@ -80,6 +79,7 @@ export interface CreationStep {
 // written (see CreationDefaults).
 export class CreationFlow {
   readonly member: Member;
+  private readonly entries: CreationEntries;
   origin?: string;
   private named = false;
   // Whether the reason for having come was named (a tester's address or a spec: no step asks it); else the world
@@ -100,7 +100,9 @@ export class CreationFlow {
   private readonly owned = new Set<CreationChoice>();
   // The hands of trades dealt since the kind of life last changed (see trades).
   private dealt = 0;
-  constructor(readonly setting: Setting, readonly catalog: Catalog, member = setting.party[0]!) {
+  constructor(readonly setting: Setting, readonly catalog: Catalog, readonly references: CreationReferences,
+    member = setting.party[0]!) {
+    this.entries = new CreationEntries(references);
     this.member = structuredClone(member);
     // Born under a sign until another is chosen: one of the sky's, drawn by the country and the name.
     const signs = catalog.signs, drawn = [...`${setting.title}${member.name ?? ''}`].reduce((n, ch) => n + ch.charCodeAt(0), 0);
@@ -177,7 +179,7 @@ export class CreationFlow {
         ...this.owned.has('you') ? { chosen: m.raceId } : {},
         cards: c.ancestries.map(a => ({ id: a.id,
         name: a.name, line: a.line, text: a.text, emblem: a.id, ...CreationFlow.said(a),
-        ...CreationFlow.has(CreationEntries.people(a)) })) },
+        ...CreationFlow.has(this.entries.people(a)) })) },
       // How one presents, second, before anything named for who one is (the owner, 19 November: "you can be a male
       // abbess"): a trade's word, an abbot or an abbess, is said for the one choosing it.
       { id: 'presenting', ask: 'How do you present?', present: 'rows', all: true,
@@ -189,10 +191,10 @@ export class CreationFlow {
       // All twelve at once, the whole zodiac beside them (FM-02: a fixed set's instrument, the four's exception).
       { id: 'sign', ask: 'Under which stars were you born?', present: 'sky', all: true, chosen: m.sign, cards: c.signs.map(x => ({
         id: x.id, name: x.name.replace(/^the /, 'The '), line: `${x.month}: ${x.line}`, emblem: x.id, aside: x.month,
-        say: x.line, ...CreationFlow.has(CreationEntries.reference(`sign:${x.id}`)) })) },
+        say: x.line, ...CreationFlow.has(this.references.reference(`sign:${x.id}`)) })) },
       { id: 'calling', ask: 'Choose your calling', present: 'cards', chosen: m.classId, cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
-          text: x.text, emblem: x.id, ...CreationFlow.said(x), ...CreationFlow.has(CreationEntries.calling(x)) })) },
+          text: x.text, emblem: x.id, ...CreationFlow.said(x), ...CreationFlow.has(this.entries.calling(x)) })) },
       ...this.specialty(), ...this.spells(),
       // Every kind of life at once, each said by what it is and beside it the reference's entry (the owner, 18
       // November, OR-88: "it's reasonable to show all of them rather than force multiple pages… some indication from
@@ -201,7 +203,7 @@ export class CreationFlow {
         chosen: open.find(b => b.id === m.backgroundId)?.kind,
         cards: c.kinds.filter(k => open.some(b => b.kind === k.id))
           .map(k => ({ id: k.id, name: k.name, line: k.does, emblem: `life_${k.id}`, ...k.life ? { say: k.life } : {},
-            entry: CompanyChapters.kind(k.id, CatalogContext.canon) })) },
+            entry: this.references.kind(k.id) })) },
       ...this.trades(),
       // A perk, the last thing chosen of who one is (OR-153): one of each of the Atlas's five families (CreationPerks).
       ...c.perks?.length ? [{ id: 'perk' as const, ask: 'What sets you apart?', present: 'rows' as const, all: true as const,
@@ -225,7 +227,7 @@ export class CreationFlow {
     return [{ id: 'specialty', ask, present: 'list', all: true, emblems: true, chosen: m.traits?.[0], cards: calling.specializations
       .map(t => ({ id: t.id, name: t.name, emblem: t.id, ...t.line ? { line: t.line } : {},
         ...t.text ? { say: t.text } : {}, ...forbids.includes(t.id) ? { shut: 'Not for your people' } : {},
-        entry: { ...CreationFlow.way(t), ...CreationSpells.shown(t, calling.name.toLowerCase(), m) } })) }];
+        entry: { ...this.way(t), ...CreationSpells.shown(t, calling.name.toLowerCase(), m) } })) }];
   }
   // The first spells, chosen, where the art is asked (see CreationSpells).
   private spells(): CreationStep[] {
@@ -234,8 +236,8 @@ export class CreationFlow {
   }
   static readonly asks: Record<string, string> = { mage: 'Which art did you learn?', cleric: 'What does your god keep?' };
   // A way as the reference has it (the spells one who takes it sets out knowing listed under it: CreationSpells.shown).
-  private static way(t: Catalog['callings'][number]['specializations'][number]): CreationEntry {
-    const found = CreationEntries.reference(`trait:${t.id}`) ?? { facts: [], rules: [] };
+  private way(t: Catalog['callings'][number]['specializations'][number]): CreationEntry {
+    const found = this.references.reference(`trait:${t.id}`) ?? { facts: [], rules: [] };
     return { facts: found.facts, rules: t.rules?.length ? t.rules : found.rules };
   }
   // The trade within the kind of life chosen (once it is chosen), asked in the kind's own words ("What did you do on
@@ -253,7 +255,7 @@ export class CreationFlow {
     return [{ id: 'trade', ask: kind.asks ?? 'What did you do before this?', present: 'list', all: true, chosen: was!.id,
       ...hand.length < of.length ? { roll: 'other trades', again: 'More…' } : {}, cards: hand.map(b => ({ id: b.id, emblem: `life_${kind.id}`,
         name: BackgroundCatalog.called(b, m.pronouns), say: b.text && `${Words.upper(b.text)}.`,
-        entry: CreationEntries.trade(b) })) }];
+        entry: this.entries.trade(b) })) }];
   }
   static readonly trades = 8;
   // The life chosen, in a few sentences, its way in its noun, as setting out tells it: "An elf abjurer. Before this,

@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../src/creation/creation-flow';
@@ -23,7 +24,7 @@ describe('making the protagonist', () => {
   it('keeps the trade the reason for having come gave, its kind chosen again', () => {
     const lost: Setting = { ...setting, origins: [{ id: 'lost', title: 'Gone under', choice: 'Someone went under',
       background: 'prospector' }] };
-    const flow = new CreationFlow(lost, Creation.catalog());
+    const flow = new CreationFlow(lost, Creation.catalog(), new HandbookCreationReferences());
     flow.choose('origin', 'lost');
     flow.choose('calling', 'warrior');
     const kind = Creation.catalog().backgrounds.find(b => b.id === 'prospector')!.kind;
@@ -35,14 +36,14 @@ describe('making the protagonist', () => {
   // gives.
   it('takes the new calling\'s own past where none was chosen, and lays none over a reason for coming\'s', () => {
     const catalog = Creation.catalog(), own = (calling: string) => catalog.callings.find(c => c.id === calling)!.trade;
-    const flow = new CreationFlow(setting, catalog);
+    const flow = new CreationFlow(setting, catalog, new HandbookCreationReferences());
     flow.choose('origin', 'debt');
     flow.choose('calling', 'warrior');
     flow.choose('calling', 'mage');
     expect(flow.member.backgroundId).toBe(own('mage'));
     const before = flow.steps().find(s => s.id === 'before')!;
     expect(before.cards.map(c => c.id)).toContain(before.chosen ?? '');
-    const wandering = new CreationFlow(setting, catalog);
+    const wandering = new CreationFlow(setting, catalog, new HandbookCreationReferences());
     wandering.choose('origin', 'wanderer');
     wandering.choose('calling', 'warrior');
     wandering.choose('calling', 'mage');
@@ -50,7 +51,8 @@ describe('making the protagonist', () => {
     expect([undefined, 'drifter']).toContain(wandering.member.backgroundId);
   });
   it('is one flow: its steps, its cards, and what a choice settles', () => {
-    const flow = new CreationFlow(setting, Creation.catalog()), ids = () => flow.steps().map(s => s.id);
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
+    const ids = () => flow.steps().map(s => s.id);
     // A perk is asked last before the name (OR-153).
     // A warrior's way is not asked, but the calling's own until chosen in play; the trade within a kind of life is
     // asked once there is one (OR-90).
@@ -92,14 +94,14 @@ describe('making the protagonist', () => {
   // hand (a tester's address, ?origin=) stands.
   it('begins a life in the circumstance of the past chosen, else the country\'s first', () => {
     const catalog = Creation.catalog(), kind = (id: string) => catalog.backgrounds.find(b => b.id === id)!.kind;
-    const plain = new CreationFlow(setting, catalog);
+    const plain = new CreationFlow(setting, catalog, new HandbookCreationReferences());
     plain.choose('calling', 'mage');
     expect(plain.circumstance()).toBe('debt');
-    const wandering = new CreationFlow(setting, catalog);
+    const wandering = new CreationFlow(setting, catalog, new HandbookCreationReferences());
     wandering.choose('calling', 'warrior');
     wandering.choose('before', kind('drifter'));
     expect(wandering.circumstance()).toBe('wanderer');
-    const asked = new CreationFlow(setting, catalog);
+    const asked = new CreationFlow(setting, catalog, new HandbookCreationReferences());
     asked.choose('origin', 'wanderer');
     expect(asked.circumstance()).toBe('wanderer');
   });
@@ -111,7 +113,7 @@ describe('making the protagonist', () => {
       { id: 'drove', title: 'Down the drove road', choice: '', background: 'herdsman', kinds: ['wild', 'roads'] },
       { id: 'pans', title: 'The salt-pans', choice: '', background: 'laborer', kinds: ['earth', 'trade'] }] };
     const begun = (kind: string) => {
-      const flow = new CreationFlow(iscoed, catalog);
+      const flow = new CreationFlow(iscoed, catalog, new HandbookCreationReferences());
       flow.choose('calling', 'warrior');
       flow.choose('before', kind);
       return flow.circumstance();

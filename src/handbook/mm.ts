@@ -12,6 +12,7 @@ import { MonsterDescribers } from './mm-describers';
 import { CreatureVariants } from '../creature-variants';
 import { CreaturePortraits } from '../paintings/creature-portraits';
 import type { CanonItemReader } from './catalog';
+import type { MechanicsWording } from '../shared/mechanics-wording';
 import geology from '../../data/catalog/geology.json';
 
 
@@ -19,7 +20,7 @@ import geology from '../../data/catalog/geology.json';
 // generator's tables, and Orsino's bestiary with how much of it Kyr holds.
 export class MonsterManual {
   readonly problems: Problem[] = [];
-  constructor(readonly appendix: OrsinoAppendix, readonly items: CanonItemReader) {}
+  constructor(readonly appendix: OrsinoAppendix, readonly items: CanonItemReader, readonly words: MechanicsWording) {}
   book(): Book {
     return { id: 'mm', title: 'Monster Manual', intro: [
       'The creatures of Kyr. A species is a kind of creature statted by its own nature: a natural weapon and hide, a hit '
@@ -81,10 +82,10 @@ export class MonsterManual {
       ['Worth', worth]];
     return { id: `species:${id}`, title: s.name, status: HandbookStatus.of(s),
       kind: s.variantOf ? `a ${Canon.creature(s.variantOf).name.toLowerCase()}, altered` : s.type, facts,
-      rules: [...(s.abilities ?? []).map(a => `${HandbookText.ability(a)}: ${HandbookText.mechanics(a) ?? 'no mechanics'}`),
-        ...(s.traits ?? []).flatMap(t => HandbookText.trait(t).map(line => `${Canon.traits[t]?.name ?? t}: ${line}`))],
+      rules: [...(s.abilities ?? []).map(a => `${HandbookText.ability(a)}: ${HandbookText.mechanics(a, this.words) ?? 'no mechanics'}`),
+        ...(s.traits ?? []).flatMap(t => HandbookText.trait(t, this.words).map(line => `${Canon.traits[t]?.name ?? t}: ${line}`))],
       rulesOf: [...(s.abilities ?? []).map(a => `ability:${a}`),
-        ...(s.traits ?? []).flatMap(t => HandbookText.trait(t).map(() => `trait:${t}`))],
+        ...(s.traits ?? []).flatMap(t => HandbookText.trait(t, this.words).map(() => `trait:${t}`))],
       text: [s.description], notes: HandbookStatus.notes(s as Parameters<typeof HandbookStatus.notes>[0]),
       refs: [...(s.abilities ?? []).map(a => `ability:${a}`), ...(s.traits ?? []).filter(t => MonsterManual.natured(t))
         .map(t => `trait:${t}`), ...s.variantOf ? [`species:${Canon.resolve('species', s.variantOf).split('/')[0]}`] : []],
@@ -160,7 +161,7 @@ export class MonsterManual {
             : 'seldom']];
         return { id: `plant:${id}`, title: p.name, status: HandbookStatus.of(p), kind: 'plant', facts,
           text: [p.looks], ...p.portrait && CanonValidation.paintings.has(p.portrait) ? { painting: p.portrait } : {},
-          ...p.yields && gives?.use ? { rules: [`${gives.name}: ${HandbookText.mechanics(`item:${p.yields}`) ?? gives.use}`] }
+          ...p.yields && gives?.use ? { rules: [`${gives.name}: ${HandbookText.mechanics(`item:${p.yields}`, this.words) ?? gives.use}`] }
             : {} };
       });
     return { id: 'plants', title: 'Plants', intro: ['What grows wild in Imbar, and where: each is met where its country is, '
@@ -170,14 +171,14 @@ export class MonsterManual {
   static natured(id: string): boolean { return ['nature', 'affinity'].includes(Canon.traits[id]?.category ?? ''); }
   traits(): Section {
     const entries = Object.entries(Canon.traits).filter(([id]) => MonsterManual.natured(id))
-      .map(([id, t]) => CompanyChapters.trait(id, t.name, `${t.category} trait`));
+      .map(([id, t]) => CompanyChapters.trait(id, t.name, `${t.category} trait`, this.words));
     return { id: 'creature-traits', title: 'Creature traits', intro: ['What a creature\'s nature gives it: flight, size, an '
       + 'element it draws on or fears.'], entries };
   }
   natural(): Section {
     const entries = Object.entries(Canon.abilities).filter(([, a]) => a.kind === 'natural')
       .sort(([, a], [, b]) => a.name.localeCompare(b.name)).map(([id, a]): Entry => {
-        const rules = HandbookText.mechanics(id);
+        const rules = HandbookText.mechanics(id, this.words);
         return { id: `ability:${id}`, title: a.name, status: HandbookStatus.of(a), kind: 'natural ability',
           ...rules ? { rules: [rules] } : {}, ...a.windup ? { facts: [['Wound up', a.windup]] } : {},
           ...a.description ? { text: [a.description] } : {}, notes: HandbookStatus.notes(a) };

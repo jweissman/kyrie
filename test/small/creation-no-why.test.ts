@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../src/creation/creation-flow';
@@ -17,7 +18,8 @@ class Making {
 
 describe('making a life asks no reason for having come', () => {
   it('has no step that asks it, from the first step to setting out', () => {
-    const flow = new CreationFlow(setting, Creation.catalog()), seen = new Set<string>();
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
+    const seen = new Set<string>();
     for (let i = 0; i < 20 && flow.current() !== 'go'; i++) {
       Making.asked(flow).forEach(a => seen.add(a));
       flow.choose('onward', '');
@@ -28,7 +30,8 @@ describe('making a life asks no reason for having come', () => {
     expect(flow.circumstance()).toBe('debt');
   });
   it('begins where a tester names, outside the steps, without adding one', () => {
-    const flow = new CreationFlow(setting, Creation.catalog()), before = flow.steps().map(s => s.id);
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
+    const before = flow.steps().map(s => s.id);
     flow.choose('origin', 'wanderer');
     expect(flow.steps().map(s => s.id)).toEqual(before);
     expect(flow.circumstance()).toBe('wanderer');

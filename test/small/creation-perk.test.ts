@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../src/creation/creation-flow';
@@ -17,7 +18,7 @@ const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading:
 
 describe('a perk chosen at creation', () => {
   it('is asked of every life, one of each of the five families, after the trade and before the name', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     const ids = flow.steps().map(s => s.id), perk = flow.steps().find(s => s.id === 'perk')!;
     expect(perk.cards.map(c => c.id).sort()).toEqual(CreationPerks.offered.map(([id]) => id).sort());
     expect(Creation.catalog().perks.map(p => p.family).sort()).toEqual(['blue', 'gold', 'green', 'red', 'violet']);
@@ -25,12 +26,12 @@ describe('a perk chosen at creation', () => {
     for (const c of perk.cards) { expect(Traits.of(c.id)?.category).toBe('perk'); }
   });
   it('is given to a life begun at once, the same for the same life', () => {
-    const a = new CreationFlow(setting, Creation.catalog()).member.perk;
+    const a = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences()).member.perk;
     expect(CreationPerks.offered.map(([id]) => id)).toContain(a ?? '');
-    expect(new CreationFlow(setting, Creation.catalog()).member.perk).toBe(a);
+    expect(new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences()).member.perk).toBe(a);
   });
   it('is held as a trait, what it gives the rules\' own: the haggler persuades', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     flow.choose('perk', 'haggler');
     expect(flow.member.perk).toBe('haggler');
     const creature = new Content('perk').createCreature(ItemCatalog.canon, 'perk-haggler',

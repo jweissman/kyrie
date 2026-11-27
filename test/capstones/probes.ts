@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { Tiny } from '../support/tiny';
@@ -109,7 +110,7 @@ export class Probes {
       const names = { human: { she: ['Wenna'], he: ['Odo'], they: ['Wren'] } };
       const flow = new CreationFlow({ title: 't', generated: true, pitch: { heading: '', text: '' },
         origins: [{ id: 'debt', title: 'A debt', choice: 'You owe' }], names,
-        party: [Creation.protagonist('human', 'p', names)] }, Creation.catalog());
+        party: [Creation.protagonist('human', 'p', names)] }, Creation.catalog(), new HandbookCreationReferences());
       const ids: string[] = flow.steps().map(s => s.id);
       const has = ['name', 'calling', 'you', 'before', 'presenting'].every(i => ids.includes(i));
       return { status: has && !ids.includes('trait') ? 'partial' : has ? 'present' : 'absent', evidence: ids.join(' ') };

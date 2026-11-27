@@ -15,6 +15,7 @@ import { Openings } from './openings';
 import { MechanicsText } from './mechanics-text';
 import { SkyGifts } from '../rules/sky-gifts';
 import { HandbookText } from '../handbook/text';
+import { BookWording } from './book-wording';
 import { SettingPort } from '../setting-port';
 
 export interface QualityRow {
@@ -123,7 +124,7 @@ export class CharacterSheets {
   // A gift by name and what it does, the name said once: a gift whose one perk is called as it is ("Lamplit eye:
   // +2 to searching") already begins with it (OR-258).
   private static gift(id: string): string {
-    const name = Canon.traits[id]?.name ?? id, said = HandbookText.trait(id).join(' ');
+    const name = Canon.traits[id]?.name ?? id, said = HandbookText.trait(id, BookWording).join(' ');
     return said.startsWith(`${name}: `) ? said : `${name}: ${said}`;
   }
   // What a specialist is, by its school or domain: a cleric of the death domain prays curses and drains, which the

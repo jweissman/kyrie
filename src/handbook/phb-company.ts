@@ -1,7 +1,6 @@
 import type { Skill } from '../rules/catalog-schema';
 import { Canon } from '../canon/canon';
-import { PerkText } from '../presentation/perk-text';
-import { MechanicsText } from '../presentation/mechanics-text';
+import type { MechanicsWording } from '../shared/mechanics-wording';
 import { Formations } from '../rules/formations';
 import { Checks } from '../rules/checks';
 import { HandbookStatus, type Entry, type Section } from './model';
@@ -15,7 +14,7 @@ import sky from '../../data/imbar/sky.json';
 // The Player's Handbook, first part: who can be in a company and what they bring. Every line is read from the
 // catalog the game plays from.
 export class CompanyChapters {
-  static ancestries(): Section {
+  static ancestries(words: MechanicsWording): Section {
     const entries = Object.entries(Canon.ancestries).map(([id, a]): Entry => ({
       id: `ancestry:${id}`, title: a.name, status: HandbookStatus.of(a), kind: a.playable ? 'playable ancestry' : 'not chosen by players',
       abilities: a.attributes, facts: [...PeopleFacts.of(id),
@@ -25,7 +24,7 @@ export class CompanyChapters {
           .join(', ')],
         ...a.traits.length ? [['Born with', a.traits.map(t => Canon.traits[t]?.name ?? t).join(', ')] as [string, string]] : [],
         ...a.forbiddenTraits?.length ? [['May not take', a.forbiddenTraits.map(t => Canon.traits[t]?.name ?? t).join(', ')] as [string, string]] : []],
-      rules: a.traits.flatMap(t => HandbookText.trait(t)),
+      rules: a.traits.flatMap(t => HandbookText.trait(t, words)),
       text: [a.description, ...[a.appearance, a.society].filter((t): t is string => !!t)],
       notes: HandbookStatus.notes(a),
       refs: [...a.classes.filter(c => Canon.classes[c]?.playable).map(c => `class:${c}`), ...a.traits.map(t => `trait:${t}`)] }));
@@ -34,7 +33,7 @@ export class CompanyChapters {
   }
   // A calling's facts say no gold: Orsino's is paid to no one, and a life's coin is its origin's and its trade's
   // (OR-257, OR-270: the bard's "Gold 25" had stood here against a purse of 13 coin).
-  static callings(items: CanonItemReader): Section {
+  static callings(items: CanonItemReader, words: MechanicsWording): Section {
     const entries = Object.entries(Canon.classes).filter(([, c]) => c.playable).map(([id, c]): Entry => ({
       id: `class:${id}`, title: c.name, status: HandbookStatus.of(c), kind: c.spellcasting ? `calling; casts with ${c.spellcasting.attribute}` : 'calling',
       facts: [['Hit die', `d${c.hitDie}`], ['Qualities', HandbookText.attributes(c.attributes)],
@@ -49,14 +48,14 @@ export class CompanyChapters {
       refs: [...c.abilities.map(a => `ability:${a}`), ...(c.specializations ?? []).map(s => `trait:${s}`),
         ...(c.features ?? []).flatMap(f => [...(f.abilities ?? []).map(a => `ability:${a}`), ...(f.traits ?? []).map(t => `trait:${t}`)])] }));
     const specializations = Object.entries(Canon.traits).filter(([, t]) => t.category === 'specialization')
-      .map(([id, t]) => this.trait(id, t.name, 'specialization'));
+      .map(([id, t]) => this.trait(id, t.name, 'specialization', words));
     return { id: 'callings', title: 'Callings', intro: ['A calling is what a companion does in a fight and on the road: '
       + 'their hit die, the qualities it shapes, the arms they may bear and what they know from the start.'],
     entries, sections: [{ id: 'specializations', title: 'Specializations', intro: ['Some callings take one '
       + 'specialization at creation: a mage\'s school, a cleric\'s domain, a warrior\'s bent. Chosen, or drawn at random.'],
     entries: specializations }] };
   }
-  static trait(id: string, title: string, kind: string): Entry {
+  static trait(id: string, title: string, kind: string, words: MechanicsWording): Entry {
     const t = Canon.traits[id]!;
     const requires = t.requires ?? {};
     const facts: [string, string][] = [
@@ -67,7 +66,7 @@ export class CompanyChapters {
       ...t.spellAccess ? [['Opens', `${t.spellAccess.tradition} spells${t.spellAccess.school ? ` of ${t.spellAccess.school}` : ''}`
         + `${t.spellAccess.domain ? ` of the ${t.spellAccess.domain} domain` : ''}`] as [string, string]] : [],
       ...t.grants?.abilities?.length ? [['Brings', t.grants.abilities.map(a => HandbookText.ability(a)).join(', ')] as [string, string]] : []];
-    return { id: `trait:${id}`, title, status: HandbookStatus.of(t), kind, facts, rules: HandbookText.trait(id),
+    return { id: `trait:${id}`, title, status: HandbookStatus.of(t), kind, facts, rules: HandbookText.trait(id, words),
       ...t.description ? { text: [t.description] } : {}, notes: HandbookStatus.notes(t),
       refs: (t.grants?.abilities ?? []).map(a => `ability:${a}`) };
   }
@@ -108,26 +107,26 @@ export class CompanyChapters {
   }
   // The twelve signs of Imbar's sky, each with its month, what is said of those born under it, and the gifts everyone
   // born under it has (OR-89, OR-117): creation sets this entry beside the sign considered.
-  static signs(): Section {
+  static signs(words: MechanicsWording): Section {
     const entries = sky.signs.map((s): Entry => ({ id: `sign:${s.id}`, title: s.name.replace(/^the /, 'The '),
       status: 'kyr', kind: `sign of ${s.month}`, text: [s.line],
       facts: [['Month', s.month], ['Gifts', s.gifts.map(g => Canon.traits[g]?.name ?? g).join(' and ')]],
-      rules: s.gifts.map(g => CompanyChapters.gift(g)), refs: s.gifts.map(g => `trait:${g}`) }));
+      rules: s.gifts.map(g => CompanyChapters.gift(g, words)), refs: s.gifts.map(g => `trait:${g}`) }));
     return { id: 'signs', title: 'Signs of the sky', intro: ['A companion is born under one of the twelve signs of '
       + 'Imbar\'s sky, one rising in each month, and has both of its gifts.'], entries };
   }
   // A gift of the sky in a line: its name, then its rule ("Unturned: +2 against fear, +1 against charms.").
-  static gift(id: string): string {
-    const name = Canon.traits[id]?.name ?? id, said = HandbookText.trait(id).join(' ');
+  static gift(id: string, words: MechanicsWording): string {
+    const name = Canon.traits[id]?.name ?? id, said = HandbookText.trait(id, words).join(' ');
     return `${name}: ${said.startsWith(`${name}: `) ? said.slice(name.length + 2) : said}`;
   }
-  static formations(): Section {
+  static formations(words: MechanicsWording): Section {
     const entries = Formations.all().map(([id, t]): Entry => {
       const company = t.requires!.company!, named = company.classes ?? company.ancestries ?? [];
       const of = company.classes ? 'callings' : 'ancestries';
       return { id: `trait:${id}`, title: t.name, status: Formations.possible(t) ? HandbookStatus.of(t) : 'unreachable',
         kind: 'company formation', facts: [['Formed by', `${named.map(n => Canon.classes[n]?.name ?? Canon.ancestries[n]?.name ?? n).join(', ')} (${of})`]],
-        rules: (t.perks ?? []).map(p => PerkText.of(p)),
+        rules: (t.perks ?? []).map(p => words.perk(p)),
         notes: [...HandbookStatus.notes(t), ...Formations.possible(t) ? [] : [`Not every one of its ${of} can be chosen by players.`]] };
     });
     return { id: 'formations', title: 'Company formations', intro: ['A company whose three members are of the named callings, '
@@ -157,7 +156,7 @@ export class CompanyChapters {
       facts: [...from.length ? [['Brought by', from.join(', ')] as [string, string]] : [],
         ...tools.length ? [['Tools of the trade', tools.join(', ')] as [string, string]] : []] };
   }
-  static equipment(catalog: CanonItemReader): Section {
+  static equipment(catalog: CanonItemReader, words: MechanicsWording): Section {
     const items = catalog.ids.map(id => [id, catalog.definition(id)!] as const);
     const weapons = items.filter(([, i]) => i.weapon && !i.weapon.natural)
       .sort(([, a], [, b]) => a.name.localeCompare(b.name));
@@ -181,7 +180,7 @@ export class CompanyChapters {
           ...i.tool ? [`A tool of ${CompanyChapters.named(i.tool)}: one trained in it does better at its checks (+${Checks.toolBonus}); it lends one who is not nothing.`] : [],
           ...i.aids ? [`Used for ${CompanyChapters.named(i.aids)}: whoever carries it can do what needs it, and does a little better at its checks (+${Checks.toolBonus}), trained or not.`] : [],
           ...i.grants?.ability ? [`Lets its bearer use ${HandbookText.ability(i.grants.ability)}.`] : [],
-          ...i.use ? [`Used: ${HandbookText.use(i.use)}.`] : [], ...MechanicsText.modifiers(i.modifiers ?? {}).map(m => `${m}.`)],
+          ...i.use ? [`Used: ${HandbookText.use(i.use, words)}.`] : [], ...words.modifiers(i.modifiers ?? {}).map(m => `${m}.`)],
         ...CompanyChapters.plate(i), text: [i.description], notes: HandbookStatus.notes(i) })) },
       CompanyChapters.stones(stones)] };
   }

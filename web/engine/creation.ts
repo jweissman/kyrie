@@ -9,6 +9,7 @@ import { CompanyPreview } from '../../src/presentation/company-preview';
 import { WorldDrawings } from '../../src/world/world-drawings';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { DrawnWorld } from '../../src/client/drawn-world';
+import { BookWording } from '../../src/presentation/book-wording';
 import type { BundleSource } from '../../src/campaign/bundle-source';
 import { ModuleBundle, type CampaignManifest } from '../../src/campaign/module-bundle';
 import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
@@ -105,7 +106,7 @@ export class Creation {
   private static skyGift(id: string): Catalog['signs'][number]['gifts'][number] {
     const t = Canon.traits[id];
     return { id, name: t?.name ?? id, text: t?.description ?? '',
-      does: CompanyChapters.gift(id).slice((t?.name ?? id).length + 2) };
+      does: CompanyChapters.gift(id, BookWording).slice((t?.name ?? id).length + 2) };
   }
   private static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
   // The weapons a protagonist of a calling may set out with: its own, and every ordinary weapon of the kinds and

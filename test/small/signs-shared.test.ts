@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { describe, expect, it } from 'bun:test';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
@@ -53,7 +54,7 @@ describe('the signs both clients draw', () => {
     const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading: '', text: '' },
       origins: [{ id: 'debt', title: 'A debt', choice: 'You owe money' }], names,
       party: [Creation.protagonist('human', 'flow', names)] };
-    const steps = new CreationFlow(setting, Creation.catalog()).steps()
+    const steps = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences()).steps()
       .filter(s => s.id !== 'presenting' && s.id !== 'name' && s.cards.length);
     for (const step of steps) {
       const bare = step.cards.filter(c => !c.emblem || !Emblems.has(c.emblem)).map(c => c.id);

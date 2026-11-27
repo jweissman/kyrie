@@ -1,11 +1,9 @@
 import { Canon } from '../canon/canon';
-import { CompanyChapters } from '../handbook/phb-company';
-import { HandbookText } from '../handbook/text';
 import { FirstSpells } from './first-spells';
 import { Words } from '../presentation/words';
-import { CatalogContext } from '../item-catalog';
 import type { Catalog } from './protocol';
 import type { CreationEntry } from './creation-flow';
+import type { CreationReferences } from './creation-references';
 
 type Calling = Catalog['callings'][number];
 type Row = NonNullable<CreationEntry['groups']>[number]['rows'][number];
@@ -17,10 +15,11 @@ type Row = NonNullable<CreationEntry['groups']>[number]['rows'][number];
 // people's gifts by birth, a calling's first abilities), then what comes later. The fuller words are the
 // encyclopedia's. Each is written once: steps() is asked at every press, and a choice answers in milliseconds.
 export class CreationEntries {
-  private static made = new Map<string, CreationEntry | undefined>();
-  private static once(key: string, make: () => CreationEntry | undefined): CreationEntry | undefined {
-    if (!CreationEntries.made.has(key)) { CreationEntries.made.set(key, make()); }
-    return CreationEntries.made.get(key);
+  private readonly made = new Map<string, CreationEntry | undefined>();
+  constructor(readonly references: CreationReferences) {}
+  private once(key: string, make: () => CreationEntry | undefined): CreationEntry | undefined {
+    if (!this.made.has(key)) { this.made.set(key, make()); }
+    return this.made.get(key);
   }
   // The six qualities as a stat line, in the reference's order (Str −1 · Dex +2 · …), those unchanged left out.
   static stats(q: Record<string, number>): string {
@@ -33,25 +32,25 @@ export class CreationEntries {
   }
   // A people: its qualities, its build, ages, country and tongue, the callings open to it and the ways shut; and its
   // gifts by birth, each by name and what it does (the reference's own facts, the table of its names left to the name).
-  static people(a: Catalog['ancestries'][number]): CreationEntry | undefined {
-    return CreationEntries.once(`ancestry:${a.id}`, () => {
-      const found = CreationEntries.reference(`ancestry:${a.id}`), traits = Canon.ancestries[a.id]?.traits ?? [];
+  people(a: Catalog['ancestries'][number]): CreationEntry | undefined {
+    return this.once(`ancestry:${a.id}`, () => {
+      const found = this.references.reference(`ancestry:${a.id}`), traits = Canon.ancestries[a.id]?.traits ?? [];
       if (!found) { return undefined; }
       return { play: CreationEntries.stats(a.qualities), rules: [],
         facts: found.facts.filter(([k]) => k !== 'Names' && k !== 'Born with'),
-        ...traits.length ? { groups: [{ heading: 'Born with', rows: traits.map(t => CreationEntries.trait(t)) }] } : {} };
+        ...traits.length ? { groups: [{ heading: 'Born with', rows: traits.map(t => this.trait(t)) }] } : {} };
     });
   }
   // A calling: its hit die, its armour where it is any or none (else among the facts), and how it casts; its
   // qualities, weapons, skills and gear; what it knows from the start, each by what it does (Defend, every calling's,
   // said once under them); and what it learns later. Not the reference's gold, which no life is given: a bard's "Gold
   // 25" was set out with as 13 coin, the life's own and the trade's (OR-257).
-  static calling(c: Calling): CreationEntry | undefined {
-    return CreationEntries.once(`class:${c.id}`, () => {
-      const found = CreationEntries.reference(`class:${c.id}`), k = Canon.classes[c.id];
+  calling(c: Calling): CreationEntry | undefined {
+    return this.once(`class:${c.id}`, () => {
+      const found = this.references.reference(`class:${c.id}`), k = Canon.classes[c.id];
       if (!found || !k) { return undefined; }
       const knows = k.abilities.map(a => Canon.resolve('abilities', a)).filter(a => a !== 'defend');
-      const later = (k.features ?? []).flatMap(f => [...(f.abilities ?? []).map(a => HandbookText.ability(a)),
+      const later = (k.features ?? []).flatMap(f => [...(f.abilities ?? []).map(a => this.references.ability(a)),
         ...(f.traits ?? []).map(t => Canon.traits[t]?.name ?? t)].map(n => `${n} (${f.level})`));
       const plain = c.armour === 'clothing' ? 'no armour' : c.armour === 'any armour' ? c.armour : undefined;
       return { play: [`d${c.hitDie} hit die`, ...plain ? [plain] : [], ...c.casts ? [`casts by ${Words.upper(c.casts)}`] : []]
@@ -60,7 +59,7 @@ export class CreationEntries {
           ...CreationEntries.fact(found, 'Weapons').map(([x, v]): [string, string] => [x, v === 'all' ? 'any' : v.replaceAll('_', ' ')]),
           ...CreationEntries.fact(found, 'Skills'),
           ...CreationEntries.fact(found, 'Carries from the start').map(([, v]): [string, string] => ['Carries', v])],
-        rules: [], ...knows.length ? { groups: [{ heading: 'Begins knowing', rows: knows.map(a => CreationEntries.ability(a)) }] }
+        rules: [], ...knows.length ? { groups: [{ heading: 'Begins knowing', rows: knows.map(a => this.ability(a)) }] }
           : {},
         after: [k.abilities.includes('defend') ? 'And Defend, as every calling.' : '', CreationEntries.given(k),
           later.length ? `Later, by level: ${Words.listed(later)}.` : ''].filter(Boolean).join(' ') };
@@ -77,8 +76,8 @@ export class CreationEntries {
   // A trade: what it adds to the qualities and the coin it puts in the purse (a tenth of its gold pieces), as its line
   // in play; what it brings and carries, and the
   // calling it is kept for.
-  static trade(b: Catalog['backgrounds'][number]): CreationEntry {
-    return CreationEntries.once(`background:${b.id}`, () => {
+  trade(b: Catalog['backgrounds'][number]): CreationEntry {
+    return this.once(`background:${b.id}`, () => {
       const skills = (Canon.backgrounds[b.id]?.skills ?? []).map(s => Canon.skills[s]?.name ?? s);
       const facts: [string, string][] = [...skills.length ? [['Brings', skills.join(', ')] as [string, string]] : [],
         ...b.gear.length ? [['Carries', Words.upper(b.gear.join(', '))] as [string, string]] : [],
@@ -91,31 +90,16 @@ export class CreationEntries {
     return found.facts.filter(([x]) => x === name);
   }
   // A gift by birth by its name and what it does: its rule, where the rules say it shortly, else its words.
-  private static trait(id: string): Row {
+  private trait(id: string): Row {
     const t = Canon.traits[id], name = t?.name ?? id;
-    const rule = HandbookText.trait(id).join(' ').replace(`${name}: `, ''), said = t?.description ?? '';
+    const rule = this.references.trait(id).join(' ').replace(`${name}: `, ''), said = t?.description ?? '';
     return { id, name, line: (rule && (rule.length <= 90 || !said) ? rule : said).replace(/\.$/, '') };
   }
   // A first ability by its name and the first clause of its words; a spell with the emblem of what it is for.
-  private static ability(id: string): Row {
+  private ability(id: string): Row {
     const a = Canon.abilities[id], words = a?.description ?? '';
     const line = /^[^:;.,]+/.exec(words)?.[0]?.trim() ?? words;
     const emblem = a?.spell ? FirstSpells.spell(id).kind : undefined;
-    return { id, name: HandbookText.ability(id), line, ...emblem ? { emblem } : {} };
-  }
-  // The reference's entry as the handbook writes it from the catalog (one source: the Player's Handbook and the
-  // encyclopedia read the same). Written once: the chapters had been written again for every card of every step, and a
-  // choice had taken 90–200 ms to answer (the owner, 18 November: "these screens should be preparable in
-  // milliseconds").
-  private static entries?: Map<string, CreationEntry>;
-  static reference(id: string): CreationEntry | undefined {
-    CreationEntries.entries ??= CreationEntries.written();
-    return CreationEntries.entries.get(id);
-  }
-  private static written(): Map<string, CreationEntry> {
-    const callings = CompanyChapters.callings(CatalogContext.canon);
-    const all = [...CompanyChapters.ancestries().entries ?? [], ...callings.entries ?? [],
-      ...(callings.sections ?? []).flatMap(x => x.entries ?? []), ...CompanyChapters.signs().entries ?? []];
-    return new Map(all.map(e => [e.id, { facts: e.facts ?? [], rules: e.rules ?? [] }]));
+    return { id, name: this.references.ability(id), line, ...emblem ? { emblem } : {} };
   }
 }

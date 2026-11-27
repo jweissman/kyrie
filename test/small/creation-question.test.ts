@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../src/creation/creation-flow';
@@ -13,7 +14,7 @@ const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading:
 
 describe('creation as the engine asks it', () => {
   it('says how each step may be drawn, and with what beside its options', () => {
-    const steps = new CreationFlow(setting, Creation.catalog()).steps();
+    const steps = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences()).steps();
     const of = (id: string) => steps.find(x => x.id === id)!;
     expect(steps.map(x => [x.id, x.present])).toEqual([['you', 'cards'], ['presenting', 'rows'], ['sign', 'sky'],
       ['calling', 'cards'], ['before', 'list'], ['perk', 'rows'], ['name', 'list']]);
@@ -25,7 +26,7 @@ describe('creation as the engine asks it', () => {
   });
 
   it('stands at a step until a card of it is chosen, and goes back and on as asked', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     expect([flow.current(), flow.beside(-1), flow.beside(1)]).toEqual(['you', undefined, 'presenting']);
     flow.choose('you', 'human');
     expect([flow.current(), flow.beside(-1)]).toEqual(['presenting', 'you']);
@@ -50,7 +51,7 @@ describe('creation as the engine asks it', () => {
   });
 
   it('deals another hand of names on asking, and begins again for a new way of presenting', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     flow.choose('presenting', 'he');
     const hand = () => flow.steps().find(x => x.id === 'name')!.cards.map(c => c.id), first = hand();
     expect(first.length).toBeGreaterThan(4);

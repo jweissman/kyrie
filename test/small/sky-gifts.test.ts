@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import sky from '../../data/imbar/sky.json';
@@ -9,6 +10,7 @@ import { CombatProjection } from '../../src/combat-projection';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../src/creation/creation-flow';
 import { CharacterSheets } from '../../src/presentation/character-sheet';
+import { BookWording } from '../../src/presentation/book-wording';
 import { CreatureStore } from '../../src/creature-store';
 import type { Setting } from '../../src/creation/protocol';
 
@@ -27,14 +29,14 @@ describe('the gifts of the sky', () => {
       expect([s.id, s.gifts.length]).toEqual([s.id, 2]);
       for (const g of s.gifts) {
         expect([g, Canon.traits[g]?.category]).toEqual([g, 'sign']);
-        expect(CompanyChapters.gift(g)).not.toMatch(/no effect|: $/);
+        expect(CompanyChapters.gift(g, BookWording)).not.toMatch(/no effect|: $/);
       }
     }
     expect(new Set(sky.signs.flatMap(s => s.gifts)).size).toBe(24);
   });
 
   it('set the sign\'s entry beside it, saying both gifts, and ask no gift: the sign chosen, the calling is next', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     flow.choose('you', 'human'); flow.choose('presenting', 'he');
     const bear = flow.steps().find(x => x.id === 'sign')!.cards.find(c => c.id === 'sign_bear')!;
     expect(bear.entry!.facts).toEqual([['Month', 'Thaw'], ['Gifts', 'Unturned and Hard to fell']]);

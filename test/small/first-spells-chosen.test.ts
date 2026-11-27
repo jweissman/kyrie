@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
@@ -18,7 +19,7 @@ const names = { human: { she: ['Wenna'], he: ['Odo'], they: ['Wren'] } };
 const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading: '', text: '' }, names,
   party: [Creation.protagonist('human', 'spells', names)] };
 const made = (calling: string, way: string) => {
-  const flow = new CreationFlow(setting, Creation.catalog());
+  const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
   for (const [id, v] of [['you', 'human'], ['presenting', 'she'], ['sign', 'sign_ship'], ['calling', calling],
     ['specialty', way]]) { flow.choose(id as never, v!); }
   return flow;
@@ -75,7 +76,7 @@ describe('a caster\'s first spells, chosen', () => {
     const cleric = made('cleric', 'vitalist');
     expect([cleric.current(), step(cleric, 'learn').ask]).toEqual(['learn', 'Which three prayers were you taught first?']);
     expect(step(cleric, 'learn').cards.find(x => x.id === 'bless')!.emblem).toBe('vitalist');
-    const warrior = new CreationFlow(setting, Creation.catalog());
+    const warrior = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     warrior.choose('calling', 'warrior');
     expect(warrior.steps().some(x => x.id === 'learn')).toBe(false);
   });

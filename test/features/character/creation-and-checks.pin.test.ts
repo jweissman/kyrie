@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../../src/client/creation-references';
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../../support/tiny';
 import { Creation } from '../../../web/engine/creation';
@@ -12,7 +13,8 @@ const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading:
 
 describe('Character › Creation with meaningful differentiation', () => {
   it('makes a mage with a school and spells, and a warrior with neither, from the same flow', () => {
-    const mage = new CreationFlow(setting, Creation.catalog()), warrior = new CreationFlow(setting, Creation.catalog());
+    const mage = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
+    const warrior = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     mage.choose('calling', 'mage'); warrior.choose('calling', 'warrior');
     expect((mage.member.spells ?? []).length).toBeGreaterThan(0);
     expect((warrior.member.spells ?? []).length).toBe(0);

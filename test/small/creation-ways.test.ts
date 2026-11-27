@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../src/creation/creation-flow';
@@ -13,14 +14,14 @@ const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading:
 const step = (flow: CreationFlow, id: string) => flow.steps().find(x => x.id === id);
 // Through the steps as a player goes, each chosen where it is asked.
 const made = (...chosen: [string, string][]) => {
-  const flow = new CreationFlow(setting, Creation.catalog());
+  const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
   for (const [id, value] of chosen) { expect(flow.current()).toBe(id as never); flow.choose(id as never, value); }
   return flow;
 };
 
 describe('a life before, and a caster\'s art', () => {
   it('shows every kind of life at once, each with what it means', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     flow.choose('you', 'human');
     const before = step(flow, 'before')!, kinds = Creation.catalog().kinds;
     expect([before.all, before.present, before.cards.length]).toEqual([true, 'list', kinds.length]);
@@ -33,7 +34,7 @@ describe('a life before, and a caster\'s art', () => {
   // Who one is comes before what one did (the owner, 19 November: "you can be a male abbess"): how one presents is
   // asked second, so every trade is named for the one choosing it, in the one flow every client reads.
   it('asks how one presents before any trade, and names the trade for them', () => {
-    expect(new CreationFlow(setting, Creation.catalog()).steps().map(x => x.id).slice(0, 2)).toEqual(['you', 'presenting']);
+    expect(new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences()).steps().map(x => x.id).slice(0, 2)).toEqual(['you', 'presenting']);
     for (const [who, word] of [['she', 'fisherwoman'], ['he', 'fisherman']] as const) {
       const flow = made(['you', 'human'], ['presenting', who], ['sign', 'sign_ship'], ['calling', 'warrior']);
       flow.choose('before', 'water');
@@ -93,7 +94,7 @@ describe('another hand of a step\'s options', () => {
 // chosen only once the player has chosen them.
 describe('who one is', () => {
   it('is shown unchosen until chosen', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     expect([step(flow, 'you')!.chosen, step(flow, 'presenting')!.chosen]).toEqual([undefined, undefined]);
     flow.choose('you', 'human');
     flow.choose('presenting', 'she');

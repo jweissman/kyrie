@@ -3,7 +3,7 @@ import { CanonRuntime } from '../canon/canon-runtime';
 import { Content } from '../content';
 import { Fighting } from '../rules/fighting';
 import { Advancement } from '../rules/advancement';
-import { MechanicsText } from '../presentation/mechanics-text';
+import type { MechanicsWording } from '../shared/mechanics-wording';
 import { HandbookStatus, type Entry, type Section, type Status } from './model';
 import { HandbookText } from './text';
 import { CompanyChapters } from './phb-company';
@@ -12,7 +12,7 @@ import { Progression } from './progression';
 // The Player's Handbook, second part: how a fight goes, magic, advancement, feats and conditions. Numbers come from
 // the rule code; ability and condition text comes from their typed mechanics.
 export class PlayChapters {
-  static combat(): Section {
+  static combat(words: MechanicsWording): Section {
     const levels = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
     return { id: 'combat', title: 'Combat', intro: [
       'A fight begins when someone sets on someone else: the company, or anything it meets. Each round every creature still '
@@ -31,7 +31,7 @@ export class PlayChapters {
         + 'coming; a stun loses the blow.',
       'Brought to nothing, a creature saves against death (DC 25). It stays at 1 hit point if it succeeds, and falls if it '
         + 'does not. A companion who falls may not get up. Fleeing is the whole company\'s, and the fight ends: '
-        + `${MechanicsText.flight()}, and sure in the moment before a fight that came at the company closes.`],
+        + `${words.flight()}, and sure in the moment before a fight that came at the company closes.`],
     table: { head: ['Level', ...levels.map(String)], rows: [['THAC0', ...levels.map(l => String(Fighting.thac0(l)))],
       ['Highest spell level', ...levels.map(l => String(Fighting.maxSpellLevel(l)))]] } };
   }
@@ -40,7 +40,7 @@ export class PlayChapters {
     return Math.max(0, ...Object.values(Canon.classes)
       .flatMap(c => c.spellcasting?.slots.map(row => row.length) ?? []));
   }
-  static magic(): Section {
+  static magic(words: MechanicsWording): Section {
     const casters = Object.entries(Canon.classes).filter(([, c]) => c.playable && c.spellcasting);
     const tables = casters.map(([id, c]): Section => ({ id: `slots-${id}`, title: `${c.name}: spell slots`,
       table: { head: ['Level', ...Array.from({ length: Math.max(...c.spellcasting!.slots.map(r => r.length)) }, (_, i) => `${i + 1}`)],
@@ -50,7 +50,7 @@ export class PlayChapters {
       title: `${HandbookText.capital(tradition)} spells`, sections: Array.from({ length: 10 }, (_, level) => level)
         .map((level): Section => ({ id: `spells-${tradition}-${level}`, title: level ? `Level ${level}` : 'Cantrips',
           entries: spells.filter(([, a]) => a.spell!.tradition === tradition && a.spell!.level === level)
-            .sort(([, a], [, b]) => a.name.localeCompare(b.name)).map(([id]) => this.spell(id, reach)) }))
+            .sort(([, a], [, b]) => a.name.localeCompare(b.name)).map(([id]) => this.spell(id, reach, words)) }))
         .filter(s => s.entries!.length) }));
     return { id: 'magic', title: 'Magic', intro: [
       'Arcane spells are a mage\'s or a bard\'s; divine spells a cleric\'s. A caster knows the spells of their specialization '
@@ -62,27 +62,27 @@ export class PlayChapters {
         + 'calling has a slot for would be marked unreachable.'],
     sections: [...tables, ...traditions] };
   }
-  static spell(id: string, reach: number): Entry {
+  static spell(id: string, reach: number, words: MechanicsWording): Entry {
     const a = Canon.abilities[id]!, level = a.spell!.level;
     const playable = HandbookStatus.of(a);
     const status: Status = playable !== 'unsupported' && level > reach ? 'unreachable' : playable;
-    const mechanics = HandbookText.mechanics(id);
+    const mechanics = HandbookText.mechanics(id, words);
     return { id: `ability:${id}`, title: a.name, status,
       kind: `${level ? `level ${level}` : 'cantrip'} ${a.spell!.tradition} spell${a.spell!.school ? `, ${a.spell!.school}` : ''}`
         + `${a.spell!.domain ? `, ${a.spell!.domain} domain` : ''}`,
       ...mechanics ? { rules: [mechanics] } : {}, ...a.description ? { text: [a.description] } : {},
       notes: [...HandbookStatus.notes(a), ...status === 'unreachable' ? [`No calling has a slot of level ${level} yet.`] : []] };
   }
-  static techniques(): Section {
+  static techniques(words: MechanicsWording): Section {
     const entries = Object.entries(Canon.abilities).filter(([, a]) => !a.spell && a.kind === 'technique')
       .sort(([, a], [, b]) => a.name.localeCompare(b.name)).map(([id, a]): Entry => {
-        const mechanics = HandbookText.mechanics(id);
+        const mechanics = HandbookText.mechanics(id, words);
         const requires = a.requires ?? {}, again = CanonRuntime.recharge(id, a);
         return { id: `ability:${id}`, title: a.name, status: HandbookStatus.of(a), kind: 'technique',
           facts: [...a.cost ? [['Cost', `${a.cost} mana`] as [string, string]] : [],
             ...again ? [['Again after', `${again} turns`] as [string, string]] : [],
-            ...requires.status ? [['Needs', `the holder ${MechanicsText.conditionName(requires.status)}`] as [string, string]] : [],
-            ...requires.notStatus ? [['Not while', MechanicsText.conditionName(requires.notStatus)] as [string, string]] : [],
+            ...requires.status ? [['Needs', `the holder ${words.conditionName(requires.status)}`] as [string, string]] : [],
+            ...requires.notStatus ? [['Not while', words.conditionName(requires.notStatus)] as [string, string]] : [],
             ...requires.interceptWeapon ? [['Needs', 'a weapon that sets against a charge'] as [string, string]] : [],
             ...a.windup ? [['Wound up', a.windup] as [string, string]] : []],
           ...mechanics ? { rules: [mechanics] } : {}, ...a.description ? { text: [a.description] } : {},
@@ -106,16 +106,16 @@ export class PlayChapters {
     table: { head: ['Level', 'Experience', 'Also'], rows },
     sections: Object.entries(Canon.classes).filter(([, c]) => c.playable).map(([id]) => Progression.section(id)) };
   }
-  static feats(): Section {
+  static feats(words: MechanicsWording): Section {
     const entries = Object.entries(Canon.traits).filter(([, t]) => t.category === 'feat')
-      .map(([id, t]) => CompanyChapters.trait(id, t.name, `${Canon.classes[t.requires?.class ?? '']?.name ?? ''} feat`));
+      .map(([id, t]) => CompanyChapters.trait(id, t.name, `${Canon.classes[t.requires?.class ?? '']?.name ?? ''} feat`, words));
     return { id: 'feats', title: 'Feats', intro: ['Offered at levels 5, 10 and 15: a calling\'s feats of that level or '
       + 'below, not already held, and not ruled out by one held.'], entries };
   }
-  static conditions(): Section {
+  static conditions(words: MechanicsWording): Section {
     const sorted = Object.entries(Canon.conditions).sort(([, a], [, b]) => a.name.localeCompare(b.name));
     const entries = sorted.map(([id, c]): Entry => {
-      const effects = MechanicsText.modifiers(c.modifiers ?? {});
+      const effects = words.modifiers(c.modifiers ?? {});
       return { id: `condition:${id}`, title: c.name, status: HandbookStatus.of(c),
         kind: c.lifetime === 'persistent' ? 'lasts beyond a fight' : 'lasts the fight at most',
         facts: [...c.saveKind ? [['Resisted by', `a ${c.saveKind} save`] as [string, string]] : [],

@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { Creation } from '../../web/engine/creation';
@@ -18,7 +19,7 @@ const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading:
   party: [Creation.protagonist('human', 'four', names)] };
 describe('creation', () => {
   it('leads each step of many cards with four: this country\'s peoples, the best suited', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     const step = (id: string) => flow.steps().find(s => s.id === id)!;
     expect(step('you').cards.slice(0, 2).map(c => c.id)).toEqual(['human', 'dwarf']);
     flow.choose('calling', 'warrior');
@@ -26,7 +27,7 @@ describe('creation', () => {
     expect(step('presenting').cards.map(c => c.id)).toEqual(['she', 'he', 'they']);
   });
   it('keeps a step\'s order whatever is chosen in it', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     const order = (id: string) => flow.steps().find(s => s.id === id)!.cards.map(c => c.id);
     const [you, sign] = [order('you'), order('sign')];
     flow.choose('you', you.at(-1)!);
@@ -54,7 +55,7 @@ describe('creation', () => {
   // as the zodiac beside them stands (FM-02), the one the life was drawn under chosen to begin with; a sign chosen is
   // the life's.
   it('asks under which of the sky\'s twelve signs the life was born, all twelve in the months\' order', () => {
-    const flow = new CreationFlow(setting, Creation.catalog()), sign = () => flow.steps().find(s => s.id === 'sign')!;
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences()), sign = () => flow.steps().find(s => s.id === 'sign')!;
     const months = Creation.catalog().signs.map(x => x.id), drawn = flow.member.sign!;
     expect(sign().cards).toHaveLength(12);
     expect([sign().cards.map(c => c.id), sign().chosen]).toEqual([months, drawn]);

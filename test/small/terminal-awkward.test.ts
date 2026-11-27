@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { describe, expect, it } from 'bun:test';
 import { Awkward } from '../support/awkward';
 import { Keyed } from '../support/keyed';
@@ -114,7 +115,7 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading: '', text: '' },
       origins: [{ id: 'debt', title: 'A debt', choice: 'You owe money' }], names,
       party: [Creation.protagonist('human', 'awkward', names)] };
-    const step = new CreationFlow(setting, Creation.catalog()).steps().find(s => s.id === 'calling')!;
+    const step = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences()).steps().find(s => s.id === 'calling')!;
     const picker = new TerminalPicker(TerminalCreation.menu(step));
     expect(picker.visible.map(r => r.id).slice(0, 5)).toEqual([...step.cards.slice(0, 4).map(c => c.id),
       TerminalPicker.more]);

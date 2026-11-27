@@ -1,3 +1,4 @@
+import { HandbookCreationReferences } from '../../src/client/creation-references';
 import { describe, expect, it } from 'bun:test';
 import { SpellSchools } from '../../src/presentation/spell-schools';
 import { Emblems } from '../../src/presentation/emblems';
@@ -60,7 +61,7 @@ describe('the schools\' emblems', () => {
   });
 
   it('draws each school beside its name, and lists the spells it sets out knowing', () => {
-    const flow = new CreationFlow(setting, Creation.catalog());
+    const flow = new CreationFlow(setting, Creation.catalog(), new HandbookCreationReferences());
     for (const [id, v] of [['you', 'human'], ['sign', 'sign_ship'], ['calling', 'mage']]) {
       flow.choose(id as never, v!);
     }
