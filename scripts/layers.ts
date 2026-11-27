@@ -33,6 +33,7 @@ export class Layers {
     // spells, defaults, rules and cards, the first choice) and the protocol the engine and the page speak, moved out
     // of web/engine so that the terminal (src/cli) and the page import one model, which imports no client.
     if (/^src\/(session|presentation|ui|frame|narrative|creation)\//.test(path)) { return 'player'; }
+    // Shared composition roots in src/client wire a setting to the player without making either depend on the other.
     // Autoplay is a client: a robot that drives the player as someone at the page would, over a world it draws,
     // imported only by the clients (src/cli/reach-tool.ts), and no player imports it (MT-16). And web/engine is the
     // browser's composition root (MT-16, S5): the worker and its host, which wire a campaign or a drawn country, the
@@ -40,7 +41,7 @@ export class Layers {
     // engine-creation, engine-foresight, creation.ts, which composes a setting's companies, sky and drawn world for
     // the page); and what the browser keeps of it (kept-game, parse-keep in IndexedDB, save-codec, transcript). Only
     // the clients import it (src/cli, scripts, web/reader), as src/cli is the terminal's.
-    if (/^src\/(cli|autoplay)\//.test(path) || path.startsWith('web/')) { return 'client'; }
+    if (/^src\/(cli|autoplay|client)\//.test(path) || path.startsWith('web/')) { return 'client'; }
     return undefined;
   }
   // Whether one unit may import another: each from those beneath it; the setting from the language and the runtime

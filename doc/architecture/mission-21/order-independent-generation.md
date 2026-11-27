@@ -219,7 +219,7 @@ reached: 130,826 facts and a 23.8 MB checkpoint on `wren` before Experiment B's 
 
 Lazy materialization needs a save to hold:
 
-1. the seed, the creation options (`DrawnWorld.options`, `src/world/drawn-world.ts:11-15`) and a content version;
+1. the seed, the creation options (`DrawnWorld.options`, `src/client/drawn-world.ts`) and a content version;
 2. the commitment layer's state, where it is not pure (plots once bound, names committed by reference);
 3. the set of realized addresses;
 4. for each realized place, either its full state (as now) or its delta from a fresh realization.

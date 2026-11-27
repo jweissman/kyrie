@@ -6,7 +6,7 @@
 // Besides a label, a step may be: FIGHT <label>, COIN n, KNOW <fact>, ASSERT <relation> <args…>, Q <relation> <args…>
 // (is it so?), HP, AT, LIST [regexp] (the choices offered), PAGE (what the place tells).
 //   e.g.  bun scripts/play-party.ts a1 warrior,cleric,thief,mage 4 howe__forecourt "Speak the rites of the dead" HP
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Placed } from '../test/support/placed';

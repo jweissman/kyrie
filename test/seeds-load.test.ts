@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 
 // Every country a seed draws loads (the architecture review's H1, from its probes unloadable-seeds and begin-seeds):
 // a scenario's site that could stand nowhere in the land was placed all the same, never written, and named in the

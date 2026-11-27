@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'bun:test';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';

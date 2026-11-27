@@ -1,8 +1,8 @@
 import type { BundleSource } from '../campaign/bundle-source';
 import { Stopwatch } from '../stopwatch';
 import { PlaySession, type Drawn } from '../session/play-session';
-import { WorldAssembler } from './world-assembler';
-import { Frontier } from './frontier';
+import { WorldAssembler } from '../world/world-assembler';
+import { Frontier } from '../world/frontier';
 
 // A generated world drawn again from its seed and what it was drawn for (the company, the country's terrain, the
 // origin, someone who died there before): the same world, so that a transcript of play in it can be replayed in the

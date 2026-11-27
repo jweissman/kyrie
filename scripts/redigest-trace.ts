@@ -6,7 +6,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { PlaySession, type Transcript } from '../src/session/play-session';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Traces, type Kept } from '../src/cli/traces';
 

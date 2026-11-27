@@ -7,16 +7,15 @@ import { dirname, join, normalize, relative } from 'node:path';
 // debt, listed here, which may only shrink (the architecture review's A10, from its probe import-graph).
 class Layers {
   static readonly forbidden: Record<string, string[]> = {
-    lang: ['campaign', 'session', 'presentation', 'ui', 'world', 'narrative', 'autoplay', 'cli'],
-    campaign: ['presentation', 'ui', 'session', 'narrative', 'world', 'autoplay', 'cli'],
-    rules: ['campaign', 'presentation', 'ui', 'session', 'world', 'narrative'],
-    world: ['session', 'autoplay', 'cli'],
+    lang: ['campaign', 'session', 'presentation', 'ui', 'world', 'narrative', 'autoplay', 'cli', 'client'],
+    campaign: ['presentation', 'ui', 'session', 'narrative', 'world', 'autoplay', 'cli', 'client'],
+    rules: ['campaign', 'presentation', 'ui', 'session', 'world', 'narrative', 'client'],
+    world: ['session', 'autoplay', 'cli', 'client'],
   };
   static readonly debt = [
     'campaign/module-bundle.ts -> world/compose/composition',
     'rules/advancement.ts -> campaign/party-capabilities',
     'rules/checks.ts -> campaign/party-capabilities',
-    'world/drawn-world.ts -> session/play-session',
   ];
   static crossings(): string[] {
     const out: string[] = [], imports = /^import\s+(?!type\b)[^;]*?from\s+'(\.[^']+)'/gm;

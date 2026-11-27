@@ -3,7 +3,7 @@
 // unless another is given), as DrawnWorld.start draws it for the page and the terminal.
 import { PlaySession } from '../../src/session/play-session';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
-import { DrawnWorld } from '../../src/world/drawn-world';
+import { DrawnWorld } from '../../src/client/drawn-world';
 import { SingleModule } from '../../src/campaign/single-module';
 
 export class ReviewScales {

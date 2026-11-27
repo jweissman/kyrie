@@ -1,6 +1,6 @@
 import { Journey, type Taken } from '../../src/session/journey';
 import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
-import { DrawnWorld } from '../../src/world/drawn-world';
+import { DrawnWorld } from '../../src/client/drawn-world';
 import { Frontier } from '../../src/world/frontier';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 

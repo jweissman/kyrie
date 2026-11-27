@@ -12,7 +12,7 @@
 // Only `ally` sets the company down (Placed.at) to skip the walk, as the specs do; `walk` and `nobody` take every step
 // by a label or the map's own card, and the waits are the page's own Wait choices run to a day and hour
 // ("=day 2 09:00").
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Placed } from '../test/support/placed';

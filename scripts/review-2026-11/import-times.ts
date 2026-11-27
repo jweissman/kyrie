@@ -5,7 +5,7 @@
 //   bun scripts/review-2026-11/import-times.ts [entry…]
 const entries = process.argv.slice(2).length ? process.argv.slice(2) : ['src/lang/world.ts', 'src/lang/module-parser.ts',
   'src/lang/module-compiler.ts', 'src/canon/canon.ts', 'src/content.ts', 'src/campaign/campaign.ts',
-  'src/session/play-session.ts', 'src/ui/screen-model.ts', 'src/presentation/narrator.ts', 'src/world/drawn-world.ts',
+  'src/session/play-session.ts', 'src/ui/screen-model.ts', 'src/presentation/narrator.ts', 'src/client/drawn-world.ts',
   'test/support/tiny.ts', 'web/engine/engine-host.ts', 'src/cli/terminal.ts', 'src/lang/grammars.ts',
   'node_modules/deem/index.ts'];
 console.log('| entry | import ms (median of 5) | heap after import MB |');

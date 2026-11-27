@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { NodeBundleSource } from '../../../src/campaign/node-bundle-source';
 import { PlayerView } from '../../../src/presentation/player-view';
 import { Journey } from '../../../src/session/journey';
-import { DrawnWorld } from '../../../src/world/drawn-world';
+import { DrawnWorld } from '../../../src/client/drawn-world';
 import { Placed } from '../../support/placed';
 
 const start = async () => Journey.of(await DrawnWorld.start('thorn', {

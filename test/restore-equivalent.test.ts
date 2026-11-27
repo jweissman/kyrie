@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { PlaySession, type SessionCheckpoint } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { Frontier } from '../src/world/frontier';
 
 // A game opened from its save is the game played on, in every order a rule or a receipt can read (the architecture

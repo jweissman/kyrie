@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { CombatTelling } from '../src/ui/combat-telling';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { PlayerView } from '../src/presentation/player-view';

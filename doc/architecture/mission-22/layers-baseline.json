@@ -3,7 +3,7 @@
  "kinds": {
   "runtime -> setting": 49,
   "player -> setting": 49,
-  "setting -> player": 6
+  "setting -> player": 5
  },
  "edges": [
   "src/ability-use.ts -> src/canon/canon",
@@ -108,7 +108,6 @@
   "src/ui/screen-model.ts -> src/paintings/likeness",
   "src/ui/screen-model.ts -> src/world/seats",
   "src/ui/screen-types.ts -> src/paintings/company-portraits",
-  "src/ui/unusable.ts -> src/canon/condition-sense",
-  "src/world/drawn-world.ts -> src/session/play-session"
+  "src/ui/unusable.ts -> src/canon/condition-sense"
  ]
 }

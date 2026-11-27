@@ -39,7 +39,7 @@ import { TranscriptsTool } from './transcripts-tool';
 import { ProseTool } from './prose-tool';
 import { Terminal } from './terminal';
 import { Frontier } from '../world/frontier';
-import { DrawnWorld } from '../world/drawn-world';
+import { DrawnWorld } from '../client/drawn-world';
 import { AdventureNames } from './adventure-names';
 import { SuggestTool } from './suggest-tool';
 import { CheckpointStore } from '../session/checkpoint-store';

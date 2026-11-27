@@ -6,7 +6,7 @@
 //   bun scripts/compat.ts snapshot [--quick] [--out snapshot.json] [--saves dir]
 import type { Campaign } from '../campaign/campaign';
 import { WorldAssembler, type Placement } from '../world/world-assembler';
-import { DrawnWorld } from '../world/drawn-world';
+import { DrawnWorld } from '../client/drawn-world';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { ActionTime } from '../campaign/action-time';
 import type { PlaySession } from '../session/play-session';

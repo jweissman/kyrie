@@ -25,7 +25,7 @@ export class LoadScales {
       '../src/presentation/narrator'],
     scenario: ['../src/campaign/node-bundle-source', '../src/session/play-session', '../src/ui/screen-model',
       '../src/presentation/narrator'],
-    full: ['../src/world/drawn-world', '../src/campaign/node-bundle-source', '../src/ui/screen-model',
+    full: ['../src/client/drawn-world', '../src/campaign/node-bundle-source', '../src/ui/screen-model',
       '../src/presentation/narrator'],
   };
   static async load(name: string): Promise<void> {
@@ -76,7 +76,7 @@ export class LoadScales {
       return PlaySession.start(campaign, 'tiny', source);
     }
     if (name === 'scenario') { return PlaySession.start('data/campaigns/low-water.campaign.json', 'lw', NodeBundleSource.shared); }
-    const { DrawnWorld } = await import('../src/world/drawn-world');
+    const { DrawnWorld } = await import('../src/client/drawn-world');
     return DrawnWorld.start('a1', { origin: 'debt', party: [{ name: 'Mira', raceId: 'human', classId: 'warrior' }] },
       NodeBundleSource.shared);
   }

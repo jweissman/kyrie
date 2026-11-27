@@ -5,7 +5,7 @@
 // TM-01, TM-05). Plain text (no colour), as a pipe gets it.
 //   bun scripts/terminal-walks.ts [--turns=30]
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { TerminalWalk } from '../src/cli/terminal-walk';
 import { WalkStyle } from '../src/cli/walk-style';

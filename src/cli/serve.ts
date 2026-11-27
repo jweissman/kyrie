@@ -1,7 +1,7 @@
 import { createInterface } from 'node:readline';
 import type { PlaySession, SessionCheckpoint } from '../session/play-session';
 import { PlaySession as Session } from '../session/play-session';
-import { DrawnWorld } from '../world/drawn-world';
+import { DrawnWorld } from '../client/drawn-world';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { ScreenModel } from '../ui/screen-model';
 import { LandCrossing } from '../ui/land-crossing';

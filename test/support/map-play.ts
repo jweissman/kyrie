@@ -1,4 +1,4 @@
-import { DrawnWorld } from '../../src/world/drawn-world';
+import { DrawnWorld } from '../../src/client/drawn-world';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 import { Journey } from '../../src/session/journey';
 import { PlaySession } from '../../src/session/play-session';

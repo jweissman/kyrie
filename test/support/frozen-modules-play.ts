@@ -1,4 +1,4 @@
-import { DrawnWorld } from '../../src/world/drawn-world';
+import { DrawnWorld } from '../../src/client/drawn-world';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 import { ModuleBundle } from '../../src/campaign/module-bundle';
 import { CompiledModules } from '../../src/campaign/compiled-modules';

@@ -18,8 +18,8 @@ describe('the layers', () => {
   });
   it('place each unit by its folder, and allow only downward', () => {
     expect(['src/lang/module.ts', 'src/campaign/campaign.ts', 'src/shared/voice-words.ts', 'src/ui/glance.ts',
-      'src/world/countries.ts', 'web/reader/reader-app.tsx'].map(p => Layers.of(p)))
-      .toEqual(['lang', 'runtime', 'runtime', 'player', 'setting', 'client']);
+      'src/world/countries.ts', 'src/client/drawn-world.ts', 'web/reader/reader-app.tsx'].map(p => Layers.of(p)))
+      .toEqual(['lang', 'runtime', 'runtime', 'player', 'setting', 'client', 'client']);
     const pairs = [['player', 'runtime'], ['player', 'setting'], ['lang', 'runtime'], ['setting', 'runtime'],
       ['client', 'setting']] as const;
     expect(pairs.map(([a, b]) => Layers.allowed(a, b))).toEqual([true, false, false, true, true]);

@@ -5,7 +5,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
 import { PlaySession, type Transcript } from '../session/play-session';
-import { DrawnWorld } from '../world/drawn-world';
+import { DrawnWorld } from '../client/drawn-world';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { ModuleWriter } from '../lang/module-writer';
 

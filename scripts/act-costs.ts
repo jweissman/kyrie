@@ -17,7 +17,7 @@ import { resolve } from 'node:path';
 import { Costs, type Stage, type Tally } from '../src/costs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { EngineHost } from '../web/engine/engine-host';

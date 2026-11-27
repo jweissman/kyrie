@@ -4,7 +4,7 @@
 // "map:Name" set-out) is played; a line "# note" is written as a note; "PLACE id" puts the company down (and says so).
 //   bun scripts/play-transcript.ts <seed> <calling> <steps-file> [out-file]
 import { readFile, writeFile } from 'node:fs/promises';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Placed } from '../test/support/placed';

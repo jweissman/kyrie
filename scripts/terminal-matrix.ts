@@ -6,7 +6,7 @@
 //     [--out file]
 // --lab walks the laboratory (scripts/laboratory.ts) instead, each build alone in the first town's undertown.
 import { writeFile } from 'node:fs/promises';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Runner } from '../src/cli/runner';
 import { RunnerWalk, type Measures, type Policy } from '../src/cli/runner-walk';

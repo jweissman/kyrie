@@ -1,6 +1,6 @@
 import { Charted } from './support/charted';
 import { describe, expect, it } from 'bun:test';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { JourneyCourse } from '../web/reader/journey-course';
 import { Itineraries } from '../src/ui/itinerary';

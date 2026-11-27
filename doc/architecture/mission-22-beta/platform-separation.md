@@ -27,6 +27,10 @@ The static handbook and encyclopedia renderers accept their branding and emblem 
 root. They no longer import player presentation for those details. Catalog wording and the creation-to-handbook
 dependency still form the handbook cycle; this injection alone does not break it.
 
+`src/client/drawn-world` is the shared composition root that assembles a world and starts its player session.
+Moving that wiring out of the setting removes the last world-to-player edge; it also breaks a folder-level cycle
+and reduces its baseline from 632 to 402 edges. The remaining five setting-to-player edges are handbook wording.
+
 At the review's measurement, 154 edges:
 
 | From | To | Edges | Where most of them are |

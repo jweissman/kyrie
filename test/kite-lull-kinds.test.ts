@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';

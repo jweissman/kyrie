@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Terrain } from '../src/world/land/terrain';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Heard } from './support/heard';

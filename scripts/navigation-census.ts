@@ -12,7 +12,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { ChoiceList } from '../src/ui/choice-list';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Campaign } from '../src/campaign/campaign';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 
 interface PlaceCount { id: string; name: string; ways: number; alike: string[]; back: boolean; stuck: boolean }
 interface Census { campaign: string; places: number; reached: number; crowded: PlaceCount[]; alike: PlaceCount[];

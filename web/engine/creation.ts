@@ -8,7 +8,7 @@ import { Overlays } from '../../src/overlays';
 import { CompanyPreview } from '../../src/presentation/company-preview';
 import { WorldDrawings } from '../../src/world/world-drawings';
 import { WorldAssembler } from '../../src/world/world-assembler';
-import { DrawnWorld } from '../../src/world/drawn-world';
+import { DrawnWorld } from '../../src/client/drawn-world';
 import type { BundleSource } from '../../src/campaign/bundle-source';
 import { ModuleBundle, type CampaignManifest } from '../../src/campaign/module-bundle';
 import { CanonVocabulary } from '../../src/canon/canon-vocabulary';

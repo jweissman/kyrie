@@ -1,6 +1,6 @@
 import type { PlaySession } from '../session/play-session';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
-import { DrawnWorld } from '../world/drawn-world';
+import { DrawnWorld } from '../client/drawn-world';
 import { Obituary } from '../narrative/obituary';
 import type { Offered, Said } from './runner';
 

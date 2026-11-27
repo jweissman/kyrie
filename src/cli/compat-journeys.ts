@@ -6,7 +6,7 @@ import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { PlaySession, type Transcript } from '../session/play-session';
 import { Digest } from '../session/digest';
-import { DrawnWorld } from '../world/drawn-world';
+import { DrawnWorld } from '../client/drawn-world';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import type { JourneyShot, SaveShot, StepShot } from './compat-snapshot';
 import { Runner, type Said } from './runner';

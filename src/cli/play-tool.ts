@@ -19,7 +19,7 @@ import type { CreatureGenerationContext } from '../content';
 import type { Stopwatch } from '../stopwatch';
 import { Journey } from '../session/journey';
 import { SingleModule } from '../campaign/single-module';
-import { DrawnWorld } from '../world/drawn-world';
+import { DrawnWorld } from '../client/drawn-world';
 import { StockOpenings } from '../world/stock-openings';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import type { BundleSource } from '../campaign/bundle-source';

@@ -4,7 +4,7 @@
 // it is not offered). Ends by saying what was offered if a step was not: the way to learn a label.
 //   bun scripts/play-at.ts <seed> <calling> <place-id> "<step>" ...
 //   e.g.  bun scripts/play-at.ts kahitude mage e1_office "Read the stationmaster's day-book"
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Placed } from '../test/support/placed';

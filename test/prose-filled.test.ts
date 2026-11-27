@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ProseLint } from '../src/presentation/prose-lint';
 import type { Module } from '../src/lang/module';

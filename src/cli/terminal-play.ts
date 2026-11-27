@@ -3,7 +3,7 @@ import { CheckpointStore } from '../session/checkpoint-store';
 import { PlaySession, type SessionCheckpoint } from '../session/play-session';
 import type { CampaignSave } from '../campaign/campaign';
 import { Frontier } from '../world/frontier';
-import { DrawnWorld } from '../world/drawn-world';
+import { DrawnWorld } from '../client/drawn-world';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import type { Kept } from '../creation/first-choice';
 import { OpeningPages, type EnginePage } from '../creation/opening-pages';

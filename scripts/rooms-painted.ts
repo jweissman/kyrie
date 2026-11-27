@@ -3,7 +3,7 @@
 // what a new room looks like before commissioning one.
 //   bun scripts/rooms-painted.ts <seed> <place-id> ...
 //   e.g.  bun scripts/rooms-painted.ts kahitude e1_hall e1_cistern
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Scenery } from '../src/ui/scenery';

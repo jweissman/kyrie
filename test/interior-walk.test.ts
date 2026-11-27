@@ -1,7 +1,7 @@
 import { Charted } from './support/charted';
 import { Doable } from '../src/presentation/doable';
 import { describe, expect, it } from 'bun:test';
-import { DrawnWorld } from '../src/world/drawn-world';
+import { DrawnWorld } from '../src/client/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { Narrator } from '../src/presentation/narrator';
