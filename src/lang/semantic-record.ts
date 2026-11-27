@@ -40,11 +40,12 @@ export class SemanticRecords {
     (module.semantic ??= []).push({ id: `${spec.kind}:${spec.name}`, ...spec, reads: [...reads].sort(),
       writes: [...writes].sort() });
   }
-  // A module without its records: what a save keeps (they are read again from source).
+  // A module without its records, or where its names were declared: what a save keeps (they are read again from
+  // source).
   static unwritten(module: Module): Module {
-    if (!module.semantic) { return module; }
+    if (!module.semantic && !module.sites) { return module; }
     const kept = { ...module };
-    delete kept.semantic;
+    delete kept.semantic; delete kept.sites;
     return kept;
   }
   // Each record of a module's file told the file it is written in.

@@ -2689,6 +2689,18 @@
    "pri": "P1",
    "why": "26 Nov, the owner's commissioned symbol-table spike: a required architecture outcome, not an observed software failure; implementation follows compilation-context slices 0–3"
   },
+  "OR-1340": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "27 Nov, split from OR-700: exact reference-token provenance is a distinct acceptance from the declaration-site prototype, not an observed software failure"
+  },
+  "OR-1341": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "27 Nov, split from OR-700: complete binding coverage and external/import identities are a distinct acceptance, not an observed software failure"
+  },
   "OR-747": {
    "kind": "requirement",
    "was": "defect",

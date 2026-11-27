@@ -197,14 +197,16 @@ export class ModuleBundle {
     WorldConstructs.given(context, merged); Routes.company(merged);
     return merged;
   }
+  // Where each file's names were declared is each file's, and the module joined has none (DeclarationSites).
   private static joined(modules: Module[]): Module {
-    const seen = new Set<string>(), entities = modules.flatMap(m => m.entities)
+    const first = { ...modules[0]! }, seen = new Set<string>(), entities = modules.flatMap(m => m.entities)
       .filter(e => seen.size < seen.add(`${e.id}\u0000${JSON.stringify(e)}`).size);
+    delete first.sites;
     const company = modules.find(m => m.company)?.company;
     // The goal is whichever file declares one (The Long Man's is in its second file, and was lost as false).
     const goals = modules.map(m => m.goal).filter(g => !(g.kind === 'boolean' && g.value === false));
     if (goals.length > 1) { throw new Error('A module declares its Goal once, in one of its files'); }
-    return Superseded.lower({ ...modules[0]!, ...goals[0] ? { goal: goals[0] } : {}, ...company ? { company } : {},
+    return Superseded.lower({ ...first, ...goals[0] ? { goal: goals[0] } : {}, ...company ? { company } : {},
       entities,
       kinds: [...new Set(modules.flatMap(m => m.kinds))],
       relations: ModuleBundle.once(modules.flatMap(m => m.relations)), measures: modules.flatMap(m => m.measures),

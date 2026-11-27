@@ -173,6 +173,9 @@ export interface Module {
   // Each high-level declaration (a Route, a Promise, an Occasion) as written, beside what it was lowered into: for
   // the tools, never the runtime, and never saved (MT-30; see SemanticRecords).
   semantic?: import('./semantic-record').SemanticRecord[];
+  // Where each name it declares was declared in the text it was parsed from: a parse's, for the symbol table (see
+  // DeclarationSites); a module joined of several files, or installed, has none.
+  sites?: import('./declaration-sites').Sites;
 }
 // A region's land for its map: each cell's cover in one string (row by row), the cells of its rivers, of each road
 // (by its way), of each part of its wild country (by room), the cell of each place on it, and what its names mean.

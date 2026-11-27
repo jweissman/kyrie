@@ -74,7 +74,7 @@ export class DeclarationParses {
       const fields = keys.map((k, i) => this.placedAt(made.get(i) ?? structuredClone(this.kept.get(k) as Field), text,
         split.chunks[i]!.at));
       return DeclaredValues.during(declared, () => ModuleMade.of(context, { id: read.id, name: read.name, fields,
-        starts: split.chunks.map(c => c.at) }, (i, run) => this.at(text, split.chunks[i]!.at, run)));
+        starts: split.chunks.map(c => c.at), text }, (i, run) => this.at(text, split.chunks[i]!.at, run)));
     } catch { return undefined; }
   }
   // A Situation keeps where it was written as its declaration's start (SemanticRecords.span): split, that is where
