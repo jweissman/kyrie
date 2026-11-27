@@ -8,6 +8,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { ScreenModel } from '../src/ui/screen-model';
 import type { Change } from '../src/lang/module';
 import type { Region } from '../src/world/region-writer';
+import { RegionMarvels } from '../src/world/region-marvels';
 
 // A second purpose from the same generator (data/generation/deep/barrow.json): where a country's first makers were
 // the Barrow-Kin and not the Delvers, its deep site is their king-barrow, built from what it was for and told in its
@@ -125,6 +126,12 @@ describe('a king-barrow from the same generator as the mine', () => {
     const { s, deep } = await Barrow.world('cov13');
     const said = (s.campaign.module.rules ?? []).filter(r => r.id.startsWith(`region__${deep.id}_`)).map(r => r.say ?? '');
     expect(said.filter(t => /^Vines/.test(t))).toEqual([]);
-    expect(said.some(t => /^Roots burst out/.test(t))).toBe(true);
+    // cov13's barrow draws no vine trap since the deep's draws were keyed by room (OR-1234): one set under rock is told
+    // as the generator tells it there, roots, and the same trap in the open as vines.
+    const [, vines] = RegionMarvels.within(45).find(([, x]) => /^Vines erupt/.test(x.text))!;
+    const under = RegionMarvels.snare({ id: 'r', way: 'w', trap: vines, under: true }).join('\n');
+    expect(under).toContain('Roots burst out');
+    expect(under).not.toContain('Vines erupt');
+    expect(RegionMarvels.snare({ id: 'r', way: 'w', trap: vines, under: false }).join('\n')).toContain('Vines erupt');
   }, 60000);
 });

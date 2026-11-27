@@ -13,7 +13,7 @@ Buy.a.torch.for.Wenna
 Buy.a.crowbar.for.Wenna
 Ulfgar's.door
 path.up.onto.Barzelrehes.to.the.foot
-to.the.foot.of.Barzelrehes( by Muzgkom)?$
+to.the.foot.of.Barzelrehes$
 track.to.Goldhold$
 way.in
 passage.to.the.adit$
@@ -21,19 +21,20 @@ Light.a.torch
 Darkness
 Take .* out of the stone casket for Wenna
 gallery to the smithy
-Collect
+Gather up the coins
 gallery to the adit$
 gallery to the crossing
 Attack the goblins
 Gather up the coins
-Collect a Delver
-Look closely at the (?:arcane glyph|shimmering glyph)
-Hold the pole's end
+Collect a string of star-iron beads for Wenna
+Look closely at the wire across the way
+Hook the wire with the pole
 to the old stope
 Collect a lump of star-iron
 Search the old stope
 Light a torch
 Search the old stope
+Push the switch in with the pole's end
 gap behind the rubble
 Unstrap the notebook
 Gather up the coins
@@ -41,15 +42,14 @@ Collect a coil of rope
 Collect a torch for Wenna
 gap behind the rubble to the old stope
 drift to the shaft head
-shirt
-Take .* out of the stone casket for Wenna
-Touch the singing crystal
-Collect a lump of star-iron
+Collect a lump of star-iron for Wenna
 Gather up the coins
+Collect a large heart-cut tanzanite for Wenna
 drift to the ore pass
 Light a torch
 Collect a lump of star-iron
-Pass a hand through the cold flame
+Lay a hand on the shifting wall
+Collect a string of star-iron beads for Wenna
 drift to the shaft head
 drift to the old stope
 gap behind the rubble to the air shaft
@@ -61,9 +61,9 @@ Ulfgar's door
 Sell a lump of star-iron
 Sell a lump of star-iron
 Sell a lump of star-iron
-Sell a Delver's pay-token
-Sell a Delver's pay-token
-Sell a Delver's ring
+Sell a string of star-iron beads
+Sell a string of star-iron beads
+Sell a large heart-cut tanzanite
 Ulfgar's door
 door of the Wooden Wolf
 Take a bed and supper
@@ -80,9 +80,8 @@ way in
 passage to the adit$
 Fill a lantern
 gallery to the crossing
-Attack the rats
+Attack the gnolls
 gallery to the head of the winze
-Collect a string of star-iron beads
 Gather up the coins
 gallery to the crossing
 drift to the spring
@@ -99,212 +98,3 @@ gap behind the rubble to the old stope
 drift to the shaft head
 Work the seized wheel free
 cage in the shaft
-Collect a lump of star-iron for Wenna
-Look closely at the (?:magical rune|glowing rune)
-Lay the pole's end on the rune
-drift to the haulage way
-Collect a lump of star-iron for Wenna
-Look closely at the (?:enchanted object|humming thing)
-Knock it over
-passage to the Delvers' hall
-Read the brothers' tablet
-Collect a chapel cup
-gallery to the shrine of the vein
-Study the mural
-Collect a Delver's silver lamp for Wenna
-gallery to the Delvers' hall
-gallery to the stores
-Gather up the coins
-Collect a torch for Wenna
-Light a torch
-Unstrap the notebook
-Collect a coil of rope for Thoradin
-Search the stores
-gallery to the Delvers' hall
-passage to the haulage way
-drift to the shaft bottom
-gallery to the ore bin
-Attack the centipedes
-Gather up the coins
-Light a candle
-Collect a lump of star-iron for Wenna
-Search the ore bin
-gallery to the shaft bottom
-to the haulage way
-to the Delvers' hall
-Rest and recover at the Delvers' hall
-to the haulage way
-to the shaft bottom
-cage in the shaft
-drift to the old stope
-gap behind the rubble to the air shaft
-iron rungs
-track to the foot
-to the foot of Barzelrehes by Gothgiba$
-path up onto Barzelrehes to the bailey
-Ulfgar's door
-Sell a lump of star-iron
-Sell a lump of star-iron
-Sell a lump of star-iron
-Sell a string
-Sell a Delver's silver lamp
-Sell a chapel cup
-Buy a torch for Wenna
-Buy a flask of lamp oil for Wenna
-Buy a flask of lamp oil for Wenna
-Buy a flask of lamp oil for Wenna
-Take Ulfgar's door
-door of the Wooden Wolf
-Take a bed and supper
-Buy one ration
-Buy one ration
-Take the door of the Wooden Wolf
-shrine porch
-Ask Baern about the walled stair
-Watch Baern
-Speak to Baern of the brother
-Buy a glossary of the old script
-Equip a glossary of the old script on Wenna
-Take the shrine porch in Gothgiba to the bailey
-path up onto Barzelrehes to the foot
-to the foot of Barzelrehes( by Muzgkom)?$
-track to Goldhold$
-Fill a lantern
-iron rungs
-gap behind the rubble to the old stope
-drift to the shaft head
-cage in the shaft
-drift to the haulage way
-passage to the Delvers' hall
-gallery to the long haulage
-Gather up the coins
-Collect a lump of star-iron for Wenna
-gallery to the Delvers' hall
-Rest and recover at the Delvers' hall
-passage to the haulage way
-drift to the shaft bottom
-cage in the shaft
-drift to the old stope
-gap behind the rubble to the air shaft
-iron rungs
-track to the foot
-to the foot of Barzelrehes by Gothgiba$
-path up onto Barzelrehes to the bailey
-Ulfgar's door
-Sell a lump
-Take Ulfgar's door
-shrine porch
-Take the shrine porch in Gothgiba to the bailey
-door of the Wooden Wolf
-Take a bed and supper
-Take the door of the Wooden Wolf
-Karavor road to the top of the Karavor
-Karavor road to the burners' clearing
-Ask Veit whether
-Ask Veit to join
-Take a place in the hayloft
-Karavor road to the top of the Karavor
-track off the road into Barzelrehes
-to the foot of Barzelrehes( by Muzgkom)?$
-track to Goldhold$
-iron rungs
-gap behind the rubble to the old stope
-drift to the shaft head
-cage in the shaft
-drift to the haulage way
-gallery to the pump-room
-Knock the pawl home
-Collect a small star-iron ingot for Veit
-gallery to the haulage way
-passage to the Delvers' hall
-gallery to the long haulage
-Look closely at the (?:pressure plate|uneven flag)
-Lean on the plate with the pole
-drift to the sealed stair
-Read what is cut in the wall
-Break the wall down
-sealed stair to the foot of the stair
-Look closely at the (?:arcane glyph|shimmering glyph)
-Unsay the glyph
-Wait an hour
-Wait an hour
-gallery to the sump gallery
-Collect a lump of star-iron for Veit
-gallery to the furnace hall
-Gather up the coins
-drift to the paymaster's strongroom
-Collect a jar of noonlight for Wenna
-Gather up the coins
-Search the paymaster's strongroom
-drift to the furnace hall
-gallery to the sump gallery
-gallery to the foot of the stair
-Take the sealed stair
-drift to the long haulage
-gallery to the Delvers' hall
-Rest and recover
-passage to the haulage way
-drift to the shaft bottom
-cage in the shaft
-drift to the old stope
-gap behind the rubble to the air shaft
-iron rungs
-track to the foot
-to the foot of Barzelrehes by Gothgiba$
-path up onto Barzelrehes to the bailey
-Ulfgar's door
-Sell a lump
-Sell a small star-iron ingot
-Have Wenna raise Strength
-Buy a torch for Wenna
-Buy a flask of lamp oil for Veit
-Take Ulfgar's door
-shrine porch
-Take the shrine porch in Gothgiba to the bailey
-door of the Wooden Wolf
-Buy one ration
-Buy one ration
-Buy one ration
-Buy one ration
-Take a bed and supper
-Equip a jar of noonlight on Wenna
-Take the door of the Wooden Wolf
-path up onto Barzelrehes to the foot
-to the foot of Barzelrehes( by Muzgkom)?$
-track to Goldhold$
-iron rungs
-gap behind the rubble to the old stope
-drift to the shaft head
-cage in the shaft
-drift to the haulage way
-passage to the Delvers' hall
-gallery to the long haulage
-drift to the sealed stair
-sealed stair to the foot of the stair
-gallery to the sump gallery
-gallery to the furnace hall
-passage to the deep cut
-rough cut to the breach
-Look closely at the (?:hidden switch|carved wall)
-Prod the (?:hidden switch|carved wall) with the pole
-Push the switch in with the pole's end, standing clear
-passage to the hollow vault
-Collect a lump of star-iron for Veit
-gallery to the heart of the vein
-Gather up the coins
-Collect the heart of the vein for Wenna
-gallery to the hollow vault
-passage to the breach
-rough cut to the deep cut
-passage to the furnace hall
-gallery to the sump gallery
-gallery to the foot of the stair
-Take the sealed stair
-drift to the long haulage
-gallery to the Delvers' hall
-passage to the haulage way
-drift to the shaft bottom
-cage in the shaft
-drift to the old stope
-gap behind the rubble to the air shaft
-iron rungs

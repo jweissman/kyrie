@@ -4,6 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { WrenRecord } from './support/wren-record';
 
 // A whole first expedition, as it was played by the words on the page (doc/history/missions/14/expedition.md):
 // from the road into Gothgiba, the inn and the smith, out over the fell to the mine; the adit level's riddles, its
@@ -14,33 +15,38 @@ import { ModuleWriter } from '../src/lang/module-writer';
 // home; on
 // the fights of 4fbff0a, foes choosing by kind and techniques resting, he comes through that fight standing.)
 // (Since OR-423, 25 November, a town's rumours are told only once what the matter is has been asked: the record asks
-// Fargrim and Ulfgar first.)
+// Fargrim and Ulfgar first.) (Re-recorded 27 November for the denser deep, OR-1230 to OR-1236: the smithy's coins,
+// the crossing's beads, a wire hooked and a switch pushed in where a glyph was, the shaft head's tanzanite, the ore
+// pass's shifting wall; the beads and the stone sold beside the star-iron; the adit level's other new bands taken out
+// of it, WrenRecord.)
 class Expedition {
   static readonly steps = [
     'bailey', 'Wooden.Wolf', '^Ask Fargrim what the matter is', 'old.workings', 'Ask.Thoradin.whether',
-    'Ask.Thoradin.to.join', 'Buy.one.ration', 'door.of.the.Wooden', "Ulfgar's.door", '^Ask Ulfgar what the matter is',
-    'what.the.old.workings', 'Buy.a.torch.for.Wenna',
-    'Buy.a.crowbar.for.Wenna', "Ulfgar's.door", 'path.up.onto.Barzelrehes.to.the.foot',
-    'to.the.foot.of.Barzelrehes$', 'track.to.Goldhold$', 'way.in', 'passage.to.the.adit$',
-    'Light.a.torch', 'Darkness', 'Take .* out of the stone casket for Wenna', 'gallery to the smithy', 'Collect',
-    'gallery to the adit$', 'gallery to the crossing', 'Attack the goblins', 'Gather up the coins',
-    'Collect a Delver', 'Look closely at the (?:arcane glyph|shimmering glyph)', "Hold the pole's end", 'to the old stope',
-    'Collect a lump of star-iron',
-    'Search the old stope', 'Light a torch', 'Search the old stope', 'gap behind the rubble',
-    'Unstrap the notebook', 'Gather up the coins', 'Collect a coil of rope', 'Collect a torch for Wenna',
-    'gap behind the rubble to the old stope', 'drift to the shaft head', 'shirt',
-    'Take .* out of the stone casket for Wenna', 'Touch the singing crystal', 'Collect a lump of star-iron',
-    'Gather up the coins', 'drift to the ore pass', 'Light a torch', 'Collect a lump of star-iron',
-    'Pass a hand through the cold flame', 'drift to the shaft head',
-    'drift to the old stope', 'gap behind the rubble to the air shaft', 'iron rungs', 'track to the foot',
+    'Ask.Thoradin.to.join', 'Buy.one.ration', 'door.of.the.Wooden', "Ulfgar's.door",
+    '^Ask Ulfgar what the matter is', 'what.the.old.workings', 'Buy.a.torch.for.Wenna', 'Buy.a.crowbar.for.Wenna',
+    "Ulfgar's.door", 'path.up.onto.Barzelrehes.to.the.foot', 'to.the.foot.of.Barzelrehes$', 'track.to.Goldhold$',
+    'way.in', 'passage.to.the.adit$', 'Light.a.torch', 'Darkness', 'Take .* out of the stone casket for Wenna',
+    'gallery to the smithy', 'Gather up the coins', 'gallery to the adit$', 'gallery to the crossing',
+    'Attack the goblins', 'Gather up the coins', 'Collect a string of star-iron beads for Wenna',
+    'Look closely at the wire across the way', 'Hook the wire with the pole', 'to the old stope',
+    'Collect a lump of star-iron', 'Search the old stope', 'Light a torch', 'Search the old stope',
+    "Push the switch in with the pole's end", 'gap behind the rubble', 'Unstrap the notebook', 'Gather up the coins',
+    'Collect a coil of rope', 'Collect a torch for Wenna', 'gap behind the rubble to the old stope',
+    'drift to the shaft head', 'Collect a lump of star-iron for Wenna', 'Gather up the coins',
+    'Collect a large heart-cut tanzanite for Wenna', 'drift to the ore pass', 'Light a torch',
+    'Collect a lump of star-iron', 'Lay a hand on the shifting wall',
+    'Collect a string of star-iron beads for Wenna', 'drift to the shaft head', 'drift to the old stope',
+    'gap behind the rubble to the air shaft', 'iron rungs', 'track to the foot',
     'to the foot of Barzelrehes by Gothgiba$', 'path up onto Barzelrehes to the bailey', "Ulfgar's door",
-    'Sell a lump of star-iron', 'Sell a lump of star-iron', 'Sell a lump of star-iron', "Sell a Delver's pay-token",
-    "Sell a Delver's pay-token", "Sell a Delver's ring", "Ulfgar's door", 'door of the Wooden Wolf',
-    'Take a bed and supper'];
+    'Sell a lump of star-iron', 'Sell a lump of star-iron', 'Sell a lump of star-iron',
+    'Sell a string of star-iron beads', 'Sell a string of star-iron beads', 'Sell a large heart-cut tanzanite',
+    "Ulfgar's door", 'door of the Wooden Wolf', 'Take a bed and supper'];
   static async start() {
     const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    return PlaySession.start(w.path, 'wren', w.source);
+    const s = await PlaySession.start(w.path, 'wren', w.source);
+    WrenRecord.clear(s);
+    return s;
   }
   static async play(s: PlaySession, steps: readonly string[]) {
     for (const step of steps) {

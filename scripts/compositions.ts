@@ -12,6 +12,7 @@ import type { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { SiteBuild } from '../src/cli/site-build';
 import { Moments } from '../web/compositions/moments';
+import { WrenRecord } from '../test/support/wren-record';
 
 export interface Recorded { steps: Record<number, { said: string; id: string }>; frames: Record<number, Frame>;
   fights: Record<number, Frame[]> }
@@ -30,6 +31,7 @@ export class CompositionBuild {
     inner.saving = CompositionBuild.ignore;
     out.frames[0] = await host.handle({ kind: 'begin', campaign: Creation.generated, seed: Moments.seed,
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }], origin: 'wanderer' }) as Frame;
+    WrenRecord.clear(inner.session);
     const lines = (await readFile(join(this.root, 'test/fixtures/descent/wren.choices'), 'utf8')).split('\n')
       .filter(Boolean);
     for (let n = 1; n <= last; n++) {

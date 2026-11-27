@@ -14,8 +14,9 @@ describe('the rovers of a country', () => {
       classId: 'warrior' }] }, NodeBundleSource.shared);
     const roams = s.campaign.world.related('region__roams'), rovers = new Set(roams.map(r => r.args[0]));
     expect(rovers.size).toBeGreaterThan(0);
-    // Six of the wild, and one band of footpads on a stretch of the roads (OR-321: roads with a little more danger).
-    expect(rovers.size).toBeLessThanOrEqual(7);
+    // Six of the wild, one band of footpads on a stretch of the roads (OR-321: roads with a little more danger), and
+    // one that goes about only in the dark (OR-1235: danger at night, a little).
+    expect(rovers.size).toBeLessThanOrEqual(8);
     expect(roams.every(r => /^region__t\d+$/.test(r.args[1]!))).toBe(true);
   }, 120000);
   it('comes to a company waiting where one goes about, says so, and is led with', async () => {
