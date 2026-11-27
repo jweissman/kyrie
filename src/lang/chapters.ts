@@ -1,5 +1,6 @@
 import type * as ohm from 'ohm-js';
 import type { Module, Predicate } from './module';
+import { EntityIndex } from './entity-index';
 
 type Node = ohm.Node;
 export interface ChapterSpec { id: string; title: string; when: Predicate; text: string }
@@ -29,7 +30,7 @@ export class Chapters {
   // The chapter a step opened, if one did: its title, and its words as they were told.
   static opened(module: Module, perceptions: readonly { id: string; text: string }[] = []):
     { title: string; text: string } | undefined {
-    const heads = new Map(module.entities.filter(e => e.type === 'heading').map(e => [e.id, e.name ?? e.id]));
+    const heads = new Map(EntityIndex.of(module.entities).typed('heading').map(e => [e.id, e.name ?? e.id]));
     const p = perceptions.find(x => heads.has(x.id));
     return p ? { title: heads.get(p.id)!, text: p.text } : undefined;
   }

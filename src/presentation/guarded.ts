@@ -1,4 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
+import type { Operator } from '../lang/index';
 import { ModuleWriter } from '../lang/module-writer';
 import { DangerSense } from './danger-sense';
 
@@ -42,8 +43,16 @@ export class Guarded {
   // of the dead, is no answer to one who has not read it (it had made the keeper answered for every company, and the
   // way back in to it the aim's again: the gold walk to and fro between the vault and the undercroft).
   private static answered(campaign: Campaign, g: string): boolean {
-    return [...campaign.schemaList, ...campaign.module.actions].some(o => JSON.stringify([o.requires, o.success,
-      o.failure]).includes(`"${g}"`) && Guarded.knowing(campaign, o.requires));
+    return [...campaign.schemaList, ...campaign.module.actions].some(o => Guarded.words(o).includes(`"${g}"`)
+      && Guarded.knowing(campaign, o.requires));
+  }
+  // What an act asks and does, as words to find a name in: written once for each act (every act of the world had been
+  // written out again for every keeper asked of, each glance).
+  private static readonly written = new WeakMap<Operator, string>();
+  private static words(o: Operator): string {
+    let words = this.written.get(o);
+    if (words === undefined) { words = JSON.stringify([o.requires, o.success, o.failure]); this.written.set(o, words); }
+    return words;
   }
   private static knowing(campaign: Campaign, requires: unknown): boolean {
     const party = campaign.playerActor ?? 'party';
