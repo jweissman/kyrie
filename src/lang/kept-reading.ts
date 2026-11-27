@@ -12,8 +12,9 @@ export interface Kept<T> { value: T; reads: string[]; stamped: number[]; picks?:
 // Whether a reading kept from an earlier world of the line still holds in this one: none of the names it read has
 // been written since (World.agrees), or those written were read only in part and nothing written of them is among what
 // was picked. A fact taken away and put back moves where its relation lists it, and so may change what a reading of it
-// in order found first: a name of which that happened is held to have changed whole. What holds is brought up to this
-// world, so the next is compared with it; and what it read is noted in any reading under way (see WorldReads.note).
+// in order found first: such a fact is held to have changed, as one written (see moved). What holds is brought up to
+// this world, so the next is compared with it; and what it read is noted in any reading under way (see
+// WorldReads.note).
 export class KeptReading {
   private static readonly memoed = new WeakMap<object,
     WeakMap<object, { module: World['module']; kept: Kept<unknown> }>>();
@@ -57,29 +58,27 @@ export class KeptReading {
   }
   // Whether anything written of a name since what was held of it is among what was picked of it.
   private static touched(was: Held, is: World, name: string, picked: ReadonlySet<string>): boolean {
-    const changed = this.changed(was, is, name);
-    return changed === 'all' || changed.some(key => picked.has(key));
+    return this.changed(was, is, name).some(key => picked.has(key));
   }
-  // What of a name differs between what was held of it and a world, as the picks it would touch; or all of it, where a
-  // fact was moved. Worked out once for a world, a name and what was held of it (its fact list and its values, by
-  // identity), however many readings ask.
-  private static readonly diffs = new WeakMap<World, Map<string, WeakMap<object, WeakMap<object, string[] | 'all'>>>>();
+  // What of a name differs between what was held of it and a world, as the picks it would touch. Worked out once for a
+  // world, a name and what was held of it (its fact list and its values, by identity), however many readings ask.
+  private static readonly diffs = new WeakMap<World, Map<string, WeakMap<object, WeakMap<object, string[]>>>>();
   private static readonly none = {};
-  private static changed(was: Held, is: World, name: string): string[] | 'all' {
-    const named = this.diffs.get(is) ?? new Map<string, WeakMap<object, WeakMap<object, string[] | 'all'>>>();
+  private static changed(was: Held, is: World, name: string): string[] {
+    const named = this.diffs.get(is) ?? new Map<string, WeakMap<object, WeakMap<object, string[]>>>();
     this.diffs.set(is, named);
-    const facts = named.get(name) ?? new WeakMap<object, WeakMap<object, string[] | 'all'>>();
+    const facts = named.get(name) ?? new WeakMap<object, WeakMap<object, string[]>>();
     named.set(name, facts);
-    const values = facts.get(was[0] ?? this.none) ?? new WeakMap<object, string[] | 'all'>();
+    const values = facts.get(was[0] ?? this.none) ?? new WeakMap<object, string[]>();
     facts.set(was[0] ?? this.none, values);
     let changed = values.get(was[1] ?? this.none);
     if (!changed) { changed = this.differ(was, is.held(name)); values.set(was[1] ?? this.none, changed); }
     return changed;
   }
-  private static differ([wasFacts, wasValues]: Held, [isFacts, isValues]: Held): string[] | 'all' {
+  private static differ([wasFacts, wasValues]: Held, [isFacts, isValues]: Held): string[] {
     const out: string[] = [];
     if (wasFacts !== isFacts) {
-      if (this.reordered(wasFacts, isFacts)) { return 'all'; }
+      for (const [key, call] of this.moved(wasFacts, isFacts)) { this.picks(key, call.args, out); }
       for (const [key, call] of wasFacts ?? []) { if (!isFacts?.has(key)) { this.picks(key, call.args, out); } }
       for (const [key, call] of isFacts ?? []) { if (!wasFacts?.has(key)) { this.picks(key, call.args, out); } }
     }
@@ -97,10 +96,22 @@ export class KeptReading {
     if (args[0] !== undefined) { out.push(WorldReads.pick(0, args[0])); }
     if (args[1] !== undefined) { out.push(WorldReads.pick(1, args[1])); }
   }
-  // Whether the facts both worlds hold are listed in another order in one of them (taken away and put back).
-  private static reordered(was?: ReadonlyMap<string, unknown>, is?: ReadonlyMap<string, unknown>): boolean {
-    if (!was || !is) { return false; }
-    const theirs = [...is.keys()].filter(k => was.has(k)), ours = [...was.keys()].filter(k => is.has(k));
-    return ours.some((k, i) => theirs[i] !== k);
+  // The facts both worlds hold that may have been taken away and put back since (a fact put back is listed after every
+  // fact its relation held all along): those off a run of them listed in the same order in both, the run found
+  // greedily in this world's order. Any such run will do: the rest keep their order among themselves, so a reading
+  // that picked none of what is off it found what it found, in the order it found it (a door's state set back had
+  // made every reading of any thing's state stale: the chart, the quarters and the ways, after a fight or a search).
+  private static moved(was?: ReadonlyMap<string, unknown>, is?: ReadonlyMap<string, { args: readonly string[] }>):
+    [string, { args: readonly string[] }][] {
+    if (!was || !is) { return []; }
+    const at = new Map<string, number>(), out: [string, { args: readonly string[] }][] = [];
+    let n = 0, last = -1;
+    for (const key of was.keys()) { at.set(key, n++); }
+    for (const [key, call] of is) {
+      const was = at.get(key);
+      if (was === undefined) { continue; }
+      if (was > last) { last = was; } else { out.push([key, call]); }
+    }
+    return out;
   }
 }
