@@ -6,16 +6,18 @@ import { AbilityCensus } from '../support/ability-census';
 describe('every catalog ability as an effect sentence', () => {
   const census = AbilityCensus.roundTrip();
   it('prints and parses back as many as it did', () => {
-    // 215 of 411 on 26 November; 216 of 412 with Comprehend Languages, a sentence (OR-1099).
+    // 215 of 411 on 26 November; 216 of 412 with Comprehend Languages, a sentence (OR-1099); 297 of 412 on 27 November,
+    // with what a save that succeeds does and what resisting does said (OR-1320, OR-1321).
     expect(census.total).toBe(412);
-    expect(census.equal).toBeGreaterThanOrEqual(216);
+    expect(census.equal).toBeGreaterThanOrEqual(297);
   });
   it('never prints a sentence that fails to parse or comes back different', () => {
     expect(census.differs).toEqual([]);
   });
   it('names what the language lacks for the rest', () => {
-    // The research's first five forms (§2.1): half on a resisted save first.
-    expect(census.lacks.onResist).toBeGreaterThan(0);
+    // The research's first five forms (§2.1): what resisting does and what a save does are said, a trait's filter next.
+    expect([census.lacks.onResist, census.lacks['save.success']]).toEqual([undefined, undefined]);
+    expect(census.lacks.targetTrait).toBeGreaterThan(0);
     expect(Object.values(census.lacks).reduce((n, x) => n + x, 0)).toBe(census.total - census.equal);
   });
 });

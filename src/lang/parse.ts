@@ -115,15 +115,29 @@ export class AbilityParser {
     }
     return effects;
   }
-  static Statement(statement: ohm.Node, save: ohm.Node, _dot: ohm.Node): Effect {
+  static Statement(statement: ohm.Node, save: ohm.Node, outcomes: ohm.Node, _dot: ohm.Node): Effect {
     const effect = (statement as AstNode).ast() as Effect;
     if (save.children[0]) {
       const node = save.children[0];
-      const name = node.children[1]!.sourceString;
-      effect.save = { ...AbilityParser.attributes.includes(name) ? { stat: name } : { kind: name },
-        difficulty: (node.children[4] as AstNode).ast() as Amount };
+      effect.save = AbilityParser.saving(node.children[1]!, node.children[4]!);
     }
+    for (const outcome of outcomes.children) { AbilityParser.outcome(effect, outcome); }
     return effect;
+  }
+  private static saving(name: ohm.Node, difficulty: ohm.Node): Save {
+    const id = name.sourceString;
+    return { ...AbilityParser.attributes.includes(id) ? { stat: id } : { kind: id },
+      difficulty: (difficulty as AstNode).ast() as Amount };
+  }
+  // What a save that succeeds does ("; a dexterity save against 15 halves it."), or what resisting does ("; resisting
+  // halves it."): the SRD's half damage on a save, Orsino's onResist (OR-1320, OR-1321).
+  private static outcome(effect: Effect, outcome: ohm.Node): void {
+    const node = outcome.ctorName === 'Outcome' ? outcome.children[0]! : outcome;
+    const verdict = (n: ohm.Node) => n.sourceString === 'halves' ? 'half' as const : 'negate' as const;
+    if (node.ctorName === 'Outcome_resisted') { effect.onResist = verdict(node.children[2]!); return; }
+    if (effect.save) { throw new Error('A statement saves once: "unless" or "; a … save", not both'); }
+    const saving = AbilityParser.saving(node.children[2]!, node.children[5]!);
+    effect.save = { ...saving, success: verdict(node.children[6]!) };
   }
   static Conditional(_if: ohm.Node, expression: ohm.Node, _comma: ohm.Node, action: ohm.Node): Effect {
     const effect = (action as AstNode).ast() as Effect;

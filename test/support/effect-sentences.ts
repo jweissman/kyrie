@@ -8,7 +8,7 @@ export type Printed = { sentence: string } | { lacks: string };
 
 export class EffectSentences {
   // The modifiers the grammar has no word for, each named as the census counts it.
-  private static readonly modifiers = ['onResist', 'targetTrait', 'count', 'hitDice', 'chain', 'touch', 'triggers'] as const;
+  private static readonly modifiers = ['targetTrait', 'count', 'hitDice', 'chain', 'touch', 'triggers'] as const;
   private static readonly targets = new Set(['dead ally', 'random enemy', 'enemies', 'allies', 'party', 'enemy', 'ally',
     'self', 'all', 'it', 'here']);
 
@@ -34,16 +34,19 @@ export class EffectSentences {
     const action = this.action(effect);
     if ('lacks' in action) { return action; }
     const when = effect.when ? `If (${effect.when}), ` : '';
-    return { sentence: `${when}${action.sentence}${save.sentence}.` };
+    const resisted = effect.onResist ? `; resisting ${this.verdict(effect.onResist)} it` : '';
+    return { sentence: `${when}${action.sentence}${save.sentence}${resisted}.` };
   }
 
   private static save(save: Save): Printed {
-    if (save.success) { return { lacks: 'save.success' }; }
     if (save.again) { return { lacks: 'save.again' }; }
     if (save.lesser !== undefined) { return { lacks: 'save.lesser' }; }
     const name = save.stat ?? save.kind;
     if (!name) { return { lacks: 'save.name' }; }
+    if (save.success) { return { sentence: `; a ${name} save against ${this.amount(save.difficulty)} ${this.verdict(save.success)} it` }; }
     return { sentence: ` unless ${name} save against ${this.amount(save.difficulty)}` };
+  }
+  private static verdict(v: 'half' | 'negate'): string { return v === 'half' ? 'halves' : 'negates';
   }
 
   private static action(e: Effect): Printed {

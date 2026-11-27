@@ -1,9 +1,12 @@
 KyrAbilities <: Kyr {
   Program = Statement+
-  Statement = AbilityAction Save? "."
+  Statement = AbilityAction Save? Outcome* "."
   AbilityAction = Conditional | Damage | Healing | Defend | Apply | Remove | DrainLevel | Drain | Revive | Kill | Flee | Gain | Learn | Summon | Travel | Cast | Try
   Conditional = "If" expression "," AbilityAction
   Save = "unless" ident "save" "against" Amount
+  Outcome = ";" "a" ident "save" "against" Amount Verdict "it"  -- saved
+          | ";" "resisting" Verdict "it"                         -- resisted
+  Verdict = "halves" | "negates"
   Damage = "Deal" Amount DamageType "damage" "to" Target
   Healing = "Heal" Amount "health" "to" Target
   Defend = "Defend"
