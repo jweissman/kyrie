@@ -32,8 +32,9 @@ export interface Reading {
   // aims held name, and the ways from here that lead toward a place they name (by exit id, and for which).
   named: Set<string>; held: Set<string>; toward: Map<string, 'toward' | 'held'>;
   // In a site: the ways further into it not yet taken, by exit id; "~" before one back from a dead end toward the rest
-  // of it (see Glance.inward).
-  inward: Set<string>; back?: string; here: string;
+  // of it (see Glance.inward). on: where every way about the place goes somewhere been, the row that leads on to the
+  // unseen, by its choice (an exit's id, or a walk's travel:), with the words of where it leads on to (see LeadsOn).
+  inward: Set<string>; back?: string; here: string; on?: Map<string, string>;
   // A sign perceived here and not seen before, by whom or what it is of ('' for the place's own).
   signs: Map<string, string>;
   // The marvels in view its author declares (`Marvel.`: marvel(thing)), by id (Knowing.marvels).
@@ -388,7 +389,7 @@ export class Affordances {
       ...(r.named.has(dest) || r.occupied?.has(dest)) && !r.needs.dark?.has(dest) && !turned
         && !(r.named.has(r.here) && exit.visited && !r.occupied?.has(dest)) && !r.idle?.has(dest) ? ['named' as const] : [],
       ...toward ? [toward] : [], ...r.held.has(dest) && !r.idle?.has(dest) ? ['held' as const] : [],
-      ...this.inward(c, exit.id, r), ...r.needs.night && dest === r.needs.bed ? ['night' as const] : [],
+      ...r.on?.has(exit.id) && c.id === exit.id ? ['leads' as const] : [], ...this.inward(c, exit.id, r), ...r.needs.night && dest === r.needs.bed ? ['night' as const] : [],
       ...exit.local && !exit.visited && !r.needs.night ? ['unvisited' as const] : [], ...first ? ['unlooked' as const] : [],
       // An author's own way through what bars it, open to this company (a thief's pick of the corn-store padlock had
       // been only under Every way: Mission 19).
@@ -400,8 +401,9 @@ export class Affordances {
     // A try on a way barred (look at the portcullis) is something done there, not a way. Slipping past who keeps it is
     // that danger's own gentle way, led with it: a thief had found it only under Look… (Mission 20, round 2, B 88).
     // Another aim heard of marks no way back: not the retreat, nor a way to somewhere been (out of the undertown to
-    // the landing, back out of a manor to its forecourt), which are said as what they are (PF-03).
-    if (exit.visited || whys.includes('retreat')) { whys.splice(0, whys.length, ...whys.filter(w => w !== 'held')); }
+    // the landing, back out of a manor to its forecourt), which are said as what they are (PF-03). Nor is the way back
+    // from a danger a way on to the unseen: it is drawn plain (test/small/frontier).
+    if (exit.visited || whys.includes('retreat')) { whys.splice(0, whys.length, ...whys.filter(w => w !== 'held' && !(w === 'leads' && whys.includes('retreat')))); }
     const kind = tried ? 'act' as const : exit.bearing ? 'step' as const : 'way' as const;
     if (!tried && r.opened?.has(this.command(c) ?? '')) { whys.unshift('opened'); }
     // Into a town from its own country: said as entering it, never what the company has not perceived of it (who is
@@ -421,7 +423,7 @@ export class Affordances {
       ...tried ? Leaves.tries(c, whys, r) : {},
       notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: this.held(r),
         help: 'someone who would go with you', ...r.sensed?.has(dest) ? { companion: r.sensed.get(dest)! } : {},
-        deeper: 'further in', onward: 'toward the rest of it', out: 'back out',
+        deeper: 'further in', onward: 'toward the rest of it', out: 'back out', leads: r.on?.get(exit.id) ?? '',
         night: 'a bed for the night', unlooked: exit.blocked ?? '' }, visited: exit.visited,
       pointed: r.pointed.has(dest) })];
   }
@@ -465,8 +467,8 @@ export class Affordances {
       pointed: r.pointed.has(d.id), whys: [...(r.named.has(d.id) && !r.idle?.has(d.id)) || this.shop(r, d.id)
         ? ['named' as const] : [], ...r.toward.has(`travel:${d.id}`) ? [r.toward.get(`travel:${d.id}`)!] : [],
         ...r.held.has(d.id) && !r.idle?.has(d.id) ? ['held' as const] : [], ...visited.has(d.id) ? [] : ['unvisited' as const],
-        // And to whoever would go along, across the town (OR-417).
-        ...r.help?.at === d.id ? ['help' as const] : []], notes: { named: 'your aim', held: this.held(r), toward: 'toward your aim', help: 'someone who would go with you' } }));
+        // And to whoever would go along, across the town (OR-417); or on to the unseen (OR-1502: see LeadsOn).
+        ...r.help?.at === d.id ? ['help' as const] : [], ...r.on?.has(`travel:${d.id}`) ? ['leads' as const] : []], notes: { named: 'your aim', held: this.held(r), toward: 'toward your aim', help: 'someone who would go with you', leads: r.on?.get(`travel:${d.id}`) ?? '' } }));
   }
   // A journey to where the aim shown is, further than the ways from here, by the way the company knows (as far as it
   // is known), unless it goes only as far as here: a far aim had been set out for from the map alone (the owner, 31

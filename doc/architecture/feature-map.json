@@ -236,6 +236,7 @@
        "feature": "travel",
        "pins": [
         "World › Navigation aid",
+        "World › The way on",
         "a way's bearing under the corn-store"
        ],
        "words": [
@@ -246,7 +247,8 @@
         "lost"
        ],
        "rows": [
-        "OR-345"
+        "OR-345",
+        "OR-1502"
        ]
       },
       {

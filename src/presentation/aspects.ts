@@ -25,6 +25,9 @@ export class Aspects {
     // And the way out of a site gone through: no discovery, but somewhere true to go, said by its icon (OR-411: a site
     // whose rooms were all seen had led back through them unmarked, seven turns of iscoed's walk at Redkeep).
     out: 'exploration',
+    // And a way been along that leads on to the unseen (OR-1502: the shrine and the first level's recesses had shown
+    // nothing in reach worth going to). Visited by its nature, it promises the place it leads on to, not the next.
+    leads: 'exploration',
   };
   // whys: best first (see Promotion). A fight or a trap the company can see is a danger whatever it is led for, and so
   // is a way with something heard in there (Marks: a band that can be drawn out): the company has perceived it, so the

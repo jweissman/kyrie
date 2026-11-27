@@ -32,6 +32,9 @@ export type Why =
   | 'deeper' | 'onward'
   // Out of a site gone through, toward the nearest place outside it: somewhere true to go, marked (OR-411).
   | 'out'
+  // Where every way about the place goes somewhere been, the one that leads on to the nearest place of the hex not yet
+  // been to (the shrine with the woods' edge walked, a dead-end recess): somewhere true to go, marked (OR-1502).
+  | 'leads'
   // What the company needs: food, mending, a bed for the night, a camp.
   | 'hungry' | 'hurt' | 'night' | 'exposed'
   // The place: whoever is the life of it, one of its own acts, a sign not seen before, someone with something to ask,

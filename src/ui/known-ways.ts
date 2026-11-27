@@ -9,6 +9,7 @@ import { KeptParts } from './kept-parts';
 import { ChartModel } from './chart-model';
 import { LandModel } from './land-model';
 import { Overland } from './overland';
+import { Passages } from './passages';
 import type { WayInfo } from './passage-model';
 
 // One leg of a journey: by what way, from where to where, and how long it takes.
@@ -73,6 +74,16 @@ export class KnownWays {
   // The first place on that way.
   static first(campaign: Campaign, from: string, to: (id: string) => boolean, over: Over = {}): string | undefined {
     return this.way(campaign, from, to, over)?.legs[0]?.to;
+  }
+  // The places on the way to the nearest place of the hex the company knows of and has not been to, by the ways it can
+  // take, the first first and that place last; none where the way leaves the hex, which is the map's (Passages.leaves;
+  // the owner, 25 November). A tract of open country is no such place: what a way leads on to (see LeadsOn, OR-1502).
+  // By its class, never this, so that it is handed on as it is (Glance hands it to LeadsOn).
+  static unseen(campaign: Campaign, from: string): string[] {
+    const been = VisitedPlaces.of(campaign, campaign.playerActor ?? 'party'), m = campaign.module;
+    const on = KnownWays.way(campaign, from, id => !been.has(id) && !LandModel.tract.test(id)
+      && !Passages.leaves(m, from, [id]), { able: true })?.legs.map(l => l.to) ?? [];
+    return Passages.leaves(m, from, on) ? [] : on;
   }
   // The places on the way from one place to another, the first first (both ends), or none.
   static places(campaign: Campaign, from: string, to: string, over: Over = {}): string[] {

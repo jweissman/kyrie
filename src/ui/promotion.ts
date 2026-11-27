@@ -73,7 +73,7 @@ export class Promotion {
     // Whoever is spoken to leads after one who would come along, a payment, what was won (CL-49).
     talking: [3, -1.5], asked: [3, 3],
     unlooked: [3, 4], wonder: [3, 0],
-    onward: [3, 5], out: [3, 5], entry: [3, -4],
+    onward: [3, 5], out: [3, 5], leads: [3, 5], entry: [3, -4],
     unvisited: [4, 0], way: [4, 1], present: [4, 2],
   };
   static pick(cands: Candidate[], s: Situation): Promoted[] {
