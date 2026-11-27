@@ -516,13 +516,13 @@ page's colours and opportunities.)
   - ✓ gives the title its rows and hints: the ways in, Options and Quit, over the embers, its name heading
   - ✓ is drawn by the page as the engine gives it, no row of the page's own
   - ✓ is asked in the terminal by the same rows, Options said to be the page's
-  - ✓ offers New Game alone with nothing kept; Continue and New Game over a kept game
+  - ✓ offers New Game alone with nothing kept; New Game and Continue over a kept game
   - ✓ then asks one thing: create a character, or a new life at once, never which map (OR-1271)
   - ✓ pauses a game with two ways: back to it, or Return to title
   - ✓ knows the terminal's kept game, and refuses one it cannot open
   - ✓ holds nothing on the title, how a game begins, creation's rows or the opening's Continue
   - ✓ takes every press at once, a quick second tap on the page just drawn among them
-  - ✓ offers Continue, New Game, Options and Quit, in that order, Continue only with a life to continue
+  - ✓ offers New Game, Continue, Options and Quit, in that order, Continue only with a life to continue
   - ✓ is drawn as those rows and nothing else to press
   - ✓ takes Quit honestly: the game put away, kept, and a way back to the title
   - requirement FH-01 P2: No person has accepted the first hour: PD-14's five cold players have never been run

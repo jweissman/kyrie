@@ -19,7 +19,7 @@ type Way = 'continue' | 'begin' | 'options' | 'quit';
 // had been where he bounced off). Once a session the studio's mark draws its seven towers; the title comes up out of
 // it with no black between. The title is the engine's page (OpeningPages.title, OR-382), drawn in the one frame as any
 // page is: the embers its backdrop, and in the frame's menu column the game's name, small (OR-501), over its rows, the
-// core four and nothing else (the owner, 26 November, OR-1072): Continue where a kept game can be taken up, New Game,
+// core four and nothing else (the owner, 26 November, OR-1072): New Game, Continue where a kept game can be taken up,
 // Options and Quit, each a row of the game's own (see ChoiceRow), lit at once by its mark when the hand or the keys
 // are on it; a kept game that could not be opened is said under them in a plain line. Any key or touch skips
 // straight to the way in.

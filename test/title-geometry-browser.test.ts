@@ -87,9 +87,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the title page geometry', () => {
       await page.waitForSelector('[data-action="continue"]', { timeout: 60000 });
       await Title.ready(page);
       const kept = await Title.boxes(page);
-      // A game kept: Continue, New Game, Options and Quit, alike (OR-1072).
+      // A game kept: New Game, Continue, Options and Quit, alike (OR-1072, OR-1683).
       Title.check(kept, 4);
-      expect(kept.texts.map(t => t.toLowerCase())).toEqual(['continue', 'new game', 'options', 'quit']);
+      expect(kept.texts.map(t => t.toLowerCase())).toEqual(['new game', 'continue', 'options', 'quit']);
       await page.screenshot({ path: `/var/tmp/kyrie/title/title-${size.width}.png` });
       // The game it continues is said to a pointer and a reader only, never as a line of its own (the owner, 17
       // November); the rows are the same width and place with or without a save.

@@ -26,7 +26,7 @@ describe('Interface › Pages the engine draws', () => {
   it('gives the title its rows and hints: the ways in, Options and Quit, over the embers, its name heading', () => {
     expect(OpeningPages.title().rows.map(r => r.id)).toEqual(['begin', 'options', 'quit']);
     const page = OpeningPages.title(kept);
-    expect(page.rows.map(r => r.id)).toEqual(['continue', 'begin', 'options', 'quit']);
+    expect(page.rows.map(r => r.id)).toEqual(['begin', 'continue', 'options', 'quit']);
     expect(page.hints).toEqual({ backdrop: 'embers', heading: 'name' });
     // Its line under the name, the engine's words (OR-529), drawn under the heading with the studio's emblem beside it.
     expect(page.line).toBe(Identity.line);
@@ -55,7 +55,7 @@ describe('Interface › Pages the engine draws', () => {
     expect(actions(paused).slice(-2)).toEqual(['back', 'title']);
   });
   it('is asked in the terminal by the same rows, Options said to be the page\'s', async () => {
-    const said: string[] = [], answers = ['3', '2'];
+    const said: string[] = [], answers = ['3', '1'];
     const input = { ask: async () => answers.shift() ?? null, close: () => undefined };
     const page = OpeningPages.title(kept);
     const say = (line: string) => { said.push(line); };

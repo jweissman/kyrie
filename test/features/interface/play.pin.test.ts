@@ -19,11 +19,12 @@ import { PressGuard } from '../../../web/reader/press-guard';
 // a game still going and New Game, each its own row; then one question, Create a character or a life at once, and
 // where a country is kept, in which world; and nothing on the way in is held (OR-169).
 describe('Interface › Ways in', () => {
-  it('offers New Game alone with nothing kept; Continue and New Game over a kept game', () => {
+  it('offers New Game alone with nothing kept; New Game and Continue over a kept game', () => {
     expect(FirstChoice.title().cards.map(c => [c.id, c.name])).toEqual([['begin', 'New Game']]);
     const kept = FirstChoice.title({ where: 'The lane', when: 'Morning, the first day', seed: 'bakelo' });
-    expect(kept.cards.map(c => [c.id, c.name])).toEqual([['continue', 'Continue'], ['begin', 'New Game']]);
-    expect([kept.chosen, kept.cards[0]!.said]).toEqual(['continue', 'Continue: The lane · Morning, the first day']);
+    // New Game at the top (OR-1683), the keys on it; Continue says where and when the game kept was left.
+    expect(kept.cards.map(c => [c.id, c.name])).toEqual([['begin', 'New Game'], ['continue', 'Continue']]);
+    expect([kept.chosen, kept.cards[1]!.said]).toEqual(['begin', 'Continue: The lane · Morning, the first day']);
     // New Game begins in a country never seen, and asks no map (OR-1271); where a game is kept, each act that sets
     // out says that it is replaced then, and with none kept nothing is said of one.
     const over = FirstChoice.step({ kept: 'bakelo' }), none = FirstChoice.step();
@@ -54,7 +55,7 @@ describe('Interface › Ways in', () => {
       expect(TerminalPlay.kept(store)).toEqual({});
       store.write(CheckpointStore.autosave, t.session.checkpoint());
       const { session, kept } = TerminalPlay.kept(store);
-      expect(FirstChoice.title(kept).chosen).toBe('continue');
+      expect(FirstChoice.title(kept).cards.map(c => c.id)).toEqual(['begin', 'continue']);
       expect(session?.campaign.world.one('at', 'party')).toBe('t__lane');
       const broken = TerminalSlots.store(join(dir, 'broken.json'));
       broken.write(CheckpointStore.autosave, { ...t.session.checkpoint(), save: {} } as never);
