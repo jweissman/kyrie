@@ -26,6 +26,8 @@ import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs
 import { join } from 'node:path';
 import { ContinuityCensus } from '../continuity-census';
 import { PlanningInstruments } from '../planning-instruments';
+import { RegisterTickets } from '../register-tickets';
+import { ColdPlay } from '../health/cold-play';
 import { type Reading, type Walked, WalkTimings } from './walk-timings';
 
 type Measure = 'slice' | Walked | 'breaches' | 'ci';
@@ -87,8 +89,8 @@ export class Quality {
     if (value === null || base === undefined) { return true; }
     return this.timed.has(m) ? value <= base * (this.slack[m] ?? this.slackOf) : value <= base;
   }
-  static want(only: Measure[] | undefined, m: Measure): boolean { return !only || only.includes(m); }
-  static async read(only: Measure[] | undefined): Promise<Partial<Record<Measure, Reading>>> {
+  static want(only: string[] | undefined, m: Measure): boolean { return !only || only.includes(m); }
+  static async read(only: string[] | undefined): Promise<Partial<Record<Measure, Reading>>> {
     const read: Partial<Record<Measure, Reading>> = {};
     if (this.want(only, 'slice')) { read.slice = this.slice(); }
     if (this.walked.some(m => this.want(only, m))) {
@@ -121,8 +123,13 @@ export class Quality {
     return { rows, failed };
   }
   static async run(args: string[]): Promise<number> {
-    const only = args.find(a => a.startsWith('--only='))?.slice(7).split(',') as Measure[] | undefined;
+    const only = args.find(a => a.startsWith('--only='))?.slice(7).split(',');
     const from = args.find(a => a.startsWith('--from='))?.slice(7), update = args.includes('--update');
+    const cold = !from && (!only || only.includes('cold-play'))
+      ? ColdPlay.qualifying(ColdPlay.read(RegisterTickets.root), new Date().toISOString().slice(0, 10)) : undefined;
+    if (cold) {
+      console.log(`Cold-play rounds within 21 days: ${cold.length}/3${!ColdPlay.ready(cold) ? ' — run a cold-play round' : ''}`);
+    }
     const env = process.env.CI || from ? 'ci' : 'local';
     const read = from ? this.ran(from) : await this.read(only);
     const baseline: Baseline = existsSync(this.file) ? JSON.parse(readFileSync(this.file, 'utf8')) as Baseline
@@ -139,7 +146,7 @@ export class Quality {
       }
       writeFileSync(this.file, `${JSON.stringify(baseline, null, 1)}\n`);
     }
-    return failed && !update ? 1 : 0;
+    return (failed && !update) || (cold && !ColdPlay.ready(cold)) ? 1 : 0;
   }
 }
 

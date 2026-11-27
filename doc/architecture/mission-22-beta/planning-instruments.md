@@ -4,7 +4,41 @@ A timeboxed answer to the owner's commission of 23 November: a defect register, 
 and maturity roadmap, kept apart by purpose without losing the register's history, its stable IDs or its local
 workflow. The owner's own sketch (doc/architecture/mission-22/planning-instruments-reform-2026-11-23.md, with
 scripts/planning-instruments-demo.ts, left uncommitted in the owner's checkout as it fails lint) was the starting point. This note evaluates it and recommends a smaller
-version, which is built: `bun scripts/planning-instruments.ts [defects|atlas|roadmap|trend|next]`.
+version, which is built: `bun scripts/planning-instruments.ts [defects|atlas|roadmap|trend|next|health]`.
+
+## Project health
+
+`bun scripts/planning-instruments.ts health` reports a derived, non-blocking score and appends a generated snapshot
+to `doc/architecture/health-history.jsonl`; `--no-record` prints without appending. `next` includes the same five
+estimated cheapest moves. The nightly quality job restores and saves its generated history separately, and publishes
+it as an artifact. Performance stays in the quality ratchets, not this score.
+
+The score averages cold play and feature health equally, then subtracts P1 age and two points per nonzero zero-target
+ratchet, clamped to 0–100. P0s are named as blockers above the score and excluded from the slice ratchet's score.
+Fewer than three independent rounds dated within
+21 UTC calendar days (today and the preceding 20) gives an unverified provisional score; with no rounds its
+provisional cold component is zero. A date-only record from 21 days ago is conservatively expired: its completion
+time cannot prove it is still within 21 days.
+The [proposed rubric](../../cold-play/rubric.md) defines the round record; no agent score is inferred from old reports.
+The quality gate requires three qualifying records even though the score itself never gates a landing.
+
+The six aspects have equal weight. For each, the denominator is capabilities with a request at least seven days old;
+all declared pins must exist and be met according to the feature map's declared pin states, not a fresh test run.
+No mature requests means 100 for that aspect. The cutoff is the register and
+archive at the end of the relevant UTC day, using that revision's kinds and the current feature map. Closed requests
+still count. This needs Git history back through the cutoff; a shallow checkout must fetch it before using `health`
+or `next`. The view prints both historical revisions and blob hashes for its input files.
+
+P1 dates come from the first recognizable date in the status, using the most recent nonfuture year where no year is
+written; that date may describe later evidence rather than the original filing. A row absent from the
+previous day's register is free on its filing day, even if its status is undated. Thereafter an undated P1 costs one;
+a dated P1 costs one from day seven and one more per full 14 days, capped at three. The checked-in
+`scripts/health/zero-targets.json` names the debt ratchets and their zero targets. Their counts are the **recorded
+ratchet baselines**, not newly replayed censuses; the quality and quantity jobs separately measure and update them.
+The slice ratchet instead uses the current slice's P1 defects, excluding those filed today as well as P0s, so filing
+an honest discovery cannot lower the score that day.
+For moves, one round, P1 or capability is one estimated unit, while a ratchet costs its remaining count in units.
+Raw and post-clamp points are both shown; an unplayed round's potential is an upper bound, not a predicted score.
 
 ## The recommendation
 

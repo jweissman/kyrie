@@ -75,6 +75,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: kyrie
+          fetch-depth: 0
           sparse-checkout: |
             /*
             !/assets/
@@ -82,8 +83,42 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
+      - uses: actions/cache/restore@v4
+        continue-on-error: true
+        with:
+          path: kyrie/.health-cache/history.jsonl
+          key: project-health-history-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: project-health-history-
+      - name: Merge generated health history
+        continue-on-error: true
+        run: |
+          if [ -f .health-cache/history.jsonl ]; then
+            test -f doc/architecture/health-history.jsonl || touch doc/architecture/health-history.jsonl
+            awk '!seen[$0]++' .health-cache/history.jsonl doc/architecture/health-history.jsonl > .health-cache/merged.jsonl
+            mv .health-cache/merged.jsonl doc/architecture/health-history.jsonl
+          fi
       - run: bun run quality
         env: { GH_TOKEN: "${{ github.token }}" }
+      - name: Record project health
+        id: health
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        run: |
+          bun scripts/planning-instruments.ts health
+          mkdir -p .health-cache
+          cp doc/architecture/health-history.jsonl .health-cache/history.jsonl
+      - uses: actions/cache/save@v4
+        if: ${{ always() && steps.health.outcome == 'success' }}
+        continue-on-error: true
+        with:
+          path: kyrie/.health-cache/history.jsonl
+          key: project-health-history-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() && steps.health.outcome == 'success' }}
+        continue-on-error: true
+        with:
+          name: project-health-history-${{ github.run_attempt }}
+          path: kyrie/doc/architecture/health-history.jsonl
   # The world gate (scripts/quantity): combat density and fairness, the economy, Atlas density, reach, situations,
   # errands, the first dungeon and stranded content, each in its band or under its ratchet (AGENTS.md: a band passes
   # because the world is right, never by widening it). Run only on a builder's machine until 26 November.
