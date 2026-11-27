@@ -314,10 +314,14 @@
    "facts": 1
   },
   "src/ui/screen-model.ts": {
-   "world": 7,
-   "facts": 26,
+   "world": 6,
+   "facts": 20,
    "creatures": 3,
    "rules": 7
+  },
+  "src/ui/screen-prices.ts": {
+   "world": 1,
+   "facts": 6
   },
   "src/ui/services.ts": {
    "world": 2,

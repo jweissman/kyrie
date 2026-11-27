@@ -2,7 +2,7 @@ import { PresentationResources } from '../ports/presentation-resources';
 import { Band } from './band'; import { Costs } from '../costs';
 import { Emblems } from '../presentation/emblems'; import { EncyclopediaEntry } from './encyclopedia-entry';
 import { CharacterSheets } from '../presentation/character-sheet'; import { Itineraries } from './itinerary';
-import type { World } from '../lang/world'; import { EntityIndex } from '../lang/entity-index';
+import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../lang/item-names'; import { Passages } from './passages';
 import { KnownNames } from './known-names'; import { Engaged } from '../presentation/engaged';
 import { MechanicsText } from '../presentation/mechanics-text';
@@ -29,7 +29,7 @@ import { Seats } from '../world/seats'; import { TalkWeight } from '../presentat
 import { Stakes } from './stakes'; import { Quarters } from './quarters'; import { TownPlan } from './town-plan'; import { Undertakings } from '../presentation/undertakings';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 import { Deeds } from '../presentation/deeds';
-import { KeptParts } from './kept-parts';
+import { ScreenPrices } from './screen-prices';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
 export class ScreenModel {
@@ -49,9 +49,9 @@ export class ScreenModel {
   private static refused(c: Campaign): never { throw new Error(`Frame only between commands (${c.command} is under way)`); }
   private static built(campaign: Campaign, frame = PlayerFrame.of(campaign)): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world, entities = ObservationText.presented(world);
-    const names = new KnownNames(campaign), prices = this.prices(world), knowing = frame.knowing;
+    const names = new KnownNames(campaign), prices = ScreenPrices.items(world), knowing = frame.knowing;
     const present = new Set(view.present.map(p => p.id)), teaches = knowing.teaches.bind(knowing);
-    const passageOf = this.passageOf(world, view.location?.id ?? ''), fees = this.fees(campaign), catalog = campaign.catalog;
+    const passageOf = this.passageOf(world, view.location?.id ?? ''), fees = ScreenPrices.fees(campaign), catalog = campaign.catalog;
     const grouped = ChoiceGrouping.group(Withheld.rows(campaign, frame.rows), { present, names, prices, passageOf, fees,
       tell: ScreenModel.tell, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
       world, reckon: DangerSense.reckon.bind(DangerSense, campaign), worn: Carriers.worn(campaign), teaches, catalog,
@@ -104,26 +104,6 @@ export class ScreenModel {
     const recall = CompanyRecall.of(campaign), camp = LightLeft.warned(screen.camp, screen.expedition.flame);
     return Engaged.screen({ ...screen, people: FightHelp.on(campaign, screen), camp,
       ...TownPlan.of(screen, entities, world, { visited, recall }) }, campaign.schemaList);
-  }
-  // What each item is priced at, where prices are measured: its items read by the entities' index, not every entity;
-  // kept from one world to the next while no price read is written (see KeptParts).
-  private static prices(world: World): Map<string, number> {
-    if (!world.module.measures.some(m => m.name === 'price')) { return new Map(); }
-    return KeptParts.of(world, 'prices', '', () => new Map(EntityIndex.of(world.module.entities).typed('item')
-      .map(e => [e.id, world.number(ModuleWriter.call('price', e.id))])));
-  }
-  // What things cost: a service's fee, goods by the measure, and what a sale fetches (what a buyer pays for a kind, and
-  // what a valuable is worth).
-  private static fees(campaign: Campaign): Map<string, number> {
-    const world = campaign.world, measures = world.module.measures;
-    return KeptParts.of(world, 'fees', `${KeptParts.token(measures)}.${measures.length}`, () => new Map([
-      ...EntityIndex.of(campaign.module.entities).typed('service').map(e => [e.id, world.number(ModuleWriter.call('fee', e.id))] as const),
-      ...world.measured('goodsPrice').map(m => [`${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
-      ...world.measured('pays').map(m => [`pays:${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
-      ...world.measured('hire').map(m => [`hire:${m.call.args[0]}`, m.value] as const),
-      // What a dealer pays for a treasure, as the sale is labelled: the dealer's price, not its worth.
-      ...world.measured(world.module.measures.some(m => m.name === 'dealerPays') ? 'dealerPays' : 'worth')
-        .map(m => [`worth:${m.call.args[0]}`, m.value] as const)]));
   }
   // How someone here stands to the company: with it, one it has a stake in, one with something to be asked now (not
   // only written: the hobs' Gaffer, whose terms wait on a parley, had been led "Talk to the Gaffer" onto nothing to
