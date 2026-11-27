@@ -22,8 +22,10 @@ export class PlayerRevision {
     private readonly parts: readonly unknown[]) {}
   // The revision of the campaign as it is now: the one kept while none of its parts has changed, else a new one.
   static of(campaign: Campaign): PlayerRevision {
-    const world = campaign.world, offered = campaign.offered(), parts = this.parts(campaign);
-    const kept = this.kept.get(campaign);
+    const world = campaign.world, parts = this.parts(campaign), kept = this.kept.get(campaign);
+    if (kept && this.keeping && !campaign.command && !campaign.fighting && kept.world === world
+      && this.same(kept.parts, parts)) { return kept; }
+    const offered = campaign.offered();
     if (kept && this.keeping && kept.world === world && this.offers(kept.offered, offered)
       && this.same(kept.parts, parts)) {
       return kept;
