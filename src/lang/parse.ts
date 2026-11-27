@@ -129,12 +129,17 @@ export class AbilityParser {
     return { ...AbilityParser.attributes.includes(id) ? { stat: id } : { kind: id },
       difficulty: (difficulty as AstNode).ast() as Amount };
   }
-  // What a save that succeeds does ("; a dexterity save against 15 halves it."), or what resisting does ("; resisting
-  // halves it."): the SRD's half damage on a save, Orsino's onResist (OR-1320, OR-1321).
+  // What a save that succeeds does ("; a dexterity save against 15 halves it."), what resisting does ("; resisting
+  // halves it."): the SRD's half damage on a save, Orsino's onResist (OR-1320, OR-1321); and on whom alone it falls
+  // ("; only on undead or construct."), Orsino's targetTrait (OR-1322).
   private static outcome(effect: Effect, outcome: ohm.Node): void {
     const node = outcome.ctorName === 'Outcome' ? outcome.children[0]! : outcome;
     const verdict = (n: ohm.Node) => n.sourceString === 'halves' ? 'half' as const : 'negate' as const;
     if (node.ctorName === 'Outcome_resisted') { effect.onResist = verdict(node.children[2]!); return; }
+    if (node.ctorName === 'Outcome_only') {
+      effect.targetTrait = [node.children[3]!, ...node.children[5]!.children].map(n => n.sourceString).join('|');
+      return;
+    }
     if (effect.save) { throw new Error('A statement saves once: "unless" or "; a … save", not both'); }
     const saving = AbilityParser.saving(node.children[2]!, node.children[5]!);
     effect.save = { ...saving, success: verdict(node.children[6]!) };

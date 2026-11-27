@@ -8,7 +8,7 @@ export type Printed = { sentence: string } | { lacks: string };
 
 export class EffectSentences {
   // The modifiers the grammar has no word for, each named as the census counts it.
-  private static readonly modifiers = ['targetTrait', 'count', 'hitDice', 'chain', 'touch', 'triggers'] as const;
+  private static readonly modifiers = ['count', 'hitDice', 'chain', 'touch', 'triggers'] as const;
   private static readonly targets = new Set(['dead ally', 'random enemy', 'enemies', 'allies', 'party', 'enemy', 'ally',
     'self', 'all', 'it', 'here']);
 
@@ -35,7 +35,8 @@ export class EffectSentences {
     if ('lacks' in action) { return action; }
     const when = effect.when ? `If (${effect.when}), ` : '';
     const resisted = effect.onResist ? `; resisting ${this.verdict(effect.onResist)} it` : '';
-    return { sentence: `${when}${action.sentence}${save.sentence}${resisted}.` };
+    const only = effect.targetTrait ? `; only on ${effect.targetTrait.split('|').join(' or ')}` : '';
+    return { sentence: `${when}${action.sentence}${save.sentence}${resisted}${only}.` };
   }
 
   private static save(save: Save): Printed {
