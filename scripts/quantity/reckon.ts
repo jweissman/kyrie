@@ -157,6 +157,13 @@ export class Reckon {
     return this.of(each, Math.min(...Object.values(each)), `${this.said(each)}; ${r.countries.slice(0, 1)
       .map(c => `${c.seed}: ${c.reach.things.join(', ')}`).join('')}`);
   }
+  // Fights begun per game hour by the delver in each seed's first dungeon (QuantityDelver).
+  static delved(r: Readings): Reading {
+    const ds = (r.delved ?? []).filter(d => d.minutes > 0);
+    const each = this.each(ds, d => d.seed, d => this.round(d.fights / (d.minutes / 60)));
+    return this.of(each, this.median(Object.values(each)), ds.map(d => `${d.seed} ${d.fights} in ${this.round(d.minutes
+      / 60, 10)} h, ${d.rooms} rooms on ${d.levels} levels of ${d.site}`).join('; '));
+  }
   // The bestiary's kinds the deep can field (OR-1230), and beside it how many some generated placement can.
   static bestiary(): Reading {
     const unplaced = QuantityBestiary.unplaced();

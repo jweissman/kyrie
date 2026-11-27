@@ -1,8 +1,10 @@
 import type { Read } from './country';
 import type { Walked } from './walks';
+import type { Delved } from './delver';
 
 // What the quantity gate reads, over the worlds and the walks (scripts/quantity/quantity.ts gathers them).
-export interface Readings { golden?: Walked; gold: Walked[]; countries: Read[]; stranded?: Record<string, string[]> }
+export interface Readings { golden?: Walked; gold: Walked[]; countries: Read[]; stranded?: Record<string, string[]>;
+  delved?: Delved[] }
 // A number as read: one for the measure, and where it is read per seed or walk, each (a band holds each).
 export interface Reading { value: number | null; each?: Record<string, number>; note: string }
 // band: held between a floor and a ceiling (either may be open); up, down: a ratchet that may only rise, or only
@@ -13,7 +15,7 @@ export interface Measure { id: string; label: string; kind: Kind; why: string; f
   read: Reckoned }
 export type Reckoned = 'fights' | 'places' | 'roads' | 'returned' | 'again' | 'bands' | 'fair' | 'economy' | 'treasure' | 'marks' | 'blank' | 'unwitnessed'
   | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit' | 'handed'
-  | 'stranded' | 'bestiary'
+  | 'stranded' | 'bestiary' | 'delved'
   | 'identity';
 
 // The measures, each with its kind and why it is held so (doc/architecture/quantity.md says them at length). A band's
@@ -23,6 +25,10 @@ export class QuantityMeasures {
     { id: 'places', label: '1. Fights per game hour at combat places, walked', kind: 'band', floor: 0.5, ceiling: 4,
       why: 'combat dense in specific places: in a site or under a town, a fight at least every two hours and not '
         + 'more than one every quarter hour (the owner, 24 November, OR-321)', read: 'places' },
+    { id: 'delved', label: '1. Fights per game hour delving the first dungeon (a delver)', kind: 'up',
+      why: 'what a player meets who goes down into the first dungeon, the reference game\'s whole point (the owner, 26 '
+        + 'November: "3-10x more combat"); the golden walk and the gold-follower never go down; may only rise',
+      read: 'delved' },
     { id: 'roads', label: '1. Fights per game hour on the roads, walked', kind: 'report',
       why: 'roads with a little more danger (the owner, 24 November): said, not held, a modest chance', read: 'roads' },
     { id: 'returned', label: '1. Combat places quests return a company to, near the first town', kind: 'band', floor: 2,
