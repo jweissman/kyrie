@@ -4,7 +4,7 @@ import { RunnerOffer } from '../../src/cli/runner-offer';
 // A row found as a player of the page finds it, a talk open (OR-1451: what is offered in a talk is the talk's question,
 // what is said to them, as on the page): on another page of the talk, under its Trade, else at the place once the
 // talk is put by (focus:place, which takes no time and changes nothing of the world, so a walk kept comes where it
-// came). Undefined where none of these has it.
+// came). Undefined where none of these has it. stay: within the talk alone (its pages and its Trade), the talk kept.
 export class TalkWay {
   static rows(s: Said): Offered[] {
     return RunnerOffer.flat([...s.offer?.primary ?? [], ...s.offer?.rest ?? [],
@@ -13,11 +13,12 @@ export class TalkWay {
   static talking(s: Said): boolean {
     return TalkWay.rows(s).some(o => /^(take_leave\(|focus:place$|focus:trade:)/.test(o.does ?? ''));
   }
-  static async find(r: Runner, s: Said, match: (o: Offered) => boolean, depth = 0):
+  static async find(r: Runner, s: Said, match: (o: Offered) => boolean,
+    { depth = 0, stay = false }: { depth?: number; stay?: boolean } = {}):
     Promise<{ said: Said; o?: Offered }> {
     const here = TalkWay.rows(s).find(match);
     if (here) { return { said: s, o: here }; }
-    if (!TalkWay.talking(s)) { return TalkWay.turned(r, s, match, depth); }
+    if (!TalkWay.talking(s)) { return stay ? { said: s } : TalkWay.turned(r, s, match, depth); }
     for (let at: Said = s, n = 0; n < 8; n++) {
       const next = TalkWay.rows(at).find(o => o.does?.startsWith('focus:page:'));
       if (!next) { break; }
@@ -33,6 +34,7 @@ export class TalkWay {
       const found = 'error' in trading ? undefined : TalkWay.rows(trading).find(match);
       if (found && !('error' in trading)) { return { said: trading, o: found }; }
     }
+    if (stay) { return { said: s }; }
     const placed = await r.ask(JSON.stringify({ act: 'focus:place' }));
     if ('error' in placed) { return { said: s }; }
     const there = TalkWay.rows(placed).find(match);
@@ -50,7 +52,7 @@ export class TalkWay {
       const greeted = await r.ask(JSON.stringify({ act: `talk_to(${p})` }));
       const turned = 'error' in greeted ? await r.ask(JSON.stringify({ act: `talk:${p}` })) : greeted;
       if ('error' in turned) { continue; }
-      const found = await TalkWay.find(r, turned, match, depth + 1);
+      const found = await TalkWay.find(r, turned, match, { depth: depth + 1 });
       if (found.o) { return found; }
     }
     const placed = people.length ? await r.ask(JSON.stringify({ act: 'focus:place' })) : s;
