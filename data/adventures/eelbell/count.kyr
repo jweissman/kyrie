@@ -1,0 +1,60 @@
+Module eelbell "The Eel Bell" {
+  Relation elCoinFound(group). Relation elSmokeTurn(group). Relation elRefused(group).
+  Relation elRiGift(group). Relation elAshWarden(group). Relation elBoardFed(group).
+
+  Observe el_coin_hint at gate_foot when not elCoinFound(party)
+    "Below the old tide-line on the Warden's tower, one stone has a new edge of green bronze. The gate has not closed in forty years.".
+  Action el_find_coin(actor: group, site: place) "Probe the old tide-mark under the tower wall" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_foot) and not elCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert elCoinFound(actor). Give count_coin to actor. }
+    Result "A worn bronze disc comes free. A woman with a sickle is faint on its face. The old Wardens kept one under the tower after the Candlemas flood, for each boat that came home to Quillet.".
+  }
+
+  Observe el_ii_road at road when befell(ash_count_begun)
+    "A grey board stands at the sea-bank's crown. Beneath the tide marks, its clerk has chalked every boat and every hand that once went out to ring a bell.".
+  Observe el_broken at road when befell(ash_broken)
+    "The board has gone from the bank. The sea has left its own line there, green and uneven.".
+  Observe el_triumph at road when befell(ash_triumphs)
+    "A grey board is fixed to the Warden's gate. On the water side, a clerk counts the boats before they leave.".
+
+  Person el_factor "Captain Sallow Brice" nowhere {
+    Role "an Ash fence's collector for Quillet's charcoal". Ancestry human. Calling thief. Level 4. Manner stoic. Carries dagger.
+    Arrives at clearing when befell(ash_count_begun) and not elSmokeTurn(party).
+    Greets "Captain Sallow Brice has set a scale beside Wickens's clamp. 'Charcoal is a countable thing,' she says. 'So are the hands that made it.'".
+    Greets again "Brice tests the wind with a wet finger, then marks another line on her slate.".
+  }
+  Person el_levy "Brice's weigh-men" nowhere {
+    Role "Ash collectors sent for the charcoal ridge". Ancestry human. Calling warrior. Level 2. Numbers 4. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Arrives at clearing when befell(ash_count_begun) and not elSmokeTurn(party).
+    Warns "Four grey-clad men stand by the sacks with short spears. One has taken Wickens's spade.".
+  }
+  Initially Assert serves(el_levy, el_factor).
+  Action el_refuse(actor: group, site: place) "Refuse Captain Brice's charcoal levy" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, clearing) and at(el_factor, clearing) and not elSmokeTurn(actor).
+    Time 1 minute.
+    On success { Assert elRefused(actor). Assert assails(el_factor, actor). Assert assails(el_levy, actor). }
+    Result "Brice closes her slate. The weigh-men lift their spears, and Wickens backs against the smouldering clamp.".
+  }
+  Action el_turn_smoke(actor: group, site: place) "Turn Wickens's vents and lose the tally in the smoke" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, clearing) and at(wickens, clearing) and at(el_factor, clearing) and helpedWickens(actor) and not elSmokeTurn(actor).
+    Time 5 minutes.
+    On success { Assert elSmokeTurn(actor). Retract at(el_factor, clearing). Retract at(el_levy, clearing). }
+    Result "You turn the wind-boards east, then north. The clamp sends a low blue smoke through the clearing. Wickens walks the sacks into the grey; Brice follows the wrong plume down the ridge.".
+  }
+  Observe el_smoke_gone at clearing when elSmokeTurn(party)
+    "Wickens has put his spade back by the clamp. Its handle bears a fresh grey thumbprint.".
+
+  Topic el_ri_dyce with dyce "Tell Dyce the company is sworn to the Rì" when at(dyce, gate_foot) and befell(company_sworn_ri) and not elRiGift(actor) once {
+    Says "Dyce gives you eight links of the old sea-gate chain. 'The Rì will need iron more than another prayer,' he says.".
+    On discuss { Assert elRiGift(actor). Give eb_chain to actor. }
+  }
+  Topic el_ash_dyce with dyce "Tell Dyce the company is sworn to the Ash" when at(dyce, gate_foot) and befell(company_sworn_ash) and not elAshWarden(actor) once {
+    Says "Dyce looks at the empty bell-frame. 'I am the Warden of this gate. I am not a Warden for that board.' He puts the windlass key in his pocket.".
+    On discuss { Assert elAshWarden(actor). Retract ringer(dyce). }
+  }
+  Topic el_board_wickens with wickens "Show Wickens the Ash's tally-board" when at(wickens, clearing) and holding(actor, ash_tally) and not elBoardFed(actor) once {
+    Says "Wickens takes the slate and lays it under the clamp's worst vent. 'A board is good for one thing,' he says. The fire eats the twelfth column first.".
+    On discuss { Assert elBoardFed(actor). Spend ash_tally from actor. }
+  }
+}

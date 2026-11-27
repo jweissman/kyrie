@@ -1,0 +1,60 @@
+Module ombra "The Book of Faces" {
+  Relation bfCoinFound(group). Relation bfTibbShelter(group). Relation bfProvoked(group).
+  Relation bfRiBread(group). Relation bfAshRefusal(group). Relation bfBoardFiled(group).
+
+  Observe bf_coin_hint at hospice_dorm when not bfCoinFound(party)
+    "Under cot nine, a floorboard has lifted at one end. A knot from Mother Tibb's death-string has caught in the crack.".
+  Action bf_find_coin(actor: group, site: place) "Lift the loose board beneath cot nine" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hospice_dorm) and not bfCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert bfCoinFound(actor). Give count_coin to actor. }
+    Result "A green bronze disc rests beneath the board. A woman with a sickle is worn down to one curved stroke. The first keeper used it to mark a Bare who died before there was room in the ledger for a name.".
+  }
+
+  Observe bf_ii_road at road_end when befell(ash_count_begun)
+    "The board at the end of the delta road has a fresh sheet beneath the request for the Customs Steps. The Ash has added a column for every stranger entering Ombra.".
+  Observe bf_broken at road_end when befell(ash_broken)
+    "The Ash's sheet is gone from the road-post. Rain has washed the old request pale again.".
+  Observe bf_triumph at road_end when befell(ash_triumphs)
+    "The road-post bears a grey board now. A clerk writes down each bare traveler before sending them up the Customs Steps.".
+
+  Person bf_assessor "Clerk Arbel Sorn" nowhere {
+    Role "an Ash assessor sent to list the Bare at the Gate of Strangers". Ancestry human. Calling thief. Level 4. Manner stoic. Carries dagger.
+    Arrives at hospice_hall when befell(ash_count_begun) and not bfTibbShelter(party).
+    Greets "Clerk Arbel Sorn lays a grey ledger beside Mother Tibb's. 'The Bare are easier to count,' he says. 'No faces to confuse the entries.'".
+    Greets again "Sorn holds his pen above the open page. 'The names, please.'".
+  }
+  Person bf_bookmen "Sorn's book-bearers" nowhere {
+    Role "Ash soldiers assigned to the Gate of Strangers". Ancestry human. Calling warrior. Level 2. Numbers 4. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Arrives at hospice_hall when befell(ash_count_begun) and not bfTibbShelter(party).
+    Warns "Four grey-clad book-bearers stand by the dormitory door. Two have clubs under their coats; two hold the ledgers shut.".
+  }
+  Initially Assert serves(bf_bookmen, bf_assessor).
+  Action bf_refuse(actor: group, site: place) "Refuse Sorn's census of the Hospice" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hospice_hall) and at(bf_assessor, hospice_hall) and not bfTibbShelter(actor).
+    Time 1 minute.
+    On success { Assert bfProvoked(actor). Assert assails(bf_assessor, actor). Assert assails(bf_bookmen, actor). }
+    Result "Sorn closes his ledger. The book-bearers block the dormitory door, and Mother Tibb puts her hand over the Hospice's own names.".
+  }
+  Action bf_tibb_shelters(actor: group, site: place) "Ask Mother Tibb to enter your company under the ninth bed" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hospice_hall) and at(tibb, hospice_hall) and at(bf_assessor, hospice_hall) and gt_asked(actor) and not bfTibbShelter(actor).
+    Time 5 minutes.
+    On success { Assert bfTibbShelter(actor). Retract at(bf_assessor, hospice_hall). Retract at(bf_bookmen, hospice_hall). }
+    Result "Mother Tibb turns the ledger around and writes NINE where Sorn wrote your names. 'There are nine beds,' she says. 'If you have more than that, you have made a mistake.' The book-bearers follow the clerk out to count the square again.".
+  }
+  Observe bf_tibb_keeps at hospice_hall when bfTibbShelter(party)
+    "Mother Tibb's ink has dried over the Ash's empty line. She has not erased the number nine.".
+
+  Topic bf_ri_tibb with tibb "Tell Mother Tibb the company is sworn to the Rì" when at(tibb, hospice_hall) and befell(company_sworn_ri) and not bfRiBread(actor) once {
+    Says "Mother Tibb wraps a heel of bread in a Hospice sheet. 'For the west road. Bring the sheet back if the road does.'".
+    On discuss { Assert bfRiBread(actor). Increase quantity(actor, rations) by 1. }
+  }
+  Topic bf_ash_tibb with tibb "Tell Mother Tibb the company is sworn to the Ash" when at(tibb, hospice_hall) and befell(company_sworn_ash) and not bfAshRefusal(actor) once {
+    Says "Mother Tibb closes the ledger. 'No bed for a board,' she says. 'The Hospice receives the Bare, not the counted.'".
+    On discuss { Assert bfAshRefusal(actor). Assert refusesService(tibb, actor). }
+  }
+  Topic bf_tally_tibb with tibb "Show Mother Tibb the Ash's tally-board" when at(tibb, hospice_hall) and holding(actor, ash_tally) and not bfBoardFiled(actor) once {
+    Says "Mother Tibb lays the board beside the death-string. She writes no name for the twelfth place, then feeds the slate to the stove.".
+    On discuss { Assert bfBoardFiled(actor). Spend ash_tally from actor. }
+  }
+}

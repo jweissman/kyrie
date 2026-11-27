@@ -1,0 +1,60 @@
+Module hessel "The Banns at Hessel" {
+  Relation hsCoinFound(group). Relation hsPyneHolds(group). Relation hsPyneBinds(group).
+  Relation hsRiBread(group). Relation hsAshRefusal(group). Relation hsBoardFiled(group).
+
+  Observe hs_coin_hint at sham_castle when not hsCoinFound(party)
+    "Behind the Sham Castle's one-stone wall, one lovers' name has a round dark mark under it. The stone is loose at the edge.".
+  Action hs_find_coin(actor: group, site: place) "Ease the loose stone behind the Sham Castle" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, sham_castle) and not hsCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert hsCoinFound(actor). Give count_coin to actor. }
+    Result "A thin bronze coin drops into the grass. Its face is worn smooth. Lovers have carved names behind the false battlements for years; one pair left this there in place of a wedding gift.".
+  }
+
+  Observe hs_ii_south at south_road when befell(ash_count_begun)
+    "A grey board has been set by Lim Bridge. Its clerk copies the names in the toll-house's chalk, then asks who is to marry whom up the hill.".
+  Observe hs_broken at south_road when befell(ash_broken)
+    "The tally-board is gone from Lim Bridge. The chalk names on the toll-house have washed down into the Lim.".
+  Observe hs_triumph at south_road when befell(ash_triumphs)
+    "The toll-house board is inked now. A clerk reads its names as the Season comes over Lim Bridge.".
+
+  Person hs_reader "Sergeant Malkin Thatch" nowhere {
+    Role "an Ash press-sergeant sent to take Hessel's wedding names for the levy". Ancestry human. Calling warrior. Level 4. Manner acerbic. Carries spear.
+    Arrives at vestry when befell(ash_count_begun) and not hsPyneHolds(party).
+    Greets "Sergeant Malkin Thatch has the banns register open on the table. 'A name is a name,' he says. 'The Ash is not particular about the occasion.'".
+    Greets again "Malkin taps the open register. 'That entry is not yet a person. Keep reading.'".
+  }
+  Person hs_press "Thatch's banns-men" nowhere {
+    Role "Ash levymen sent to copy Hessel's banns". Ancestry human. Calling warrior. Level 2. Numbers 4. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Arrives at vestry when befell(ash_count_begun) and not hsPyneHolds(party).
+    Warns "Four grey-clad men wait beside the register. One has a blank book; the others have short clubs.".
+  }
+  Initially Assert serves(hs_press, hs_reader).
+  Action hs_refuse_reader(actor: group, site: place) "Refuse Thatch's claim on the banns register" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, vestry) and at(hs_reader, vestry) and not hsPyneHolds(actor).
+    Time 1 minute.
+    On success { Assert assails(hs_reader, actor). Assert assails(hs_press, actor). }
+    Result "Thatch shuts the register. The banns-men lift their clubs, and Mr Pyne puts a hand over the open page.".
+  }
+  Action hs_pyne_delays(actor: group, site: place) "Ask Mr Pyne to read the banns through the Ash's count" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, vestry) and at(pyne, vestry) and at(hs_reader, vestry) and cameToHessel(actor) and not hsPyneHolds(actor).
+    Time 5 minutes.
+    On success { Assert hsPyneHolds(actor). Retract at(hs_reader, vestry). Retract at(hs_press, vestry). }
+    Result "Mr Pyne opens the register at the first asking. He reads each couple's name, then leaves the prescribed breath for the parish to object. Hessel is full of people who know an impediment when they hear one. Thatch closes his book and leaves to find quieter names.".
+  }
+  Observe hs_pyne_keeps at vestry when hsPyneHolds(party)
+    "Mr Pyne has put the Ash's blank book under the banns register. He is not going to give it back.".
+
+  Topic hs_ri_pyne with pyne "Tell Mr Pyne the company is sworn to the Rì" when at(pyne, vestry) and befell(company_sworn_ri) and not hsRiBread(actor) once {
+    Says "Mr Pyne wraps a loaf in the church cloth. 'The west road is long,' he says. 'Take this before the next asking.'".
+    On discuss { Assert hsRiBread(actor). Increase quantity(actor, rations) by 1. }
+  }
+  Topic hs_ash_pyne with pyne "Tell Mr Pyne the company is sworn to the Ash" when at(pyne, vestry) and befell(company_sworn_ash) and not hsAshRefusal(actor) once {
+    Says "Mr Pyne puts the register away. 'I read banns for marriages,' he says. 'I will not read that company's name as a promise.'".
+    On discuss { Assert hsAshRefusal(actor). Assert refusesService(pyne, actor). }
+  }
+  Topic hs_tally_pyne with pyne "Show Mr Pyne the Ash's tally-board" when at(pyne, vestry) and holding(actor, ash_tally) and not hsBoardFiled(actor) once {
+    Says "Mr Pyne looks at the twelfth column, then writes nothing. He folds the board into the old register and takes both to the vestry stove.".
+    On discuss { Assert hsBoardFiled(actor). Spend ash_tally from actor. }
+  }
+}
