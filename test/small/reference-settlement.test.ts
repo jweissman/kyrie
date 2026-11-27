@@ -67,6 +67,8 @@ describe('the reference game\'s settlement', () => {
       .toEqual([250, 300, 1200, 2500]);
     expect(text).toContain(`Initially Assert buysValuables(${t}_merchant).`);
     expect(person(`${t}_innkeeper`)).toMatch(/Buys herbs for \d+ coin/);
+    // Trader 2 buys back the wonders the chest holds, at half their worth, as far as the purse goes (OR-1621).
+    expect(text).toContain(`Initially Assert dealsIn(${t}_innkeeper, trade_rare).`);
     expect(person(`${t}_priest`)).toMatch(/Offers lodging .* Offers healing /);
     expect(text).toContain(`Initially Assert restful(${t}_shrine).`);
     // The woods are entered from the heart; the way down is found at the fallen stones.

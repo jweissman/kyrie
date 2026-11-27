@@ -139,7 +139,9 @@ export class ReferenceSettlement {
       + `${RegionShops.dealsIn(`${t}_merchant`, 'arms')}`;
   }
   // Trader 2: what the country gives, and exchange; whatever is gathered or hunted in the woods is bought here, and
-  // everything heard of them is told here (the rumours of the country are this one's, as an innkeeper's are).
+  // everything heard of them is told here (the rumours of the country are this one's, as an innkeeper's are). The
+  // wonders that come up out of the old places are bought here too, at half their worth, for the chest (OR-1621: a
+  // ring of protection carried up out of the grave had sold nowhere in the town).
   private static dealer(s: Settlement, f: ReturnType<typeof Foundings.of>, region: Region): string {
     const q = JSON.stringify, t = s.id, own = SettlementWriter.trade(s);
     const have = new Set(this.remedies.map(([w]) => w));
@@ -150,7 +152,8 @@ export class ReferenceSettlement {
       + ` the woods give and hears what is seen in them". ${SettlementWriter.of(s, 'innkeeper', region)}`
       + ` Profession herbalist. Peaceable.${SettlementWriter.pronoun(s, 'innkeeper', f)} ${this.sells([...local, ...this.remedies, ...this.chest])}${buys ? ` ${buys}` : ''} }\n`
       + `  Initially Assert buysValuables(${t}_innkeeper). Initially Set purse(${t}_innkeeper) to 200.`
-      + ` Initially Set quantity(${t}_innkeeper, gold) to 200.${RegionShops.dealsIn(`${t}_innkeeper`, 'remedies')}`;
+      + ` Initially Set quantity(${t}_innkeeper, gold) to 200.${RegionShops.dealsIn(`${t}_innkeeper`, 'remedies')}`
+      + `${RegionShops.dealsIn(`${t}_innkeeper`, 'rare')}`;
   }
   // The shrine: rest (a pallet by its fire for a coin, or a night on its floor for a ration), recovery (a dressing,
   // and the old learning of a restoration) and reflection, at its altar (RegionFaith).

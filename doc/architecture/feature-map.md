@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 226 pins (195 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 727 live rows, 236 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 226 pins (195 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 730 live rows, 239 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -790,7 +790,7 @@ page's colours and opportunities.)
 
 ### The engine
 
-- **Incremental computation** · 5 pins · 6 defects · 11 asks
+- **Incremental computation** · 5 pins · 9 defects · 11 asks
   - ✓ keeps each record and the revision
   - ✓ replaces only the record that changed, and moves the revision
   - ✓ is not solved again while the clock moves, and fires once the part that failed holds
