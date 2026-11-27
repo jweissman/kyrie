@@ -1,0 +1,74 @@
+Module pitchpass "The Pitch of the Glass" {
+  Description "Stairfoot and the Organ Stair above it: seven turns, a keeper's cairn, a cut in the rock that plays when the wind gets up, and a crate that hums.".
+
+  Place country "the Organ Stair country" is region within imbar.
+  Place stairfoot "Stairfoot" is settlement within country at 0, 0.
+  Place stair "the Organ Stair" is wilderness within country at 1, 0.
+
+  Place road "the carriers' road" is room within stairfoot at 0, 0 outdoors.
+  Place yard "the yard of the Mule and Mirror" is room within stairfoot at 1, 0 outdoors.
+  Place turns "the Seven Turns" is room within stair at 0, 0 outdoors.
+  Place cairn "Lintern's cairn" is room within stair at 1, 0 outdoors.
+  Place cut_mouth "the mouth of the Cut" is room within stair at 2, 0 outdoors.
+  Place ledge "the Shelf" is room within stair at 3, 0 outdoors.
+  Place saddle "the Cold Saddle" is room within stair at 4, 0 outdoors.
+
+  Passage yard_gate "the yard gate" is gate between road and yard.
+  Passage turns_path "the Seven Turns" is path between yard and turns taking 2 hours.
+  Passage cairn_path "the upper turns" is path between turns and cairn taking 2 hours.
+  Passage cut_path "the track to the Cut" is path between cairn and cut_mouth taking 20 minutes.
+  Passage saddle_path "the Shelf path" is path between ledge and saddle taking 30 minutes.
+
+  Query windUp() means hour(clock) >= 10 and hour(clock) < 18.
+  Query fogUp() means hour(clock) >= 18.
+
+  Relation wrapped(group). Relation hobAgrees(group). Relation hobHelps(group). Relation nesTrust(group). Relation lathePaid(group).
+  Relation lintDumbTold(group). Relation martaKnows(group). Relation crossed(group). Relation chordHeard(group). Relation unveiled(group). Relation answered(group). Relation fateTold(entity).
+  Measure pitch(entity). Measure picked(entity).
+
+  Discovery wind_known "The Cut plays whenever the wind is up, between ten in the morning and six at night. Marta takes her mules through it before ten or after six, never between.".
+  Discovery hum_known "The crate hums when a hand is laid on it. The grinder hums to it, and it hums back.".
+  Discovery note_known "The glass rings at the pitch of one of the Cut's four pipes. Nesta ground it by ear, to a tune.".
+  Discovery stops_known "The four pipes in the Cut's wall are stopped by Lintern's pole. Left open, they play in a dull key that mules can stand.".
+  Discovery dumb_known "Marta's husband took nine mules into the Cut in a snowed winter when the stops were choked and the Cut was dumb. Carriers steer by its note in fog.".
+  Discovery chord_known "Four pipes were built to be played together, a chord from one wind. Lintern has never had a note to set them to.".
+  Discovery ring_known "A mirror's ring grows in the Cut, in a wind, until the poles buzz on the glass. A small mirror in Nesta's master's shop cracked from it.".
+
+  Observe road_scene at road when true "The carriers' road ends at a yard gate. Above it, the Organ Stair goes up the mountain in seven pale zigzags.".
+  Observe yard_scene at yard when true "A yard of straw and mule-droppings. Eleven mules stand in their harness.".
+  Observe turns_scene at turns when true "The road goes up the mountain in zigzags, with a drop on one side. Mule bells ring on every turn, and the echo comes back a beat late.".
+  Observe cairn_scene at cairn when true "A cairn the height of a house, built round a hearth and a bunk. Above it a crack opens in the mountain, and four stone pipes stand in its wall, each as wide as a chimney.".
+  Observe cut_scene at cut_mouth when true "The Cut goes forty yards into the rock, wide enough for two mules and a bad temper. Its floor is polished by hooves.".
+  Observe ledge_scene at ledge when true "A ledge a mule wide, with the mountain on the left hand and nothing on the right.".
+  Observe saddle_scene at saddle when true "A bare saddle between two peaks, with snow in its cracks. To the south the valley lies open as far as the sea-haze, and somewhere in the haze is the lower tower of Dun Rìerdan.".
+  Observe wind_sign at cairn as sound when windUp() "The Cut is playing: four notes at once, low, out of tune with each other in a way that has been kept on purpose.".
+  Observe wind_sign_ring at cairn as sound when windUp() and state(stops, tuned) "The Cut is playing one chord, wide as a church. The crate's hum has gone up into it and does not come back.".
+  Observe wind_quiet at cairn as sound when not windUp() "The pipes are still. Now and then one sighs, as a sleeper does.".
+
+  Observe fog_sign at cairn as sign when fogUp() and not state(stops, plugged) "Fog has come up the Stair and swallowed the turns. The Cut is playing out of it, a low, steady voice you could follow with your eyes shut.".
+  Observe fog_dumb at cairn as sign when fogUp() and state(stops, plugged) "Fog has come up the Stair and swallowed the turns, and the Cut says nothing. Marta stands facing the dark crack with her arms folded. Nobody will take mules into a dumb Cut in a fog.".
+
+  Thing crate "the crate" at yard {
+    State sound "The crate stands on its dray, packed in fleeces and braced with ash poles. Under your palm it hums.".
+    State cracked "A hairline of cold air whistles through the fleeces. The crate no longer hums; it ticks.".
+    State shattered "The crate lies in the scree below the Shelf, in a snow of silvered glass.".
+    Tries listening.
+  }
+  Observe crate_listen near crate when tried(crate, listening) and state(crate, sound) "You put your ear to the poles. Under the fleece the glass holds one low note, as steady as a held breath. It is as near to pipe {pitch(crate) in words} of the Cut as a voice is to a bell." teaches note_known.
+
+  Thing gnomon "Gnomon, the sulking mule" on cairn_path {
+    State balking blocking "Gnomon has planted his four feet on the fourth turn and put his ears back. Nothing will go up the road past him, and nothing will go round.".
+    State walking "Gnomon walks on with the look of a mule who has made his point.".
+    Change coax "Give Gnomon a ration from your own pack" from balking to walking when quantity(party, rations) >= 1 "You have nothing he wants.".
+    Change hum "Have Nesta hum him up the turn" from balking to walking when nesTrust(party) "Nesta will not hum in front of strangers.".
+  }
+  Rule gnomon_balks when at(party, turns) and not fateTold(gnomon) says "On the fourth turn Gnomon stops, as he has stopped on every fourth turn for nine years, and lets the others go round him." { Assert fateTold(gnomon). }
+
+  Thing stops "the Cut's four pipes" at cairn {
+    State plain "The four pipes stand open in the crack's wall, each cut to its own length, set by Lintern's pole in the dull key he has kept for forty-one years.".
+    State tuned "The four pipes stand open, set to one chord.".
+    State plugged "The four pipes stand plugged with ash and tallow, the mallet marks fresh on them. The Cut is dumb.".
+    Change shut_pipes "Drive Lintern's mallet into the stops" from plain to plugged when hobAgrees(party) "Lintern has not said you may.".
+    Wonder technological rare for aesthetic, cultural "Four pipes, forty yards of rock, and a wind: an instrument the Aeneans cut into the mountain and the carriers have used as a milestone for eleven hundred years.".
+  }
+}

@@ -1,0 +1,143 @@
+Module pitchpass "The Pitch of the Glass" {
+  Person marta "Marta Vellacott" at yard {
+    Role "the muleteer". Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Greets "A woman in a leather coat with the sleeves cut off holds a mule's hoof between her knees and does not look up. 'Eleven mules,' says Marta Vellacott. 'Alidade leads. Gnomon sulks. You are paid at the Saddle, and you do not touch the crate.'".
+    Greets again "'Still here,' says Marta, and puts the hoof down.".
+    Farewell "'Mind the fourth turn,' says Marta.".
+  }
+  Topic marta_job with marta "Ask Marta about the crossing" when true once {
+    Says "'Stairfoot to the Saddle in one day, if the mules are willing. The Cut at the middle of it,' says Marta. 'Nothing with a note in it should be in the Cut at noon. The wind gets up at ten and goes down at six, and in between the Cut plays. I take mules through before ten or after six, and I'll take them through it at noon when I see a man walk through a wall.'".
+    On discuss { Assert knows(actor, wind_known). }
+  }
+  Topic marta_crate with marta "Ask Marta what is in the crate" when true once {
+    Says "'A mirror. Five feet. For the Star-Readers at Dun Rìerdan, to throw the light of one lamp as far as nine.' She runs a thumb down the mule's frog. 'It has taken four years and a girl to make. I have not seen it. I'm told that is how it is done.'".
+  }
+  Topic marta_gnomon with marta "Ask Marta about Gnomon" when true once {
+    Says "'He is called after the part of a sundial that is only there to make a shadow,' says Marta. 'He is the finest mule on the Stair. He stops on the fourth turn because he has opinions about the fourth turn. A ration, or a song, and he will have another.'".
+  }
+  Topic marta_nine with marta "Ask Marta why she will not take the Cut at noon" when knows(party, wind_known) once {
+    Says "Marta sets down the hoof. 'My man took nine mules into it in a snowed winter. The old keeper was away, the stops were choked, and the Cut was dumb. You steer by that note, in fog, the way you steer by a bell. He could not hear the edge.' She picks the hoof up again. 'It was not a wind that killed him, and I do not trust the quiet either. I am not an easy woman.'".
+    On discuss { Assert knows(actor, dumb_known). }
+  }
+  Topic marta_forgive with marta "Tell Marta the keeper was at his sister's that winter, and has not forgiven himself" when lintDumbTold(party) once {
+    Says "Marta lets the hoof down. She is quiet for as long as it takes Alidade to shift his weight. 'I knew where he was,' she says. 'I sent the letter myself, to say he need not come. I never knew he knew that I knew.' She looks up the Stair, toward a cairn she cannot see from here. 'Forty-one years. Twenty, since. You would think one of us would have been up there with a pot of something.'".
+    On discuss { Assert martaKnows(actor). }
+  }
+  Topic marta_cut with marta "Tell Marta you mean to have the pipes silenced" when state(stops, plugged) once {
+    Says "Marta does not look up from the hoof for a long moment. 'Then you had better be right about the fog,' she says. 'And there had better not be any.'".
+  }
+  Action marta_fleece(actor: group, site: place) "Pay Marta 3 coin for twenty more fleeces" {
+    Speaker marta.
+    Requires able(actor) and at(actor, site) and at(marta, site) and quantity(actor, gold) >= 3 and not wrapped(actor) and state(crate, sound).
+    Time 6.
+    On success { Decrease quantity(actor, gold) by 3. Assert wrapped(actor). }
+    Result "You and Marta pack the crate in twenty more fleeces, working round it with the ash poles. When you put your palm to it afterward the hum is gone, or too far inside to feel.".
+  }
+
+  Person nesta "Nesta Wennick" at yard {
+    Role "the glass-grinder". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
+    Greets "A young woman with grey in the creases of her hands sits on the dray's tail-board with her knees up, and does not move from the crate. 'It's not for sale, or for sitting on,' says Nesta Wennick. 'I'm sitting on it. That's different.'".
+    Greets again "'Still not for sale,' says Nesta.".
+    Farewell "'Don't knock the poles,' says Nesta.".
+  }
+  Observe nesta_hums at yard as sign when state(crate, sound) and not nesTrust(party) "Nesta has her palm flat on the crate and her lips shut, and her throat is moving. The crate hums, and it is hard to say which began it." teaches hum_known.
+  Topic nesta_hum with nesta "Ask Nesta why the crate hums" when true once {
+    Says "'It's the cold,' says Nesta. 'It's the poles. It's a thing that happens with ash.' She does not take her hand off the crate.".
+  }
+  Topic nesta_four with nesta "Ask Nesta how long the mirror took" when true once {
+    Says "'Four years and three months. A disc that size, you have to turn it by hand, a hair a day.' She considers her hands. 'My master said eight. He died at six. I was the one left to see how it would come out.'".
+  }
+  Topic nesta_press with nesta "Tell Nesta you saw her humming to it" when knows(party, hum_known) once {
+    Says "She takes her hand off the crate, which seems to cost her. 'Every night,' says Nesta. 'I ground it to a tune. You cannot see a thing that fine, so I listened. When it sang true I stopped, and it sang true two summers ago and I have not been able to stop since.' She looks at the poles. 'It rings at pipe {pitch(crate) in words} of the Cut, I think. I have never heard the Cut. I have been told. I don't know what happens when a mirror this size meets a wind like that.'".
+    On discuss { Assert nesTrust(actor). Assert knows(actor, note_known). }
+  }
+  Topic nesta_ring with nesta "Ask Nesta what a hum does to glass" when nesTrust(party) once {
+    Says "'In my master's shop there was a small speculum on a shelf by the bellows,' says Nesta. 'The bellows had a note. One summer it cracked across, tick, like a nut, while he was eating his supper.' She puts her hand back on the crate. 'The Readers will not forgive a crack. And a hum that grows in a crossing is a wasp in a jar.'".
+    On discuss { Assert knows(actor, ring_known). }
+  }
+
+  Person lathe "Dunstan Lathe" at yard {
+    Role "the oil factor". Ancestry human. Pronouns he. Manner jovial. Peaceable.
+    Greets "A broad man in a good coat is leaning on the dray with his hands in his sleeves, looking at the crate as one looks at a horse one might buy. 'Lathe,' says Dunstan Lathe. 'Oil. Nine towers and four lighthouses. You are not a mule, so you can tell me what is in the crate.'".
+    Greets again "'Ah,' says Lathe. 'Still deciding.'".
+    Farewell "'No hurry,' says Lathe. 'It is a long mountain.'".
+  }
+  Topic lathe_asks with lathe "Ask Lathe what he wants" when true once {
+    Says "'A mirror that makes one lamp do nine lamps' work,' says Lathe pleasantly, 'is a fine thing for the Star-Readers. I would like to know what it does for me. Forty crowns, and a slip on the Shelf. Mules do slip. I would only ask that it be thorough.'".
+  }
+  Topic lathe_take with lathe "Take his forty crowns" answering lathe_asks when true {
+    Says "He counts it into your hand, coin by coin, without any hurry. 'On the Shelf,' he says. 'There is a place where the lashing runs along the lip. You'll know it.'".
+    On discuss { Assert lathePaid(actor). Increase quantity(actor, gold) by 40. }
+  }
+  Topic lathe_no with lathe "Say the mirror will go over the Stair" answering lathe_asks when true {
+    Says "'Quite right,' says Lathe, and laughs, and means it. 'I would think less of you the other way. If you change your mind, I am at the Mule and Mirror until the snow.'".
+  }
+  Topic lathe_trade with lathe "Ask Lathe what a tower pays for oil" when true once {
+    Says "'Rape, by the gallon, three coin. Whale, better, five, when there is whale. The whalers have stopped coming up the coast,' says Lathe, 'and I've been feeding the lower tower with rape for two winters, and it smokes. They love me for it. Do you know what it is to be loved by nine towers? It is like being an anchor.'".
+  }
+
+  Person lintern "Tobiah Lintern" at cairn {
+    Role "the keeper of the Cut". Ancestry human. Pronouns he. Manner stoic. Peaceable.
+    Greets "An old man sits on the cairn's step with a pole across his knees, listening to the mountain with his whole face. 'You are the train,' says Tobiah Lintern. 'Marta is in the yard. I could hear her mules from the fourth turn. Is it the Cut you want?'".
+    Greets again "'Yes?' says Lintern, not turning.".
+    Farewell "'Keep the wall on your left,' says Lintern.".
+  }
+  Topic hob_cut with lintern "Ask Lintern about the Cut" when true once {
+    Says "'Four pipes, cut in the rock by people who had a use for one note and a use for another,' says Lintern. 'Forty-one years I have stopped them with this pole, and set them as the carriers can stand: dull. Mules can stand dull. Mules can stand anything but a note that moves.'".
+    On discuss { Assert knows(actor, stops_known). Assert knows(actor, wind_known). }
+  }
+  Topic hob_dumb with lintern "Ask Lintern about the winter the Cut was dumb" when knows(party, dumb_known) once {
+    Says "His hands close on the pole. 'I was at my sister's with the flux,' says Lintern. 'I came back to a dumb Cut and a widow, and I have not left the cairn for more than a day since.' He turns the pole. 'Do not tell her I said. She says it was not my fault. She says it kindly. I wish she wouldn't.'".
+    On discuss { Assert lintDumbTold(actor). }
+  }
+  Topic hob_wish with lintern "Ask Lintern what the pipes were built for" when knows(party, stops_known) once {
+    Says "'To be played together,' says Lintern, after a while. 'Four notes from one wind. A chord. I have never heard it. My hands will not close on the high stops, and I have never had a note to set them to, a true one, to build it on.' He taps the pole. 'The pipes are cut for a fifth and a fourth and an octave. There is only the root wanting. Each year I tell myself a pilgrim will come with a bell.'".
+    On discuss { Assert knows(actor, chord_known). }
+  }
+  Topic hob_note with lintern "Tell Lintern the glass rings like pipe {pitch(crate) in words}" when knows(party, note_known) and knows(party, chord_known) once {
+    Says "Lintern is very still. 'Say that again,' he says. Then: 'Not a bell.' He stands, which takes him some time. 'A mirror five feet across. I have waited forty-one years for a piece of glass.' He puts his hand on the cairn. 'If you will do the high stops, I will call them. I will not shut the pipes for anyone, mind. But I will set them to a mirror.'".
+    On discuss { Assert hobHelps(actor). }
+  }
+  Topic hob_quiet with lintern "Ask Lintern to stop the pipes for the crossing" when knows(party, ring_known) and not hobHelps(party) once {
+    Says "'I can,' says Lintern. 'I have the mallet and the ash. I drive them home, and they stay driven until the spring thaw has had a go at them. A year's silence.' He does not look at you. 'The Cut will be dumb through the autumn fogs. Somebody will go off the Shelf, I think, though I cannot say who. Do you ask it?'".
+    On discuss { Assert hobAgrees(actor). }
+  }
+  Topic hob_quiet2 with lintern "Ask Lintern to stop the pipes for the crossing" when knows(party, ring_known) and hobHelps(party) and not hobAgrees(party) once {
+    Says "'You have heard what I would give for a chord,' says Lintern, 'and you ask for the mallet.' He is quiet for a time. 'I will do it. I will not call it a favour.'".
+    On discuss { Assert hobAgrees(actor). }
+  }
+
+  Action pipe_one(actor: group, site: place) "Unstop the first pipe and sound the glass's note on it" {
+    Requires able(actor) and at(actor, site) and at(actor, cairn) and hobHelps(actor) and state(stops, plain) and state(crate, sound) and at(crate, cairn).
+    Time 3.
+    On success { Set picked(crate) to 1. }
+    Result "Lintern calls 'first,' and you drive back the stop on the lowest pipe and hold the crate's poles with the other hand." when pitch(crate) == 1.
+    Result "Lintern calls 'first,' and you drive back its stop. The pipe sounds, a little sour against the crate. Beneath your palm the hum shivers, and far down the track Gnomon brays once. 'No,' says Lintern. 'Stop it up. Try another.'" when pitch(crate) > 1 or pitch(crate) < 1.
+  }
+  Action pipe_two(actor: group, site: place) "Unstop the second pipe and sound the glass's note on it" {
+    Requires able(actor) and at(actor, site) and at(actor, cairn) and hobHelps(actor) and state(stops, plain) and state(crate, sound) and at(crate, cairn).
+    Time 3.
+    On success { Set picked(crate) to 2. }
+    Result "Lintern calls 'second,' and you drive back the stop on the next pipe, with your palm on the crate." when pitch(crate) == 2.
+    Result "Lintern calls 'second,' and you drive back its stop. The pipe sounds, a little sour against the crate. Beneath your palm the hum shivers, and far down the track Gnomon brays once. 'No,' says Lintern. 'Stop it up. Try another.'" when pitch(crate) > 2 or pitch(crate) < 2.
+  }
+  Action pipe_three(actor: group, site: place) "Unstop the third pipe and sound the glass's note on it" {
+    Requires able(actor) and at(actor, site) and at(actor, cairn) and hobHelps(actor) and state(stops, plain) and state(crate, sound) and at(crate, cairn).
+    Time 3.
+    On success { Set picked(crate) to 3. }
+    Result "Lintern calls 'third,' and you drive back the stop on the third pipe, and lay your palm on the poles." when pitch(crate) == 3.
+    Result "Lintern calls 'third,' and you drive back its stop. The pipe sounds, a little sour against the crate. Beneath your palm the hum shivers, and far down the track Gnomon brays once. 'No,' says Lintern. 'Stop it up. Try another.'" when pitch(crate) > 3 or pitch(crate) < 3.
+  }
+  Action pipe_four(actor: group, site: place) "Unstop the fourth pipe and sound the glass's note on it" {
+    Requires able(actor) and at(actor, site) and at(actor, cairn) and hobHelps(actor) and state(stops, plain) and state(crate, sound) and at(crate, cairn).
+    Time 3.
+    On success { Set picked(crate) to 4. }
+    Result "Lintern calls 'fourth,' and you drive back the stop on the highest pipe, standing on the cairn's step to reach it." when pitch(crate) == 4.
+    Result "Lintern calls 'fourth,' and you drive back its stop. The pipe sounds, a little sour against the crate. Beneath your palm the hum shivers, and far down the track Gnomon brays once. 'No,' says Lintern. 'Stop it up. Try another.'" when pitch(crate) > 4 or pitch(crate) < 4.
+  }
+  Rule pipes_reset when picked(crate) > 0 and (picked(crate) > pitch(crate) or picked(crate) < pitch(crate)) { Set picked(crate) to 0. }
+  Rule pipes_true heard within stair when picked(crate) > 0 and picked(crate) == pitch(crate) and state(stops, plain)
+    says "The pipe takes the glass's note, and the crate answers it, and for a moment the whole cairn is one thing. Nesta, with her hand on the poles, has begun to sing under her breath; she does not stop. Lintern calls the other three in a voice you have not heard from him: 'Now the next. Now the next.' You drive them home one at a time, and the Cut gives a chord." { Set picked(crate) to 0. Assert state(stops, tuned). Assert nesTrust(party). }
+
+  Rule marta_note when state(stops, tuned) and at(party, cairn) and not fateTold(marta) says "Marta has come up behind you without a sound. She listens to the Cut as she might to the hall of a house she thought was empty. 'That is not the same note,' she says. 'That is a better one.' She goes back to the mules." { Assert fateTold(marta). }
+}
