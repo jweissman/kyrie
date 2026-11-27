@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 import { Bowl, L } from './support/low-water';
 import { PlaySession } from '../src/session/play-session';
+import { DangerSense } from '../src/presentation/danger-sense';
 
 // Low Water beyond the first pass: the Ear's Library, the Reflected, the wheel-rooms, Ammerlin in the water, the Glass
 // Citadel and its heart, the doubles and the Assayers, the echoes in Act I, and the Hearing as a council of war.
@@ -274,9 +275,12 @@ describe('Low Water, the Auditor: the Hearing, the heart and the stair', () => {
     await fought.play(...Bowl.arrive, ...Bowl.bell, '^To the new mud');
     await Bowl.untilNight(fought);
     await fought.play(...Bowl.underMere.slice(1), 'Ward in the water', '=+12', ...Bowl.fromSeat.slice(6), 'Wait a while');
+    // OR-1396: d3 is warned grave and loses before the late double speaks; do not retune the authored doubles.
+    expect(DangerSense.reckon(fought.campaign, L('doubles'))?.danger).toBe('grave');
     for (let i = 0; i < 12 && fought.find('^Attack'); i++) { await fought.play('^Attack'); }
-    expect(Bowl.pages(fought)).toContain('The double that is late');
-    expect(fought.holds('dead', L('doubles')) || /The fight is lost/.test(Bowl.pages(fought))).toBe(true);
+    expect(Bowl.pages(fought)).toContain('The fight is lost');
+    expect(fought.campaign.readout.creatures.filter(c => fought.campaign.readout.partyIds.includes(c.id))
+      .every(c => c.state.hp === 0)).toBe(true);
   }, 300000);
   it('pays the Assayers for Annet Kettle\'s jar with a weight-stone from the dig', async () => {
     const j = await Bowl.start('halm');

@@ -44,9 +44,8 @@ const careful = ['~To the old quarry pit', '~quarry adit', '~cut gallery', '~Att
   '~Press the three deep-cut letters', '~sealed vault'];
 // The workings' first stretch, and back up to Holgar's by the churchyard (its stone door shouldered open from below).
 const workings = ['~To the adit$', '~Search here', '~crossing', '~Look closely at the humming thing', '~To the old stope',
-  '~Search here', '~Collect a bronze tally-board', '~Collect a lump of star-iron', '~To a worked-out stope$',
-  '~Attack the goblin chief', 'through', '~Collect a lump of star-iron'];
-const homeward = ['~To the old stope', '~To the crossing', '~To the adit$', '~adit mouth', '~stair below the vault',
+  '~Search here', '~Collect a bronze tally-board', '~Collect a lump of star-iron'];
+const homeward = ['~To the crossing', '~To the adit$', '~adit mouth', '~stair below the vault',
   '~sealed vault', '~Up to the undercroft', '~charnel', '~ossuary', '~crypt', '~Set your shoulder', '~Up to the churchyard',
   '~landing at Porthalen', "~To Holgar's salt-house"];
 // The second expedition: down by the churchyard, through the vault to the shaft head and the cage. The workings' mouth
@@ -92,7 +91,10 @@ class Walk {
   async play(steps: string[]): Promise<void> {
     for (const step of steps) {
       const row = step === 'through' ? undefined : this.row(step.slice(1));
-      if (step !== 'through') { expect([step, row?.label]).toEqual([step, expect.any(String)]); }
+      if (step !== 'through') {
+        expect([step, row?.label], JSON.stringify({ you: this.s.you, end: this.s.end, moment: this.s.moment,
+          rows: rows(this.s).map(r => r.label) })).toEqual([step, expect.any(String)]);
+      }
       let said = await AsMeant.ask(this.r, JSON.stringify({ act: row?.id ?? RunnerFight.through }));
       // Pressed on, the fight is handed back at each new danger (PressOn, OR-830), and pressed on again past it.
       for (let i = 0; i < 40 && step === 'through' && !('error' in said) && said.moment === 'fight'; i++) {
@@ -168,9 +170,9 @@ describe('the reference journey under Porthalen', () => {
       expect(walk.s.scene.lines.join(' ')).not.toMatch(/hillside/);
       // The vault's aim ends once the keeper lets the company by.
       expect(walk.s.aims?.some(a => a.id === 'region__s1_u_vault_sought')).toBe(false);
-      // Into the workings' first stretch: star-iron found in the stope, the goblin chief met beyond it and fought.
+      // OR-1396: the chief is now warned grave alone. Bring the first ore home and pay for the help it names.
       await walk.play(workings);
-      expect(walk.fights).toBe(7);
+      expect(walk.fights).toBe(6);
       // Out again by the churchyard, and Holgar buys the star-iron; only then does he say where the rest of it went:
       // down the shaft, to the heart of the vein, the aim the town gives the company for having been down.
       // The crypt's bats may come down as the slab is shifted, by the hour (the opening's beats, OR-441, take a few
@@ -195,13 +197,24 @@ describe('the reference journey under Porthalen', () => {
       // And word that the company went through the floor of the undercroft is at the inn before it is, once.
       await walk.play(['~To the landing at Porthalen', '~^Into the Stone Horn']);
       expect(walk.said()).toMatch(/They're saying you've been under the undercroft/);
+      await walk.play(['~whether (he|she|they) would come along', '~Ask Carlin to join the company',
+        '~Tell Kynes the spiders in the old quarry are dead', '~Take a bed and supper']);
+      expect(ScreenModel.build(walk.session.campaign).party).toHaveLength(2);
       // Down again another way, by the churchyard's stone door, past the keeper sitting, and further: the casket's
       // riddle, the seized wheel freed, the cage let down to the shaft bottom, below where the first went.
-      await walk.play(again);
+      const shaft = again.indexOf('~To the shaft head');
+      await walk.play([...again.slice(0, shaft), '~To a worked-out stope$', '~Attack the goblin chief', 'through',
+        '~Collect a lump of star-iron', '~To the old stope', ...again.slice(shaft)]);
+      expect(walk.fights).toBe(7);
       expect(walk.session.campaign.world.one('at', 'party')).toBe('region__s1_ud_haulage_shaft_bottom');
       // Home from below the first level, the inn's keeper, who said nobody goes below it, hears that the company has.
-      await walk.play(['~Up to the shaft head|To the shaft head', '~Out to the churchyard', '~landing at Porthalen',
-        '~^Into the Stone Horn']);
+      await walk.play(['~Up to the shaft head|To the shaft head']);
+      for (let leg = 0; leg < 12 && walk.row('Out to the churchyard'); leg++) {
+        await walk.play(['~Out to the churchyard']);
+        if (walk.s.moment === 'fight') { await walk.play(['through']); }
+      }
+      expect(walk.session.campaign.world.one('at', 'party')).toBe('region__s1_u_yard');
+      await walk.play(['~landing at Porthalen', '~^Into the Stone Horn']);
       expect(walk.said()).toMatch(/Down the cage\?.* says Kynes/);
       expect(walk.holds('onTheHouse', 'region__s1_innkeeper', 'party')).toBe(true);
       // And with the spiders gone, the Hobb boy is let out to the quarry again.

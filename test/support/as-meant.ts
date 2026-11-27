@@ -14,7 +14,13 @@ import { RunnerFight } from '../../src/cli/runner-fight';
 // Nothing else is changed: a line refused for any other reason is refused, as the play's own log kept it.
 export class AsMeant {
   static async ask(r: Runner, line: string): Promise<Said | { error: string }> {
-    const said = await r.ask(line);
+    let said = await r.ask(line);
+    // OR-1396: lower HP can hand a pressed fight back more than once; the kept command still means its end.
+    if (!('error' in said) && said.moment === 'fight'
+      && (JSON.parse(line) as { act?: unknown }).act === RunnerFight.through) {
+      for (let i = 0; i < 40 && !('error' in said) && said.moment === 'fight'; i++) { said = await r.ask(line); }
+      if (!('error' in said) && said.moment === 'fight') { throw new Error('Pressed fight did not end in 40 continuations'); }
+    }
     if (!('error' in said) || !said.error.startsWith('not offered')) { return said; }
     const act = (JSON.parse(line) as { act?: unknown }).act;
     if (typeof act === 'string' && !act.startsWith('fight:') && said.error.startsWith('not offered in the fight')) {

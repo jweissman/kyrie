@@ -99,6 +99,7 @@ describe('The Quiet in the Sky', () => {
 
   it('the Long Quiet another way: a bard gives Wystan a peace to sing, and the Runners will not clear the Field', async () => {
     const g = await Larum.start('test/fixtures/quiet-in-the-sky/bard.campaign.json');
+    // OR-1396: wait for the song in the warm Oven, not the unheated Truce.
     await g.fixture('strike');
     expect(g.holds('songMade', 'wystan')).toBe(true);
     expect(g.holds('runnersStrike', 'cuddy')).toBe(true);

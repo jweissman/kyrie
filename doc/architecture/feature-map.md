@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 217 pins (186 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 718 live rows, 230 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 217 pins (186 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 719 live rows, 231 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -413,7 +413,7 @@ page's colours and opportunities.)
   - requirement ST-03 P1: The last sea-gate: the saboteur's interest acting inside the six-day window (obstruction, blame, a…
   - requirement ST-06 P2: The critique's rebuild set (fever on the green, the cold pans, the boundary stones, the stranger…
   - requirement ST-07 P3: The critique's hierarchy edits: the Bound Howe given one governing question; the Silent Lord's…
-- **Adventures and their endings** · 4 pins · 1 defects · 8 asks
+- **Adventures and their endings** · 4 pins · 2 defects · 8 asks
   - ○ an adventure reaches different endings by different deeds, each told as its own
   - ✓ lints clean
   - ✓ is carried up for Oyelle, filled behind the falls with Tobi, and poured with her, and the rain comes

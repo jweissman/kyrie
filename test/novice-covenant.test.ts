@@ -52,8 +52,9 @@ class Covenant {
     return won / n;
   }
   // The share of fights won each word stands for (DangerSense.judge).
-  static readonly range: Record<Danger, [number, number]> = { deadly: [0, 0.25], grave: [0.25, 0.6],
-    hard: [0.6, 1], fair: [0.9, 1], slight: [0.9, 1] };
+  // OR-1396 exposed the stale company threshold: a lone fighter's grave boundary is three in four.
+  static readonly range: Record<Danger, [number, number]> = { deadly: [0, 0.25], grave: [0.25, 0.75],
+    hard: [0.75, 1], fair: [0.9, 1], slight: [0.9, 1] };
   // Whether an item gives whoever uses it light: its use lays a condition that grants it (a torch, a candle).
   static lights(id: string): boolean {
     const use = ItemCatalog.canon.find(id)?.use;

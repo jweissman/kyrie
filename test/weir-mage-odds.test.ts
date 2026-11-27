@@ -29,11 +29,12 @@ describe('the weir life\'s mage against the corn-store\'s rats', () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar']));
     const r = new Runner(journey.session), c = journey.session.campaign;
     const ilse = c.readout.creatures.find(x => x.id === c.readout.partyIds[0])!;
-    expect([ilse.raceId, ilse.classId, ilse.base.maxHp, !!ilse.traits?.includes('diviner')]).toEqual(['elf', 'mage', 4, true]);
+    // OR-1396: negative Constitution applies to the first hit die.
+    expect([ilse.raceId, ilse.classId, ilse.base.maxHp, !!ilse.traits?.includes('diviner')]).toEqual(['elf', 'mage', 2, true]);
     expect(Beside.members(c.world, c.readout.inhabitants, rats)).toHaveLength(2);
     const alone = Odds.won(c);
-    expect(alone).toBeGreaterThanOrEqual(0.8);
-    expect(alone).toBeLessThanOrEqual(0.95);
+    // OR-1396: 123/200 with two HP, correctly warned as grave; the hire's floor stays.
+    expect(alone).toBe(123 / 200);
     for (const id of ['go(region__s4_inn_door,region__s4_taproom)', 'region__s4_traveller_brings',
       'recruit(region__s4_traveller)']) { said(await r.ask(JSON.stringify({ act: id }))); }
     expect(c.readout.partyIds).toHaveLength(2);

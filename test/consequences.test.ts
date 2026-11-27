@@ -10,8 +10,9 @@ import { ModuleWriter } from '../src/lang/module-writer';
 // it: the inn bars its door, and riders go out to Millholm to wait for the company. There they warn it: twenty coin
 // for the toll-house, or come with them. Paid, they go home, and the inn serves the company again.
 class Lord {
-  static async start() {
-    const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared);
+  static async start(alone = false) {
+    const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
+      alone ? { party: [{ name: 'Elen', raceId: 'human', classId: 'warrior' }] } : {});
     return PlaySession.start(w.path, 'a1', w.source);
   }
   static change(s: PlaySession, ...calls: [string, string, ...string[]][]) {
@@ -50,7 +51,8 @@ describe('a power answering the company', () => {
   // The toll case: one person, little coin, three armed riders. What they want is said; going with them is offered;
   // and a fight with them, lost, ends in their lockup, not in death.
   it('lets a company without the fine go with the riders, and spares one that fights them and loses', async () => {
-    const s = await Lord.start();
+    // OR-1396: this mercy case claims one person; the assembler's default generated three and they now win.
+    const s = await Lord.start(true);
     Lord.change(s, ['assert', 'hostile', 'tollKeepers__chief', 'party'], ['set', 'quantity', 'party', 'gold', '5']);
     await s.leg('wait');
     Lord.change(s, ['assert', 'at', 'party', 'region__s2_green']);

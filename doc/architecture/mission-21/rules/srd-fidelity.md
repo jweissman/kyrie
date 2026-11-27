@@ -8,8 +8,8 @@ kind passes in structure and resolution); 61 of them have an SRD counterpart for
 **Spells with an SRD counterpart (122 of 289 catalog spells): 47 pass in structure
 (level, school), 30 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
 target, duration), 39 proved in play identity.** Creatures with one (80):
-7 in structure (Hit
-Dice, armour), 7 in resolution (blow dice, each strike's chance to hit AC 15 and noncritical
+8 in structure (Hit
+Dice, armour), 8 in resolution (blow dice, each strike's chance to hit AC 15 and noncritical
 weapon damage before other bonuses or defenses, defences, saves), 3 proved in
 play identity. A grade passes when none of its measured fields differs; it is not full SRD fidelity. Play
 identity means the concordance names a focused test; for creatures, the special-attacks field also passes.
@@ -19,7 +19,7 @@ from another class or domain. Other classes and domains are not assessed by this
 In six generated countries' dens (kite, thorn, wren, kahitude, mere, ember), 60 % of meetings are with a
 kind that has an SRD counterpart and 2 % with one passing these fields (541 groups).
 
-| creatures, field exact or converted | hitDice 10 | armour 9 | attacks 28 | hit 11 | damage 13 | defences 5 | specials 2 | saves 8 | of 80 |
+| creatures, field exact or converted | hitDice 10 | armour 10 | attacks 28 | hit 11 | damage 14 | defences 5 | specials 2 | saves 8 | of 80 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | spells, field exact or converted | level 56 | school 87 | dice 12 | type 14 | save 35 | dc 26 | attack 113 | resist 20 | target 69 | duration 58 | of 122 |
 
@@ -64,13 +64,13 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | wyvern | wyvern | 0/1 | S✗ R✗ I– | O | ✗ -4 → 3 | ✗ 1d6 → 1d6 1d8 1d8 2d6 2d6 2d8 | ✗ 95% → 80% / 70% / 70% / 70% / 70% / 70% | ✗ 1d6+11 → 1d6+4 / 2d8+4 / 1d8+2 / 1d8+2 / 2d6+4 / 2d6+4 | – | O | ✗ +11/+11/+11 → +7/+6/+6 |
 | badger | badger | 0/0 | S✗ R✗ I– | O | ✗ 12 → 6 | ✗ 1d4 → 1d2 1d2 1d3 | ✗ 25% → 50% / 50% / 25% | ✗ 1d4 → 1d2-1 / 1d2-1 / 1d3-1 | – | ✗ · → rage | ✗ -1/-2/-2 → +4/+5/+1 |
 | balor | balor | 0/0 | S✗ R✗ I– | O | ✗ 5 → -14 | ✗ 1d4 → · | – | – | ✗ SR 28 → SR 28, immunity fire, immunity lightning, reduction 15/cold_iron, resistance acid 10 | O | ✗ +4/+4/+1 → +22/+19/+19 |
-| boar/wild | boar | 0/0 | S✓ R✗ I– | ✓ | ✓ | ✓ | ✓ | ✗ 1d8+2 → 1d8+3 | – | ✗ · → ferocity | ✓ |
+| boar/wild | boar | 0/0 | S✓ R✓ I– | ✓ | ✓ | ✓ | ✓ | ✓ | – | ✗ · → ferocity | ✓ |
 | cat | cat | 0/0 | S✗ R✗ I– | O | ✗ 12 → 7 | ✗ 1d4 → 1d2 1d2 1d3 | ✗ 40% → 50% / 50% / 25% | ✗ 1d4+1 → 1d2-4 / 1d2-4 / 1d3-4 | – | – | ✗ +2/-1/+0 → +2/+4/+1 |
 | centipede/long | monstrous-centipede-medium | 0/0 | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
 | chimera | chimera | 0/0 | S✗ R✗ I– | O | ✗ 8 → 2 | ✗ 1d4 → 1d6 1d6 1d8 1d8 2d6 | ✗ 65% → 90% / 90% / 90% / 80% / 80% | ✗ 1d4+3 → 2d6+4 / 1d8+4 / 1d8+4 / 1d6+2 / 1d6+2 | – | O | ✗ +1/+2/-3 → +9/+7/+6 |
 | deva | angel-astral-deva | 0/0 | S✗ R✗ I– | O | ✗ 1 → -8 | ✗ 1d8 → · | – | – | ✗ SR 30 → SR 30, immunity acid, immunity cold, reduction 10/evil, resistance lightning 10 | O | ✗ +4/+5/+9 → +14/+12/+12 |
 | dog | dog | 0/0 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d6 → 1d4 | ✗ 50% → 40% | ✗ 1d6+3 → 1d4+1 | – | – | ✗ +0/+0/-1 → +4/+5/+1 |
-| dog/drove | dog | 0/0 | S✗ R✓ I– | ✓ | ✗ 7 → 6 | ✓ | ✓ | ✓ | – | – | ✓ |
+| dog/drove | dog | 0/0 | S✓ R✓ I– | ✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ |
 | dryad | dryad | 0/0 | S✗ R✗ I– | O | ✗ 5 → 4 | ✓ | ✗ 30% → 60% | ✓ | ✗ · → reduction 5/cold_iron | O | ✗ +1/+4/+2 → +3/+8/+6 |
 | eagle | eagle | 0/0 | S✗ R✗ I– | O | ✗ 11 → 7 | ✗ 1d8 → 1d4 1d4 1d4 | ✗ 20% → 45% / 45% / 20% | ✗ 1d8 → 1d4 / 1d4 / 1d4 | – | – | ✗ -2/+0/-1 → +3/+4/+2 |
 | elemental/air_element | air-elemental-medium | 0/0 | S✗ R✗ I– | O | ✗ 2 → 3 | ✓ | ✗ 50% → 70% | ✗ 1d6+3 → 1d6+1 | – | ✗ · → air mastery, whirlwind | ✗ +4/+5/+2 → +3/+9/+1 |
