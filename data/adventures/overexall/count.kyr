@@ -1,0 +1,84 @@
+Module overexall "Over Exall" {
+  // Under the long campaign's count ("The war's reach"): the Ash's sky-engines want lift, and a drift-whale is lift.
+  // Engineer Sleat waits on the Windlass Field to buy the Lodger from Saley's harpoon. If it is struck while he is
+  // there, it goes east on carts. Saley shamed will not sell; a rising whale is no one's; his winch crew can be fought;
+  // a company on the Ash's board can take his silver to see it struck, and Exall will know. A coin muffles the bell.
+  Relation oxCoinFound(group). Relation oxSold(group). Relation oxSleatGone(group). Relation oxFought(group).
+  Relation oxPaid(group). Relation oxMossGiven(group). Relation oxFotherShut(group). Relation oxPerch(group).
+
+  Observe ox_coin_hint at bell_chamber when not oxCoinFound(party)
+    "The fleece on the clapper is lumpy on one side, as if something flat were bound in with it.".
+  Action ox_find_coin(actor: group, site: place) "Unwind the fleece from the bell's clapper" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_chamber) and not oxCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert oxCoinFound(actor). Give count_coin to actor. }
+    Result "A green bronze disc drops out of the wool into your palm. Some ringer long ago bound it to the clapper's tongue to stop its knock. Eleven strokes on one face; the other is smooth where it struck the bell.".
+  }
+
+  Person ox_sleat "Engineer Corwen Sleat" nowhere {
+    Role "an Ash engineer of sky-engines, come to buy a whale's lift by the bladder". Ancestry human. Calling mage. Level 4. Manner cheerful. Carries dagger.
+    Arrives at field when befell(ash_count_begun) and not struck(party) and not oxSleatGone(party).
+    Greets "A young man in a grey coat sits on a winch-sled beside Saley's tripod, drawing the Lodger in a notebook. 'Six bladders,' he says. 'Perhaps seven. Do you know what one of those will lift? A gun. A whole gun, over a river.'".
+    Greets again "Sleat turns a page. 'Dusk on the third day, she says. I have the carts.'".
+  }
+  Person ox_winch "Sleat's winch crew" nowhere {
+    Role "Ash sappers with a winch-sled, hooks and flensing knives". Ancestry human. Calling warrior. Level 2. Numbers 4. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Arrives at field when befell(ash_count_begun) and not struck(party) and not oxSleatGone(party).
+  }
+  Initially Assert serves(ox_winch, ox_sleat).
+  Observe ox_carts at road when at(ox_sleat, field)
+    "Four empty carts stand at the top of the Edge road with their shafts down. Their beds are lined with wet sacking, the length of a man.".
+
+  Action ox_fight(actor: group, site: place) "Cut the cable on Sleat's winch-sled" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, field) and at(ox_sleat, field) and not oxFought(actor).
+    Time 1 minute.
+    On success { Assert oxFought(actor). Assert assails(ox_sleat, actor). Assert assails(ox_winch, actor). }
+    Result "The cable parts with a crack like a whip and lashes away over the turf. Sleat closes his notebook. His crew come off the sled with their hooks.".
+  }
+  Rule ox_beaten at field when at(party, field) and oxFought(party) and dead(ox_sleat) and not oxSleatGone(party)
+    says "Sleat's crew leave the sled where it lies. One of them comes back for the notebook, sees you, and leaves that too." {
+    Assert oxSleatGone(party). Retract at(ox_winch, field).
+  }
+  Rule ox_refused at field when at(party, field) and saleyShamed(party) and at(ox_sleat, field) and not oxSleatGone(party)
+    says "Saley puts her cup down on the tripod. 'She is not for sale,' she says to Sleat. 'Not to you, and not by the pound. Go home.' Sleat looks at the gun, at her, and at you, and has the sled turned round." {
+    Assert oxSleatGone(party). Retract at(ox_sleat, field). Retract at(ox_winch, field).
+  }
+  Rule ox_risen when rose() and at(ox_sleat, field) and not oxSleatGone(party) {
+    Assert oxSleatGone(party). Retract at(ox_sleat, field). Retract at(ox_winch, field).
+  }
+  Observe ox_risen_seen at field when rose() and oxSleatGone(party) and not oxFought(party) and not saleyShamed(party)
+    "Sleat's winch-sled lies tipped on the turf, its cable going up into the empty sky.".
+  Rule ox_carted heard within brack when struck(party) and at(ox_sleat, field) and not oxSold(party) once
+    says "Before the Lodger has stopped moving, Sleat's crew are up the steeple with hooks and knives. By morning the four carts go down the Edge road, heavy and covered, and very slow." {
+    Assert oxSold(party).
+  }
+  Observe ox_sold_seen at cross when oxSold(party)
+    "The belly is gone from over the Cross, and the grey light comes straight down. Ruts from heavy carts run out of the square toward the Edge road.".
+
+  Action ox_paid(actor: group, site: place) "Take Sleat's silver to see the Lodger struck" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, field) and at(ox_sleat, field) and befell(company_sworn_ash) and not oxPaid(actor).
+    Time 5 minutes.
+    On success { Assert oxPaid(actor). Increase quantity(actor, gold) by 3. }
+    Result "Sleat counts it into your hand without looking up from his drawing. 'Keep her from cutting that iron out,' he says. 'A whale that rises is no use to anyone.'".
+  }
+  Observe ox_paid_known at taproom when oxPaid(party)
+    "Judith Sowden pours for you and pushes your coin back across the table. Up in the loft, Sab has been watching the Windlass Field.".
+
+  Observe ox_broken at cross when befell(ash_broken)
+    "A drawing of the Lodger is pinned on the Tarpaulin's door. Someone has written under it: SIX BLADDERS. PERHAPS SEVEN. NOT TODAY.".
+  Observe ox_triumph at road when befell(ash_triumphs)
+    "Something grey and long goes over the Brackmoor very high, with no breath in it and a gun hung underneath.".
+
+  Topic ox_ri_fother with tolt "Tell Gideon Fother the company is sworn to the Rì" when befell(company_sworn_ri) and not oxMossGiven(actor) once {
+    Says "Fother takes a jar from the stack-roof's rafter and wipes it on his sleeve. Brass-coloured moss glows inside it. 'Scraped off the Lodger's lip the first night,' he says. 'It lights at dusk. A light that comes from the sky might be some use to a king.'".
+    On discuss { Assert oxMossGiven(actor). Give oe_lamp to actor. }
+  }
+  Topic ox_ash_fother with tolt "Tell Gideon Fother the company is sworn to the Ash" when befell(company_sworn_ash) and not oxFotherShut(actor) once {
+    Says "Fother puts a hand on the peat-stack as if he had just remembered it was his. 'Then you will want nothing from Exall,' he says, 'and Exall has nothing to give you.'".
+    On discuss { Assert oxFotherShut(actor). Assert refusesService(tolt, actor). }
+  }
+  Topic ox_tally_sab with sab "Show Sab the Ash's tally-board" when holding(actor, ash_tally) and not oxPerch(actor) once {
+    Says "Sab reads down every column with his finger. 'There is no column for pigeons,' he says, and nails the board across the loft for a perch. By evening it is white.".
+    On discuss { Assert oxPerch(actor). Spend ash_tally from actor. }
+  }
+}
