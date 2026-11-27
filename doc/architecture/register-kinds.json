@@ -3229,6 +3229,36 @@
    "pri": "P3",
    "why": "an author's friction: a Kyr form wanted, not a claimed contract broken"
   },
+  "OR-1390": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the reference loop's experience, wanted (the economy and boredom review): not a broken contract"
+  },
+  "OR-1392": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the reference loop's experience, wanted (the economy and boredom review): not a broken contract"
+  },
+  "OR-1393": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the reference loop's experience, wanted (the economy and boredom review): not a broken contract"
+  },
+  "OR-1394": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the reference loop's experience, wanted (the economy and boredom review): not a broken contract"
+  },
+  "OR-1395": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the reference loop's experience, wanted (the economy and boredom review): not a broken contract"
+  },
   "OR-1215": {
    "kind": "direction",
    "was": "defect",
