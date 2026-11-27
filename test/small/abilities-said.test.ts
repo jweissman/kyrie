@@ -8,19 +8,19 @@ describe('every catalog ability as an effect sentence', () => {
   it('prints and parses back as many as it did', () => {
     // 215 of 411 on 26 November; 216 of 412 with Comprehend Languages, a sentence (OR-1099); 297 of 412 on 27 November,
     // with what a save that succeeds does and what resisting does said (OR-1320, OR-1321); 313 with on whom alone it
-    // falls (OR-1322).
+    // falls (OR-1322); 329 with a removal of any of the states named (OR-1323).
     expect(census.total).toBe(412);
-    expect(census.equal).toBeGreaterThanOrEqual(313);
+    expect(census.equal).toBeGreaterThanOrEqual(329);
   });
   it('never prints a sentence that fails to parse or comes back different', () => {
     expect(census.differs).toEqual([]);
   });
   it('names what the language lacks for the rest', () => {
-    // The research's first five forms (§2.1): what resisting does, what a save does and a trait's filter are said; a
-    // removal by pattern next.
-    expect([census.lacks.onResist, census.lacks['save.success'], census.lacks.targetTrait]).toEqual([undefined, undefined,
-      undefined]);
-    expect(census.lacks['remove.pattern']).toBeGreaterThan(0);
+    // The research's first five forms (§2.1): what resisting does, what a save does and a trait's filter are said, and a
+    // removal of any of the states named; a delivery by an attack next.
+    expect([census.lacks.onResist, census.lacks['save.success'], census.lacks.targetTrait, census.lacks['remove.pattern']])
+      .toEqual([undefined, undefined, undefined, undefined]);
+    expect(census.lacks.attack).toBeGreaterThan(0);
     expect(Object.values(census.lacks).reduce((n, x) => n + x, 0)).toBe(census.total - census.equal);
   });
 });

@@ -58,8 +58,9 @@ export class EffectSentences {
       case 'defend': return { sentence: 'Defend' };
       case 'flee': return { sentence: 'Flee' };
       case 'apply': return this.apply(e);
-      case 'remove': return e.pattern !== undefined ? { lacks: 'remove.pattern' }
-        : { sentence: `Remove ${e.status} from ${e.target}` };
+      case 'remove': return e.pattern === undefined ? { sentence: `Remove ${e.status} from ${e.target}` }
+        : e.status !== '' || !/^[^"\\|()[\]*+?.^$]+(\|[^"\\|()[\]*+?.^$]+)*$/.test(e.pattern) ? { lacks: 'remove.pattern' }
+          : { sentence: `Remove any of ${e.pattern.split('|').map(n => JSON.stringify(n)).join(', ')} from ${e.target}` };
       case 'drain': return e.damageType !== undefined ? { lacks: 'drain.damageType' }
         : { sentence: `Drain ${a(e.amount)} health from ${e.target}` };
       case 'enervate': return { sentence: `Drain ${a(e.amount)} levels from ${e.target}` };

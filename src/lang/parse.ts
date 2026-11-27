@@ -91,7 +91,8 @@ export class AbilityParser {
     Healing: AbilityParser.Healing,
     Defend: AbilityParser.Defend,
     Apply: AbilityParser.Apply,
-    Remove: AbilityParser.Remove,
+    Remove_one: AbilityParser.Remove,
+    Remove_any: AbilityParser.RemoveAny,
     Drain: AbilityParser.Drain,
     DrainLevel: AbilityParser.DrainLevel,
     Revive: AbilityParser.Revive,
@@ -124,6 +125,7 @@ export class AbilityParser {
     for (const outcome of outcomes.children) { AbilityParser.outcome(effect, outcome); }
     return effect;
   }
+  private static verdict(n: ohm.Node): 'half' | 'negate' { return n.sourceString === 'halves' ? 'half' : 'negate'; }
   private static saving(name: ohm.Node, difficulty: ohm.Node): Save {
     const id = name.sourceString;
     return { ...AbilityParser.attributes.includes(id) ? { stat: id } : { kind: id },
@@ -134,15 +136,14 @@ export class AbilityParser {
   // ("; only on undead or construct."), Orsino's targetTrait (OR-1322).
   private static outcome(effect: Effect, outcome: ohm.Node): void {
     const node = outcome.ctorName === 'Outcome' ? outcome.children[0]! : outcome;
-    const verdict = (n: ohm.Node) => n.sourceString === 'halves' ? 'half' as const : 'negate' as const;
-    if (node.ctorName === 'Outcome_resisted') { effect.onResist = verdict(node.children[2]!); return; }
+    if (node.ctorName === 'Outcome_resisted') { effect.onResist = AbilityParser.verdict(node.children[2]!); return; }
     if (node.ctorName === 'Outcome_only') {
       effect.targetTrait = [node.children[3]!, ...node.children[5]!.children].map(n => n.sourceString).join('|');
       return;
     }
     if (effect.save) { throw new Error('A statement saves once: "unless" or "; a … save", not both'); }
     const saving = AbilityParser.saving(node.children[2]!, node.children[5]!);
-    effect.save = { ...saving, success: verdict(node.children[6]!) };
+    effect.save = { ...saving, success: AbilityParser.verdict(node.children[6]!) };
   }
   static Conditional(_if: ohm.Node, expression: ohm.Node, _comma: ohm.Node, action: ohm.Node): Effect {
     const effect = (action as AstNode).ast() as Effect;
@@ -181,6 +182,13 @@ export class AbilityParser {
   }
   static Remove(_remove: ohm.Node, status: ohm.Node, _from: ohm.Node, target: ohm.Node): Effect {
     return { kind: 'remove', status: status.sourceString, target: target.sourceString as Target };
+  }
+  // Any of the states named, each as its name reads ("Remove any of \"poison\", \"diseased\" from ally."): Orsino's
+  // pattern, lifting whichever of them its holder has (OR-1323).
+  static RemoveAny(_remove: ohm.Node, _any: ohm.Node, _of: ohm.Node, first: ohm.Node, _commas: ohm.Node, rest: ohm.Node,
+    _from: ohm.Node, target: ohm.Node): Effect {
+    const names = [first, ...rest.children].map(n => JSON.parse(n.sourceString) as string);
+    return { kind: 'remove', status: '', target: target.sourceString as Target, pattern: names.join('|') };
   }
   static Drain(_drain: ohm.Node, amount: ohm.Node, _health: ohm.Node, _from: ohm.Node, target: ohm.Node): Effect {
     return { kind: 'drain', amount: (amount as AstNode).ast() as Amount, target: target.sourceString as Target };

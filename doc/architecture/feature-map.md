@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 203 pins (171 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 684 live rows, 223 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 203 pins (171 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 683 live rows, 223 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -123,13 +123,12 @@ page's colours and opportunities.)
   - requirement OR-1220 P2: A thing thrown in a fight lets nothing loose: Exposure reads the abilities used…
   - requirement OR-135 P2: A fight's kinds (Spells, Items) unfolding to the right as a tree rather than replacing the menu:…
   - direction SR-04 P2: Allegiance as a ladder beyond the fight (the owner, 19 November, on CB-11): persuaded (a talk…
-- **Spellcasting** · 5 pins · 5 defects · 13 asks
+- **Spellcasting** · 5 pins · 5 defects · 12 asks
   - ○ a spell cast says what it does in the world's terms and does exactly that (casting-fiction)
   - ✓ burns the embalmers' linen by a torch held to it
   - ✓ burns it alike by Fire Bolt cast at it, from its own row
   - ✓ reads the makers' marks under the woods by a scroll bought in the town, where the company has no lore
   - ✓ marks Fire Bolt at the linen to learn by what it would burn, and it teaches what it showed
-  - requirement OR-1323 P2: The effect language cannot say a removal by pattern (remove.pattern: every curse, every poison):…
   - requirement OR-1324 P2: The effect language cannot say a delivery: an attack rolled before it lands, a touch melee or…
   - requirement OR-1325 P2: The effect language cannot say what a summoning draws from (summon.from, by ancestry, an amount, a…
   - requirement OR-1326 P2: The effect language cannot say durations and amounts on an applied state in every form…

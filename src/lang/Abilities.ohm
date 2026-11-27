@@ -12,7 +12,8 @@ KyrAbilities <: Kyr {
   Healing = "Heal" Amount "health" "to" Target
   Defend = "Defend"
   Apply = "Apply" ident "to" Target "for" integer Span
-  Remove = "Remove" ident "from" Target
+  Remove = "Remove" "any" "of" string ("," string)* "from" Target  -- any
+         | "Remove" ident "from" Target                             -- one
   Drain = "Drain" Amount "health" "from" Target
   DrainLevel = "Drain" Amount Levels "from" Target
   Levels = "levels" | "level"
