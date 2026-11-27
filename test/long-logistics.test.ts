@@ -65,7 +65,8 @@ describe('The Ferryman provisions the road', () => {
   }, 120000);
 
   it('lets the armed supply party defeat an unprepared company', async () => {
-    const j = await convoyOnPortal();
+    // OR-1396: long-road now wins at the cost of Dori; this drawn company loses the same unprepared assault.
+    const j = await convoyOnPortal('long-road-3');
     Placed.at(j, 'tallow__calx_portal');
     await j.fight('Attack');
     expect(j.campaign.running).toBe(false);

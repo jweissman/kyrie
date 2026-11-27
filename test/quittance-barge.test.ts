@@ -165,20 +165,15 @@ describe('The Scuttled Barge: caught in Skell\'s yard', () => {
   const caught = ['>quittance__skell_yard', '=21:00', 'Slip into Skell'];
   const warriors = { party: [person('Bran', 'warrior'), { name: 'Bor', raceId: 'dwarf', classId: 'warrior' }, person('Pip', 'thief')] };
 
-  it('caught, and fought, and lost: three men with boat-hooks are not a figure of speech', async () => {
-    // (Seeds swapped with the case below: since a foe brought to nothing stays down (CO-05), the dice fall otherwise.)
+  // OR-1396: the grave fight is won with Bor down; the deadly fight is lost, without changing either band.
+  it('caught, and fought, and won: the sons fall, and Skell is a man without a crew', async () => {
     const j = await start('m', warriors);
     await j.play(...caught);
     expect(City.page(j)).toContain('private tarpaulin');
     expect(City.knows(j, 'bg_skell_dived')).toBe(false);
     await j.play('^Attack');
-    expect(City.page(j)).toContain('The fight is lost');
-  }, 240000);
-
-  it('caught, and fought, and won: the sons fall, and Skell is a man without a crew', async () => {
-    const j = await start('a', warriors);
-    await j.play(...caught, '^Attack');
     expect(City.page(j)).toContain('The fight is won');
+    expect(j.campaign.fighters.find(f => f.name === 'Bor')!.hp).toBe(0);
     expect(j.offers('Pay Skell')).toBe(false);
     expect(j.holds('dead', Q('bg_sons'))).toBe(true);
     // Killed in their own yard: the Reach does not forget, and the Captain has been slighted.
@@ -187,6 +182,16 @@ describe('The Scuttled Barge: caught in Skell\'s yard', () => {
     expect(has(j, 'bg_skell_out', 'bg_skell')).toBe(true);
     await j.play('Wait a while');
     expect(City.pages(j)).toContain('three of Skell');
+  }, 240000);
+
+  it('caught, and fought, and lost: three men with boat-hooks are not a figure of speech', async () => {
+    const j = await start('a', warriors);
+    await j.play(...caught, '^Attack');
+    expect(City.page(j)).toContain('The fight is lost');
+    expect(j.campaign.fighters.every(f => f.hp <= 0)).toBe(true);
+    expect(j.holds('dead', Q('bg_sons'))).toBe(false);
+    expect(has(j, 'bg_killed_sons', 'party')).toBe(false);
+    expect(has(j, 'bg_skell_out', 'bg_skell')).toBe(false);
   }, 240000);
 
   it('caught, and bought: six coin to have been asleep, and no fight', async () => {

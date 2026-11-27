@@ -1066,7 +1066,7 @@ The kind of work the company has done (its backgrounds' families): what those wh
 
 *Kyr · kind; relation(group, surface)* · `rule:world_core.surface`
 
-What of the game's own surfaces the company has earned (compactification, the owner, 26 November: "surfaces are earned"): each lens, the map, the encyclopedia and the journal, shown to every client once earned and kept after. The engine writes it (CreatureFacts), never a module: every lens once any of the company has come to the fourth level (act II); the encyclopedia once it has stood in a library; the journal once one of it has done the work of learning (a scholar, a scribe). Nothing writes the map's while compactification holds.
+What of the game's own surfaces the company has earned (compactification, the owner, 26 November: "surfaces are earned"): each lens, the map, the encyclopedia and the journal, shown to every client once earned and kept after. The engine writes it (CreatureFacts), never a module, and only by a find (the owner's playtest of 27 November: level alone earns nothing): the map once one of the company carries a map of the land; the encyclopedia once it has stood in a library; the journal once one of it has done the work of learning (a scholar, a scribe). No find grants a lens yet, so none is earned.
 
 #### library
 
@@ -2954,28 +2954,6 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 ### Kits
 
-#### A raiders' hold
-
-*Kyr* · `kit:raider_hold`
-
-- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey)); area (areaOf(?approach, ?area))
-- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
-- Provides: 7 facts
-- Modules: 4
-
-> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
-
-#### A tinker at work
-
-*Kyr* · `kit:tinker`
-
-- Fills: town (settlement(?town)); market (square(?town, ?market))
-- Draws: kind from tinker_practitioner by terrain
-- Provides: 1 facts
-- Modules: 4
-
-> A practitioner of a craft at their characteristic work, and an opportunity for the company to take part (Fun Fridays, 20 November; doc/design/fun-fridays-tinker-kit.md): here tinkering, written so that the same pattern serves a carpenter, a cook, a shepherd or a physician. The settlement and its square are bound to the region; who is at the work, and so what the work is, how they take a stranger's help and what comes of it, is Deem's to propose (a travelling tinker, generated, with a child's toy; an apprentice alone with an instrument they have made worse; a master of the craft short of a part; or, wherever someone who lives there already practises the craft, that resident, bound from the ledger and made up by nobody: the old pump on the square). One occasion of the craft to a settlement; each passes: the tinker moves on, the master shuts the shop.
-
 #### A price on a power
 
 *Kyr* · `kit:bounty`
@@ -2987,6 +2965,17 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 > A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, the people the power acts through, and where it holds out (which the offer puts on the company's map); who offers the money, and what they want for it, is Deem's to propose.
 
+#### A raiders' hold
+
+*Kyr* · `kit:raider_hold`
+
+- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey)); area (areaOf(?approach, ?area))
+- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
+- Provides: 7 facts
+- Modules: 4
+
+> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
+
 #### A toll on a road
 
 *Kyr* · `kit:toll_road`
@@ -2997,6 +2986,17 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 - Modules: 2
 
 > A band that has made a stretch of road between two settlements its own: it stops whoever comes and takes a toll, and buys its bread on credit at the nearest inn. While the road is tolled the settlements it joins pay more for their meal and are not restocked; an inn bought empty means the band comes for bread in the night. Where the road runs and which inn feeds it are bound to the region; who keeps the toll is Deem's to propose, and each kind is dealt with differently.
+
+#### A tinker at work
+
+*Kyr* · `kit:tinker`
+
+- Fills: town (settlement(?town)); market (square(?town, ?market))
+- Draws: kind from tinker_practitioner by terrain
+- Provides: 1 facts
+- Modules: 4
+
+> A practitioner of a craft at their characteristic work, and an opportunity for the company to take part (Fun Fridays, 20 November; doc/design/fun-fridays-tinker-kit.md): here tinkering, written so that the same pattern serves a carpenter, a cook, a shepherd or a physician. The settlement and its square are bound to the region; who is at the work, and so what the work is, how they take a stranger's help and what comes of it, is Deem's to propose (a travelling tinker, generated, with a child's toy; an apprentice alone with an instrument they have made worse; a master of the craft short of a part; or, wherever someone who lives there already practises the craft, that resident, bound from the ledger and made up by nobody: the old pump on the square). One occasion of the craft to a settlement; each passes: the tinker moves on, the master shuts the shop.
 
 ### Frameworks
 

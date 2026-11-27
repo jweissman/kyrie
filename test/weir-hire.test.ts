@@ -21,7 +21,8 @@ describe('the weir life\'s hire at Gatesend', () => {
     const r = new Runner(journey.session), c = journey.session.campaign;
     const start = r.said();
     expect([start.at, start.purse?.coin, start.company]).toEqual(['region__s4_green', 7, undefined]);
-    expect(DangerSense.reckon(c, 'region__s4_u_rats')?.danger).toBe('hard');
+    // OR-1396: Ilse's two HP make the rats grave without help.
+    expect(DangerSense.reckon(c, 'region__s4_u_rats')?.danger).toBe('grave');
     const door = 'go(region__s4_inn_door,region__s4_taproom)';
     expect(ids(start)).toContain(door);
     const hall = said(await r.ask(JSON.stringify({ act: door })));
@@ -35,7 +36,8 @@ describe('the weir life\'s hire at Gatesend', () => {
     expect(ids(asked)).toContain('recruit(region__s4_traveller)');
     const hired = said(await r.ask(JSON.stringify({ act: 'recruit(region__s4_traveller)' })));
     expect(hired.purse?.coin).toBe(7 - price);
-    expect(hired.company).toEqual(['Gesk, lizardfolk warrior, 17 of 17']);
+    // OR-1396: Gesk also uses the warrior's d10.
+    expect(hired.company).toEqual(['Gesk, lizardfolk warrior, 15 of 15']);
     expect(c.readout.partyIds).toHaveLength(2);
     expect(['slight', 'fair']).toContain(DangerSense.reckon(c, 'region__s4_u_rats')?.danger ?? 'unreckoned');
   }, 60000);

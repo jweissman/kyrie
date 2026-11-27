@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 226 pins (195 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 722 live rows, 234 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 226 pins (195 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 723 live rows, 234 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -450,12 +450,13 @@ page's colours and opportunities.)
 
 ### Creatures and peoples
 
-- **Creatures with lore** · 1 pins · 2 defects · 6 asks
+- **Creatures with lore** · 1 pins · 2 defects · 7 asks
   - ○ a creature met has an entry with its habits, its weakness and its place in the world
   - direction AB-08 P2: Band against band; bands that lose members
   - direction OR-526 P3: SRD proving case 66, the spiders' mother as the SRD Large monstrous spider, deferred at alpha's…
   - requirement OR-1421 P2: The skill catalogue is thin (22 skills), and most are used in only one of combat, exploration and…
   - requirement OR-1422 P3: The old orrery grants Astronomy to the company, where knowledge belongs to characters: the grant…
+  - requirement OR-1397 P2: Unmigrated species still use Orsino's monster chassis and growth rather than the SRD's…
   - requirement OR-1231 P3: Kinds of the bestiary no generated placement can field: 36 of 135, the tame (placed with people,…
   - direction SR-02 P2: The SRD creature migration by proof slices (rules/proof-slices.md; srd-fidelity.md's creatures,…
 - **Peoples and ancestries** · 0 pins · 0 defects · 4 asks

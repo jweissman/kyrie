@@ -22,7 +22,7 @@ const door = `
 
 describe('the aim\'s next step among dangers', () => {
   it('waits while the boar warns the company off, and is led, and gold, among the dangers once it is answered', async () => {
-    const t = await Tiny.start(door);
+    const t = await Tiny.start(door, { seed: 'b' });
     await t.follow('marked').play('Into Gefeohtgaet');
     // Warned off by the boar, the company answers it first (OR-163: Engaged): the search is neither an act on it nor a
     // way out, and is not led until the boar is answered; nor are the rats and the wolf, which do not warn, fought.

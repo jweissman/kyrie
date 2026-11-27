@@ -7,8 +7,8 @@ import { FirstHourBands, type Banded } from '../../../scripts/first-hour-bands';
 // consequential, legible, genuinely risky): the first hour's fights on the supported route, as its own company plays
 // them (scripts/first-hour-fights.ts): the golden walk's, and every band in the first hour's reach of a new life's
 // start (the big ruin's barrow, the first ruin's keeper, the raiders' ring-fort, Redkeep, the Numbered House), fought
-// by the warrior and the first town's hire, ten seeded trials a band. Floors, not a score (AGENTS.md: experiential
-// pins): a fight that stands costs the company something; the one the company's reckoning calls grave or deadly can
+// by the warrior and the first town's hire, one hundred seeded trials a band. Floors, not a score (AGENTS.md:
+// experiential pins): a fight that stands costs the company something; the one reckoned grave or deadly can
 // kill; one it calls fair or slight is won; a boss lives past the first round. Measured 24 November: the walk meets
 // one fight (the gate-well's conger: two rounds, two hit points, the conger standing after the first); 20 bands in
 // reach, every one told as it goes; the beasts of the wild (a fox, a butterfly) flee before a blow is struck.
@@ -17,7 +17,8 @@ describe('Conflict › Fights that cost', () => {
   beforeAll(async () => {
     walk = await FirstHourFights.walk(FirstHourFights.walks[0]!);
     const begun = (await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']))).journey;
-    bands = FirstHourBands.bands(begun.session.campaign, 10);
+    // OR-1396: the hound's 8/10 wins were a lucky sample; 100 independent fights retain every cost floor.
+    bands = FirstHourBands.bands(begun.session.campaign, 100);
   }, 600000);
   // A band that stands and fights (a beast that runs before the first blow is not a fight).
   const standing = () => bands.filter(b => FirstHourBands.median(b.rounds) > 0);

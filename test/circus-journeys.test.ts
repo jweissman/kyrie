@@ -1,16 +1,27 @@
-import { describe, expect, it } from 'bun:test';
+import { afterEach, describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
 import { Kept } from './support/kept';
+import { gatherKingsfoil, shelteredLandfall, tendFever, waitWithCare } from './support/circus-care';
 
 // Wapshott's Fourth Act (doc/adventures/anthology/the-fourth-act.md), over the host towns of test/fixtures/circus:
 // the crate, the hatching, the town, the charter, the Sundial, and Sarn. The Revels are staged as done: what they
 // were is Phase II's own spec.
 const host = 'test/fixtures/circus/circus.campaign.json';
 const c = (x: string) => `circus__${x}`;
+// Completed voyages must be reclaimed before the next resumed case allocates another history.
+afterEach(() => { Bun.gc(true); });
 class Act {
+  care = false;
   constructor(readonly j: Journey) {}
+  async land(watches = 1600) {
+    await shelteredLandfall(this.j, watches);
+    this.water(12); this.rations(14);
+    await gatherKingsfoil(this.j);
+    await tendFever(this.j);
+    this.care = true;
+  }
   // The act's start, and each of its two voyages to Sarn (the eggs nested or the hatchlings penned), are played once
   // in the file and resumed for each case after (see Kept.of), where each case had played them again.
   static async start(seed = 'p4') {
@@ -27,6 +38,17 @@ class Act {
       await a.toSarn(kept);
       return a.j;
     }));
+  }
+  static async landed(kept = false, clauses = false) {
+    const j = await Kept.of(`Sarn p4 sheltered, kingsfoil gathered; eggs kept ${kept}; clauses ${clauses}`, async () => {
+      const a = await Act.atSarn(kept);
+      if (clauses) { await go(a, '=+300', 'Ask Sir Gervase what he has signed the Colonel to'); }
+      await a.land(clauses ? 1300 : 1600);
+      return a.j;
+    });
+    const a = new Act(j);
+    a.care = true;
+    return a;
   }
   private apply(change: Change) {
     const w = this.j.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
@@ -88,7 +110,14 @@ class Act {
 const told = (a: Act) => a.j.taken.map(x => `${x.page} ${x.told}`).join('\n');
 const SAIL = ['Take the Sundial out through the reef passage'];
 const go = async (a: Act, ...labels: string[]) => {
-  try { await a.j.play(...labels); } catch (e) {
+  try {
+    for (const label of labels) {
+      if (a.care) { await tendFever(a.j); }
+      const wait = a.care && /^=\+(\d+)$/.exec(label);
+      if (wait) { await waitWithCare(a.j, Number(wait[1])); }
+      else { await a.j.play(label); }
+    }
+  } catch (e) {
     console.log('STUCK at', a.j.at('party'), 'hp', JSON.stringify(a.j.screen().exits.map(x => [x.name, x.passage, x.blocked])), '|', a.j.choices().map(x => x.label).slice(0, 14).join(' | '));
     throw e;
   }
@@ -103,12 +132,13 @@ describe('Sarn, played end to end', () => {
   }, 900000);
 
   it('takes the egg home: to the egg-beds and back, the Colonel asked, the Sundial out, and Honoria turning it at home', async () => {
-    const a = await Act.atSarn(true);
-    await go(a, '=+1600', "To the Progress's landing");
+    const a = await Act.landed(true);
     a.water(12); a.rations(14);
     await a.returnYoung();
     expect(a.holds('hatchlingsHome', 'party')).toBe(true);
-    await go(a, '=06:00', 'To the edge of the delta', 'To the egg-beds', 'a grey loaf-big egg, warm as bread: Take', 'To the edge of the delta', "To the Progress's landing", '=+520');
+    await go(a, '=06:00', 'To the edge of the delta', 'To the egg-beds', 'a grey loaf-big egg, warm as bread: Take', 'To the edge of the delta', "To the Progress's landing");
+    // OR-1396: care takes time; wait only to the decision, not into an unprotected fifth night.
+    await go(a, '=until day(clock) >= circus__landDay(circus__wapshotts) + 3');
     a.water(12); a.rations(14);
     expect(a.j.holds('holding', 'party', 'dragons_egg')).toBe(true);
     await go(a, 'Ask the Colonel what he means to do now');
@@ -123,13 +153,13 @@ describe('Sarn, played end to end', () => {
   }, 600000);
 
   it('takes the Society its pair: the scope asked at the quay, the runners netted at the forest edge, the Colonel signs', async () => {
-    const a = await Act.atSarn(true);
-    await go(a, '=+300', 'Ask Sir Gervase what he has signed the Colonel to', '=+1300', "To the Progress's landing");
+    const a = await Act.landed(true, true);
     a.water(12); a.rations(14);
     await a.returnYoung();
     await go(a, 'Ask Sir Gervase which kinds he will take', 'Say only the small and plentiful');
     a.j.roll('pass');
-    await go(a, "To the cycad forest's edge", 'Help Sir Gervase net a pair of the small and plentiful', "To the Progress's landing", '=+520');
+    await go(a, "To the cycad forest's edge", 'Help Sir Gervase net a pair of the small and plentiful', "To the Progress's landing");
+    await go(a, '=until day(clock) >= circus__landDay(circus__wapshotts) + 3');
     a.j.roll(undefined);
     a.water(12); a.rations(14);
     expect(a.holds('specimensCaught', 'wapshotts')).toBe(true);
@@ -144,10 +174,9 @@ describe('Sarn, played end to end', () => {
   }, 600000);
 
   it('brings the clutch home when it is neither named away nor returned: the Duchess eats the ticket book', async () => {
-    const a = await Act.atSarn();
-    await go(a, '=+1600', "To the Progress's landing");
+    const a = await Act.landed();
     a.water(12); a.rations(14);
-    await go(a, '=+520');
+    await go(a, '=until day(clock) >= circus__landDay(circus__wapshotts) + 3');
     a.water(12); a.rations(14);
     await go(a, 'Ask the Colonel what he means to do now', "To the Sundial's deck");
     a.j.roll('pass');
@@ -159,13 +188,12 @@ describe('Sarn, played end to end', () => {
   }, 600000);
 
   it('carries the young back to the hollow, lets the Duchess go, and comes home with nothing but the board over the beast tent', async () => {
-    const a = await Act.atSarn();
-    await go(a, '=+1600', "To the Progress's landing");
+    const a = await Act.landed();
     a.water(12); a.rations(14);
     await a.returnYoung();
     expect(a.holds('hatchlingsHome', 'party')).toBe(true);
     expect(a.holds('namedLetGo', 'wapshotts')).toBe(true);
-    await go(a, '=+520');
+    await go(a, '=until day(clock) >= circus__landDay(circus__wapshotts) + 3');
     a.water(12); a.rations(14);
     await go(a, 'Ask the Colonel what he means to do now', "To the Sundial's deck");
     a.j.roll('pass');
@@ -176,8 +204,8 @@ describe('Sarn, played end to end', () => {
   }, 900000);
 
   it('lights the fire on the fifth night with the hold\'s oil and no cage: the crew hurt, the Colonel hurt, and told so at home', async () => {
-    const a = await Act.atSarn();
-    await go(a, '=+1600', "To the Sundial's hold");
+    const a = await Act.landed();
+    await go(a, "To the Sundial's deck", "To the Sundial's hold");
     await go(a, "a flask of the Sundial's lamp oil: Take", "To the Sundial's deck", "To the Progress's landing");
     for (let i = 0; i < 60 && !a.holds('huntOn', 'wapshotts'); i++) { a.water(12); a.rations(14); await go(a, '=+30'); }
     expect(a.holds('huntOn', 'wapshotts')).toBe(true);
@@ -196,8 +224,7 @@ describe('Sarn, played end to end', () => {
   }, 900000);
 
   it('has the pack come again on the sixth night, with the dusk sign before it', async () => {
-    const a = await Act.atSarn();
-    await go(a, '=+1600', "To the Progress's landing");
+    const a = await Act.landed();
     a.set('trumpetDone', 'wapshotts'); a.set('colonelDragged', 'wapshotts');
     const night = async () => {
       for (let i = 0; i < 40 && !a.holds('huntOn', 'wapshotts'); i++) { a.water(12); a.rations(14); await go(a, '=+30'); }

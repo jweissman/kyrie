@@ -67,7 +67,7 @@ describe('a creature and its variations', () => {
     const deer = make('deer'), stag = make('stag'), d = orsino('animal:deer');
     expect(stag.variations).toEqual(['male']);
     expect(stag.base.strength).toBeGreaterThan(deer.base.strength);
-    expect(deer.base.maxHp).toBe(Number(d.hp));
+    expect(deer.base.maxHp).toBe(Number(d.hp) - 1);
     expect(make('deer', undefined, 6).base.maxHp).toBeGreaterThan(deer.base.maxHp);
   });
   it('keeps an authored stone golem and a dragon of words as they were made, across a save and its reading again', async () => {

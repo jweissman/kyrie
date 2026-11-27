@@ -41,7 +41,10 @@ describe('under the town, by the gold', () => {
       const move = keeper ? { kind: 'command' as const, id: keeper.choice.id }
         : rest ? { kind: 'command' as const, id: rest.id } : FirstQuarter.rest(s, sit.offered) ?? player.next(sit);
       if (!move) { break; }
-      await AutoplayRun.apply(s, move, player, metrics);
+      // OR-1396: the sight is tested after choosing to stand, not the autoplay controller's random mid-fight flight.
+      if (keeper) {
+        await s.leg(keeper.choice.id, async battle => battle.chosen());
+      } else { await AutoplayRun.apply(s, move, player, metrics); }
     }
     const told = c.history.flatMap(h => [...(h.perceptions ?? []).map(p => p.text), h.response ?? '']).join('\n');
     // The rats on the cellar floor and the beetles in the adit are gone; what is below has a strangeness of its own.

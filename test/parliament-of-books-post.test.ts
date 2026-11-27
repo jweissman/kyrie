@@ -48,9 +48,12 @@ describe('A Parliament of Books: the Road', () => {
     expect(j.at('party')).toBe(C('post_house'));
     const said = await Calamy.play(j, 'Give the Undelivered the letter');
     expect(said).toContain('Received');
-    // The hour is up at eight: the water comes down the stair, and the company is on the mud with a bruise.
+    // OR-1396: the failed tide save deals five, enough to kill this five-HP bard; the tide still puts her ashore.
     const told = await Calamy.play(j, '=until hour(clock) == 8');
-    expect(told).toContain('shoulders you up the stair');
+    expect(told).toContain('The company can no longer act');
+    expect(j.campaign.readout.creatures.filter(c => j.campaign.readout.partyIds.includes(c.id)).map(c => c.state.hp))
+      .toEqual([0]);
+    expect(j.campaign.running).toBe(false);
     expect(j.at('party')).toBe(C('reed_heart'));
     expect(offered(j, /post-house under the ridge/)).toBe(false);
   }, 240000);
@@ -108,7 +111,8 @@ describe('A Parliament of Books: the Road', () => {
     expect(said).toContain('Received');
     expect(hold(j, 'almanackPosted', 'almanack')).toBe(true);
     expect(j.holds('travelsWith', C('almanack'), 'party')).toBe(false);
-    await Calamy.play(j, 'where the twelfth stage is', '=until hour(clock) == 8');
+    // OR-1396: posting is the subject, not surviving the lethal tide; leave by the hatch before eight.
+    await Calamy.play(j, 'where the twelfth stage is', '@go(calamy__ridge_hatch,calamy__reed_heart)');
     // In the Chamber, with the Roll's stance heard, the posted book is answered.
     const c = j.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', j.at('party')!) },

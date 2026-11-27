@@ -20,8 +20,8 @@ class AttributesTest {
 }
 
 describe('score-only attributes and derived statMod', () => {
-  it('uses Orsino\'s statMod, round((score − 10) / 2), in both hosts', () => {
-    const expected = [-3, -3, -2, -2, -1, -1, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4];
+  it('uses the SRD modifier, floor((score − 10) / 2), in both hosts', () => {
+    const expected = [-4, -3, -3, -2, -2, -1, -1, 0, 0, 1, 1, 2, 2, 3, 3, 4];
     const expressions = new Expressions('modifiers');
     for (let score = 3; score <= 18; score++) {
       expect(FantasyRules.statMod(score)).toBe(expected[score - 3]!);
@@ -37,7 +37,7 @@ describe('score-only attributes and derived statMod', () => {
     });
     const runtime = Template.bootstrapDeem({ seed: 'registered' }, setting);
     Object.assign(runtime.stdlib, FantasyRules.functions);
-    expect(Generator.gen('probe', { __setting: setting, __deemRuntime: runtime })).toEqual({ low: -3, high: 4 });
+    expect(Generator.gen('probe', { __setting: setting, __deemRuntime: runtime })).toEqual({ low: -4, high: 4 });
   });
   it('emits exactly six scores, omitting internal context and redundant score/modifier fields', () => {
     const context = { _intermediate: 99 };
@@ -91,7 +91,7 @@ describe('score-only attributes and derived statMod', () => {
     const creature = new Content('overrides').createCreature(ItemCatalog.canon, 'hero', { ...chosen, raceId: 'human', classId: 'warrior' });
     for (const key of CreatureSchema.attributes) { expect(creature.base[key]).toBe(chosen[key]); }
     expect(creature.base).not.toHaveProperty('scores');
-    expect(creature.base.maxHp).toBe(12 + 3); // the warrior's hit die plus CON 15's modifier, round(2.5) = 3
+    expect(creature.base.maxHp).toBe(10 + 2);
     expect(() => CreatureSchema.validate({ ...creature, base: { ...creature.base, scores: chosen } } as never,
       ItemCatalog.canon))
       .toThrow('requires migration');

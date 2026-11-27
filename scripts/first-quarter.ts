@@ -77,7 +77,9 @@ export class FirstQuarter {
       // take yet (a fight the page reckons deadly), going to and fro, the next.
       // So too where the aim followed says what stands between it and the company, beyond it (Guarded: the keeper of
       // the vault, reckoned deadly): a player reads that and follows another.
-      const aims = Undertakings.held(c), was = out.slice(-4).map(x => x.place);
+      // OR-1396: a needed camp must not hide a to-and-fro route from the player's loop detection.
+      const aims = Undertakings.held(c), places = out.map(x => x.place);
+      const was = places.filter((p, i) => !i || p !== places[i - 1]).slice(-4);
       const fro = was.length === 4 && was[0] === was[2] && was[1] === was[3] && was[0] !== was[1];
       const glance = Narrator.leaf(c, ScreenModel.build(c)).glance, stands = glance?.continuance;
       const between = stands?.kind === 'frontier' && !!stands.need;

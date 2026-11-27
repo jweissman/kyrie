@@ -700,6 +700,9 @@
        "id": "adventures",
        "title": "Adventures and their endings",
        "feature": "adventures",
+       "rows": [
+        "OR-1399"
+       ],
        "pins": [
         "Choice & Consequence › Multiple endings",
         "the rain-gourd at Palla"

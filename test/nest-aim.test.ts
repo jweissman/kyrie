@@ -18,8 +18,9 @@ describe('the rats\' nest', () => {
   };
   const glance = (s: PlaySession) => Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).glance!;
   it('leads at the buck rat for the aim, and then back up toward the one owed word of it', async () => {
+    // OR-1396: gold is tested where the buck is within reach, not against a first life it now says needs help.
     const s = await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human',
-      classId: 'warrior' }] }, NodeBundleSource.shared);
+      classId: 'warrior', level: 2 }] }, NodeBundleSource.shared);
     const walk = async (to: string) => {
       for (const [passage, next] of Journey.way(s.campaign.world, s.campaign.world.one('at', 'party')!, to)) {
         if (!PlayerView.choices(s.campaign).some(x => x.choice.id === `go(${passage},${next})`)) {

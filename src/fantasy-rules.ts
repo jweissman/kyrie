@@ -1,15 +1,12 @@
 import folk from '../data/generation/scenes/folk.json';
 import { FamilyNames } from './world/family-names';
+import { AbilityModifier } from './fantasy/ability-modifier';
 
 export class FantasyRules {
   private static readonly families = (folk as unknown as { family: Record<string, string[]> }).family;
   private static readonly given = (folk as unknown as { given: Record<string, Record<string, string[]>> }).given;
   static statMod(score: unknown): number {
-    if (typeof score !== 'number' || !Number.isSafeInteger(score) || score < 1) {
-      throw new Error('statMod expects a positive integer ability score');
-    }
-    // Orsino's Fighting.statMod: round((score − 10) / 2), with JavaScript's half-up rounding (9 → 0, 11 → +1).
-    return Math.round((score - 10) / 2) || 0;
+    return AbilityModifier.of(score);
   }
   // The name of one of a story's people, apart from the names the country's folk have (two Caelynns on one quay:
   // PT-28): the name drawn, or, when one of the folk has it already, that name with a family's to it, as a town names

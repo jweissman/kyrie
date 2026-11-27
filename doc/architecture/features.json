@@ -709,6 +709,7 @@
   ]
  ],
  "rows": {
+  "OR-1399": "adventures",
   "OR-1500": "adventures",
   "OR-1501": "adventures",
   "OR-1504": "undertakings",
@@ -1576,6 +1577,8 @@
   "OR-1394": "trade",
   "OR-1395": "discovery",
   "OR-1396": "creatures",
+  "OR-1397": "creatures",
+  "OR-1398": "creatures",
   "OR-1430": "fight",
   "OR-1431": "fight",
   "OR-1432": "fight",

@@ -63,6 +63,6 @@ describe('a stat block read over its context', () => {
     expect(records.filter(r => r.damage).map(r => r.damage)).toEqual([{ bite: '1d4' }, { claws: '1d3' }, { slam: '1d6+3' },
       { claws: '1d6', bite: '1d8' }, { bite: '1d6' },
       { gnaw: '1d4' }]);
-    expect(records.filter(r => r.armorBonus).map(r => r.armorBonus)).toEqual(['9', '2', '4']);
+    expect(records.filter(r => r.armorBonus).map(r => r.armorBonus)).toEqual(['1', '1', '9', '2', '1', '1', '4']);
   });
 });

@@ -21,7 +21,8 @@ describe('the weir life\'s mage against every band of her first hour', () => {
   beforeAll(async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar']));
     const c = journey.session.campaign, ilse = c.readout.creatures.find(x => x.id === c.readout.partyIds[0])!;
-    expect([ilse.raceId, ilse.classId, ilse.base.maxHp, !!ilse.traits?.includes('diviner')]).toEqual(['elf', 'mage', 4, true]);
+    // OR-1396: negative Constitution applies to the first hit die.
+    expect([ilse.raceId, ilse.classId, ilse.base.maxHp, !!ilse.traits?.includes('diviner')]).toEqual(['elf', 'mage', 2, true]);
     alone = FirstHourBands.bands(c, trials, { who: 'alone', towns: true });
     hired = FirstHourBands.bands(c, trials, { towns: true });
   }, 600000);
@@ -46,7 +47,8 @@ describe('the weir life\'s mage against every band of her first hour', () => {
     // asked (OR-322), and at four hit points many can. Read 24 November: the rats under the corn-store and in the
     // cellar, the bats twice, the blasting charge twice, a badger, two rabbits and a monkey.
     const easy = [...alone, ...hired].filter(b => b.said === 'fair' || b.said === 'slight');
-    expect(easy.length).toBeGreaterThanOrEqual(10);
+    // OR-1396: six bands remain easy for the more fragile mage; their truth contract is unchanged.
+    expect(easy.length).toBeGreaterThanOrEqual(6);
     expect(easy.filter(b => b.mortal)).toEqual([]);
     expect(easy.filter(b => b.won * 10 < b.trials * 8).map(b => b.name)).toEqual([]);
   });

@@ -24,7 +24,8 @@ describe('a first-level thief alone against the bands away from a town', () => {
   beforeAll(async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/thief/Wren']));
     const c = journey.session.campaign, wren = c.readout.creatures.find(x => x.id === c.readout.partyIds[0])!;
-    expect([wren.raceId, wren.classId, wren.base.level, wren.base.maxHp]).toEqual(['human', 'thief', 1, 8]);
+    // OR-1396: odd Constitution scores no longer round the modifier up.
+    expect([wren.raceId, wren.classId, wren.base.level, wren.base.maxHp]).toEqual(['human', 'thief', 1, 7]);
     stand = FirstHourBands.bands(c, trials, { who: 'alone', reach: all });
     careful = FirstHourBands.bands(c, trials, { who: 'alone', reach: all, policy: 'careful' });
   }, 600000);

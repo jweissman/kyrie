@@ -12,8 +12,8 @@ export const reflectedLanding = async (seed: string) => {
   return j;
 };
 
-export const prepared = async () => {
-  const j = await Journey.start(campaign, 'long-road');
+export const prepared = async (seed = 'long-road') => {
+  const j = await Journey.start(campaign, seed);
   await j.play('To Swallet lane', 'To Swallet green', 'To the Brasiers\' garden',
     'To the Day-Level portal', 'To the adit', 'To the Day-Level portal',
     'To the Brasiers\' garden', 'To Swallet green', 'Into the Chandler\'s Arms',
@@ -23,8 +23,8 @@ export const prepared = async () => {
   return j;
 };
 
-export const convoyOnPortal = async () => {
-  const j = await prepared();
+export const convoyOnPortal = async (seed = 'long-road') => {
+  const j = await prepared(seed);
   await j.play('Ask Merren who else wants the road',
     'Ask the road crew what they can repair', 'Send Merren\'s crew to clear the western portal', '==+30',
     'Out to Swallet green', 'Into Usk\'s store', 'Buy › A flask of lamp oil',

@@ -8,7 +8,8 @@ import { FirstQuarter } from '../scripts/first-quarter';
 describe('the first quarter hour, by the gold', () => {
   it('goes from the corn-store job on down to the sealed vault', async () => {
     // The notice read and its rats asked after, as it says: its jobs are leads until their giver is asked (HP-01).
-    const q = await FirstQuarter.walk('iscoed', 'debt', 'warrior', { steps: 35, asked: [
+    // OR-1396: the new route reaches the raiser's conversation on act 35; allow its answer on the next act.
+    const q = await FirstQuarter.walk('iscoed', 'debt', 'warrior', { steps: 36, asked: [
       'region__s1_u_notice_read(party,region__s1_green)', 'go(region__s1_shop_door,region__s1_shop)',
       'region__s1_u_rats_job_ask'] });
     const places = q.steps.map(x => x.place);

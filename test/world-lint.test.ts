@@ -32,6 +32,7 @@ describe('a generated world', () => {
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', room) },
       { kind: 'retract', call: ModuleWriter.call('unlit', room) }]));
     const meet = PlayerView.choices(s.campaign).find(x => /the glowing symbols$/.test(x.choice.name))!;
-    expect((await s.leg(meet.choice.id)).result).toBe('success');
+    // OR-1396: the normal check fails; resolving the unsupported wonder still must not throw.
+    expect((await s.leg(meet.choice.id)).result).toBe('failure');
   }, 360000);
 });

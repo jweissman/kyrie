@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 725,
-    "adapted": 425,
+    "faithful": 723,
+    "adapted": 427,
     "represented": 4,
     "kyr": 638,
     "unsupported": 66,
@@ -824,8 +824,8 @@
      "id": "callings",
      "title": "Callings",
      "counts": {
-      "faithful": 3,
-      "adapted": 25,
+      "faithful": 1,
+      "adapted": 27,
       "represented": 0,
       "kyr": 0,
       "unsupported": 0,
@@ -1299,7 +1299,7 @@
   {
    "id": "class:warrior",
    "title": "Warrior",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "callings"
   },
@@ -1334,7 +1334,7 @@
   {
    "id": "class:ranger",
    "title": "Ranger",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "callings"
   },
@@ -16480,20 +16480,6 @@
    "section": "world-rules/rules-services"
   },
   {
-   "id": "kit:raider_hold",
-   "title": "A raiders' hold",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "making-worlds/kits"
-  },
-  {
-   "id": "kit:tinker",
-   "title": "A tinker at work",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "making-worlds/kits"
-  },
-  {
    "id": "kit:bounty",
    "title": "A price on a power",
    "status": "kyr",
@@ -16501,8 +16487,22 @@
    "section": "making-worlds/kits"
   },
   {
+   "id": "kit:raider_hold",
+   "title": "A raiders' hold",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "making-worlds/kits"
+  },
+  {
    "id": "kit:toll_road",
    "title": "A toll on a road",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "making-worlds/kits"
+  },
+  {
+   "id": "kit:tinker",
+   "title": "A tinker at work",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"

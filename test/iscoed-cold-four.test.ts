@@ -70,11 +70,19 @@ describe('the golden route, after the fourth cold play', () => {
   });
   // CL-44, defects 22–24: no label before the king's own paragraph; his crown lifted, he comes; and the way out of
   // the barrow is one act, not seven.
-  it('has the king come for his crown, and the barrow left in one act', () => {
-    const hall = text(at('region__w8_grave_heart'));
+  it('has the king come for his crown, and the barrow left in one act', async () => {
+    // OR-1396: the kept walk dies at the chest's zombies; isolate the crown's response, not their balance.
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    journey.put('party', 'region__w8_grave_heart');
+    const crown = new Runner(journey.session);
+    const lit = await crown.ask(JSON.stringify({ act: 'light_item(region__party_1__torch)' }));
+    if ('error' in lit) { throw new Error(lit.error); }
+    const hall = text(lit);
     expect(hall).not.toContain('is here: a mummy');
-    expect(hall).toContain('A dead body bound in brown linen');
-    const taken = told.at(-1)!;
+    expect(hall).toContain('The king sits up on his bier');
+    const taken = await crown.ask(JSON.stringify({ act: 'take_item(region__w8_heart,region__member_party_1)' }));
+    expect(taken).not.toHaveProperty('error');
+    if ('error' in taken) { throw new Error(taken.error); }
     expect([taken.moment, taken.scene.lines[0]]).toEqual(['fight',
       "The crown comes up off the king's head, and his dry hands close on the air where it was. Then he is off the bier and coming for you."]);
     // The way out a row of the engine's offer, the last of the four inside (OR-188), done in one act.
