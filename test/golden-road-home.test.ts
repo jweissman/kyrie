@@ -79,14 +79,15 @@ describe('the road home, on the warrior\'s route', () => {
   });
   // What a place passed on the way said is said with where (GR-07), not as if where the company stopped. Gatesend's
   // thanks, which had been said so as the company passed its green, are said at the green itself now that the journey
-  // stops there, as its own; the pedlar met on the woodland south of Reedbridge, passed on the last leg home, is said
-  // with that place at the landing.
+  // stops there, as its own. The pedlar once met on the woodland south of Reedbridge on the last leg home is met by
+  // the rover's fortune for that stretch and day now (OR-1345), which that day does not bring; the last leg passes
+  // nothing that speaks, and nothing is said at the landing as if passed (test/small/travel-passed holds GR-07's
+  // telling with its place).
   it('tells what a place passed on the way said with that place', () => {
     const thanks = (i: number) => at[i]!.scene.lines.filter(l => /Doors are open all along the lane\./.test(l));
     expect([thanks(49), thanks(50), thanks(52)])
       .toEqual([[expect.stringMatching(/^Doors are open all along the lane\. Someone has chalked/)], [], []]);
-    expect(at[52]!.scene.lines.filter(l => /A pedlar is coming the other way/.test(l)))
-      .toEqual([expect.stringMatching(/^At woodland south of Reedbridge: A pedlar is coming/)]);
+    expect(at[52]!.scene.lines.filter(l => /^At [^:]+: /.test(l))).toEqual([]);
   });
 });
 describe('the road home, on the mage\'s route', () => {
