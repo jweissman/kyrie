@@ -102,9 +102,9 @@ describe('every surface, earned at once', () => {
 // notes and the story so far with it; and the map no view at all before it is earned (OR-1242).
 describe('the Book, by what is earned', () => {
   const app = (surfaces?: Surface[]) => ({ state: { frame: { screen: surfaces ? { surfaces } : {} } } }) as never;
-  it('is the company\'s page and its pack until the journal, and every page with it', () => {
-    expect(Act.pages(app([]))).toEqual(['company', 'pack']);
-    expect(Act.pages(app(['the_journal']))).toEqual(['company', 'journal', 'pack', 'story']);
+  it('is your character alone until the journal, and its notes and story with it', () => {
+    expect(Act.pages(app([]))).toEqual(['company']);
+    expect(Act.pages(app(['the_journal']))).toEqual(['company', 'journal', 'story']);
     expect(ReaderApp.earned('journal', { surfaces: [] } as never)).toBe('company');
     expect(ReaderApp.earned('map', { surfaces: [] } as never)).toBeUndefined();
     expect(ReaderApp.earned('map', { surfaces: ['the_map'] } as never)).toBe('map');

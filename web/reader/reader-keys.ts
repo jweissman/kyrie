@@ -21,7 +21,7 @@ import { Surfaces } from '../../src/presentation/surfaces';
 // Space and the digits are the map's own. Before play, arrows move between the page's choices and Enter takes the
 // one in focus.
 export class ReaderKeys {
-  static readonly views: Record<string, View> = { e: 'here', c: 'company', i: 'pack', j: 'journal', m: 'map', h: 'story' };
+  static readonly views: Record<string, View> = { e: 'here', c: 'company', i: 'company', j: 'journal', m: 'map', h: 'story' };
   // At a place at rest: Go… (G, or W for the ways), Look… (L), Wait… (Z, a while).
   static readonly parts: Record<string, Part> = { g: 'go', w: 'go', l: 'look', z: 'wait' };
   constructor(private readonly app: ReaderApp) {}

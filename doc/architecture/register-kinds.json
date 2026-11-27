@@ -3665,5 +3665,10 @@
   "kind": "defect",
   "pri": "P1",
   "why": "surfaces shown without being earned, against the owner's ruling"
+ },
+ "OR-1492": {
+  "kind": "defect",
+  "pri": "P1",
+  "why": "the backstage drawn as several pages against the owner's ruling"
  }
 }
