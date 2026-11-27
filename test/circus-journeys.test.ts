@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'bun:test';
+import { afterEach, describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
@@ -10,6 +10,8 @@ import { gatherKingsfoil, shelteredLandfall, tendFever, waitWithCare } from './s
 // were is Phase II's own spec.
 const host = 'test/fixtures/circus/circus.campaign.json';
 const c = (x: string) => `circus__${x}`;
+// Completed voyages must be reclaimed before the next resumed case allocates another history.
+afterEach(() => { Bun.gc(true); });
 class Act {
   care = false;
   constructor(readonly j: Journey) {}
@@ -36,6 +38,17 @@ class Act {
       await a.toSarn(kept);
       return a.j;
     }));
+  }
+  static async landed(kept = false, clauses = false) {
+    const j = await Kept.of(`Sarn p4 sheltered, kingsfoil gathered; eggs kept ${kept}; clauses ${clauses}`, async () => {
+      const a = await Act.atSarn(kept);
+      if (clauses) { await go(a, '=+300', 'Ask Sir Gervase what he has signed the Colonel to'); }
+      await a.land(clauses ? 1300 : 1600);
+      return a.j;
+    });
+    const a = new Act(j);
+    a.care = true;
+    return a;
   }
   private apply(change: Change) {
     const w = this.j.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
@@ -119,8 +132,7 @@ describe('Sarn, played end to end', () => {
   }, 900000);
 
   it('takes the egg home: to the egg-beds and back, the Colonel asked, the Sundial out, and Honoria turning it at home', async () => {
-    const a = await Act.atSarn(true);
-    await a.land();
+    const a = await Act.landed(true);
     a.water(12); a.rations(14);
     await a.returnYoung();
     expect(a.holds('hatchlingsHome', 'party')).toBe(true);
@@ -141,9 +153,7 @@ describe('Sarn, played end to end', () => {
   }, 600000);
 
   it('takes the Society its pair: the scope asked at the quay, the runners netted at the forest edge, the Colonel signs', async () => {
-    const a = await Act.atSarn(true);
-    await go(a, '=+300', 'Ask Sir Gervase what he has signed the Colonel to');
-    await a.land(1300);
+    const a = await Act.landed(true, true);
     a.water(12); a.rations(14);
     await a.returnYoung();
     await go(a, 'Ask Sir Gervase which kinds he will take', 'Say only the small and plentiful');
@@ -164,8 +174,7 @@ describe('Sarn, played end to end', () => {
   }, 600000);
 
   it('brings the clutch home when it is neither named away nor returned: the Duchess eats the ticket book', async () => {
-    const a = await Act.atSarn();
-    await a.land();
+    const a = await Act.landed();
     a.water(12); a.rations(14);
     await go(a, '=until day(clock) >= circus__landDay(circus__wapshotts) + 3');
     a.water(12); a.rations(14);
@@ -179,8 +188,7 @@ describe('Sarn, played end to end', () => {
   }, 600000);
 
   it('carries the young back to the hollow, lets the Duchess go, and comes home with nothing but the board over the beast tent', async () => {
-    const a = await Act.atSarn();
-    await a.land();
+    const a = await Act.landed();
     a.water(12); a.rations(14);
     await a.returnYoung();
     expect(a.holds('hatchlingsHome', 'party')).toBe(true);
@@ -196,8 +204,7 @@ describe('Sarn, played end to end', () => {
   }, 900000);
 
   it('lights the fire on the fifth night with the hold\'s oil and no cage: the crew hurt, the Colonel hurt, and told so at home', async () => {
-    const a = await Act.atSarn();
-    await a.land();
+    const a = await Act.landed();
     await go(a, "To the Sundial's deck", "To the Sundial's hold");
     await go(a, "a flask of the Sundial's lamp oil: Take", "To the Sundial's deck", "To the Progress's landing");
     for (let i = 0; i < 60 && !a.holds('huntOn', 'wapshotts'); i++) { a.water(12); a.rations(14); await go(a, '=+30'); }
@@ -217,8 +224,7 @@ describe('Sarn, played end to end', () => {
   }, 900000);
 
   it('has the pack come again on the sixth night, with the dusk sign before it', async () => {
-    const a = await Act.atSarn();
-    await a.land();
+    const a = await Act.landed();
     a.set('trumpetDone', 'wapshotts'); a.set('colonelDragged', 'wapshotts');
     const night = async () => {
       for (let i = 0; i < 40 && !a.holds('huntOn', 'wapshotts'); i++) { a.water(12); a.rations(14); await go(a, '=+30'); }

@@ -151,6 +151,32 @@ Full `check:fast` passes (2332 pass, 172 skip, 31 todo), `test:small` passes (12
 and both unchanged strict conflict files pass (7 cases). Full whole-lane confirmation is left to the lead's next CI run; no claim is
 made that the original losing seeds now win, or that the authored hazards and camps have been rebalanced.
 
+### Circus walk memory follow-up (run 46066873731)
+
+Shard 13 lost its runner on three attempts with a shutdown signal (exit 143). That message alone does not prove
+an out-of-memory kill; no runner OOM diagnostic was available. Local measurements use the same Bun executable,
+fresh processes and `/usr/bin/time -v bun test <file>`, serialized under the shared machine's heavy lock.
+
+| File | Before care, `563adb0`: peak KiB / seconds | Care, `8f7820e`: peak KiB / seconds | Shared prefix and collection: peak KiB / seconds |
+|---|---:|---:|---:|
+| circus-journeys | 804364 / 59.44 | 732384 / 93.83 | 690560 / 74.53 |
+| circus-act4 | 677876 / 52.26 | 726488 / 104.40 | 679764 / 58.54 |
+
+The pre-care files fail six and seven cases respectively, stopping before their intended endings; they are not
+equivalent successful-walk baselines. Care grew Act IV's peak by 48612 KiB; Sarn's peak did not grow in this sample.
+Sharing alone shortened the walks but increased retained checkpoint memory (821796/769852 KiB); reclaiming completed
+case histories with `Bun.gc(true)` after each case lowered the final peaks below the care push, by 41824/46724 KiB.
+
+The protected landfall and gathered-care prefix is now played once for each distinct starting state and resumed
+through `Kept.of`. Sarn's kept-eggs and read-clauses variants have separate keys. Every prefix step and its narration
+remain in the resumed history, each case gets independent state, and every assertion remains. No campaign history
+is discarded to save memory. Collection releases only completed cases' unreachable state.
+
+Both files together with CI's `--parallel` mode pass all 32 cases: peak RSS 707056 KiB / 113.54 seconds on `8f7820e`,
+665172 KiB / 84.52 seconds after repair. GNU time's peak is not an aggregate of simultaneous worker RSS. These
+bounded local runs do not reproduce the full shard or prove its shutdown is fixed; the lead's CI rerun is required.
+Full `check:fast` (2332 pass, 172 skip, 31 todo), `test:small` (1254 pass) and `test:honest` (4 pass) also pass.
+
 ## The cases (16 November)
 
 ### 1. Sleep over a band outside a fight (CF-03): adapted, its route proved

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'bun:test';
+import { afterEach, describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
@@ -10,6 +10,8 @@ import { gatherKingsfoil, shelteredLandfall, tendFever, waitWithCare } from './s
 // were is Phase II's own spec.
 const host = 'test/fixtures/circus/circus.campaign.json';
 const c = (x: string) => `circus__${x}`;
+// Completed voyages must be reclaimed before the next resumed case allocates another history.
+afterEach(() => { Bun.gc(true); });
 class Act {
   constructor(readonly j: Journey) {}
   async land() {
@@ -34,6 +36,13 @@ class Act {
     return new Act(await Kept.of(`act IV ${seed} to Sarn`, async () => {
       const a = await Act.start(seed);
       await a.toSarn();
+      return a.j;
+    }));
+  }
+  static async landed() {
+    return new Act(await Kept.of('act IV p4 sheltered, kingsfoil gathered', async () => {
+      const a = await Act.atSarn();
+      await a.land();
       return a.j;
     }));
   }
@@ -270,8 +279,7 @@ describe("Wapshott's, Act IV: the crate", () => {
   // (290 s against 187 s to 292 s on CI, two minutes here: CI on f49d858e).
   for (const how of ['bare', 'cages', 'fire', 'both', 'meat'] as const) {
     it(`has a night on the quay (${how}): bare it costs the bosun; the cages alone cost him; cages and fire cost blood; meat costs nothing`, async () => {
-      const a = await Act.atSarn();
-      await a.land();
+      const a = await Act.landed();
       expect(a.holds('tideMarked', 'wapshotts')).toBe(true);
       a.set('trumpetDone', 'wapshotts'); a.set('colonelDragged', 'wapshotts');
       a.put('party', 'landing');
@@ -329,16 +337,14 @@ describe("Wapshott's, Act IV: the crate", () => {
   }, 200000);
 
   it('has a Colonel who decides: moved he stays, unmoved he takes the egg and Billie goes', async () => {
-    const stay = await Act.atSarn();
-    await stay.land();
+    const stay = await Act.landed();
     await waitWithCare(stay.j, 520);
     for (const f of ['namedLetGo', 'ruleRead', 'colonelMoved', 'billieAboard']) { stay.set(f, 'wapshotts'); }
     stay.put('wapshott', 'landing');
     await stay.j.play('Ask the Colonel what he means to do now');
     expect(stay.holds('colonelStays', 'wapshotts')).toBe(true);
     expect(stay.holds('billieResigned', 'wapshotts')).toBe(true);
-    const egg = await Act.atSarn();
-    await egg.land();
+    const egg = await Act.landed();
     await waitWithCare(egg.j, 520);
     egg.put('wapshott', 'landing'); egg.put('party', 'landing');
     egg.set('billieAboard', 'wapshotts');
@@ -409,8 +415,7 @@ describe("Wapshott's, Act IV: the crate", () => {
   }, 290000);
 
   it('plays the night where the party stands: nobody moved by hand, meat thrown, the morning clean, the Colonel asked and the Sundial taken out', async () => {
-    const a = await Act.atSarn();
-    await a.land();
+    const a = await Act.landed();
     a.set('trumpetDone', 'wapshotts');
     for (let i = 0; i < 60 && !a.holds('huntOn', 'wapshotts'); i++) {
       a.water(12); a.rations(14); await waitWithCare(a.j, 30);
