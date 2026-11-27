@@ -3,6 +3,7 @@ import type { CallingsDomain } from './callings';
 import type { ConditionDomain } from './conditions';
 import type { EffectDomain } from './effects';
 import type { TraitsDomain } from './traits';
+import type { PresentationResources } from './presentation';
 
 // What a setting installs for the runtime's rules to ask of (the installed context, OR-520; platform-separation.md,
 // the third review): small capabilities, each owned by the layer that asks, held together by one installation. Never a
@@ -15,6 +16,7 @@ export interface InstalledDomain {
   readonly traits?: TraitsDomain;
   readonly callings?: CallingsDomain;
   readonly effects?: EffectDomain;
+  readonly presentation?: PresentationResources;
 }
 // What carries an installation along an asynchronous operation, through its awaits, apart from any other under way at
 // once (Node's and Bun's AsyncLocalStorage, given by their composition roots: src/cli/installed-carried.ts). The page's
