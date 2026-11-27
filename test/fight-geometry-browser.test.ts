@@ -109,7 +109,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a fight that holds still', () => {
   // aiming put away; a technique chosen and the blow it struck (damage); an act that cannot be done, chosen; then the
   // way out of it (a retreat where one is offered, else the fight let go on to its end) and the place again.
   it.each([[1280, 800], [820, 1180]] as const)('at %ix%i: no state of the fight moves a card, the hand or a row', async (width, height) => {
-    const { page, driver: d, errors } = await MonoBrowser.page(browser, { width, height }, { site, query: '?world=a1' });
+    const { page, driver: d, errors } = await MonoBrowser.page(browser, { width, height }, { site, query: '?world=a1&earned' });
+    // On the earned stage (OR-1245): the walk to the rats goes by the lenses and the map.
     await new Walk(page, d).rats();
     const before = (await d.inspect()).place?.id;
     expect((await d.inspect()).mode).toBe('combat');
@@ -142,7 +143,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a fight that holds still', () => {
     // Aiming: Attack, three rats to choose from; the reticle on each (changing target); then not now.
     await page.click('.fight .hand-menu [data-action="attack"]');
     expect(await page.locator('.fight.aiming').count()).toBe(1);
-    seen('aiming', await still());
+    // Whom is asked in place of the hand's rows (OR-1296): the cards hold still; the hand's rows are its question's.
+    seen('aiming', await still(), true);
     // Nothing made see-through to say who is aimed at or whose turn it is, and a foe's card no taller than it needs
     // (OR-115, the owner's play of 18 November).
     const looks = await page.evaluate(() => [...document.querySelectorAll('.fight .fighter')].map(f =>
@@ -152,10 +154,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a fight that holds still', () => {
     if (process.env.KYRIE_SHOT) { await page.screenshot({ path: `${process.env.KYRIE_SHOT}/fight-${width}.png` }); }
     const targets = page.locator('.fight .foes .fighter.target');
     expect(await targets.count()).toBeGreaterThan(1);
-    // And unfolded beside Attack, one row for each (OR-116): clicking a card is not the only way to choose.
-    expect(await page.locator('.fight .hand-detail .whom [data-action="whom"]').count()).toBe(await targets.count());
+    // And asked in place of the hand's rows, one row for each (OR-116, OR-1296): clicking a card is not the only way.
+    expect(await page.locator('.fight .hand .whom [data-action="whom"]').count()).toBe(await targets.count());
+    expect(await page.locator('.fight .hand-menu').count()).toBe(0);
     for (let i = 0; i < await targets.count(); i++) {
-      await targets.nth(i).hover(); seen(`the reticle on rat ${i + 1}`, await still());
+      await targets.nth(i).hover(); seen(`the reticle on rat ${i + 1}`, await still(), true);
     }
     await d.key('Escape'); seen('not now', await still());
     expect(await Walk.column(page)).toBe(true);

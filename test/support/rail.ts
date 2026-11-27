@@ -15,7 +15,7 @@ export class Rail {
   // The earned stage (compactification, OR-1245): the lenses, the map and the journal are earned in play (Surfaces),
   // so a spec that presses one of them, where it does not stand yet, has the company earn every surface first, as the
   // oracle does (kyrieMono.earn), rather than playing to the fourth level. Only where something is missing.
-  static readonly earnable = /rail-mark|data-action="(lenses|book|mode|compass)"|data-control="map-mark"|data-view/;
+  static readonly earnable = /rail-mark|opens-(go|look|wait|talk)|data-action="(lenses|book|mode|compass)"|data-control="map-mark"|data-view/;
   static async earned(page: Page, selector: string): Promise<void> {
     if (!Rail.earnable.test(selector) || await page.locator(selector).count()) { return; }
     await page.evaluate(() => (window as unknown as { kyrieMono: { earn(): Promise<void> } }).kyrieMono.earn());
