@@ -1,0 +1,76 @@
+Module raingourd "The Rain-Gourd" {
+  // Under the long campaign's count (doc/design/direction-2026-11-27-the-long-campaign.md, "The war's reach"): the
+  // coaster waiting on the wind is the Ash's, and its factor sells Palla water out of casks while the dry lasts. The
+  // rains end his trade; the gourd brings them, or comes with them. A First Count coin sits where the fall comes over.
+  Relation rgCoinFound(group). Relation rgSeized(group). Relation rgFactorGone(group).
+  Relation rgSanneFish(group). Relation rgSanneShut(group). Relation rgTurtleBoard(group).
+
+  Observe rg_coin_glint at pool when firstWater(party) and not rgCoinFound(party)
+    "Up where the water first comes over, a green glint is caught in a crack of the lip.".
+  Action rg_find_coin(actor: group, site: place) "Reach back in behind the fall for the green glint in the lip" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pool) and firstWater(actor) and not rgCoinFound(actor).
+    Time 10 minutes.
+    Resolve check(actor, climbing, dc_fair).
+    On success { Assert rgCoinFound(actor). Give count_coin to actor. }
+    Result "You come out of the roar with a bronze disc in your fist, green as weed. One face has eleven strokes; the other was worn blank by water long before Palla had a name.".
+    Otherwise "Your fingers close on wet moss. The glint is still there, a hand further in than you can reach.".
+  }
+
+  Observe rg_pennant at headland when befell(ash_count_begun) and not rgFactorGone(party)
+    "The coaster off the point flies a grey pennant with twelve stripes. Her boat goes in and out of the bay all day, and comes back low in the water.".
+  Person rg_factor "Factor Imre Coss" nowhere {
+    Role "the Ash's water-factor, who sells Palla its own springs by the cask while the dry lasts". Ancestry human. Calling thief. Level 3. Manner jovial. Carries dagger.
+    Arrives at waterfront when befell(ash_count_begun) and state(sky, hot_sky) and not rgFactorGone(party).
+    Greets "A round man in a grey coat sits on a water cask at the slipway with a slate on his knee. 'A copper the jug,' he says. 'I did not make the dry. I only noticed it.'".
+    Greets again "Coss chalks another jug on his slate. 'Everyone pays in the end. The thirsty sooner.'".
+  }
+  Person rg_hands "Coss's boat hands" nowhere {
+    Role "two deck hands off the Ash coaster, paid by the cask". Ancestry human. Calling warrior. Level 2. Numbers 2. Temperament obedient. Uses go, assail. Plans 3 steps.
+    Arrives at waterfront when befell(ash_count_begun) and state(sky, hot_sky) and not rgFactorGone(party).
+  }
+  Initially Assert serves(rg_hands, rg_factor).
+  Observe rg_casks at waterfront when at(rg_factor, waterfront)
+    "Six casks stand chained at the head of the slipway, by the dry rain-stone. A line of women with jugs waits for them in the sun.".
+
+  // A full gourd, carried down past the man who sells water: he wants it off the stone and into a cask. Once Oyelle has
+  // said she will come down to see it poured, Palla is out on the slipway waiting for her, and he will not be seen to
+  // stand in her way; a company on the Ash's board is let by.
+  Rule rg_seize when holding(party, full_kind) and at(party, waterfront) and at(rg_factor, waterfront) and not comesDown(party) and not befell(company_sworn_ash) and not rgSeized(party)
+    says "Coss gets off his cask. 'Water poured on a stone is water thrown away,' he says. 'The board buys it. Two coppers, since it is cold.' His hands come up the slipway either side of you." {
+    Assert rgSeized(party). Assert assails(rg_hands, party).
+  }
+  Action rg_fight(actor: group, site: place) "Keep the gourd out of Coss's casks" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, waterfront) and at(rg_factor, waterfront) and not rgSeized(actor).
+    Time 1 minute.
+    On success { Assert rgSeized(actor). Assert assails(rg_factor, actor). Assert assails(rg_hands, actor). }
+    Result "You put yourself between the casks and the women with the jugs. Coss sighs, puts his slate face down and takes out a short knife.".
+  }
+  Observe rg_crowd_waits at waterfront when holding(party, full_kind) and comesDown(party) and not at(oyelle, waterfront) and at(rg_factor, waterfront)
+    "Coss looks at the full gourd, then at the crowd on the slipway, then up at the hill. He sits back down on his cask.".
+  Observe rg_oyelle_shames at waterfront when at(oyelle, waterfront) and at(rg_factor, waterfront)
+    "Coss sees Oyelle come down the slipway on your arm and stands up off his cask. He does not sell a jug while she is in sight.".
+
+  Rule rg_sails when state(sky, rain_sky) and at(rg_factor, waterfront) and not rgFactorGone(party)
+    says "Coss stands in the rain with his slate going to grey milk. Every roof in Palla is running into a barrel. He rolls his casks into the shallows, empties them, and rows out to the coaster without a word." {
+    Assert rgFactorGone(party). Retract at(rg_factor, waterfront). Retract at(rg_hands, waterfront).
+  }
+  Observe rg_empty_casks at beach when rgFactorGone(party)
+    "Six empty casks lie in the wrack line. Tobi has already claimed one for a boat.".
+  Observe rg_broken at waterfront when befell(ash_broken)
+    "A grey pennant hangs from the net-shed, sewn into a bag for drying beans.".
+  Observe rg_triumph at headland when befell(ash_triumphs)
+    "The grey coaster lies at anchor off the point in all weathers now. In the dry its boat comes in with casks, and Palla buys back its own rain.".
+
+  Topic rg_ri_sanne with sanne "Tell Sanne the company is sworn to the Rì" when at(sanne, waterfront) and befell(company_sworn_ri) and not rgSanneFish(actor) once {
+    Says "'The Rì,' says Sanne. 'He is a long way off.' She unhooks a string of dried fish from the net-pole. 'So is everywhere from here. Take that for it.'".
+    On discuss { Assert rgSanneFish(actor). Increase quantity(actor, rations) by 1. }
+  }
+  Topic rg_ash_sanne with sanne "Tell Sanne the company is sworn to the Ash" when at(sanne, waterfront) and befell(company_sworn_ash) and not rgSanneShut(actor) once {
+    Says "Sanne takes her feet out of the bucket and empties it carefully on the stones, not toward you. 'There,' she says. 'Now you have had something of Palla's free.'".
+    On discuss { Assert rgSanneShut(actor). Assert refusesService(sanne, actor). }
+  }
+  Topic rg_tally_tobi with tobi "Show Tobi the Ash's tally-board" when at(tobi, cove) and holding(actor, ash_tally) and not rgTurtleBoard(actor) once {
+    Says "Tobi turns the board over twice. 'It floats,' he says, delighted, and swims it out to the rocks where the turtle comes in. 'She likes something flat to sit on.'".
+    On discuss { Assert rgTurtleBoard(actor). Spend ash_tally from actor. }
+  }
+}
