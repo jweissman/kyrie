@@ -25,7 +25,7 @@ describe('World › The way on', () => {
     Company party "You" of 1 at green.
     Goal false.`;
   it('marks the way from the shrine that leads on to the woods not yet seen, the woods\' edge walked', async () => {
-    const t = await Tiny.start(town);
+    const t = await Tiny.start(town, { horizon: [] });
     await t.play('>t__edge', '>t__green', '>t__shrine');
     // Every way from the shrine goes somewhere been; the ride, beyond the edge, has not been seen.
     expect(t.screen.exits.every(e => e.visited)).toBe(true);
@@ -56,7 +56,7 @@ describe('World › The way on', () => {
     Company party "You" of 1 at porch.
     Goal false.`;
   it('marks the way back out of a dead-end recess, toward the gallery not yet entered', async () => {
-    const t = await Tiny.start(hold);
+    const t = await Tiny.start(hold, { horizon: [] });
     await t.play('>t__hall', '>t__recess');
     expect(t.screen.exits.map(e => [e.destination.id, e.visited])).toEqual([['t__hall', true]]);
     const back = rows(t).find(o => o.choice.endsWith('t__hall'))!;

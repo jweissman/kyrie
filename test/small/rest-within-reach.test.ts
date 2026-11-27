@@ -47,7 +47,7 @@ const missing = (t: Tiny): string[] => {
 };
 describe('going and waiting at a place at rest', () => {
   it('are on the one menu\'s pages, every way out and every wait, before a way is known and after', async () => {
-    const t = await Tiny.start(yard);
+    const t = await Tiny.start(yard, { horizon: ['probing'] });
     expect(t.screen.exits.length).toBe(3);
     expect(t.screen.camp.some(a => a.command === 'wait')).toBe(true);
     expect(missing(t)).toEqual([]);
