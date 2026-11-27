@@ -1,0 +1,93 @@
+Module lowwater "Low Water" {
+  // Under the long campaign's count (doc/design/direction-2026-11-27-the-long-campaign.md, "The war's reach"): the
+  // Ash is the rump of Aeneas, and the Reckoner's third wheel is the Aeneans' column, stopped early with its last gate
+  // half open. The Ash's count-reader has come down into the wheel-rooms to cut that gate out and carry it east, where
+  // his masters mean to finish the sum. The saw shakes the count, and what waits beyond the last door feels it. A First
+  // Count coin serves as the washer under the brass line of the oldest pot in the Full Measure.
+  Relation lwCoinFound(group). Relation lwGateTaken(group). Relation lwReaderGone(group). Relation lwFought(group).
+  Relation lwShown(group). Relation lwSawed(group). Relation lwRuanPie(group). Relation lwFennShut(group).
+  Relation lwIsauraBoard(group).
+
+  Action lw_find_coin(actor: group, site: place) "Look inside the oldest pot on Ruan Tell's shelf" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, taproom) and not lwCoinFound(actor).
+    Time 10 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert lwCoinFound(actor). Give count_coin to actor. }
+    Result "The oldest pot is pewter gone black, and its brass line is riveted through a washer that is not a washer: a bronze disc with eleven strokes on it. Ruan Tell watches you prise it out. 'Grandfather put that line in,' he says. 'He said it was the only honest money he ever had.'".
+    Otherwise "Pots, lines, cards behind the taps. Ruan Tell asks if you are with the Office, and stops smiling until you say no.".
+  }
+
+  Person lw_reader "Reader Lazar Maudrey" nowhere {
+    Role "a count-reader of the Ash's Collegium, who has come to finish the Aeneans' column". Ancestry human. Calling mage. Level 5. Manner acerbic. Carries dagger.
+    Arrives at w_aeneans when befell(ash_count_begun) and watch(clock) >= 36 and not lwReaderGone(party).
+    Greets "A narrow man in grey is on his knees at the third wheel's half-open gate with a lamp, a set of brass callipers and a notebook ruled in twelve columns. He does not get up. 'Hold the light still, if you are going to stand there,' he says. 'This is the most important sum in the world and it was left unfinished.'".
+    Greets again "Maudrey measures the gate again. 'They stopped it with a hand,' he mutters. 'Why would you stop it with a hand?'".
+  }
+  Person lw_sappers "Maudrey's sappers" nowhere {
+    Role "two Ash sappers with a frame-saw and a sack of wedges, who do not like the dark". Ancestry human. Calling warrior. Level 3. Numbers 2. Temperament obedient. Carries club. Uses go, assail. Plans 3 steps.
+    Arrives at w_aeneans when befell(ash_count_begun) and watch(clock) >= 36 and not lwReaderGone(party).
+  }
+  Initially Assert serves(lw_sappers, lw_reader).
+  Observe lw_saw_sound at count_gallery as sound when at(lw_reader, w_aeneans) and not lwGateTaken(party)
+    "Somewhere along the gallery, a saw is going through bronze: a long patient whine, a pause, a long patient whine.".
+
+  // On the third morning the gate is through. The count shakes, and the approach comes on faster.
+  Rule lw_gate_taken when at(lw_reader, w_aeneans) and watch(clock) >= 324 and not lwGateTaken(party) and not lwReaderGone(party) {
+    Assert lwGateTaken(party). Assert lwReaderGone(party). Increase approach(bowl) by 2.
+    Retract at(lw_reader, w_aeneans). Retract at(lw_sappers, w_aeneans).
+  }
+  Observe lw_gate_gone at w_aeneans when lwGateTaken(party)
+    "The third wheel's last gate is gone: a clean saw-cut, bright as a new coin, and the wheel has turned a finger's breadth on its own, the first time in a thousand years.".
+  Observe lw_gate_heard at taproom when lwGateTaken(party)
+    "Ruan Tell says three men went up the Stair before dawn with a bronze thing on a pole between them, wrapped in a blanket, and none of them would take a drink.".
+
+  Action lw_fight(actor: group, site: place) "Put out the reader's lamp and go for his sappers" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, w_aeneans) and at(lw_reader, w_aeneans) and not lwFought(actor) and not befell(company_sworn_ash).
+    Time 1 minute.
+    On success { Assert lwFought(actor). Assert assails(lw_sappers, actor). Assert assails(lw_reader, actor). }
+    Result "The lamp goes over. In the dark there is the clatter of a saw dropped on stone, and Maudrey's voice, high and furious: 'Mind the gate! Whatever you do, mind the gate!'".
+  }
+  Rule lw_reader_dies at w_aeneans when at(party, w_aeneans) and dead(lw_reader) and not lwReaderGone(party)
+    says "His notebook has fallen open on the floor. Eleven columns are full of his small hand. The twelfth has one word at its head, crossed out and written again: Aeneas." {
+    Assert lwReaderGone(party). Retract at(lw_sappers, w_aeneans).
+  }
+
+  // A reader can be read to. The third column was stopped on purpose: the cut is a hand's, and the company can show him.
+  Action lw_show(actor: group, site: place) "Show Maudrey the third column was closed by its own people" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, w_aeneans) and at(lw_reader, w_aeneans) and knows(actor, wheels_counted) and not lwShown(actor).
+    Time 20 minutes.
+    Resolve check(actor, lore, dc_hard).
+    On success { Assert lwShown(actor). Assert lwReaderGone(actor). Retract at(lw_reader, w_aeneans). Retract at(lw_sappers, w_aeneans). }
+    On failure { Assert lwShown(actor). }
+    Result "You show him what the other wheels show: every column locked from inside, by the water, except this one, where the gate is held by a wedge of Aenean oak that someone drove in with their own hand. He looks at it a long time. 'They asked to be left out,' he says at last. 'They asked not to be counted.' He sends the sappers up the Stair, and sits down in the dark, and is still sitting there when you go.".
+    Otherwise "'Every column is closed by hand, in the end,' says Maudrey. 'Mine will be.' He licks his pencil.".
+  }
+  Rule lw_broken_moot when broken(reckoner) and at(lw_reader, w_aeneans) and not lwReaderGone(party) {
+    Assert lwReaderGone(party). Retract at(lw_reader, w_aeneans). Retract at(lw_sappers, w_aeneans).
+  }
+  Observe lw_broken_after at count_gallery when broken(reckoner) and lwReaderGone(party) and not lwGateTaken(party)
+    "Brass callipers lie in the gallery by the third arch, dropped and left. A broken count is worth nothing to anybody, the Ash included.".
+
+  Topic lw_hold with lw_reader "Hold the lamp for Maudrey, for the Ash" when befell(company_sworn_ash) and not lwSawed(actor) once {
+    Says "'At last, somebody useful,' says Maudrey. The sappers saw all night by your light. In the morning he pays you out of a purse with twelve stitched seams, without looking up from his callipers.".
+    On discuss { Assert lwSawed(actor). Increase quantity(actor, gold) by 5. Assert lwGateTaken(actor). Assert lwReaderGone(actor). Increase approach(bowl) by 2. Retract at(lw_reader, w_aeneans). Retract at(lw_sappers, w_aeneans). }
+  }
+
+  Observe lw_broken at measures_square when befell(ash_broken)
+    "Someone has chalked eleven strokes on the Office steps, and a twelfth across them. The clerks walk round it.".
+  Observe lw_triumph at measures_square when befell(ash_triumphs)
+    "The Office of Measures flies a grey pennant over its door. The gauge on the Ward wall reads in twelfths now, not in spans.".
+
+  Topic lw_ri_ruan with ruan "Tell Ruan Tell the company is sworn to the Rì" when befell(company_sworn_ri) and not lwRuanPie(actor) once {
+    Says "'To the line, then,' says Ruan, and fills two pots exactly to the brass, and then, after a look at the door, a finger over it. 'Over measure. Don't tell the Office.' He wraps a pie for the road.".
+    On discuss { Assert lwRuanPie(actor). Increase quantity(actor, rations) by 2. }
+  }
+  Topic lw_ash_fenn with fenn "Tell Registrar Fenn the company is sworn to the Ash" when befell(company_sworn_ash) and not lwFennShut(actor) once {
+    Says "Registrar Fenn takes a fresh sheet, writes your names on it, and blots it. 'The Office will be glad to have the matter in writing,' she says. 'It will not be glad of anything else.'".
+    On discuss { Assert lwFennShut(actor). Assert refusesService(fenn, actor). }
+  }
+  Topic lw_tally_isaura with isaura "Show Isaura the Ash's tally-board" when holding(actor, ash_tally) and not lwIsauraBoard(actor) once {
+    Says "Isaura counts the stripes with the end of her ell-rod, twice. 'Twelve stripes, eleven columns ruled,' she says. 'It does not add up. It was never meant to.' She files it in her satchel under Evidence, and buckles the strap.".
+    On discuss { Assert lwIsauraBoard(actor). Spend ash_tally from actor. }
+  }
+}
