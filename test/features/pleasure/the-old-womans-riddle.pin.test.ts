@@ -47,7 +47,14 @@ describe('the old woman\'s riddle', () => {
     const s = await RunnerFind.act(r, at, /^Stop for the old woman's riddle/);
     const offered = new Set(RunnerOffer.flat([...s.offer.primary, ...s.offer.rest]).map(o => RunnerOffer.act(o)));
     const flat = (cs: Choice[]): Choice[] => cs.flatMap(c => [c, ...flat(c.children ?? [])]);
-    const drawn = flat(MenuModel.build(Glanced.of(session).frame(), 'here', []).choices).filter(c => c.command);
+    // The riddle leads the page, and since a thing's acts are its own page's (one flat level outside a fight,
+    // OR-1295), her answers are drawn on the riddle's page, first, one act from the scene (OR-1463: that an engaged
+    // frame open on its engagement's page is the frame's to say).
+    const frame = Glanced.of(session).frame(), scene = MenuModel.build(frame, 'here', []).choices;
+    expect(scene[0]!.label).toBe('the old woman\'s riddle');
+    const id = scene[0]!.id.replace(/#.*$/, '');
+    const drawn = flat(MenuModel.build(frame, 'here', [], { attention: { kind: 'thing', id } }).choices)
+      .filter(c => c.command);
     expect(drawn.filter(c => !offered.has(c.command!)).map(c => c.label)).toEqual([]);
     expect(drawn.slice(0, 3).map(c => c.label).every(l => /^(Tell her it is|Say you do not know)/.test(l))).toBe(true);
   }, 120000);

@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 206 pins (175 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 715 live rows, 229 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 206 pins (175 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 716 live rows, 229 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -58,7 +58,7 @@ page's colours and opportunities.)
 
 ### Conversation
 
-- **Conversation held to its focus** · 11 pins · 4 defects · 5 asks
+- **Conversation held to its focus** · 11 pins · 4 defects · 6 asks
   - ✓ draws her topics alone, every one within reach over its pages, and her leave-taking on each
   - ✓ shows a short list whole, with nothing folded
   - ✓ shows three, folds the rest, and sets trading apart
@@ -75,6 +75,7 @@ page's colours and opportunities.)
   - requirement OR-424 P2: Reflection: a bounded act (gathering one's thoughts, study, a long rest) by which evidence the…
   - requirement OR-674 P3: Talk that moves its speaker ends the conversation, and its label does not say so: "Ask Varnish to…
   - direction OR-1338 P3: A conversation's experience is told by the skill and the one asked ("experience: persuasion with…
+  - requirement OR-1463 P2: Stopped for, the old woman's riddle is the engaged frame (OR-177), but since a thing's acts are…
 - **Checks put in conversation** · 1 pins · 0 defects · 1 asks
   - ✓ a question put in conversation is a check, its outcome said by the one asked
   - requirement OR-342 P2: Checks put in conversation: the capability as its pins hold it (a question put in conversation is…
