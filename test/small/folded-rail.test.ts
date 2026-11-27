@@ -8,7 +8,8 @@ import type { Attested } from '../../src/presentation/attest';
 // the diamond the page draws glitters with what the folded lenses hold, from their own marks: neutral with none, one
 // tone for one, a still OKLab gradient across several, each tone once.
 describe('the folded lenses', () => {
-  // Only the lenses earned stand in it (compactification, OR-1241): none for a first-level company, all at act II.
+  // Only the lenses earned stand in it (compactification, OR-1241): none for a first-level company, and none at the
+  // fourth level either (OR-1491: a level earns nothing; test/small/surfaces-earned holds the oracle's earn of all).
   it('are the resting scene\'s, by the engine\'s hint, with the lenses earned in them', async () => {
     const yard = `
       Place yard "the yard" is room at 0, 0 outdoors.
@@ -18,7 +19,7 @@ describe('the folded lenses', () => {
     expect(first.leaf.glance?.rail).toEqual({ fold: 'folded', lenses: [] });
     const later = await Tiny.start(yard, { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior', level: 4,
       backgroundId: 'soldier' }] });
-    expect(later.leaf.glance?.rail).toEqual({ fold: 'folded', lenses: ['talk', 'go', 'look', 'wait', 'search'] });
+    expect(later.leaf.glance?.rail).toEqual({ fold: 'folded', lenses: [] });
   });
   it('glitter with the tones their marks bear, and none without', () => {
     const mark = (tone?: string) => ({ tone, words: tone ?? 'nothing', icons: [], companion: false, faint: false,
