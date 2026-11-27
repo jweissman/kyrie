@@ -125,7 +125,7 @@ export class Travel {
   // Why a leg cannot simply be taken, in the words of what stands in the way: the river in spate, a rope wanted, a
   // watcher. Before, a ford in spate was said only to "not let you by" (mere, in a newcomer's night).
   private static barred(campaign: Campaign, leg: Leg): string {
-    const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
+    const entities = EntityIndex.of(campaign.module.entities).byId;
     const way = new PassageModel(campaign.world, campaign.playerActor!, entities).ways(leg.from)
       .find(w => w.passage === leg.passage && w.to === leg.to);
     return way?.reason ? way.reason.replace(/\.$/, '') : `${leg.way} will not let you by from here`;
@@ -138,7 +138,7 @@ export class Travel {
   }
   private static at(campaign: Campaign, destination: string): boolean {
     const here = campaign.world.one('at', campaign.playerActor!);
-    return !!here && Itineraries.within(new Map(campaign.module.entities.map(e => [e.id, e])), here, destination);
+    return !!here && Itineraries.within(EntityIndex.of(campaign.module.entities).byId, here, destination);
   }
   // How the company stands before a leg: its hurts, and whether it is weary, hungry or out at night.
   static condition(campaign: Campaign): Condition {
