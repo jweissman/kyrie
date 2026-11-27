@@ -189,8 +189,9 @@ are same-night values, not a claim that every quantity measure passes.
 
 The SRD creature catalog and placed-body changes move the whole-world and creature digests used by the Wren trace.
 After rebasing onto main `09ed9f8e`, `bun scripts/redigest-trace.ts wren-tower-climbed` replayed the commands and
-reported "it comes where it came": the kept place, watch and words are unchanged. Only the transcript's per-step
-digests were rewritten. `src/session/digest.ts` includes the whole world key and every creature's health, level and
+reported "it comes where it came". Repeated against main `2bad8fd0`, after main deliberately changed the lookout's
+kept words, it again came to main's kept place, watch and words. Only the transcript's per-step digests were rewritten.
+`src/session/digest.ts` includes the whole world key and every creature's health, level and
 experience, including unvisited entities; PR-02 tracks narrowing digests to what a step reads and durable command
 aliases. No historical replay lane is proposed.
 
