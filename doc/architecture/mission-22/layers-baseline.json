@@ -3,7 +3,7 @@
  "kinds": {
   "runtime -> setting": 49,
   "player -> setting": 69,
-  "setting -> player": 13
+  "setting -> player": 10
  },
  "edges": [
   "src/ability-use.ts -> src/canon/canon",
@@ -133,9 +133,6 @@
   "src/ui/screen-model.ts -> src/world/seats",
   "src/ui/screen-types.ts -> src/paintings/company-portraits",
   "src/ui/unusable.ts -> src/canon/condition-sense",
-  "src/world/community/community-writer.ts -> src/narrative/voice",
-  "src/world/drawn-world.ts -> src/session/play-session",
-  "src/world/region-news.ts -> src/narrative/voice",
-  "src/world/region-traffic.ts -> src/narrative/voice"
+  "src/world/drawn-world.ts -> src/session/play-session"
  ]
 }

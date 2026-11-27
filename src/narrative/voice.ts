@@ -11,6 +11,9 @@ import farewell from '../../data/voice/farewell.json';
 import feat from '../../data/voice/feat.json';
 import day from '../../data/voice/day.json';
 import answer from '../../data/voice/answer.json';
+import { VoiceWords, type Speaking } from '../shared/voice-words';
+
+export type { Speaking } from '../shared/voice-words';
 
 // One line of a voice table: what is said or told, in which circumstances (each key of when must match the moment's
 // context: one value, or any of several), how often against the others, and where it came from.
@@ -19,13 +22,6 @@ export interface VoiceLine {
   source?: { kyr?: true; orsino?: string; notes?: string };
 }
 export interface VoiceTable { about: string; kinds: string[]; lines: VoiceLine[] }
-// What a line is told about: the names, and the words the actor is spoken of in.
-export interface Speaking { actor?: string; target?: string; pronoun?: string; place?: string;
-  // Any other names a line is filled with ({from}, {to}).
-  values?: Record<string, string>;
-  // Whether the actor is a band of many (the bats) or one (the reeve, though spoken of as they): a verb that follows
-  // the actor's name agrees with that; one that follows {they}, with the pronoun.
-  many?: boolean }
 
 // The voice tables (data/voice): for each kind of happening, the lines it may be told in, by the circumstances that
 // call for each. Editors change the tables; bin/kyrie voice shows every line in the moments it would be chosen in.
@@ -79,37 +75,14 @@ export class Voice {
   // A line with its names put in: {actor}, {Actor}, {target}; the actor's words, {they} {them} {their}, and a verb
   // that agrees with them, [walk|walks].
   static render(text: string, s: Speaking): string {
-    const words = this.pronouns[s.pronoun ?? 'they'] ?? this.pronouns.they!;
-    const named = s.many === undefined ? text : Voice.agreeing(text, s.many);
-    return named.replace(/\{(\w+)\}/g, (all, key: string) => {
-      const lower = key.toLowerCase(), upper = key !== lower;
-      const word = words[lower as keyof typeof words];
-      const value = lower === 'actor' ? s.actor : lower === 'target' ? s.target : lower === 'place' ? s.place
-        : s.values?.[lower] ?? (typeof word === 'string' ? word : undefined);
-      if (value === undefined) { return all; }
-      return upper ? value.charAt(0).toUpperCase() + value.slice(1) : value;
-    }).replace(/\[([^|\]]*)\|([^\]]*)\]/g, (_, plural: string, singular: string) => words.plural ? plural : singular);
+    return VoiceWords.render(text, s);
   }
   // A verb agrees with the speaker, one or many, where the speaker is its subject, not with the pronoun said of them
   // ("'You,' say the woman in black": the cold evaluation): next to the name, before it or after it, and after it in
   // the same line until {they} takes over as the subject. Only the verb beside the name had agreed, so that "{Actor}
   // [wince|winces], and still [look|looks] round" was told "Wenna winces, and still look round" (cold play 2, CL-11).
   static agreeing(text: string, many: boolean): string {
-    let subject: 'actor' | 'pronoun' = 'pronoun';
-    return text.replace(/\{(\w+)\}|\[([^|\]]*)\|([^\]]*)\](?=( \{[Aa]ctor\})?)/g, (all: string, ...m: unknown[]) => {
-      const [key, plural, singular, before] = m as (string | undefined)[];
-      if (key !== undefined) {
-        if (/^actor$/i.test(key)) { subject = 'actor'; } else if (/^they$/i.test(key)) { subject = 'pronoun'; }
-        return all;
-      }
-      return before || subject === 'actor' ? many ? plural! : singular! : all;
-    });
+    return VoiceWords.agreeing(text, many);
   }
-  static readonly pronouns: Record<string, { they: string; them: string; their: string; theirs: string;
-    themself: string; plural: boolean }> = {
-      they: { they: 'they', them: 'them', their: 'their', theirs: 'theirs', themself: 'themself', plural: true },
-      he: { they: 'he', them: 'him', their: 'his', theirs: 'his', themself: 'himself', plural: false },
-      she: { they: 'she', them: 'her', their: 'her', theirs: 'hers', themself: 'herself', plural: false },
-      it: { they: 'it', them: 'it', their: 'its', theirs: 'its', themself: 'itself', plural: false },
-    };
+  static readonly pronouns = VoiceWords.pronouns;
 }

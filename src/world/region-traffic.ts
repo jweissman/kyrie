@@ -5,7 +5,7 @@ import { RegionShops } from './region-shops';
 import { RegionMarket } from './region-market';
 import { Outfitters } from './outfitters';
 import { SettlementWriter } from './settlement-writer';
-import { Voice } from '../narrative/voice';
+import { VoiceWords as Voice } from '../shared/voice-words';
 import { CommunityWriter } from './community/community-writer';
 import { RegionSites } from './region-sites';
 import { RegionNews } from './region-news';

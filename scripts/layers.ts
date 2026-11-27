@@ -1,7 +1,8 @@
 #!/usr/bin/env bun
 // The layers as logical units, mechanically held (MT-16; the owner, 19 November, night: "force logical units we can
 // mechanically verify nothing imports inaccurately", a `packages/kyr` the eventual shape, not now). Four units, each
-// importing only from those beneath it: Kyr the language (src/lang); the runtime (campaign, rules, the engine's own
+// importing only from those beneath it: Kyr the language (src/lang); the runtime (campaign, rules, shared helpers, the
+// engine's own
 // files); a generic player that knows no setting or scenario (session, presentation, ui, narrative, creation); and
 // the setting's modules (world, canon, paintings, handbook, registry, data). The clients (src/cli, src/autoplay,
 // web/engine, web/reader) stand over them all. Every import that goes the wrong way is an edge; today's are kept in
@@ -26,7 +27,7 @@ export class Layers {
     // the handbook, the world and the clients, the runtime reading only the files it writes (MT-16).
     if (/^src\/(world|canon|paintings|handbook|registry)\//.test(path)
       || path.startsWith('data/') || path === 'src/generation-setting.ts') { return 'setting'; }
-    if (/^src\/(campaign|rules)\//.test(path) || /^src\/[^/]+$/.test(path)) { return 'runtime'; }
+    if (/^src\/(campaign|rules|shared)\//.test(path) || /^src\/[^/]+$/.test(path)) { return 'runtime'; }
     // The frame's menu and its marks, worked out once a frame for every client (src/frame, OR-1071), are the player's.
     // Creation is the player's (MT-16, S5): the making of a life as a flow of questions (CreationFlow and its entries,
     // spells, defaults, rules and cards, the first choice) and the protocol the engine and the page speak, moved out

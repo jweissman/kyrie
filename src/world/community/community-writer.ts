@@ -1,4 +1,4 @@
-import { Voice } from '../../narrative/voice';
+import { VoiceWords as Voice } from '../../shared/voice-words';
 import { Overlays } from '../../overlays';
 import { Canon } from '../../canon/canon';
 import { RegionGrowth } from '../region-growth';

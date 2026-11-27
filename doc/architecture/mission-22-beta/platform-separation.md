@@ -11,14 +11,14 @@ The layers are already drawn and held. `scripts/layers.ts` (MT-16) puts every fi
 of four units:
 
 - Kyr the language (`src/lang`);
-- the runtime (`src/campaign`, `src/rules`, and the engine's root files in `src/*.ts`);
+- the runtime (`src/campaign`, `src/rules`, `src/shared`, and the engine's root files in `src/*.ts`);
 - a generic player (`src/session`, `presentation`, `ui`, `narrative`, `creation`);
 - the setting (`src/world`, `canon`, `paintings`, `handbook`, `registry`, `data`).
 
 The clients (`src/cli`, `src/autoplay`, `web/engine`, `web/reader`) stand over them. An import that goes the wrong
 way is an edge. `test/small/layers` holds the baseline, which may only shrink.
 
-Today's 154 edges:
+At the review's measurement, 154 edges:
 
 | From | To | Edges | Where most of them are |
 |---|---|---|---|

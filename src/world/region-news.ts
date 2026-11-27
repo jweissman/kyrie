@@ -1,7 +1,7 @@
 import { Draw } from './land/draw';
 import { Foundings } from './founding';
 import { SettlementScenes } from './settlement-scenes';
-import { Voice } from '../narrative/voice';
+import { VoiceWords as Voice } from '../shared/voice-words';
 import type { Region, Settlement } from './region-writer';
 import tables from '../../data/generation/scenes/traffic.json';
 
