@@ -27,9 +27,9 @@
     "concept": "character",
     "total": 25,
     "feasible": 25,
-    "catalogued": 11,
+    "catalogued": 10,
     "represented": 0,
-    "executable": 14,
+    "executable": 15,
     "play-validated": 0
    },
    {
@@ -798,20 +798,20 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 723,
+    "faithful": 725,
     "adapted": 425,
     "represented": 4,
     "kyr": 633,
     "unsupported": 66,
     "unreachable": 4,
-    "data-only": 12
+    "data-only": 11
    },
    "sections": [
     {
      "id": "ancestries",
      "title": "Ancestries",
      "counts": {
-      "faithful": 12,
+      "faithful": 13,
       "adapted": 2,
       "represented": 0,
       "kyr": 1,
@@ -993,13 +993,13 @@
      "id": "orsino-company",
      "title": "Appendix: Orsino's peoples and skills",
      "counts": {
-      "faithful": 61,
+      "faithful": 62,
       "adapted": 5,
       "represented": 4,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
-      "data-only": 12
+      "data-only": 11
      }
     }
    ]
@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 348,
+    "kyr": 349,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1049,7 +1049,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 40,
+      "kyr": 41,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1201,6 +1201,13 @@
   {
    "id": "ancestry:goblin",
    "title": "Goblin",
+   "status": "faithful",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:gnoll",
+   "title": "Gnoll",
    "status": "faithful",
    "book": "phb",
    "section": "ancestries"
@@ -13738,7 +13745,7 @@
   {
    "id": "orsino:ancestry:gnoll",
    "title": "Gnoll",
-   "status": "data-only",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ancestry"
   },
@@ -16405,6 +16412,13 @@
   {
    "id": "campaign:a-winter-in-carth",
    "title": "A Winter in Carth",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:cleave",
+   "title": "The Cradle Across the Cleave",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

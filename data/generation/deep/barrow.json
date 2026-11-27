@@ -75,6 +75,7 @@
     "deep_grave": { "names": ["the deep grave"], "scenes": ["Behind the ring a smooth-sided pit goes down into the rock. A smell of turned earth comes up out of it. Whatever lies at the bottom of it is not the king, or is not only the king."] }
   },
   "dwellerHabitats": ["barrow", "cave", "ruin"],
+  "incomers": [{ "ancestry": "gnoll", "calling": "warrior", "count": 2, "label": "the gnolls", "role": "a pack of gnolls come in from outside to dig at the dead", "temperament": "territorial" }],
   "dwellers": [
     { "depth": 0, "groups": [
       { "species": "rat", "count": 5, "label": "the rats", "role": "rats that live on what the mound gives up", "temperament": "wary" },

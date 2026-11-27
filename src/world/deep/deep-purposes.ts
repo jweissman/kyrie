@@ -99,6 +99,9 @@ export interface DeepPurpose {
   // The habitats (data/catalog/habitats.json) whose creatures may also have come to live here: a room's dwellers are
   // either one of the groups written above or a party of them composed for the room's danger (see Parties).
   dwellerHabitats?: string[];
+  // Who comes in from outside to the way in once its first dwellers are dealt with (DeepTime's newcomers on the first
+  // level): a pack of gnolls out of the hills, that dens where the old dwellers were.
+  incomers?: DeepGroup[];
   // The devices set among those who live here, by what the place was (Orsino's: a tomb's charge, a temple's ward):
   // one in a fifth of the rooms with dwellers (see DeepRooms.device).
   devices?: { id: string; label: string; role: string }[];

@@ -112,7 +112,8 @@
       "human": 30,
       "elf": 40,
       "dwarf": 50,
-      "goblin": 25
+      "goblin": 25,
+      "gnoll": 40
     },
     "person": 30
   },

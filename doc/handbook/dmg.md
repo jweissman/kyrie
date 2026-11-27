@@ -2951,6 +2951,15 @@ The worlds that ship with the game.
 
 > The march road brings you up out of the snow-fields to a stone cross where the fell road begins: north over Carth Fell, and down across the white Levels to Gaunt, the walled city of the Minster, three days before the Fast. On the step of the Cross a barefoot old man is mending a sandal he does not need, and beside him a beadle sits with his frozen foot in his hat.
 
+### The Cradle Across the Cleave
+
+*Kyr* · `campaign:cleave`
+
+- Regions and sites: cleave
+- Kits placed: —
+
+> What is asked, and why it matters.
+
 ### The Eel Bell
 
 *Kyr* · `campaign:eelbell`

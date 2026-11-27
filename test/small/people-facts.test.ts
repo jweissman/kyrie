@@ -15,8 +15,9 @@ describe('the encyclopedia\'s peoples and callings', () => {
       // Its qualities as the six, drawn as the stat block's row (StatBlock).
       expect(e.abilities).toBeDefined();
       expect(StatBlock.html(e, x => x)).toContain('<b>STR</b>');
+      // (The gnolls are no country's folk: they come in from outside to a deep site's way in, OR-1236.)
       expect([e.id, facts.has('Folk of') || facts.has('Lives among others in') || e.id === 'ancestry:goblin'
-        || e.id === 'ancestry:glimmerkin']).toEqual([e.id, true]);
+        || e.id === 'ancestry:glimmerkin' || e.id === 'ancestry:gnoll']).toEqual([e.id, true]);
       // Its description, how it looks, and how it lives together.
       expect(e.text?.length).toBe(3);
     }

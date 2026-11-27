@@ -10,14 +10,14 @@ reaches it with declared omissions), **reference** (kept in the registry only, b
 computed from what Kyr has and draws, not claimed: the ledger and generated catalogs for rules and things, what
 a generated country draws for wonders and traps, the voice tables for barks.
 
-2651 entries in 79 families: 1614 integrated, 175 represented, 745 reference, 117 blocked.
+2651 entries in 79 families: 1615 integrated, 175 represented, 745 reference, 116 blocked.
 
 ## By family
 
 | Concept | Family | Entries | Integrated | Represented | Reference | Blocked | Destination | Generation | Tests |
 |---|---|---:|---:|---:|---:|---:|---|---|---|
 | character | alignment | 9 | 0 | 0 | 9 | 0 | none | none | — |
-| character | ancestry | 25 | 14 | 0 | 0 | 11 | data/catalog/ancestries.json | region peoples (data/generation/tables/peoples.json) and protagonists | `test/region-peoples.test.ts` `test/origins.test.ts` |
+| character | ancestry | 25 | 15 | 0 | 0 | 10 | data/catalog/ancestries.json | region peoples (data/generation/tables/peoples.json) and protagonists | `test/region-peoples.test.ts` `test/origins.test.ts` |
 | character | background | 215 | 215 | 0 | 0 | 0 | data/catalog/backgrounds.json (compiled from Orsino's rows) | residents' backgrounds in generated communities (src/world/community) | `test/backgrounds.test.ts` `test/community.test.ts` |
 | character | class | 7 | 0 | 7 | 0 | 0 | data/catalog/classes.json | protagonist and recruit callings; residents' callings | `test/progression.test.ts` `test/fellows.test.ts` |
 | character | nobility | 3 | 0 | 0 | 3 | 0 | none | none | — |
@@ -106,7 +106,7 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 ### ancestry
 
-- 11 × Every feature it uses runs in Kyr, but no Kyr definition translates it yet.
+- 10 × Every feature it uses runs in Kyr, but no Kyr definition translates it yet.
 
 ### class
 

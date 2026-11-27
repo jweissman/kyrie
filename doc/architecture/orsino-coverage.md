@@ -8,14 +8,14 @@ mechanics omitted), **executable** (every source mechanic runs through canonical
 adaptation), **play-validated** (exercised in recorded play). *Feasible* counts entries whose every rule feature
 Kyr can already execute (faithfully or by documented adaptation); it is not a claim that a Kyr definition exists.
 
-2651 entries in 79 families. 1359 represented or better; 1241 executable or better; 17 play-validated; 2406 feasible.
+2651 entries in 79 families. 1360 represented or better; 1242 executable or better; 17 play-validated; 2406 feasible.
 
 ## By family
 
 | Concept | Family | Entries | Represented | Executable | Play-validated | Feasible |
 |---|---|---:|---:|---:|---:|---:|
 | character | alignment | 9 | 0 | 0 | 0 | 0 |
-| character | ancestry | 25 | 0 | 14 | 0 | 25 |
+| character | ancestry | 25 | 0 | 15 | 0 | 25 |
 | character | background | 215 | 0 | 210 | 5 | 215 |
 | character | class | 7 | 7 | 0 | 0 | 0 |
 | character | nobility | 3 | 0 | 0 | 0 | 0 |
@@ -282,6 +282,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `ancestry:human` | `ancestry:human` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
 | `ancestry:elf` | `ancestry:elf` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
 | `ancestry:dwarf` | `ancestry:dwarf` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
+| `ancestry:gnoll` | `ancestry:gnoll` | executable | faithful | Attribute modifiers, class options and racial traits (tough, resilient), with humanoid given at birth; not a player's people (OR-1236). |
 | `ancestry:goblin` | `ancestry:goblin` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
 | `ancestry:halfling` | `ancestry:halfling` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
 | `ancestry:gnome` | `ancestry:gnome` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |

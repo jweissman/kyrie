@@ -98,6 +98,28 @@ Enduring: +2 hit points each level.
 
 > Goblins live in warrens along the river banks, many to a burrow, under whoever is loudest that season. They scavenge, trade and steal, and are paid to do the work nobody else will. Townsfolk keep them at the edge of things and blame them for what goes missing, often rightly.
 
+### Gnoll
+
+*Faithful · not chosen by players* · `ancestry:gnoll`
+
+- STR +2 · DEX +1 · CON +1 · INT −2 · WIS −3 · CHA −1
+- Build: Seven feet when they stand up straight, which is seldom; lean and long-armed.
+- Ages: Grown at ten; old at fifty.
+- Callings: Warrior, Ranger, Thief, Commoner
+- Born with: Humanoid Traits, Enduring, Dread Fortitude
+
++1 against charms, +1 against fear.
+
+Enduring: +2 hit points each level.
+
++10 against death, resists 10% of necrotic.
+
+> A tall, hyena-headed raider of the dry hills and the edges of the woods.
+
+> A spotted, sloping hide, a long jaw full of teeth, a stiff mane down the back, and a laugh that carries.
+
+> Gnolls go in packs under the strongest, and live by what they take: herds, stores, travellers on the roads. A pack that finds old workings or a barrow near a town makes its den there and raids out of it until it is driven off.
+
 ### Glimmerkin
 
 *Kyr · not chosen by players* · `ancestry:glimmerkin`
@@ -11771,7 +11793,7 @@ Orsino's ancestries and skills, with how much of each Kyr holds.
 
 ### Ancestries
 
-25 in Orsino; 14 held by Kyr.
+25 in Orsino; 15 held by Kyr.
 
 | Name | Qualities | In Kyr |
 |---|---|---|
@@ -11784,7 +11806,7 @@ Orsino's ancestries and skills, with how much of each Kyr holds.
 | Elf | str -1, dex +2, con -1, int +1, wis +2, cha +1 | faithful |
 | Fae | str -2, dex +2, con -2, int +2, wis +1, cha +3 | faithful |
 | Giant | str +4, dex -2, con +4, int -3, wis -2, cha -4 | — |
-| Gnoll | str +2, dex +1, con +1, int -2, wis -3, cha -1 | — |
+| Gnoll | str +2, dex +1, con +1, int -2, wis -3, cha -1 | faithful |
 | Gnome | str -1, dex +1, con -1, int +2, wis +1, cha 0 | faithful |
 | Goblin | str -2, dex +2, con -1, int +1, wis -1, cha -2 | faithful |
 | Half elf | str 0, dex +1, con 0, int +1, wis +1, cha +2 | faithful |

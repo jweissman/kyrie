@@ -86,6 +86,7 @@
     "source": { "names": ["the source"], "scenes": ["Behind the pool the rock opens on a crack. Water wells up through it from far below, without a sound or a ripple. The air in the crack is warm."] }
   },
   "dwellerHabitats": ["cave", "lake", "river", "fen"],
+  "incomers": [{ "ancestry": "gnoll", "calling": "warrior", "count": 2, "label": "the gnolls", "role": "a pack of gnolls come in from outside to den in the dry galleries", "temperament": "territorial" }],
   "dwellers": [
     { "depth": 0, "groups": [
       { "species": "rat", "count": 5, "label": "the rats", "role": "rats that live on the dry ledges", "temperament": "wary" },
