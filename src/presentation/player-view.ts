@@ -32,7 +32,7 @@ export interface SpatialScene {
 }
 // What kind of place it is (a room, a settlement, wild country); and the zone it is in, which no module now says.
 export interface SceneMetadata { kind?: string; zone?: string }
-type ChoiceRows = ReadonlyArray<ReturnType<typeof ActionPresentation.choices>[number]>;
+export type ChoiceRows = ReadonlyArray<Readonly<ReturnType<typeof ActionPresentation.choices>[number]>>;
 export interface PartyMember {
   id: string; name: string; raceId: string; classId?: string; level: number; hp: number; maxHp: number;
   mana: number; maxMana: number; slots?: number[]; maxSlots?: number[]; gold: number; experience: number;

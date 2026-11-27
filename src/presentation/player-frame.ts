@@ -1,12 +1,12 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Operator } from '../campaign/planner';
-import { PlayerView } from './player-view';
+import { PlayerView, type ChoiceRows } from './player-view';
 import { Knowing } from './knowing';
 import { PlayerRevision } from './player-revision';
 
 // A row as the frame holds it, and the frame's rows: read by every consumer, changed by none (each is frozen).
 export type FrameRow = ReturnType<typeof PlayerView.choices>[number];
-export type FrameRows = readonly FrameRow[];
+export type FrameRows = ChoiceRows;
 
 // The player's rows, worked out once for each player revision and read by every consumer (platform-separation.md, the
 // trust thread, adopted by the owner on 25 November): the runner, the engine host, the screen, the glance, the
@@ -30,8 +30,10 @@ export class PlayerFrame {
   static of(campaign: Campaign): PlayerFrame {
     const revision = PlayerRevision.of(campaign);
     // Worked out under the campaign's own rules (its installation, OR-520).
-    return revision.reading('frame', () => new PlayerFrame(revision, campaign.within(() => PlayerView.frameRows(campaign))));
+    return revision.reading('frame', () => new PlayerFrame(revision, this.keptRows(campaign)));
   }
+  // The canonical immutable rows, without constructing the frame or any of its derived readings.
+  static keptRows(campaign: Campaign): FrameRows { return PlayerView.frameRows(campaign); }
   // What the company knows and perceives in this revision (the projection the rows are worded and marked by: the
   // knowledge boundary's door, OR-527), for the consumers that read the frame.
   get knowing(): Knowing { return Knowing.of(this.campaign); }
