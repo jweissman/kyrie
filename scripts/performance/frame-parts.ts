@@ -13,6 +13,7 @@ import { Itineraries } from '../../src/ui/itinerary';
 import { KeptParts } from '../../src/ui/kept-parts';
 import { Quarters } from '../../src/ui/quarters';
 import { ScreenModel } from '../../src/ui/screen-model';
+import { ScreenPrices } from '../../src/ui/screen-prices';
 import { Services } from '../../src/ui/services';
 import { TownPlan } from '../../src/ui/town-plan';
 import { Withheld } from '../../src/ui/withheld';
@@ -65,8 +66,8 @@ class FrameParts {
     this.measure(Services, 'of', 'services');
     this.measure(Quarters, 'shown', 'quarters');
     this.measure(Itineraries, 'shown', 'itineraries');
-    this.measure(ScreenModel, 'fees', 'fees');
-    this.measure(ScreenModel, 'prices', 'prices');
+    this.measure(ScreenPrices, 'fees', 'fees');
+    this.measure(ScreenPrices, 'items', 'prices');
     this.measure(Agency, 'explain', 'agency');
     const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
     const runner = new Runner(journey.session);
