@@ -1,5 +1,8 @@
 import { EntityIndex, ModuleWriter, ObservationText, type World } from '../lang/index';
 
+// A relation of a module, by its name.
+interface Named { name: string }
+
 // What the company knows of the country, for its map and its journeys (OR-741, the knowledge door's first slice: ways
 // and destinations; platform-separation.md, the fifth review's step 6): a part of the one door (see Knowing), read of
 // the world here and nowhere else in the player layer. Kept beside the map and the journeys that ask it (src/ui), so
@@ -73,8 +76,21 @@ export class KnownCountry {
   // own, named for its module (the owner, OWN-43).
   looked(end: 'surveyed' | 'surveyedWell' | 'surveyedDim'): string[] {
     const w = this.world;
-    return w.module.relations.filter(r => r.name.endsWith(`__${end}`))
-      .flatMap(r => w.related(r.name, this.actor).map(x => x.args[1]!));
+    return KnownCountry.ending(w.module.relations, end)
+      .flatMap(name => w.related(name, this.actor).map(x => x.args[1]!));
+  }
+  // The relations of a module named for this end, in its order: found once for its relations as they stand (every
+  // relation of the world had been gone through three times for every chart drawn).
+  private static readonly ends = new WeakMap<readonly Named[], { size: number; by: Map<string, string[]> }>();
+  private static ending(relations: readonly Named[], end: string): readonly string[] {
+    let had = this.ends.get(relations);
+    if (had?.size !== relations.length) {
+      had = { size: relations.length, by: new Map() };
+      this.ends.set(relations, had);
+    }
+    let names = had.by.get(end);
+    if (!names) { names = relations.filter(r => r.name.endsWith(`__${end}`)).map(r => r.name); had.by.set(end, names); }
+    return names;
   }
   // The ids its aims' words name, of each aim held.
   aimed(): Set<string> {

@@ -37,4 +37,17 @@ export class SiteOutsides {
   static siteOf(byId: Map<string, Entity>, id: string): string | undefined {
     return Spatial.ancestry(byId, id).find(a => a.space?.kind === 'site')?.id;
   }
+  // Every place within a site, with its site, in the module's order: found once for a module's entities (an aim's
+  // keeper looked for had walked up from every entity of the world, ten thousand of them, for every glance).
+  private static readonly within = new WeakMap<readonly Entity[], { size: number; sited: [Entity, string][] }>();
+  static sited(entities: readonly Entity[], byId: Map<string, Entity>): readonly (readonly [Entity, string])[] {
+    const had = this.within.get(entities);
+    if (had?.size === entities.length) { return had.sited; }
+    const sited = entities.flatMap(e => {
+      const site = e.space && this.siteOf(byId, e.id);
+      return site ? [[e, site] as [Entity, string]] : [];
+    });
+    this.within.set(entities, { size: entities.length, sited });
+    return sited;
+  }
 }

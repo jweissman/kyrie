@@ -35,9 +35,8 @@ export class AimAside {
       const site = to && (SiteOutsides.siteOf(byId, to) ?? outsides.get(to));
       if (site) { sites.add(site); } else if (to && byId.get(to)?.space?.kind === 'room') { rooms.add(to); }
     }
-    for (const e of campaign.module.entities) {
-      const site = e.space && SiteOutsides.siteOf(byId, e.id);
-      if (!site || !sites.has(site) || !w.test(ModuleWriter.call('been', party, e.id))) { continue; }
+    for (const [e, site] of sites.size ? SiteOutsides.sited(campaign.module.entities, byId) : []) {
+      if (!sites.has(site) || !w.test(ModuleWriter.call('been', party, e.id))) { continue; }
       const keeper = Guarded.beyond(campaign, e.id);
       if (keeper) { return { said: `Your aim waits: ${Guarded.said(e.name, keeper)}`, room: e.id }; }
     }
