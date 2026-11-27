@@ -3,7 +3,7 @@
  "kinds": {
   "runtime -> setting": 49,
   "player -> setting": 49,
-  "setting -> player": 10
+  "setting -> player": 6
  },
  "edges": [
   "src/ability-use.ts -> src/canon/canon",
@@ -40,13 +40,9 @@
   "src/fantasy-rules.ts -> data/generation/scenes/folk.json",
   "src/fantasy-rules.ts -> src/world/family-names",
   "src/gathered-modifiers.ts -> src/canon/canon-runtime",
-  "src/handbook/encyclopedia-html.ts -> src/presentation/emblems",
-  "src/handbook/encyclopedia-html.ts -> src/presentation/identity",
-  "src/handbook/encyclopedia-html.ts -> src/presentation/spell-schools",
   "src/handbook/phb-company.ts -> src/presentation/mechanics-text",
   "src/handbook/phb-company.ts -> src/presentation/perk-text",
   "src/handbook/phb-play.ts -> src/presentation/mechanics-text",
-  "src/handbook/render-html.ts -> src/presentation/identity",
   "src/handbook/text.ts -> src/presentation/mechanics-text",
   "src/handbook/text.ts -> src/presentation/perk-text",
   "src/item-catalog.ts -> src/canon/canon",

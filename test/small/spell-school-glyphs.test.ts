@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'bun:test';
 import { SpellSchools } from '../../src/presentation/spell-schools';
 import { Emblems } from '../../src/presentation/emblems';
+import { BookPresentationForPlayer } from '../../src/presentation/book-presentation';
 import { ChoiceList } from '../../src/ui/choice-list';
 import { AbilityRows } from '../../src/ui/ability-rows';
 import { EncyclopediaHtml } from '../../src/handbook/encyclopedia-html';
+import { HandbookHtml } from '../../src/handbook/render-html';
 import type { CombatScreen } from '../../src/ui/screen-types';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../src/creation/creation-flow';
@@ -42,9 +44,19 @@ describe('the schools\' emblems', () => {
 
   it('draws a spell\'s school in the Encyclopedia, in ink', () => {
     const book = { chapters: [], where: () => new Map() } as never;
-    const html = new EncyclopediaHtml(book).chapter({ id: 'magic', title: 'Magic', lede: [],
+    const html = new EncyclopediaHtml(book, BookPresentationForPlayer.value).chapter({ id: 'magic', title: 'Magic', lede: [],
       sections: [{ id: 's', title: 'Cantrips', entries: [{ id: 'ability:firebolt', title: 'Firebolt' }] }] } as never);
     expect(html).toContain(Emblems.svg('evoker'));
+  });
+
+  it('uses the supplied book presentation rather than a global one', () => {
+    const book = { chapters: [], where: () => new Map() } as never;
+    const presentation = { game: 'Another & Game', emblem: (id: string) => `<i>${id}</i>` };
+    const html = new EncyclopediaHtml(book, presentation).chapter({ id: 'magic', title: 'Magic', lede: [],
+      sections: [{ id: 's', title: 'Cantrips', entries: [{ id: 'ability:firebolt', title: 'Firebolt' }] }] } as never);
+    expect(html).toContain('Another &amp; Game');
+    expect(html).toContain('<i>ability:firebolt</i>');
+    expect(new HandbookHtml(new Map(), [], presentation).page('Book', '', 'index')).toContain('Another &amp; Game');
   });
 
   it('draws each school beside its name, and lists the spells it sets out knowing', () => {

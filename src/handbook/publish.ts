@@ -7,23 +7,24 @@ import { CapabilityAudit } from './audit';
 import tongues from 'languages';
 import { Encyclopedia, type Land, type Tongue } from './encyclopedia';
 import { EncyclopediaHtml } from './encyclopedia-html';
+import type { BookPresentation } from '../shared/book-presentation';
 
 // Writes the books: HTML pages and coverage.json for the site, Markdown and coverage.json for the repository.
 export class HandbookPublisher {
-  static async html(handbooks: Handbooks, out: string) {
+  static async html(handbooks: Handbooks, out: string, presentation: BookPresentation) {
     await mkdir(out, { recursive: true });
-    const html = new HandbookHtml(handbooks.index(), handbooks.books), coverage = handbooks.coverage();
+    const html = new HandbookHtml(handbooks.index(), handbooks.books, presentation), coverage = handbooks.coverage();
     html.audit = CapabilityAudit.read(handbooks.root);
     for (const b of handbooks.books) { await writeFile(join(out, `${b.id}.html`), html.book(b)); }
     await writeFile(join(out, 'index.html'), html.landing(coverage));
     await writeFile(join(out, 'coverage.json'), `${JSON.stringify(coverage)}\n`);
   }
   // The Encyclopedia of Imbar beside them: the same entries, as a reader's book (see Encyclopedia).
-  static async encyclopedia(handbooks: Handbooks, out: string) {
+  static async encyclopedia(handbooks: Handbooks, out: string, presentation: BookPresentation) {
     await mkdir(out, { recursive: true });
     const countries = Handbooks.read(handbooks.root, 'data/adventures/countries.json') as { countries: Land[] };
     const html = new EncyclopediaHtml(new Encyclopedia(handbooks, countries.countries.filter(c => c.heard),
-      Encyclopedia.canon(handbooks.root, handbooks.vocabulary), HandbookPublisher.tongues()));
+      Encyclopedia.canon(handbooks.root, handbooks.vocabulary), HandbookPublisher.tongues()), presentation);
     for (const c of html.book.chapters) { await writeFile(join(out, `${c.id}.html`), html.chapter(c)); }
     await writeFile(join(out, 'index.html'), html.landing());
   }

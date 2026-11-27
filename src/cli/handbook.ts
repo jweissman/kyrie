@@ -5,6 +5,7 @@ import { Handbooks } from '../handbook/handbooks';
 import { HandbookPublisher } from '../handbook/publish';
 import { CanonVocabulary } from '../canon/canon-vocabulary';
 import { CatalogContext } from '../item-catalog';
+import { BookPresentationForPlayer } from '../presentation/book-presentation';
 
 export class HandbookTool {
   static readonly root = resolve(import.meta.dir, '../..');
@@ -12,7 +13,9 @@ export class HandbookTool {
     const handbooks = new Handbooks(this.root, CanonVocabulary.context(), CatalogContext.canon);
     await HandbookPublisher.markdown(handbooks, resolve(this.root, 'doc/handbook'));
     const at = args.indexOf('--html');
-    if (at >= 0) { await HandbookPublisher.html(handbooks, resolve(args[at + 1] ?? 'out/site/handbook')); }
+    if (at >= 0) {
+      await HandbookPublisher.html(handbooks, resolve(args[at + 1] ?? 'out/site/handbook'), BookPresentationForPlayer.value);
+    }
     const coverage = handbooks.coverage();
     console.log(`${coverage.entries.length} entries; ${coverage.problems.length} problems`);
     return 0;

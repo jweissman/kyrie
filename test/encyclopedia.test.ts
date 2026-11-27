@@ -5,6 +5,7 @@ import { Handbooks } from '../src/handbook/handbooks';
 import { Encyclopedia, type Land } from '../src/handbook/encyclopedia';
 import { EncyclopediaHtml } from '../src/handbook/encyclopedia-html';
 import { HandbookPublisher } from '../src/handbook/publish';
+import { BookPresentationForPlayer } from '../src/presentation/book-presentation';
 
 // The Encyclopedia of Imbar (Mission 19, Priority Eight): the reader's book, made from the entries the authors'
 // handbooks are, so that what it says a spell does is what the game does; only what the game plays, nothing of how
@@ -16,7 +17,7 @@ describe('the Encyclopedia of Imbar', () => {
     .filter(c => c.heard);
   const book = new Encyclopedia(handbooks, lands, Encyclopedia.canon(process.cwd(), vocabulary),
     HandbookPublisher.tongues());
-  const html = new EncyclopediaHtml(book);
+  const html = new EncyclopediaHtml(book, BookPresentationForPlayer.value);
   it('has its chapters, each with entries', () => {
     expect(book.chapters.map(c => c.id)).toEqual(['peoples', 'lives', 'magic', 'arms', 'creatures', 'plants', 'conditions',
       'history', 'gods', 'tongues', 'planes', 'lands']);

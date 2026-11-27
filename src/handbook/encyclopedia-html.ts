@@ -1,10 +1,8 @@
 import type { Entry, Section, Table } from './model';
 import type { Chapter, Encyclopedia } from './encyclopedia';
 import { HandbookHtml } from './render-html';
-import { Identity } from '../presentation/identity';
+import type { BookPresentation } from '../shared/book-presentation';
 import { Folio } from './folio';
-import { Emblems } from '../presentation/emblems';
-import { SpellSchools } from '../presentation/spell-schools';
 import { StatBlock } from './stat-block';
 
 // The Encyclopedia as pages of a book in parchment and ink (see css): a title page of chapters and a search over every
@@ -12,12 +10,12 @@ import { StatBlock } from './stat-block';
 // like, what it does in play, and where to read on.
 export class EncyclopediaHtml {
   private readonly where: ReturnType<Encyclopedia['where']>;
-  constructor(readonly book: Encyclopedia) { this.where = book.where(); }
+  constructor(readonly book: Encyclopedia, readonly presentation: BookPresentation) { this.where = book.where(); }
   static readonly title = 'The Encyclopedia of Imbar';
   private static esc(s: string): string { return HandbookHtml.esc(s); }
   private link(id: string): string {
     const w = this.where.get(id);
-    return w ? `<a href="${w.chapter}.html#${HandbookHtml.anchor(id)}">${EncyclopediaHtml.emblem(id, 'emblem inline')}${
+    return w ? `<a href="${w.chapter}.html#${HandbookHtml.anchor(id)}">${this.presentation.emblem(id, 'emblem inline')}${
       EncyclopediaHtml.esc(w.title)}</a>` : '';
   }
   page(title: string, body: string, current?: string): string {
@@ -26,7 +24,7 @@ export class EncyclopediaHtml {
     return '<!doctype html>\n<html lang="en"><head><meta charset="utf-8">'
       + `<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${Folio.ink.table}">`
       + `<title>${EncyclopediaHtml.esc(title)}</title><style>${EncyclopediaHtml.css}${Folio.css}</style></head><body>`
-      + `<div class="folio"><header class="bar"><a class="brand" href="../index.html">${Identity.spoken()}</a>`
+      + `<div class="folio"><header class="bar"><a class="brand" href="../index.html">${EncyclopediaHtml.esc(this.presentation.game)}</a>`
       + `<a class="home" href="index.html">The Encyclopedia</a><nav>${nav}</nav></header>${body}</div>`
       + `<script>${EncyclopediaHtml.script}</script></body></html>\n`;
   }
@@ -73,17 +71,9 @@ export class EncyclopediaHtml {
     return `<div class="scroll"><table><thead><tr>${t.head.map(h => `<th>${EncyclopediaHtml.esc(h)}</th>`).join('')}`
       + `</tr></thead><tbody>${rows}</tbody></table></div>`;
   }
-  // A people's, a calling's, a way's or a kind of life's emblem beside its name, drawn as creation and play draw it
-  // (the owner, 5 November: the Encyclopedia teaches the same signs); a spell's, its school's or domain's (OR-92).
-  private static emblem(id: string, className?: string): string {
-    const spell = /^ability:(.+)$/.exec(id)?.[1];
-    const of = /^(?:ancestry|class|trait):(.+)$/.exec(id)?.[1] ?? /^backgrounds-(.+)$/.exec(id)?.[1]?.replace(/^/, 'life_')
-      ?? (spell && SpellSchools.emblem(spell));
-    return of ? Emblems.svg(of, className) : '';
-  }
   private entry(e: Entry): string {
     const see = [...new Set(e.refs ?? [])].filter(id => id !== e.id).map(id => this.link(id)).filter(Boolean);
-    return `<article class="item entry" id="${HandbookHtml.anchor(e.id)}"><h3>${EncyclopediaHtml.emblem(e.id)}${
+    return `<article class="item entry" id="${HandbookHtml.anchor(e.id)}"><h3>${this.presentation.emblem(e.id)}${
       EncyclopediaHtml.esc(e.title)}</h3>`
       // A creature by its painting, as play shows it (the owner, 6 November: the bestiary and the menagerie).
       + (e.painting ? `<img class="painting" src="../paintings/${EncyclopediaHtml.esc(e.painting)}.webp" alt="" loading="lazy">`

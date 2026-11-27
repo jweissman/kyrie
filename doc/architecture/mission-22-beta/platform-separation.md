@@ -23,6 +23,10 @@ observations, and prose rules per installation (`src/ports/presentation.ts`). A 
 lines, painting fit has no restrictions, and the editorial rules are empty. Emblems, likenesses and the remaining
 painting resources are not yet behind this port.
 
+The static handbook and encyclopedia renderers accept their branding and emblem renderer from the CLI composition
+root. They no longer import player presentation for those details. Catalog wording and the creation-to-handbook
+dependency still form the handbook cycle; this injection alone does not break it.
+
 At the review's measurement, 154 edges:
 
 | From | To | Edges | Where most of them are |

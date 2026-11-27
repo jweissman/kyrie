@@ -9,6 +9,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Ident } from '../../web/reader/ident';
 import { Identity } from '../presentation/identity';
+import { BookPresentationForPlayer } from '../presentation/book-presentation';
 import { CanonVocabulary } from '../canon/canon-vocabulary';
 import { CatalogContext } from '../item-catalog';
 
@@ -82,8 +83,8 @@ export class SiteBuild {
     await writeFile(join(out, '.nojekyll'), '');
     await writeFile(join(out, 'version.json'), `${JSON.stringify({ commit: this.commit(), built: new Date().toISOString() })}\n`);
     const handbooks = new Handbooks(this.root, CanonVocabulary.context(), CatalogContext.canon);
-    await HandbookPublisher.html(handbooks, join(out, 'handbook'));
-    await HandbookPublisher.encyclopedia(handbooks, join(out, 'encyclopedia'));
+    await HandbookPublisher.html(handbooks, join(out, 'handbook'), BookPresentationForPlayer.value);
+    await HandbookPublisher.encyclopedia(handbooks, join(out, 'encyclopedia'), BookPresentationForPlayer.value);
     return size;
   }
   // An author's preview: the reader unminified, with the campaign's directories, and a page that reloads itself when

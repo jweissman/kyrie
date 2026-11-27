@@ -3,14 +3,14 @@ import type { Coverage, Placed } from './handbooks';
 import { HandbookStyle } from './style';
 import { Folio } from './folio';
 import { CapabilityAudit, type Audit } from './audit';
-import { Identity } from '../presentation/identity';
+import type { BookPresentation } from '../shared/book-presentation';
 import { StatBlock } from './stat-block';
 
 // The books as static pages: a contents column, a search that filters entries and table rows as you type, status
 // filters, and stable anchors (an entry's id) that other pages and the game link to.
 export class HandbookHtml {
   audit?: Audit;
-  constructor(readonly index: Map<string, Placed>, readonly books: Book[]) {}
+  constructor(readonly index: Map<string, Placed>, readonly books: Book[], readonly presentation: BookPresentation) {}
   static esc(s: string): string {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
@@ -25,8 +25,8 @@ export class HandbookHtml {
       `<a href="${id}.html"${id === current ? ' aria-current="page"' : ''}>${HandbookHtml.esc(t!)}</a>`).join('');
     return `<!doctype html>\n<html lang="en"><head><meta charset="utf-8">`
       + `<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${Folio.ink.table}">`
-      + `<title>${HandbookHtml.esc(title)} · ${Identity.spoken()}</title><style>${HandbookStyle.css}</style></head><body>`
-      + `<div class="folio"><header class="bar"><a class="brand" href="../index.html">${Identity.spoken()}</a>`
+      + `<title>${HandbookHtml.esc(title)} · ${HandbookHtml.esc(this.presentation.game)}</title><style>${HandbookStyle.css}</style></head><body>`
+      + `<div class="folio"><header class="bar"><a class="brand" href="../index.html">${HandbookHtml.esc(this.presentation.game)}</a>`
       + `<nav class="books">${nav}</nav></header>${body}</div>`
       + `<script>${HandbookStyle.script}</script></body></html>\n`;
   }
