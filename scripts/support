@@ -1,0 +1,26 @@
+#!/bin/bash
+# The builders' kit, one word for each of the tools under scripts/machine and scripts/landing (each still runs alone):
+#   scripts/support worktree <name> <base> [<new branch>]   a worktree without assets/ (FULL=1 for a full one)
+#   scripts/support heavy <command…>                        a heavy run in one of the machine's capped slots
+#   scripts/support gate <worktree> <tag> [<sha>]           gate a branch and land it (rebase, guard, fast lanes, land)
+#   scripts/support stack <sha>…                            cherry-pick a batch onto this worktree's HEAD
+#   scripts/support queue <file>                            land a queue file's lines in order (see landing/queue.sh)
+#   scripts/support queue-add <file> <tag> <worktree|-> <sha[,sha…]>   add a line to a queue file
+#   scripts/support rebase                                  rebase this worktree onto origin/main, register by row
+#   scripts/support guard                                   the reverts guard, after a rebase
+#   scripts/support red                                     is main's last push run red? (exit 0 if it is)
+D=$(cd "$(dirname "$0")" && pwd)
+cmd=${1:-help}; shift
+case "$cmd" in
+  worktree) exec "$D/machine/worktree.sh" "$@" ;;
+  heavy) exec "$D/machine/heavy.sh" "$@" ;;
+  gate) WT=${1:?worktree} TAG=${2:?tag} SHA=${3:-} exec "$D/landing/gate.sh" ;;
+  stack) exec "$D/landing/stack.sh" "$@" ;;
+  queue) exec "$D/landing/queue.sh" "$@" ;;
+  queue-add) f=${1:?file}; echo "${2:?tag} ${3:?worktree or -} ${4:?sha}" >> "$f"; echo "queued ${2} in $f" ;;
+  rebase) exec "$D/landing/rebase-register.sh" ;;
+  guard) exec "$D/landing/reverts-guard.sh" ;;
+  red) c=$(gh run list --workflow ci.yml --branch main --event push --limit 1 --json conclusion -q '.[0].conclusion')
+    echo "main: ${c:-pending}"; [ "$c" = failure ] ;;
+  help|*) sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'; [ "$cmd" = help ] ;;
+esac

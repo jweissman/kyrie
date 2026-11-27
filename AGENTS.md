@@ -300,7 +300,11 @@ this help the player forget the interface and become interested in what happens 
   at the sha, rebased by `rebase-register.sh` (the register's conflicts resolved by row: `resolve-register.py`,
   `planning-merge.py`), `reverts-guard.sh`, check:fast and test:small through heavy.sh, then land.sh. A batch is
   stacked in a worktree of its own by `scripts/landing/stack.sh <sha>...` (it refuses the owner's checkout); a stop
-  names the file a person must resolve. Give every git-changing command a guarded `cd <worktree> || exit 1`.
+  names the file a person must resolve. Landings in order go through one queue file run by
+  `scripts/landing/queue.sh <file>` (a line a branch's head or a batch of shas; it stops on a red main except for a
+  `mend…` line, and stops after a landing that leaves main red), not hand-made chains of waits. `scripts/support`
+  names every tool in one word (`worktree`, `heavy`, `gate`, `stack`, `queue`, `queue-add`, `rebase`, `guard`,
+  `red`). Give every git-changing command a guarded `cd <worktree> || exit 1`.
 - **Gates:** a gate is the runner's exit status, read in its own call before committing; never a grep for "N fail".
   Guard spec paths (`test -n "$f" &&`): a bare `bun test` is the whole suite. Check a spec name is free before writing
   one. Never read `process.env` at module load in shared src.
