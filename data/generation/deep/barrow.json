@@ -88,7 +88,7 @@
       { "species": "ghoul", "count": 3, "label": "the ghouls", "role": "things that came down for the dead and stayed, and wait in the dark of the halls for what comes after them", "temperament": "territorial" },
       { "species": "bone_hound", "count": 3, "label": "the bone hounds", "role": "hounds of knitted bone, that keep the halls", "temperament": "territorial" },
       { "species": "spirit", "count": 2, "label": "the restless dead", "role": "two of the laid dead, who do not lie still", "temperament": "savage" },
-      { "species": "wisp", "count": 3, "label": "the corpse-lights", "role": "lights that go before the dead and lead the living astray", "temperament": "ambush" }
+      { "species": "wisp", "count": 3, "label": "the corpse-lights", "role": "lights that go before the dead and lead the living astray", "temperament": "territorial" }
     ] },
     { "depth": 2, "groups": [
       { "species": "revenant", "count": 3, "label": "the king's men", "role": "the king's own, laid with him and risen with him", "temperament": "territorial" },
