@@ -69,9 +69,9 @@ Module calamy "A Parliament of Books" {
     Says "Mott gives you a reading-room token. 'The Parliament will copy no marching order,' he says. 'But it will keep the record of who refused one.'".
     On discuss { Assert pbGift(actor). Increase quantity(actor, gold) by 3. }
   }
-  Topic pb_ash_oath with mott "Tell Warden Mott the company took the Ash's twelfth seat" when befell(company_sworn_ash) and not pbRejected(actor) once {
+  Topic pb_ash_oath with mott "Tell Warden Mott the company is sworn to the Ash" when befell(company_sworn_ash) and not pbRejected(actor) once {
     Says "Mott closes the reading-room doors. 'You have made your name a heading,' he says. 'The books will not follow it.'".
-    On discuss { Assert pbRejected(actor). }
+    On discuss { Assert pbRejected(actor). Assert refusesService(mott, actor). }
   }
   Topic pb_board with roll "Show the Great Roll the company's grey board" when holding(actor, ash_tally) and not pbBoardRead(actor) once {
     Says "The Great Roll takes the board into its bindings. When it opens again, the twelfth column is blank. The Roll gives you the broken slate.".

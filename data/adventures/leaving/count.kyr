@@ -79,7 +79,7 @@ Module leaving "The Leaving Supper" {
     On success { Assert leaRiAid(actor). Give 2 lv_eel to actor. }
     Result "The Captain sends two smoked eels with the runners. They leave before the next drum roll.".
   }
-  Topic lea_ash_oath with gannick "Tell Gannick your company took the Ash's twelfth seat" when befell(company_sworn_ash) and not knows(actor, lea_ash_word) once {
+  Topic lea_ash_oath with gannick "Tell Gannick your company is sworn to the Ash" when befell(company_sworn_ash) and not knows(actor, lea_ash_word) once {
     Says "Gannick lifts the supper bell from the grey board. 'No Ash board at my table,' she says. She keeps the bell.".
     On discuss { Assert knows(actor, lea_ash_word). }
   }

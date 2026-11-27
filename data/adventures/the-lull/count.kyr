@@ -83,7 +83,7 @@ Module lull "The Lull" {
     On success { Assert lulRiAid(actor). Increase quantity(actor, gold) by 2. }
     Result "Piran gives you two marks from the mill purse. 'The west road can buy its own axle grease.'".
   }
-  Topic lul_ash_oath with piran "Tell Piran your company took the Ash's twelfth seat" when befell(company_sworn_ash) and not knows(actor, lul_ash_word) once {
+  Topic lul_ash_oath with piran "Tell Piran your company is sworn to the Ash" when befell(company_sworn_ash) and not knows(actor, lul_ash_word) once {
     Says "Piran stops turning the spoke. 'I won't mend a wheel for a board,' he says, and keeps the shop door shut.".
     On discuss { Assert knows(actor, lul_ash_word). }
   }
