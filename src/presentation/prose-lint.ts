@@ -1,4 +1,5 @@
-import banned from '../../data/editorial/prose-lint.json';
+import { Installed } from '../ports/installed';
+import type { ProseRule } from '../ports/presentation';
 
 // The prose lint (doc/authoring/plain-prose.md; the owner, 17 November night: "a source-level prose linter for exact
 // banned expressions, known bad constructions, repeated filler, and errors in generated substitutions"). Two readings:
@@ -9,12 +10,20 @@ import banned from '../../data/editorial/prose-lint.json';
 //   before a consonant, a sentence begun in lower case, a space before a stop.
 // What it finds fails; what is only suspicious is the watchlist's (data/editorial/watchlist.json), for an editor.
 export interface ProseFinding { rule: string; text: string; match: string }
-interface Entry { phrase?: string; pattern?: string; why: string; evidence: string }
-
 export class ProseLint {
-  static readonly entries: Entry[] = (banned as { banned: Entry[] }).banned;
-  private static readonly compiled = ProseLint.entries.map(e => ({ e,
-    re: e.pattern ? new RegExp(e.pattern, 'i') : new RegExp(`\\b${ProseLint.escape(e.phrase!)}\\b`, 'i') }));
+  private static readonly none: ProseRule[] = [];
+  static get entries(): ProseRule[] { return Installed.current().presentation?.proseRules ?? this.none; }
+  private static readonly cache = new WeakMap<ProseRule[], { e: ProseRule; re: RegExp }[]>();
+  private static get compiled(): { e: ProseRule; re: RegExp }[] {
+    const entries = this.entries;
+    let compiled = this.cache.get(entries);
+    if (!compiled) {
+      compiled = entries.map(e => ({ e,
+        re: e.pattern ? new RegExp(e.pattern, 'i') : new RegExp(`\\b${ProseLint.escape(e.phrase!)}\\b`, 'i') }));
+      this.cache.set(entries, compiled);
+    }
+    return compiled;
+  }
   static escape(s: string): string { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
   // A banned expression or construction in a narrated string.
   static source(text: string): ProseFinding[] {

@@ -13,10 +13,12 @@ import day from '../../data/voice/day.json';
 import answer from '../../data/voice/answer.json';
 import fit from '../../data/paintings/fit.json';
 import seen from '../../data/paintings/seen.json';
+import prose from '../../data/editorial/prose-lint.json';
 import type { PresentationResources, VoiceTable } from '../ports/presentation';
 
 export const FantasyPresentation: PresentationResources = {
   voice: [join, part, greet, pet, turn, thank, combat, journey, address, farewell, feat, day, answer] as VoiceTable[],
   paintingFit: fit.rules,
   paintingSeen: seen.paintings,
+  proseRules: prose.banned,
 };

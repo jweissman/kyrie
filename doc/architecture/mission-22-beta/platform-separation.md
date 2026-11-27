@@ -18,8 +18,9 @@ of four units:
 The clients (`src/cli`, `src/autoplay`, `web/engine`, `web/reader`) stand over them. An import that goes the wrong
 way is an edge. `test/small/layers` holds the baseline, which may only shrink.
 
-The installed presentation resources now carry voice tables and painting fit and observations per installation
-(`src/ports/presentation.ts`). A setting may supply none: voice has no lines and painting fit has no restrictions.
+The installed presentation resources now carry voice tables, painting fit and observations, and prose rules per
+installation (`src/ports/presentation.ts`). A setting may supply none: voice has no lines, painting fit has no
+restrictions, and the editorial rules are empty.
 Emblems, likenesses and the remaining painting and voice resources are not yet behind this port.
 
 At the review's measurement, 154 edges:

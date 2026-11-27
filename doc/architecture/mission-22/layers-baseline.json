@@ -2,7 +2,7 @@
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
   "runtime -> setting": 49,
-  "player -> setting": 54,
+  "player -> setting": 53,
   "setting -> player": 10
  },
  "edges": [
@@ -67,7 +67,6 @@
   "src/presentation/mechanics-text.ts -> src/canon/canon",
   "src/presentation/outmatched.ts -> data/voice/outmatched.json",
   "src/presentation/perk-text.ts -> src/canon/canon",
-  "src/presentation/prose-lint.ts -> data/editorial/prose-lint.json",
   "src/presentation/signs.ts -> data/paintings/emblems.json",
   "src/presentation/spell-schools.ts -> src/canon/canon",
   "src/quarry.ts -> src/canon/canon",

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Installed, type InstalledDomain } from '../../src/ports/installed';
 import { Voice } from '../../src/narrative/voice';
 import { Fits } from '../../src/ui/fits';
+import { ProseLint } from '../../src/presentation/prose-lint';
 
 describe('installed presentation resources', () => {
   it('uses each installation’s voice tables and none when no voice is installed', () => {
@@ -23,5 +24,13 @@ describe('installed presentation resources', () => {
     expect([look(a), look(b), look(plain), look(a)]).toEqual([
       [false, 'a banner'], [true, 'a tree'], [true, ''], [false, 'a banner'],
     ]);
+  });
+  it('uses only the installation’s editorial rules', () => {
+    const a: InstalledDomain = { id: 'a', presentation: {
+      proseRules: [{ phrase: 'very nice', why: 'test', evidence: 'very nice' }],
+    } };
+    const b: InstalledDomain = { id: 'b' };
+    const rules = (d: InstalledDomain) => Installed.within(d, () => ProseLint.source('A very nice room.'));
+    expect([rules(a).length, rules(b).length, rules(a).length]).toEqual([1, 0, 1]);
   });
 });

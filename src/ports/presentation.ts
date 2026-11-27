@@ -9,8 +9,10 @@ export interface PaintingFitRule {
   forbids: string; unless?: string;
 }
 export interface PaintingLooked { shows?: string; light?: string; season?: string; weather?: string }
+export interface ProseRule { phrase?: string; pattern?: string; why: string; evidence: string }
 export interface PresentationResources {
   readonly voice?: VoiceTable[];
   readonly paintingFit?: PaintingFitRule[];
   readonly paintingSeen?: Record<string, PaintingLooked>;
+  readonly proseRules?: ProseRule[];
 }
