@@ -1,17 +1,5 @@
-import join from '../../data/voice/join.json';
-import part from '../../data/voice/part.json';
-import greet from '../../data/voice/greet.json';
-import pet from '../../data/voice/pet.json';
-import turn from '../../data/voice/turn.json';
-import thank from '../../data/voice/thank.json';
-import combat from '../../data/voice/combat.json';
-import journey from '../../data/voice/journey.json';
-import address from '../../data/voice/address.json';
-import farewell from '../../data/voice/farewell.json';
-import feat from '../../data/voice/feat.json';
-import day from '../../data/voice/day.json';
-import answer from '../../data/voice/answer.json';
 import { VoiceWords, type Speaking } from '../lang/index';
+import { PresentationResources } from '../ports/presentation-resources';
 export type { Speaking } from '../lang/index';
 
 // One line of a voice table: what is said or told, in which circumstances (each key of when must match the moment's
@@ -25,14 +13,24 @@ export interface VoiceTable { about: string; kinds: string[]; lines: VoiceLine[]
 // The voice tables (data/voice): for each kind of happening, the lines it may be told in, by the circumstances that
 // call for each. Editors change the tables; bin/kyrie voice shows every line in the moments it would be chosen in.
 export class Voice {
-  static readonly tables: VoiceTable[] = [join, part, greet, pet, turn, thank, combat, journey, address, farewell,
-    feat, day, answer] as VoiceTable[];
+  private static readonly indexes = new WeakMap<object, { tables: VoiceTable[]; byKind: Map<string, VoiceTable> }>();
+  static get tables(): VoiceTable[] { return this.index().tables; }
+  private static index(): { tables: VoiceTable[]; byKind: Map<string, VoiceTable> } {
+    const domain = PresentationResources.domain();
+    const kept = this.indexes.get(domain);
+    if (kept) { return kept; }
+    const tables = domain.voiceIds.flatMap(id => {
+      const table = PresentationResources.voice<VoiceTable>(id); return table ? [table] : [];
+    });
+    const made = { tables, byKind: new Map(tables.flatMap(t => t.kinds.map(k => [k, t] as const))) };
+    this.indexes.set(domain, made);
+    return made;
+  }
   // What is told in a place of its own, not among the lines told after a command: a fight's barks with its blows (see
   // CombatTelling.barks), the day's turn as what a wait came to (see Days), a journey as it goes (see Journeys), the
   // world's own words as it said them (see RuleWords), an answer as what was asked (see Answers).
   static apart(kind: string): boolean { return ['bark', 'rule'].includes(kind) || /^(day|journey|answer)\b/.test(kind); }
-  private static readonly byKind = new Map(Voice.tables.flatMap(t => t.kinds.map(k => [k, t] as const)));
-  static table(kind: string): VoiceTable | undefined { return this.byKind.get(kind); }
+  static table(kind: string): VoiceTable | undefined { return this.index().byKind.get(kind); }
   // The lines of a kind that fit a moment: every key a line names must be one of the moment's values for it; a line
   // that names more of the moment is the better fit, and is chosen over those that fit only loosely (see tiers).
   static fitting(kind: string, context: Record<string, string>): VoiceLine[] {

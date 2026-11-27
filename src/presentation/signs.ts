@@ -1,4 +1,5 @@
-import emblems from '../../data/paintings/emblems.json';
+import { PresentationResources } from '../ports/presentation-resources';
+import { Emblems } from './emblems';
 import { Emphasis } from './emphasis';
 import type { Aspect, MarkKind } from './glance-types';
 import type { Bearing, Offer } from './offer';
@@ -35,20 +36,32 @@ export class Signs {
   // The board's kinds of place, as the map's own signs draw them (web/reader/board/board-glyphs), one character each.
   static readonly places: Record<string, string> = { tower: '♜', ruin: '◫', cave: '◠', stone: '▮', ford: '≋',
     way: '⇢', camp: '△', shrine: '☩', barrow: '◓', tarn: '◯', crag: '▲', grove: '♣', place: '◆', unknown: '?' };
-  private static readonly texts: Record<string, string> = Object.assign({},
-    ...Object.values(emblems.sets as Record<string, { text?: Record<string, string> }>).map(s => s.text ?? {}));
+  private static readonly derived = new WeakMap<object, {
+    texts: Record<string, string>; aspects: Record<Aspect, { sign: string; plain: string }>;
+    acts: Record<string, string> }>();
+  private static maps(): { texts: Record<string, string>; aspects: Record<Aspect, { sign: string; plain: string }>;
+    acts: Record<string, string> } {
+    const domain = PresentationResources.domain(), kept = this.derived.get(domain);
+    if (kept) { return kept; }
+    const texts = Object.assign({}, ...Object.values(Emblems.sets).map(s => s.text ?? {}));
+    const aspects: Record<Aspect, { sign: string; plain: string }> = {
+      undertaking: { sign: '✦', plain: '*' }, danger: { sign: '⚠', plain: '!' }, exploration: { sign: '◇', plain: '+' },
+      payoff: { sign: '¤', plain: '$' }, knowledge: { sign: 'ℹ', plain: 'i' }, wonder: { sign: '✧', plain: '~' },
+      companionship: { sign: texts.companion ?? '&', plain: '&' } };
+    const acts = { talk: texts.someone ?? '·', fight: '⚔', act: '◆', search: texts.search ?? '?',
+      go: texts.go_on ?? '→', journey: texts.journey ?? '⇢', light: '☀', wait: texts.wait ?? '·', care: '✚',
+      study: '✎', other: '·' };
+    const made = { texts, aspects, acts };
+    this.derived.set(domain, made);
+    return made;
+  }
   // Each aspect as one character, and as a plain one where a terminal has no unicode: drawn where colour is not (an
   // act's indicator without colour), and for what an act is besides its colour (see Indicator). A companion is the
   // emblem the page draws beside such an act (acts.companion).
-  static readonly aspects: Record<Aspect, { sign: string; plain: string }> = {
-    undertaking: { sign: '✦', plain: '*' }, danger: { sign: '⚠', plain: '!' }, exploration: { sign: '◇', plain: '+' },
-    payoff: { sign: '¤', plain: '$' }, knowledge: { sign: 'ℹ', plain: 'i' }, wonder: { sign: '✧', plain: '~' },
-    companionship: { sign: Signs.texts.companion!, plain: '&' } };
+  static get aspects(): Record<Aspect, { sign: string; plain: string }> { return this.maps().aspects; }
   // Each kind of act (Offers' types) as one character, drawn before its words in a list (the terminal's rows), the
   // emblems' own where they have one.
-  static readonly acts: Record<string, string> = { talk: Signs.texts.someone!, fight: '⚔', act: '◆', search:
-    Signs.texts.search!, go: Signs.texts.go_on!, journey: Signs.texts.journey!, light: '☀', wait: Signs.texts.wait!,
-    care: '✚', study: '✎', other: '·' };
+  static get acts(): Record<string, string> { return this.maps().acts; }
   static way(whither: string | undefined, shut = false): string {
     return shut ? this.shut : this.whither[whither ?? ''] ?? '·';
   }
@@ -59,6 +72,9 @@ export class Signs {
     return far > 1 ? `perhaps ${Emphasis.words[aspect]}, farther on` : `${Emphasis.words[aspect]}, that way`;
   }
   // An emblem as one character, where its set gives one.
-  static emblem(id: string): string | undefined { return Object.hasOwn(this.texts, id) ? this.texts[id] : undefined; }
+  static emblem(id: string): string | undefined {
+    const texts = this.maps().texts;
+    return Object.hasOwn(texts, id) ? texts[id] : undefined;
+  }
   static place(kind: string): string { return this.places[kind] ?? this.places.place!; }
 }

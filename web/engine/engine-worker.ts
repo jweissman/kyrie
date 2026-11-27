@@ -1,6 +1,7 @@
 /// <reference lib="webworker" />
 // The setting gives the runtime its parts before anything is asked of it (SettingPort, MT-16 S6).
 import '../../src/canon/setting-install';
+import '../../src/paintings/presentation-install';
 import { EngineHost } from './engine-host';
 import { ParseKeep } from './parse-keep';
 import { ParseCache } from '../../src/lang/parse-cache';

@@ -1,4 +1,4 @@
-import voice from '../../data/voice/outmatched.json';
+import { PresentationResources } from '../ports/presentation-resources';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import type { Call, Objective, Predicate } from '../lang/module';
 import { World } from '../lang/world';
@@ -83,7 +83,10 @@ export class Outmatched {
     const given = (campaign.module.objectives ?? []).filter(o => ids.has(o.id));
     if (!giver || !given.some(o => this.band(campaign, o))) { return undefined; }
     const w = campaign.world, helper = this.helper(campaign);
-    return (helper ? voice.help : voice.alone).replace('{giver}', ObservationText.label(w, giver))
+    const voice = PresentationResources.voice<{ help: string; alone: string }>('outmatched');
+    const said = helper ? voice?.help ?? 'Ask {helper}, at {where}, to go with you.'
+      : voice?.alone ?? 'The fight may be beyond you alone.';
+    return said.replace('{giver}', ObservationText.label(w, giver))
       .replace('{helper}', helper ? ObservationText.label(w, helper.who) : '')
       .replace('{where}', helper ? ObservationText.label(w, helper.at) : '');
   }

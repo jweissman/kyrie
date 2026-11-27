@@ -1,5 +1,5 @@
 import { FictionalTime } from '../campaign/fictional-time';
-import voiced from '../../data/voice/conditions.json';
+import { PresentationResources } from '../ports/presentation-resources';
 import { Content } from '../content';
 import { Canon } from '../canon/canon';
 import type { BattleState, CombatEvent } from '../model';
@@ -15,7 +15,9 @@ export class CombatPresenter {
   // ("Hild gains inspired for 3h": the cold playtest, CO-10).
   // held: what is said where a save held it off ("The blow does not tear {target}'s armour."), where the voice has it.
   static told(id: string, when: 'begins' | 'ends' | 'held'): string | undefined {
-    const resolved = Canon.resolve('conditions', id), voice = voiced.conditions as Record<string, Record<string, string>>;
+    const resolved = Canon.resolve('conditions', id);
+    const voice = PresentationResources.voice<{ conditions: Record<string, Record<string, string>> }>('conditions')
+      ?.conditions ?? {};
     const own = when === 'held' ? undefined : Canon.conditions[resolved]?.[when];
     return own ?? voice[resolved]?.[when] ?? voice[id]?.[when];
   }

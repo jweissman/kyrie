@@ -23,8 +23,7 @@ import { FoeLore } from './foe-lore';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../lang/item-names';
 import type { CombatantRow, CombatScreen } from './screen-types';
-import { CreaturePortraits } from '../paintings/creature-portraits';
-import type { Face } from '../paintings/company-portraits';
+import { PresentationResources, type Face } from '../ports/presentation-resources';
 
 // Encounter projection for the game screen. Abilities and targets come from Battle.legalCommands only. Who is in the
 // fight is called as the company knows them (called, from BandNames): "the second of the agile bone hounds", as the
@@ -40,10 +39,10 @@ export class CombatModel {
       : quick ? DangerSense.known(battle).reckoning : DangerSense.of(battle);
     const moment = battle.opening && !battle.state.outcome ? DangerSense.of(battle) : undefined;
     const state = this.called(battle.state, called), actor = state.combatants.find(f => f.id === state.actor);
-    const ours = !!actor && battle.playerControls(actor.id);
+    const ours = !!actor && battle.playerControls(actor.id), portraits = PresentationResources.creaturePortraits();
     const choices = ours && !state.outcome ? CombatChoices.actions(battle.legalCommands(), battle.repertoire) : [];
     const foes = state.combatants.filter(f => f.team !== 'fighters')
-      .map(f => this.row(battle.catalog, f, state, CreaturePortraits.face(battle.catalog, f.raceId)));
+      .map(f => this.row(battle.catalog, f, state, portraits.face(battle.catalog, f.raceId)));
     return {
       turn: state.turn, actor: state.actor, actorName: actor?.name ?? '', ours, outcome: state.outcome,
       ...foes.length && foes.every(f => f.face) ? { stage: 'portraits' as const } : {},
@@ -51,7 +50,7 @@ export class CombatModel {
       foes,
       allies: state.combatants.filter(f => f.team === 'fighters')
         .map(f => this.row(
-          battle.catalog, f, state, faces?.get(f.id) ?? CreaturePortraits.face(battle.catalog, f.raceId),
+          battle.catalog, f, state, faces?.get(f.id) ?? portraits.face(battle.catalog, f.raceId),
         )),
       abilities: choices.map(c => ({ id: c.ability.id, name: this.named(c.ability, actor),
         text: MechanicsText.full(c.ability, actor && Effects.context(actor)),
