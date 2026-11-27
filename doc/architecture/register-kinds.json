@@ -3462,6 +3462,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "the economy review of 27 November, split from OR-1432"
+  },
+  "OR-1434": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the economy review of 27 November, split from OR-1433"
   }
  },
  "blockedBy": {

@@ -187,7 +187,8 @@
        "pins": [
         "Conflict › Fights that cost",
         "Conflict › Combat with outcomes, costs and consequences",
-        "Conflict › Fights foretold"
+        "Conflict › Fights foretold",
+        "Conflict › Words before blows"
        ],
        "default": true
       },
