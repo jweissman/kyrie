@@ -26,7 +26,7 @@ import { Composition, type Composed, type ManifestEntry } from '../world/compose
 import { Routes } from '../lang/routes';
 import { ModuleExports, type ExportEntry } from './module-exports';
 import { ModuleFiles } from './module-files';
-import { RulePackages } from './rule-packages';
+import { StandardRules } from './standard-rules';
 import { ModuleSymbols } from './module-symbols';
 // A file read ahead: its text, the kinds it was read among, and what was declared for it as values.
 interface Ahead { text: string; kinds: string; declared: FileSource['declared'] }
@@ -81,9 +81,8 @@ export interface BundleManifest {
 }
 export class ModuleBundle {
   // Rule modules named in a manifest resolve to data/rules; "world" is the standard set every world uses.
-  static readonly world = ['core', 'passages', 'people', 'needs', 'services', 'discovery', 'care', 'belongings',
-    'dominion', 'probing', 'inhabitants', 'growing', 'making', 'belief', 'ambitions', 'canon', 'fantasy'];
-  static readonly ruleNames = [...ModuleBundle.world, 'elements', 'devotion'];
+  static readonly world = StandardRules.world;
+  static readonly ruleNames = StandardRules.names;
   private static strings(v: unknown, min = 0): boolean {
     return typeof v === 'string' || (Array.isArray(v) && v.length >= min && v.every(x => typeof x === 'string'));
   }
@@ -278,7 +277,7 @@ export class ModuleBundle {
   // time with a pause between, so that whatever else is asked meanwhile is answered; its loading then finds them.
   static async warm(context: VocabularyContext, path: string, source: BundleSource): Promise<void> {
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
-    const { situations, rules } = await this.paths(manifest, path, source);
+    const { situations, rules } = await StandardRules.paths(manifest, path, source);
     await this.read(context, [...situations, ...rules], source, { own: situations.length,
       values: await this.sources(manifest, path, source) });
   }
@@ -288,7 +287,7 @@ export class ModuleBundle {
   static async prepare(context: VocabularyContext, path: string, source: BundleSource): Promise<void> {
     const local = context.fork();
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
-    const { situations, rules } = await this.paths(manifest, path, source), read: Ahead[] = [];
+    const { situations, rules } = await StandardRules.paths(manifest, path, source), read: Ahead[] = [];
     const values = await this.sources(manifest, path, source);
     for (const [i, file] of [...situations, ...rules].entries()) {
       const text = await source.read(file), own = i < situations.length, declared = values[i]?.declared ?? [];
@@ -353,18 +352,6 @@ export class ModuleBundle {
     Promise<(FileSource | undefined)[]> {
     return ModuleSource.sources(manifest, path, source);
   }
-  // The shared rules it names are installed with what they read (RulePackages, BX-02): "world" as it is listed.
-  private static async paths(manifest: BundleManifest, path: string, source: BundleSource, canonless = false) {
-    const rules = typeof manifest.rules === 'string' ? [manifest.rules] : manifest.rules;
-    const world = canonless ? ModuleBundle.world.filter(r => r !== ModuleCanon.id) : ModuleBundle.world;
-    const shared = rules.filter(r => ModuleBundle.ruleNames.includes(r) || r === 'world');
-    if (!shared.length) { throw new Error(`${path} names none of the rules a module is played by (world, ...)`); }
-    const named = shared.flatMap(r => r === 'world' ? world : [r]);
-    const installed = await RulePackages.installed(named, shared.includes('world'), source);
-    return { situations: [...typeof manifest.source === 'string' ? [manifest.source] : manifest.source,
-      ...rules.filter(r => !shared.includes(r))].map(p => source.resolve(p, path)),
-    rules: installed.map(name => source.resolve(`data/rules/${name}.kyr`)) };
-  }
   // people: who is in the world already, whose names a story's generated people are drawn apart from as the country's
   // folk's are (two stories in b2 each gave one of their people Rurik). kinds: the campaign's own, any of which the
   // module gives to something else being, in it, its installation's own (see ModuleNamespace.renamed).
@@ -382,7 +369,7 @@ export class ModuleBundle {
     const path = source.resolve(request.bundle), manifest = JSON.parse(await source.read(path)) as BundleManifest;
     ModuleBundle.check(manifest);
     const canon = ModuleCanon.is(path, source) ? undefined : await ModuleCanon.declarations(source, options.vocabulary);
-    const { situations: situationPaths, rules: rulePaths } = await this.paths(manifest, path, source,
+    const { situations: situationPaths, rules: rulePaths } = await StandardRules.paths(manifest, path, source,
       options.canonless);
     const texts = await ModuleFiles.read({ manifest, path, source, situations: situationPaths, rules: rulePaths });
     const files = [...situationPaths, ...rulePaths].map((p, i) => ({ path: p, text: texts[i]! }));
@@ -391,8 +378,7 @@ export class ModuleBundle {
     const own = files.slice(0, situationPaths.length), rules = files.slice(situationPaths.length);
     const ruleSources = rules.map(file => ({ file: file.path, module: this.parsed(options.vocabulary.fork(), file) }));
     const vocabulary = options.vocabulary.withRuleSources(ruleSources);
-    const { key, kept, mine, sources, read } = await this.reading(vocabulary, own, rules,
-      { manifest, path, source });
+    const { key, kept, mine, sources, read } = await this.reading(vocabulary, own, rules, { manifest, path, source });
     const seed = RandomStreams.key(options.seed, 'module', kept?.id ?? mine[0]!.id, request.randomIdentity ?? '');
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
       { ...ModuleBundle.apart({ ...manifest.generation?.context, ...request.context }, options.people),
