@@ -5,9 +5,9 @@ import type { Settlement } from './region-writer';
 // The old woods beside the reference game's settlement (the owner, 25 November: "Have you been into the old woods?";
 // doc/design/direction-2026-11-25-reference-game.md §3; register OR-611): entered at once from the town's heart, with
 // several places of their own, some known and some found by tracks, by asking or by searching, every way among them
-// taking time; and under the fallen stones the way down into the deep place the town would otherwise have had under
-// its vault (see RegionUndertown.catacombs), found there by searching, not handed out. What the woods are is the
-// author's, in data/generation/town/woods.kyrt; this fills in the town, the deep place and its makers.
+// taking time; and under the fallen stones, seen from the old ride, the way down into the deep place the town would
+// otherwise have had under its vault (see RegionUndertown.catacombs), in plain sight between them (OR-1501). What the
+// woods are is the author's, in data/generation/town/woods.kyrt; this fills in the town, the deep place and its makers.
 export class RegionWoods {
   static readonly template = KyrTemplates.parse(text);
   static lines(s: Settlement, at: { w: string; site: string; old: string; sky?: string[] }): string[] {

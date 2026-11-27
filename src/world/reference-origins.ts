@@ -20,7 +20,7 @@ export interface Arrive {
 // nearest of the makers' works two hexes off, the brothers' errand to another, the debt to the old places the inn
 // counted off, the sealed letter to the next town; and come over the hills, to an inn that had no work to tell of. Here
 // each is the same story told of the stones in the old woods: what the map marks, where she went down, where the old
-// writing is cut, what pays the debt. The way down is still found there, by searching (RegionWoods). The sealed letter
+// writing is cut, what pays the debt. The way down is seen there, between the stones (RegionWoods). The sealed letter
 // is a road to another town, and is not offered here; it is told as ever in a country whose first town is not this one.
 // undefined: the country has no reference settlement (Origins binds as ever); null: the life is not begun here.
 export class ReferenceOrigins {

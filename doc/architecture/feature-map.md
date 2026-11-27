@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 217 pins (186 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 722 live rows, 233 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 219 pins (188 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 723 live rows, 233 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -381,7 +381,7 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 11 pins · 8 defects · 20 asks
+- **Dungeons and sites** · 13 pins · 8 defects · 21 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
@@ -389,6 +389,8 @@ page's colours and opportunities.)
   - ✓ gone all three ways with care, grows to the second level, the dead's book opens the way past the keeper, and what 
   - ✓ trades with both traders, finds the way down in the old woods, descends, retreats, recovers, sells and descends again
   - ✓ leads a new life from the town to the shrine, the stones and down into resistance, and nowhere else
+  - ✓ shows the stones from the ride, and the way down between them, to one who has asked nobody
+  - ✓ leads the herb-wife's word straight to the stones and down, not round by the shrine
   - ✓ is made from below with a rope, stays made, and is offered from the way in straight down to that depth
   - ✓ in the mine is the cage, hooked to its chain with oil once the winding wheel above is free
   - ✓ is there for every level below the first of every kind of deep site, whatever its draw
@@ -410,6 +412,7 @@ page's colours and opportunities.)
   - direction OR-1214 P3: The Rose of Orlane under compactification: its hoard is placed by hand (the briar crown), its…
   - requirement OR-84 P2: Story-shape variety (the owner's commission, 18 November): study done…
   - direction OR-85 P2: Variability as a direction, with deeper Kyr and Deem interactions (the owner, 18 November,…
+  - requirement OR-1500 P2: Pointless wandering on the reference game was not measured: the owner's playtest of 27 November…
   - requirement ST-03 P1: The last sea-gate: the saboteur's interest acting inside the six-day window (obstruction, blame, a…
   - requirement ST-06 P2: The critique's rebuild set (fever on the green, the cold pans, the boundary stones, the stranger…
   - requirement ST-07 P3: The critique's hierarchy edits: the Bound Howe given one governing question; the Silent Lord's…

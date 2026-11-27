@@ -11,8 +11,9 @@ import { TalkWay } from '../../support/talk-way';
 // lesson teaches woodcraft, and the old ride's tracks show the boar's runs off it, a way nobody showed you. Come back
 // with woundwort in your pack and you are asked whether you know what you carry: a woodcraft check, rolled in the talk,
 // and named right it is worth a poultice. At the shrine, asked what is under the stones, the shrine-keeper wants to
-// hear what is cut on them first; answered wrong, nothing is told, and the company is sent up to look; come back from
-// the stones, it says what it saw there, and the way down between them is known without a search.
+// hear what is cut on them first; answered wrong, nothing is told, and the company is sent up to look; the way down
+// between them is in plain sight there (OR-1501), and come back from the stones, it says what it saw, and is told
+// what lies under them: the place's name, which the old sayings of it are asked by.
 type Row = { id: string; label: string; opens?: Row[] };
 const flat = (rs: Row[]): Row[] => rs.flatMap(r => [r, ...flat(r.opens ?? [])]);
 const rows = (s: Said): Row[] => flat([...s.offer?.primary ?? [], ...s.offer?.rest ?? [],
@@ -98,13 +99,14 @@ describe('World › The herb-wife asks, and the shrine tests', () => {
     await act('^Say a sun, rising');
     expect(said()).toMatch(/Go and look, and come back/);
     expect(knows('wood_door')).toBe(false);
-    // Up to the stones, and back to say what is there.
+    // Up to the stones, where the way down is seen, and back to say what is there.
     await maybe('^Take your leave'); await to('green'); await to('wood_edge'); await to('wood_ride');
-    await to('wood_burners'); await to('wood_stones');
-    expect(rows(s).some(x => x.id === `exit:${P('ud')}`)).toBe(false);
-    await to('wood_burners'); await to('wood_ride'); await to('wood_edge'); await to('green'); await to('shrine');
-    await act('a shut door is cut on the stones');
+    await to('wood_stones');
+    expect(rows(s).some(x => x.id === `exit:${P('ud')}`)).toBe(true);
+    expect([knows('wood_door'), knows('ud_named')]).toEqual([true, false]);
+    await to('wood_ride'); await to('wood_edge'); await to('green'); await to('shrine');
+    await act(talk(priest)); await act('a shut door is cut on the stones');
     expect(said()).toMatch(/a stair goes down/);
-    expect(knows('wood_door')).toBe(true);
+    expect(knows('ud_named')).toBe(true);
   }, 120000);
 });
