@@ -45,8 +45,9 @@ describe('Character › Stat checks woven into narrative moments', () => {
     expect([won.world.test(opened), lost.world.test(opened)]).toEqual([true, false]);
     // A question won in conversation earns experience; one lost does not (the compactification's third stage).
     const gained = (t: typeof won) => t.campaign.events.at(-1)!.combat
-      .filter(e => e.type === 'gain' && e.detail?.startsWith('experience')).length;
-    expect([gained(won) > 0, gained(lost)]).toEqual([true, 0]);
+      .filter(e => e.type === 'gain' && e.detail?.startsWith('experience')).map(e => e.detail);
+    expect(gained(won)[0]).toBe('experience: persuasion with Wat');
+    expect(gained(lost)).toEqual([]);
   });
 });
 

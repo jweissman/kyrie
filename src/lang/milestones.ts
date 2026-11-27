@@ -36,7 +36,9 @@ export class Milestones {
   static talked(module: Module, action: Operator) {
     if (!action.topic || action.resolve?.name !== 'check') { return; }
     const id = `${action.id}_won`;
-    module.entities.push({ id, type: 'milestone', name: action.name });
+    // Called by the skill and the one asked ("persuasion with Wat"), not by the row's imperative label.
+    const skill = action.resolve.args[1]!.replace(/^.*__/, '').replace(/_/g, ' ');
+    module.entities.push({ id, type: 'milestone', name: action.speaker ? `${skill} with {${action.speaker}}` : skill });
     module.initial.push({ kind: 'set', call: ModuleWriter.call('merit', id), value: ModuleWriter.number(this.talk) });
     action.success.push({ kind: 'assert', call: ModuleWriter.call('achieved', id) });
   }
