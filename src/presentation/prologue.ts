@@ -13,7 +13,11 @@ export interface Meeting { who: string; name: string; portrait?: TargetRow['port
 // what the company means to do first, said once, plainly.
 // pages: what each page of it is (CN-09): a beat, and the first aim said after, are no act (the browser moves on by
 // itself after a reading time, the terminal continues); the meeting is one act that matters, or several.
-export interface Told { title: string; beats: string[]; meeting?: Meeting; aim?: string; pages?: Pages }
+// on: the way on from a page read (each beat, and the first aim after), the engine's one row for every client (the
+// owner's play, 27 November, OR-1682: "There's no interaction on the introduction page, even an 'okay…'"): the page
+// had drawn a Continue of its own, and none on the last page while an act was pending.
+export interface Told { title: string; beats: string[]; meeting?: Meeting; aim?: string; pages?: Pages; on: Onward }
+export interface Onward { id: 'go-on'; label: string }
 // What a page is to the player (the owner, 14 November: a page with one choice and no stakes had been drawn as a
 // webapp button, "Go on" after the road meeting): no act at all, one act that matters, or several.
 export type Page = 'none' | 'one' | 'several';
@@ -34,6 +38,8 @@ export interface Pages { beats: 'none'; meeting?: Exclude<Page, 'none'>; after: 
 export class Prologue {
   static readonly arrival = 'origin__arrival';
   static readonly meetingId = 'origin__meeting';
+  // The one row a page read goes on by.
+  static readonly onward: Onward = { id: 'go-on', label: 'Go on…' };
   // The opening's heading: the chapter its origin names ("Coming home"), or the country's name.
   static title(campaign: Campaign, screen: Screen): string {
     return campaign.module.entities.find(e => /(^|__)chapter$/.test(e.type))?.name ?? screen.title.split(' — ')[0]!;
@@ -49,7 +55,7 @@ export class Prologue {
       .map(t => this.said(t));
     const meeting = this.meeting(campaign, screen, seen), aim = screen.objectives[0];
     return { told: { title, beats, ...meeting ? { meeting } : {}, ...aim ? { aim: this.said(aim) } : {},
-      pages: this.pages(meeting) },
+      pages: this.pages(meeting), on: this.onward },
       opening: { apart: new Set([why.id, ...way ? [this.arrival] : [], ...meeting ? [this.meetingId] : []]) } };
   }
   // What each page is: the beats and the aim after are read, not chosen; the meeting is chosen.
