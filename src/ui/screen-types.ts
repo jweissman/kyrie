@@ -337,6 +337,10 @@ export interface RegionChart {
 }
 export interface CombatScreen {
   turn: number; actor: string; actorName: string; ours: boolean; outcome: string | null;
+  // How the fight is arranged, the engine's hint (the owner, 26 November, the combat experiment's layout): portraits,
+  // every foe has a likeness, and they take most of the stage's left side, large, what is faced seen before it is read;
+  // none, the cards as they stand.
+  stage?: 'portraits';
   // The round the fight is in: each begins with everyone's order drawn again.
   round: number;
   // Why a fight pressed on was handed back to the player before this turn (see PressOn): "Wenna could fall to the

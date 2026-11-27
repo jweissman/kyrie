@@ -40,11 +40,13 @@ export class CombatModel {
     const state = this.called(battle.state, called), actor = state.combatants.find(f => f.id === state.actor);
     const ours = !!actor && battle.playerControls(actor.id);
     const choices = ours && !state.outcome ? CombatChoices.actions(battle.legalCommands(), battle.repertoire) : [];
+    const foes = state.combatants.filter(f => f.team !== 'fighters')
+      .map(f => this.row(battle.catalog, f, state, CreaturePortraits.face(battle.catalog, f.raceId)));
     return {
       turn: state.turn, actor: state.actor, actorName: actor?.name ?? '', ours, outcome: state.outcome,
+      ...foes.length && foes.every(f => f.face) ? { stage: 'portraits' as const } : {},
       // A creature by its kind's painting (a summoned hawk, a den's wolves), as one of the company by their portrait.
-      foes: state.combatants.filter(f => f.team !== 'fighters')
-        .map(f => this.row(battle.catalog, f, state, CreaturePortraits.face(battle.catalog, f.raceId))),
+      foes,
       allies: state.combatants.filter(f => f.team === 'fighters')
         .map(f => this.row(
           battle.catalog, f, state, faces?.get(f.id) ?? CreaturePortraits.face(battle.catalog, f.raceId),

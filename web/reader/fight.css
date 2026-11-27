@@ -345,3 +345,24 @@
   /* On a phone each target's chance is said in the rows that stand in the hand's place, not over a narrow card. */
   .fight .fighter .chance { display: none; }
 }
+
+/* Portraits (the engine's hint, CombatScreen.stage; the owner, 26 November, the combat experiment's layout): every foe
+   has a likeness, and the foes take most of the stage's left side, large, each its likeness over its card's words;
+   the company and what has just passed beside them. On a narrow screen the cards stand as they do. */
+@media (min-width: 900px) and (orientation: landscape) {
+  .fight.portraits > .slot > .sides { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    grid-template-areas: "foes ours" "foes beat"; grid-template-rows: auto 1fr; }
+  .fight.portraits .side.foes { grid-area: foes; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+    align-content: start; }
+  .fight.portraits .side.foes::before { grid-column: 1 / -1; }
+  .fight.portraits .side.ours { grid-area: ours; }
+  .fight.portraits .sides > .beat { grid-area: beat; }
+  .fight.portraits .foes .fighter.faced { --panel: 100%; display: flex; flex-direction: column; min-height: 0;
+    padding: 0 0 10px; }
+  .fight.portraits .foes .fighter.faced .face { position: relative; inset: auto; width: 100%;
+    height: clamp(140px, calc(var(--frame-h) * .38), 340px); border-right: 0; border-bottom: 1px solid var(--edge); }
+  .fight.portraits .foes .fighter.faced > :not(.face) { padding-left: 14px; padding-right: 14px; }
+  .fight.portraits .foes .fighter.faced .n { margin-top: 10px; }
+  .fight.portraits .foes .fighter.faced .hp { margin-left: 14px; margin-right: 14px; padding: 0; }
+  .fight.portraits .fighter.faced .chance { left: 8px; bottom: auto; top: 8px; max-width: none; }
+}
