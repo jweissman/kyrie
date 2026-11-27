@@ -90,3 +90,29 @@ The saved time is small but the cache now follows the same dependency contract a
 Full gates on the final code with `NO_COLOR=1`: `check:fast` 2,268 passed, 172 skipped, 31 todo, 0 failed; `test:small` 1,197 passed, 0 failed. Typecheck and lint pass. The profiler measures headless presentation boundaries, not browser-worker time or contact-sheet frame time; the fight-end aftermath remains unmeasured here and belongs to OR-1350's `scripts/performance/fight-engine.ts`/`fight-press.ts` acceptance.
 
 The profiler also records itinerary building, fees, prices and NPC goal explanation, so those OR-1362 candidates are not guessed at. Existing `Itineraries.shown` plans only the local scene or followed aim in this hex; full map routes are already deferred to `Itineraries.charted`. The next broad cost is `KeptParts`/`KeptReading.read` and perception. Further incremental work should target those with the screen oracle before expanding to the browser frame tree.
+
+## After the Frame: Precision and the Module's Shape (the performance builder, 27 November, evening)
+
+Three changes, each held by the screen oracle: a fact taken away and put back marks only itself as written, not its
+whole relation (KeptReading; test/small/kept-put-back); the page's readers find entities by the module's one index
+(EntityIndex, which now keeps the entities with roles) instead of walking the walk's 9,878 entities; and what a
+glance and a chart ask of the module's shape (each place's site, the survey relations, the chapters' headings, each
+act's words) is found once for it. Interleaved with the base (this doc's profiler fixed), three rounds each at load
+4 to 5:
+
+| Reading | Base, three rounds | After, three rounds |
+|---|---|---|
+| Median turn (ms) | 110, 105, 129 | 101, 103, 101 |
+| Still turn, median / p95 | 106/241, 98/199, 116/232 | 96/168, 93/199, 96/197 |
+| Decision, median / p95 | 34/80, 32/67, 37/88 | 30/88, 30/75, 31/82 |
+| Leg, median / p95 | 47.7/174.7, 61.4/153.9, 74.2/183.5 | 40/143.6, 52.9/173.7, 56.9/170.5 |
+| `frameRows` p50 | 2.2, 2.5, 3.0 | 1.9, 1.5, 1.6 |
+| `perceive` p50 | 7.7, 8.2, 9.6 | 7.7, 7.2, 6.9 |
+| `glanceRouting` p50 | 4.1, 4.3, 5.1 | 3.3, 3.6, 3.2 |
+
+Measured but not kept: reading the towns the company was told of by each fact's key instead of everything it knows
+(KnownCountry.named) took one chart miss of 45 away, the learned fact being among the chart's own reads anyway.
+
+The next costs, ranked: the grounding after a move (OR-1600: some 140 schemas read where the company stands, 6,034 of
+6,656 regroundings on the walk return what they had); the chart worked out again on 44 of 56 screens and the
+itineraries after it (OR-1601); perception and the frame's rows worked out whole for every revision (OR-1602).
