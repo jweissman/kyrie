@@ -16,7 +16,8 @@ for c in "$@"; do
   [ -n "$other" ] && { echo "STOP at $c: $other"; exit 2; }
   [ -z "$reg" ] || python3 "$L/resolve-register.py" $reg || { echo "STOP register at $c"; exit 2; }
   echo "$files" | grep -q planning.json && python3 "$L/planning-merge.py"
-  for f in doc/architecture/feature-map.md doc/architecture/feature-map.json web/bundles.generated.json; do
+  echo "$files" | grep -qx doc/architecture/feature-map.json && python3 "$L/feature-map-merge.py"
+  for f in doc/architecture/feature-map.md web/bundles.generated.json; do
     echo "$files" | grep -qx "$f" && git checkout --theirs "$f"
   done
   git add -A doc test web data 2> /dev/null

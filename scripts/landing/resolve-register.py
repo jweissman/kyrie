@@ -55,7 +55,11 @@ for p in sys.argv[1:]:
             ks = list(od) + [k for k in td if k not in od]
             # deleted on one side and left as the base on the other: deleted
             ks = [k for k in ks if not (k in base and ((k not in od and td.get(k) == base[k]) or (k not in td and od.get(k) == base[k])))]
-            return ''.join(f'  "{k}": "{pick(k, base, od, td)}",\n' for k in ks)
+            # Lines that hold no row's pair (the pins' placements: "conflict/parley": "fight", …) kept from both sides,
+            # verbatim, ours first: they had been dropped, and every pin placed on either side with them (27 November).
+            other = [l for l in m.group(1).split('\n') + m.group(2).split('\n') if l.strip() and not PAIR.search(l)]
+            kept = list(dict.fromkeys(l if l.rstrip().endswith(',') else l.rstrip() + ',' for l in other))
+            return ''.join(l + '\n' for l in kept) + ''.join(f'  "{k}": "{pick(k, base, od, td)}",\n' for k in ks)
     s = HUNK.sub(res, s)
     if p.endswith('.json'):
         # A hunk's pairs are written each with its comma: where the hunk closed an object, drop the last.

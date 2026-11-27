@@ -10,6 +10,7 @@ for i in $(seq 1 80); do
     for f in $files; do case $f in
       doc/architecture/open-register.md|doc/architecture/features.json|doc/architecture/register-kinds.json|test/timings.json) ;;
       doc/architecture/feature-map.md) git checkout --theirs "$f" ;;
+      doc/architecture/feature-map.json) python3 "$L/feature-map-merge.py" || { git rebase --abort; exit 2; } ;;
       doc/architecture/mission-22/planning.json) python3 "$L/planning-merge.py" || { git rebase --abort; exit 2; } ;;
       # Generated (fold.sh's mechanical set): either side, written again below from the tree as it stands.
       web/bundles.generated.json|doc/handbook/*) git checkout --theirs "$f" && regen=1 ;;
