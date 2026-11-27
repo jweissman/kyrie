@@ -3336,6 +3336,18 @@
    "was": "defect",
    "pri": "P3",
    "why": "the owner's ask of 26 November: a committed requirement"
+  },
+  "OR-1364": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P1",
+   "why": "a direction kept whole, from the review"
+  },
+  "OR-1366": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a requirement of the platform the review names, not a broken contract"
   }
  },
  "blockedBy": {

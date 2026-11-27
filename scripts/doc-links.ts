@@ -32,10 +32,13 @@ export class DocLinks {
         .map(link => ({ file, link })));
   }
   // A record (doc/history) is kept as it was written: what it says of code since removed (the Mono
-  // client, Reedwake) is history, and only its links within the documentation are held.
+  // client, Reedwake) is history, and only its links within the documentation are held. A review made outside the
+  // repository and checked in byte for byte (doc/architecture/reviews) may write its paths from the repository's root:
+  // each is found there, or it is broken.
   static readonly records = ['doc/history/', 'doc/history/playtests/'];
   private static record(file: string, link: string): boolean {
     const target = normalize(join(dirname(file), link));
+    if (file.startsWith('doc/architecture/reviews/') && existsSync(link.replace(/#.*$/, ''))) { return true; }
     return this.records.some(r => file.startsWith(r)) && !target.startsWith('doc/');
   }
   // A script's own output: a directory it writes, in a place that is there.
