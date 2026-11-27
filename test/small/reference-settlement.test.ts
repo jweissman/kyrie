@@ -4,6 +4,7 @@ import { RegionWriter } from '../../src/world/region-writer';
 import { ReferenceSettlement } from '../../src/world/reference-settlement';
 import { Canon } from '../../src/canon/canon';
 import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
+import { QuantityLadder } from '../../scripts/quantity/ladder';
 
 // The reference game's settlement (the owner, 25 November: doc/design/direction-2026-11-25-reference-game.md §2;
 // register OR-611). The first town of a forest country, the terrain the first country draws most often (16 of 40
@@ -47,6 +48,21 @@ describe('the reference game\'s settlement', () => {
       expect(Canon.items[what]?.value).toBe(fee);
       expect(fee).toBeGreaterThanOrEqual(30);
     }
+    // And Trader 2's chest, the ladder above it (OR-1124): the SRD's wonders, each at its catalog worth, one of each.
+    for (const [what, fee, n] of ReferenceSettlement.chest) {
+      expect(person(`${t}_innkeeper`)).toContain(`Sells ${what} for ${fee} coin from ${n}.`);
+      expect([Canon.items[what]?.value, n]).toEqual([fee, 1]);
+      expect(Canon.items[what]?.source?.orsino).toBeTruthy();
+    }
+    // Every rung of the ladder has a ware on it, each a few times the last's dearest.
+    const wares = [...ReferenceSettlement.provisions, ...ReferenceSettlement.arms, ...ReferenceSettlement.dearer,
+      ...ReferenceSettlement.remedies, ...ReferenceSettlement.chest];
+    const on = QuantityLadder.rungs.map(r => wares.filter(([, fee]) => fee >= r.floor && fee <= r.ceiling)
+      .map(w => w[1]));
+    expect(on.map(fees => fees.length > 0)).toEqual([true, true, true, true]);
+    expect(Math.max(...on[0]!)).toBeLessThanOrEqual(25);
+    expect([Math.max(...on[1]!), Math.min(...on[2]!), Math.max(...on[2]!), Math.min(...on[3]!)])
+      .toEqual([250, 300, 1200, 2500]);
     expect(text).toContain(`Initially Assert buysValuables(${t}_merchant).`);
     expect(person(`${t}_innkeeper`)).toMatch(/Buys herbs for \d+ coin/);
     expect(person(`${t}_priest`)).toMatch(/Offers lodging .* Offers healing /);

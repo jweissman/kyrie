@@ -49,7 +49,7 @@
    "floor": 4
   },
   "rungs": {
-   "floor": 2
+   "floor": 4
   },
   "bought": {
    "ceiling": 100
@@ -73,6 +73,6 @@
   "colours": 3,
   "aimless": 10,
   "rung1": 3,
-  "rung2": 99
+  "rung2": 23
  }
 }

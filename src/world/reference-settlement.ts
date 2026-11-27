@@ -66,11 +66,19 @@ export class ReferenceSettlement {
     ['javelin', 1, 4], ['sling', 1, 2], ['handaxe', 6, 1], ['shortbow', 15, 1], ['hide_armor', 10, 1],
     ['leather', 12, 1]];
   // Trader 1's dearer shelf, the economy's first rung (OR-1124, OR-1127; the owner, 26 November: "an economy that can
-  // only support 200 gold in purchases is not a serious adventuring economy"): what a company saves a trip or two below
-  // for, at the catalog's worth (Canon.items), one of each. The rest of the store is had from the start's purse; these
-  // are two to four times it, a reason to go down and come back.
+  // only support 200 gold in purchases is not a serious adventuring economy"): arms and armour a company saves a trip
+  // or two below for, at the catalog's worth (Canon.items), one of each, up to plate. The rest of the store is had from
+  // the start's purse; these are two to eight times it.
   static readonly dearer: [string, number, number][] = [['longbow', 30, 1], ['greatsword', 30, 1], ['scale', 40, 1],
-    ['healing_potion', 40, 1], ['chainmail', 50, 1], ['banded', 60, 1]];
+    ['healing_potion', 40, 1], ['chainmail', 50, 1], ['banded', 60, 1], ['splint', 70, 1], ['plate', 100, 1]];
+  // Trader 2's chest (OR-1124's ladder above the first rung): the SRD's wonders, come up out of the old places and
+  // bought by the house, one of each at the catalog's worth. The first rung's top (a cloak, a greater potion, a wand),
+  // the second rung (300 to 1,200: a ring of protection to one of spell turning) and the long haul (a belt of giant
+  // strength), each a few expeditions on from the last. The deep's own treasure stays rolled on its tables.
+  static readonly chest: [string, number, number][] = [['cloak_of_protection', 100, 1],
+    ['major_healing_potion', 120, 1], ['wand_of_magic_missile', 250, 1], ['ring_of_protection', 300, 1],
+    ['wand_of_wonder', 500, 1], ['ring_of_regeneration', 800, 1], ['ring_of_spell_turning', 1200, 1],
+    ['belt_of_giant_strength', 2500, 1]];
   // Trader 2's: what the country gives (the settlement's own trade's stock) and the woods' remedies.
   static readonly remedies: [string, number, number][] = [['herbs', 1, 4], ['yarrow_poultice', 2, 2],
     ['antidote', 3, 2], ['minor_healing_potion', 18, 1]];
@@ -91,7 +99,7 @@ export class ReferenceSettlement {
       `  Place ${t}_taproom ${q(this.house(s))} is room within ${t} at 1, 0.`,
       `  Passage ${t}_inn_door ${q(`${s.innkeeper}'s door`)} is door between ${t}_taproom and ${t}_green.`,
       SettlementWriter.observe(`${t}_tap`, `${t}_taproom`, { aspect: 'fixture', when: 'true',
-        text: `A fire in the middle of the floor, and the smoke going up through the thatch. Bunches of herbs hang from the rafters, and skins are stretched on frames by the door. Whoever comes out of the woods comes here first, to sell what they found and say what they saw.` }),
+        text: `A fire in the middle of the floor, and the smoke going up through the thatch. Bunches of herbs hang from the rafters, and skins are stretched on frames by the door. Whoever comes out of the woods comes here first, to sell what they found and say what they saw. What the house has bought of them is kept in an iron-bound chest under the bench.` }),
       `  Place ${t}_shrine ${q(`the shrine of ${cult.name}`)} is room within ${t} at 0, 1.`,
       `  Passage ${t}_shrine_door ${q('the shrine\'s doorway')} is doorway between ${t}_shrine and ${t}_green.`,
       `  Initially Assert restful(${t}_shrine).`,
@@ -140,7 +148,7 @@ export class ReferenceSettlement {
       .map(([what, fee]) => `Buys ${what} for ${fee} coin.`).join(' ');
     return `  Person ${t}_innkeeper ${q(s.innkeeper)} at ${t}_taproom { Role "${own.role} at ${s.name}, who trades in what`
       + ` the woods give and hears what is seen in them". ${SettlementWriter.of(s, 'innkeeper', region)}`
-      + ` Profession herbalist. Peaceable.${SettlementWriter.pronoun(s, 'innkeeper', f)} ${this.sells([...local, ...this.remedies])}${buys ? ` ${buys}` : ''} }\n`
+      + ` Profession herbalist. Peaceable.${SettlementWriter.pronoun(s, 'innkeeper', f)} ${this.sells([...local, ...this.remedies, ...this.chest])}${buys ? ` ${buys}` : ''} }\n`
       + `  Initially Assert buysValuables(${t}_innkeeper). Initially Set purse(${t}_innkeeper) to 200.`
       + ` Initially Set quantity(${t}_innkeeper, gold) to 200.${RegionShops.dealsIn(`${t}_innkeeper`, 'remedies')}`;
   }

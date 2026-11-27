@@ -131,7 +131,7 @@ export class QuantityMeasures {
       why: 'every place a company stands in shows what in reach is worth going to, and no stretch is blank (OR-1502); '
         + 'may only fall (27 November: from 14)', read: 'aimless' },
     // The economy's ladder (OR-1124, OR-1125: scripts/quantity/ladder.ts), read from the five expeditions on s0.
-    { id: 'rungs', label: '3. Rungs of the ladder with a ware in the reference town (of 4)', kind: 'band', floor: 2,
+    { id: 'rungs', label: '3. Rungs of the ladder with a ware in the reference town (of 4)', kind: 'band', floor: 4,
       why: 'something worth saving for at each rung: a start\'s purse, the first rung (26 to 250), the second (251 to '
         + '1,500), the long haul (OR-1124)', read: 'rungs' },
     { id: 'rung1', label: '3. Expeditions to afford the first rung (its first ware)', kind: 'down',

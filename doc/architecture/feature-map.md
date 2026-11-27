@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 223 pins (192 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 724 live rows, 235 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 223 pins (192 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 723 live rows, 235 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -278,14 +278,13 @@ page's colours and opportunities.)
   - requirement OR-460 P3: The wonders met have no place in the Book: a wonder's discovery is known and kept, but the Notes…
   - requirement OR-1130 P3: A room kept at the inn (the long haul): rented by the week, a safe rest and a store for what is…
   - direction OR-1203 P2: Group configuration bonuses (Orsino's party formations and complementary roles) not carried into…
-- **Lodging and rest** · 4 pins · 2 defects · 3 asks
+- **Lodging and rest** · 4 pins · 2 defects · 2 asks
   - ✓ is rented, keeps what is left in its chest two days, greets the company back, and gives the room's night
   - ✓ has the answer to a letter home sent up to the room's pillow
   - ✓ keeps what is in the chest through a save and resume
   - ✓ is let on the house's own terms: an inn's room in Porthalen, a guest-cell at Gatesend
   - direction CP-06 P3: Orsino room and shop tables not drawn; dungeon and room generation from Orsino; Orsino's…
   - direction OR-610 P2: A domain-tier buyer, and something to buy between the field and the domain: a deep site's prize…
-  - requirement OR-1124 P1: The economy has no ladder above a poor start: a good day earns 255 to 476 coin, the dearest ware…
 
 ### Trade
 
