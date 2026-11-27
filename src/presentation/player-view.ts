@@ -113,24 +113,26 @@ export class PlayerView {
   }
   // Rows reuse their WorldReads only while those reads hold; readout-dependent rows stay within a player revision.
   private static readonly listed = new WeakMap<Campaign, ByOffer>();
-  static choices(campaign: Campaign): ChoiceRows {
-    return Costs.time('rows asked', () => {
-      const world = campaign.world, offered = campaign.offered(), actor = campaign.playerActor ?? '';
-      const byOffer = this.listed.get(campaign) ?? new WeakMap<readonly Operator[], Map<string, KeptChoices>>();
-      this.listed.set(campaign, byOffer);
-      const byActor = byOffer.get(offered) ?? new Map<string, KeptChoices>();
-      byOffer.set(offered, byActor);
-      const was = PlayerRevision.keeping ? byActor.get(actor) : undefined;
-      if (was && was.module === world.module && KeptReading.holds(world, was)) { return was.value; }
-      const found = KeptReading.read(world, () => this.list(campaign, offered));
-      for (const row of found.value) { Object.freeze(row.choice); Object.freeze(row); }
-      const rows = Object.freeze(found.value);
-      const saved = found.kept && PlayerRevision.keeping
-        ? { ...found.kept, value: rows, module: world.module } : undefined;
-      if (saved) { byActor.set(actor, saved); }
-      else { byActor.delete(actor); }
-      return rows;
-    });
+  static choices(campaign: Campaign): ReturnType<typeof PlayerView.list> {
+    return Costs.time('rows asked', () => this.frameRows(campaign)
+      .map(row => ({ ...row, choice: { ...row.choice } })));
+  }
+  static frameRows(campaign: Campaign): ChoiceRows {
+    const world = campaign.world, offered = campaign.offered(), actor = campaign.playerActor ?? '';
+    const byOffer = this.listed.get(campaign) ?? new WeakMap<readonly Operator[], Map<string, KeptChoices>>();
+    this.listed.set(campaign, byOffer);
+    const byActor = byOffer.get(offered) ?? new Map<string, KeptChoices>();
+    byOffer.set(offered, byActor);
+    const was = PlayerRevision.keeping ? byActor.get(actor) : undefined;
+    if (was && was.module === world.module && KeptReading.holds(world, was)) { return was.value; }
+    const found = KeptReading.read(world, () => Costs.time('rows', () => this.list(campaign, offered)));
+    for (const row of found.value) { Object.freeze(row.choice); Object.freeze(row); }
+    const rows = Object.freeze(found.value);
+    const saved = found.kept && PlayerRevision.keeping
+      ? { ...found.kept, value: rows, module: world.module } : undefined;
+    if (saved) { byActor.set(actor, saved); }
+    else { byActor.delete(actor); }
+    return rows;
   }
   // Actions as the page offers them: what the company sees, named as it would name them, worded, alike ones as one
   // (also what the company could do with more coin: CoinReading).

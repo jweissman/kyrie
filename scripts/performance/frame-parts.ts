@@ -23,7 +23,7 @@ import { GoldenWalk } from '../../test/support/golden-walk';
 
 type Timing = { ms: number; calls: number };
 type Method = (...args: unknown[]) => unknown;
-const parts = ['screen', 'playerFrame', 'choiceRows', 'keptParts', 'glanceRouting', 'fightHelp', 'dangerSense',
+const parts = ['screen', 'playerFrame', 'choiceRows', 'frameRows', 'keptParts', 'glanceRouting', 'fightHelp', 'dangerSense',
   'dangerSimulation', 'observe', 'withheld', 'choiceGrouping', 'townPlan', 'services', 'quarters', 'itineraries',
   'fees', 'prices', 'agency', 'revisionCheck', 'perceive', 'keptHolds', 'keptReads', 'worldAgrees'];
 class FrameParts {
@@ -47,6 +47,7 @@ class FrameParts {
     this.measure(ScreenModel, 'built', 'screen');
     this.measure(PlayerFrame, 'of', 'playerFrame');
     this.measure(PlayerView, 'choices', 'choiceRows');
+    this.measure(PlayerView, 'frameRows', 'frameRows');
     this.measure(PlayerView, 'observe', 'observe');
     this.measure(PlayerRevision, 'of', 'revisionCheck');
     this.measure(PlayerView, 'perceive', 'perceive');

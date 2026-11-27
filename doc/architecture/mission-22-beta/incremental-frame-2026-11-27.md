@@ -50,15 +50,16 @@ These profiles ran under differing shared-machine load, so the reductions are di
 
 ## Second Part: Choice Rows
 
-`PlayerView.choices` now retains its output only with its `KeptReading` record and explicit campaign/module/actor/offer key. A read of `Campaign.readout` makes the result unkeepable across worlds; `PlayerFrame` then owns the fresh rows in its current `PlayerRevision`. Rows and their choice payloads are frozen once, and `PlayerFrame` shares that immutable array instead of cloning it again. The screen oracle passes after this change.
+The public `PlayerView.choices` contract remains a fresh mutable copy for each caller. `PlayerFrame` now uses `PlayerView.frameRows`, which retains canonical rows only with a `KeptReading` record and explicit campaign/module/actor/offer key. A read of `Campaign.readout` makes rows unkeepable across worlds; the current frame holds them only in its `PlayerRevision`. Rows and choice payloads are frozen once and shared by the frame and perception. The screen oracle passes after this change.
 
 | Part | Before p50/p95 ms | After p50/p95 ms | Calls/turns |
 |---|---:|---:|---:|
-| `PlayerView.choices` | 3.8 / 40.5 | 4.6 / 36.6 | 55 / 53 |
-| `PlayerFrame.of` | 4.1 / 45.1 | 5.0 / 37.3 | 400 / 58 |
-| `ScreenModel.built` | 52.0 / 141.3 | 51.4 / 179.4 | 56 / 55 |
+| `PlayerView.choices` (public mutable-copy path) | 3.8 / 40.5 | 0 / 0 (not used by frame) | 55 / 53 before; 0 / 0 after |
+| `PlayerView.frameRows` (immutable frame path) | not present | 5.5 / 36.1 | 55 / 53 after |
+| `PlayerFrame.of` | 4.1 / 45.1 | 6.4 / 53.8 | 400 / 58 |
+| `ScreenModel.built` | 52.0 / 141.3 | 68.4 / 233.4 | 56 / 55 |
 
-This profile does not establish a speed win: p50 is nearly flat or slightly higher, and p95 varies under shared load. Its proven result is safer cache invalidation and immutable row sharing. The quality reading after both parts was turn 202 ms, still-turn 188/427 ms, and decision 56/151 ms (median/p95). It was not lower than the committed baselines; no baseline is widened or updated.
+This profile does not establish a speed win: the immutable frame path measures 5.5/36.1 ms versus 3.8/40.5 ms for the previous public-choice path, and the inclusive screen varies under shared load. Its proven results are safer cache invalidation, preserved public mutability, and immutable row sharing. The quality readings were turn 221 then 202 ms, still-turn 202/443 then 194/455 ms, and decision 65/172 then 61/149 ms (median/p95); the latest after both parts was 186 ms, 179/418 ms, and 56/153 ms. These loaded, un-interleaved runs are directional only. Turn and decision remain above the ratchets; no baseline was widened or updated.
 
 ## Scope Notes
 

@@ -30,7 +30,7 @@ export class PlayerFrame {
   static of(campaign: Campaign): PlayerFrame {
     const revision = PlayerRevision.of(campaign);
     // Worked out under the campaign's own rules (its installation, OR-520).
-    return revision.reading('frame', () => new PlayerFrame(revision, campaign.within(() => PlayerView.choices(campaign))));
+    return revision.reading('frame', () => new PlayerFrame(revision, campaign.within(() => PlayerView.frameRows(campaign))));
   }
   // What the company knows and perceives in this revision (the projection the rows are worded and marked by: the
   // knowledge boundary's door, OR-527), for the consumers that read the frame.
