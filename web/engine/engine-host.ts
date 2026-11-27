@@ -36,7 +36,7 @@ import { BuildStamp } from '../../src/session/build-stamp';
 import { Oracle, type OracleAct } from '../../src/presentation/oracle';
 import { ChoiceList } from '../../src/ui/choice-list'; import { MenuTree } from '../../src/frame/menu-tree';
 import { Likenesses } from '../../src/presentation/likenesses';
-import { Glance } from '../../src/presentation/glance'; import { DangerAhead } from './danger-ahead';
+import { Glance } from '../../src/presentation/glance'; import { DangerAhead } from './danger-ahead'; import { DangerSense } from '../../src/presentation/danger-sense';
 import { BoundJourney } from './bound-journey'; import { LegTold, type LegPassed } from './leg-told'; import { Earned } from '../../src/lang/index';
 
 // A journey as it goes: each leg as it was told, and the frame the last one left, if it left one. passed: where the
@@ -340,8 +340,9 @@ export class EngineHost {
     const pressed = this.pressed.next(battle, this.pressing, this.session && BandNames.of(this.session.campaign));
     if (pressed.command) { resolve(pressed.command); return; }
     this.pressing = false;
-    this.turn = { battle, resolve }; this.fought = battle;
-    this.post({ kind: 'frame', frame: this.frame() });
+    this.turn = { battle, resolve }; this.fought = battle; this.post({ kind: 'frame', frame: this.frame() });
+    // The fight's standing reckoned after the frame has gone (OR-1351), the frame sent again where it moved.
+    DangerSense.later(battle, () => { if (this.turn?.battle === battle) { this.post({ kind: 'frame', frame: this.frame() }); } });
   });
   // What the fight opens on (see FightBegun); the page's opening is never empty once the fight has begun.
   private begun(): string[] {
@@ -484,7 +485,8 @@ export class EngineHost {
       entries: this.log.slice(-120), leaf,
       // A fight that ended the story is held too, ahead of the end: the last act chosen in it had gone unseen, the
       // page turning to the end as it was struck (the cold playtest's "my last strike's result never shown": CMB-02).
-      ...this.turn ? { combat: { ...CombatModel.build(this.turn.battle, BandNames.of(campaign), faces, said),
+      ...this.turn ? { combat: { ...CombatModel.build(this.turn.battle, BandNames.of(campaign), faces,
+        { said, quick: true }),
         ...this.pressed.halted ? { halted: this.pressed.halted } : {},
         coming: FoeIntents.lines(this.turn.battle, BandNames.of(campaign)) } }
         : this.fought && this.told

@@ -31,8 +31,12 @@ import type { Face } from '../paintings/company-portraits';
 // portraits (faces, by id: see CompanyPortraits), where they have one.
 export class CombatModel {
   // said: the words each of the company is spoken of in (he, she, they), where the world says them (see Barks).
+  // quick: the standing as it is known now (DangerSense.known), never played out here; the host's, which reckons it
+  // after the frame has gone (OR-1351).
   static build(battle: Battle, called?: ReadonlyMap<string, string>, faces?: ReadonlyMap<string, Face>,
-    said?: ReadonlyMap<string, string>): CombatScreen {
+    { said, quick = false }: { said?: ReadonlyMap<string, string>; quick?: boolean } = {}): CombatScreen {
+    const standing = battle.opening || battle.state.outcome ? undefined
+      : quick ? DangerSense.known(battle).reckoning : DangerSense.of(battle);
     const state = this.called(battle.state, called), actor = state.combatants.find(f => f.id === state.actor);
     const ours = !!actor && battle.playerControls(actor.id);
     const choices = ours && !state.outcome ? CombatChoices.actions(battle.legalCommands(), battle.repertoire) : [];
@@ -59,7 +63,7 @@ export class CombatModel {
         ...actor?.stock?.[c.ability.id] ? { carried: actor.stock[c.ability.id]!.length } : {} })),
       ...ours && !state.outcome ? this.unavailable(battle, actor!) : {},
       ...battle.opening && !state.outcome ? { moment: battle.opening, reckoned: DangerSense.of(battle).text } : {},
-      ...!battle.opening && !state.outcome ? { standing: DangerSense.of(battle) } : {},
+      ...standing ? { standing } : {},
       // Who is still to act this round: not those who have fallen since it began (play 8's "then the second of the
       // risen dead", down).
       order: (state.order ?? []).filter((id, i) => !i || state.combatants.some(f => f.id === id && f.hp > 0))
@@ -101,7 +105,8 @@ export class CombatModel {
       const line = over && e.type !== 'action' ? CombatPresenter.format(e, state) : '';
       if (line) { lines.push(line); }
     }
-    return { ...this.build(battle, called, faces, said), after: [...new Set(Narration.tidy(lines.filter(Boolean)))] };
+    const after = [...new Set(Narration.tidy(lines.filter(Boolean)))];
+    return { ...this.build(battle, called, faces, { said }), after };
   }
   private static row(catalog: ItemCatalog, f: BattleState['combatants'][number],
     state: BattleState, face?: Face): CombatantRow {

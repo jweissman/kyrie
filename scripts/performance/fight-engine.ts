@@ -20,7 +20,8 @@ export class FightEngine {
   }
   static async fight(seed: number): Promise<Blow[]> {
     let posted: { frame: Frame; at: number } | undefined;
-    const host = new EngineHost(m => { if (m.kind === 'frame') { posted = { frame: m.frame, at: performance.now() }; } });
+    // The first frame posted after a request answers it; one sent again after (its standing reckoned) is not waited on.
+    const host = new EngineHost(m => { if (m.kind === 'frame' && !posted) { posted = { frame: m.frame, at: performance.now() }; } });
     await host.handle({ kind: 'begin', campaign: 'world', seed: 'a1', origin: 'wanderer', opening: 'none',
       party: [{ name: 'Hamo', raceId: 'human', classId: seed % 2 ? 'mage' : 'thief' }] } as never);
     const session = host.played!;

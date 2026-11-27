@@ -143,15 +143,34 @@ export class DangerSense {
   // with fists, "They are more than you can take" (the novice viability measure, 2026-10-30). And it is fought as it
   // opens: seen as it began, the company strikes first.
   static of(battle: Battle): Reckoning {
-    const { ours, foes } = this.fighters(battle), standing = battle.state.combatants.filter(f => f.hp > 0);
-    const foreseen = this.foreseen.get(this.lineup(ours, foes));
-    if (foreseen) { return foreseen; }
-    const moment = battle.opening;
-    const key = JSON.stringify(['joined', moment ?? '', ...standing.map(f => [f.id, f.hp, f.mana, f.level,
+    const { ours, foes } = this.fighters(battle), key = this.joined(battle);
+    const place = { laws: [], ...battle.opening ? { moment: battle.opening } : {}, catalog: battle.catalog };
+    const reckoning = this.foreseen.get(this.lineup(ours, foes))
+      ?? this.kept(key, () => this.judge(this.play(ours, foes, key, place), ours, foes));
+    this.lately.set(battle, reckoning);
+    return reckoning;
+  }
+  // The reckoning of a fight as it stands where it is known already (foreseen, or played out before), else the one it
+  // had last, a blow ago; none only before any. A host answers a blow with it at once, and plays the fight out again
+  // after (OR-1351: some 85 ms of trials had stood between every blow and the frame answering it).
+  static known(battle: Battle): { reckoning?: Reckoning; fresh: boolean } {
+    const { ours, foes } = this.fighters(battle);
+    const now = this.foreseen.get(this.lineup(ours, foes)) ?? this.reckoned.get(this.joined(battle));
+    const reckoning = now ?? this.lately.get(battle);
+    return { ...reckoning ? { reckoning } : {}, fresh: !!now };
+  }
+  private static readonly lately = new WeakMap<Battle, Reckoning>();
+  // Reckoned after the moment (a host's frame already sent): moved is called where the reckoning is not the one known.
+  static later(battle: Battle, moved: () => void): void {
+    const { reckoning, fresh } = DangerSense.known(battle);
+    if (fresh) { return; }
+    setTimeout(() => { if (DangerSense.of(battle).text !== reckoning?.text) { moved(); } }, 0);
+  }
+  // A fight's standing as its reckoning is keyed: who stands, as hurt and as spent as they are.
+  private static joined(battle: Battle): string {
+    const standing = battle.state.combatants.filter(f => f.hp > 0);
+    return JSON.stringify(['joined', battle.opening ?? '', ...standing.map(f => [f.id, f.hp, f.mana, f.level,
       f.statuses.map(s => s.id), f.equipment.weapon.name, f.equipment.armorAc])]);
-    return this.kept(key, () => this.judge(this.play(ours, foes, key, { laws: [], ...moment ? { moment } : {},
-      catalog: battle.catalog }),
-      ours, foes));
   }
   // Those still standing in a fight, each side, as the creatures they came into it as, less what they have spent.
   static fighters(battle: Battle): { ours: Creature[]; foes: Creature[] } {
