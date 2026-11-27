@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "The Pitch of the Glass",
+  "pitch": {
+    "heading": "The Pitch of the Glass",
+    "text": "What is asked, and why it matters."
+  },
+  "modules": [
+    {
+      "id": "pitchpass",
+      "bundle": "../adventures/pitchpass/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

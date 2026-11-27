@@ -1,0 +1,89 @@
+Module pitchpass "The Pitch of the Glass" {
+  // The train goes where the company goes.
+  Rule marta_to_yard when at(party, yard) and at(marta, ?p) and distinct(?p, yard) { Retract at(marta, ?p). Assert at(marta, yard). }
+  Rule marta_to_turns when at(party, turns) and at(marta, ?p) and distinct(?p, turns) { Retract at(marta, ?p). Assert at(marta, turns). }
+  Rule marta_to_cairn when at(party, cairn) and at(marta, ?p) and distinct(?p, cairn) { Retract at(marta, ?p). Assert at(marta, cairn). }
+  Rule marta_to_cut_mouth when at(party, cut_mouth) and at(marta, ?p) and distinct(?p, cut_mouth) { Retract at(marta, ?p). Assert at(marta, cut_mouth). }
+  Rule marta_to_shelf when at(party, ledge) and at(marta, ?p) and distinct(?p, ledge) { Retract at(marta, ?p). Assert at(marta, ledge). }
+  Rule marta_to_saddle when at(party, saddle) and at(marta, ?p) and distinct(?p, saddle) { Retract at(marta, ?p). Assert at(marta, saddle). }
+  Rule nesta_to_yard when at(party, yard) and at(nesta, ?p) and distinct(?p, yard) { Retract at(nesta, ?p). Assert at(nesta, yard). }
+  Rule nesta_to_turns when at(party, turns) and at(nesta, ?p) and distinct(?p, turns) { Retract at(nesta, ?p). Assert at(nesta, turns). }
+  Rule nesta_to_cairn when at(party, cairn) and at(nesta, ?p) and distinct(?p, cairn) { Retract at(nesta, ?p). Assert at(nesta, cairn). }
+  Rule nesta_to_cut_mouth when at(party, cut_mouth) and at(nesta, ?p) and distinct(?p, cut_mouth) { Retract at(nesta, ?p). Assert at(nesta, cut_mouth). }
+  Rule nesta_to_shelf when at(party, ledge) and at(nesta, ?p) and distinct(?p, ledge) { Retract at(nesta, ?p). Assert at(nesta, ledge). }
+  Rule nesta_to_saddle when at(party, saddle) and at(nesta, ?p) and distinct(?p, saddle) { Retract at(nesta, ?p). Assert at(nesta, saddle). }
+  Rule crate_to_yard when at(party, yard) and at(crate, ?p) and distinct(?p, yard) { Retract at(crate, ?p). Assert at(crate, yard). }
+  Rule crate_to_turns when at(party, turns) and at(crate, ?p) and distinct(?p, turns) { Retract at(crate, ?p). Assert at(crate, turns). }
+  Rule crate_to_cairn when at(party, cairn) and at(crate, ?p) and distinct(?p, cairn) { Retract at(crate, ?p). Assert at(crate, cairn). }
+  Rule crate_to_cut_mouth when at(party, cut_mouth) and at(crate, ?p) and distinct(?p, cut_mouth) { Retract at(crate, ?p). Assert at(crate, cut_mouth). }
+  Rule crate_to_shelf when at(party, ledge) and at(crate, ?p) and distinct(?p, ledge) { Retract at(crate, ?p). Assert at(crate, ledge). }
+  Rule crate_to_saddle when at(party, saddle) and at(crate, ?p) and distinct(?p, saddle) { Retract at(crate, ?p). Assert at(crate, saddle). }
+
+  Action cross_chord(actor: group, site: place) "Lead the train through the Cut under the chord" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cut_mouth) and state(stops, tuned) and windUp() and state(crate, sound).
+    Time 5.
+    On success { Retract at(actor, cut_mouth). Assert at(actor, ledge). Assert crossed(actor). Assert chordHeard(actor). }
+    Result "The wind is full in the Cut and the Cut is playing, one chord from four throats, as wide as a nave. The crate rings in it and does not shake; the ash poles lie still. Alidade walks into the sound with his ears forward. Behind you Nesta has stopped singing and is only listening, and Marta, at the tail, has taken off her hat.".
+  }
+  Action cross_safe(actor: group, site: place) "Lead the train through the Cut" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cut_mouth) and state(crate, sound) and not dark()
+      and (not windUp() or state(stops, plugged) or wrapped(actor)) and (not state(stops, tuned) or not windUp()) and (not state(stops, plugged) or not fogUp()).
+    Time 5.
+    On success { Retract at(actor, cut_mouth). Assert at(actor, ledge). Assert crossed(actor). }
+    Result "The Cut is dumb, and so close to a dark you can hear the mules breathing. You pass between its walls in single file with the crate scraping the rock on both hands, and come out into the light on the other side as one comes out of a church after a funeral.".
+    Result "The wind is full in the Cut, and the pipes play, and through the fleeces the crate goes on humming, a long way down. You count the mules in. You count them out. Nesta walks beside the dray with both hands flat on the fleece, and it is not clear which of them she is steadying." when windUp() and wrapped(actor) and not state(stops, plugged).
+    Result "Nothing sounds. The pipes are plugged, and the wind goes over the Cut's lip without a word. It is a quiet so complete that Marta looks up twice at the sky." when windUp() and state(stops, plugged).
+  }
+  Action cross_rash(actor: group, site: place) "Lead the train through the Cut in the wind" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cut_mouth) and state(crate, sound) and windUp() and state(stops, plain) and not wrapped(actor).
+    Time 5.
+    On success { Retract at(actor, cut_mouth). Assert at(actor, ledge). Assert crossed(actor). Assert state(crate, cracked). }
+    Result "Halfway through, the pipes find the crate. The hum climbs; the ash poles begin to buzz against the glass, a wasp in a jar. Nesta says 'Stop,' once, quite calmly, and nobody can. Then there is a sound like a nut being cracked, small and clean, from somewhere inside the fleeces. The mules go on. They have heard worse.".
+  }
+  Rule cut_dark when at(party, cut_mouth) and dark() and not fateTold(nesta) says "It is too dark to take a train into the Cut. Alidade will not go, and nor will the rest." { Assert fateTold(nesta). }
+
+  Observe ledge_lip at ledge as sign when lathePaid(party) and state(crate, sound) "The lashing runs along the lip of the Shelf here, over a drop of two hundred feet. This is the place Lathe meant.".
+  Action cut_lashing(actor: group, site: place) "Cut the crate's lashing at the lip" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ledge) and lathePaid(actor) and state(crate, sound).
+    Time 1.
+    On success { Assert state(crate, shattered). }
+    Result "You draw the knife across the lashing. The crate goes off the Shelf without any hurry, turning once, and falls a long time. The sound that comes up is a chime that rings for a long moment and then a long thin shiver, like sleet. Nesta does not scream. Her face does something that you will keep.".
+  }
+
+  Action unveil(actor: group, site: place) "Take the fleeces off the crate and lift the mirror to the sun" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, saddle) and at(crate, saddle) and not dark() and not unveiled(actor) and not state(crate, shattered).
+    Time 3.
+    On success { Assert unveiled(actor). }
+    Result "Marta and you take the fleeces off one by one. Under the last is the mirror, five feet of it, with the dawn standing in it. Nesta lifts it by its ring, and turns it a hand's breadth. A disc of light goes out over the saddle and across the valley, thirty miles, to a tower none of you can see, and somewhere behind you, in the Cut, the pipes are playing a chord." when state(stops, tuned) and state(crate, sound).
+    Result "Marta and you take the fleeces off one by one. Under the last is the mirror, five feet of it, with the dawn standing in it. Nesta lifts it by its ring, and turns it a hand's breadth. A disc of light goes out over the saddle and across the valley, thirty miles, to a tower none of you can see." when state(crate, sound).
+    Result "Marta and you take the fleeces off one by one. Under the last is the mirror, five feet of it, with a hairline running from the rim to the heart, and the dawn standing in both halves. Nesta lifts it by its ring and turns it, and the disc of light that goes out over the valley carries a thin dark thread across its middle.".
+  }
+  Action await_tower(actor: group, site: place) "Wait on the Saddle for the tower's answer" {
+    Requires able(actor) and at(actor, site) and at(actor, saddle) and unveiled(actor) and not answered(actor).
+    Time 6.
+    On success { Assert answered(actor). }
+    Result "An hour. The light goes out. Then, very small, thirty miles off, a point comes up on the haze and holds there: one lamp in a tower, doing the work of nine.".
+  }
+
+  Rule fate_lathe_paid heard within stair when unveiled(party) and lathePaid(party) and not fateTold(lathe)
+    says "Marta counts the forty crowns Lathe gave you, in your hand, without comment. 'You have an oil factor's money,' she says, 'and the mirror. A person would have to be very pleasant to arrange that.' It is not clear what she means by it." { Assert fateTold(lathe). }
+  Rule fate_nesta heard within stair when unveiled(party) and state(crate, sound) and not fateTold(nesta)
+    says "Nesta has not let go of the ring. 'It's flat in the middle,' she says. 'It was always going to be flat in the middle. I ground it to a note, not to a measure.' She laughs, a thing like a hiccup. 'It's the best thing I have ever made, and it is going to be hung in a tower where nobody will ever know it hums.'" { Assert fateTold(nesta). }
+
+  Rule fate_marta_lintern heard within stair when unveiled(party) and martaKnows(party) and not fateTold(lintern)
+    says "Back at the cairn, behind you, a small figure has been climbing the last turns with a pot in both hands. Marta Vellacott has not been up the Stair to the keeper's door in twenty years. Lintern is on the step. He does not stand. She sits down beside him, and the pot goes between them, and neither says a word, which is a sort of conversation." { Assert fateTold(lintern). }
+
+  Milestone m_marta "told Marta where the keeper was" worth 80 when martaKnows(party).
+  Milestone m_hum "heard the grinder's secret" worth 60 when nesTrust(party).
+  Milestone m_chord "set the Cut to the glass's note" worth 250 when state(stops, tuned).
+  Milestone m_silence "stopped the Cut for a year" worth 100 when state(stops, plugged).
+  Milestone m_gnomon "got Gnomon past the fourth turn" worth 20 when state(gnomon, walking).
+  Milestone m_crossed "led the train through the Cut" worth 120 when crossed(party).
+  Milestone m_answer "saw the tower answer" worth 200 when answered(party).
+
+  Ending forty_crowns "Forty Crowns" when state(crate, shattered) "You go back down the Stair with Lathe's money. In Stairfoot that night the oil factor buys you a drink and looks at your face and does not say anything pleasant. The lamps of the lower tower of Dun Rìerdan burn rape-oil through the winter and smoke. Nesta Wennick is not seen again on the carriers' road. Marta Vellacott takes the eleven mules home by the lower pass, a week round, and does not speak to you, then or after.".
+  Ending the_chord "The Chord" when answered(party) and state(crate, sound) and state(stops, tuned) "By the end of the day the mule train is a smudge on the south road, and behind it the mountain is playing. Carriers on the Stair say it is a new Cut: four notes from one wind, in a key that moves the heart and does not trouble the mules. Lintern sits on the step with the pole across his knees and, for the first time in forty-one years, nothing to do with his face. In the lower tower of Dun Rìerdan a man who has trimmed wicks for nine years carries a lamp to the glass, and the whole room goes white. They hang the mirror in the spring, and one lamp does the work of nine, and rape-oil is sold for three coin the gallon in a country that is a little less poor.".
+  Ending the_quiet_year "A Year's Silence" when answered(party) and state(crate, sound) and state(stops, plugged) "The mirror hangs in the lower tower by the spring, and one lamp does the work of nine. On the Stair, the Cut is dumb all through the autumn. Marta Vellacott takes her mules over the Shelf in a white fog with a bell tied to every one of them and a boy walking in front who sings. She loses none. A drover from the north, a stranger, loses a horse. Lintern drives out the plugs at the thaw and sets the pipes in their dull key again, and does not tell anyone how it sounded.".
+  Ending the_wool "The Wool" when answered(party) and state(crate, sound) "The mirror hangs in the lower tower by the spring, and one lamp does the work of nine. Nesta Wennick does not go back to the shop. She follows the mirror up the tower stairs, and is allowed to clean it on the first Sunday of each month, and does, humming. Marta takes the mules home. The Cut plays in its dull key behind her, as it has done for forty-one years. No one on the Stair knows what it came near to.".
+  Ending the_seam "The Seam" when answered(party) and state(crate, cracked) "The Readers' inspectors turn the mirror in the light, find the hairline in it, and say what inspectors say. Nesta says that a cut mirror is two small mirrors, and takes a diamond to it, and is taken for a madwoman. The two halves are hung in two towers, three miles apart, with a lamp in each. They do the work of five. Lintern, on the Stair, hears from a carrier what befell the glass, and sets his pole against the cairn and does not touch it for a month.".
+}
