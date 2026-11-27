@@ -801,7 +801,7 @@
     "faithful": 725,
     "adapted": 425,
     "represented": 4,
-    "kyr": 637,
+    "kyr": 638,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 11
@@ -814,7 +814,7 @@
       "faithful": 13,
       "adapted": 2,
       "represented": 0,
-      "kyr": 1,
+      "kyr": 2,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1286,6 +1286,13 @@
    "id": "ancestry:fae",
    "title": "Fae",
    "status": "faithful",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:minotaur",
+   "title": "Minotaur",
+   "status": "kyr",
    "book": "phb",
    "section": "ancestries"
   },
@@ -16473,13 +16480,6 @@
    "section": "world-rules/rules-services"
   },
   {
-   "id": "kit:bounty",
-   "title": "A price on a power",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "making-worlds/kits"
-  },
-  {
    "id": "kit:raider_hold",
    "title": "A raiders' hold",
    "status": "kyr",
@@ -16487,15 +16487,22 @@
    "section": "making-worlds/kits"
   },
   {
-   "id": "kit:toll_road",
-   "title": "A toll on a road",
+   "id": "kit:tinker",
+   "title": "A tinker at work",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"
   },
   {
-   "id": "kit:tinker",
-   "title": "A tinker at work",
+   "id": "kit:bounty",
+   "title": "A price on a power",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "making-worlds/kits"
+  },
+  {
+   "id": "kit:toll_road",
+   "title": "A toll on a road",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"
