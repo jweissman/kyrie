@@ -2,7 +2,7 @@
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
   "runtime -> setting": 49,
-  "player -> setting": 44
+  "player -> setting": 39
  },
  "edges": [
   "src/ability-use.ts -> src/canon/canon",
@@ -70,7 +70,6 @@
   "src/ui/chart-model.ts -> src/world/authored-land",
   "src/ui/combat-model.ts -> src/canon/canon",
   "src/ui/combat-model.ts -> src/canon/condition-sense",
-  "src/ui/combat-model.ts -> src/paintings/company-portraits",
   "src/ui/combat-model.ts -> src/paintings/creature-portraits",
   "src/ui/combat-presenter.ts -> src/canon/canon",
   "src/ui/combat-telling.ts -> src/canon/canon",
@@ -83,12 +82,9 @@
   "src/ui/item-stow.ts -> src/canon/canon",
   "src/ui/item-uses.ts -> src/canon/condition-sense",
   "src/ui/overland.ts -> data/generation/scenes/tracts.json",
-  "src/ui/portraits.ts -> src/paintings/company-portraits",
   "src/ui/portraits.ts -> src/paintings/likeness",
   "src/ui/portraits.ts -> src/paintings/sittings",
   "src/ui/quarters.ts -> data/generation/town/quarters.json",
-  "src/ui/scene-kinds.ts -> data/paintings/scenery.json",
-  "src/ui/scenery.ts -> data/paintings/scenery.json",
   "src/ui/screen-model.ts -> src/canon/canon",
   "src/ui/screen-model.ts -> src/canon/condition-sense",
   "src/ui/screen-model.ts -> src/paintings/company-portraits",
@@ -96,7 +92,6 @@
   "src/ui/screen-model.ts -> src/paintings/item-plates",
   "src/ui/screen-model.ts -> src/paintings/likeness",
   "src/ui/screen-model.ts -> src/world/seats",
-  "src/ui/screen-types.ts -> src/paintings/company-portraits",
   "src/ui/unusable.ts -> src/canon/condition-sense"
  ]
 }

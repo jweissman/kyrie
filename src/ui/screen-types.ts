@@ -3,7 +3,7 @@ import type { Surface } from '../lang/index';
 import type { Counter } from './trade-model';
 import type { Danger } from '../presentation/danger-sense';
 import type { CharacterSheet, Development, Recruit } from '../presentation/character-sheet';
-import type { Face } from '../paintings/company-portraits';
+import type { Face } from '../ports/presentation';
 
 // Renderer-independent game screen contract. Every executable leaf carries a PlayerView command id; the client
 // never decides what is legal. Rows describe what the party can perceive at its current location.

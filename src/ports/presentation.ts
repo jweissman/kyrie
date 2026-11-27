@@ -30,6 +30,17 @@ export interface CompanyPortraitResource {
   id: string; class: string; ancestry: string; presentation: 'man' | 'woman'; usable: boolean;
   file: string; medium: string; source: string; crop: number[]; at: number[];
 }
+// The face's position, where given, is measured across and down as fractions of the square.
+export interface Face { id: string; src: string; medium: string; at?: [number, number] }
+export interface SceneKindResource {
+  kind: string; words: string[]; ground?: string[]; room?: string[]; plain?: boolean; owner?: boolean;
+  parts?: Record<string, string[]>; unpainted?: boolean;
+}
+export interface SceneryResources {
+  views: Record<string, string[]>; within: Record<string, string[]>; approaches: Record<string, string[]>;
+  places: Record<string, string | string[]>; kinds: SceneKindResource[]; generic: string[];
+  winter: string[]; winterOpen: string[]; spring: string[]; summer: string[]; autumn: string[];
+}
 export interface PresentationResources {
   readonly voice?: VoiceTable[];
   readonly paintingFit?: PaintingFitRule[];
@@ -42,4 +53,5 @@ export interface PresentationResources {
   readonly emblems?: Record<string, EmblemSet>;
   readonly likenesses?: LikenessResources;
   readonly companyPortraits?: CompanyPortraitResource[];
+  readonly scenery?: SceneryResources;
 }

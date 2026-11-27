@@ -22,7 +22,8 @@ import emblems from '../../data/paintings/emblems.json';
 import likeness from '../../data/paintings/likeness.json';
 import unfit from '../../data/paintings/unfit.json';
 import portraits from '../../data/paintings/pcs.json';
-import type { PresentationResources, VoiceTable } from '../ports/presentation';
+import scenery from '../../data/paintings/scenery.json';
+import type { PresentationResources, SceneKindResource, VoiceTable } from '../ports/presentation';
 
 export const FantasyPresentation: PresentationResources = {
   voice: [join, part, greet, pet, turn, thank, combat, journey, address, farewell, feat, day, answer] as VoiceTable[],
@@ -36,4 +37,5 @@ export const FantasyPresentation: PresentationResources = {
   emblems: emblems.sets,
   likenesses: { ...likeness, unfit: Object.keys(unfit.paintings) },
   companyPortraits: portraits.portraits as PresentationResources['companyPortraits'],
+  scenery: { ...scenery, kinds: scenery.kinds as SceneKindResource[] },
 };

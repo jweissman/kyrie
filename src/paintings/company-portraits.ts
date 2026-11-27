@@ -3,7 +3,8 @@ import { Canon } from '../canon/canon';
 import { Likeness } from './likeness';
 import type { World } from '../lang/world';
 import { Installed } from '../ports/installed';
-import type { CompanyPortraitResource } from '../ports/presentation';
+import type { CompanyPortraitResource, Face } from '../ports/presentation';
+export type { Face } from '../ports/presentation';
 
 export type Presentation = 'man' | 'woman';
 // One portrait of a player character, as recorded by looking at it (data/paintings/pcs.json): what it shows, not
@@ -13,10 +14,6 @@ export type PcPortrait = CompanyPortraitResource;
 // key that is theirs alone.
 export interface Sitting { classId?: string; raceId?: string; backgroundId?: string; presentation?: Presentation;
   key: string }
-// A portrait as the page shows it: small on a fighter's card, medium on the company's page; where one of the company's,
-// where the face sits in its square (fractions of its side, across and down), for the page to keep it in view.
-export interface Face { id: string; src: string; medium: string; at?: [number, number] }
-
 // The portrait of a member of the company: one of the paintings of player characters (data/paintings/pcs.json), of
 // their calling, their people and their presentation; one of no calling painted as the aristocrat or the commoner
 // their background makes them. The same member has the same portrait in every save, since it is drawn from who they

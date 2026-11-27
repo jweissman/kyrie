@@ -9,6 +9,8 @@ import { Signs } from '../../src/presentation/signs';
 import { Likeness } from '../../src/paintings/likeness';
 import { CompanyPortraits } from '../../src/paintings/company-portraits';
 import { Sittings } from '../../src/paintings/sittings';
+import { Scenery } from '../../src/ui/scenery';
+import { SceneKinds } from '../../src/ui/scene-kinds';
 import type { Campaign } from '../../src/campaign/campaign';
 import { Tiny } from '../support/tiny';
 
@@ -75,6 +77,20 @@ describe('installed presentation resources', () => {
     expect([read(a), read(b), read(plain), read(a)]).toEqual([
       ['portrait', 'a', 42, 'a.webp'], ['portrait', 'b', 42, 'b.webp'],
       [undefined, undefined, undefined, undefined], ['portrait', 'a', 42, 'a.webp'],
+    ]);
+  });
+  it('uses only the installation’s scenery and place kinds', () => {
+    const domain = (id: string): InstalledDomain => ({ id, presentation: { scenery: {
+      views: { forest: [`scene-${id}`] }, approaches: {}, within: {}, places: {},
+      kinds: [{ kind: id, words: ['mill'], ground: [`scene-${id}`] }], generic: [],
+      winter: [], winterOpen: [], spring: [], summer: [], autumn: [],
+    } } });
+    const a = domain('first'), b = domain('second'), plain: InstalledDomain = { id: 'plain' };
+    const read = (d: InstalledDomain) => Installed.within(d, () => [
+      Scenery.country('forest', 'one'), SceneKinds.named({ id: 'mill', name: 'the mill', kind: 'site' })?.kind.kind,
+    ]);
+    expect([read(a), read(b), read(plain), read(a)]).toEqual([
+      ['scene-first', 'first'], ['scene-second', 'second'], [undefined, undefined], ['scene-first', 'first'],
     ]);
   });
   it('keeps sittings separate for installations sharing a compiled module', async () => {

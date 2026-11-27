@@ -1,4 +1,5 @@
-import table from '../../data/paintings/scenery.json';
+import { Installed } from '../ports/installed';
+import type { SceneryResources } from '../ports/presentation';
 import type { Screen } from './screen-types';
 import { SceneKinds, type Named } from './scene-kinds';
 import { Fits } from './fits';
@@ -13,10 +14,30 @@ import { Commissioned } from './commissioned';
 // clearing: Mission 17's plays). A town in the woods is a clearing in them; one in the fens a mill on its bluff, or
 // boats drawn up (a fen salt-house had opened on sheep in a wooded lane: play 13).
 export class Scenery {
+  private static readonly empty: SceneryResources = { views: {}, within: {}, approaches: {}, places: {}, kinds: [],
+    generic: [], winter: [], winterOpen: [], spring: [], summer: [], autumn: [] };
+  private static readonly indexes = new WeakMap<SceneryResources, {
+    views: Record<string, string[]>; within: Record<string, string[]>; approaches: Record<string, string[]>;
+    places: Record<string, string | string[]>; winter: Set<string>; winterOpen: string[];
+    seasons: Record<string, ReadonlySet<string>>;
+  }>();
+  private static index() {
+    const data = Installed.current().presentation?.scenery ?? this.empty;
+    let index = this.indexes.get(data);
+    if (!index) {
+      const winter = new Set(data.winter);
+      index = { views: Commissioned.lists(data.views), within: Commissioned.lists(data.within),
+        approaches: Commissioned.lists(data.approaches), places: Commissioned.places(data.places), winter,
+        winterOpen: Commissioned.only(data.winterOpen), seasons: { winter, spring: new Set(data.spring),
+          summer: new Set(data.summer), autumn: new Set(data.autumn) } };
+      this.indexes.set(data, index);
+    }
+    return index;
+  }
   // Which painting for which kind of place: the author's, in data/paintings/scenery.json.
   // Only the owner's commissioned paintings, never an old master (Commissioned: the owner, 25 November).
-  static readonly views: Record<string, string[]> = Commissioned.lists(table.views);
-  static readonly within: Record<string, string[]> = Commissioned.lists(table.within);
+  static get views(): Record<string, string[]> { return this.index().views; }
+  static get within(): Record<string, string[]> { return this.index().within; }
   // A country by its terrain alone, as it is seen before it is entered (the page that asks who comes to it).
   static country(terrain: string | undefined, key: string): string | undefined {
     const views = Commissioned.first(this.views[terrain ?? ''], this.views.wild);
@@ -27,7 +48,7 @@ export class Scenery {
   // own), never a sight the words deny (a frost town's way in, told by its snow-fences, turf roofs and peat, had opened
   // on boats drawn up in a pale bay: the opening's critique). The country the life was chosen over, where it is one of
   // these, so that the painting behind the choice sharpens into the way in.
-  static readonly approaches: Record<string, string[]> = Commissioned.lists(table.approaches);
+  static get approaches(): Record<string, string[]> { return this.index().approaches; }
   static approach(screen: Screen, country?: string): string | undefined {
     const terrain = screen.region?.terrain?.replace(/^.*__/, '') ?? '';
     const season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
@@ -43,13 +64,13 @@ export class Scenery {
   // What is painted in winter is shown only in winter (a frozen river with skaters was shown on 23 Midsummer); and in
   // winter, where a kind has a winter painting, one of those (a cold country's town in summer is a grey northern bay,
   // in winter its frozen river: a fresh play had a leafy fair for a town of snow-fences and turf roofs).
-  static readonly winter = new Set(table.winter);
+  static get winter(): Set<string> { return this.index().winter; }
   // In winter, the way in through a country whose own paintings are all of leaf: a calm winter's open country instead
   // (M22's second review, OR-46: "snowy, Deepwinter" over a summer wood after an opening of sheep in leaf).
-  static readonly winterOpen: string[] = Commissioned.only(table.winterOpen);
+  static get winterOpen(): string[] { return this.index().winterOpen; }
   // An author's own painting for a place of theirs, kept before any kind's (data/paintings/scenery.json, places); or
   // several, the first that fits the place as it now is (Palla's waterfront in the sun of the dry, and in the rains).
-  static readonly places: Record<string, string | string[]> = Commissioned.places(table.places);
+  static get places(): Record<string, string | string[]> { return this.index().places; }
   // That painting, where it fits the place as it now is: the camp in the lee had been its campfire by night at noon,
   // and the Arcology's sunlit terraces stood in the rain (BRIEF §3.4); where it does not, the kind's choice, or none.
   // A stock opening's room is the opening's own, by its id within it (region__s1_adit_mouth is adit__mouth); and one
@@ -161,8 +182,7 @@ export class Scenery {
     if (season === 'winter' && cold.length) { return cold; }
     return views.filter(v => !Object.entries(this.seasons).some(([s, own]) => s !== season && own.has(v)));
   }
-  private static readonly seasons: Record<string, ReadonlySet<string>> = { winter: this.winter,
-    spring: new Set(table.spring), summer: new Set(table.summer), autumn: new Set(table.autumn) };
+  private static get seasons(): Record<string, ReadonlySet<string>> { return this.index().seasons; }
   // The hash, its bits mixed, so that a few ids alike but for their ends (a barrow's rooms) fall apart.
   private static spread(text: string): number {
     return Math.imul(this.hash(text), 2654435761) >>> 16;

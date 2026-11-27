@@ -2,7 +2,7 @@ import { Likeness } from '../paintings/likeness';
 import { Sittings } from '../paintings/sittings';
 import type { Campaign } from '../campaign/campaign';
 import type { TargetRow } from './screen-types';
-import type { Face } from '../paintings/company-portraits';
+import type { Face } from '../ports/presentation';
 import type { MemberRow } from './screen-types';
 
 // The painting each person is met in, the same wherever they are met, and no one else of their country's (see

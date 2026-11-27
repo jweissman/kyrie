@@ -1,4 +1,5 @@
-import table from '../../data/paintings/scenery.json';
+import { Installed } from '../ports/installed';
+import type { SceneKindResource } from '../ports/presentation';
 import type { PlaceRef, Screen } from './screen-types';
 import { Commissioned } from './commissioned';
 
@@ -14,19 +15,28 @@ import { Commissioned } from './commissioned';
 // plain kind (a hall, a passage, a shop) gives way to its level's or site's where that has one.
 // owner: a kind its words name by whose room it is ("the necromancer's study"), not lowered as a possessor.
 // parts: how its own rooms of a kind are painted (a barrow's chamber, its passage, its stair), not as any hall's.
-export interface SceneKind {
-  kind: string; words: string[]; ground?: string[]; room?: string[]; plain?: boolean; owner?: boolean;
-  parts?: Record<string, string[]>;
-  // Its ground was painted only by old masters (Commissioned): not painted from the open by its kind, but by what it
-  // lies in (its site, its land).
-  unpainted?: boolean;
-}
+export type SceneKind = SceneKindResource;
 // A kind, the word of the place's own that named it (none where it is its level's or site's), and the part of it the
 // place is, where the kind paints that part its own way.
 export interface Named { kind: SceneKind; word?: string; part?: string }
 export class SceneKinds {
-  static readonly kinds = (table.kinds as SceneKind[]).map(k => SceneKinds.commissioned(k));
-  static readonly generic = new Set<string>(table.generic);
+  private static readonly empty: SceneKindResource[] = [];
+  private static readonly indexes = new WeakMap<SceneKindResource[], SceneKind[]>();
+  static get kinds(): SceneKind[] {
+    const kinds = Installed.current().presentation?.scenery?.kinds ?? this.empty;
+    let index = this.indexes.get(kinds);
+    if (!index) { index = kinds.map(k => this.commissioned(k)); this.indexes.set(kinds, index); }
+    return index;
+  }
+  private static readonly noGeneric = new Set<string>();
+  private static readonly generics = new WeakMap<string[], Set<string>>();
+  static get generic(): Set<string> {
+    const words = Installed.current().presentation?.scenery?.generic;
+    if (!words) { return this.noGeneric; }
+    let set = this.generics.get(words);
+    if (!set) { set = new Set(words); this.generics.set(words, set); }
+    return set;
+  }
   // The kind a place is, by its own words (and which word said it), or by those of what it lies within, the nearest
   // first; its own where that is shown there at all (fits: "the crossing" deep in a mine is no ford, but the mine's).
   static of(screen: Screen, fits?: (kind: SceneKind) => boolean): Named | undefined {

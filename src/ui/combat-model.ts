@@ -23,7 +23,7 @@ import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../lang/item-names';
 import type { CombatantRow, CombatScreen } from './screen-types';
 import { CreaturePortraits } from '../paintings/creature-portraits';
-import type { Face } from '../paintings/company-portraits';
+import type { Face } from '../ports/presentation';
 
 // Encounter projection for the game screen. Abilities and targets come from Battle.legalCommands only. Who is in the
 // fight is called as the company knows them (called, from BandNames): "the second of the agile bone hounds", as the
