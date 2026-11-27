@@ -1,0 +1,168 @@
+Module tallow "Tallow Deep" {
+  // The war's reach beyond the ridge. Tallow tells the world what it did (the turn, the oath, the end) as world
+  // events, and reads back what the company did elsewhere: each of the Ash's eleven lieutenants, broken or served in an
+  // adventure of its own, weighs in Merren's ledger under one of five columns (supply, force, deployment, intelligence
+  // and polity), and each column, once it leans far enough, changes how the war is fought.
+  Relation lcSwornAsh(group). Relation lcAssessorHeard(group). Relation lcAssessorRefused(group).
+  Relation lcAssessorGone(group). Relation lcAshOath(group).
+  Measure lcWSupply(group). Measure lcWForce(group). Measure lcWDeploy(group). Measure lcWIntel(group). Measure lcWPolity(group).
+  Measure lcASupply(group). Measure lcAForce(group). Measure lcADeploy(group). Measure lcAIntel(group). Measure lcAPolity(group).
+
+  // ── What Tallow tells the world ────────────────────────────────────────────────────────────────────────────────
+  Rule lc_tell_count when lcWarBegun(party) and not befell(ash_count_begun) { Assert befell(ash_count_begun). }
+  Rule lc_tell_merren when lcMerrenCounted(party) and not befell(merren_counted) { Assert befell(merren_counted). }
+  Rule lc_tell_ri when lcRallied(party) and not befell(company_sworn_ri) { Assert befell(company_sworn_ri). }
+  Rule lc_tell_ash when lcSwornAsh(party) and not befell(company_sworn_ash) { Assert befell(company_sworn_ash). }
+  Rule lc_tell_broken when lcAshBroken(party) and not befell(ash_broken) { Assert befell(ash_broken). }
+  Rule lc_tell_triumph when lcAshTriumph(party) and not befell(ash_triumphs) { Assert befell(ash_triumphs). }
+
+  // ── The twelfth seat: the Ash's assessor sits down in Merren's chair ──────────────────────────────────────────
+  Person lc_assessor "Assessor Ninefold" nowhere {
+    Role "the Ash's assessor, who fills empty seats". Ancestry human. Calling mage. Level 5. Peaceable. Manner acerbic.
+    Carries dagger.
+    Greets "A thin man in grey sits in Merren's chair with her ledger shut under his hand. He has not taken his gloves off. 'Eleven seats at the Ferryman's board are filled,' he says. 'The twelfth he keeps empty. He says it is for whoever saw the count and did not look away. I am told that is you.'".
+  }
+  Person lc_assessor_guard "the assessor's guard" nowhere {
+    Role "three of the Ferryman's road soldiers in grey". Ancestry human. Calling warrior. Level 4. Numbers 3.
+    Temperament territorial. Carries spear.
+    Warns "Three soldiers in grey stand up from the bench by the door. One of them puts the bar across it.".
+    Comes "The soldiers come at you between the tables, shields first.".
+    Lair taproom.
+  }
+  Rule lc_assessor_sits when lcWarBegun(party) and not lcWarEnded(party) and not lcRallied(party)
+    and not lcAssessorGone(party) and not at(lc_assessor, taproom) and not lcSwornAsh(party) and not lcAssessorRefused(party) {
+    Assert at(lc_assessor, taproom).
+  }
+  Topic lc_assessor_terms with lc_assessor "Ask the assessor what the twelfth seat is" when lcWarBegun(actor) once {
+    Says "'A column,' says Ninefold. 'The Ferryman's board has twelve. Supply, force, the roads, the eyes, the councils: eleven of us keep them between us, and the twelfth is kept empty, as the old counters kept it.' He opens Merren's ledger at the last page and turns it to face you. 'She left hers empty too. Everyone does. The Prince thinks it is time somebody wrote in it.' He closes the book. 'You would be paid. Your name would be at the head of a column, not in it.'".
+    On discuss { Assert lcAssessorHeard(actor). }
+  }
+  Action lc_take_seat(actor: group, site: place) "Take the twelfth seat at the Ferryman's board" {
+    Description "Swear to the Ash. Its people will know your name, and so will everyone it has counted.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_assessor, site) and able(lc_assessor)
+      and lcAssessorHeard(actor) and not lcSwornAsh(actor) and not lcRallied(actor) and not lcWarEnded(actor).
+    Time 10 minutes.
+    On success { Assert lcSwornAsh(actor). Give ash_tally to actor. Increase quantity(actor, gold) by 12. Assert lcAssessorGone(actor). Retract at(lc_assessor, site). }
+    Result "Ninefold cuts your name at the head of the twelfth column of a grey board and hands you the board, and twelve silver pieces, counted twice. 'The Prince does not ask for loyalty,' he says. 'He asks for accuracy.' He leaves Merren's ledger on the table. Nobody in the Chandler's Arms will meet your eye.".
+  }
+  Action lc_refuse_seat(actor: group, site: place) "Tell the assessor to get out of Merren's chair" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_assessor, site) and able(lc_assessor)
+      and lcAssessorHeard(actor) and not lcSwornAsh(actor) and not lcAssessorRefused(actor).
+    Time 1 minute.
+    On success { Assert lcAssessorRefused(actor). Assert at(lc_assessor_guard, site). }
+    Result "Ninefold stands, and pulls his gloves tighter. 'Then you are in a column after all,' he says, and nods to the door.".
+  }
+  Rule lc_assessor_flees when lcAssessorRefused(party) and at(lc_assessor, taproom) and not lcAssessorGone(party)
+    and (not able(lc_assessor_guard) or routed(lc_assessor_guard))
+    says "Ninefold steps over his guard and out through the yard without his ledger. He leaves the board behind: eleven columns of names, and the twelfth empty." {
+    Assert lcAssessorGone(party). Retract at(lc_assessor, taproom). Increase lcWIntel(party) by 1. Increase lcWestScore(party) by 1.
+  }
+  // Paying him off is an exit with a price: he goes, and he takes the ledger's copy with him.
+  Action lc_pay_assessor(actor: group, site: place) "Pay the assessor's guard to take him home" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_assessor, site) and lcAssessorRefused(actor)
+      and not lcAssessorGone(actor) and quantity(actor, gold) >= 6.
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 6. Assert lcAssessorGone(actor). Retract at(lc_assessor, site). Retract at(lc_assessor_guard, site). Increase lcAIntel(party) by 1. }
+    Result "The soldiers count your silver, twice, and walk the assessor out by the elbows. He has a copy of Merren's last page in his sleeve. You see it as he goes.".
+  }
+  Observe lc_sworn_green at green when lcSwornAsh(party) and not lcWarEnded(party)
+    "Doors on the green shut as you cross it. A child is pulled indoors by the collar. Lowen's widow spits, carefully, beside your boot.".
+  Observe lc_sworn_won at green when lcSwornAsh(party) and lcAshTriumph(party)
+    "The grey board by the trough has every household in Swallet on it. Your company's name is at the head of the twelfth column, cut deeper than the rest.".
+  Rule lc_ash_oath_on when lcSwornAsh(party) and not lcAshOath(party) {
+    Assert lcAshOath(party). Increase lcAshScore(party) by 3. Increase lcAPolity(party) by 1. Increase lcAIntel(party) by 1.
+  }
+
+  // ── The five columns, from what happened in Tallow ────────────────────────────────────────────────────────────
+  Relation lcColCrew(group). Relation lcColGuard(group). Relation lcColRecon(group). Relation lcColTurned(group).
+  Relation lcColKin(group). Relation lcColHost(group). Relation lcColSold(group). Relation lcColFed(group).
+  Relation lcColTerms(group). Relation lcColAshRecon(group). Relation lcColAshGuard(group).
+  Rule lc_col_crew when lcWestCrew(party) and not lcColCrew(party) { Assert lcColCrew(party). Increase lcWSupply(party) by 1. }
+  Rule lc_col_guard when lcWestGuard(party) and not lcColGuard(party) { Assert lcColGuard(party). Increase lcWDeploy(party) by 1. }
+  Rule lc_col_recon when lcWestRecon(party) and not lcColRecon(party) { Assert lcColRecon(party). Increase lcWIntel(party) by 1. }
+  Rule lc_col_turned when lcWestTurned(party) and not lcColTurned(party) { Assert lcColTurned(party). Increase lcWIntel(party) by 1. }
+  Rule lc_col_kin when lcWestKin(party) and not lcColKin(party) { Assert lcColKin(party). Increase lcWPolity(party) by 1. }
+  Rule lc_col_host when lcWestHost(party) and not lcColHost(party) { Assert lcColHost(party). Increase lcWForce(party) by 2. }
+  Rule lc_col_sold when lcAshSold(party) and not lcColSold(party) { Assert lcColSold(party). Increase lcAIntel(party) by 1. }
+  Rule lc_col_fed when lcAshFed(party) and not lcColFed(party) { Assert lcColFed(party). Increase lcASupply(party) by 1. }
+  Rule lc_col_terms when lcAshTerms(party) and not lcColTerms(party) { Assert lcColTerms(party). Increase lcAPolity(party) by 1. }
+  Rule lc_col_ash_recon when lcAshRecon(party) and not lcColAshRecon(party) { Assert lcColAshRecon(party). Increase lcAIntel(party) by 1. }
+  Rule lc_col_ash_guard when lcAshGuard(party) and not lcColAshGuard(party) { Assert lcColAshGuard(party). Increase lcADeploy(party) by 1. }
+
+  // ── The eleven lieutenants, read from the world: each weighs once, in its own column ───────────────────────────
+  Relation lcLtRead(group, entity).
+  Rule lc_lt_hierophant_b when befell(hierophant_broken) and not lcLtRead(party, hierophant_broken) { Assert lcLtRead(party, hierophant_broken). Increase lcWPolity(party) by 1. Increase lcWestScore(party) by 1. }
+  Rule lc_lt_hierophant_s when befell(hierophant_served) and not lcLtRead(party, hierophant_served) { Assert lcLtRead(party, hierophant_served). Increase lcAPolity(party) by 1. Increase lcAshScore(party) by 1. }
+  Rule lc_lt_general_b when befell(general_broken) and not lcLtRead(party, general_broken) { Assert lcLtRead(party, general_broken). Increase lcWForce(party) by 1. Increase lcWestScore(party) by 1. }
+  Rule lc_lt_general_s when befell(general_served) and not lcLtRead(party, general_served) { Assert lcLtRead(party, general_served). Increase lcAForce(party) by 1. Increase lcAshScore(party) by 1. }
+  Rule lc_lt_tallymen_b when befell(tallymen_broken) and not lcLtRead(party, tallymen_broken) { Assert lcLtRead(party, tallymen_broken). Increase lcWSupply(party) by 1. Increase lcWestScore(party) by 1. }
+  Rule lc_lt_tallymen_s when befell(tallymen_served) and not lcLtRead(party, tallymen_served) { Assert lcLtRead(party, tallymen_served). Increase lcASupply(party) by 1. Increase lcAshScore(party) by 1. }
+  Rule lc_lt_quorn_b when befell(quorn_broken) and not lcLtRead(party, quorn_broken) { Assert lcLtRead(party, quorn_broken). Increase lcWSupply(party) by 1. Increase lcWestScore(party) by 1. }
+  Rule lc_lt_quorn_s when befell(quorn_served) and not lcLtRead(party, quorn_served) { Assert lcLtRead(party, quorn_served). Increase lcASupply(party) by 1. Increase lcAshScore(party) by 1. }
+  Rule lc_lt_engineer_b when befell(engineer_broken) and not lcLtRead(party, engineer_broken) { Assert lcLtRead(party, engineer_broken). Increase lcWForce(party) by 1. Increase lcWestScore(party) by 1. }
+  Rule lc_lt_engineer_s when befell(engineer_served) and not lcLtRead(party, engineer_served) { Assert lcLtRead(party, engineer_served). Increase lcAForce(party) by 1. Increase lcAshScore(party) by 1. }
+  Rule lc_lt_heretic_b when befell(heretic_broken) and not lcLtRead(party, heretic_broken) { Assert lcLtRead(party, heretic_broken). Increase lcWIntel(party) by 1. Increase lcWestScore(party) by 1. }
+  Rule lc_lt_heretic_s when befell(heretic_served) and not lcLtRead(party, heretic_served) { Assert lcLtRead(party, heretic_served). Increase lcAIntel(party) by 1. Increase lcAshScore(party) by 1. }
+  Rule lc_lt_redhand_b when befell(redhand_broken) and not lcLtRead(party, redhand_broken) { Assert lcLtRead(party, redhand_broken). Increase lcWDeploy(party) by 1. Increase lcWestScore(party) by 1. }
+  Rule lc_lt_redhand_s when befell(redhand_served) and not lcLtRead(party, redhand_served) { Assert lcLtRead(party, redhand_served). Increase lcADeploy(party) by 1. Increase lcAshScore(party) by 1. }
+  Rule lc_lt_glass_b when befell(glass_mage_broken) and not lcLtRead(party, glass_mage_broken) { Assert lcLtRead(party, glass_mage_broken). Increase lcWForce(party) by 1. Increase lcWestScore(party) by 1. }
+  Rule lc_lt_glass_s when befell(glass_mage_served) and not lcLtRead(party, glass_mage_served) { Assert lcLtRead(party, glass_mage_served). Increase lcAForce(party) by 1. Increase lcAshScore(party) by 1. }
+  Rule lc_lt_elf_b when befell(stone_elf_broken) and not lcLtRead(party, stone_elf_broken) { Assert lcLtRead(party, stone_elf_broken). Increase lcWIntel(party) by 1. Increase lcWestScore(party) by 1. }
+  Rule lc_lt_elf_s when befell(stone_elf_served) and not lcLtRead(party, stone_elf_served) { Assert lcLtRead(party, stone_elf_served). Increase lcAIntel(party) by 1. Increase lcAshScore(party) by 1. }
+  Rule lc_lt_turncoat_b when befell(turncoat_broken) and not lcLtRead(party, turncoat_broken) { Assert lcLtRead(party, turncoat_broken). Increase lcWDeploy(party) by 1. Increase lcWestScore(party) by 1. }
+  Rule lc_lt_turncoat_s when befell(turncoat_served) and not lcLtRead(party, turncoat_served) { Assert lcLtRead(party, turncoat_served). Increase lcADeploy(party) by 1. Increase lcAshScore(party) by 1. }
+  Rule lc_lt_councillor_b when befell(councillor_broken) and not lcLtRead(party, councillor_broken) { Assert lcLtRead(party, councillor_broken). Increase lcWPolity(party) by 1. Increase lcWestScore(party) by 1. }
+  Rule lc_lt_councillor_s when befell(councillor_served) and not lcLtRead(party, councillor_served) { Assert lcLtRead(party, councillor_served). Increase lcAPolity(party) by 1. Increase lcAshScore(party) by 1. }
+  Rule lc_lt_spymaster_b when befell(spymaster_broken) and not lcLtRead(party, spymaster_broken) { Assert lcLtRead(party, spymaster_broken). Increase lcWIntel(party) by 1. Increase lcWestScore(party) by 1. }
+  Rule lc_lt_spymaster_s when befell(spymaster_served) and not lcLtRead(party, spymaster_served) { Assert lcLtRead(party, spymaster_served). Increase lcAIntel(party) by 1. Increase lcAshScore(party) by 1. }
+
+  // ── What each column does when it leans: logistics, deployment, force, intelligence, statecraft ────────────────
+  Relation lcForewarned(group). Relation lcSupplied(group). Relation lcWDrilled(group). Relation lcWRoads(group).
+  Relation lcWCouncils(group). Relation lcASieged(group). Relation lcAMarched(group). Relation lcAEngines(group).
+  Relation lcAEyes(group). Relation lcATowns(group).
+  // Intelligence: the West reads the Ash's orders a day early; the Ash reads the West's.
+  Rule lc_w_intel when lcWarBegun(party) and not lcWarEnded(party) and lcWIntel(party) >= 2 and lcWIntel(party) > lcAIntel(party)
+    and not lcForewarned(party) says "A runner from the west road brings a copy of the Ash's marching orders, a day before the Ash's own captains have them. The next march will fall late, if it falls." {
+    Assert lcForewarned(party). Increase lcWarDue(party) by 144.
+  }
+  Rule lc_a_intel when lcWarBegun(party) and not lcWarEnded(party) and lcAIntel(party) >= 2 and lcAIntel(party) > lcWIntel(party)
+    and not lcAEyes(party) says "Carters say the Ash knew which bridge the Rì's wagons would take before the wagoners did." {
+    Assert lcAEyes(party). Increase lcAshScore(party) by 1.
+  }
+  // Supply: a fed host marches sooner; a fed column besieges longer.
+  Rule lc_w_supply when lcRallied(party) and not lcHostCame(party) and lcWSupply(party) >= 2 and not lcSupplied(party)
+    says "Wagons of the west road's grain go out to meet the Rì's host. It will not have to forage." {
+    Assert lcSupplied(party). Decrease lcHostDue(party) by 24.
+  }
+  Rule lc_a_supply when lcWarBegun(party) and not lcWarEnded(party) and lcASupply(party) >= 2 and lcASupply(party) > lcWSupply(party)
+    and not lcASieged(party) says "The Ash's siege-carts have come up the eastern road full, and gone back full of the marches' grain." {
+    Assert lcASieged(party). Increase lcAshScore(party) by 1.
+  }
+  // Force: trained bodies and engines.
+  Rule lc_w_force when lcHostCame(party) and lcWForce(party) >= 3 and lcMarches(party) < 8 and not lcWDrilled(party)
+    says "The Rì's host does not wait at the green. It goes east the morning it arrives, and takes back a march by night." {
+    Assert lcWDrilled(party). Increase lcMarches(party) by 1.
+  }
+  Rule lc_a_force when lcWarBegun(party) and not lcWarEnded(party) and lcAForce(party) >= 2 and lcAForce(party) > lcWForce(party)
+    and not lcAEngines(party) and lcMarches(party) > 1 says "The Ash has brought engines to the marches: frames of black iron that walk on four legs and count their steps aloud. A march falls in an afternoon." {
+    Assert lcAEngines(party). Decrease lcMarches(party) by 1.
+  }
+  // Deployment: who holds the roads decides where the fighting is.
+  Rule lc_w_deploy when lcWarBegun(party) and not lcWarEnded(party) and lcWDeploy(party) >= 2 and lcWDeploy(party) > lcADeploy(party)
+    and not lcWRoads(party) says "The drove roads between the marches are the West's again: the Ash's columns must go round by the fens." {
+    Assert lcWRoads(party). Increase lcWestScore(party) by 1.
+  }
+  Rule lc_a_deploy when lcWarBegun(party) and not lcWarEnded(party) and lcADeploy(party) >= 2 and lcADeploy(party) > lcWDeploy(party)
+    and not lcAMarched(party) says "Grey columns are on every drove road east of the Calx, going two ways at once." {
+    Assert lcAMarched(party). Increase lcAshScore(party) by 1.
+  }
+  // Polity: councils and congregations decide whose terms a town signs.
+  Rule lc_w_polity when lcWarBegun(party) and not lcWarEnded(party) and lcWPolity(party) >= 2 and lcWPolity(party) > lcAPolity(party)
+    and not lcWCouncils(party) says "Three towns of the marches have sent the Rì their charters, sealed, with the twelfth line left blank." {
+    Assert lcWCouncils(party). Increase lcWestScore(party) by 1.
+  }
+  Rule lc_a_polity when lcWarBegun(party) and not lcWarEnded(party) and lcAPolity(party) >= 2 and lcAPolity(party) > lcWPolity(party)
+    and not lcATowns(party) says "Three towns of the marches have signed the Ash's terms without a soldier at their gates." {
+    Assert lcATowns(party). Increase lcAshScore(party) by 1.
+  }
+}

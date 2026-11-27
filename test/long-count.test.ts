@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { ModuleWriter } from '../src/lang';
 import { Journey } from '../src/session/journey';
+import { ModuleWriter } from '../src/lang';
 import { PlaySession } from '../src/session/play-session';
 import { Placed } from './support/placed';
 import { campaign } from './support/long-road';
