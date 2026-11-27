@@ -36,12 +36,15 @@ describe('a thing at hand', () => {
     const pack = AtHand.of(page.app).find(h => h.name === 'a rotted pack')!;
     expect(AtHand.of(page.app)[0]!.name).not.toBe('a rotted pack');
     AtHand.pick(page.app, pack);
-    // Since only a fight, a store and creation unfold (PB-29), neither is a fold: each act is a row in the pack's own
-    // pane, in whole words, and the pane stays the pack's.
+    // Since only a fight, a store and creation unfold (PB-29), neither is a fold. And since a thing's acts are its own
+    // page's (one flat level outside a fight, OR-1295), the pane stays the pack's, with its words, and each act is a
+    // row of the pack's page, in whole words, none with rows of its own.
     const acts = AtHand.of(page.app).find(h => h.id === pack.id)!.choices;
     expect(acts.filter(k => k.children?.length)).toEqual([]);
-    const pane = page.pane();
-    expect([/<h3>(.*?)<\/h3>/.exec(pane)?.[1], pane.includes('Put in a battleaxe'), pane.includes('Prod it with the pole')])
-      .toEqual(['A rotted pack', true, true]);
+    expect(/<h3>(.*?)<\/h3>/.exec(page.pane())?.[1]).toBe('A rotted pack');
+    const own = MenuModel.build(page.state.frame, 'here', [], { attention: { kind: 'thing', id: pack.id } }).choices;
+    expect(own.filter(k => k.children?.length)).toEqual([]);
+    expect(['Put in a battleaxe', 'Prod it with the pole'].map(l => own.some(k => k.label.startsWith(l))))
+      .toEqual([true, true]);
   }, 60000);
 });

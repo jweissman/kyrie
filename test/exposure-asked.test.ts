@@ -30,7 +30,12 @@ describe('an act that exposes one of the company to a hazard', () => {
     const t = await Tiny.start(gallery);
     const frame = MenuTree.framed({ title: '', screen: t.screen, entries: [], leaf: t.leaf, opening: [], chronicle: [],
       transcript: { steps: [] } } as unknown as Frame);
-    const drawn = flat(MenuModel.build(frame, 'here', []).choices).filter(c => c.command);
+    // The scene's rows, and each thing's own page (one flat level outside a fight, OR-1295: a thing's acts are its
+    // page's): the prop's heave is on the prop's page.
+    const scene = flat(MenuModel.build(frame, 'here', []).choices);
+    const things = scene.map(c => /^(.+)#look$/.exec(c.id)?.[1]).filter((id): id is string => !!id);
+    const pages = things.flatMap(id => flat(MenuModel.build(frame, 'here', [], { attention: { kind: 'thing', id } }).choices));
+    const drawn = [...scene, ...pages].filter(c => c.command);
     const heave = drawn.find(c => /heave/.test(c.command!))!, look = drawn.find(c => /look_about/.test(c.command!))!;
     expect(heave.risk).toBe(true);
     expect(heave.marks?.some(m => m.kind === 'trap' && m.ask)).toBe(true);
