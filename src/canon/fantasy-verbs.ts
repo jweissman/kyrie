@@ -2,7 +2,7 @@ import core from '../../data/rules/core.kyr' with { type: 'text' };
 import care from '../../data/rules/care.kyr' with { type: 'text' };
 import belongings from '../../data/rules/belongings.kyr' with { type: 'text' };
 import fantasy from '../../data/rules/fantasy.kyr' with { type: 'text' };
-import { ModuleParser, SymbolTable, TextHash, VerbIndex, VocabularyContext, type Effect, type VerbOperand,
+import { ModuleParser, SymbolTable, VerbIndex, VocabularyContext, type Effect, type VerbOperand,
   type VerbResolver, type SymbolSource }
   from '../lang/index';
 
@@ -30,9 +30,7 @@ export class FantasyVerbs {
       }
     }
     const index = VerbIndex.of(symbols, units, operands);
-    const key = TextHash.of([context.fingerprint(), ...sources.flatMap(s => [s.file, s.module.id,
-      JSON.stringify([s.module.kinds, s.module.relations, s.module.measures, s.module.verbs])])].join('\u0000'));
-    return { key, resolve: FantasyVerbs.effect.bind(null, index) };
+    return { key: index.key(), resolve: FantasyVerbs.effect.bind(null, index) };
   }
   static effect(index: VerbIndex, text: string): Effect {
     const { relation, change } = index.match(text);

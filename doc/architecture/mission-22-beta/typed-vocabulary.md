@@ -54,6 +54,10 @@ namespace membership must invalidate the affected cached result. In particular s
 own tracked dependencies. Two campaigns with different catalogs or rules compile and bind independently, including
 on cache hits. Preserve current load behavior until each change has a parity proof.
 
+The first slice keys its verb edition by the compiled phrases, operand syntax and kind identities, and bound
+lowerings, not source paths or the installation's local catalog fingerprint. Unrelated rules and generated kinds
+must not invalidate every kept parse; kind dependencies remain validated by each parse's recorded reads.
+
 PR #8 provides an initial table, not all of this contract: its signatures are strings, external bindings lack
 identities, imports and reference coverage are incomplete (OR-1371), and reference spans are declaration-level
 (OR-1370). Extend it only as needed for a proof slice; do not treat an unclassified occurrence as successfully bound.

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { KyrLint } from '../../src/cli/kyr-lint';
 import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
-import { ModuleCompiler, ModuleParser, parseAbility, SymbolTable, VerbIndex, VocabularyContext,
+import { KeptParses, ModuleCompiler, ModuleParser, ParseCache, parseAbility, SymbolTable, VerbIndex, VocabularyContext,
   type SymbolSource } from '../../src/lang/index';
 
 const parsed = (file: string, text: string): SymbolSource => ({
@@ -242,6 +242,30 @@ it('binds a verb lowering to the shared relation and its kind identities', () =>
     change: { kind: 'assert', call: { name: 'learned', args: ['ally', 'fire_ward'] } },
   });
   expect(() => verbs.match('Teach fire_ward to nobody')).toThrow('No declared verb matches');
+});
+
+it('reuses a validated parse across worlds with the same rule content', () => {
+  const sources = [parsed('/first-host/rules.kyr', 'Module rules "Rules" { Kind member. Kind ability. '
+    + 'Relation learned(member, ability). '
+    + 'Verb teach(spell: ability, target: member) "Teach {spell} to {target}" '
+    + 'lowers to Assert learned(target, spell). }')];
+  const first = CanonVocabulary.context(), second = CanonVocabulary.context();
+  first.install({ items: { first_world_token: { name: 'First token' } } });
+  second.install({ items: { second_world_token: { name: 'Second token' } } });
+  expect(first.fingerprint()).not.toBe(second.fingerprint());
+  const one = first.withRuleSources(sources);
+  const two = second.withRuleSources([
+    ...sources.map(s => ({ ...s, file: '/another-host/rules.kyr' })),
+    parsed('/another-host/extra.kyr', 'Module extra "Extra" { Kind token. Relation counted(token). }'),
+  ]);
+  const text = 'Module cache_lesson "Lesson" { Hazard lesson "Lesson" means "Teach fire_ward to ally.". }';
+  const module = ModuleParser.parseWithin(one, text);
+  expect(ParseCache.get(two, KeptParses.key(two, text))).toEqual(module);
+  const changed = first.withRuleSources(sources.map(s => ({
+    ...s, module: { ...s.module, verbs: s.module.verbs?.map(v => ({ ...v, phrase: 'Instruct {spell} to {target}' })) },
+  })));
+  expect(ParseCache.get(changed, KeptParses.key(changed, text))).toBeUndefined();
+  expect(() => ModuleParser.parseWithin(changed, text)).toThrow('No declared verb matches');
 });
 
 it('rejects overlapping phrases and same-spelled kinds with different identities', () => {
