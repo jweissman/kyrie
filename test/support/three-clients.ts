@@ -1,13 +1,15 @@
 import { EngineHost } from '../../web/engine/engine-host';
 import { Creation } from '../../web/engine/creation';
-import { PageFocus, type Talked } from '../../web/reader/page-focus';
-import { Conversation } from '../../web/reader/conversation';
 import { MenuModel, type Menu } from '../../src/frame/menu-model';
+import { TalkQuestion, type Question } from '../../src/frame/talk-question';
+import { QuestionAsked } from '../../src/frame/question-asked';
 import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
 import { Runner, type Said } from '../../src/cli/runner';
-import { Terminal, type Talking } from '../../src/cli/terminal';
+import { Terminal } from '../../src/cli/terminal';
+import { TerminalScene } from '../../src/cli/terminal-scene';
+import { ActionFeedbackView } from '../../src/presentation/action-feedback';
+import type { Told } from '../../src/presentation/narrator';
 import { PlayerView } from '../../src/presentation/player-view';
-import { PlayerFrame } from '../../src/presentation/player-frame';
 import { ScreenModel } from '../../src/ui/screen-model';
 import { Narrator } from '../../src/presentation/narrator';
 import { Digest } from '../../src/session/digest';
@@ -20,14 +22,14 @@ import type { Frame } from '../../src/creation/protocol';
 export interface Seen { digest: string; place: string; focus: string; rows: Record<string, string[]> }
 export type Client = 'page' | 'terminal' | 'runner';
 
-// The three clients over one game (the page's engine and the page's own step machine, the terminal's session and
-// its turn, and the runner over a session of its own), from one checkpoint, given the same commands. Each keeps whom it
-// attends to as it does today: the page by PageFocus (ReaderApp's state), the terminal by Terminal.talked, the runner
-// by its own `with`; engine-owned focus (OR-1451 onward) makes these one, and this harness holds that they agree.
+// The three clients over one game (the page's engine, the terminal's session and its turn, and the runner over a
+// session of its own), from one checkpoint, given the same commands. Whom each attends to is its session's own focus
+// (OR-1451: PlaySession.focus, the question each reads, MenuTree.question), so this harness holds that they agree.
 export class ThreeClients {
-  private page: Talked & { frame: Frame } = { attention: Conversation.place, talk: [], asked: [], frame: undefined! };
-  private talking?: Talking;
+  private page: { frame: Frame } = { frame: undefined! };
   private said?: Said;
+  // What came of the terminal's last act, as its turn tells it.
+  private told?: Told;
   private constructor(readonly host: EngineHost, readonly terminal: PlaySession, readonly runner: Runner) {}
   static async start(seed = 'wren'): Promise<ThreeClients> {
     const host = new EngineHost(() => undefined);
@@ -40,72 +42,64 @@ export class ThreeClients {
     three.said = three.runner.said();
     return three;
   }
-  // What the page has asked in the conversation under way.
-  asked(): readonly string[] { return this.page.asked; }
-  // The page's menu as it draws it now (MenuModel, from its own state).
-  menu(): Menu {
-    const { frame, attention, asked, heard, trading } = this.page;
-    return MenuModel.build(frame, 'here', [], { attention, asked, ...heard ? { heard } : {}, ...trading ? { trading } : {} });
-  }
+  // What the page has asked in the conversation under way (the engine's question's).
+  asked(): readonly string[] { return this.page.frame.question?.talk?.asked ?? []; }
+  // The page's menu as it draws it now: in a talk, the engine's question; else the frame's menu.
+  menu(): Menu { return TalkQuestion.menu(this.page.frame) ?? MenuModel.build(this.page.frame, 'here', []); }
   // The page's choice that does a command (or is a turning by its id), among what it draws now.
   choice(command: string): Choice | undefined {
     const m = this.menu(), all = [...m.choices, ...m.talk ? [...m.talk.replies, m.talk.leave] : []];
     return ThreeClients.flat(all).find(c => c.command === command || c.id === command);
   }
-  // A command done by every client, as each does it: the page by its choice (turning first, where it is one), the
-  // terminal by its session, the runner by the act asked.
+  // A command done by every client, as each does it: the page by its choice's command (the engine's, as the page's
+  // choose sends it), the terminal by its session, the runner by the act asked.
   async act(command: string): Promise<void> {
     const choice = this.choice(command) ?? { id: command, label: command, command } as unknown as Choice;
-    const turning = Conversation.turn(choice), says = turning?.kind === 'person'
-      ? this.menu().scene?.subjects.find(s => s.id === turning.id)?.says?.[0] : undefined;
-    const replies = this.menu().talk?.replies.map(c => c.id), was = this.page;
-    if (turning) { this.page = { ...this.page, ...PageFocus.turned(this.page, turning, says) }; }
     if (choice.command) {
-      const next = await this.host.handle({ kind: 'perform', command: choice.command }) as Frame;
-      this.page = { ...PageFocus.after(was, { choice, said: choice.label, ...turning ? { turning } : {}, aside: false,
-        frame: was.frame, next, ...replies ? { replies } : {} }), frame: next };
-      // As the terminal does it (Terminal.act): its own row for the command, and the act's kind from the frame's rows.
-      const c = this.terminal.campaign, screen = ScreenModel.build(c), listed = Terminal.foreground(this.terminal,
-        Narrator.leaf(c, screen).glance, screen, this.talking ? { talking: this.talking } : {}).all
-        .find(l => l.id === choice.command);
-      const does = PlayerFrame.of(c).rows.find(r => r.choice.id === choice.command)?.action.schema;
-      const before = PlayerView.observe(c).location?.id;
-      await this.terminal.leg(choice.command);
-      const moved = before !== PlayerView.observe(c).location?.id;
-      this.talking = Terminal.talked(this.talking, { moved, ...does ? { does } : {},
-        ...listed?.targets?.[0] ? { target: listed.targets[0] } : {} });
+      this.page = { frame: await this.host.handle({ kind: 'perform', command: choice.command }) as Frame };
+      // As the terminal does it (Terminal.act): what came of it, told on its next turn (a focus command tells nothing).
+      const c = this.terminal.campaign, before = PlayerView.observe(c);
+      const event = await this.terminal.leg(choice.command);
+      const moved = before.location?.id !== PlayerView.observe(c).location?.id;
+      this.told = choice.command.startsWith('focus:') ? undefined
+        : { event, said: choice.label, feedback: ActionFeedbackView.read(c, event, before), moved };
     }
     const asked = await this.runner.ask(JSON.stringify({ act: command }));
     if (!('error' in asked)) { this.said = asked; }
   }
+  // The terminal's turn told, and the question asked of it (Terminal.scene's, its screen and leaf).
+  private terminalAsked(): { question: Question; screen: ReturnType<typeof ScreenModel.build>;
+    glance: ReturnType<typeof Narrator.leaf>['glance'] } {
+    const c = this.terminal.campaign, screen = ScreenModel.build(c);
+    const leaf = new TerminalScene().leaf(c, screen, this.told);
+    return { question: QuestionAsked.settle(this.terminal, { screen, leaf }), screen, glance: leaf.glance };
+  }
   // What each shows now.
   seen(): Record<Client, Seen> {
-    const runner = this.runner as unknown as { with?: string; session: PlaySession };
+    const runner = this.runner.session, terminal = this.terminalAsked();
     return {
       page: this.of(Digest.of(this.terminalOf(this.host)), this.page.frame.screen.place.id,
-        ThreeClients.focus(this.page.attention), this.pageRows()),
-      terminal: this.of(Digest.of(this.terminal.campaign), ScreenModel.build(this.terminal.campaign).place.id,
-        this.talking ? `person:${this.talking.id}` : 'place', this.terminalRows()),
-      runner: this.of(Digest.of(runner.session.campaign), ScreenModel.build(runner.session.campaign).place.id,
-        runner.with ? `person:${runner.with}` : 'place', this.runnerRows()),
+        ThreeClients.focus(this.page.frame.question?.focus), this.pageRows()),
+      terminal: this.of(Digest.of(this.terminal.campaign), terminal.screen.place.id,
+        ThreeClients.focus(terminal.question.focus), this.terminalRows(terminal)),
+      runner: this.of(Digest.of(runner.campaign), ScreenModel.build(runner.campaign).place.id,
+        ThreeClients.focus(runner.focus), this.runnerRows()),
     };
   }
   private of(digest: string, place: string, focus: string, rows: Record<string, string[]>): Seen {
     return { digest, place, focus, rows };
   }
   private terminalOf(host: EngineHost) { return (host as unknown as { session: PlaySession }).session.campaign; }
-  private static focus(a: { kind: string; id?: string }): string { return a.kind === 'place' ? 'place' : `${a.kind}:${a.id}`; }
+  // A focus as the harness compares it: the place, or whom the company talks with.
+  private static focus(f?: Question['focus']): string { return f?.kind === 'talk' ? `person:${f.with}` : 'place'; }
   private pageRows(): Record<string, string[]> {
-    const m = this.menu(), marks = this.page.frame.menu.marks;
-    const rows = m.talk ? [...m.talk.replies, m.talk.leave] : m.choices;
-    return Object.fromEntries(ThreeClients.flat(rows).map(c => [c.command ?? c.id,
-      [...new Set((marks.replies[c.id] ?? marks.rows[c.id] ?? []).flatMap(l => l.witnesses.flatMap(w => w.aspects)))]
-        .map(String).sort()]));
+    const m = this.menu(), marks = this.page.frame.menu.marks, talk = this.page.frame.question?.talk;
+    return Object.fromEntries(ThreeClients.flat(m.choices).map(c => [c.command ?? c.id,
+      [...new Set((talk ? talk.marks[c.id] : marks.replies[c.id] ?? marks.rows[c.id] ?? [])
+        ?.flatMap(l => l.witnesses.flatMap(w => w.aspects)) ?? [])].map(String).sort()]));
   }
-  private terminalRows(): Record<string, string[]> {
-    const c = this.terminal.campaign, screen = ScreenModel.build(c), leaf = Narrator.leaf(c, screen);
-    const offered = Terminal.foreground(this.terminal, leaf.glance, screen,
-      this.talking ? { talking: this.talking } : {});
+  private terminalRows(at: ReturnType<ThreeClients['terminalAsked']>): Record<string, string[]> {
+    const offered = Terminal.foreground(this.terminal, at.glance, at.screen, { question: at.question });
     return Object.fromEntries([...offered.first, ...offered.rest ?? []].map(l => [l.id,
       [...new Set((l.aspects ?? []).map(a => String(a)))].sort()]));
   }
@@ -156,6 +150,7 @@ export class ThreeClients {
       await t.act(reply.command!); look();
     }
     const leave = t.menu().talk?.leave;
+    // (The leave is the question's last row but the next page; taken by its command.)
     if (leave?.command) { await t.act(leave.command); look(); }
     await t.act('wait'); look();
     return { steps: worlds.length, worlds, apart: [...apart].sort() };

@@ -4,6 +4,7 @@ import type { CombatScreen, Screen } from '../ui/screen-types';
 import type { Exchange, Leaf } from '../presentation/narrator';
 import type { Memorial } from '../memorial';
 import type { MenuNode } from '../frame/menu-tree';
+import type { Question } from '../frame/talk-question';
 export type { Exchange, Leaf };
 
 // What passes between the page and the engine. The engine (Kyrie, in a worker) is the only authority on what
@@ -107,6 +108,9 @@ export interface Frame {
   leaf: Leaf;
   // The resting scene's menu and the marks drawn of it, worked out by the engine (MenuTree): read, never built again.
   menu: MenuNode;
+  // The question asked from the session's focus (OR-1451): the focus, and while it is a talk, the talk's menu, worked
+  // out by the engine for every client (MenuTree.question).
+  question?: Question;
   combat?: CombatScreen;
   // How a fight began, as it was seen: the moment that started it.
   opening: string[];

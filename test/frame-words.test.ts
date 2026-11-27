@@ -9,6 +9,7 @@ import { Worded, type Unworded } from '../src/presentation/worded';
 import type { Attention } from '../src/ui/attention';
 import type { Choice } from '../src/ui/choice-list';
 import { ReaderApp, type AppState } from '../web/reader/reader-app';
+import { MenuTree } from '../src/frame/menu-tree';
 import { MenuModel } from '../src/frame/menu-model';
 import { Stage } from '../web/reader/stage/stage';
 import { ChoiceRow } from '../web/reader/stage/choice-row';
@@ -24,12 +25,18 @@ import { Glanced } from './support/glanced';
 // one gate every row passes), under test a refusal that names the act and where it was drawn.
 type Asked = Said | { error: string };
 const said = (x: Asked): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
-function app(session: PlaySession, attention: Attention, extra: Partial<AppState> = {}): ReaderApp {
+// The page drawn attending to the place, a thing, or someone talked with (the engine's question asked of the frame,
+// its wares open or not: OR-1451).
+function app(session: PlaySession, attention: Attention, extra: Partial<AppState> & { trading?: boolean } = {}):
+  ReaderApp {
   const a = Object.create(ReaderApp.prototype) as ReaderApp & { props: unknown; state: AppState };
+  const { trading = false, ...rest } = extra, frame = Glanced.of(session).frame();
+  const question = attention.kind === 'person'
+    ? MenuTree.question(frame, { kind: 'talk', with: attention.id, page: 0, trading }) : undefined;
   a.props = { query: new URLSearchParams() };
   a.state = { phase: 'play', options: { size: 'usual', rolls: 'shown' }, campaign: '', seed: '', party: [], editing: -1,
-    view: 'here', cursor: 0, open: [], attention, talk: [], asked: [], member: '', stage: '', error: '', help: false,
-    frame: Glanced.of(session).frame(), ...extra } as AppState;
+    view: 'here', cursor: 0, open: [], ...attention.kind === 'thing' ? { examined: attention.id } : {}, member: '',
+    stage: '', error: '', help: false, frame: question ? { ...frame, question } : frame, ...rest } as AppState;
   return a;
 }
 // The page's rules, each selector with whether it sizes what it selects.
@@ -61,7 +68,7 @@ function unworded(session: PlaySession): Unworded[] {
     kind: x.kind === 'thing' ? 'thing' as const : 'person' as const, id: x.id }))];
   for (const attention of attentions) {
     for (const trading of [false, true]) {
-      for (const c of leaves(MenuModel.build(frame, 'here', [], { attention, trading }).choices)) {
+      for (const c of leaves(MenuModel.build(frame, 'here', [], { attention }).choices)) {
         if (!Worded.said(c.alone || c.label)) { out.push({ act: c.command ?? c.id, stage: 'MenuModel', words: c.label }); }
       }
       for (const extra of [{}, { talking: true }, { exploring: 'go' as const }, { exploring: 'look' as const }]) {

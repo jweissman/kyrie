@@ -42,7 +42,7 @@ describe('the page\'s reads of words', () => {
   });
   it('read no note, moment, roll, panorama or level from its words', () => {
     const root = join(import.meta.dir, '../..');
-    const read = ['news.tsx', 'conversation.ts', 'character-page.tsx', 'stage/moments.tsx', 'stage/check.tsx',
+    const read = ['news.tsx', '../../src/frame/talk-lines.ts', 'character-page.tsx', 'stage/moments.tsx', 'stage/check.tsx',
       'stage/panorama.tsx', 'stage/talk-stage.tsx', 'stage/told.tsx', 'stage/glance.tsx']
       .map(f => readFileSync(join(root, 'web/reader', f), 'utf8')).join('\n');
     for (const gone of ['Words.noted', 'Words.aimed', 'Words.label', 'Moments.ending', 'Moments.levelled',

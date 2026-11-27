@@ -145,7 +145,7 @@ export class KeptGame {
     const parsed = JSON.parse(await SaveCodec.unpack(text)) as KeptState | Whole | SessionCheckpoint;
     const unpacked = world ? await SaveCodec.unpack(world) : undefined;
     const part = unpacked ? JSON.parse(unpacked) as WorldPart : undefined;
-    if ('version' in parsed && parsed.version === 2 && unpacked && KeptGame.key(unpacked) !== parsed.world) {
+    if (KeptGame.state(parsed) && unpacked && KeptGame.key(unpacked) !== parsed.world) {
       throw new Error('The world this game was kept with is not the one kept beside it in this browser. The game can '
         + 'be opened from a save file, or a new one begun from the title page.');
     }
@@ -163,9 +163,14 @@ export class KeptGame {
       when: FictionalTime.at(campaign.readout.elapsed), company: campaign.fighters.map(m => m.name).filter(Boolean)
         .join(', '), ...campaign.running ? {} : { ended: true }, ...seed ? { seed } : {} };
   }
+  // A state kept apart from its world (version 2 of the page's own keeping), not a session's checkpoint, which has its
+  // own version 2 (OR-1451), nor a save file.
+  static state(parsed: KeptState | Whole | SessionCheckpoint): parsed is KeptState {
+    return 'version' in parsed && parsed.version === 2 && 'world' in parsed && 'checkpoint' in parsed;
+  }
   // A kept state and its world, put back together; or a save that was whole already.
   static join(parsed: KeptState | Whole | SessionCheckpoint, world?: WorldPart): Whole {
-    if ('version' in parsed && parsed.version === 2) {
+    if (KeptGame.state(parsed)) {
       if (!world) { throw new Error('The world this game was played in is no longer kept in this browser.'); }
       const { facts, state: { seed, ...state }, ...rest } = parsed.checkpoint.save, gone = new Set(facts.removed);
       const kept = (world.base ?? []).filter((_, n) => !gone.has(n));

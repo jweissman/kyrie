@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
-import { Conversation } from '../../web/reader/conversation';
+import { TalkLines } from '../../src/frame/talk-lines';
 import type { Frame } from '../../src/creation/protocol';
 import type { Choice } from '../../src/ui/choice-list';
 
@@ -23,7 +23,7 @@ describe('what a talk teaches', () => {
     await t.perform(t.journey.choices().find(c => /^Ask Tam why the wheel stopped/.test(c.label))!.command);
     const exchange = t.leaf.exchange!;
     expect(exchange.noted?.filter(n => n.kind === 'learned').length).toBe(1);
-    const lines = Conversation.lines({ leaf: t.leaf } as unknown as Frame, { id: 'x' } as Choice, 'Ask Tam why');
+    const lines = TalkLines.lines({ leaf: t.leaf } as unknown as Frame, { id: 'x' } as Choice, 'Ask Tam why');
     expect(lines.filter(l => l.kind === 'learned').map(l => l.text)).toEqual([expect.stringMatching(/wedge/)]);
   });
 });

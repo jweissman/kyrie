@@ -26,7 +26,9 @@ describe('the general store at Porthalen', () => {
     // there and not its haggling alone.
     const talk = [...store.offer.primary, ...store.offer.rest].find(o => o.id === 'region__s1_general_keeper#talk')!;
     expect(talk).toBeDefined();
-    const within = said(await r.ask(act(talk.id)));
+    said(await r.ask(act(talk.id)));
+    // Under her Trade (the engine's question, OR-1451).
+    const within = said(await r.ask(act('focus:trade:on')));
     const buys = [...within.offer.primary, ...within.offer.rest]
       .filter(o => RunnerOffer.act(o).startsWith('buy_item('));
     expect(buys.map(o => o.label)).toContainEqual(expect.stringMatching(/^Buy a backpack/));

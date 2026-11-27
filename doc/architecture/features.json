@@ -199,7 +199,7 @@
    "name": "Conversation",
    "paths": [
     "web/reader/stage/talk-stage.tsx",
-    "web/reader/conversation.ts",
+    "src/frame/talk-lines.ts",
     "src/narrative/voice.ts"
    ],
    "specs": [
@@ -1532,6 +1532,11 @@
   "OR-1364": "page-ui",
   "OR-1450": "page-ui",
   "OR-1451": "page-ui",
+  "OR-1470": "page-ui",
+  "OR-1471": "page-ui",
+  "OR-1472": "page-ui",
+  "OR-1473": "page-ui",
+  "OR-1474": "page-ui",
   "OR-1452": "page-ui",
   "OR-1453": "page-ui",
   "OR-1454": "page-ui",

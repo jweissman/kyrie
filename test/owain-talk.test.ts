@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import { MenuModel } from '../src/frame/menu-model';
-import { Conversation, type TalkLine } from '../web/reader/conversation';
+import { TalkLines, type TalkLine } from '../src/frame/talk-lines';
 import type { Choice } from '../src/ui/choice-list';
 import type { Frame } from '../src/creation/protocol';
 import { Sentences } from '../src/presentation/sentences';
@@ -12,7 +12,7 @@ import { Sentences } from '../src/presentation/sentences';
 // you give is one of three; the green's notices and boats are not told over him; and he is there to be asked more.
 class Talk {
   host = new EngineHost(() => undefined); frame!: Frame; lines: TalkLine[] = [];
-  attention: ReturnType<typeof Conversation.turn> & object = Conversation.place;
+  attention: ReturnType<typeof TalkLines.turn> & object = TalkLines.place;
   static async begin(): Promise<Talk> {
     const t = new Talk();
     t.frame = await t.host.handle({ kind: 'begin', campaign: 'world', seed: 'iscoed', origin: 'drove', opening: 'none',
@@ -29,12 +29,12 @@ class Talk {
     const m = this.menu(), c = Talk.all([...m.choices, ...m.talk?.replies ?? []])
       .find(x => label.test(x.label) || label.test(x.id) || label.test(MenuModel.said(m, x)));
     if (!c) { throw new Error(`not offered: ${label}`); }
-    const before = this.frame, turned = Conversation.turn(c);
+    const before = this.frame, turned = TalkLines.turn(c);
     if (turned) { this.attention = turned; }
     this.frame = await this.host.handle({ kind: 'perform', command: c.command! }) as Frame;
-    const added = Conversation.lines(this.frame, c, MenuModel.said(m, c), this.lines);
+    const added = TalkLines.lines(this.frame, c, MenuModel.said(m, c), this.lines);
     this.lines.push(...added);
-    this.attention = Conversation.holds(this.attention, before, this.frame);
+    this.attention = TalkLines.holds(this.attention, before, this.frame);
     return added;
   }
 }

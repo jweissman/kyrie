@@ -21,7 +21,8 @@ describe('an act asked again', () => {
     const t = await Tiny.start(shop, {});
     t.journey.coin(10); t.look();
     const r = new Runner(t.session);
-    const talk = said(await r.ask(JSON.stringify({ act: 't__mabel#talk' })));
+    said(await r.ask(JSON.stringify({ act: 't__mabel#talk' })));
+    const talk = said(await r.ask(JSON.stringify({ act: 'focus:trade:on' })));
     const buy = [...talk.offer.primary, ...talk.offer.rest].find(o => /^buy_item\(t__mabel_torch/.test(o.does ?? ''))!;
     const had = torches(t);
     said(await r.ask(JSON.stringify({ act: buy.does })));

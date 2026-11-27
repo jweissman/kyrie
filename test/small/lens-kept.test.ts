@@ -8,7 +8,7 @@ import type { Lens } from '../../src/presentation/glance-types';
 import type { ReaderApp } from '../../web/reader/reader-app';
 import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';
-import { Paging } from '../../web/reader/paging';
+import { Paging } from '../../src/frame/paging';
 import { MenuTree } from '../../src/frame/menu-tree';
 
 // A lens opened never puts a led act a lens away (OR-240: the first blind cold play of the page, P72-73 and P85-86:

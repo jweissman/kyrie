@@ -70,7 +70,12 @@ export class RunnerWalk {
     // Straight at the aim; else at what pulls next, where it is an act.
     const next: Offered | undefined = s.next?.act ? { id: s.next.act, label: s.next.label ?? s.next.text, aspects: [],
       type: 'other', marks: [] } : undefined;
-    if (policy === 'straight') { return led.find(o => o.aspects.includes('undertaking')) ?? next ?? led[0] ?? all[0]; }
+    // In a talk where nothing said carries the aim on, it takes its leave, as a player reading the page would (the
+    // talk's question offers only what is said to them: OR-1451).
+    const leave = all.find(o => /^(take_leave\(|focus:place$)/.test(o.does ?? o.id));
+    if (policy === 'straight') {
+      return led.find(o => o.aspects.includes('undertaking')) ?? next ?? leave ?? led[0] ?? all[0];
+    }
     if (policy === 'curious') {
       const fresh = all.filter(o => !chosen.some(c => c.id === o.id));
       return fresh.find(o => led.includes(o) && o.aspects.some(a => ['knowledge', 'exploration'].includes(a)))
