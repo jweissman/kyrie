@@ -1,8 +1,16 @@
 # The long campaign: a season-by-season sketch
 
-27 November 2026. **Research and creative direction, not a commission or implemented content.** The names and
+27 November 2026. **Creative direction; a first standalone playable thread is in progress.** The names and
 connections proposed below are possibilities, not new canon. The reference game and its fifth expedition come first:
 do not populate the opening with this outline or require the wider world for beta.
+
+The optional `data/adventures/tallow/long-campaign.campaign.json` plays Tallow Deep with an additional Swallet thread:
+a drawing, a rival's food, a road crew and the Ferryman's approach. Its choices change supplies, timing and who
+occupies the river bank. The existing Tallow campaign is unchanged. This is not yet the four-season arc: the other
+episodes, independent adventure outcomes, strategic plans and the interlocked finale remain to be built and proven.
+Play the standalone thread with `bin/kyrie play data/adventures/tallow/long-campaign.campaign.json`. It is not
+installed in the generated reference game. Its raiders follow a timed authored arrival, not an autonomous strategic
+simulation; the road crew's arrival does not yet repair the road.
 
 ## A war seen from a doorway
 
