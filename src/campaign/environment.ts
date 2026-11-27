@@ -36,15 +36,16 @@ export class Environment {
       ? { ready: members } : {};
   }
   // A company weary for want of sleep, or hungry for want of food (needs.kyr): its members fight weary. Hunger had cost
-  // nothing, so that a company waited a thousand watches without rations and lost nothing (M19-130).
+  // nothing, so that a company waited a thousand watches without rations and lost nothing (M19-130). Only where the
+  // world keeps food and sleep (a world of a fight's rules without them: BX-02's packages).
   // A company with no light where it fights fights in the dark: walking on and fighting there had cost nothing, and the
   // dark had said "easily won" of what nobody could see (Mission 20's third round, D 59–74).
   static dark(world: World, actor: string | undefined, members: string[]): { dark?: string[] } {
     return actor && world.declares('benighted') && world.test(ModuleWriter.call('benighted', actor)) ? { dark: members } : {};
   }
   static weary(world: World, actor: string | undefined, members: string[]): { weary?: string[] } {
-    return actor && (world.related('weary', actor).length || world.related('hungry', actor).length)
-      ? { weary: members } : {};
+    return actor && world.declares('weary')
+      && (world.related('weary', actor).length || world.related('hungry', actor).length) ? { weary: members } : {};
   }
   // The laws of where an actor stands: every law of its place and of each place it is within (a plane's, a
   // temple's), as the catalog conditions they name.
