@@ -19,7 +19,7 @@ import { ReaderKeys } from './reader-keys';
 import { PressGuard } from './press-guard';
 import { Tone } from './instrument/tone';
 import { ReaderOpening } from './reader-opening';
-import { Timings } from './timings';
+import { Timings } from './timings'; import { FightRefresh } from './fight-refresh';
 import { TitlePage } from './title-page';
 import { CampaignPage } from './campaign-page';
 import { CompanyPage } from './company-page';
@@ -198,7 +198,11 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       this.keeping = this.keeping.then(() => this.keep(message)).catch(() => undefined);
     } else if (message.kind === 'unkept') { if (!this.state.unkept) { this.setState({ unkept: true }); } }
     else if (message.kind === 'progress') { this.setState({ stage: message.stage, step: message.step }); }
-    else if (message.kind === 'frame') {
+    else if (message.kind === 'frame' && this.state.frame && FightRefresh.is(this.state.frame, message.frame)) {
+      // Only its standing reckoned again: the keyboard's place kept (OR-1351).
+      const s = this.state, cursor = FightRefresh.cursor(s.frame!, message.frame, s);
+      this.setState({ frame: message.frame, cursor });
+    } else if (message.kind === 'frame') {
       const combat = message.frame.combat, fight = combat ? this.state.frame?.combat ? this.state.fight
         : { seen: 0, hp: {}, first: true, began: Object.fromEntries(combat.allies.map(f => [f.id, f.hp])) } : undefined;
       const news = [...this.state.news ?? [], ...News.of(message.frame, this.state.news)];
