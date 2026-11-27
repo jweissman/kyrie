@@ -4,10 +4,12 @@ import { Stamps, type Module, type World, type WorldRule } from '../lang/index';
 interface Asleep { line: number; woken: Set<WorldRule>; world: World }
 interface Held { line: number; names: readonly string[]; stamps: readonly number[] }
 // The rules held on one relation or measure: under its name alone (''), or under one thing it is asked of (Stamps),
-// each by the stamp it was filed at; and the name's own stamp when the first of them still filed was (since): a world
-// whose stamp for the name is still that has written nothing of it, and wakes none of them, so that a watch reads the
-// names written, not every thing some rule is held on (OR-1438).
-interface Group { since: number; byArg: Map<string, Map<number, Set<WorldRule>>> }
+// each by the stamp it was filed at; and the least and greatest of the name's own stamps when they were filed (since,
+// until): where those are one and the world's stamp for the name is it, every one of them was filed at the write the
+// world holds, and none is woken, so that a watch reads the names written, not every thing some rule is held on
+// (OR-1438). A stamp is one write's anywhere, so a world of another branch of the line (the world put back as it was
+// when a command failed in its watches) is never taken for one that wrote nothing.
+interface Group { since: number; until: number; byArg: Map<string, Map<number, Set<WorldRule>>> }
 // The world's rules held idle (see CampaignTick.instances), filed by what would wake them: each by the world line it
 // was found idle in and, for every name it is held on, that name's stamp then. A watch asks only the rules that some
 // write has woken, not every rule of the country whether it is still idle (AX-10: a thousand rules asked a watch, a
@@ -38,8 +40,8 @@ export class RuleWakes {
     for (const [i, key] of names.entries()) {
       const [name, arg] = RuleWakes.apart(key), now = world.stamping.of(name);
       let group = byName.get(name);
-      if (!group) { group = { since: now, byArg: new Map() }; byName.set(name, group); }
-      group.since = Math.min(group.since, now);
+      if (!group) { group = { since: now, until: now, byArg: new Map() }; byName.set(name, group); }
+      group.since = Math.min(group.since, now); group.until = Math.max(group.until, now);
       let byStamp = group.byArg.get(arg);
       if (!byStamp) { byStamp = new Map(); group.byArg.set(arg, byStamp); }
       const stamp = held.stamps[i]!, rules = byStamp.get(stamp);
@@ -69,17 +71,19 @@ export class RuleWakes {
   // What it last said, kept as rules are filed since: a rule filed in that world is asleep in it again; one filed in
   // another is counted woken, to be asked again, as it may be.
   private last?: Asleep;
-  // The rules idle still in this world: filed in its line, and no name they are held on written since. A name not
-  // written since the first of its rules was filed is passed over whole; and where it last said what is asleep in a
-  // world of this line, only the names written since that world are read again (OR-1438: every watch had read every
-  // name every rule is held on, after every rule that fired).
+  // The rules idle still in this world: filed in its line, and no name they are held on written since. A name all of
+  // whose rules were filed at the write this world holds of it is passed over whole; and where it last said what is
+  // asleep in a world of this line, only the names that world and this one hold differently are read again, written
+  // since in either (a world put back after a failed command is a branch, not a later world: test/command-faults).
+  // OR-1438: every watch had read every name every rule is held on, after every rule that fired.
   asleep(world: World): Asleep {
     const line = world.stamped([])[0]!, byName = this.lines.get(line), last = this.last;
-    const since = last?.line === line ? world.stamping.written(last.world.stamping) : undefined;
+    const since = last?.line === line ? world.stamping.written(last.world.stamping, true) : undefined;
     const woken = since ? last!.woken : new Set<WorldRule>();
     for (const name of since ?? byName?.keys() ?? []) {
       const group = byName?.get(name);
-      if (!group || world.stamping.of(name) === group.since) { continue; }
+      const now = world.stamping.of(name);
+      if (!group || (now === group.since && now === group.until)) { continue; }
       for (const [arg, byStamp] of group.byArg) {
         const now = world.stamping.of(name, arg || undefined);
         for (const [stamp, rules] of byStamp) { if (stamp !== now) { for (const r of rules) { woken.add(r); } } }
