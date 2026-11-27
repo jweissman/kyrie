@@ -23,6 +23,9 @@ Module origin "The brothers' errand" {
   // The bed the priest gives, once the letter is read: lodging for nothing, for as long as the errand lasts.
   Entity bed: service "the bed in the back". Initially Assert serviceOf(bed, lodging). Initially Set fee(bed) to 0.
   Initially Assert expects(priest, party). Initially Assert knows(party, named).
+  // Where the writing is, known from the letter: said where it grounds a question (OR-1680).
+  Entity brothers_letter: source "the brothers' letter". Initially Assert reveals(brothers_letter, named).
+  Initially Assert at(brothers_letter, shrine). Initially Assert learnedFrom(party, brothers_letter, named).
   Observe letter at shrine as feature when expects(priest, party) "You have the letter inside your coat, from the brothers of your order to the {priestly} at {homename}. It asks that {protagonist}, who reads the old script, be given a bed and shown the way to {work}. There is writing there that the order has heard of for a hundred years and never seen copied.".
   // Come in off the road, the town named: the opening had told the letter and never where (its critique).
   Observe arrival at shrine as feature when watch(clock) < 1 "{homename} is smaller than the brothers made it sound, after so many days on the road. The first person you ask points the way to the {priestly}, and you go in.".

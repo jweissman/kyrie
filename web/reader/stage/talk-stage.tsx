@@ -327,7 +327,7 @@ export class TalkStage {
         {/* What is said beside its number, wrapping beside it: on a phone a long one had gone under its number. */}
         <ChoiceRow.Act choice={c} draw={draw} number={number}
           {...bar ? { indicator } : {}}
-          label={<span className="said">{Typography.curl(c.label)}{c.note && <small> · {c.note}</small>}
+          label={<span className="said">{Typography.curl(c.label)}{c.note && <small> · {Typography.curl(c.note)}</small>}
             {asked && <small> · asked</small>}{pays && <span className="for-you sr-only">, for you</span>}</span>} />
         {c.children && draw.open.has(c.id) && <ol className="opened-list">{c.children.map(k => <TalkStage.Reply key={k.id}
           choice={k} draw={draw} />)}</ol>}

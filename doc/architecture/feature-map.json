@@ -146,6 +146,21 @@
        ]
       },
       {
+       "id": "grounded-questions",
+       "title": "Questions asked on grounds",
+       "feature": "talk",
+       "pins": [
+        "Choice › A question asked on grounds"
+       ],
+       "words": [
+        "grounds",
+        "how the character knows"
+       ],
+       "rows": [
+        "OR-1680"
+       ]
+      },
+      {
        "id": "news",
        "title": "News and rumour",
        "feature": "talk",

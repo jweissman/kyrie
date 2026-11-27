@@ -9,6 +9,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
 import { DeepArgument } from '../src/world/deep/deep-argument';
+import { TopicGrounds } from '../src/ui/topic-grounds';
 
 // An argument with consequences (Proof B): Gothgiba's priest holds that the Delvers' wall must stay shut, and will not
 // pray for, heal or raise whoever opens it. The company can argue it out, each way once, at odds the page states:
@@ -23,8 +24,13 @@ class Shrine {
     const s = await PlaySession.start(w.path, 'wren', w.source);
     await this.walk(s, [/^Take the road to the bailey/, /^Take the door of the Wooden Wolf/,
       /^Ask Fargrim what the matter is/, /^Ask Fargrim about the old workings$/, /^Take the door of the Wooden Wolf/,
-      /^Take the shrine porch in Gothgiba/,
-      /^Ask Baern about the walled stair/]);
+      /^Take the shrine porch in Gothgiba/]);
+    // The wall seen, from the room above it, as asking after it needs (OR-1680: the walled stair is asked of by one
+    // who has stood at it, never on the place's name alone).
+    const ask = s.campaign.module.actions.find(a => a.topic && /_wall$/.test(a.id))!;
+    const above = TopicGrounds.of(ask.requires).find(g => g.kind === 'been')!.on;
+    this.set(s, [{ kind: 'assert', call: ModuleWriter.call('been', 'party', above) }]);
+    await this.walk(s, [/^Ask Baern about the walled stair/]);
     // A company that has not heard the innkeeper's grandmother's saying (S2-4: asked about the workings, Fargrim
     // tells what the thing below cannot bear): what the priest is argued with is all it knows of the bane.
     this.set(s, [{ kind: 'retract', call: ModuleWriter.call('knows', 'party', 'region__w9_bane') }]);
