@@ -34,6 +34,10 @@
     "canon": {
       "care": "canCast: Plane Shift is cast"
     },
+    "fantasy": {
+      "belongings": "learned: what Teach lowers to, a lesson learned",
+      "care": "ability: what Teach teaches"
+    },
     "elements": {
       "care": "ability, canCast: a spell that looses an element",
       "probing": "burning: fire's try"
