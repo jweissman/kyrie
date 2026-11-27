@@ -53,7 +53,8 @@ describe('surfaces earned', () => {
       backgroundId: 'soldier' }] });
     const save = t.campaign.save(), before = t.world.apply(t.world.related('earned')
       .map(call => ({ kind: 'retract' as const, call: ModuleWriter.call(call.name, ...call.args) })));
-    const actors = save.definition!.actors as CampaignActor[], store = new CreatureStore(t.campaign.catalog, save.creatures);
+    const actors = save.definition!.actors as CampaignActor[];
+    const store = new CreatureStore(t.campaign.catalog, save.creatures);
     expect(CreatureFacts.saved(before, actors, store)).toBe('stale');
     expect(CreatureFacts.saved(t.world, actors, store)).toBe('same');
   });
