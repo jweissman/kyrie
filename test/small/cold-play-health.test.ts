@@ -12,11 +12,12 @@ const round = (date: string, session: string): ColdRound => ({
 
 describe('cold-play evidence', () => {
   it('uses only the most recent three completed rounds within 21 days, never future rounds', () => {
-    const rounds = [round('2026-11-05', 'stale'), round('2026-11-06', 'boundary'),
+    const rounds = [round('2026-11-05', 'stale'), round('2026-11-06', 'expired-at-boundary'),
+      round('2026-11-07', 'boundary'),
       round('2026-11-20', 'a'), round('2026-11-21', 'b'), round('2026-11-22', 'c'),
       round('2026-11-28', 'future')];
     expect(ColdPlay.qualifying(rounds, '2026-11-27').map(r => r.session)).toEqual(['c', 'b', 'a']);
-    expect(ColdPlay.qualifying(rounds.slice(0, 2), '2026-11-27').map(r => r.session)).toEqual(['boundary']);
+    expect(ColdPlay.qualifying(rounds.slice(0, 3), '2026-11-27').map(r => r.session)).toEqual(['boundary']);
     expect(ColdPlay.ready(ColdPlay.qualifying(rounds, '2026-11-27'))).toBe(true);
     expect(ColdPlay.ready(ColdPlay.qualifying(rounds.slice(0, 2), '2026-11-27'))).toBe(false);
   });

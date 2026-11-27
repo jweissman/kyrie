@@ -8,7 +8,8 @@ export class HealthReport {
   static history(): Snapshot[] {
     const path = join(HealthRead.root, HealthRead.history);
     if (!existsSync(path)) { return []; }
-    return readFileSync(path, 'utf8').split('\n').filter(Boolean).map(line => JSON.parse(line) as Snapshot);
+    return readFileSync(path, 'utf8').split('\n').filter(Boolean).map(line => JSON.parse(line) as Snapshot)
+      .sort((a, b) => a.date.localeCompare(b.date));
   }
   static number(n: number): string { return n.toFixed(2).replace(/\.?0+$/, ''); }
   static headline(snapshot: Snapshot): string {
@@ -24,7 +25,7 @@ export class HealthReport {
     const old = previous.components, now = current.components, reasons: string[] = [];
     for (const r of old.cold.rounds) {
       if (now.cold.value < old.cold.value && !now.cold.rounds.some(n => n.session === r.session)
-        && (ColdPlay.date(current.date) - ColdPlay.date(r.date)) / ColdPlay.day > 21) {
+        && (ColdPlay.date(current.date) - ColdPlay.date(r.date)) / ColdPlay.day >= 21) {
         reasons.push(`cold-play round ${r.date} ${r.kind} expired`);
       }
     }

@@ -86,21 +86,32 @@ jobs:
       - uses: actions/cache/restore@v4
         continue-on-error: true
         with:
-          path: kyrie/doc/architecture/health-history.jsonl
+          path: kyrie/.health-cache/history.jsonl
           key: project-health-history-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: project-health-history-
+      - name: Merge generated health history
+        continue-on-error: true
+        run: |
+          if [ -f .health-cache/history.jsonl ]; then
+            test -f doc/architecture/health-history.jsonl || touch doc/architecture/health-history.jsonl
+            awk '!seen[$0]++' .health-cache/history.jsonl doc/architecture/health-history.jsonl > .health-cache/merged.jsonl
+            mv .health-cache/merged.jsonl doc/architecture/health-history.jsonl
+          fi
       - run: bun run quality
         env: { GH_TOKEN: "${{ github.token }}" }
       - name: Record project health
         id: health
         if: ${{ !cancelled() }}
         continue-on-error: true
-        run: bun scripts/planning-instruments.ts health
+        run: |
+          bun scripts/planning-instruments.ts health
+          mkdir -p .health-cache
+          cp doc/architecture/health-history.jsonl .health-cache/history.jsonl
       - uses: actions/cache/save@v4
         if: ${{ always() && steps.health.outcome == 'success' }}
         continue-on-error: true
         with:
-          path: kyrie/doc/architecture/health-history.jsonl
+          path: kyrie/.health-cache/history.jsonl
           key: project-health-history-${{ github.run_id }}-${{ github.run_attempt }}
       - uses: actions/upload-artifact@v4
         if: ${{ always() && steps.health.outcome == 'success' }}

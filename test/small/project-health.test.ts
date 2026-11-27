@@ -46,6 +46,8 @@ describe('project health calculation', () => {
     }, '2026-11-27').cost)).toEqual([0, 1, 1, 2, 2, 3, 3]);
     expect(HealthScoreModel.statusDate('open (20 Nov): evidence from 11 Nov', '2026-11-27')).toBe('2026-11-20');
     expect(HealthScoreModel.statusDate('open: evidence from 11 Nov', '2026-11-27')).toBeNull();
+    expect(HealthScoreModel.statusDate('open (Dec 31)', '2027-01-01')).toBe('2026-12-31');
+    expect(HealthScoreModel.statusDate('open (November 19, 2025)', '2026-11-27')).toBe('2025-11-19');
   });
   it('clamps both ends, while new undated discoveries cost nothing on filing day', () => {
     const low = input();
@@ -79,10 +81,15 @@ describe('project health calculation', () => {
     data.p1[0]!.existedYesterday = true;
     expect(HealthScoreModel.compute(data).debt.cost).toBe(2);
   });
+  it('refuses to count one ratchet twice under different names', () => {
+    const target = { id: 'a', name: 'First', path: 'example.json', field: 'count', why: 'zero' };
+    expect(() => HealthRead.ratchets([target, { ...target, id: 'b', name: 'Second' }]))
+      .toThrow('Duplicate zero-target ratchet');
+  });
   it('explains expired rounds, a P1 leaving grace, and a rising ratchet', () => {
     const before = input(), after = input();
     before.date = '2026-11-26';
-    before.rounds = [round('2026-11-05', 'expired', 100)];
+    before.rounds = [round('2026-11-06', 'expired', 100)];
     after.rounds = before.rounds;
     before.p1 = [{ id: 'OR-900', status: 'open (20 Nov)', existedYesterday: true }];
     after.p1 = before.p1;
@@ -91,7 +98,7 @@ describe('project health calculation', () => {
       components: HealthScoreModel.compute(before) };
     const now = { ...old, date: after.date, components: HealthScoreModel.compute(after) };
     expect(HealthReport.reasons(old, now)).toEqual([
-      'cold-play round 2026-11-05 reader expired', 'OR-900 passed its grace (0 → 1)', 'Edges rose (0 → 1)',
+      'cold-play round 2026-11-06 reader expired', 'OR-900 passed its grace (0 → 1)', 'Edges rose (0 → 1)',
     ]);
     expect(HealthReport.trend([old], now).join('\n')).toContain('fell:');
   });

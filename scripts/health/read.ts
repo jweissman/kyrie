@@ -56,7 +56,11 @@ export class HealthRead {
     return value;
   }
   static ratchets(targets: Target[]): Ratchet[] {
-    if (new Set(targets.map(t => t.id)).size !== targets.length) { throw new Error('Duplicate zero-target ratchet'); }
+    if (new Set(targets.map(t => t.id)).size !== targets.length
+      || new Set(targets.map(t => t.name)).size !== targets.length
+      || new Set(targets.map(t => `${t.path}\0${t.field}`)).size !== targets.length) {
+      throw new Error('Duplicate zero-target ratchet');
+    }
     return targets.map(t => {
       if (!t.id || !t.name || !t.why || !t.path) { throw new Error('Incomplete zero-target ratchet'); }
       const json: unknown = JSON.parse(readFileSync(join(this.root, t.path), 'utf8'));

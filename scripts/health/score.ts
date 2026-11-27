@@ -39,6 +39,12 @@ export class HealthScoreModel {
   static age(today: string, date: string): number {
     return (ColdPlay.date(today) - ColdPlay.date(date)) / ColdPlay.day;
   }
+  static calendar(day: string, month: string, year: string | undefined, today: string): string {
+    const m = String(this.months.indexOf(month.toLowerCase().slice(0, 3)) + 1).padStart(2, '0');
+    const suffix = `${m}-${day.padStart(2, '0')}`;
+    const inferred = Number(today.slice(0, 4)) - (suffix > today.slice(5) ? 1 : 0);
+    return `${year ?? inferred}-${suffix}`;
+  }
   static statusDate(status: string, today: string): string | null {
     const lead = status.replaceAll('*', '').split(':')[0]!.slice(0, 120);
     const dates: { date: string; index: number }[] = [];
@@ -47,9 +53,11 @@ export class HealthScoreModel {
     }
     const dated = /\b(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(?:[a-z]*)\.?(?:\s+(\d{4}))?\b/gi;
     for (const match of lead.matchAll(dated)) {
-      const month = this.months.indexOf(match[2]!.toLowerCase()) + 1;
-      const year = match[3] ?? today.slice(0, 4);
-      dates.push({ date: `${year}-${String(month).padStart(2, '0')}-${match[1]!.padStart(2, '0')}`, index: match.index });
+      dates.push({ date: this.calendar(match[1]!, match[2]!, match[3], today), index: match.index });
+    }
+    const reversed = /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2})(?:,?\s+(\d{4}))?\b/gi;
+    for (const match of lead.matchAll(reversed)) {
+      dates.push({ date: this.calendar(match[2]!, match[1]!, match[3], today), index: match.index });
     }
     return dates.filter(d => Number.isFinite(ColdPlay.date(d.date)) && d.date <= today)
       .sort((a, b) => a.index - b.index)[0]?.date ?? null;

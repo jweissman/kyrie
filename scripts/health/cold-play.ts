@@ -65,7 +65,7 @@ export class ColdPlay {
     if (!Number.isFinite(now)) { throw new Error(`Invalid date: ${today}`); }
     return rounds.filter(r => {
       const age = (now - this.date(r.date)) / this.day;
-      return age >= 0 && age <= 21;
+      return age >= 0 && age < 21;
     }).sort((a, b) => b.date.localeCompare(a.date) || a.session.localeCompare(b.session)).slice(0, 3);
   }
 
