@@ -21,7 +21,10 @@ const den = (level: number) => `
 type Step = { ability: string };
 class Fought {
   static async run(level: number, choose: (legal: Step[]) => Step) {
-    const t = await Tiny.start(den(level)), c = t.campaign, screens: CombatScreen[] = [];
+    const t = await Tiny.start(den(level), { party: [{
+      name: 'Ama', raceId: 'human', classId: 'warrior',
+      rolled: { strength: 14, dexterity: 12, constitution: 18, intelligence: 10, wisdom: 10, charisma: 10 },
+    }] }), c = t.campaign, screens: CombatScreen[] = [];
     await t.play('the den');
     const before = PlayerView.observe(c);
     const event = await t.session.leg('attack(t__rats)', async (b: unknown) => {

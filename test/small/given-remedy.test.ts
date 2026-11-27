@@ -9,7 +9,9 @@ import type { CreatureStore } from '../../src/creature-store';
 const taproom = `
   Place taproom "the taproom of the Bell" is room at 0, 0.
   Company party "You" of 1 at taproom.
-  Person ysolde "Ysolde" at taproom { Role "a traveller with a pack". Ancestry human. Peaceable. Pronouns she. }
+  Person ysolde "Ysolde" at taproom {
+    Role "a traveller with a pack". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns she.
+  }
   Topic come with ysolde "Ask Ysolde to come along" when true once {
     Says "'And you'd best have this,' says Ysolde.". On discuss { Assert willing(ysolde, actor). Give antidote to actor. }
   }

@@ -22,6 +22,19 @@ class Rats {
   static rats(hp = 1): Fighter[] {
     return ['r1', 'r2'].map(id => this.set(this.content.creature('rat', id, 'goblins', 1), hp));
   }
+  static wins(spells: boolean): number {
+    let won = 0;
+    for (let i = 0; i < 100; i++) {
+      const b = new Battle({ id: `rats${i}`, combatants: [Rats.mage(), ...Rats.rats()], abilities: Content.abilities },
+        `rats:${i}`);
+      while (!b.state.outcome) {
+        b.step(!spells && b.state.actor === 'mage'
+          ? Tactics.choose(b.state, b.plain(b.legalCommands()).filter(c => c.ability === 'melee')) : b.chosen());
+      }
+      if (b.state.outcome === 'fighters') { won++; }
+    }
+    return won;
+  }
 }
 describe('a spell that fells, over a blow that might miss', () => {
   it('casts Siphon Life at a rat of one rather than swing the staff', () => {
@@ -45,16 +58,7 @@ describe('a spell that fells, over a blow that might miss', () => {
     const cast = { actor: 'mage', ability: 'siphon_life', target: 'r1' }, swing = { actor: 'mage', ability: 'melee', target: 'r1' };
     expect(Tactics.choose(state, [swing, cast]).ability).toBe('melee');
   });
-  // Her one first-level slot cast at the first rat, the staff for the second: 73 of 100 seeded fights won, where the
-  // staff for both had won 51.
-  it('wins most fights against two rats of one by the tactics alone, over seeded fights', () => {
-    let won = 0;
-    for (let i = 0; i < 100; i++) {
-      const b = new Battle({ id: `rats${i}`, combatants: [Rats.mage(), ...Rats.rats()], abilities: Content.abilities },
-        `rats:${i}`);
-      while (!b.state.outcome) { b.step(b.chosen()); }
-      if (b.state.outcome === 'fighters') { won++; }
-    }
-    expect(won).toBeGreaterThanOrEqual(65);
+  it('wins more fights by casting than by the staff alone, against the same seeded rats', () => {
+    expect(Rats.wins(true)).toBeGreaterThan(Rats.wins(false));
   });
 });

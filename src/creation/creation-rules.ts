@@ -6,11 +6,10 @@ type Weapon = Calling['weapons'][number];
 
 // What a choice at creation is by the rules, said exactly rather than as "+2 in a fight": what a quality's score adds
 // to a blow and to a check, and what else rests on it; what a weapon does, what it is struck with, and what that
-// comes to at the score you have. Fighting adds round((score − 10) / 2) (Orsino's), a check ⌊(score − 10) / 2⌋, so a
-// score can add one to a blow and nothing to a roll (see Fighting, Checks). The player's (MT-16): creation's own
-// arithmetic, imported by the engine's creation and the page alike, so not the page's.
+// comes to at the score you have. Fights and checks both add floor((score - 10) / 2). The player's (MT-16):
+// creation's own arithmetic, imported by the engine's creation and the page alike, so not the page's.
 export class CreationRules {
-  static fight(score: number): number { return Math.round((score - 10) / 2) || 0; }
+  static fight(score: number): number { return this.check(score); }
   static check(score: number): number { return Math.floor((score - 10) / 2); }
   static signed(n: number): string { return n > 0 ? `+${n}` : n < 0 ? `−${-n}` : '+0'; }
   // A quality's score with what the people and the background add to the roll; the calling places the dice (its
@@ -50,7 +49,7 @@ export class CreationRules {
         `A shot with a bow, a sling or a dart: ${f} to hit, ${harm} to the harm it does.`,
         `Going unseen, locks and traps: ${k} to the roll. Getting out of the way of a blast: ${save}.`];
       case 'constitution': return [`Hit points: your calling's die${calling ? ` (${calling.hitDie})` : ''} at first level`
-        + `${this.fight(score) > 0 ? `, and ${this.fight(score)} more` : ''}; a roll of the die at each level after, ${f}.`,
+        + `, ${f}; a roll of the die at each level after, ${f}. At least 1 each level.`,
       `Against poison, disease, bleeding, stunning, breath and the cold: ${save}. Digging: ${k} to the roll.`];
       case 'intelligence': return [`Old histories, scripts and the workings of magic: ${k} to the roll. Against`
         + ` madness: ${save}.`, ...spells];

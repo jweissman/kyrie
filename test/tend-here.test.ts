@@ -34,7 +34,7 @@ describe('a hurt companion', () => {
     await s.leg('wait');
     const [tend, ...others] = Hurt.tending(s);
     expect(others).toEqual([]);
-    expect(tend).toMatchObject({ label: 'Tend Elen', note: '3 of 11' });
+    expect(tend).toMatchObject({ label: 'Tend Elen', note: '3 of 9' });
     // Dori's drawn spells hold Cure Light Wounds since the draw by rank (srd-proving-cases.md, case 11).
     expect(tend!.children!.map(c => c.label)).toEqual(['Dori: cast Cure Light Wounds', 'Dori: cast Cure Minor Wounds',
       'Dori: use bandages', 'Dori: use healing herbs']);

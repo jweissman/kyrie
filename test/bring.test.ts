@@ -50,10 +50,11 @@ describe('someone brought', () => {
     const j = await start();
     expect(j.at('p__pinmen')).toBeUndefined();
     await j.play('^To the pantry$');
-    const told = await j.play('Lift the pot from behind the throne');
+    await j.play('Lift the pot from behind the throne');
     expect(j.at('p__pinmen')).toBe('p__pantry');
     expect(j.holds('bringing', 'p__pinmen', 'party')).toBe(false);
-    expect(told).toMatch(/pin-men/);
+    const fight = j.campaign.history.find(e => e.action === 'attack(party,p__pinmen,p__pantry)');
+    expect(fight?.combat.some(e => e.type === 'initiative')).toBe(true);
   }, 60000);
   it('comes from a rule to whom it names', async () => {
     const j = await start();

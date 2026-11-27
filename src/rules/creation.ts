@@ -14,7 +14,7 @@ export interface Chassis {
   // A fixed stat block's Hit Dice (see Statistics.hitDice): its hit points, whatever level it is met at.
   hitDice?: string;
 }
-// Orsino's character creation (CharacterRecord and the pc template) and its NPC hit points, as rules over the canon.
+// Calling creation and fixed SRD Hit Dice, with legacy growth for kinds not yet migrated.
 export class Creation {
   static readonly picks: Record<number, number> = { 1: 3, 2: 2, 3: 1 };
   static a(word: string): string { return `${/^[aeiou]/i.test(word) ? 'an' : 'a'} ${word}`; }
@@ -51,8 +51,6 @@ export class Creation {
     return { hitDie: c.hitDie, attributes, abilities: [...c.abilities, ...features.abilities],
       traits: [...a.traits, ...features.traits], weapons: c.weapons, armor: c.armor };
   }
-  // A level-1 character has its hit die plus its positive CON modifier (the pc template). A creature made above level 1
-  // uses Orsino's NPC formula: max(2, round(hitDie + (level − 1) × hitDie / 2 + statMod(con))).
   // A creature's hit points: its Hit Dice's listed average (or the throw given for them), fixed, grown by Orsino's
   // monster template, or rolled from its hit die. Hit Dice come first, so no growth can reach a fixed stat block.
   static health(chassis: Chassis, level: number, constitution: number,
@@ -64,14 +62,14 @@ export class Creation {
     return chassis.hitPoints ?? (chassis.growth?.hitPoints ? this.grown(chassis.growth.hitPoints, level, constitution)
       : this.hitPoints(chassis.hitDie, level, constitution));
   }
-  // Orsino's monster template: max(1, the line's hit points + statMod(con) + perLevel × level).
+  // Legacy monster growth, not SRD Hit Dice; its Constitution modifier still follows the shared SRD rule.
   static grown(growth: { base: number; perLevel: number }, level: number, constitution: number): number {
     return Math.max(1, growth.base + Fighting.statMod(constitution) + growth.perLevel * level);
   }
   static hitPoints(hitDie: number, level: number, constitution: number): number {
     const mod = Fighting.statMod(constitution);
-    return level <= 1 ? Math.max(1, hitDie + Math.max(0, mod))
-      : Math.max(2, Math.round(hitDie + ((level - 1) * hitDie) / 2 + mod));
+    // Maximum at first level; half-plus-one thereafter when creating a higher-level character without rolls.
+    return Math.max(1, hitDie + mod) + Math.max(0, level - 1) * Math.max(1, Math.floor(hitDie / 2) + 1 + mod);
   }
   // Combat.maxSpellSlotsForCombatant: 2 + level for everyone; a mage, cleric or bard adds a base and a multiple of the
   // positive modifier of intelligence, wisdom or charisma.

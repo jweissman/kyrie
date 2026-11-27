@@ -96,6 +96,35 @@ describe('a kind with Hit Dice', () => {
     expect(made.map(c => c.base.maxHp)).toEqual([42, 42, 42, 42]);
     expect(new Set(made.map(c => c.base.strength)).size).toBe(1);
     expect(Canon.creature('unicorn').statistics?.growth).toBeUndefined();
+    const fixed = { hitDie: 8, attributes: {}, abilities: [], traits: [], weapons: [], armor: [],
+      hitDice: '2d12', growth: { hitPoints: { base: 100, perLevel: 10 } } };
+    expect(Creation.health(fixed, 12, 3)).toBe(13);
+  });
+
+  describe('SRD calling hit points', () => {
+    it('takes maximum at first level, including a negative Constitution modifier', () => {
+      for (const [constitution, hp] of [[7, 8], [9, 9], [10, 10], [11, 10], [15, 12], [18, 14]]) {
+        expect(Creation.hitPoints(10, 1, constitution!)).toBe(hp!);
+      }
+      expect(Creation.hitPoints(4, 1, 1)).toBe(1);
+    });
+    it('adds half-plus-one and Constitution for every later level, at least one per level', () => {
+      expect(Creation.hitPoints(10, 4, 15)).toBe(36);
+      expect(Creation.hitPoints(10, 4, 7)).toBe(20);
+      expect(Creation.hitPoints(4, 4, 1)).toBe(4);
+      const hero = new Content('srd-hp').createCreature(ItemCatalog.canon, 'hero',
+        { raceId: 'human', classId: 'warrior', constitution: 15, level: 4, traits: ['brave'] });
+      expect(hero.base.maxHp).toBe(36);
+      expect(hero.state.hp).toBe(36);
+    });
+    it('uses the SRD class hit die for every installed calling', () => {
+      const dice = { warrior: 10, ranger: 8, mage: 4, thief: 6, cleric: 8, bard: 6, monk: 8, commoner: 4 };
+      for (const [calling, hitDie] of Object.entries(dice)) {
+        const hero = new Content('srd-class-hp').createCreature(ItemCatalog.canon, calling,
+          { raceId: 'human', classId: calling, constitution: 10, traits: [] });
+        expect(hero.base.maxHp).toBe(hitDie);
+      }
+    });
   });
   it('rolls the same expression from its seed when its dice are rolled', () => {
     const rolled = [1, 2, 3, 4, 5, 6].map(n => content.createCreature(ItemCatalog.canon, `r${n}`, { raceId: 'unicorn', hitPoints: 'rolled' }));

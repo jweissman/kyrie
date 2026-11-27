@@ -78,7 +78,7 @@ describe('summoning', () => {
     expect(['construct', 'giant', 'demon']).toContain(s.type!);
     if (s.statistics!.growth?.hitPoints) {
       const g = s.statistics!.growth.hitPoints;
-      expect(called.maxHp).toBe(Math.max(1, g.base + Math.round((called.constitution - 10) / 2) + g.perLevel * 5));
+      expect(called.maxHp).toBe(Math.max(1, g.base + Math.floor((called.constitution - 10) / 2) + g.perLevel * 5));
     }
   });
   it('gives a ranger the companion beast of its people', () => {

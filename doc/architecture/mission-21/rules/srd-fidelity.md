@@ -8,8 +8,8 @@ kind passes in structure and resolution); 61 of them have an SRD counterpart for
 **Spells with an SRD counterpart (122 of 289 catalog spells): 47 pass in structure
 (level, school), 30 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
 target, duration), 39 proved in play identity.** Creatures with one (80):
-9 in structure (Hit
-Dice, armour), 8 in resolution (blow dice, each strike's chance to hit AC 15 and noncritical
+10 in structure (Hit
+Dice, armour), 7 in resolution (blow dice, each strike's chance to hit AC 15 and noncritical
 weapon damage before other bonuses or defenses, defences, saves), 3 proved in
 play identity. A grade passes when none of its measured fields differs; it is not full SRD fidelity. Play
 identity means the concordance names a focused test; for creatures, the special-attacks field also passes.
@@ -19,7 +19,7 @@ from another class or domain. Other classes and domains are not assessed by this
 In six generated countries' dens (kite, thorn, wren, kahitude, mere, ember), 60 % of meetings are with a
 kind that has an SRD counterpart and 2 % with one passing these fields (541 groups).
 
-| creatures, field exact or converted | hitDice 10 | armour 11 | attacks 28 | hit 10 | damage 11 | defences 5 | specials 2 | saves 9 | of 80 |
+| creatures, field exact or converted | hitDice 10 | armour 12 | attacks 28 | hit 11 | damage 13 | defences 5 | specials 2 | saves 8 | of 80 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | spells, field exact or converted | level 56 | school 87 | dice 12 | type 14 | save 35 | dc 26 | attack 113 | resist 20 | target 69 | duration 58 | of 122 |
 
@@ -30,86 +30,86 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 
 | kind | SRD | met | grades | hitDice | armour | attacks | hit | damage | defences | specials | saves |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ghoul | ghoul | 12/49 | S✗ R✗ I– | O | ✗ 9 → 7 | ✗ 1d4 → 1d3 1d3 1d6 | ✗ 40% → 40% / 30% / 30% | ✗ 1d4+1 → 1d6+1 / 1d3 / 1d3 | – | O | ✗ +1/+2/+1 → +0/+2/+5 |
-| zombie | human-commoner-zombie | 12/34 | S✗ R✗ I– | O | ✓ | ✗ 1d4 → 1d6 | ✗ 45% → 40% | ✗ 1d4+2 → 1d6+1 | ✗ · → reduction 5/slashing | O | ✗ +2/+1/+1 → +0/-1/+3 |
-| spider/great/cave | monstrous-spider-medium | 3/35 | S✗ R✗ I– | O | ✗ 8 → 7 | ✓ | ✗ 40% → 50% | ✗ 1d6+1 → 1d6 | – | O | ✗ +5/+1/+2 → +4/+3/+0 |
+| ghoul | ghoul | 12/49 | S✗ R✗ I– | O | ✗ 10 → 7 | ✗ 1d4 → 1d3 1d3 1d6 | ✗ 35% → 40% / 30% / 30% | ✗ 1d4 → 1d6+1 / 1d3 / 1d3 | – | O | ✗ +1/+1/+0 → +0/+2/+5 |
+| zombie | human-commoner-zombie | 12/34 | S✗ R✗ I– | O | ✓ | ✗ 1d4 → 1d6 | ✗ 45% → 40% | ✗ 1d4+2 → 1d6+1 | ✗ · → reduction 5/slashing | O | ✗ +2/+1/+0 → +0/-1/+3 |
+| spider/great/cave | monstrous-spider-medium | 3/35 | S✗ R✗ I– | O | ✗ 9 → 7 | ✓ | ✗ 35% → 50% | ✓ | – | O | ✗ +4/+0/+2 → +4/+3/+0 |
 | rat | rat | 5/29 | S✗ R✗ I– | O | ✗ 10 → 7 | ✓ | ✗ 20% → 50% | ✗ 1d3 → 1d3-4 | – | – | ✗ -1/+1/+1 → +2/+4/+1 |
-| wolf | wolf | 2/17 | S✗ R✗ I– | O | ✗ 12 → 7 | ✓ | ✗ 30% → 45% | ✗ 1d6 → 1d6+1 | – | O | ✗ +2/-1/+1 → +5/+5/+1 |
-| beetle | giant-fire-beetle | 3/15 | S✗ R✗ I– | O | ✗ 10 → 5 | ✗ 1d6 → 2d4 | ✗ 25% → 35% | ✗ 1d6 → 2d4 | – | – | ✗ -1/-1/-1 → +2/+0/+0 |
-| bat | bat | 2/14 | S✗ R✗ I– | O | ✗ 12 → 5 | ✗ 1d6 → · | – | – | – | – | ✗ -2/-1/-1 → +2/+4/+2 |
-| hound/cave | dog-riding | 4/12 | S✗ R✗ I– | O | ✗ 9 → 5 | ✓ | ✗ 35% → 45% | ✗ 1d6 → 1d6+3 | – | – | ✗ +0/+2/+1 → +5/+5/+1 |
-| boar | boar | 1/9 | S✗ R✗ I– | O | ✗ 7 → 5 | ✓ | ✗ 55% → 50% | ✗ 1d8+4 → 1d8+3 | – | ✗ · → ferocity | ✗ +1/+3/+3 → +6/+3/+2 |
-| hound | dog-riding | 2/8 | S✗ R✗ I– | O | ✗ 9 → 5 | ✓ | ✗ 40% → 45% | ✗ 1d6+1 → 1d6+3 | – | – | ✗ +0/+2/+3 → +5/+5/+1 |
-| crocodile | crocodile | 1/7 | S✗ R✗ I– | O | ✗ 4 → 6 | ✗ 1d6 → 1d8 | ✗ 20% → 60% | ✗ 1d6 → 1d8+6 | – | ✗ · → improved grab | ✗ +3/+3/+0 → +6/+4/+2 |
-| hound/skeletal | wolf-skeleton | 1/7 | S✗ R✗ I– | O | ✗ 8 → 6 | ✓ | ✗ 50% → 40% | ✗ 1d6+3 → 1d6+1 | ✓ | – | ✓ |
-| centipede/great | monstrous-centipede-medium | 1/6 | S✗ R✗ I– | O | ✗ 10 → 7 | ✓ | ✗ 30% → 40% | ✗ 1d6 → 1d6-1 | – | O | ✗ +0/-1/-1 → +2/+2/+0 |
+| wolf | wolf | 2/17 | S✗ R✗ I– | O | ✗ 12 → 7 | ✓ | ✗ 25% → 45% | ✗ 1d6 → 1d6+1 | – | O | ✗ +2/-1/+1 → +5/+5/+1 |
+| beetle | giant-fire-beetle | 3/15 | S✗ R✗ I– | O | ✗ 11 → 5 | ✗ 1d6 → 2d4 | ✗ 20% → 35% | ✗ 1d6 → 2d4 | – | – | ✗ -1/-2/-2 → +2/+0/+0 |
+| bat | bat | 2/14 | S✗ R✗ I– | O | ✗ 12 → 5 | ✗ 1d6 → · | – | – | – | – | ✗ -2/-1/-2 → +2/+4/+2 |
+| hound/cave | dog-riding | 4/12 | S✗ R✗ I– | O | ✗ 9 → 5 | ✓ | ✗ 35% → 45% | ✗ 1d6 → 1d6+3 | – | – | ✗ -1/+2/+0 → +5/+5/+1 |
+| boar | boar | 1/9 | S✗ R✗ I– | O | ✗ 8 → 5 | ✓ | ✓ | ✓ | – | ✗ · → ferocity | ✗ +1/+2/+2 → +6/+3/+2 |
+| hound | dog-riding | 2/8 | S✗ R✗ I– | O | ✗ 10 → 5 | ✓ | ✗ 40% → 45% | ✗ 1d6+1 → 1d6+3 | – | – | ✗ +0/+1/+3 → +5/+5/+1 |
+| crocodile | crocodile | 1/7 | S✗ R✗ I– | O | ✗ 5 → 6 | ✗ 1d6 → 1d8 | ✗ 20% → 60% | ✗ 1d6 → 1d8+6 | – | ✗ · → improved grab | ✗ +2/+2/-1 → +6/+4/+2 |
+| hound/skeletal | wolf-skeleton | 1/7 | S✗ R✗ I– | O | ✗ 8 → 6 | ✓ | ✗ 45% → 40% | ✗ 1d6+2 → 1d6+1 | ✓ | – | ✗ -1/+3/+2 → +0/+3/+3 |
+| centipede/great | monstrous-centipede-medium | 1/6 | S✗ R✗ I– | O | ✗ 11 → 7 | ✓ | ✗ 30% → 40% | ✗ 1d6 → 1d6-1 | – | O | ✗ -1/-2/-2 → +2/+2/+0 |
 | ghoul/barrow | ghoul | 1/6 | S✓ R✓ I– | ✓ | ✓ | ✓ | ✓ | ✓ | – | ✗ paralysis → ghoul fever, paralysis | ✓ |
-| mouther | gibbering-mouther | 1/6 | S✗ R✗ I– | O | ✗ 5 → 2 | ✓ | ✗ 55% → 50% | ✗ 1d4+5 → 1d4 | ✗ · → reduction 5/bludgeoning | O | ✗ +8/+5/+6 → +7/+4/+5 |
+| mouther | gibbering-mouther | 1/6 | S✗ R✗ I– | O | ✗ 6 → 2 | ✓ | ✗ 55% → 50% | ✗ 1d4+5 → 1d4 | ✗ · → reduction 5/bludgeoning | O | ✗ +7/+4/+6 → +7/+4/+5 |
 | mummy/royal | mummy | 1/6 | S✓ R✓ I– | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ despair → despair, mummy rot | ✓ |
-| owlbear | owlbear | 1/6 | S✗ R✗ I– | O | ✗ 10 → 6 | ✗ 1d4 → 1d6 1d6 1d8 | ✗ 70% → 75% / 75% / 50% | ✗ 1d4+4 → 1d6+5 / 1d6+5 / 1d8+2 | – | O | ✗ +2/+0/-2 → +9/+5/+2 |
-| three_horn | triceratops | 1/6 | S✗ R✗ I– | O | ✗ 4 → 3 | ✗ 1d4 → 2d8 | ✗ 30% → 95% | ✗ 1d4 → 2d8+15 | – | O | ✗ +1/+3/+2 → +19/+9/+6 |
-| tyrant | tyrannosaurus | 1/6 | S✗ R✗ I– | O | ✗ 8 → 7 | ✗ 1d6 → 3d6 | ✗ 55% → 95% | ✗ 1d6+4 → 3d6+13 | – | O | ✗ +3/-1/+3 → +16/+12/+8 |
-| bear | bear-black | 1/5 | S✗ R✗ I– | O | ✗ 9 → 8 | ✗ 1d4 → 1d4 1d4 1d6 | ✗ 30% → 60% / 60% / 35% | ✗ 1d4 → 1d4+4 / 1d4+4 / 1d6+2 | – | O | ✗ +0/+2/+3 → +5/+4/+2 |
-| frog | toad | 1/5 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d4 → · | – | – | – | – | ✗ -1/-1/-1 → +2/+3/+2 |
-| rat/great | dire-rat | 1/5 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d3 → 1d4 | ✗ 30% → 50% | ✗ 1d3 → 1d4 | – | ✗ · → disease | ✗ +0/+0/+1 → +3/+5/+3 |
-| elemental/water_element | water-elemental-medium | 1/4 | S✗ R✗ I– | O | ✗ 1 → 2 | ✗ 1d6 → 1d8 | ✗ 50% → 60% | ✗ 1d6+3 → 1d8+4 | – | ✗ · → drench, vortex, water mastery | ✗ +4/+6/+3 → +7/+2/+1 |
+| owlbear | owlbear | 1/6 | S✗ R✗ I– | O | ✗ 10 → 6 | ✗ 1d4 → 1d6 1d6 1d8 | ✗ 65% → 75% / 75% / 50% | ✗ 1d4+3 → 1d6+5 / 1d6+5 / 1d8+2 | – | O | ✗ +1/+0/-3 → +9/+5/+2 |
+| three_horn | triceratops | 1/6 | S✗ R✗ I– | O | ✗ 5 → 3 | ✗ 1d4 → 2d8 | ✗ 30% → 95% | ✗ 1d4 → 2d8+15 | – | O | ✗ +0/+2/+2 → +19/+9/+6 |
+| tyrant | tyrannosaurus | 1/6 | S✗ R✗ I– | O | ✗ 8 → 7 | ✗ 1d6 → 3d6 | ✗ 50% → 95% | ✗ 1d6+3 → 3d6+13 | – | O | ✗ +3/-1/+3 → +16/+12/+8 |
+| bear | bear-black | 1/5 | S✗ R✗ I– | O | ✗ 10 → 8 | ✗ 1d4 → 1d4 1d4 1d6 | ✗ 25% → 60% / 60% / 35% | ✗ 1d4 → 1d4+4 / 1d4+4 / 1d6+2 | – | O | ✗ +0/+1/+3 → +5/+4/+2 |
+| frog | toad | 1/5 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d4 → · | – | – | – | – | ✗ -2/-1/-2 → +2/+3/+2 |
+| rat/great | dire-rat | 1/5 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d3 → 1d4 | ✗ 25% → 50% | ✗ 1d3 → 1d4 | – | ✗ · → disease | ✗ +0/+0/+1 → +3/+5/+3 |
+| elemental/water_element | water-elemental-medium | 1/4 | S✗ R✗ I– | O | ✓ | ✗ 1d6 → 1d8 | ✗ 50% → 60% | ✗ 1d6+3 → 1d8+4 | – | ✗ · → drench, vortex, water mastery | ✗ +4/+5/+2 → +7/+2/+1 |
 | mummy | mummy | 0/5 | S✗ R✗ I– | O | ✗ 11 → 1 | ✓ | ✗ 40% → 85% | ✗ 1d6+1 → 1d6+10 | ✗ · → reduction 5/- | O | ✗ +2/+0/+2 → +4/+2/+8 |
-| wraith | wraith | 0/5 | S✗ R✗ I– | O | ✗ 8 → 6 | ✓ | ✗ 30% → 55% | ✓ | – | O | ✗ -1/+3/+3 → +1/+4/+6 |
-| elemental/earth_element | earth-elemental-medium | 0/4 | S✗ R✗ I– | O | ✗ 1 → 3 | ✗ 1d6 → 1d8 | ✗ 50% → 70% | ✗ 1d6+3 → 1d8+7 | – | ✗ · → earth mastery, push | ✗ +4/+6/+3 → +7/+0/+1 |
-| snake | snake-small-viper | 0/4 | S✗ R✗ I– | O | ✗ 8 → 4 | ✗ 1d6 → 1d2 | ✗ 30% → 50% | ✗ 1d6 → 1d2-2 | – | O | ✗ +0/-1/-1 → +2/+5/+1 |
-| spider | monstrous-spider-small | 2/1 | S✗ R✗ I– | O | ✗ 10 → 7 | ✗ 1d6 → 1d4 | ✗ 40% → 50% | ✗ 1d6+1 → 1d4-2 | – | O | ✗ +3/-1/+4 → +2/+3/+0 |
-| centipede | monstrous-centipede-small | 0/2 | S✗ R✗ I– | O | ✗ 9 → 7 | ✗ 1d6 → 1d4 | ✗ 25% → 45% | ✗ 1d6 → 1d4-3 | – | O | ✗ -1/+0/-1 → +2/+2/+0 |
-| ooze | gray-ooze | 0/2 | S✗ R✗ I– | O | ✗ 5 → 16 | ✗ 1d4 → 1d6 | ✗ 55% → 45% | ✗ 1d4+5 → 1d6+1 | ✗ · → immunity cold, immunity fire | O | ✗ +8/+5/+5 → +6/-4/-4 |
-| golem/iron | iron-golem | 0/1 | S✗ R✗ I– | O | ✗ 6 → -9 | ✗ 1d6 → 2d10 2d10 | ✗ 55% → 95% / 95% | ✗ 1d6+4 → 2d10+11 / 2d10+11 | ✗ · → reduction 15/adamantine | O | ✗ +7/-2/+1 → +6/+5/+6 |
-| wyvern | wyvern | 0/1 | S✗ R✗ I– | O | ✗ -4 → 3 | ✗ 1d6 → 1d6 1d8 1d8 2d6 2d6 2d8 | ✗ 95% → 80% / 70% / 70% / 70% / 70% / 70% | ✗ 1d6+11 → 1d6+4 / 2d8+4 / 1d8+2 / 1d8+2 / 2d6+4 / 2d6+4 | – | O | ✗ +11/+11/+12 → +7/+6/+6 |
-| badger | badger | 0/0 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d4 → 1d2 1d2 1d3 | ✗ 25% → 50% / 50% / 25% | ✗ 1d4 → 1d2-1 / 1d2-1 / 1d3-1 | – | ✗ · → rage | ✗ -1/-1/-1 → +4/+5/+1 |
-| balor | balor | 0/0 | S✗ R✗ I– | O | ✗ 4 → -14 | ✗ 1d4 → · | – | – | ✗ SR 28 → SR 28, immunity fire, immunity lightning, reduction 15/cold_iron, resistance acid 10 | O | ✗ +5/+5/+2 → +22/+19/+19 |
-| boar/wild | boar | 0/0 | S✓ R✓ I– | ✓ | ✓ | ✓ | ✓ | ✓ | – | ✗ · → ferocity | ✓ |
-| cat | cat | 0/0 | S✗ R✗ I– | O | ✗ 11 → 7 | ✗ 1d4 → 1d2 1d2 1d3 | ✗ 40% → 50% / 50% / 25% | ✗ 1d4+1 → 1d2-4 / 1d2-4 / 1d3-4 | – | – | ✗ +3/+0/+1 → +2/+4/+1 |
+| wraith | wraith | 0/5 | S✗ R✗ I– | O | ✗ 9 → 6 | ✓ | ✗ 30% → 55% | ✓ | – | O | ✗ -1/+2/+2 → +1/+4/+6 |
+| elemental/earth_element | earth-elemental-medium | 0/4 | S✗ R✗ I– | O | ✗ 2 → 3 | ✗ 1d6 → 1d8 | ✗ 50% → 70% | ✗ 1d6+3 → 1d8+7 | – | ✗ · → earth mastery, push | ✗ +4/+5/+2 → +7/+0/+1 |
+| snake | snake-small-viper | 0/4 | S✗ R✗ I– | O | ✗ 8 → 4 | ✗ 1d6 → 1d2 | ✗ 25% → 50% | ✗ 1d6 → 1d2-2 | – | O | ✗ -1/-1/-1 → +2/+5/+1 |
+| spider | monstrous-spider-small | 2/1 | S✗ R✗ I– | O | ✗ 10 → 7 | ✗ 1d6 → 1d4 | ✗ 35% → 50% | ✗ 1d6 → 1d4-2 | – | O | ✗ +3/-1/+4 → +2/+3/+0 |
+| centipede | monstrous-centipede-small | 0/2 | S✗ R✗ I– | O | ✗ 10 → 7 | ✗ 1d6 → 1d4 | ✗ 20% → 45% | ✗ 1d6 → 1d4-3 | – | O | ✗ -2/-1/-2 → +2/+2/+0 |
+| ooze | gray-ooze | 0/2 | S✗ R✗ I– | O | ✗ 6 → 16 | ✗ 1d4 → 1d6 | ✗ 55% → 45% | ✗ 1d4+5 → 1d6+1 | ✗ · → immunity cold, immunity fire | O | ✗ +8/+4/+4 → +6/-4/-4 |
+| golem/iron | iron-golem | 0/1 | S✗ R✗ I– | O | ✗ 6 → -9 | ✗ 1d6 → 2d10 2d10 | ✗ 55% → 95% / 95% | ✗ 1d6+4 → 2d10+11 / 2d10+11 | ✗ · → reduction 15/adamantine | O | ✗ +6/-2/+0 → +6/+5/+6 |
+| wyvern | wyvern | 0/1 | S✗ R✗ I– | O | ✗ -4 → 3 | ✗ 1d6 → 1d6 1d8 1d8 2d6 2d6 2d8 | ✗ 95% → 80% / 70% / 70% / 70% / 70% / 70% | ✗ 1d6+11 → 1d6+4 / 2d8+4 / 1d8+2 / 1d8+2 / 2d6+4 / 2d6+4 | – | O | ✗ +11/+11/+11 → +7/+6/+6 |
+| badger | badger | 0/0 | S✗ R✗ I– | O | ✗ 12 → 6 | ✗ 1d4 → 1d2 1d2 1d3 | ✗ 25% → 50% / 50% / 25% | ✗ 1d4 → 1d2-1 / 1d2-1 / 1d3-1 | – | ✗ · → rage | ✗ -1/-2/-2 → +4/+5/+1 |
+| balor | balor | 0/0 | S✗ R✗ I– | O | ✗ 5 → -14 | ✗ 1d4 → · | – | – | ✗ SR 28 → SR 28, immunity fire, immunity lightning, reduction 15/cold_iron, resistance acid 10 | O | ✗ +4/+4/+1 → +22/+19/+19 |
+| boar/wild | boar | 0/0 | S✓ R✗ I– | ✓ | ✓ | ✓ | ✓ | ✗ 1d8+2 → 1d8+3 | – | ✗ · → ferocity | ✓ |
+| cat | cat | 0/0 | S✗ R✗ I– | O | ✗ 12 → 7 | ✗ 1d4 → 1d2 1d2 1d3 | ✗ 40% → 50% / 50% / 25% | ✗ 1d4+1 → 1d2-4 / 1d2-4 / 1d3-4 | – | – | ✗ +2/-1/+0 → +2/+4/+1 |
 | centipede/long | monstrous-centipede-medium | 0/0 | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
-| chimera | chimera | 0/0 | S✗ R✗ I– | O | ✗ 8 → 2 | ✗ 1d4 → 1d6 1d6 1d8 1d8 2d6 | ✗ 70% → 90% / 90% / 90% / 80% / 80% | ✗ 1d4+4 → 2d6+4 / 1d8+4 / 1d8+4 / 1d6+2 / 1d6+2 | – | O | ✗ +2/+2/-2 → +9/+7/+6 |
-| deva | angel-astral-deva | 0/0 | S✗ R✗ I– | O | ✗ 0 → -8 | ✗ 1d8 → · | – | – | ✗ SR 30 → SR 30, immunity acid, immunity cold, reduction 10/evil, resistance lightning 10 | O | ✗ +4/+6/+10 → +14/+12/+12 |
-| dog | dog | 0/0 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d6 → 1d4 | ✗ 50% → 40% | ✗ 1d6+3 → 1d4+1 | – | – | ✗ +1/+0/-1 → +4/+5/+1 |
+| chimera | chimera | 0/0 | S✗ R✗ I– | O | ✗ 8 → 2 | ✗ 1d4 → 1d6 1d6 1d8 1d8 2d6 | ✗ 65% → 90% / 90% / 90% / 80% / 80% | ✗ 1d4+3 → 2d6+4 / 1d8+4 / 1d8+4 / 1d6+2 / 1d6+2 | – | O | ✗ +1/+2/-3 → +9/+7/+6 |
+| deva | angel-astral-deva | 0/0 | S✗ R✗ I– | O | ✗ 1 → -8 | ✗ 1d8 → · | – | – | ✗ SR 30 → SR 30, immunity acid, immunity cold, reduction 10/evil, resistance lightning 10 | O | ✗ +4/+5/+9 → +14/+12/+12 |
+| dog | dog | 0/0 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d6 → 1d4 | ✗ 50% → 40% | ✗ 1d6+3 → 1d4+1 | – | – | ✗ +0/+0/-1 → +4/+5/+1 |
 | dog/drove | dog | 0/0 | S✓ R✓ I– | ✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ |
-| dryad | dryad | 0/0 | S✗ R✗ I– | O | ✓ | ✓ | ✗ 35% → 60% | ✓ | ✗ · → reduction 5/cold_iron | O | ✗ +1/+5/+2 → +3/+8/+6 |
-| eagle | eagle | 0/0 | S✗ R✗ I– | O | ✗ 11 → 7 | ✗ 1d8 → 1d4 1d4 1d4 | ✗ 25% → 45% / 45% / 20% | ✗ 1d8 → 1d4 / 1d4 / 1d4 | – | – | ✗ -1/+0/-1 → +3/+4/+2 |
-| elemental/air_element | air-elemental-medium | 0/0 | S✗ R✗ I– | O | ✗ 1 → 3 | ✓ | ✗ 50% → 70% | ✗ 1d6+3 → 1d6+1 | – | ✗ · → air mastery, whirlwind | ✗ +4/+6/+3 → +3/+9/+1 |
-| elemental/fire_element | fire-elemental-medium | 0/0 | S✗ R✗ I– | O | ✗ 1 → 5 | ✓ | ✗ 50% → 60% | ✗ 1d6+3 → 1d6+1 | ✗ · → immunity fire | ✗ · → burn | ✗ +4/+6/+3 → +3/+7/+1 |
-| elephant | elephant | 0/0 | S✗ R✗ I– | O | ✗ 10 → 6 | ✗ 1d8 → 2d6 2d6 2d6 | ✗ 30% → 95% / 85% / 85% | ✗ 1d8 → 2d6+10 / 2d6+5 / 2d6+5 | – | O | ✗ +0/+0/+2 → +12/+7/+6 |
-| golem/clay | clay-golem | 0/0 | S✗ R✗ I– | O | ✗ 5 → -1 | ✗ 1d6 → 2d10 2d10 | ✗ 55% → 95% / 95% | ✗ 1d6+4 → 2d10+7 / 2d10+7 | ✗ · → reduction 10/adamantine | O | ✗ +6/-1/+1 → +3/+2/+3 |
-| golem/flesh | flesh-golem | 0/0 | S✓ R✗ I– | ✓ | ✓ | ✓ | ✗ 85% / 85% → 80% / 80% | ✗ 2d8+6 / 2d8+6 → 2d8+5 / 2d8+5 | ✓ | ✗ · → berserk | ✗ +9/+9/+10 → +3/+2/+3 |
-| golem/stone | stone-golem | 0/0 | S✗ R✗ I– | O | ✗ 5 → -5 | ✗ 1d6 → 2d10 2d10 | ✗ 55% → 95% / 95% | ✗ 1d6+4 → 2d10+9 / 2d10+9 | ✗ · → reduction 10/adamantine | O | ✗ +6/-1/+1 → +4/+3/+4 |
-| grey_render | gray-render | 0/0 | S✗ R✗ I– | O | ✗ 8 → 2 | ✗ 1d4 → 2d6 | ✗ 35% → 95% | ✗ 1d4 → 2d6+6 | – | O | ✗ +0/+2/+3 → +14/+7/+4 |
-| hawk | hawk | 0/0 | S✗ R✗ I– | O | ✗ 11 → 4 | ✗ 1d8 → 1d4 | ✗ 25% → 55% | ✗ 1d8 → 1d4-2 | – | – | ✗ -1/+0/+0 → +2/+5/+2 |
-| hyena | hyena | 0/0 | S✗ R✗ I– | O | ✗ 13 → 7 | ✓ | ✓ | ✗ 1d6+2 → 1d6+3 | – | ✗ · → trip | ✗ +2/-2/+0 → +5/+5/+1 |
-| leopard | leopard | 0/0 | S✗ R✗ I– | O | ✗ 10 → 6 | ✗ 1d4 → 1d3 1d3 1d6 | ✗ 40% → 60% / 35% / 35% | ✗ 1d4+1 → 1d6+3 / 1d3+1 / 1d3+1 | – | O | ✗ +3/+1/+0 → +5/+7/+2 |
-| lillend | lillend | 0/0 | S✗ R✗ I– | O | ✗ 10 → 4 | ✗ 1d8 → 1d8 1d8 2d6 | ✗ 30% → 85% / 60% / 60% | ✗ 1d8 → 1d8+5 / 1d8+5 / 2d6+2 | ✗ · → immunity poison, resistance fire 10 | O | ✗ +2/+1/+2 → +7/+10/+8 |
-| lion | lion | 0/0 | S✗ R✗ I– | O | ✗ 9 → 6 | ✗ 1d6 → 1d4 1d4 1d8 | ✗ 40% → 65% / 65% / 40% | ✗ 1d6+1 → 1d4+5 / 1d4+5 / 1d8+2 | – | ✗ · → improved grab, pounce, rake 1d4+2 | ✗ +2/+2/-1 → +6/+7/+2 |
-| lizard | lizard | 0/0 | S✗ R✗ I– | O | ✗ 8 → 7 | ✗ 1d6 → 1d4 | ✗ 25% → 50% | ✗ 1d6 → 1d4-4 | – | – | ✗ -1/-1/-1 → +2/+4/+1 |
-| locatah | locathah | 0/0 | S✗ R✗ I– | O | ✗ 4 → 7 | ✗ 1d4 → 1d8 | ✓ | ✗ 1d4+1 → 1d8 | – | O | ✗ +1/+3/+1 → +3/+1/+1 |
-| marilith | marilith | 0/0 | S✗ R✗ I– | O | ✗ 4 → -8 | ✗ 1d4 → 2d6 2d6 2d6 2d6 2d6 2d6 2d6 2d6 2d6 4d6 | ✗ 60% → 95% / 95% / 95% / 80% / 95% / 95% / 95% / 95% / 95% / 95% | ✗ 1d4+5 → 2d6+9 / 2d6+9 / 2d6+9 / 2d6+9 / 2d6+4 / 2d6+4 / 2d6+4 / 2d6+4 / 2d6+4 / 4d6+4 | ✗ SR 25 → SR 25, immunity lightning, immunity poison, reduction 10/good, resistance acid 10 | O | ✗ +4/+5/+2 → +19/+14/+14 |
+| dryad | dryad | 0/0 | S✗ R✗ I– | O | ✗ 5 → 4 | ✓ | ✗ 30% → 60% | ✓ | ✗ · → reduction 5/cold_iron | O | ✗ +1/+4/+2 → +3/+8/+6 |
+| eagle | eagle | 0/0 | S✗ R✗ I– | O | ✗ 11 → 7 | ✗ 1d8 → 1d4 1d4 1d4 | ✗ 20% → 45% / 45% / 20% | ✗ 1d8 → 1d4 / 1d4 / 1d4 | – | – | ✗ -2/+0/-1 → +3/+4/+2 |
+| elemental/air_element | air-elemental-medium | 0/0 | S✗ R✗ I– | O | ✗ 2 → 3 | ✓ | ✗ 50% → 70% | ✗ 1d6+3 → 1d6+1 | – | ✗ · → air mastery, whirlwind | ✗ +4/+5/+2 → +3/+9/+1 |
+| elemental/fire_element | fire-elemental-medium | 0/0 | S✗ R✗ I– | O | ✗ 2 → 5 | ✓ | ✗ 50% → 60% | ✗ 1d6+3 → 1d6+1 | ✗ · → immunity fire | ✗ · → burn | ✗ +4/+5/+2 → +3/+7/+1 |
+| elephant | elephant | 0/0 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d8 → 2d6 2d6 2d6 | ✗ 25% → 95% / 85% / 85% | ✗ 1d8 → 2d6+10 / 2d6+5 / 2d6+5 | – | O | ✗ -1/-1/+1 → +12/+7/+6 |
+| golem/clay | clay-golem | 0/0 | S✗ R✗ I– | O | ✗ 5 → -1 | ✗ 1d6 → 2d10 2d10 | ✗ 50% → 95% / 95% | ✗ 1d6+3 → 2d10+7 / 2d10+7 | ✗ · → reduction 10/adamantine | O | ✗ +5/-1/+0 → +3/+2/+3 |
+| golem/flesh | flesh-golem | 0/0 | S✓ R✗ I– | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ · → berserk | ✗ +9/+8/+9 → +3/+2/+3 |
+| golem/stone | stone-golem | 0/0 | S✗ R✗ I– | O | ✗ 6 → -5 | ✗ 1d6 → 2d10 2d10 | ✗ 50% → 95% / 95% | ✗ 1d6+3 → 2d10+9 / 2d10+9 | ✗ · → reduction 10/adamantine | O | ✗ +6/-2/+0 → +4/+3/+4 |
+| grey_render | gray-render | 0/0 | S✗ R✗ I– | O | ✗ 9 → 2 | ✗ 1d4 → 2d6 | ✗ 30% → 95% | ✗ 1d4 → 2d6+6 | – | O | ✗ +0/+1/+2 → +14/+7/+4 |
+| hawk | hawk | 0/0 | S✗ R✗ I– | O | ✗ 12 → 4 | ✗ 1d8 → 1d4 | ✗ 25% → 55% | ✗ 1d8 → 1d4-2 | – | – | ✗ -1/-1/-1 → +2/+5/+2 |
+| hyena | hyena | 0/0 | S✗ R✗ I– | O | ✗ 13 → 7 | ✓ | ✗ 40% → 45% | ✗ 1d6+1 → 1d6+3 | – | ✗ · → trip | ✗ +2/-2/-1 → +5/+5/+1 |
+| leopard | leopard | 0/0 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d4 → 1d3 1d3 1d6 | ✗ 40% → 60% / 35% / 35% | ✗ 1d4+1 → 1d6+3 / 1d3+1 / 1d3+1 | – | O | ✗ +2/+0/+0 → +5/+7/+2 |
+| lillend | lillend | 0/0 | S✗ R✗ I– | O | ✗ 10 → 4 | ✗ 1d8 → 1d8 1d8 2d6 | ✗ 30% → 85% / 60% / 60% | ✗ 1d8 → 1d8+5 / 1d8+5 / 2d6+2 | ✗ · → immunity poison, resistance fire 10 | O | ✗ +1/+1/+2 → +7/+10/+8 |
+| lion | lion | 0/0 | S✗ R✗ I– | O | ✗ 9 → 6 | ✗ 1d6 → 1d4 1d4 1d8 | ✗ 40% → 65% / 65% / 40% | ✗ 1d6+1 → 1d4+5 / 1d4+5 / 1d8+2 | – | ✗ · → improved grab, pounce, rake 1d4+2 | ✗ +2/+2/-2 → +6/+7/+2 |
+| lizard | lizard | 0/0 | S✗ R✗ I– | O | ✗ 8 → 7 | ✗ 1d6 → 1d4 | ✗ 20% → 50% | ✗ 1d6 → 1d4-4 | – | – | ✗ -2/-1/-2 → +2/+4/+1 |
+| locatah | locathah | 0/0 | S✗ R✗ I– | O | ✗ 4 → 7 | ✗ 1d4 → 1d8 | ✓ | ✗ 1d4+1 → 1d8 | – | O | ✗ +0/+3/+1 → +3/+1/+1 |
+| marilith | marilith | 0/0 | S✗ R✗ I– | O | ✗ 4 → -8 | ✗ 1d4 → 2d6 2d6 2d6 2d6 2d6 2d6 2d6 2d6 2d6 4d6 | ✗ 55% → 95% / 95% / 95% / 80% / 95% / 95% / 95% / 95% / 95% / 95% | ✗ 1d4+4 → 2d6+9 / 2d6+9 / 2d6+9 / 2d6+9 / 2d6+4 / 2d6+4 / 2d6+4 / 2d6+4 / 2d6+4 / 4d6+4 | ✗ SR 25 → SR 25, immunity lightning, immunity poison, reduction 10/good, resistance acid 10 | O | ✗ +4/+5/+1 → +19/+14/+14 |
 | monkey | monkey | 0/0 | S✗ R✗ I– | O | ✗ 9 → 7 | ✗ 1d6 → 1d3 | ✗ 20% → 50% | ✗ 1d6 → 1d3-4 | – | – | ✗ -1/+2/+1 → +2/+4/+1 |
-| nightmare | nightmare | 0/0 | S✗ R✗ I– | O | ✗ 7 → -3 | ✗ 1d4 → 1d8 1d8 1d8 | ✗ 65% → 75% / 75% / 50% | ✗ 1d4+3 → 1d8+4 / 1d8+4 / 1d8+2 | – | O | ✗ +2/+3/-2 → +8/+7/+6 |
-| nymph | nymph | 0/0 | S✗ R✗ I– | O | ✗ 7 → 4 | ✓ | ✗ 35% → 60% | ✓ | ✗ · → reduction 10/cold_iron | O | ✗ +1/+2/+4 → +7/+12/+12 |
-| owl | owl | 0/0 | S✗ R✗ I– | O | ✗ 11 → 4 | ✗ 1d8 → 1d4 | ✗ 25% → 55% | ✗ 1d8 → 1d4-3 | – | – | ✗ -1/+0/+0 → +2/+5/+2 |
+| nightmare | nightmare | 0/0 | S✗ R✗ I– | O | ✗ 8 → -3 | ✗ 1d4 → 1d8 1d8 1d8 | ✗ 65% → 75% / 75% / 50% | ✗ 1d4+3 → 1d8+4 / 1d8+4 / 1d8+2 | – | O | ✗ +1/+2/-3 → +8/+7/+6 |
+| nymph | nymph | 0/0 | S✗ R✗ I– | O | ✗ 7 → 4 | ✓ | ✗ 30% → 60% | ✓ | ✗ · → reduction 10/cold_iron | O | ✗ +1/+2/+4 → +7/+12/+12 |
+| owl | owl | 0/0 | S✗ R✗ I– | O | ✗ 12 → 4 | ✗ 1d8 → 1d4 | ✗ 20% → 55% | ✗ 1d8 → 1d4-3 | – | – | ✗ -2/-1/-1 → +2/+5/+2 |
 | owlbear/fell | owlbear | 0/0 | S✓ R✓ I– | ✓ | ✓ | ✓ | ✓ | ✓ | – | ✗ · → improved grab | ✓ |
-| pegasus | pegasus | 0/0 | S✗ R✗ I– | O | ✗ 6 → 7 | ✗ 1d2 → 1d3 1d6 1d6 | ✗ 25% → 65% / 65% / 40% | ✗ 1d2 → 1d6+4 / 1d6+4 / 1d3+2 | – | O | ✗ +0/+4/+2 → +7/+6/+4 |
-| pixie | pixie | 0/0 | S✗ R✗ I– | O | ✗ 4 → 5 | ✓ | ✗ 35% → 55% | ✗ 1d4 → 1d4-2 | ✗ SR 15 → SR 15, reduction 10/cold_iron | O | ✗ +1/+5/+2 → +0/+6/+4 |
-| pony | pony | 0/0 | S✗ R✗ I– | O | ✗ 11 → 8 | ✗ 1d2 → 1d3 1d3 | ✗ 30% → 15% / 15% | ✗ 1d2 → 1d3 / 1d3 | – | – | ✗ +0/-1/-1 → +4/+4/+0 |
-| pseudodragon | pseudodragon | 0/0 | S✗ R✗ I– | O | ✗ 7 → 3 | ✗ 1d6 → 1d3 | ✗ 30% → 50% | ✗ 1d6 → 1d3-2 | ✓ | ✗ · → poison | ✗ +0/+0/+0 → +4/+5/+4 |
+| pegasus | pegasus | 0/0 | S✗ R✗ I– | O | ✗ 6 → 7 | ✗ 1d2 → 1d3 1d6 1d6 | ✗ 20% → 65% / 65% / 40% | ✗ 1d2 → 1d6+4 / 1d6+4 / 1d3+2 | – | O | ✗ -1/+4/+1 → +7/+6/+4 |
+| pixie | pixie | 0/0 | S✗ R✗ I– | O | ✗ 4 → 5 | ✓ | ✗ 30% → 55% | ✗ 1d4 → 1d4-2 | ✗ SR 15 → SR 15, reduction 10/cold_iron | O | ✗ +1/+5/+2 → +0/+6/+4 |
+| pony | pony | 0/0 | S✗ R✗ I– | O | ✗ 11 → 8 | ✗ 1d2 → 1d3 1d3 | ✗ 25% → 15% / 15% | ✗ 1d2 → 1d3 / 1d3 | – | – | ✗ -1/-1/-2 → +4/+4/+0 |
+| pseudodragon | pseudodragon | 0/0 | S✗ R✗ I– | O | ✗ 8 → 3 | ✗ 1d6 → 1d3 | ✗ 30% → 50% | ✗ 1d6 → 1d3-2 | ✓ | ✗ · → poison | ✗ +0/-1/+0 → +4/+5/+4 |
 | rat/cellar | rat | 0/0 | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ |
 | rat/midden | dire-rat | 0/0 | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
-| raven | raven | 0/0 | S✗ R✗ I– | O | ✗ 11 → 7 | ✗ 1d4 → 1d2 | ✗ 25% → 50% | ✗ 1d4 → 1d2-5 | – | – | ✗ -1/+0/-1 → +2/+4/+2 |
+| raven | raven | 0/0 | S✗ R✗ I– | O | ✗ 12 → 7 | ✗ 1d4 → 1d2 | ✗ 20% → 50% | ✗ 1d4 → 1d2-5 | – | – | ✗ -2/-1/-1 → +2/+4/+2 |
 | rhino | rhinoceros | 0/0 | S✗ R✗ I– | O | ✗ 7 → 5 | ✗ 1d4 → 2d6 | ✗ 35% → 95% | ✗ 1d4 → 2d6+12 | – | O | ✗ -1/+3/+0 → +11/+6/+3 |
-| satyr | satyr | 0/0 | S✗ R✗ I– | O | ✗ 5 → 6 | ✗ 1d4 → 1d4 1d6 | ✗ 35% → 40% / 15% | ✗ 1d4 → 1d6 / 1d4 | ✗ · → reduction 5/cold_iron | O | ✗ +1/+4/+2 → +2/+5/+5 |
+| satyr | satyr | 0/0 | S✗ R✗ I– | O | ✗ 5 → 6 | ✗ 1d4 → 1d4 1d6 | ✗ 30% → 40% / 15% | ✗ 1d4 → 1d6 / 1d4 | ✗ · → reduction 5/cold_iron | O | ✗ +1/+4/+2 → +2/+5/+5 |
 | solar | angel-solar | 0/0 | S✗ R✗ I– | O | ✗ 0 → -14 | ✗ 1d8 → · | – | – | ✗ SR 32 → SR 32, immunity acid, immunity cold, reduction 15/epic, regeneration 15, resistance lightning 10 | O | ✗ +4/+6/+9 → +18/+18/+20 |
-| spider/great | monstrous-spider-medium | 0/0 | S✗ R✗ I– | O | ✗ 8 → 7 | ✓ | ✗ 55% → 50% | ✗ 1d6+4 → 1d6 | – | O | ✗ +1/+1/+3 → +4/+3/+0 |
-| tiger | tiger | 0/0 | S✗ R✗ I– | O | ✗ 8 → 7 | ✗ 1d4 → 1d8 1d8 2d6 | ✗ 50% → 75% / 75% / 50% | ✗ 1d4+3 → 1d8+6 / 1d8+6 / 2d6+3 | – | ✗ · → improved grab, pounce, rake 1d8+3 | ✗ +1/+3/+3 → +8/+7/+3 |
-| titan | titan | 0/0 | S✗ R✗ I– | O | ✗ 2 → -17 | ✗ 1d10 → · | – | – | ✗ SR 32 → SR 32, reduction 15/lawful | O | ✗ +10/+4/+7 → +26/+13/+21 |
-| unicorn | unicorn | 0/0 | S✗ R✗ I– | ✓ | ✗ 2 → 3 | ✓ | ✗ 70% / 70% / 70% → 85% / 45% / 45% | ✗ 1d8+5 / 1d4 / 1d4 → 1d8+8 / 1d4+2 / 1d4+2 | ✗ immunity poison, reduction 10/magic, resistance acid 10, resistance cold 10, resistance electric 10, resistance lightning 10 → immunity poison | O | ✗ +10/+8/+10 → +9/+7/+6 |
-| whale | whale | 0/0 | S✗ R✗ I– | O | ✗ 8 → 5 | ✗ 1d4 → 2d6 | ✗ 40% → 90% | ✗ 1d4+1 → 2d6+12 | – | – | ✗ +2/+2/+2 → +11/+8/+5 |
-| xill | xill | 0/0 | S✗ R✗ I– | O | ✗ 10 → 1 | ✗ 1d4 → 1d4 1d4 | ✗ 25% → 55% / 55% | ✗ 1d4 → 1d4+1 / 1d4+1 | ✓ | ✗ · → implant, improved grab, paralysis | ✗ +0/-1/+2 → +6/+7/+5 |
-| yrthak | yrthak | 0/0 | S✗ R✗ I– | O | ✗ 8 → 3 | ✗ 1d4 → 1d6 1d6 2d8 | ✗ 50% → 95% / 95% / 95% | ✗ 1d4+3 → 2d8+5 / 1d6+2 / 1d6+2 | – | ✗ · → explosion, sonic lance | ✗ +2/-1/+0 → +11/+10/+5 |
+| spider/great | monstrous-spider-medium | 0/0 | S✗ R✗ I– | O | ✗ 8 → 7 | ✓ | ✗ 55% → 50% | ✗ 1d6+4 → 1d6 | – | O | ✗ +1/+1/+2 → +4/+3/+0 |
+| tiger | tiger | 0/0 | S✗ R✗ I– | O | ✗ 8 → 7 | ✗ 1d4 → 1d8 1d8 2d6 | ✗ 45% → 75% / 75% / 50% | ✗ 1d4+2 → 1d8+6 / 1d8+6 / 2d6+3 | – | ✗ · → improved grab, pounce, rake 1d8+3 | ✗ +0/+3/+2 → +8/+7/+3 |
+| titan | titan | 0/0 | S✗ R✗ I– | O | ✗ 2 → -17 | ✗ 1d10 → · | – | – | ✗ SR 32 → SR 32, reduction 15/lawful | O | ✗ +9/+4/+7 → +26/+13/+21 |
+| unicorn | unicorn | 0/0 | S✓ R✗ I– | ✓ | ✓ | ✓ | ✗ 70% / 70% / 70% → 85% / 45% / 45% | ✗ 1d8+5 / 1d4 / 1d4 → 1d8+8 / 1d4+2 / 1d4+2 | ✗ immunity poison, reduction 10/magic, resistance acid 10, resistance cold 10, resistance electric 10, resistance lightning 10 → immunity poison | O | ✗ +9/+7/+9 → +9/+7/+6 |
+| whale | whale | 0/0 | S✗ R✗ I– | O | ✗ 9 → 5 | ✗ 1d4 → 2d6 | ✗ 35% → 90% | ✗ 1d4 → 2d6+12 | – | – | ✗ +2/+1/+2 → +11/+8/+5 |
+| xill | xill | 0/0 | S✗ R✗ I– | O | ✗ 10 → 1 | ✗ 1d4 → 1d4 1d4 | ✗ 25% → 55% / 55% | ✗ 1d4 → 1d4+1 / 1d4+1 | ✓ | ✗ · → implant, improved grab, paralysis | ✗ -1/-1/+1 → +6/+7/+5 |
+| yrthak | yrthak | 0/0 | S✗ R✗ I– | O | ✗ 9 → 3 | ✗ 1d4 → 1d6 1d6 2d8 | ✗ 45% → 95% / 95% / 95% | ✗ 1d4+2 → 2d8+5 / 1d6+2 / 1d6+2 | – | ✗ · → explosion, sonic lance | ✗ +2/-2/+0 → +11/+10/+5 |
 
 ## Spells
 

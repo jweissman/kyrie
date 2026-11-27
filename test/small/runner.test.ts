@@ -64,7 +64,10 @@ describe('the runner', () => {
       Place yard "the yard" is room at 0, 0 outdoors.
       Company party "You" of 1 at yard.
       Person rats "the rats" at yard { Role "rats". Species rat. Numbers 3. Level 1. Temperament territorial. Lair yard. }
-      Goal false.`), r = new Runner(t.session);
+      Goal false.`, { party: [{
+        name: 'Ama', raceId: 'human', classId: 'warrior',
+        rolled: { strength: 14, dexterity: 12, constitution: 18, intelligence: 10, wisdom: 10, charisma: 10 },
+      }] }), r = new Runner(t.session);
     const attack = r.said().offer.primary.find(o => o.type === 'fight')!;
     let turn = said(await r.ask(JSON.stringify({ act: attack.id })));
     expect(turn.moment).toBe('fight');

@@ -44,6 +44,7 @@ export class Awkward {
   static start(): Promise<Tiny> {
     // On the earned stage (OR-1245): its specs press the lenses' keys, which a first-level company has not earned.
     return Tiny.start(this.kyr, { calendar: { year: 1312, month: 6, day: 5 }, earned: true,
-      party: [{ name: 'Aud', raceId: 'human', classId: 'ranger' }] });
+      party: [{ name: 'Aud', raceId: 'human', classId: 'ranger',
+        rolled: { strength: 14, dexterity: 14, constitution: 18, intelligence: 10, wisdom: 12, charisma: 10 } }] });
   }
 }
