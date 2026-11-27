@@ -19,25 +19,26 @@ Module tallow "Tallow Deep" {
 
   Action lc_bargain(actor: group, site: place) "Ask Merren to bargain with the Ferryman" {
     Requires able(actor) and company(actor) and at(actor, site) and at(lc_quartermaster, site)
-      and at(lc_ferryman, green) and knows(actor, lc_boats_memory) and knows(actor, lc_withdrawal_cost)
+      and able(lc_quartermaster) and at(lc_ferryman, green) and able(lc_ferryman)
+      and knows(actor, lc_boats_memory) and knows(actor, lc_withdrawal_cost)
       and lc_enemy_present() and not lcBargained(actor) and not lcTruce(actor).
     Time 1 hour.
     On success { Assert lcBargained(actor). Assert knows(actor, lc_bargained_cost). }
     Result "Merren goes down to the trough and speaks with the Ferryman. When she returns she is angry, though not with you. 'Three rations,' she says. 'He says he will take three. Do not ask me to call it kindness.'".
   }
   Action lc_buy_withdrawal(actor: group, site: place) "Give the Ferryman four rations to withdraw his men" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(lc_ferryman, site)
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_ferryman, site) and able(lc_ferryman)
       and knows(actor, lc_withdrawal_cost) and lc_enemy_present() and not lcBargained(actor)
       and not lcTruce(actor) and quantity(actor, rations) >= 4.
     Time 1 hour.
-    On success { Decrease quantity(actor, rations) by 4. Set lcFoeFood(actor) to 4. Assert lcTruce(actor). }
+    On success { Decrease quantity(actor, rations) by 4. Increase quantity(lc_ferryman, rations) by 4. Set lcFoeFood(actor) to 4. Assert lcTruce(actor). }
     Result "The Ferryman counts the food himself. 'My men leave the bank and the old road,' he says. 'This buys Swallet a breathing-space, not the end of the war.' He sends the word along the west road.".
   }
   Action lc_buy_bargained(actor: group, site: place) "Give the Ferryman three rations to withdraw his men" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(lc_ferryman, site)
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_ferryman, site) and able(lc_ferryman)
       and lcBargained(actor) and lc_enemy_present() and not lcTruce(actor) and quantity(actor, rations) >= 3.
     Time 1 hour.
-    On success { Decrease quantity(actor, rations) by 3. Set lcFoeFood(actor) to 3. Assert lcTruce(actor). }
+    On success { Decrease quantity(actor, rations) by 3. Increase quantity(lc_ferryman, rations) by 3. Set lcFoeFood(actor) to 3. Assert lcTruce(actor). }
     Result "The Ferryman counts the food himself. 'My men leave the bank and the old road,' he says. 'This buys Swallet a breathing-space, not the end of the war.' He sends the word along the west road.".
   }
   Rule lc_raiders_withdraw when lcTruce(party) and at(lc_raiders, bank) and able(lc_raiders) {
@@ -65,7 +66,8 @@ Module tallow "Tallow Deep" {
     Retract at(lc_convoy, gate_house).
   }
   Observe lc_truce_at_green at green when lcTruce(party) and lcFoeFood(party) >= 3
-    "The Ferryman's men have gone from the bank and the old road. The rations went with them.".
+    "The Ferryman's men have gone from the bank and the old road. He took the rations in return.".
   Observe lc_truce_at_inn at taproom when lcTruce(party) and lcFoeFood(party) >= 3
+    and at(lc_quartermaster, taproom) and able(lc_quartermaster)
     "Merren folds the paper boat flat. 'A breathing-space,' she says. 'We had better use it.'".
 }

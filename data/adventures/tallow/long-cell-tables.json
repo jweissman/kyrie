@@ -1,0 +1,16 @@
+{
+  "longCellKind": {
+    "discriminator": "region",
+    "groups": {
+      "any": ["cult", "musicians", "marauders"]
+    }
+  },
+  "longCellPeople": {
+    "discriminator": "kind",
+    "groups": {
+      "cult": ["human", "elf", "dwarf", "gnoll"],
+      "musicians": ["human", "elf", "dwarf", "gnoll"],
+      "marauders": ["human", "elf", "dwarf", "gnoll"]
+    }
+  }
+}

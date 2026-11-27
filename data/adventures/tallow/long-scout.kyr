@@ -1,0 +1,101 @@
+Module tallow "Tallow Deep" {
+  Person lc_road_scout "the Ferryman's road scout" nowhere {
+    Role "a scout in a blue cord, looking for ways through the ridge". Ancestry human. Calling thief. Level 2. Peaceable. Pronouns she.
+    Greets "'The road is there whether I look at it or not,' she says. 'I am paid to look.'".
+  }
+  Relation lcReconFormed(group). Relation lcReconBought(group). Relation lcReconSeen(group). Relation lcReconReported(group).
+  Relation lcReconWest(group). Relation lcReconPortal(group). Relation lcReconLooking(group).
+  Relation lcReconBackWest(group). Relation lcReconBackLane(group). Relation lcReconReturnGreen(group).
+  Relation lcReconBackGreen(group).
+  Measure lcReconDue(group).
+  Query lc_recon_fighting() means assails(lc_road_scout, party) or assails(party, lc_road_scout).
+
+  Rule lc_recon_starts when lcScoutArrived(party) and at(lc_ferryman, green) and able(lc_ferryman)
+    and able(lc_road_scout) and not lcReconFormed(party) and not lcRoadTold(party) and not lcTruce(party) {
+    Assert lcReconFormed(party). Assert at(lc_road_scout, green). Set lcReconDue(party) to watch(clock) + 12.
+  }
+  Observe lc_recon_prepares at green when at(lc_road_scout, green) and able(lc_road_scout)
+    and not lcReconReported(party) and not lcReconBought(party) and not lcRoadTold(party)
+    "A scout with a blue cord is checking the west road against a scrap of paper.".
+  Rule lc_recon_sets_out when lcReconFormed(party) and at(lc_road_scout, green) and able(lc_road_scout)
+    and not lcRoadTold(party) and not lcReconBought(party) and not lcTruce(party)
+    and not lcReconWest(party) and not lcReconBackGreen(party) and not lcReconReported(party)
+    and not lc_recon_fighting() and watch(clock) >= lcReconDue(party) {
+    Retract at(lc_road_scout, green). Assert at(lc_road_scout, lane).
+    Assert lcReconWest(party). Set lcReconDue(party) to watch(clock) + 6.
+  }
+  Rule lc_recon_reaches_west when lcReconWest(party) and at(lc_road_scout, lane) and able(lc_road_scout)
+    and not lcReconBought(party) and not lcTruce(party) and not lc_recon_fighting()
+    and watch(clock) >= lcReconDue(party) {
+    Retract lcReconWest(party). Retract at(lc_road_scout, lane). Assert at(lc_road_scout, west_end).
+    Assert lcReconPortal(party). Set lcReconDue(party) to watch(clock) + 2.
+  }
+  Rule lc_recon_reaches_portal when lcReconPortal(party) and at(lc_road_scout, west_end) and able(lc_road_scout)
+    and not lcReconBought(party) and not lcTruce(party) and not lc_recon_fighting()
+    and watch(clock) >= lcReconDue(party) {
+    Retract lcReconPortal(party). Retract at(lc_road_scout, west_end). Assert at(lc_road_scout, calx_portal).
+    Assert lcReconLooking(party). Set lcReconDue(party) to watch(clock) + 6.
+  }
+  Observe lc_recon_at_portal at calx_portal when lcReconLooking(party) and at(lc_road_scout, calx_portal)
+    and able(lc_road_scout) "The Ferryman's scout is examining the old portal, taking her time over it.".
+  Rule lc_recon_finds_road when lcReconLooking(party) and at(lc_road_scout, calx_portal) and able(lc_road_scout)
+    and not lc_recon_fighting() and state(portal_inside, cleared) and not lcReconSeen(party) {
+    Assert lcReconSeen(party).
+  }
+  Rule lc_recon_leaves_portal when lcReconLooking(party) and at(lc_road_scout, calx_portal) and able(lc_road_scout)
+    and not lcReconBought(party) and not lcTruce(party) and not lc_recon_fighting()
+    and watch(clock) >= lcReconDue(party)
+    and (not state(portal_inside, cleared) or lcReconSeen(party)) {
+    Retract lcReconLooking(party).
+    Assert lcReconBackWest(party). Set lcReconDue(party) to watch(clock) + 2.
+  }
+  Rule lc_recon_reaches_west_on_return when lcReconBackWest(party) and at(lc_road_scout, calx_portal) and able(lc_road_scout)
+    and not lcReconBought(party) and not lcTruce(party) and not lc_recon_fighting()
+    and watch(clock) >= lcReconDue(party) {
+    Retract lcReconBackWest(party). Retract at(lc_road_scout, calx_portal). Assert at(lc_road_scout, west_end).
+    Assert lcReconBackLane(party). Set lcReconDue(party) to watch(clock) + 6.
+  }
+  Rule lc_recon_reaches_lane_on_return when lcReconBackLane(party) and at(lc_road_scout, west_end) and able(lc_road_scout)
+    and not lcReconBought(party) and not lcTruce(party) and not lc_recon_fighting()
+    and watch(clock) >= lcReconDue(party) {
+    Retract lcReconBackLane(party). Retract at(lc_road_scout, west_end). Assert at(lc_road_scout, lane).
+    Assert lcReconReturnGreen(party). Set lcReconDue(party) to watch(clock) + 1.
+  }
+  Rule lc_recon_reaches_green when lcReconReturnGreen(party) and at(lc_road_scout, lane) and able(lc_road_scout)
+    and not lcReconBought(party) and not lcTruce(party) and not lc_recon_fighting()
+    and watch(clock) >= lcReconDue(party) {
+    Retract lcReconReturnGreen(party). Retract at(lc_road_scout, lane). Assert at(lc_road_scout, green).
+    Assert lcReconBackGreen(party).
+  }
+  Rule lc_recon_reports when lcReconBackGreen(party) and lcReconSeen(party) and not lcReconReported(party)
+    and at(lc_road_scout, green) and able(lc_road_scout) and at(lc_ferryman, green) and able(lc_ferryman)
+    and not lcReconBought(party) and not lcTruce(party) and not lc_recon_fighting() {
+    Assert lcReconReported(party). Retract lcReconBackGreen(party).
+  }
+  Rule lc_recon_orders_guard when lcReconReported(party) and not lcRoadTold(party) and not lcTruce(party) {
+    Assert lcRoadTold(party). Set lcVanguardDue(party) to watch(clock) + 36.
+  }
+  Rule lc_recon_tries_again when lcReconBackGreen(party) and not lcReconSeen(party) and not lcRoadTold(party)
+    and at(lc_road_scout, green) and able(lc_road_scout) and at(lc_ferryman, green) and able(lc_ferryman)
+    and not lcReconBought(party) and not lcTruce(party) and not lc_recon_fighting() {
+    Retract lcReconBackGreen(party). Set lcReconDue(party) to watch(clock) + 144.
+  }
+  Observe lc_recon_reported at green when lcReconReported(party) and at(lc_road_scout, green)
+    and able(lc_road_scout) and at(lc_ferryman, green) and able(lc_ferryman)
+    "The scout has told the Ferryman that the western portal is open onto an old road.".
+  Action lc_buy_scout(actor: group, site: place) "Pay the scout two coin to leave the road alone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_road_scout, site) and able(lc_road_scout)
+      and not lcReconBought(actor) and not lcReconReported(actor) and not lcRoadTold(actor)
+      and not lcTruce(actor) and not lc_recon_fighting() and quantity(actor, gold) >= 2.
+    Time 10 minutes.
+    On success {
+      Decrease quantity(actor, gold) by 2. Increase quantity(lc_road_scout, gold) by 2.
+      Assert lcReconBought(actor). Retract at(lc_road_scout, site).
+    }
+    Result "She weighs the coins, then folds the scrap of paper into her pocket. 'I can look for work farther west.' She goes without reporting.".
+  }
+  Rule lc_recon_withdraws when lcTruce(party) and at(lc_road_scout, ?place) and able(lc_road_scout)
+    and not lc_recon_fighting() {
+    Retract at(lc_road_scout, ?place).
+  }
+}

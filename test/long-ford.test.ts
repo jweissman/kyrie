@@ -34,8 +34,9 @@ describe('The ford and the hill', () => {
       'Ask Merren what she needs from Swallet', 'Out to Swallet green',
       'Sell the buyer a drawing of the entrances', 'Into Usk\'s store',
       'Buy › A ration', 'Buy › A ration', 'Out to Swallet green', 'Into the Chandler\'s Arms',
-      'Give two days of rations to Merren\'s repair crew', 'Tell Merren Sallowfield still stands');
-    const start = j.measure('lcStart', 'party');
+      'Tell Merren what happened to the drawing', 'Give two days of rations to Merren\'s repair crew',
+      'Tell Merren Sallowfield still stands');
+    const start = j.measure('lcCrewStart', 'party');
     await j.play(`==${start + 53}`);
     expect(j.holds('lcCrewArrived', 'party')).toBe(false);
     await j.play('==+1');
@@ -72,7 +73,7 @@ describe('The ford and the hill', () => {
       'Into the Chandler\'s Arms', 'Ask Merren why the road matters',
       'Ask Merren what she needs from Swallet', 'Out to Swallet green',
       'Sell the buyer a drawing of the entrances', 'Into the Chandler\'s Arms',
-      'Keep the rations for the next descent');
+      'Tell Merren what happened to the drawing', 'Keep the rations for the next descent');
     expect(resumed.offers('Tell Merren Sallowfield still stands')).toBe(false);
   }, 120000);
 

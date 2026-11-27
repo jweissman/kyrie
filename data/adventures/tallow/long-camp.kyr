@@ -1,0 +1,64 @@
+Module tallow "Tallow Deep" {
+  Place lc_gnoll_shelter "the shelter of the returning" is room within lc_battle_land at 1, 0 outdoors.
+  Passage lc_gnoll_path "the path between the fallen spears" is path between lc_battlefield and lc_gnoll_shelter taking 10 minutes.
+  Discovery lc_gnoll_story "Rill came to the field looking for her sister Tavi, whose face she saw among the returning fighters.".
+  Relation lcGnollFed(group).
+  Relation lcSwordAwakened(item). Measure lcSwordReady(item).
+  Item lc_sisters_sword "the sisters' sword" is longsword at lc_gnoll_shelter owned by lc_gnoll_guide.
+  Initially Assert handed(lc_sisters_sword, lc_gnoll_guide).
+  Hazard lc_sword_glimmer "the sisters' sword" means "Deal (1d4) radiant damage to ally.".
+  Hazard lc_sword_radiance "the sisters' sword" means "Deal (2d6) radiant damage to ally.".
+
+  Observe lc_gnoll_shelter_scene at lc_gnoll_shelter when true
+    "A low shelter of shields stands behind a bank of broken spears. Someone has swept the floor and put a pot on a stone.".
+  Person lc_gnoll_guide "Rill at the shield shelter" at lc_gnoll_shelter {
+    Role "a gnoll in a patched soldier's coat". Ancestry gnoll. Calling warrior. Level 3. Peaceable. Pronouns she.
+    Greets "A tall woman with a spotted coat sits by the empty pot. She lifts a spear across her knees, but does not stand. 'If you are looking for a dry place, there is room on that side.'".
+  }
+  Topic lc_gnoll_question with lc_gnoll_guide "Ask Rill why she stays by the field"
+    when not knows(actor, lc_gnoll_story) once {
+    Says "'My sister Tavi went away with a company that wore the blue cord. I found her coat here, and once I saw her face on one of them. I cannot tell you whether it was her. The next time I looked it was another face.' She turns the pot over. 'I have waited too long to find out on an empty stomach.'".
+    On discuss { Assert knows(actor, lc_gnoll_story). }
+  }
+  Action lc_gnoll_share(actor: group, site: place) "Share a ration with Rill" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_gnoll_shelter)
+      and at(lc_gnoll_guide, site) and able(lc_gnoll_guide) and knows(actor, lc_gnoll_story)
+      and not lcGnollFed(actor) and quantity(actor, rations) >= 1.
+    Time 10 minutes.
+    On success {
+      Decrease quantity(actor, rations) by 1. Increase quantity(lc_gnoll_guide, rations) by 1.
+      Assert lcGnollFed(actor). Assert willing(lc_gnoll_guide, actor).
+    }
+    Result "Rill takes the food and sets the pot upright. 'I could come with you for a while,' she says. 'I would rather see a door out of here than another face I almost know.'".
+  }
+  Action lc_sword_glimmer_act(actor: group, bearer: member, foe: group, site: place) "Raise the sisters' sword against {foe}" {
+    Description "A brief light strikes the opponent. Any who can still fight will attack; the sword needs a day before it can shine again.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(foe, site) and able(foe)
+      and distinct(actor, foe) and reaches(actor, foe) and not peaceable(foe)
+      and memberOf(bearer, actor) and awake(bearer) and wearing(lc_sisters_sword, bearer)
+      and lcKinMet(actor) and not lcSwordAwakened(lc_sisters_sword)
+      and watch(clock) >= lcSwordReady(lc_sisters_sword)
+      and warned(foe, actor) and not tolerates(foe, actor) and not assails(foe, actor).
+    Time 0.
+    On success {
+      Set lcSwordReady(lc_sisters_sword) to watch(clock) + 144.
+      Assert strikes(lc_sword_glimmer, foe). Assert assails(foe, actor).
+    }
+    Result "A brief white light runs along the sword and strikes before the fighting begins.".
+  }
+  Action lc_sword_radiance_act(actor: group, bearer: member, foe: group, site: place) "Raise the sisters' sword against {foe}" {
+    Description "A line of light strikes the opponent. Any who can still fight will attack; the sword needs a day before it can shine again.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(foe, site) and able(foe)
+      and distinct(actor, foe) and reaches(actor, foe) and not peaceable(foe)
+      and memberOf(bearer, actor) and awake(bearer) and wearing(lc_sisters_sword, bearer)
+      and lcKinMet(actor) and lcSwordAwakened(lc_sisters_sword)
+      and watch(clock) >= lcSwordReady(lc_sisters_sword)
+      and warned(foe, actor) and not tolerates(foe, actor) and not assails(foe, actor).
+    Time 0.
+    On success {
+      Set lcSwordReady(lc_sisters_sword) to watch(clock) + 144.
+      Assert strikes(lc_sword_radiance, foe). Assert assails(foe, actor).
+    }
+    Result "White light runs from the sword in a long line and strikes before the fighting begins.".
+  }
+}

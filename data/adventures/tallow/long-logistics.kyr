@@ -18,7 +18,7 @@ Module tallow "Tallow Deep" {
     and not lcTruce(party) and not lcConvoyOrdered(party) {
     Assert lcConvoyOrdered(party). Set lcConvoyDue(party) to watch(clock) + 18.
   }
-  Rule lc_convoy_arrives when lcConvoyOrdered(party) and not lcConvoyArrived(party) and not lcTruce(party)
+  Rule lc_convoy_arrives when lcConvoyOrdered(party) and able(lc_convoy) and not lcConvoyArrived(party) and not lcTruce(party)
     and able(lc_vanguard) and (at(lc_vanguard, calx_portal) or at(lc_vanguard, calx_way) or at(lc_vanguard, gate_house))
     and watch(clock) >= lcConvoyDue(party) {
     Assert lcConvoyArrived(party). Assert at(lc_convoy, calx_portal).
@@ -55,6 +55,16 @@ Module tallow "Tallow Deep" {
     and quantity(lc_convoy, rations) >= 1 and not lcGuardSupplied(party) and not lcTruce(party) {
     Increase quantity(lc_vanguard, rations) by quantity(lc_convoy, rations). Set quantity(lc_convoy, rations) to 0.
     Assert lcGuardSupplied(party).
+  }
+  Action lc_take_convoy_food(actor: group, site: place) "Take the supply party's remaining rations" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_convoy, site)
+      and not able(lc_convoy) and quantity(lc_convoy, rations) >= 1.
+    Time 10 minutes.
+    On success {
+      Increase quantity(actor, rations) by quantity(lc_convoy, rations).
+      Set quantity(lc_convoy, rations) to 0.
+    }
+    Result "You untie the blue cord and take the food from the pack.".
   }
   Query lc_guard_posted() means at(lc_vanguard, calx_portal) or at(lc_vanguard, calx_way) or at(lc_vanguard, gate_house).
   Query lc_convoy_posted() means at(lc_convoy, calx_portal) or at(lc_convoy, calx_way) or at(lc_convoy, gate_house).

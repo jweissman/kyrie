@@ -1,0 +1,83 @@
+Module tallow "Tallow Deep" {
+  Discovery lc_raven_song_known "The raven will show you a coil of line if you sing her three notes back to her.".
+  Discovery lc_raven_line_known "The raven's old line is tucked behind one of the panes.".
+  Item lc_raven_line "a coil of the raven's old line" is rope at lc_mirror_array hidden until lc_raven_line_known.
+  Relation lcSongChoosing(group). Relation lcSongPlaying(group). Relation lcSongHigh(group).
+  Relation lcSongLow(group). Relation lcSongMissed(group). Relation lcSongWon(group).
+  Measure lcSongPattern(group). Measure lcSongStep(group). Measure lcSongAgain(group).
+  Query lcSongHighExpected(g: group) means
+    (lcSongPattern(g) == 1 and lcSongStep(g) < 2)
+    or (lcSongPattern(g) == 2 and lcSongStep(g) != 1)
+    or (lcSongPattern(g) == 3 and lcSongStep(g) > 0).
+
+  Topic lc_raven_song with lc_mirror_raven "Ask the raven about her song" when not knows(actor, lc_raven_song_known) once {
+    Says "'Three notes,' she says. 'Sing them back, and I will show you my old line. I cannot carry it any more.' She whistles a high note and a low one. 'Those are the two. I will not tell you twice in the same game.'".
+    On discuss { Assert knows(actor, lc_raven_song_known). }
+  }
+  Action lc_song_listen(actor: group, site: place) "Listen to the raven's three notes" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and at(lc_mirror_raven, site) and able(lc_mirror_raven) and knows(actor, lc_raven_song_known)
+      and not lcSongChoosing(actor) and not lcSongPlaying(actor) and not lcSongWon(actor)
+      and watch(clock) >= lcSongAgain(actor).
+    Time 10 minutes.
+    On success { Assert lcSongChoosing(actor). Retract lcSongMissed(actor). Set lcSongStep(actor) to 0. }
+    Result "The raven settles her feathers and sings.".
+  }
+  Rule lc_song_first when lcSongChoosing(party) and dice(clock) <= 33 {
+    Set lcSongPattern(party) to 1. Retract lcSongChoosing(party). Assert lcSongPlaying(party).
+  }
+  Rule lc_song_second when lcSongChoosing(party) and dice(clock) > 33 and dice(clock) <= 66 {
+    Set lcSongPattern(party) to 2. Retract lcSongChoosing(party). Assert lcSongPlaying(party).
+  }
+  Rule lc_song_third when lcSongChoosing(party) and dice(clock) > 66 {
+    Set lcSongPattern(party) to 3. Retract lcSongChoosing(party). Assert lcSongPlaying(party).
+  }
+  Observe lc_song_hhl at lc_mirror_array when lcSongPlaying(party) and lcSongStep(party) == 0 and lcSongPattern(party) == 1
+    "The raven sings high, high, low. Her beak stays open for your answer.".
+  Observe lc_song_hlh at lc_mirror_array when lcSongPlaying(party) and lcSongStep(party) == 0 and lcSongPattern(party) == 2
+    "The raven sings high, low, high. Her beak stays open for your answer.".
+  Observe lc_song_lhh at lc_mirror_array when lcSongPlaying(party) and lcSongStep(party) == 0 and lcSongPattern(party) == 3
+    "The raven sings low, high, high. Her beak stays open for your answer.".
+  Observe lc_song_waiting at lc_mirror_array when lcSongPlaying(party) and lcSongStep(party) > 0 and lcSongStep(party) < 3
+    "The raven waits for the next note.".
+  Action lc_song_high(actor: group, site: place) "Sing a high note" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and at(lc_mirror_raven, site) and able(lc_mirror_raven) and lcSongPlaying(actor) and lcSongStep(actor) < 3.
+    Time 10 minutes.
+    On success { Assert lcSongHigh(actor). }
+    Result "You sing a high note.".
+  }
+  Action lc_song_low(actor: group, site: place) "Sing a low note" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and at(lc_mirror_raven, site) and able(lc_mirror_raven) and lcSongPlaying(actor) and lcSongStep(actor) < 3.
+    Time 10 minutes.
+    On success { Assert lcSongLow(actor). }
+    Result "You sing a low note.".
+  }
+  Rule lc_song_high_right when lcSongHigh(party) and lcSongHighExpected(party) {
+    Retract lcSongHigh(party). Increase lcSongStep(party) by 1.
+  }
+  Rule lc_song_low_right when lcSongLow(party) and not lcSongHighExpected(party) {
+    Retract lcSongLow(party). Increase lcSongStep(party) by 1.
+  }
+  Rule lc_song_high_wrong when lcSongHigh(party) and not lcSongHighExpected(party) {
+    Retract lcSongHigh(party). Retract lcSongPlaying(party). Assert lcSongMissed(party). Set lcSongAgain(party) to watch(clock) + 6.
+  }
+  Rule lc_song_low_wrong when lcSongLow(party) and lcSongHighExpected(party) {
+    Retract lcSongLow(party). Retract lcSongPlaying(party). Assert lcSongMissed(party). Set lcSongAgain(party) to watch(clock) + 6.
+  }
+  Rule lc_song_abandoned when lcSongPlaying(party)
+    and (not at(party, lc_mirror_array) or not able(party)
+    or not at(lc_mirror_raven, lc_mirror_array) or not able(lc_mirror_raven)) {
+    Retract lcSongPlaying(party). Set lcSongAgain(party) to watch(clock) + 6.
+  }
+  Observe lc_song_missed at lc_mirror_array when lcSongMissed(party) and at(lc_mirror_raven, lc_mirror_array)
+    and able(lc_mirror_raven) "The raven makes a sound like a cough. 'That was not it. Give me an hour and we can try again.'".
+  Action lc_song_finish(actor: group, site: place) "Finish the song with the raven" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and at(lc_mirror_raven, site) and able(lc_mirror_raven) and lcSongPlaying(actor) and lcSongStep(actor) == 3.
+    Time 10 minutes.
+    On success { Retract lcSongPlaying(actor). Assert lcSongWon(actor). Assert knows(actor, lc_raven_line_known). }
+    Result "The raven repeats the last note, very nearly in tune. She hops behind a pane and noses out a coil of line. 'You can have it. I used to tie things down when the water was moving.'".
+  }
+}

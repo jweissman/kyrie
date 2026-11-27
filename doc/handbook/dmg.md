@@ -2954,17 +2954,6 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 ### Kits
 
-#### A price on a power
-
-*Kyr* · `kit:bounty`
-
-- Fills: victim (raids(?raider, ?victim)); power (raids(?power, ?victim) and power(?power)); chief (chief(?power, ?chief)); band (band(?power, ?band)); lair (holds(?power, ?lair))
-- Draws: patron from bounty_patron by terrain
-- Provides: 1 facts
-- Modules: 2
-
-> A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, the people the power acts through, and where it holds out (which the offer puts on the company's map); who offers the money, and what they want for it, is Deem's to propose.
-
 #### A raiders' hold
 
 *Kyr* · `kit:raider_hold`
@@ -2976,17 +2965,6 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 > A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
 
-#### A toll on a road
-
-*Kyr* · `kit:toll_road`
-
-- Fills: post (waypoint(?post) and onRoad(?post)); market (square(?town, ?market)); provider (keeper(?provider, ?market))
-- Draws: keepers from toll_keepers by terrain
-- Provides: 6 facts
-- Modules: 2
-
-> A band that has made a stretch of road between two settlements its own: it stops whoever comes and takes a toll, and buys its bread on credit at the nearest inn. While the road is tolled the settlements it joins pay more for their meal and are not restocked; an inn bought empty means the band comes for bread in the night. Where the road runs and which inn feeds it are bound to the region; who keeps the toll is Deem's to propose, and each kind is dealt with differently.
-
 #### A tinker at work
 
 *Kyr* · `kit:tinker`
@@ -2997,6 +2975,28 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 - Modules: 4
 
 > A practitioner of a craft at their characteristic work, and an opportunity for the company to take part (Fun Fridays, 20 November; doc/design/fun-fridays-tinker-kit.md): here tinkering, written so that the same pattern serves a carpenter, a cook, a shepherd or a physician. The settlement and its square are bound to the region; who is at the work, and so what the work is, how they take a stranger's help and what comes of it, is Deem's to propose (a travelling tinker, generated, with a child's toy; an apprentice alone with an instrument they have made worse; a master of the craft short of a part; or, wherever someone who lives there already practises the craft, that resident, bound from the ledger and made up by nobody: the old pump on the square). One occasion of the craft to a settlement; each passes: the tinker moves on, the master shuts the shop.
+
+#### A price on a power
+
+*Kyr* · `kit:bounty`
+
+- Fills: victim (raids(?raider, ?victim)); power (raids(?power, ?victim) and power(?power)); chief (chief(?power, ?chief)); band (band(?power, ?band)); lair (holds(?power, ?lair))
+- Draws: patron from bounty_patron by terrain
+- Provides: 1 facts
+- Modules: 2
+
+> A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, the people the power acts through, and where it holds out (which the offer puts on the company's map); who offers the money, and what they want for it, is Deem's to propose.
+
+#### A toll on a road
+
+*Kyr* · `kit:toll_road`
+
+- Fills: post (waypoint(?post) and onRoad(?post)); market (square(?town, ?market)); provider (keeper(?provider, ?market))
+- Draws: keepers from toll_keepers by terrain
+- Provides: 6 facts
+- Modules: 2
+
+> A band that has made a stretch of road between two settlements its own: it stops whoever comes and takes a toll, and buys its bread on credit at the nearest inn. While the road is tolled the settlements it joins pay more for their meal and are not restocked; an inn bought empty means the band comes for bread in the night. Where the road runs and which inn feeds it are bound to the region; who keeps the toll is Deem's to propose, and each kind is dealt with differently.
 
 ### Frameworks
 

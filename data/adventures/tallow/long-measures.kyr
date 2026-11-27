@@ -1,0 +1,120 @@
+Module tallow "Tallow Deep" {
+  Discovery lc_measures_known "Three different marked weights must total nine to open the ring's arch; a wrong total calls the fighters.".
+  Relation lcMeasureOne(group). Relation lcMeasureTwo(group). Relation lcMeasureThree(group).
+  Relation lcMeasureFour(group). Relation lcMeasureFive(group). Relation lcMeasuresSolved(group).
+  Relation lcMeasuresFailed(group). Relation lcGateBalanced(group). Relation lcGateRigging(group).
+  Relation lcGateRigInterrupted(group). Relation lcGateLowering(group).
+  Measure lcMeasureCount(group). Measure lcMeasureTotal(group). Measure lcGateRigDue(group). Measure lcGateLowerDue(group).
+
+  Observe lc_measure_board at lc_ring when not knows(party, lc_measures_known) and not lcArenaStarted(party)
+    "A bronze balance is set into the wall beside the arch. Five weights hang from it, each marked with dots.".
+  Action lc_read_measures(actor: group, site: place) "Examine the balance beside the arch" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring)
+      and at(lc_fencers, site) and able(lc_fencers) and not lcArenaStarted(actor) and not knows(actor, lc_measures_known).
+    Time 30 minutes.
+    On success { Assert knows(actor, lc_measures_known). }
+    Result "The weights bear one, two, three, four and five dots. The inscription says to place three different weights on the pan: nine dots in all opens the arch. A lower line is newer: a wrong total rings the fighters' bell.".
+  }
+  Observe lc_measure_progress at lc_ring when knows(party, lc_measures_known) and lcMeasureCount(party) > 0
+    and not lcMeasuresSolved(party) and not lcMeasuresFailed(party) and not lcArenaStarted(party)
+    "The pan holds {lcMeasureCount(party)} weights, with {lcMeasureTotal(party)} dots between them.".
+
+  Action lc_measure_one(actor: group, site: place) "Place the one-dot weight" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring)
+      and at(lc_fencers, site) and able(lc_fencers) and knows(actor, lc_measures_known)
+      and not lcArenaStarted(actor) and not lcMeasuresSolved(actor) and not lcMeasuresFailed(actor)
+      and not lcMeasureOne(actor) and lcMeasureCount(actor) < 3.
+    Time 10 minutes.
+    On success { Assert lcMeasureOne(actor). Increase lcMeasureCount(actor) by 1. Increase lcMeasureTotal(actor) by 1. }
+    Result "The smallest weight settles on the pan.".
+  }
+  Action lc_measure_two(actor: group, site: place) "Place the two-dot weight" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring)
+      and at(lc_fencers, site) and able(lc_fencers) and knows(actor, lc_measures_known)
+      and not lcArenaStarted(actor) and not lcMeasuresSolved(actor) and not lcMeasuresFailed(actor)
+      and not lcMeasureTwo(actor) and lcMeasureCount(actor) < 3.
+    Time 10 minutes.
+    On success { Assert lcMeasureTwo(actor). Increase lcMeasureCount(actor) by 1. Increase lcMeasureTotal(actor) by 2. }
+    Result "The two-dot weight goes onto the pan.".
+  }
+  Action lc_measure_three(actor: group, site: place) "Place the three-dot weight" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring)
+      and at(lc_fencers, site) and able(lc_fencers) and knows(actor, lc_measures_known)
+      and not lcArenaStarted(actor) and not lcMeasuresSolved(actor) and not lcMeasuresFailed(actor)
+      and not lcMeasureThree(actor) and lcMeasureCount(actor) < 3.
+    Time 10 minutes.
+    On success { Assert lcMeasureThree(actor). Increase lcMeasureCount(actor) by 1. Increase lcMeasureTotal(actor) by 3. }
+    Result "The three-dot weight rocks once on the pan and lies still.".
+  }
+  Action lc_measure_four(actor: group, site: place) "Place the four-dot weight" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring)
+      and at(lc_fencers, site) and able(lc_fencers) and knows(actor, lc_measures_known)
+      and not lcArenaStarted(actor) and not lcMeasuresSolved(actor) and not lcMeasuresFailed(actor)
+      and not lcMeasureFour(actor) and lcMeasureCount(actor) < 3.
+    Time 10 minutes.
+    On success { Assert lcMeasureFour(actor). Increase lcMeasureCount(actor) by 1. Increase lcMeasureTotal(actor) by 4. }
+    Result "The four-dot weight settles beside the others.".
+  }
+  Action lc_measure_five(actor: group, site: place) "Place the five-dot weight" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring)
+      and at(lc_fencers, site) and able(lc_fencers) and knows(actor, lc_measures_known)
+      and not lcArenaStarted(actor) and not lcMeasuresSolved(actor) and not lcMeasuresFailed(actor)
+      and not lcMeasureFive(actor) and lcMeasureCount(actor) < 3.
+    Time 10 minutes.
+    On success { Assert lcMeasureFive(actor). Increase lcMeasureCount(actor) by 1. Increase lcMeasureTotal(actor) by 5. }
+    Result "The largest weight makes the pan dip.".
+  }
+  Rule lc_measures_balance when lcMeasureCount(party) == 3 and lcMeasureTotal(party) == 9
+    and not lcMeasuresSolved(party) and not lcMeasuresFailed(party) {
+    Assert lcMeasuresSolved(party).
+  }
+  Rule lc_measures_wrong when lcMeasureCount(party) == 3 and lcMeasureTotal(party) != 9
+    and not lcMeasuresSolved(party) and not lcMeasuresFailed(party)
+    and at(party, lc_ring) and at(lc_fencers, lc_ring) and able(lc_fencers) {
+    Assert lcMeasuresFailed(party). Assert lcArenaStarted(party). Retract peaceable(lc_fencers). Assert assails(lc_fencers, party).
+  }
+  Observe lc_measures_open at lc_ring when lcMeasuresSolved(party) and not lcArenaWon(party)
+    "The pan hangs level. Behind the arch, the bolts have drawn back.".
+  Observe lc_measures_failed at lc_ring when lcMeasuresFailed(party)
+    "The balance has locked with the wrong weight on the pan. Its bell is still quivering.".
+
+  Action lc_balance_gate(actor: group, site: place) "Rig a counterweight on the Calx Gate" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_house)
+      and knows(actor, lc_measures_known) and state(calx_gate, raised) and holding(actor, rope)
+      and not lcGateBalanced(actor) and not lcGateRigging(actor)
+      and (not at(lc_vanguard, gate_house) or not able(lc_vanguard)).
+    Time 30 minutes.
+    On success { Spend rope from actor. Assert lcGateRigging(actor). Set lcGateRigDue(actor) to watch(clock) + 3. }
+    Result "Remembering the balance at the ring, you begin tying the rope to the wheel and filling a basket with broken stone.".
+  }
+  Rule lc_balance_gate_finished when lcGateRigging(party) and at(party, gate_house) and able(party)
+    and state(calx_gate, raised) and (not at(lc_vanguard, gate_house) or not able(lc_vanguard))
+    and watch(clock) >= lcGateRigDue(party) {
+    Retract lcGateRigging(party). Assert lcGateBalanced(party).
+  }
+  Rule lc_balance_gate_interrupted when lcGateRigging(party)
+    and (not at(party, gate_house) or not able(party) or not state(calx_gate, raised)
+    or (at(lc_vanguard, gate_house) and able(lc_vanguard))) {
+    Retract lcGateRigging(party). Assert lcGateRigInterrupted(party).
+  }
+  Action lc_lower_balanced_gate(actor: group, site: place) "Lower the balanced Calx Gate" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_house)
+      and lcGateBalanced(actor) and state(calx_gate, raised) and not lcGateLowering(actor)
+      and (not at(lc_vanguard, gate_house) or not able(lc_vanguard)).
+    Time 10 minutes.
+    On success { Assert lcGateLowering(actor). Set lcGateLowerDue(actor) to watch(clock) + 1. }
+    Result "You start the wheel; the basket begins to rise.".
+  }
+  Rule lc_balanced_gate_drops when lcGateLowering(party) and state(calx_gate, raised)
+    and (not at(lc_vanguard, gate_house) or not able(lc_vanguard)) and watch(clock) >= lcGateLowerDue(party) {
+    Assert state(calx_gate, freed). Retract lcGateLowering(party).
+  }
+  Rule lc_balanced_gate_interrupted when lcGateLowering(party)
+    and (not state(calx_gate, raised) or (at(lc_vanguard, gate_house) and able(lc_vanguard))) {
+    Retract lcGateLowering(party).
+  }
+  Observe lc_balanced_gate at gate_house when lcGateBalanced(party)
+    "A rope runs from the gate wheel to a basket of broken stone.".
+  Observe lc_balance_interrupted at gate_house when lcGateRigInterrupted(party) and not lcGateBalanced(party)
+    "The unfinished rope and basket lie by the wheel.".
+}

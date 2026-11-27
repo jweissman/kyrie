@@ -1,0 +1,108 @@
+Module tallow "Tallow Deep" {
+  Place lc_mirror_plane "the water behind the measure" is plane.
+  Place lc_mirror_region "the water behind the measure" is region within lc_mirror_plane elsewhere.
+  Place lc_mirror_land "the water behind the measure" is wilderness within lc_mirror_region at 0, 0 elsewhere.
+  Place lc_mirror_landing "the reflected landing" is room within lc_mirror_land at 0, 0 outdoors.
+  Place lc_mirror_array "the room of panes" is room within lc_mirror_land at 1, 0.
+  Place lc_mirror_depths "the water beyond the hook" is room within lc_mirror_land at 0, 1 outdoors.
+  Discovery lc_mirror_known "The ring's balanced weights have opened a way through the pool's reflection.".
+  Discovery lc_mirror_city "The panes include a city of terraces around a mere; one shows boats afloat where another shows mud.".
+  Discovery lc_raven_offer "A raven in the room of panes offers to carry news to Merren in return for food.".
+  Relation lcMirrorReleased(group).
+  Relation lcRavenTravelling(group). Measure lcRavenDue(group).
+
+  Action lc_find_mirror(actor: group, site: place) "Examine the pool beneath the balanced weights" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring)
+      and lcMeasuresSolved(actor) and not knows(actor, lc_mirror_known).
+    Time 10 minutes.
+    On success { Assert knows(actor, lc_mirror_known). }
+    Result "The arch has opened, but its reflection has not. In the pool the three weights hang level over a doorway that is not in the wall. The surface holds a hand pressed against it, then gives.".
+  }
+  Passage lc_mirror_entry "the doorway in the pool's reflection" is doorway between lc_ring and lc_mirror_landing
+    hidden until lc_mirror_known.
+  Passage lc_mirror_inner "the way between the panes" is passage between lc_mirror_landing and lc_mirror_array
+    opening when lcMirrorReleased(party) or not able(lc_mirror_guard) or routed(lc_mirror_guard)
+    "The standing water fills the way. A black hook holds it to the floor.".
+  Passage lc_mirror_outlet "the water beyond the hook" is path between lc_mirror_landing and lc_mirror_depths
+    opening when lcMirrorReleased(party) "The black hook holds the water across this way.".
+
+  Observe lc_mirror_landing_scene at lc_mirror_landing when true
+    "The pool is overhead. Beneath your feet is water that holds your weight without rippling. Far off, terraces of pale glass descend toward a circle of water.".
+  Observe lc_mirror_guard_bound at lc_mirror_landing when at(lc_mirror_guard, lc_mirror_landing)
+    and able(lc_mirror_guard) and not lcMirrorReleased(party)
+    "A body of water stands upright at the landing, held to the floor by a black hook.".
+  Observe lc_mirror_hook_free at lc_mirror_landing when lcMirrorReleased(party)
+    "The black hook lies open on the landing.".
+  Observe lc_mirror_array_scene at lc_mirror_array when true
+    "Nine panes hang in no visible frame. Some show stone; one shows grass moving in wind. None shows the room you stand in.".
+  Observe lc_mirror_depths_scene at lc_mirror_depths when true
+    "The water goes on under a sky with no colour. Behind you, the hook lies open on the landing.".
+  Person lc_mirror_raven "the raven among the panes" at lc_mirror_array {
+    Role "a raven with a white feather in one wing". Species raven. Peaceable. Pronouns she.
+    Greets "A raven sits on the edge of a pane showing the old road. She watches the road, not her reflection.".
+  }
+  Topic lc_raven_road with lc_mirror_raven "Ask the raven about the road" when not knows(actor, lc_raven_offer) once {
+    Says "'Watch the people who carry food,' she says. 'The armed ones must eat too.' She looks toward the pane of Swallet. 'Give me food and a message, and I can carry it to the woman in the inn. Two hours from the pool to her window.'".
+    On discuss { Assert knows(actor, lc_raven_offer). }
+  }
+  Action lc_send_raven(actor: group, site: place) "Give the raven a ration to carry news to Merren" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and at(lc_mirror_raven, site) and able(lc_mirror_raven) and knows(actor, lc_raven_offer)
+      and lcStarted(actor) and not lcCrewSummoned(actor) and not lcRavenTravelling(actor)
+      and quantity(actor, rations) >= 1.
+    Time 10 minutes.
+    On success {
+      Decrease quantity(actor, rations) by 1. Increase quantity(lc_mirror_raven, rations) by 1.
+      Retract at(lc_mirror_raven, lc_mirror_array). Assert lcRavenTravelling(actor).
+      Set lcRavenDue(actor) to watch(clock) + 13.
+    }
+    Result "The raven listens to what happened to the drawing. She takes the ration and goes up through the reflected pool.".
+  }
+  Rule lc_raven_arrives when lcRavenTravelling(party) and able(lc_mirror_raven)
+    and watch(clock) >= lcRavenDue(party) {
+    Retract lcRavenTravelling(party). Assert at(lc_mirror_raven, taproom).
+  }
+  Rule lc_raven_reports when lcStarted(party) and not lcCrewSummoned(party)
+    and at(lc_mirror_raven, taproom) and able(lc_mirror_raven)
+    and at(lc_quartermaster, taproom) and able(lc_quartermaster) {
+    Assert lcCrewSummoned(party). Set lcCrewStart(party) to watch(clock).
+  }
+  Observe lc_raven_at_inn at taproom when at(lc_mirror_raven, taproom) and able(lc_mirror_raven)
+    "A raven with one white feather perches by the window, looking toward the hill.".
+  Person lc_mirror_guard "the water caught on the hook" at lc_mirror_landing {
+    Role "a body of standing water held by an iron hook". Species elemental. Variant water_element. Level 2. Temperament territorial.
+    Warns "The water lifts itself around the hook. A hand forms, points at the iron, and comes apart.".
+    Comes "The water pulls against the hook and surges toward you.".
+    Lair lc_mirror_landing.
+  }
+  Action lc_release_mirror(actor: group, site: place) "Lift the hook out of the standing water" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_landing)
+      and at(lc_mirror_guard, site) and able(lc_mirror_guard) and not lcMirrorReleased(actor)
+      and not assails(lc_mirror_guard, actor).
+    Time 10 minutes.
+    On success {
+      Assert lcMirrorReleased(actor). Retract warned(lc_mirror_guard, actor). Assert tolerates(lc_mirror_guard, actor).
+      Retract at(lc_mirror_guard, lc_mirror_landing). Assert at(lc_mirror_guard, lc_mirror_depths).
+    }
+    Result "The hook comes up heavy, then suddenly light. The standing water runs away across the still surface without wetting it. A hand rises once, open, before the water takes it back. Far off, water begins to climb toward a small house. A voice calls for help.".
+  }
+  Action lc_read_mirror_city(actor: group, site: place) "Study the terraces in the panes" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and not knows(actor, lc_mirror_city).
+    Time 10 minutes.
+    On success { Assert knows(actor, lc_mirror_city). }
+    Result "Two panes show the same bowl of terraces, left for right. In one, boats float at the foot of a stair. In the other they lie on mud. There is no date on either pane, only a little mark beside each: a cup and a number.".
+  }
+  Observe lc_mirror_guard_portal at lc_mirror_array when at(lc_vanguard, calx_portal) and able(lc_vanguard)
+    and not routed(lc_vanguard) "One pane shows armed people beside the western portal under the hill.".
+  Observe lc_mirror_guard_road at lc_mirror_array when at(lc_vanguard, calx_way) and able(lc_vanguard)
+    and not routed(lc_vanguard) "One pane shows armed people on the old road west of the Calx Gate.".
+  Observe lc_mirror_guard_gate at lc_mirror_array when at(lc_vanguard, gate_house) and able(lc_vanguard)
+    and not routed(lc_vanguard) "One pane shows armed people at the Calx Gate's wheel.".
+  Observe lc_mirror_guard_absent at lc_mirror_array when
+    (not able(lc_vanguard) or routed(lc_vanguard) or
+    (not at(lc_vanguard, calx_portal) and not at(lc_vanguard, calx_way) and not at(lc_vanguard, gate_house)))
+    "The three panes of the old road show no road guard.".
+  Observe lc_mirror_crew at lc_mirror_array when at(lc_crew, calx_portal) and able(lc_crew)
+    "In the pane of the western portal, the masons and their cart are visible.".
+}

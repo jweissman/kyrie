@@ -2882,6 +2882,25 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 ### Humanoids
 
+#### Minotaur
+
+*Kyr · humanoid* · `species:minotaur`
+
+- Type: humanoid (monster)
+- Hit points: 39 (6d8+12), whatever level it is met at
+- Qualities: strength 19, dexterity 10, constitution 15, intelligence 7, wisdom 10, charisma 8
+- Attack: battleaxe, 1d8 slashing; horn, 1d8 piercing, in one round
+- Hide: Shell Armor, armour 4
+- Worth: 150 + 50 experience a level
+
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
+
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may leave whoever it hurts stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
+
+> A horned keeper of difficult ways, powerful enough to drive an intruder back with a charge.
+
+*Adapted: The SRD minotaur's scores and 6d8+12 Hit Dice. The battleaxe and horn stand in for its greataxe and gore; their damage and attack bonuses are not the SRD's. Orsino's prepared charge takes two actions and deals 3d8+1+level without the SRD's attack roll, rather than powerful charge's 4d6+6. Armour, saves, darkvision, scent and natural cunning are not the SRD stat block. No habitats: this keeper is placed only in the long campaign.*
+
 #### Yuanti
 
 *Kyr · humanoid* · `species:yuanti`

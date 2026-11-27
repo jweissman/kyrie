@@ -40,7 +40,8 @@ describe('The road under the hill: a breathing-space', () => {
       'To the Brasiers\' garden', 'To Swallet green', 'Into the Chandler\'s Arms',
       'Ask Merren why the road matters', 'Ask Merren what she needs from Swallet',
       'Out to Swallet green', 'Sell the buyer a drawing of the entrances',
-      'Into the Chandler\'s Arms', 'Give two days of rations to Merren\'s repair crew',
+      'Into the Chandler\'s Arms', 'Tell Merren what happened to the drawing',
+      'Give two days of rations to Merren\'s repair crew',
       '==+60', 'Out to Swallet green', 'Hear the Ferryman\'s offer');
     Placed.at(j, 'tallow__calx_way');
     await j.play('Wait a while');
