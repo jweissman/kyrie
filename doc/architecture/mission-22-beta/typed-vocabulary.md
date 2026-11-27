@@ -1,9 +1,8 @@
 # Kyr's typed vocabulary: one declaration, two faces
 
-**Design for lead review, 27 November.** OR-744 asks for typed TypeScript accessors; OR-1332 asks modules to declare
-verbs and their lowerings; OR-1333 asks for one statement grammar. They are consumers of one installation-scoped
-declaration model, not two independent vocabularies. This is a proposal, not authority to build the first slice
-before the lead approves it.
+**Design approved for the first slice, 27 November.** OR-744 asks for typed TypeScript accessors; OR-1332 asks modules
+to declare verbs and their lowerings; OR-1333 asks for one statement grammar. They are consumers of one
+installation-scoped declaration model, not two independent vocabularies.
 
 ## What is declared
 
@@ -13,10 +12,10 @@ The following are illustrative Kyr forms, not syntax accepted today:
 Kind creature.
 Kind member extends creature.
 Kind ability.
-Relation knowsSpell(member, ability).
+Relation learned(member, ability).
 Measure hp(creature).
 Verb teach(spell: ability, target: member) "Teach {spell} to {target}"
-  lowers to Assert knowsSpell(target, spell).
+  lowers to Assert learned(target, spell).
 Verb heal(amount: number, target: creature) "Heal {amount} health to {target}"
   lowers to Increase hp(target) by amount up to maxHp(target).
 ```
@@ -79,23 +78,22 @@ other effects already share world semantics. Fight-specific moves such as **Defe
 TypeScript as fight operations, rather than inventing world changes for them.
 
 **Teach's compatibility obligation.** Today `AbilityParser.Learn` produces `{kind: 'learn', ability, target}` and
-`Effects` adds that ability to a fighter if absent and emits its learn detail. The shared rules currently declare
-`learned(member, ability)`, not `knowsSpell`. The requested first slice must establish the fantasy module's
-`knowsSpell` declaration and a tested mapping to actual learned-ability state; it must not merely add a disconnected
-fact or replace the fighter update with one. Prove successful and repeated teaching, target selection and emitted
-detail, persistence and a later read/cast, and forecasted writes agree with execution. If that mapping cannot be
+`Effects` adds that ability to a fighter if absent and emits its learn detail. The shared rules already declare
+`learned(member, ability)`: Teach lowers to this same relation, with a tested mapping to actual fighter
+learned-ability state, not a second relation or a disconnected fact. Prove successful and repeated teaching,
+target selection and emitted detail, persistence and a later read/cast, and forecasted writes agree with execution.
+If that mapping cannot be
 made without changing the existing contract, stop and report it rather than claim parity. The census remains at
 least its current floor, with no printed sentence differing; its round trip alone does not prove execution.
 
 ## Parse cost: measured baseline and estimate
 
-On this checkout, 27 November, `AbilityCensus.entries()` contains 412 hand and generated catalog entries, counted
-separately as in `test/small/abilities-said.test.ts`. Of these, 31 already have an authored effect string and the
-printer can express the rest of the 216 sentence inputs; 196 entries cannot yet be printed. After three warmups,
-15 warm in-process passes calling `parseAbility` on all 216 sentences (14,226 characters) took **31.43 ms median**
-(30.84–37.78 ms range), about **0.146 ms per entry**. This includes parsing, AST creation and Deem validation,
-not catalog loading or grammar-recipe construction. The census reports 216 equal, zero differing. It is not a
-whole-world startup measurement and does not measure the 196 unprintable entries.
+On the rebased checkout, 27 November, `AbilityCensus.entries()` contains 414 hand and generated catalog entries,
+counted separately as in `test/small/abilities-said.test.ts`. The census reports 329 equal, zero differing and 85
+unprintable. After three warmups, 15 warm in-process passes calling `parseAbility` on all 329 authored or printed
+sentences (28,557 characters) took **68.46 ms median** (62.65–84.02 ms range), about **0.208 ms per entry**.
+This includes parsing, AST creation and Deem validation, not catalog loading or grammar-recipe construction. It is
+not a whole-world startup measurement and does not measure the 85 unprintable entries.
 
 With an indexed head and precompiled template, the additional lookup is expected to be O(1) per sentence plus
 matching the selected phrase's length, rather than O(number of verbs). The current PEG alternatives already reject
@@ -108,7 +106,7 @@ verb counts before landing; compilation must not regress. Preserve the existing 
 Generate deterministic, checked-in TypeScript descriptors and typed read helpers from resolved symbol identities
 and ordered signatures of an explicit rules-set manifest, for example under `src/generated/vocabulary/`. The
 generator is a build/tooling consumer of Kyr's public entry; runtime interfaces stay generic and setting-neutral.
-An illustrative generated call is `rules.knowsSpell.related(world, member, ability)`: wrong spelling, arity, kind
+An illustrative generated call is `rules.learned.related(world, member, ability)`: wrong spelling, arity, kind
 or relation/measure operation fails typechecking. Typed handles carry nominal kind information, including declared
 subtypes; no cast converts arbitrary strings into trusted handles. A runtime checked lookup is required for
 generated or dynamic entities and optional installations. Bind generated source identities against the active
@@ -127,9 +125,9 @@ only after callers change. Do not generate a fantasy-shaped member on the langua
 
 1. **After lead approval: first slice.** In a minimal-prelude fragment, bind typed relation signatures and reject an
    unknown kind, wrong arity and incompatible argument with positions; include a successful cross-module use. Add
-   the fantasy `Teach` declaration and its lowering to `knowsSpell`, with the compatibility proof above, and remove
-   Teach's hard-coded grammar alternative. Compare before/after effects over the entire 412-entry ability census:
-   at least 216 round trips, zero differing, and the same executable Teach behavior. Guard the language entry-first
+   the fantasy `Teach` declaration and its lowering to `learned`, with the compatibility proof above, and remove
+   Teach's hard-coded grammar alternative. Compare before/after effects over the entire 414-entry ability census:
+   at least 329 round trips, zero differing, and the same executable Teach behavior. Guard the language entry-first
    and deep-import contracts; measure parse cost again.
 2. Resolve remaining kind, import and source-identity obligations needed by each generated family; generate one
    typed relation/measure family, prove negative typechecks, runtime installation isolation, stale generation and
