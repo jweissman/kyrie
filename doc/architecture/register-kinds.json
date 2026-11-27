@@ -3091,6 +3091,108 @@
    "pri": "P3",
    "why": "an adventure branch's friction carried into the register, kept whole"
   },
+  "OR-1320": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1321": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1322": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1323": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1324": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1325": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1326": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1327": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1328": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1329": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1330": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1331": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1332": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "what the language cannot yet say, wanted: not a broken contract"
+  },
+  "OR-1333": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P1",
+   "why": "a direction for the language, kept whole"
+  },
+  "OR-1334": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a direction for the language, kept whole"
+  },
+  "OR-1335": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a direction for the language, kept whole"
+  },
+  "OR-1336": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a direction for the language, kept whole"
+  },
   "OR-1215": {
    "kind": "direction",
    "was": "defect",
