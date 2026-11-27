@@ -1,0 +1,60 @@
+Module hume "Half the Hive" {
+  Relation hhCoinFound(group). Relation hhSheltered(group). Relation hhRefused(group).
+  Relation hhRiWax(group). Relation hhAshRefusal(group). Relation hhBoardSold(group).
+
+  Observe hh_coin_hint at gallow_hollow when not hhCoinFound(party)
+    "In the Gallowtree's hollow, a strip of wax has been pressed over a small round seam. A shepherd has cut three old swarm marks into the bark above it.".
+  Action hh_find_coin(actor: group, site: place) "Lift the wax seal in the Gallowtree's hollow" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallow_hollow) and not hhCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert hhCoinFound(actor). Give count_coin to actor. }
+    Result "A bronze disc drops into your hand. A man with a stylus is stamped on one face. The shepherds used it to mark a keeper who had counted the combs before the last swarm, when half the Wold went and half stayed.".
+  }
+
+  Observe hh_ii_drove at drove_end when befell(ash_count_begun)
+    "The smoke at the gorge mouth has a grey board under it now. A clerk writes down each cart leaving the Wold, even the ones loaded with a family's last candle-moulds.".
+  Observe hh_broken at drove_end when befell(ash_broken)
+    "The board has been carried off the drove. The smoke rises straight from the gorge again, without a clerk standing in it.".
+  Observe hh_triumph at drove_end when befell(ash_triumphs)
+    "A grey board stands at the Wold's edge. The clerk has left no blank line for the people who walk back from the Comb.".
+
+  Person hh_factor "Captain Marret Duskfell" nowhere {
+    Role "an Ash tithe-taker sent to levy the Leavers' candles and wax". Ancestry human. Calling warrior. Level 4. Manner acerbic. Carries spear.
+    Arrives at leavers_yard when befell(ash_count_begun) and not hhSheltered(party).
+    Greets "Captain Marret Duskfell stands among the candle-moulds with a slate under one arm. 'The Leaving is a convenient week to collect,' she says. 'The goods are already out.'".
+    Greets again "Duskfell weighs one of the Drewes' candles in her hand. 'Light enough to tax twice.'".
+  }
+  Person hh_tithe "Duskfell's candle-men" nowhere {
+    Role "Ash levymen sent to take the Leavers' wax". Ancestry human. Calling warrior. Level 2. Numbers 4. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Arrives at leavers_yard when befell(ash_count_begun) and not hhSheltered(party).
+    Warns "Four grey-clad men take the yard's exits. Two carry sacks; two carry short spears.".
+  }
+  Initially Assert serves(hh_tithe, hh_factor).
+  Action hh_refuse(actor: group, site: place) "Refuse Duskfell's levy on the Leavers' Market" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, leavers_yard) and at(hh_factor, leavers_yard) and not hhSheltered(actor).
+    Time 1 minute.
+    On success { Assert hhRefused(actor). Assert assails(hh_factor, actor). Assert assails(hh_tithe, actor). }
+    Result "Duskfell puts down the candle. The candle-men lift their spears, and the Drewes draw their girls behind the moulds.".
+  }
+  Action hh_drewes_hide(actor: group, site: place) "Ask the Drewes to hide you among the candle-moulds" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, leavers_yard) and at(drewes, leavers_yard) and at(hh_factor, leavers_yard) and drewesPaid(actor) and not hhSheltered(actor).
+    Time 5 minutes.
+    On success { Assert hhSheltered(actor). Retract at(hh_factor, leavers_yard). Retract at(hh_tithe, leavers_yard). }
+    Result "The mother of the Drewes lifts the old shawl off her moulds. The girls move the candles to the front of the table, and the Ash's men count them twice, as ordered. By the time the count is right, the family and your company are gone through the yard's back gate.".
+  }
+  Observe hh_sheltered at leavers_yard when hhSheltered(party)
+    "The moulds are under their shawl again. Crispin Polglaze has not written down who went out by the back gate.".
+
+  Topic hh_ri_polglaze with penhallow "Tell Crispin Polglaze the company is sworn to the Rì" when at(penhallow, leavers_yard) and befell(company_sworn_ri) and not hhRiWax(actor) once {
+    Says "Crispin puts a wax cake in your hand. 'For their lamps,' he says. 'I shall charge the Rì what it is worth.'".
+    On discuss { Assert hhRiWax(actor). Give wax_cake to actor. }
+  }
+  Topic hh_ash_drewes with drewes "Tell the Drewes the company is sworn to the Ash" when at(drewes, leavers_yard) and befell(company_sworn_ash) and not hhAshRefusal(actor) once {
+    Says "The mother shuts the mould-box. 'We will not sell a candle to a board that counts its makers as stock.'".
+    On discuss { Assert hhAshRefusal(actor). Assert refusesService(drewes, actor). }
+  }
+  Topic hh_tally_polglaze with penhallow "Show Crispin Polglaze the Ash's tally-board" when at(penhallow, leavers_yard) and holding(actor, ash_tally) and not hhBoardSold(actor) once {
+    Says "Crispin takes the slate, glances at the twelfth column, and writes the board into his sale book as scrap. 'At least it has a price,' he says.".
+    On discuss { Assert hhBoardSold(actor). Spend ash_tally from actor. }
+  }
+}

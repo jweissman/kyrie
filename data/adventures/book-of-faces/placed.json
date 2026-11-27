@@ -34,6 +34,7 @@
     "heronry.kyr",
     "ranger.kyr",
     "bard.kyr",
+    "count.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -59,5 +60,13 @@
   },
   "optional": [
     "word"
+  ],
+  "canon": [
+    "imbar",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
   ]
 }
