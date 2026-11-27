@@ -8,8 +8,10 @@ The optional `data/adventures/tallow/long-campaign.campaign.json` plays Tallow D
 a drawing, a rival's food, a road crew and the Ferryman's approach. Its choices change supplies, timing and who
 occupies the river bank. A small meal with Linnet can be cooked, shared cold or put off; it spends a real ration and
 the longer version costs time. The crew can clear the real western fall; a guard may interrupt it, dig its way in, and be
-stopped at the Calx Gate. A negotiated withdrawal costs four rations, or three if Merren bargains with the Ferryman;
-it clears the actual positions, not the war. Their shared past gives her access, not control over his loyalties.
+stopped at the Calx Gate. A two-person supply party brings food to the guard at its actual position; if its food
+runs out, the guard leaves. A negotiated withdrawal costs four rations, or three if Merren bargains with the
+Ferryman; it clears the actual positions, not the war. Their shared past gives her access, not control over his
+loyalties.
 
 The optional `data/adventures/tallow/long-ford.campaign.json` starts at Sallowfield and joins its east road to Swallet.
 The same company travels between them. The Sallowfield chapter closes without stopping a surviving company, but a

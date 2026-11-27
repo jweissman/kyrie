@@ -24,15 +24,18 @@ Module tallow "Tallow Deep" {
   }
   Rule lc_crew_clears_portal when lcCrewAtPortal(party) and not lcPortalCleared(party)
     and at(lc_crew, calx_portal) and state(buried_portal, buried) and watch(clock) >= lcWorkDue(party)
-    and not lcWorkPaused(party) and (not at(lc_vanguard, calx_portal) or not able(lc_vanguard)) {
+    and not lcWorkPaused(party) and (not at(lc_vanguard, calx_portal) or not able(lc_vanguard))
+    and (not at(lc_convoy, calx_portal) or not able(lc_convoy)) {
     Assert state(buried_portal, dug). Assert lcPortalCleared(party). Assert lcClearedByCrew(party).
   }
   Rule lc_work_interrupted when lcCrewAtPortal(party) and not lcPortalCleared(party)
-    and at(lc_crew, calx_portal) and at(lc_vanguard, calx_portal) and able(lc_vanguard) and not lcWorkPaused(party) {
+    and at(lc_crew, calx_portal) and not lcWorkPaused(party)
+    and ((at(lc_vanguard, calx_portal) and able(lc_vanguard)) or (at(lc_convoy, calx_portal) and able(lc_convoy))) {
     Assert lcWorkPaused(party).
   }
   Rule lc_work_resumes when lcWorkPaused(party) and not lcPortalCleared(party)
-    and (not at(lc_vanguard, calx_portal) or not able(lc_vanguard)) {
+    and (not at(lc_vanguard, calx_portal) or not able(lc_vanguard))
+    and (not at(lc_convoy, calx_portal) or not able(lc_convoy)) {
     Retract lcWorkPaused(party). Set lcWorkDue(party) to watch(clock) + 18.
   }
   Rule lc_portal_already_clear when lcCrewAtPortal(party) and not lcPortalCleared(party)
@@ -41,9 +44,10 @@ Module tallow "Tallow Deep" {
   }
   Observe lc_working at calx_portal when lcCrewAtPortal(party) and not lcPortalCleared(party)
     and (not at(lc_vanguard, calx_portal) or not able(lc_vanguard))
+    and (not at(lc_convoy, calx_portal) or not able(lc_convoy))
     "Merren's masons are shifting the scree, one shovel at a time.".
   Observe lc_work_stopped at calx_portal when lcCrewAtPortal(party) and not lcPortalCleared(party)
-    and at(lc_vanguard, calx_portal) and able(lc_vanguard)
+    and ((at(lc_vanguard, calx_portal) and able(lc_vanguard)) or (at(lc_convoy, calx_portal) and able(lc_convoy)))
     "The masons have put their shovels down. Armed men are standing between them and the portal.".
   Observe lc_work_finished at calx_portal when lcClearedByCrew(party)
     "The masons have cleared the fall from the portal. The old gate farther in is another matter.".
@@ -64,6 +68,7 @@ Module tallow "Tallow Deep" {
     Comes "The men come forward together, keeping the portal behind them.".
     Lair calx_portal.
   }
+  Initially Set quantity(lc_vanguard, rations) to 1.
   Topic lc_tell_road with lc_ferryman "Tell the Ferryman the road runs through the hill" when lcTermsHeard(party)
     and been(party, calx_way) and not lcRoadTold(party) once {
     Says "'So it does come out west,' he says. 'My men can hold that end. If Merren's crew is there they will have to stop work or leave.' He marks the road on his drawing.".
@@ -72,6 +77,7 @@ Module tallow "Tallow Deep" {
   Rule lc_send_vanguard when lcRoadTold(party) and not lcVanguardArrived(party) and not lcTruce(party)
     and watch(clock) >= lcVanguardDue(party) {
     Assert lcVanguardArrived(party). Assert at(lc_vanguard, calx_portal).
+    Decrease quantity(lc_vanguard, rations) by 1. Set lcGuardDue(party) to watch(clock) + 144.
   }
   Rule lc_foe_digs when lcVanguardArrived(party) and at(lc_vanguard, calx_portal) and able(lc_vanguard)
     and state(buried_portal, buried) and not lcFoeDigging(party) and not lcFoeDug(party) {

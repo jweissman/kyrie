@@ -3,7 +3,7 @@
   "source": [
     "hill.kyr", "scenes.kyr", "people.kyr", "works.kyr", "creatures.kyr", "finds.kyr",
     "wake.kyr", "keeping.kyr", "quests.kyr", "lore.kyr",
-    "long-campaign.kyr", "long-road.kyr", "long-aftermath.kyr", "long-meal.kyr", "placed.kyr"
+    "long-campaign.kyr", "long-road.kyr", "long-logistics.kyr", "long-aftermath.kyr", "long-meal.kyr", "placed.kyr"
   ],
   "rules": ["world"],
   "globals": ["party"],
