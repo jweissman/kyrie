@@ -3,6 +3,9 @@ import { Outcome } from '../../src/presentation/outcome';
 import { Tiny } from '../support/tiny';
 import { ModuleWriter } from '../../src/lang/index';
 
+// Each probe on the kernel and the packages it reads (OR-407).
+const start: typeof Tiny.start = (kyr, options = {}) => Tiny.start(kyr, { horizon: [], ...options });
+
 const call = (name: string, ...args: string[]) => ModuleWriter.call(name, ...args);
 const terrainIds = ['forest', 'marsh', 'mountain', 'frost', 'desert', 'hills',
   'jungle', 'volcanic', 'saltflat', 'reef', 'archipelago'] as const;
@@ -83,7 +86,7 @@ const threeSkilled = [
 
 describe('Gamma unusual situations', () => {
   it('crosses every terrain Kyr currently declares before reaching a floating city', async () => {
-    const t = await Tiny.start(crossing());
+    const t = await start(crossing());
     for (let index = 1; index <= terrainIds.length; index++) {
       const destination = `t__${index === terrainIds.length ? 'floating_city' : `terrain_${index}`}`;
       const choices = t.journey.choices();
@@ -103,7 +106,7 @@ describe('Gamma unusual situations', () => {
   });
 
   it('offers persuasion, intimidation and reasoning only with the relevant facts and skills', async () => {
-    const all = await Tiny.start(social(), { party: threeSkilled });
+    const all = await start(social(), { party: threeSkilled });
     const approaches = () => all.journey.choices().filter(choice =>
       /^(t__persuade|t__intimidate|t__reason)\(/.test(choice.command)).map(choice => choice.command.split('(')[0]!);
     expect(approaches().sort()).toEqual(['t__intimidate', 't__persuade', 't__reason']);
@@ -111,12 +114,12 @@ describe('Gamma unusual situations', () => {
     const result = await all.session.leg(reasoning.command);
     expect(['success', 'failure']).toContain(result.result);
 
-    const uninformed = await Tiny.start(social(['seal_oath']), { party: threeSkilled });
+    const uninformed = await start(social(['seal_oath']), { party: threeSkilled });
     expect(uninformed.journey.choices().some(choice => choice.command.startsWith('t__persuade('))).toBe(true);
     expect(uninformed.journey.choices().some(choice => choice.command.startsWith('t__intimidate('))).toBe(false);
     expect(uninformed.journey.choices().some(choice => choice.command.startsWith('t__reason('))).toBe(false);
 
-    const warriorOnly = await Tiny.start(social(undefined, 1), {
+    const warriorOnly = await start(social(undefined, 1), {
       party: [{ name: 'Ivo', raceId: 'human', classId: 'warrior' }]
     });
     expect(warriorOnly.journey.choices().some(choice => choice.command.startsWith('t__intimidate('))).toBe(true);
@@ -125,7 +128,7 @@ describe('Gamma unusual situations', () => {
   });
 
   it('gathers thoughts, foresees a deduction and learns it in the same command', async () => {
-    const t = await Tiny.start(`
+    const t = await start(`
       Place study "the chart-room" is room at 0, 0 indoors.
       Company party "You" of 1 at study.
       Discovery clay "The broken jars carry the orchard's green clay.".

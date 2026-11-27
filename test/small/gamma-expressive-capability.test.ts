@@ -3,6 +3,9 @@ import { ModuleWriter } from '../../src/lang/index';
 import { PlayerView } from '../../src/presentation/player-view';
 import { Tiny } from '../support/tiny';
 
+// Each probe on the kernel and the packages it reads (OR-407).
+const start: typeof Tiny.start = (kyr, options = {}) => Tiny.start(kyr, { horizon: ['probing', 'belongings', 'making'], ...options });
+
 const yard = (body: string, size = 1) => `
   Place yard "the yard" is room at 0, 0 outdoors.
   Company party "You" of ${size} at yard.
@@ -14,7 +17,7 @@ const inventory = (t: Tiny) => t.campaign.readout.creatures.flatMap(c => c.state
 
 describe('Gamma expressive capability probes', () => {
   it('keeps a compound\'s authored component facts, but not component ownership', async () => {
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Kind part.
       Relation componentOf(part, item).
       Relation fragile(part). Relation combustiblePart(part).
@@ -39,7 +42,7 @@ describe('Gamma expressive capability probes', () => {
   });
 
   it('changes one item state while its catalog identity remains unchanged', async () => {
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Item blade "a plain longsword" is longsword at yard {
         State plain "The blade is plain steel.".
         State bright "A blue word runs along the blade.".
@@ -60,7 +63,7 @@ describe('Gamma expressive capability probes', () => {
   });
 
   it('mixes two distinct materials into an item with a catalog effect', async () => {
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Item oil "a flask of lamp oil" is lamp_oil at yard.
       Item rag "a strip of linen" is bandages at yard.`));
     for (const id of ['oil', 'rag']) {
@@ -76,7 +79,7 @@ describe('Gamma expressive capability probes', () => {
   });
 
   it('deduces a new inquiry from two learned observations', async () => {
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Discovery mud "The river mark is fresh mud, not old silt.".
       Discovery scratch "The scratches are too low for a cart and too broad for a boot.".
       Discovery drag "Something heavy was dragged to the river in the night.".
@@ -102,7 +105,7 @@ describe('Gamma expressive capability probes', () => {
 
   it('authors a changed form and its acts without changing the live creature body', async () => {
     const party = [{ name: 'Mara', raceId: 'human' as const, classId: 'warrior' as const }];
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Kind form. Entity wolf: form "wolf form".
       Relation shapedAs(group, form).
       Action become_wolf(actor: group) "Take wolf form" {
@@ -129,7 +132,7 @@ describe('Gamma expressive capability probes', () => {
       { name: 'Ivo', raceId: 'human' as const, classId: 'warrior' as const },
       { name: 'Sera', raceId: 'dwarf' as const, classId: 'cleric' as const }
     ];
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Relation beamRaised(group).
       Action raise_beam(actor: group, lever: member, brace: member, site: place)
           "{lever} heaves while {brace} sets the stone under the beam" {
@@ -150,7 +153,7 @@ describe('Gamma expressive capability probes', () => {
 
 describe('Gamma expressive capability friction probes', () => {
   it('makes new pieces from a kind without preserving which whole they came from', async () => {
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Item sword "the blue-daubed sword" is longsword at yard.
       Relation splitFrom(item, item).
       Action break_sword(actor: group) "Break the blue-daubed sword into two knives" {
@@ -170,7 +173,7 @@ describe('Gamma expressive capability friction probes', () => {
   });
 
   it('refuses automatic revision of knowledge derived from witnesses', async () => {
-    await expect(Tiny.start(yard(`
+    await expect(start(yard(`
       Discovery witness "A trustworthy witness saw Mara at the river.".
       Discovery conclusion "Mara crossed the river.".
       Discovery contradiction "The ferry tally says Mara never crossed that day.".
@@ -182,7 +185,7 @@ describe('Gamma expressive capability friction probes', () => {
 
   it('expires a temporary capability without expiring the authored form that named it', async () => {
     const party = [{ name: 'Mara', raceId: 'human' as const, classId: 'warrior' as const }];
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Kind form.
       Relation shapedAs(group, entity).
       Action become_cat(actor: group) "Take cat form" {
@@ -210,7 +213,7 @@ describe('Gamma expressive capability friction probes', () => {
       { name: 'Sera', raceId: 'dwarf' as const, classId: 'cleric' as const },
       { name: 'Odo', raceId: 'human' as const, classId: 'warrior' as const }
     ];
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Relation framingRaised(group).
       Action raise_framing(actor: group, site: place) "Raise the hall's framing together" {
         Requires able(actor) and company(actor) and at(actor, site)
@@ -227,7 +230,7 @@ describe('Gamma expressive capability friction probes', () => {
 
 describe('Gamma current mitigations', () => {
   it('predeclares bounded descendants and carries explicit lineage', async () => {
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Item sword "the blue-daubed sword" is longsword at yard.
       Item left "the sword's tip" is dagger nowhere.
       Item right "the sword's grip" is dagger nowhere.
@@ -248,7 +251,7 @@ describe('Gamma current mitigations', () => {
   });
 
   it('revises a conclusion through an explicit witnessed correction act', async () => {
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Discovery sighting "A witness saw Mara at the river.".
       Discovery conclusion "Mara crossed the river.".
       Discovery correction "The ferry tally contradicts the sighting.".
@@ -267,7 +270,7 @@ describe('Gamma current mitigations', () => {
 
   it('synchronizes one form and its grant with a shared expiry rule', async () => {
     const party = [{ name: 'Mara', raceId: 'human' as const, classId: 'warrior' as const }];
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Kind form. Relation shapedAs(group, form).
       Entity cat: form "cat form".
       Measure catUntil(group).
@@ -294,7 +297,7 @@ describe('Gamma current mitigations', () => {
       { name: 'Sera', raceId: 'dwarf' as const, classId: 'cleric' as const },
       { name: 'Odo', raceId: 'human' as const, classId: 'warrior' as const }
     ];
-    const t = await Tiny.start(yard(`
+    const t = await start(yard(`
       Relation frameRaised(group).
       Action raise_frame(actor: group, first: member, second: member, brace: member, site: place)
           "{first}, {second} and {brace} raise the hall's frame" {

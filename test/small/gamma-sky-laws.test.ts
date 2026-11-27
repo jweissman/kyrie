@@ -3,6 +3,9 @@ import { ModuleWriter } from '../../src/lang/index';
 import { ScreenModel } from '../../src/ui/screen-model';
 import { Tiny } from '../support/tiny';
 
+// Each probe on the kernel and the packages it reads (OR-407).
+const start: typeof Tiny.start = (kyr, options = {}) => Tiny.start(kyr, { horizon: ['belongings', 'probing', 'inhabitants'], ...options });
+
 const call = (name: string, ...args: string[]) => ModuleWriter.call(name, ...args);
 const sky = `
   Place upper "Mero, the upper isle" is room at 0, 0 outdoors.
@@ -106,7 +109,7 @@ async function atBasin(t: Tiny) {
 
 describe('Gamma sky laws', () => {
   it('lets gravity take a released object down the waterfall, never back by that passage', async () => {
-    const t = await Tiny.start(sky);
+    const t = await start(sky);
     const take = t.journey.choices().find(choice => choice.command.startsWith('take_item(')
       && choice.command.includes('t__jar'))!;
     await t.perform(take.command);
@@ -123,7 +126,7 @@ describe('Gamma sky laws', () => {
   });
 
   it('carries a warning downward through the fall and teaches it only on arrival below', async () => {
-    const t = await Tiny.start(sky);
+    const t = await start(sky);
     await t.play('Ring the warning-bell into the fall');
     expect(t.world.test(call('knows', 'party', 't__falling_bell'))).toBe(false);
     await atBasin(t);
@@ -131,7 +134,7 @@ describe('Gamma sky laws', () => {
   });
 
   it('allows an authored updraft route while gravity alone has no return', async () => {
-    const t = await Tiny.start(sky);
+    const t = await start(sky);
     await atBasin(t);
     expect(t.journey.choices().some(choice => choice.command.includes('t__lift')
       && choice.command.includes('t__upper'))).toBe(false);
@@ -146,7 +149,7 @@ describe('Gamma sky laws', () => {
 
 describe('Gamma intermediate activity pin', () => {
   it('models a sky ferry as real participation, stakes, narrow moves and withdrawal', async () => {
-    const t = await Tiny.start(ferry);
+    const t = await start(ferry);
     const beginning = t.journey.choices().find(choice => choice.command.startsWith('t__begin_crossing'))!;
     expect(beginning.label).toContain('a penny at risk');
     await t.perform(beginning.command);
@@ -165,7 +168,7 @@ describe('Gamma intermediate activity pin', () => {
   });
 
   it('moves through an intermediate safe trim and resolves the crossing by participation', async () => {
-    const t = await Tiny.start(ferry);
+    const t = await start(ferry);
     await t.play("Take the wind-raft's trim-line, a penny at risk");
     await t.play('Trim the sunward sail and hold');
     expect(t.world.number(call('t__crossing', 'party'))).toBe(1);

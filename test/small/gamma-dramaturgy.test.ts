@@ -6,6 +6,9 @@ import { WhyProcess } from '../../src/cli/why-process';
 import { ScenarioTowns } from '../../src/world/scenario-towns';
 import { Tiny } from '../support/tiny';
 
+// Each probe on the kernel and the packages it reads (OR-407).
+const start: typeof Tiny.start = (kyr, options = {}) => Tiny.start(kyr, { horizon: ['belongings'], ...options });
+
 const call = (name: string, ...args: string[]) => ModuleWriter.call(name, ...args);
 const epic = `
   Place landing "the bell-landing" is room.
@@ -116,7 +119,7 @@ function situationEdges(module: Module): { from: string; to: string; by: string[
 
 describe('Gamma dramaturgy and semantic reconstruction', () => {
   it('coordinates three independent trials into one causal road without local coordinates', async () => {
-    const t = await Tiny.start(epic);
+    const t = await start(epic);
     expect(t.campaign.module.entities.filter(entity => entity.type === 'place' && entity.id.startsWith('t__'))
       .every(entity => entity.space?.grid === undefined)).toBe(true);
     const records = t.campaign.module.semantic!.filter(record => record.kind === 'situation');
@@ -142,7 +145,7 @@ describe('Gamma dramaturgy and semantic reconstruction', () => {
   });
 
   it('retains situation predicates but not a cross-situation causal declaration', async () => {
-    const t = await Tiny.start(epic);
+    const t = await start(epic);
     const records = t.campaign.module.semantic!.filter(record => record.kind === 'situation');
     const campaign = records.find(record => record.name === 'campaign')!;
     expect(campaign.effects).toEqual([]);
@@ -165,7 +168,7 @@ describe('Gamma dramaturgy and semantic reconstruction', () => {
     }
     expect([...draws.keys()].sort()).toEqual(['bell', 'kite', 'sail']);
     for (const [route, draw] of draws) {
-      const t = await Tiny.start(routeModule(draw));
+      const t = await start(routeModule(draw));
       const offered = t.journey.choices().filter(choice => /^t__take_/.test(choice.command))
         .map(choice => choice.command);
       expect(offered).toHaveLength(1);
