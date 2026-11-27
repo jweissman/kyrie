@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "kernel": ["core", "passages", "people", "discovery"],
+  "packages": {
+    "core": {},
+    "passages": {},
+    "people": {},
+    "needs": {},
+    "services": {
+      "needs": "hungry, nextMeal, lastSlept, weary: a bed and a supper",
+      "care": "fallen, levelDrained: raising the dead and restoring",
+      "belongings": "forSale, soldBy, price: haggling over goods for sale"
+    },
+    "discovery": {},
+    "care": {
+      "needs": "lastSlept, weary, nextMeal, hungry: a rest eats and sleeps"
+    },
+    "belongings": {
+      "care": "ability: a lesson bought (canTrain, teaches, learned)",
+      "needs": "nextMeal, hungry: food eaten",
+      "dominion": "keeps: whose a thing given, sold or bought is"
+    },
+    "dominion": {},
+    "probing": {},
+    "inhabitants": {
+      "dominion": "captured: whom a seizing creature has taken"
+    },
+    "growing": {},
+    "making": {
+      "belongings": "usesUp, handed: what a making spends and gives"
+    },
+    "belief": {},
+    "ambitions": {},
+    "canon": {
+      "care": "canCast: Plane Shift is cast"
+    },
+    "elements": {
+      "care": "ability, canCast: a spell that looses an element",
+      "probing": "burning: fire's try"
+    },
+    "devotion": {}
+  }
+}

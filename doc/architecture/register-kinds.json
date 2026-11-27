@@ -3600,6 +3600,18 @@
    "was": "defect",
    "pri": "P3",
    "why": "27 Nov, an adventure's friction: proposals for Kyr, Deem and the author's tools, a wanted future"
+  },
+  "OR-1580": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "27 Nov, split from BX-02: a maturity stage of the separation (the kernel without the acts of conflict), not an observed violation of a player-facing contract"
+  },
+  "OR-1581": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov, found declaring the rule packages (BX-02): a declaration in the wrong package, waiting on a re-digest; not an observed violation of a player-facing contract"
   }
  },
  "blockedBy": {
@@ -3632,7 +3644,6 @@
   "CO-03": "OR-310",
   "WD-12": "OR-310",
   "BO-12": "OR-310",
-  "OR-407": "BX-02",
   "OR-454": "OR-442",
   "OR-452": "OR-451",
   "OR-515": "TB-09",
