@@ -274,10 +274,10 @@ export class RegionWriter {
     // Under the town the company begins in, an adventure a step from its door (see RegionUndertown).
     if (company.start?.opening) { lines.push(...StockOpenings.lines(company.start.opening)); }
     const home = RegionPractitioners.home(region, company);
-    // The reference game's town has none of the rest: no room of one's own, no Hall nor hill above it, no pastimes
-    // and nothing afoot on its heart (see ReferenceSettlement).
+    // The reference game's town has none of the rest: no Hall nor hill above it, no pastimes and nothing afoot on its
+    // heart (see ReferenceSettlement); its room is the loft let once the company has been below (OR-1130).
     lines.push(...RegionUndertown.lines(region, home, company.size),
-      ...ReferenceSettlement.is(region, home) ? []
+      ...ReferenceSettlement.is(region, home) ? RegionRoom.reference(home)
         : [...RegionRoom.lines(region, home), ...RegionOutskirts.lines(region, home, company.size)],
       // A few pleasant things to do on every settlement's green (see RegionPleasures).
       ...ReferenceSettlement.others(region).flatMap(t => RegionPleasures.lines(region, t, home.id)),

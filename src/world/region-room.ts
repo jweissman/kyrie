@@ -39,8 +39,25 @@ export class RegionRoom {
     if (!SettlementWriter.rooms(region, s).taproom) { return []; }
     const letter = region.letter ?? RegionLetters.table.default[0]!;
     const keeping = Foundings.of(region, region.settlements.indexOf(s)).keeping;
-    const values = { t: s.id, town: s.name, letterfrom: letter.from, letter: letter.news,
-      ...this.terms(keeping, `${s.id}_innkeeper`, s.name) };
-    return this.template.sections.flatMap(x => KyrTemplates.fill(x.lines, values));
+    return this.fill({ t: s.id, town: s.name, letterfrom: letter.from, letter: letter.news, within: `${s.id}_inn`,
+      roomat: '1, 1', offered: '', away: `not within(party, ${s.id})`, ...this.terms(keeping, `${s.id}_innkeeper`, s.name) });
+  }
+  // The reference game's room (OR-1130, the long haul): the loft over the herb-wife's house, the first thing in the
+  // world that is the company's own. Asked for only once the company has been down under the stones (a surface earned,
+  // the owner's compactification of 26 November), dearer by the week than a start's purse can spare, and out while it
+  // is in the woods or under them, which are of the town. No letter: the town has no scrivener.
+  static reference(s: Settlement): string[] {
+    const t = s.id, k = `{${t}_innkeeper}`;
+    return this.fill({ t, town: s.name, within: t, roomat: '0, 0', offered: `been(actor, ${t}_ud) and `,
+      away: `(not within(party, ${t}) or within(party, ${t}_wood) or within(party, ${t}_ud))`,
+      roomname: `the loft over ${s.innkeeper}'s house`, roomway: 'the ladder up to the loft',
+      roomscene: 'A loft under the thatch, a straw bed on the boards and a chest with a hasp. Smoke from the fire below comes up between the planks.',
+      roomask: 'the loft', price: '8',
+      terms: `'Eight coin the week, and your supper,' says ${k}. 'You will be going down there again. What you leave up here stays where you leave it.'` });
+  }
+  // The template's sections for these values: each that is written always, and each whose value it asks for is given.
+  private static fill(values: Record<string, string>): string[] {
+    return this.template.sections.filter(x => (!x.when || values[x.when]) && (!x.unless || !values[x.unless]))
+      .flatMap(x => KyrTemplates.fill(x.lines, values));
   }
 }

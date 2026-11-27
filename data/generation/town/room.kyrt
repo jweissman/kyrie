@@ -6,18 +6,19 @@
 // pillow instead of left under the scrivener's stone. Coming back to it after time away is told, by the keeper and by
 // the room. Slept in, it is the rules' own room's night (sleep_own_room: data/rules/services.kyr). {t} is the
 // settlement's id, {town} its name; {letterfrom} and {letter} the answer to a letter home (letters.json); the room's
-// name, its way up, its look, what is asked for, its price and its terms by the house that keeps it (RegionRoom).
+// name, its way up, its look, what is asked for, its price and its terms by the house that keeps it (RegionRoom); {within}
+// and {roomat} where it is, {!offered} what must hold before it is asked for, {!away} when the company is out.
 --- room
   Relation {t}_rented(group). Measure {t}_rent_until(group). Relation {t}_room_away(group). Measure {t}_room_left(group).
   Relation {t}_room_kept(group). Relation {t}_keeper_saw(group).
-  Place {t}_room "{roomname}" is room within {t}_inn at 1, 1 indoors.
+  Place {t}_room "{roomname}" is room within {within} at {roomat} indoors.
   Passage {t}_room_stair "{roomway}" is steps between {t}_taproom and {t}_room opening when {t}_rented(party) "The stair is for those who have a room here.".
   Observe {t}_room_scene at {t}_room when true "{roomscene}".
   Thing {t}_room_chest "the chest at the foot of your bed" at {t}_room {
     State kept "A plain chest stands at the foot of the bed, its lid worn smooth by other people's elbows.".
   }
   Initially Assert receptacle({t}_room_chest).
-  Topic {t}_room_rent with {t}_innkeeper "Ask {{t}_innkeeper} for {roomask}, by the week" when not {t}_rented(actor) and quantity(actor, gold) >= {price} {
+  Topic {t}_room_rent with {t}_innkeeper "Ask {{t}_innkeeper} for {roomask}, by the week" when {!offered}not {t}_rented(actor) and quantity(actor, gold) >= {price} {
     Says "{!terms}".
     On discuss { Decrease quantity(actor, gold) by {price}. Assert {t}_rented(actor). Assert keepsRoom(actor, {t}_room). Set {t}_rent_until(actor) to watch(clock) + 1008. }
   }
@@ -25,6 +26,13 @@
   // What the house keeps for the company while it is out: the bed made, a candle after dark, a letter from home.
   Observe {t}_room_made at {t}_room as sign when {t}_rented(party) and {t}_room_kept(party) "The bed has been made while you were out, and the quilt turned down.".
   Observe {t}_room_candle at {t}_room as sign when dark() and {t}_rented(party) "{{t}_innkeeper} has set a candle in the window for you, and lit it.".
+  // Coming back to it after time away (half a day or more out of {town}): the keeper says so, and the room.
+  Rule {t}_room_goes when {t}_rented(party) and {!away} and not {t}_room_away(party) { Assert {t}_room_away(party). Set {t}_room_left(party) to watch(clock). Retract {t}_keeper_saw(party). }
+  Rule {t}_keeper_back heard at {t}_taproom when {t}_room_away(party) and at(party, {t}_taproom) and at({t}_innkeeper, {t}_taproom) and watch(clock) >= {t}_room_left(party) + 72 and not {t}_keeper_saw(party) says "'Back, then,' says {{t}_innkeeper}. 'I kept your room. Nobody has been in it but the girl with the broom.'" { Assert {t}_keeper_saw(party). }
+  Rule {t}_room_welcome heard at {t}_room when {t}_room_away(party) and at(party, {t}_room) and watch(clock) >= {t}_room_left(party) + 72 says "Your room is as you left it, the chest where it stood. There is a jug of water and a cup on the sill." { Retract {t}_room_away(party). Assert {t}_room_kept(party). }
+  Rule {t}_room_soon when {t}_room_away(party) and at(party, {t}_room) and watch(clock) < {t}_room_left(party) + 72 { Retract {t}_room_away(party). }
+// The letter from home, where the town has a scrivener to send it up from (not the reference game's town).
+--- letter if letterfrom
   // Once the company has a room, the answer is sent up to it, not left under the scrivener's stone: what the
   // scrivener's says of it then.
   Observe {t}_letter_sent_up at {t}_scriv instead of {t}_letter_waiting when {t}_rented(party) and {t}_letter_sent(party) and not {t}_letter_read(party) and watch(clock) >= {t}_letter_at(party) + 144 "There is no letter for you under the stone: the scrivener has sent it up to your room.".
@@ -35,8 +43,3 @@
     On success { Assert {t}_letter_read(actor). }
     Result "The letter is from {letterfrom}. You read it by the window. {letter}".
   }
-  // Coming back to it after time away (half a day or more out of {town}): the keeper says so, and the room.
-  Rule {t}_room_goes when {t}_rented(party) and not within(party, {t}) and not {t}_room_away(party) { Assert {t}_room_away(party). Set {t}_room_left(party) to watch(clock). Retract {t}_keeper_saw(party). }
-  Rule {t}_keeper_back heard at {t}_taproom when {t}_room_away(party) and at(party, {t}_taproom) and at({t}_innkeeper, {t}_taproom) and watch(clock) >= {t}_room_left(party) + 72 and not {t}_keeper_saw(party) says "'Back, then,' says {{t}_innkeeper}. 'I kept your room. Nobody has been in it but the girl with the broom.'" { Assert {t}_keeper_saw(party). }
-  Rule {t}_room_welcome heard at {t}_room when {t}_room_away(party) and at(party, {t}_room) and watch(clock) >= {t}_room_left(party) + 72 says "Your room is as you left it, the chest where it stood. There is a jug of water and a cup on the sill." { Retract {t}_room_away(party). Assert {t}_room_kept(party). }
-  Rule {t}_room_soon when {t}_room_away(party) and at(party, {t}_room) and watch(clock) < {t}_room_left(party) + 72 { Retract {t}_room_away(party). }

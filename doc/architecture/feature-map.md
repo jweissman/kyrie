@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 223 pins (192 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 723 live rows, 235 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 224 pins (193 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 722 live rows, 235 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -272,17 +272,17 @@ page's colours and opportunities.)
   - ○ a level gained opens a way to talk, climb, decipher or slip past that was shut before
   - requirement OR-347 P2: Levels and growth: the capability as its pins hold it (a level gained opens a way to talk, climb,…
   - requirement OR-1246 P2: Perks of the Atlas's tones earn lenses (a perception perk the look lens, a trade perk a trade…
-- **Belongings with a history** · 2 pins · 0 defects · 3 asks
+- **Belongings with a history** · 2 pins · 0 defects · 2 asks
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - ✓ is taken from in the pack, not the scene, for every client
   - requirement OR-460 P3: The wonders met have no place in the Book: a wonder's discovery is known and kept, but the Notes…
-  - requirement OR-1130 P3: A room kept at the inn (the long haul): rented by the week, a safe rest and a store for what is…
   - direction OR-1203 P2: Group configuration bonuses (Orsino's party formations and complementary roles) not carried into…
-- **Lodging and rest** · 4 pins · 2 defects · 2 asks
+- **Lodging and rest** · 5 pins · 2 defects · 2 asks
   - ✓ is rented, keeps what is left in its chest two days, greets the company back, and gives the room's night
   - ✓ has the answer to a letter home sent up to the room's pillow
   - ✓ keeps what is in the chest through a save and resume
   - ✓ is let on the house's own terms: an inn's room in Porthalen, a guest-cell at Gatesend
+  - ✓ is let once the company has been below, and keeps what is left in its chest through an expedition
   - direction CP-06 P3: Orsino room and shop tables not drawn; dungeon and room generation from Orsino; Orsino's…
   - direction OR-610 P2: A domain-tier buyer, and something to buy between the field and the domain: a deep site's prize…
 

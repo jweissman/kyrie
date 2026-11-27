@@ -36,9 +36,11 @@ describe('the reference game\'s settlement', () => {
     const own = people.filter(p => !new RegExp(`^${t}_(wood_|ud|s\\d+_way)`).test(p));
     expect(own.sort()).toEqual([`${t}_innkeeper`, `${t}_merchant`, `${t}_priest`, `${t}_traveller`]);
     const places = [...text.matchAll(new RegExp(`^\\s*Place (${t}_\\w+) .* is room within ${t} `, 'gm'))].map(m => m[1]!);
-    expect(places.sort()).toEqual([`${t}_green`, `${t}_shop`, `${t}_shrine`, `${t}_taproom`, `${t}_ud`].sort());
-    // No chandlery, general store, Hall or hill, notice of troubles, nor a room of one's own.
-    expect(text).not.toMatch(new RegExp(`${t}_(chandlery|general|manor|stones_top|u_notice|room)\\b`));
+    expect(places.sort()).toEqual([`${t}_green`, `${t}_room`, `${t}_shop`, `${t}_shrine`, `${t}_taproom`, `${t}_ud`].sort());
+    // No chandlery, general store, Hall or hill, notice of troubles, nor a letter sent up.
+    expect(text).not.toMatch(new RegExp(`${t}_(chandlery|general|manor|stones_top|u_notice|letter_sent_up)\\b`));
+    // The loft is the long haul's (OR-1130): asked for only once the company has been below.
+    expect(text).toContain(`Topic ${t}_room_rent with ${t}_innkeeper "Ask {${t}_innkeeper} for the loft, by the week" when been(actor, ${t}_ud) and not`);
     // Trader 1 sells provisions, light and arms, and buys valuables; Trader 2 buys what is gathered.
     const person = (id: string) => new RegExp(`^\\s*Person ${id} [^\\n]*`, 'm').exec(text)![0];
     expect(person(`${t}_merchant`)).toMatch(/Sells rations .* Sells torch .* Sells spear /);
