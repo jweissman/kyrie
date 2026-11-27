@@ -3,7 +3,7 @@ Module tallow "Tallow Deep" {
   Measure lcMealFood(group).
 
   Action lc_set_meal(actor: group, site: place) "Set aside a ration for a meal with Linnet" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, garden) and at(lc_rival, site)
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, garden) and at(lc_rival, site) and able(lc_rival)
       and knows(actor, lc_rival_need) and not lcMealSet(actor) and not lcMealDone(actor)
       and quantity(actor, rations) >= 1.
     Time 10 minutes.
@@ -11,14 +11,14 @@ Module tallow "Tallow Deep" {
     Result "Linnet clears a place among the nails. You set the food down. She has a small pot: you can warm it together in an hour, or eat it cold and be away sooner.".
   }
   Action lc_warm_meal(actor: group, site: place) "Cook the meal with Linnet" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, garden) and at(lc_rival, site)
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, garden) and at(lc_rival, site) and able(lc_rival)
       and lcMealSet(actor) and not lcMealDone(actor) and lcMealFood(actor) >= 1.
     Time 1 hour.
     On success { Decrease lcMealFood(actor) by 1. Assert lcMealDone(actor). Assert lcMealWarm(actor). }
     Result "The pot catches at the bottom. Linnet insists the dark bit is the best part, and proves it by eating it herself. You sit on the wall until the pot is cool enough to wash.".
   }
   Action lc_cold_meal(actor: group, site: place) "Share the meal cold with Linnet" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, garden) and at(lc_rival, site)
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, garden) and at(lc_rival, site) and able(lc_rival)
       and lcMealSet(actor) and not lcMealDone(actor) and lcMealFood(actor) >= 1.
     Time 10 minutes.
     On success { Decrease lcMealFood(actor) by 1. Assert lcMealDone(actor). }

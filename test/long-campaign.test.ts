@@ -31,8 +31,10 @@ describe('The road under the hill', () => {
     const sold = await returned();
     await sold.play('Sell the buyer a drawing of the entrances');
     const soldStart = sold.measure('lcStart', 'party');
-    expect(sold.measure('lcRaidAt', 'party') - soldStart).toBe(72);
+    expect(sold.measure('lcRaidAt', 'party') - soldStart).toBe(120);
     await sold.play('To the bank below the Rising', 'Block the river path with loose stones');
+    await sold.play(`==${soldStart + 31}`);
+    expect(sold.holds('lcMapDelivered', 'party')).toBe(true);
     expect(sold.measure('lcRaidAt', 'party') - soldStart).toBe(90);
 
     const kept = await returned();
@@ -47,7 +49,8 @@ describe('The road under the hill', () => {
 
   it('spends provisions for the road crew and lets the Ferryman offer terms', async () => {
     const j = await returned();
-    await j.play('Sell the buyer a drawing of the entrances', 'Into the Chandler\'s Arms');
+    await j.play('Sell the buyer a drawing of the entrances', 'Into the Chandler\'s Arms',
+      'Tell Merren what happened to the drawing');
     const food = j.measure('quantity', 'party', 'rations');
     await j.play('Give two days of rations to Merren\'s repair crew');
     expect(j.measure('quantity', 'party', 'rations')).toBe(food - 2);
@@ -73,7 +76,8 @@ describe('The road under the hill', () => {
   it('sends a peaceable garrison, not the raiders, when the offer is accepted', async () => {
     const j = await returned();
     await j.play('Sell the buyer a drawing of the entrances', 'Into the Chandler\'s Arms',
-      'Give two days of rations to Merren\'s repair crew', 'Out to Swallet green', '=+18',
+      'Tell Merren what happened to the drawing', 'Give two days of rations to Merren\'s repair crew',
+      'Out to Swallet green', '=+18',
       'Hear the Ferryman\'s offer', 'Accept the Ferryman\'s terms for the bank', '==+72');
     expect(j.holds('lcOccupied', 'party')).toBe(true);
     expect(j.at('lc_garrison')).toBe('tallow__bank');

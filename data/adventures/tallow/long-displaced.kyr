@@ -1,0 +1,91 @@
+Module tallow "Tallow Deep" {
+  Person lc_carter "Mab the carter" at bank {
+    Role "a carter with a mud-stained coat". Ancestry human. Calling warrior. Peaceable. Pronouns she.
+    Greets "'The cart is down by the bank,' Mab says. 'The axle was bad before I got this far.'".
+  }
+  Relation lcCarterFled(group). Relation lcCarterArrived(group). Relation lcCarterFed(group).
+  Relation lcCarterLeft(group). Relation lcCarterSent(group). Relation lcCarterAtWork(group).
+  Relation lcCarterWorking(group). Relation lcCarterHelped(group). Relation lcCarterReturning(group).
+  Relation lcCarterReturned(group).
+  Measure lcCarterArrival(group). Measure lcCarterHunger(group). Measure lcCarterWorkArrival(group).
+  Measure lcCarterWorkDue(group). Measure lcCarterReturnDue(group).
+  Discovery lc_carter_need "Mab needs one ration to walk to the western portal and help the masons.".
+
+  Rule lc_carter_flees when lcOccupied(party) and at(lc_raiders, bank) and able(lc_raiders)
+    and at(lc_carter, bank) and able(lc_carter) and not lcCarterFled(party) {
+    Assert lcCarterFled(party). Retract at(lc_carter, bank). Set lcCarterArrival(party) to watch(clock) + 12.
+  }
+  Rule lc_carter_arrives when lcCarterFled(party) and not lcCarterArrived(party) and able(lc_carter)
+    and watch(clock) >= lcCarterArrival(party) {
+    Assert lcCarterArrived(party). Assert at(lc_carter, taproom). Set lcCarterHunger(party) to watch(clock) + 72.
+  }
+  Topic lc_carter_question with lc_carter "Ask Mab what happened at the bank" when lcCarterArrived(party)
+    and not lcCarterFed(party) and not lcCarterLeft(party) once {
+    Says "'They took the bank. I left the cart and came round by the fields. I can help Merren's masons at the western portal, but I have not eaten. If nobody can spare a ration, I shall leave twelve hours after reaching the inn to look for work farther on.'".
+    On discuss { Assert knows(actor, lc_carter_need). }
+  }
+  Action lc_feed_carter(actor: group, site: place) "Give Mab a ration for the road" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_carter, site) and able(lc_carter)
+      and knows(actor, lc_carter_need) and not lcCarterFed(actor) and not lcCarterLeft(actor)
+      and quantity(actor, rations) >= 1.
+    Time 10 minutes.
+    On success {
+      Decrease quantity(actor, rations) by 1. Increase quantity(lc_carter, rations) by 1. Assert lcCarterFed(actor).
+    }
+    Result "Mab wraps the ration in a clean corner of her coat. 'I know the west road. Tell me when the masons have set out.'".
+  }
+  Rule lc_carter_leaves when lcCarterArrived(party) and at(lc_carter, taproom) and able(lc_carter)
+    and not lcCarterFed(party) and not lcCarterLeft(party) and watch(clock) >= lcCarterHunger(party) {
+    Retract at(lc_carter, taproom). Assert lcCarterLeft(party).
+  }
+  Action lc_send_carter(actor: group, site: place) "Send Mab to help the road crew" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_carter, site) and able(lc_carter)
+      and lcCarterFed(actor) and lcCrewSent(actor) and able(lc_crew) and not lcPortalCleared(actor)
+      and not lcCarterSent(actor) and quantity(lc_carter, rations) >= 1.
+    Time 10 minutes.
+    On success {
+      Retract at(lc_carter, site). Assert lcCarterSent(actor). Set lcCarterWorkArrival(actor) to watch(clock) + 13.
+    }
+    Result "Mab takes the west road with her ration. She expects to reach the portal in two hours.".
+  }
+  Rule lc_carter_reaches_work when lcCarterSent(party) and not lcCarterAtWork(party) and able(lc_carter)
+    and watch(clock) >= lcCarterWorkArrival(party) {
+    Assert at(lc_carter, calx_portal). Assert lcCarterAtWork(party). Decrease quantity(lc_carter, rations) by 1.
+  }
+  Rule lc_carter_starts_work when lcCarterAtWork(party) and at(lc_carter, calx_portal) and able(lc_carter)
+    and at(lc_crew, calx_portal) and able(lc_crew) and not lcPortalCleared(party)
+    and not lcWorkPaused(party) and not lcCarterWorking(party) and not lcCarterHelped(party)
+    and (not at(lc_vanguard, calx_portal) or not able(lc_vanguard))
+    and (not at(lc_convoy, calx_portal) or not able(lc_convoy)) {
+    Assert lcCarterWorking(party). Set lcCarterWorkDue(party) to watch(clock) + 6.
+  }
+  Rule lc_carter_interrupts_work when lcCarterWorking(party) and
+    (not at(lc_carter, calx_portal) or not able(lc_carter) or not at(lc_crew, calx_portal) or not able(lc_crew)
+    or lcWorkPaused(party) or lcPortalCleared(party)
+    or (at(lc_vanguard, calx_portal) and able(lc_vanguard))
+    or (at(lc_convoy, calx_portal) and able(lc_convoy))) {
+    Retract lcCarterWorking(party).
+  }
+  Rule lc_carter_helps when lcCarterWorking(party) and at(lc_carter, calx_portal) and able(lc_carter)
+    and at(lc_crew, calx_portal) and able(lc_crew) and not lcWorkPaused(party) and not lcPortalCleared(party)
+    and (not at(lc_vanguard, calx_portal) or not able(lc_vanguard))
+    and (not at(lc_convoy, calx_portal) or not able(lc_convoy))
+    and watch(clock) >= lcCarterWorkDue(party) {
+    Retract lcCarterWorking(party). Assert lcCarterHelped(party). Decrease lcWorkDue(party) by 6.
+  }
+  Rule lc_carter_starts_home when lcCarterAtWork(party) and at(lc_carter, calx_portal) and able(lc_carter)
+    and (lcPortalCleared(party) or not able(lc_crew)) and not lcCarterReturning(party) and not lcCarterReturned(party) {
+    Retract at(lc_carter, calx_portal). Assert lcCarterReturning(party). Set lcCarterReturnDue(party) to watch(clock) + 12.
+  }
+  Rule lc_carter_returns when lcCarterReturning(party) and able(lc_carter) and watch(clock) >= lcCarterReturnDue(party) {
+    Retract lcCarterReturning(party). Assert lcCarterReturned(party). Assert at(lc_carter, taproom).
+  }
+  Observe lc_carter_at_inn at taproom when lcCarterArrived(party) and at(lc_carter, taproom)
+    and able(lc_carter) and not lcCarterFed(party)
+    "Mab has come from the bank on foot. There is mud to her knees.".
+  Observe lc_carter_at_work at calx_portal when lcCarterWorking(party) and at(lc_carter, calx_portal)
+    and able(lc_carter)
+    "Mab and the masons are shifting the fall together.".
+  Observe lc_carter_gone at taproom when lcCarterLeft(party)
+    "Mab has gone to look for work farther along the road.".
+}

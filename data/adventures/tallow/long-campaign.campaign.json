@@ -7,7 +7,7 @@
     "text": "A village below a dangerous hill. The old road beneath it may matter to people who have never seen Swallet."
   },
   "modules": [
-    { "id": "tallow", "bundle": "./long-campaign.json" }
+    { "id": "tallow", "bundle": "./long-module.json" }
   ],
   "party": [
     { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter" },

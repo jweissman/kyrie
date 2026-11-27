@@ -3,9 +3,11 @@
   "source": [
     "hill.kyr", "scenes.kyr", "people.kyr", "works.kyr", "creatures.kyr", "finds.kyr",
     "wake.kyr", "keeping.kyr", "quests.kyr", "lore.kyr",
-    "long-campaign.kyr", "long-road.kyr", "long-logistics.kyr", "long-aftermath.kyr", "long-meal.kyr", "placed.kyr"
+    "long-campaign.kyr", "long-road.kyr", "long-scout.kyr", "long-displaced.kyr", "long-logistics.kyr", "long-cell.kyr", "long-music.kyr", "long-smugglers.kyr", "long-arena.kyr", "long-camp.kyr", "long-maze.kyr", "long-measures.kyr", "long-mirror.kyr", "long-basin.kyr", "long-shutters.kyr", "long-raven-song.kyr", "long-pebbles.kyr", "long-pool.kyr",
+    "long-aftermath.kyr", "long-meal.kyr", "placed.kyr"
   ],
   "rules": ["world"],
+  "generation": { "type": "long_cell", "tables": "long-cell-tables.json", "templates": "long-cell-templates.json" },
   "globals": ["party"],
   "canon": ["imbar", "cloudgate_fell", "slack_opened", "calx_opened", "tallow_names", "sallowfield_held"],
   "imports": ["party", "word", "word_road"],

@@ -284,6 +284,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `ancestry:dwarf` | `ancestry:dwarf` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
 | `ancestry:gnoll` | `ancestry:gnoll` | executable | faithful | Attribute modifiers, class options and racial traits (tough, resilient), with humanoid given at birth; not a player's people (OR-1236). |
 | `ancestry:goblin` | `ancestry:goblin` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
+| `ancestry:gnoll` | `ancestry:gnoll` | executable | faithful | Attribute modifiers, class options and racial traits with humanoid given at birth; Kyr also opens the commoner. |
 | `ancestry:halfling` | `ancestry:halfling` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
 | `ancestry:gnome` | `ancestry:gnome` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
 | `ancestry:half_elf` | `ancestry:half_elf` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |

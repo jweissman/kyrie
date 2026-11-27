@@ -1,0 +1,35 @@
+{
+  "long_cell": {
+    "__no_id": true,
+    "name": "The Road Under the Hill",
+    "_kind": "=lookup(longCellKind, 'any')",
+    "creatures": [],
+    "actors": { "order": [] },
+    "casting": "=gen(long_cell_cast)",
+    "facts": "=concat(gen(long_cell_kind))",
+    "initial": "=concat(gen(long_cell_food))",
+    "outcomes": []
+  },
+  "long_cell_cast": {
+    "__no_id": true,
+    "lc_cell": "=gen(long_cell_people)"
+  },
+  "long_cell_people": {
+    "__no_id": true,
+    "_people": "=lookup(longCellPeople, #_kind)",
+    "raceId": "=#_people",
+    "classId": "=(#_kind == 'marauders' || #_people == 'dwarf') ? 'warrior' : 'thief'",
+    "count": "=#_kind == 'marauders' ? 3 : 2"
+  },
+  "long_cell_kind": {
+    "__no_id": true,
+    ">name": "lc_cell_kind",
+    "args": "=concat('lc_' + #_kind)"
+  },
+  "long_cell_food": {
+    "__no_id": true,
+    ">name": "quantity",
+    "args": ["lc_cell", "rations"],
+    "value": "=#_kind == 'marauders' ? 3 : 2"
+  }
+}

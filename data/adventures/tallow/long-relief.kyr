@@ -29,7 +29,7 @@ Module relief "The road from Sallowfield" {
     On discuss { Assert knows(actor, relief_need). }
   }
   Action give_relief(actor: group, site: place) "Give Tib two rations for Sallowfield" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(elland, site)
+    Requires able(actor) and company(actor) and at(actor, site) and at(elland, site) and able(elland)
       and knows(actor, relief_need) and not reliefSent(actor) and quantity(actor, rations) >= 2.
     Time 10 minutes.
     On success {
@@ -42,9 +42,9 @@ Module relief "The road from Sallowfield" {
     and watch(clock) >= reliefReturnDue(party) {
     Assert reliefDelivered(party). Assert at(elland, home).
   }
-  Observe relief_on_green at swallet when reliefArrived(party) and not reliefSent(party) and at(elland, swallet)
+  Observe relief_on_green at swallet when reliefArrived(party) and not reliefSent(party) and at(elland, swallet) and able(elland)
     "Tib Elland has come from Sallowfield on foot. His coat smells of smoke.".
-  Observe relief_home at home when reliefDelivered(party) and at(elland, home)
+  Observe relief_home at home when reliefDelivered(party) and at(elland, home) and able(elland)
     "Tib has brought the rations back to Sallowfield. He sets them down beside the blackened well.".
   Goal false.
 }

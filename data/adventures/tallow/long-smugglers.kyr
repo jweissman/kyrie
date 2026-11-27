@@ -1,0 +1,217 @@
+Module tallow "Tallow Deep" {
+  Person lc_factor "Tavi, the Ferryman's factor" nowhere {
+    Role "a gnoll buyer with a blue cord on her sleeve". Ancestry gnoll. Peaceable. Pronouns she.
+    Greets "'I buy food,' she says. 'I am not the one who eats it.'".
+  }
+  Initially Set quantity(lc_ferryman, gold) to 3.
+  Initially Set quantity(joss, rations) to 2.
+  Discovery lc_cador_bargain "Cador will refuse the Ferryman's food order for four coin.".
+  Discovery lc_cador_game_rules "Cador offers two guesses in three at his marked stones: two correct guesses will keep his food from the Ferryman.".
+  Relation lcCadorGame(group). Relation lcCadorGameTried(group). Relation lcCadorGuess(group).
+  Relation lcCadorHigh(group). Measure lcCadorRight(group). Measure lcCadorWrong(group).
+  Relation lcFactorOrdered(group). Relation lcFactorWaiting(group). Relation lcFactorBought(group).
+  Relation lcFactorGoingToGuard(group). Relation lcFactorReturning(group). Relation lcFactorReturned(group).
+  Relation lcFactorDelivered(group). Relation lcCadorExclusive(group).
+  Relation lcKinMet(group). Relation lcFactorRefused(group).
+  Relation lcFactorEntering(group). Relation lcFactorAdvancing(group).
+  Measure lcFactorDue(group). Measure lcFactorDecisionDue(group). Measure lcFactorLegDue(group).
+  Query lc_factor_posted() means at(lc_factor, calx_portal) or at(lc_factor, calx_way) or at(lc_factor, gate_house).
+
+  Topic lc_sisters_meet with lc_factor "Let Rill speak with Tavi"
+    when travelsWith(lc_gnoll_guide, actor) and joinedAs(?rill, lc_gnoll_guide) and awake(?rill)
+    and knows(actor, lc_gnoll_story) and not lcKinMet(actor) once {
+    Says "Rill stops. 'Tavi? I saw your face on the field.' Tavi lifts the sleeve of her coat. 'I left the old one behind when I came away. Rill, they told me you had not come out.' They stand close without quite touching. 'Do you remember Mother's sword?' Tavi says. 'How it shone when the shadows came near?'".
+    On discuss { Assert lcKinMet(actor). }
+  }
+  Action lc_ask_tavi(actor: group, site: place) "Ask Tavi not to buy food for the road guard" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_room)
+      and at(lc_factor, site) and able(lc_factor) and travelsWith(lc_gnoll_guide, actor)
+      and joinedAs(?rill, lc_gnoll_guide) and awake(?rill) and lcKinMet(actor)
+      and lcFactorWaiting(actor) and not lcFactorBought(actor) and not lcFactorRefused(actor)
+      and not lcTruce(actor) and watch(clock) < lcFactorDecisionDue(actor).
+    Time 10 minutes.
+    On success { Assert lcFactorRefused(actor). }
+    Result "Rill asks her not to make the delivery. Tavi gathers the three coins. 'I will take them back. I do not know what he will do without me, but I know what I would do without you.'".
+  }
+
+  Rule lc_factor_order when lcRoadTold(party) and not lcFactorOrdered(party) and not lcTruce(party)
+    and at(lc_ferryman, green) and able(lc_ferryman) and able(lc_factor) and quantity(lc_ferryman, gold) >= 3 {
+    Decrease quantity(lc_ferryman, gold) by 3. Increase quantity(lc_factor, gold) by 3.
+    Assert lcFactorOrdered(party). Set lcFactorDue(party) to watch(clock) + 12.
+  }
+  Rule lc_factor_reaches_cador when lcFactorOrdered(party) and not lcFactorWaiting(party)
+    and not lcFactorBought(party) and not lcFactorReturning(party) and not lcFactorReturned(party)
+    and able(lc_factor) and watch(clock) >= lcFactorDue(party) {
+    Assert at(lc_factor, tally_room). Assert lcFactorWaiting(party).
+    Set lcFactorDecisionDue(party) to watch(clock) + 6.
+  }
+  Observe lc_factor_waiting at tally_room when lcFactorWaiting(party) and at(lc_factor, tally_room)
+    and able(lc_factor) and at(joss, tally_room) and able(joss)
+    "A woman with a blue cord waits beside Cador's table. Three coins sit between them; he has not taken them yet.".
+  Topic lc_cador_factor with joss "Ask Cador about the Ferryman's food" when lcFactorOrdered(party)
+    and not lcFactorBought(party) and not lcCadorExclusive(party) and not lcTruce(party)
+    and not knows(actor, lc_cador_bargain) once {
+    Says "'Three coin for two rations,' Cador says. 'I give his buyer an hour once she gets here. I can sell to him or keep my stores out of his hands. Four coin makes up my mind. I am not asking you to like the price.'".
+    On discuss { Assert knows(actor, lc_cador_bargain). }
+  }
+  Topic lc_cador_stones with joss "Ask Cador about the covered stones"
+    when lcFactorWaiting(party) and at(lc_factor, tally_room) and able(lc_factor)
+    and not lcCadorGameTried(party) and not knows(actor, lc_cador_game_rules) once {
+    Says "'Two coins to try,' Cador says. 'I draw a stone and replace it. Half are marked high, half low. Call two correctly before you miss two, and I keep my food out of his hands. Miss twice and I sell it to him, unless you pay my usual price. My buyer will not wait past the hour.'".
+    On discuss { Assert knows(actor, lc_cador_game_rules). }
+  }
+  Action lc_cador_play(actor: group, site: place) "Pay two coin to play Cador's stones" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_room)
+      and at(joss, site) and able(joss) and at(lc_factor, site) and able(lc_factor)
+      and lcFactorWaiting(actor) and not lcFactorBought(actor) and not lcCadorExclusive(actor)
+      and not lcTruce(actor) and not lcCadorGameTried(actor) and knows(actor, lc_cador_game_rules)
+      and watch(clock) < lcFactorDecisionDue(actor) and quantity(actor, gold) >= 2.
+    Time 10 minutes.
+    On success {
+      Decrease quantity(actor, gold) by 2. Increase quantity(joss, gold) by 2.
+      Assert lcCadorGame(actor). Assert lcCadorGameTried(actor).
+    }
+    Result "Cador takes the coins and shakes the stones in a covered bowl.".
+  }
+  Action lc_cador_low(actor: group, site: place) "Call the next stone low" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_room)
+      and at(joss, site) and able(joss) and at(lc_factor, site) and able(lc_factor)
+      and lcFactorWaiting(actor) and lcCadorGame(actor) and not lcCadorGuess(actor)
+      and not lcTruce(actor) and watch(clock) < lcFactorDecisionDue(actor).
+    Time 10 minutes.
+    On success { Retract lcCadorHigh(actor). Assert lcCadorGuess(actor). }
+    Result "You call low. Cador draws a stone.".
+  }
+  Action lc_cador_high(actor: group, site: place) "Call the next stone high" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_room)
+      and at(joss, site) and able(joss) and at(lc_factor, site) and able(lc_factor)
+      and lcFactorWaiting(actor) and lcCadorGame(actor) and not lcCadorGuess(actor)
+      and not lcTruce(actor) and watch(clock) < lcFactorDecisionDue(actor).
+    Time 10 minutes.
+    On success { Assert lcCadorHigh(actor). Assert lcCadorGuess(actor). }
+    Result "You call high. Cador draws a stone.".
+  }
+  Rule lc_cador_right when lcCadorGuess(party) and lcCadorGame(party)
+    and at(party, tally_room) and able(party) and at(joss, tally_room) and able(joss)
+    and at(lc_factor, tally_room) and able(lc_factor) and lcFactorWaiting(party) and not lcTruce(party)
+    and ((lcCadorHigh(party) and dice(clock) > 50) or (not lcCadorHigh(party) and dice(clock) <= 50))
+    says "Cador shows a stone matching your call, then puts it back." {
+    Increase lcCadorRight(party) by 1. Retract lcCadorGuess(party).
+  }
+  Rule lc_cador_wrong when lcCadorGuess(party) and lcCadorGame(party)
+    and at(party, tally_room) and able(party) and at(joss, tally_room) and able(joss)
+    and at(lc_factor, tally_room) and able(lc_factor) and lcFactorWaiting(party) and not lcTruce(party)
+    and ((lcCadorHigh(party) and dice(clock) <= 50) or (not lcCadorHigh(party) and dice(clock) > 50))
+    says "Cador shows a stone that does not match your call, then puts it back." {
+    Increase lcCadorWrong(party) by 1. Retract lcCadorGuess(party).
+  }
+  Rule lc_cador_game_won when lcCadorGame(party) and lcCadorRight(party) >= 2
+    and at(party, tally_room) and able(party) and at(joss, tally_room) and able(joss)
+    and at(lc_factor, tally_room) and able(lc_factor) and lcFactorWaiting(party)
+    says "Cador covers the bowl. 'A bargain is a bargain. The food stays here.' The factor picks up her coins." {
+    Retract lcCadorGame(party). Assert lcCadorExclusive(party).
+  }
+  Rule lc_cador_game_lost when lcCadorGame(party) and lcCadorWrong(party) >= 2
+    and at(party, tally_room) and able(party) and at(joss, tally_room) and able(joss)
+    and at(lc_factor, tally_room) and able(lc_factor) and lcFactorWaiting(party)
+    says "Cador covers the bowl. 'The game is over,' he says. The factor waits beside her coins." {
+    Retract lcCadorGame(party).
+  }
+  Observe lc_cador_game_score at tally_room when lcCadorGame(party)
+    "Cador's stones: {lcCadorRight(party)} correct calls and {lcCadorWrong(party)} missed.".
+  Action lc_cador_exclusive(actor: group, site: place) "Pay Cador four coin to refuse the Ferryman's order" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_room)
+      and at(joss, site) and able(joss) and knows(actor, lc_cador_bargain) and not lcFactorBought(actor)
+      and not lcCadorExclusive(actor) and not lcTruce(actor) and quantity(actor, gold) >= 4
+      and (not lcFactorWaiting(actor) or watch(clock) < lcFactorDecisionDue(actor)).
+    Time 10 minutes.
+    On success {
+      Decrease quantity(actor, gold) by 4. Increase quantity(joss, gold) by 4. Assert lcCadorExclusive(actor).
+    }
+    Result "Cador counts the coins. 'My stores stay here,' he says. 'That is what you bought.'".
+  }
+  Rule lc_factor_buys when lcFactorWaiting(party) and at(lc_factor, tally_room) and able(lc_factor)
+    and at(joss, tally_room) and able(joss) and not lcCadorExclusive(party) and not lcFactorRefused(party)
+    and not lcTruce(party)
+    and quantity(joss, rations) >= 2 and quantity(lc_factor, gold) >= 3
+    and watch(clock) >= lcFactorDecisionDue(party) {
+    Decrease quantity(lc_factor, gold) by 3. Increase quantity(joss, gold) by 3.
+    Decrease quantity(joss, rations) by 2. Increase quantity(lc_factor, rations) by 2.
+    Retract lcFactorWaiting(party). Retract at(lc_factor, tally_room).
+    Assert lcFactorBought(party). Assert lcFactorGoingToGuard(party). Set lcFactorDue(party) to watch(clock) + 12.
+  }
+  Rule lc_factor_turns_back when lcFactorWaiting(party) and at(lc_factor, tally_room) and able(lc_factor)
+    and (lcCadorExclusive(party) or lcFactorRefused(party) or lcTruce(party) or not at(joss, tally_room) or not able(joss)
+    or quantity(joss, rations) < 2) {
+    Retract lcFactorWaiting(party). Retract at(lc_factor, tally_room).
+    Assert lcFactorReturning(party). Set lcFactorDue(party) to watch(clock) + 12.
+  }
+  Rule lc_cador_game_interrupted when lcCadorGame(party)
+    and (not at(party, tally_room) or not able(party) or not at(joss, tally_room) or not able(joss)
+    or not at(lc_factor, tally_room) or not able(lc_factor) or not lcFactorWaiting(party)
+    or lcCadorExclusive(party) or lcTruce(party)) {
+    Retract lcCadorGame(party). Retract lcCadorGuess(party).
+  }
+  Rule lc_factor_reaches_guard when lcFactorGoingToGuard(party) and able(lc_factor)
+    and watch(clock) >= lcFactorDue(party) {
+    Retract lcFactorGoingToGuard(party). Assert at(lc_factor, calx_portal).
+  }
+  Rule lc_factor_enters when lcFactorBought(party) and at(lc_factor, calx_portal) and able(lc_factor)
+    and (at(lc_vanguard, calx_way) or at(lc_vanguard, gate_house)) and able(lc_vanguard)
+    and state(portal_inside, cleared) and not lcFactorEntering(party) and not lcFactorDelivered(party)
+    and not lcTruce(party) {
+    Assert lcFactorEntering(party). Set lcFactorLegDue(party) to watch(clock) + 6.
+  }
+  Rule lc_factor_on_road when lcFactorEntering(party) and at(lc_factor, calx_portal) and able(lc_factor)
+    and (at(lc_vanguard, calx_way) or at(lc_vanguard, gate_house)) and able(lc_vanguard)
+    and state(portal_inside, cleared) and not lcFactorDelivered(party) and not lcTruce(party)
+    and watch(clock) >= lcFactorLegDue(party) {
+    Retract lcFactorEntering(party). Retract at(lc_factor, calx_portal). Assert at(lc_factor, calx_way).
+  }
+  Rule lc_factor_entry_interrupted when lcFactorEntering(party)
+    and (not at(lc_factor, calx_portal) or not able(lc_factor) or not state(portal_inside, cleared)
+    or (not at(lc_vanguard, calx_way) and not at(lc_vanguard, gate_house)) or not able(lc_vanguard)
+    or lcFactorDelivered(party) or lcTruce(party)) {
+    Retract lcFactorEntering(party).
+  }
+  Rule lc_factor_advances when lcFactorBought(party) and at(lc_factor, calx_way) and able(lc_factor)
+    and at(lc_vanguard, gate_house) and able(lc_vanguard) and state(calx_gate, raised)
+    and not lcFactorAdvancing(party) and not lcFactorDelivered(party) and not lcTruce(party) {
+    Assert lcFactorAdvancing(party). Set lcFactorLegDue(party) to watch(clock) + 6.
+  }
+  Rule lc_factor_at_gate when lcFactorAdvancing(party) and at(lc_factor, calx_way) and able(lc_factor)
+    and at(lc_vanguard, gate_house) and able(lc_vanguard) and state(calx_gate, raised)
+    and not lcFactorDelivered(party) and not lcTruce(party) and watch(clock) >= lcFactorLegDue(party) {
+    Retract lcFactorAdvancing(party). Retract at(lc_factor, calx_way). Assert at(lc_factor, gate_house).
+  }
+  Rule lc_factor_advance_interrupted when lcFactorAdvancing(party)
+    and (not at(lc_factor, calx_way) or not able(lc_factor) or not state(calx_gate, raised)
+    or not at(lc_vanguard, gate_house) or not able(lc_vanguard) or lcFactorDelivered(party) or lcTruce(party)) {
+    Retract lcFactorAdvancing(party).
+  }
+  Rule lc_factor_delivers when lcFactorBought(party) and not lcFactorDelivered(party) and not lcTruce(party)
+    and at(lc_factor, ?place) and able(lc_factor) and quantity(lc_factor, rations) >= 2
+    and at(lc_vanguard, ?place) and able(lc_vanguard) and lc_guard_posted() {
+    Decrease quantity(lc_factor, rations) by 2. Increase quantity(lc_vanguard, rations) by 2.
+    Assert lcFactorDelivered(party).
+  }
+  Rule lc_factor_returns_from_guard when lcFactorBought(party) and at(lc_factor, ?place) and able(lc_factor)
+    and lc_factor_posted()
+    and (lcFactorDelivered(party) or lcTruce(party)) and not lcFactorReturning(party) and not lcFactorReturned(party) {
+    Retract at(lc_factor, ?place). Assert lcFactorReturning(party). Set lcFactorDue(party) to watch(clock) + 12.
+  }
+  Rule lc_factor_returns when lcFactorReturning(party) and able(lc_factor) and watch(clock) >= lcFactorDue(party) {
+    Retract lcFactorReturning(party). Assert lcFactorReturned(party). Assert at(lc_factor, green).
+  }
+  Rule lc_factor_returns_money when lcFactorReturned(party) and at(lc_factor, green) and able(lc_factor)
+    and at(lc_ferryman, green) and able(lc_ferryman) and quantity(lc_factor, gold) >= 1 {
+    Increase quantity(lc_ferryman, gold) by quantity(lc_factor, gold). Set quantity(lc_factor, gold) to 0.
+  }
+  Action lc_take_factor_food(actor: group, site: place) "Take the fallen factor's food" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_factor, site) and not able(lc_factor)
+      and quantity(lc_factor, rations) >= 1.
+    Time 10 minutes.
+    On success { Increase quantity(actor, rations) by quantity(lc_factor, rations). Set quantity(lc_factor, rations) to 0. }
+    Result "You take the food from the factor's pack.".
+  }
+}

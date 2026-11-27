@@ -13,8 +13,10 @@ describe('The road under the hill: the gate and the bank', () => {
       'Sell the buyer a drawing of the entrances', 'To the Brasiers\' garden',
       'Ask Linnet why she searches the hill', 'Give Linnet a ration so she can block the river path', '==+90');
     const food = j.measure('quantity', 'party', 'rations');
+    const rivalFood = j.measure('quantity', 'lc_rival', 'rations');
     await j.play('Accept Linnet\'s food for the next descent');
     expect(j.measure('quantity', 'party', 'rations')).toBe(food + 1);
+    expect(j.measure('quantity', 'lc_rival', 'rations')).toBe(rivalFood - 1);
     expect(j.holds('lcRivalReturned', 'party')).toBe(true);
     expect(j.offers('Accept Linnet\'s food for the next descent')).toBe(false);
   }, 120000);

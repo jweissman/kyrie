@@ -143,12 +143,12 @@
     },
     "gnoll": {
       "name": "Gnoll",
-      "description": "A tall, hyena-headed raider of the dry hills and the edges of the woods.",
-      "appearance": "A spotted, sloping hide, a long jaw full of teeth, a stiff mane down the back, and a laugh that carries.",
-      "society": "Gnolls go in packs under the strongest, and live by what they take: herds, stores, travellers on the roads. A pack that finds old workings or a barrow near a town makes its den there and raids out of it until it is driven off.",
-      "build": "Seven feet when they stand up straight, which is seldom; lean and long-armed.",
-      "ages": "Grown at ten; old at fifty.",
-      "nameGroup": "gnoll",
+      "description": "A hyena-featured person, strong and enduring; some join raiding packs along the dry hills and woods.",
+      "appearance": "A spotted coat, long muzzle, rounded ears and a stiff mane, marked differently in every person.",
+      "society": "Gnolls live in households and travelling bands. Some keep animals, work the roads or hire out their strength; others raid in packs under the strongest, taking herds, stores and travellers. A pack that finds old workings or a barrow near a town may make its den there until driven off.",
+      "build": "Tall and strongly built, long-armed.",
+      "ages": "Grown in their late teens.",
+      "nameGroup": "hero",
       "classes": [
         "warrior",
         "ranger",
@@ -171,7 +171,7 @@
       "source": {
         "orsino": "ancestry:gnoll",
         "fidelity": "faithful",
-        "notes": "Orsino racialModifier attributes, occupation options and racial traits (tough, resilient); humanoid is given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make gnolls a player race: in Kyr a pack of them moves into a first dungeon's way in once its first dwellers are dealt with (OR-1236)."
+        "notes": "Orsino racialModifier attributes, occupation options and racial traits (tough, resilient); humanoid is given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Gnolls are people with varied lives; some raiding packs move into a first dungeon's way in once its first dwellers are dealt with (OR-1236)."
       }
     },
     "glimmerkin": {

@@ -8,10 +8,66 @@ The optional `data/adventures/tallow/long-campaign.campaign.json` plays Tallow D
 a drawing, a rival's food, a road crew and the Ferryman's approach. Its choices change supplies, timing and who
 occupies the river bank. A small meal with Linnet can be cooked, shared cold or put off; it spends a real ration and
 the longer version costs time. The crew can clear the real western fall; a guard may interrupt it, dig its way in, and be
-stopped at the Calx Gate. A two-person supply party brings food to the guard at its actual position; if its food
-runs out, the guard leaves. A negotiated withdrawal costs four rations, or three if Merren bargains with the
+stopped at the Calx Gate. A two-person supply party brings food to the guard at its actual position; if defeated,
+its remaining food can be recovered, and an unfed guard leaves. A second supply cell is drawn at installation: a counting circle,
+travelling players or marauders, each with a small cast and food the company can buy or seize. The circle may be
+convinced to correct an account, either by a check or by comparing its book with the receipts; the players may
+exchange food for a song or try a timed, two-turn musical exchange for one ration from the pack. The remainder
+continues toward the guard. The circle carries the disputed food back to a real croft, where Nella can receive her
+share and show the company her grandmother's way into the ring. If she cuts her hand on the sack, a cleric can
+cast Cure or the smaller Cure Minor Wounds on her: her actual injury changes. The band can be confronted over its
+robberies, at the risk of a fight. These attempts can fail. A negotiated
+withdrawal costs four rations, or three if Merren bargains with the
 Ferryman; it clears the actual positions, not the war. Their shared past gives her access, not control over his
-loyalties.
+loyalties. If raiders occupy the bank, Mab the carter flees to the inn. A ration lets her travel to the western
+portal and spend an uninterrupted hour helping the crew, bringing its work forward by an hour. She leaves to seek
+work elsewhere after twelve hours without food; a guard can interrupt her work just as it interrupts the masons'.
+Merren also plays a game of eight pebbles. Winning draws out a shared memory that can later make a bargain possible;
+losing costs time, not the relationship.
+Once the Ferryman learns the road's course, a factor can buy Cador's food for the road guard. The company can reach
+the Tally-Room and outbid her, or intercept her later; the money and food pass through their actual keepers. Stopping
+one supply line does not make the others disappear.
+
+While the factor waits, Cador offers a wager on high and low stones: two correct calls before two misses will
+keep his food from her for two coins. The company's money changes hands, the draw takes time, and she buys if
+the hour expires. Winning this one bargain leaves the other supply lines intact.
+
+Below the Quiet Gallery, a hidden way reaches a ring where a merfolk keeper offers a wager on a real fight. A
+dragon guards the way to a field whose fallen fighters return after the company leaves. The keeper pays for an
+account after three defeats of those fighters. The route has an isolated test; three field fights and returns were
+exercised with an artificially toughened company. A starting company lost the seeded arena fight, so this is not
+evidence of a balanced or fully playable gauntlet. Three level-fifteen warriors beat the dragon in one seeded
+fight, but their progression to that level has not been played. At a shelter off the field, Rill, a gnoll warrior
+looking for her sister among its returning faces, can join a company that shares food. Her sister is the Ferryman's
+factor: a reunion at Cador's can stop an order before it is bought, but cannot undo a delivery already made.
+Rill's family sword gains a real, limited opening strike after the reunion; with Rill at the brass pointer it grows
+stronger. It is an equipped item's field act before a fight, not a change to its ordinary melee attacks.
+Beyond her shelter, the keeper of a hall of angles accepts food or fights; a door behind the keeper opens a
+physical return to the Quiet Gallery. Its minotaur is an explicitly adapted body, not a faithful SRD stat block.
+The ring keeper also offers a tile game: each draw costs time, the
+company decides when to stop, and the wager changes real purses. Her pool can be fished: a bite gives a sign to
+answer, and a catch becomes a ration after six hours' smoking. An old balance beside the ring's arch offers a
+third activity: the company can set three numbered weights to open the arch without fighting its guardians, but
+a wrong total calls them into combat. Its partial state survives a save. The same principle can be used with a
+real rope to balance the Calx wheel and lower the gate more quickly; an arriving guard can interrupt that work.
+The balanced ring also exposes a way into a reflected place. A water elemental can be fought or freed from its
+hook. Beyond it, panes show the road guard and masons at their actual positions, and suggest a city of terraces
+whose water does not agree with itself. A raven among them advises watching the enemy's food and, for a ration,
+can take the drawing's news to Merren. The enemy scouts after the decision; a sold drawing can shorten the
+approach only after it passes physically through a buyer and a courier to the Ferryman. The company can pay to
+recover it from the buyer or the courier. A willow beside the handoff can tell them which way the courier went,
+if it witnessed the exchange. A separate scout walks the west road and examines the portal. If she sees it open
+and returns to the Ferryman, he orders a guard even if the company has told him nothing; she can be paid to leave
+before reporting. The crew's clock begins only when Merren hears, from the company or the raven.
+Three linked shutters offer a second route
+onto the field around the dragon: each handle also moves a neighbour, and the fighters still meet whoever enters.
+The raven also offers a three-note call and response; answering it earns a real coil of line, while a missed note
+costs time before another attempt. Releasing the elemental also starts a flood beyond the landing. The company
+can follow a changing current to open a spill and save Senn, the keeper of a house beneath the water; a wrong turn risks
+injury, and the flood does not wait if the company leaves. Senn is a mage from Ammerlin and can join the company;
+they can help lower the Calx Gate more quickly, if the guard does not interrupt. Their story is a link to Low Water,
+not a way into that adventure yet. At the river bank the company can spend rope and an hour to rig a basket of
+stones, then drop it on a raider before the fighting begins.
 
 The optional `data/adventures/tallow/long-ford.campaign.json` starts at Sallowfield and joins its east road to Swallet.
 The same company travels between them. The Sallowfield chapter closes without stopping a surviving company, but a
@@ -26,6 +82,8 @@ keeping Sallowfield's picked men in its vale when the company has gone, and its 
 variants are not installed in the generated reference game. This is not yet the four-season arc: most episodes,
 strategic plans and the interlocked finale remain to be built and proven. Raiders follow timed authored rules, not an
 autonomous strategic simulation.
+Authoring findings and the unbuilt experimental requests are recorded in
+[the campaign's friction](../adventures/long-campaign/friction.md).
 
 ## A war seen from a doorway
 
