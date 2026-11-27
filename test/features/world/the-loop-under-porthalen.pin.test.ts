@@ -8,6 +8,7 @@ import { Situations } from '../../../src/lang/situations';
 import { AsMeant } from '../../support/as-meant';
 import type { CreatureStore } from '../../../src/creature-store';
 import { GoldenWalk } from '../../support/golden-walk';
+import { TalkWay } from '../../support/talk-way';
 
 // The brief's reference journey (BRIEF §3.2; sprint 3), in the supported fixture: Porthalen, Iscoed's first town, and
 // the dungeon under it, grown from its undertown (three ways down, by the corn-store, the churchyard and the quarry,
@@ -91,7 +92,11 @@ class Walk {
   row(words: string): Row | undefined { return rows(this.s).find(x => new RegExp(words, 'i').test(x.label)); }
   async play(steps: string[]): Promise<void> {
     for (const step of steps) {
-      const row = step === 'through' ? undefined : this.row(step.slice(1));
+      // Found as the page's player finds it, a talk open (TalkWay, OR-1451).
+      const way = step === 'through' ? undefined
+        : await TalkWay.find(this.r, this.s, x => new RegExp(step.slice(1), 'i').test(x.label));
+      if (way) { this.s = way.said; }
+      const row = way?.o;
       if (step !== 'through') { expect([step, row?.label]).toEqual([step, expect.any(String)]); }
       let said = await AsMeant.ask(this.r, JSON.stringify({ act: row?.id ?? RunnerFight.through }));
       // Pressed on, the fight is handed back at each new danger (PressOn, OR-830), and pressed on again past it.

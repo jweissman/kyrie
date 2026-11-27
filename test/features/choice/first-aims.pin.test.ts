@@ -7,6 +7,7 @@ import { Milestones } from '../../../src/lang';
 import { Undertakings } from '../../../src/presentation/undertakings';
 import { AsMeant } from '../../support/as-meant';
 import { GoldenWalk } from '../../support/golden-walk';
+import { TalkWay } from '../../support/talk-way';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. Choice and consequence › The First Aims (OR-443; the
 // owner's direction of 24 November, §9): one optional, nested undertaking in three levels (its chapter, "First
@@ -15,10 +16,6 @@ import { GoldenWalk } from '../../support/golden-walk';
 // gone down into and explored to their second level; Dun Rìerdan learnt of from the Rì's proclamation. Available only
 // once two of its first things are done (what was done before counts), achieved when all are, each rewarded once,
 // and its end told once.
-type Row = { id: string; label: string; opens?: Row[] };
-const flat = (rs: Row[]): Row[] => rs.flatMap(r => [r, ...flat(r.opens ?? [])]);
-const rows = (s: Said): Row[] => flat([...s.offer?.primary ?? [], ...s.offer?.rest ?? [],
-  ...Object.values(s.offer?.lenses ?? {}).flat()] as Row[]);
 describe('Choice and consequence › The First Aims', () => {
   it('recognises what the company did unprompted, offers the undertaking after, and rewards each part once', async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
@@ -33,7 +30,10 @@ describe('Choice and consequence › The First Aims', () => {
     let s = r.said('look');
     const play = async (steps: string[]) => {
       for (const step of steps) {
-        const found = step === 'through' ? undefined : rows(s).find(x => new RegExp(step, 'i').test(x.label));
+        // Found as the page's player finds it, a talk open (TalkWay, OR-1451).
+        const way = step === 'through' ? undefined : await TalkWay.find(r, s, x => new RegExp(step, 'i').test(x.label));
+        if (way) { s = way.said; }
+        const found = way?.o;
         if (step !== 'through') { expect([step, found?.label]).toEqual([step, expect.any(String)]); }
         const said = await AsMeant.ask(r, JSON.stringify({ act: found?.id ?? RunnerFight.through }));
         expect([step, 'error' in said ? said.error : '']).toEqual([step, '']);

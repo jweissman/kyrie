@@ -40,6 +40,8 @@ describe('what was found against Mardle, said before the reeve', () => {
     // She heard it herself: she is not told it again as news, and the landing says what the ruling changed.
     await take(r, /^Talk to Reeve Annis Talfryn/);
     expect(offered(r.said()).map(o => o.label)).not.toContain('Tell the reeve how Mardle counts the droves');
+    // Her leave taken, the landing's ways are offered (the talk's question offers what is said to her: OR-1451).
+    await take(r, /^Take your leave/);
     await take(r, /^Into the Stone Horn/);
     expect((await take(r, /what the waterfront is saying/)).scene.lines.join(' ')).toContain('count the next drove');
   }, 240000);

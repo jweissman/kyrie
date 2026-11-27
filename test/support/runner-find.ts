@@ -1,5 +1,6 @@
 import type { Offered, Runner, Said } from '../../src/cli/runner';
 import { RunnerOffer } from '../../src/cli/runner-offer';
+import { TalkWay } from './talk-way';
 
 // An act found by its words as a player finds it: among what is offered, else under the talk of one of the people here
 // (turned to, taking no time, or talked to by their own row: the runner holds what is said to someone under their
@@ -10,15 +11,11 @@ export class RunnerFind {
     const all = (x: Said) => RunnerOffer.flat([...x.offer.primary, ...x.offer.rest]);
     const here = all(s).find(x => label.test(x.label));
     if (here) { return { said: s, o: here }; }
-    // As the turn stands now (a talk already turned to since s was said).
-    const now = r.said(), held = all(now).find(x => label.test(x.label));
-    if (held) { return { said: now, o: held }; }
-    // In a talk, the place's acts are the place's (the engine's question, OR-1451): its leave taken, they are offered.
-    const leave = all(now).find(x => /^take_leave\(|^focus:place$/.test(x.does ?? ''));
-    if (leave) {
-      const left = await r.ask(JSON.stringify({ act: leave.does }));
-      if (!('error' in left)) { return RunnerFind.find(r, left, label); }
-    }
+    // As the turn stands now (a talk already turned to since s was said): in it, on another page, under its Trade, or
+    // at the place once the talk is put by (TalkWay: focus:place, no time).
+    const now = await TalkWay.find(r, r.said(), x => label.test(x.label));
+    if (now.o) { return { said: now.said, o: now.o }; }
+    if (now.said !== s && !TalkWay.talking(now.said)) { s = now.said; }
     // Each person here talked to (talk_to), else turned to (talk:<person>, no time): a talk is their row
     // (<person>#talk, led for something within it or not) or one that talks to them.
     const talks = all(s).filter(x => RunnerFind.whom(x));
