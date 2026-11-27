@@ -16,8 +16,7 @@ import { ScreenModel } from '../../src/ui/screen-model';
 import { Services } from '../../src/ui/services';
 import { TownPlan } from '../../src/ui/town-plan';
 import { Withheld } from '../../src/ui/withheld';
-import { KeptReading } from '../../src/lang';
-import { World } from '../../src/lang/world';
+import { KeptReading, World } from '../../src/lang';
 import { AsMeant } from '../../test/support/as-meant';
 import { GoldenWalk } from '../../test/support/golden-walk';
 
