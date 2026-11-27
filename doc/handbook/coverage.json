@@ -27,9 +27,9 @@
     "concept": "character",
     "total": 25,
     "feasible": 25,
-    "catalogued": 11,
+    "catalogued": 10,
     "represented": 0,
-    "executable": 14,
+    "executable": 15,
     "play-validated": 0
    },
    {
@@ -798,20 +798,20 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 723,
+    "faithful": 725,
     "adapted": 425,
     "represented": 4,
     "kyr": 636,
     "unsupported": 66,
     "unreachable": 4,
-    "data-only": 12
+    "data-only": 11
    },
    "sections": [
     {
      "id": "ancestries",
      "title": "Ancestries",
      "counts": {
-      "faithful": 12,
+      "faithful": 13,
       "adapted": 2,
       "represented": 0,
       "kyr": 1,
@@ -993,13 +993,13 @@
      "id": "orsino-company",
      "title": "Appendix: Orsino's peoples and skills",
      "counts": {
-      "faithful": 61,
+      "faithful": 62,
       "adapted": 5,
       "represented": 4,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
-      "data-only": 12
+      "data-only": 11
      }
     }
    ]
@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 351,
+    "kyr": 352,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 305,
+      "kyr": 306,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1201,6 +1201,13 @@
   {
    "id": "ancestry:goblin",
    "title": "Goblin",
+   "status": "faithful",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:gnoll",
+   "title": "Gnoll",
    "status": "faithful",
    "book": "phb",
    "section": "ancestries"
@@ -13759,7 +13766,7 @@
   {
    "id": "orsino:ancestry:gnoll",
    "title": "Gnoll",
-   "status": "data-only",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ancestry"
   },
@@ -15152,6 +15159,13 @@
   {
    "id": "rule:world_core.dice",
    "title": "dice",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.dayDice",
+   "title": "dayDice, fortune",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"

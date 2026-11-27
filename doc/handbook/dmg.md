@@ -868,7 +868,7 @@ Also kept, without comment: memberOf, awake, slain, itemKind, ownedItem, knows, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 29 | 62 | 18 | 5 | 5 | 9 |
+| 29 | 62 | 20 | 5 | 5 | 9 |
 
 #### member, item, itemkind, fact
 
@@ -1167,6 +1167,12 @@ The hour of the day (0 to 23) and the day since the company came (1, 2…): what
 *Kyr · measure(entity)* · `rule:world_core.dice`
 
 A die thrown each watch, 1 to 100, for what is left to chance: dice(clock) for the world, and dice(x) for each thing's own, so that what is left to chance in two places, or for two people, does not fall out alike.
+
+#### dayDice, fortune
+
+*Kyr · measure(clock); measure(entity, place)* · `rule:world_core.dayDice`
+
+A thing's fortune at a place for the day, 1 to 100: the same all that day, however long the acts before it took (a road's band, met on a leg: fortune(band, road)), drawn from the day's die (dayDice).
 
 #### season
 
