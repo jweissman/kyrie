@@ -16403,13 +16403,6 @@
    "section": "world-rules/rules-services"
   },
   {
-   "id": "kit:tinker",
-   "title": "A tinker at work",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "making-worlds/kits"
-  },
-  {
    "id": "kit:bounty",
    "title": "A price on a power",
    "status": "kyr",
@@ -16426,6 +16419,13 @@
   {
    "id": "kit:toll_road",
    "title": "A toll on a road",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "making-worlds/kits"
+  },
+  {
+   "id": "kit:tinker",
+   "title": "A tinker at work",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"
