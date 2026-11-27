@@ -357,10 +357,7 @@ export class Effects {
         break;
       }
       case 'gain': Effects.gain(effect, target, rolled, context); break;
-      case 'learn':
-        if (!target.abilities.includes(effect.ability)) { target.abilities.push(effect.ability); }
-        Effects.detail(context, target, { type: 'learn', detail: effect.ability });
-        break;
+      case 'learn': Effects.learn(effect, target, context); break;
       case 'summon': {
         if (!actor) { throw new Error('Summoning requires a creature actor'); }
         Summoning.call(effect, actor, context);
@@ -368,6 +365,11 @@ export class Effects {
       }
       case 'travel': context.location = effect.location; Effects.detail(context, target, { type: 'travel', detail: effect.location }); break;
     }
+  }
+  private static learn(effect: Extract<Effect, { kind: 'learn' }>, target: Fighter, context: EffectContext) {
+    if (!target.abilities.includes(effect.ability)) { target.abilities.push(effect.ability); }
+    if (!(target.taught ??= []).includes(effect.ability)) { target.taught.push(effect.ability); }
+    Effects.detail(context, target, { type: 'learn', detail: effect.ability });
   }
   // Spell slots made ready again, mana up to its maximum, or coin and experience.
   private static gain(effect: Extract<Effect, { kind: 'gain' }>, target: Fighter, rolled: number,
