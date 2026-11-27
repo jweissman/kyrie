@@ -198,9 +198,7 @@ export class Campaign implements WatchHost {
   get readout() { WorldReads.all(); return { ...this.current, creatures: this.creatures.live }; }
   get readWorld() { return KeptReading.memo.bind(KeptReading, this.world); }
   // The log, the action schemas and the company as it would fight, likewise without copies. Never change them.
-  // elapsed: the turns elapsed now, for the session's reckoning between commands (its focus, OR-1451); no rule's.
-  get history(): readonly CampaignEvent[] { return this.log; } get elapsed(): number { return this.current.elapsed; }
-  get schemaList(): readonly Operator[] { return this.definition?.schemas ?? []; }
+  get history(): readonly CampaignEvent[] { return this.log; } get elapsed(): number { return this.current.elapsed; } get schemaList(): readonly Operator[] { return this.definition?.schemas ?? []; }
   get installed(): string[] { return (this.definition?.installations ?? []).map(m => m.id); }
   get fighters(): Fighter[] { return this.current.partyIds.map(id => CombatProjection.fighter(this.catalog, this.creatures.get(id), 'fighters')); }
   get events() { return structuredClone(this.log); }

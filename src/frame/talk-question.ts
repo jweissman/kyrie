@@ -50,7 +50,7 @@ export class TalkQuestion {
     campaign?: Campaign): Question {
     if (focus.kind !== 'talk') { return { focus }; }
     const talk = this.talk(frame, focus);
-    return talk ? { focus, talk: this.asked(frame, focus, talk, conversation, campaign) }
+    return talk ? { focus, talk: this.asked(frame, focus, { talk, conversation, campaign }) }
       : { focus: { kind: 'place' } };
   }
   // The one talked with as the scene holds them, their leave the session's own where the world has none to take (a
@@ -60,8 +60,10 @@ export class TalkQuestion {
     if (!talk) { return undefined; }
     return talk.leave.command ? talk : { ...talk, leave: { ...talk.leave, command: 'focus:place' } };
   }
-  private static asked(frame: Pick<Frame, 'screen' | 'leaf'>, focus: Extract<Focus, { kind: 'talk' }>, talk: Talk,
-    conversation?: Conversation, campaign?: Campaign): TalkAsked {
+  private static asked(frame: Pick<Frame, 'screen' | 'leaf'>,
+    focus: Extract<Focus, { kind: 'talk' }>,
+    context: { talk: Talk; conversation?: Conversation; campaign?: Campaign }): TalkAsked {
+    const { talk, conversation, campaign } = context;
     const screen = frame.screen, g = frame.leaf.glance, who = talk.subject.id;
     const counter = screen.trade.find(c => c.id === who), { wares, rest } = Wares.of(counter, talk.replies);
     const all = Attending.all(TalkFocus.simple(rest)), asked = this.ids(all, conversation?.asked ?? []);
