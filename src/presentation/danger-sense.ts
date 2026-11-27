@@ -161,10 +161,12 @@ export class DangerSense {
   }
   private static readonly lately = new WeakMap<Battle, Reckoning>();
   // Reckoned after the moment (a host's frame already sent): moved is called where the reckoning is not the one known.
-  static later(battle: Battle, moved: () => void): void {
+  // still: whether the fight is still the one the host waits on; one gone on from (its turn answered, the fight over, a
+  // new game begun) is not reckoned again, its fighters let go of (a reckoning after it had thrown between commands).
+  static later(battle: Battle, moved: () => void, still?: () => boolean): void {
     const { reckoning, fresh } = DangerSense.known(battle);
     if (fresh) { return; }
-    setTimeout(() => { if (DangerSense.of(battle).text !== reckoning?.text) { moved(); } }, 0);
+    setTimeout(() => { if ((!still || still()) && DangerSense.of(battle).text !== reckoning?.text) { moved(); } }, 0);
   }
   // A fight's standing as its reckoning is keyed: who stands, as hurt and as spent as they are.
   private static joined(battle: Battle): string {
