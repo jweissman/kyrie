@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 206 pins (175 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 708 live rows, 228 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 206 pins (175 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 715 live rows, 229 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -151,7 +151,7 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 8 pins · 10 defects · 12 asks
+- **Journeys over known ways** · 8 pins · 9 defects · 12 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
@@ -564,7 +564,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 23 defects · 32 asks
+- **Rows, lenses and the frame** · 3 pins · 23 defects · 38 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -591,6 +591,12 @@ page's colours and opportunities.)
   - direction OR-388 P3: The hint vocabulary's later uses (OR-382's remainder): a page read through an instrument (the…
   - requirement OR-535 P2: The embers become the sky: in creation the title's sparks go out on its first page (OR-530) and…
   - direction OR-1364 P1: A conversation, a thing examined, the map's selection and what has been asked are held by each…
+  - requirement OR-1450 P1: The three clients (the page's engine, the terminal's session, the runner) are held to one another…
+  - requirement OR-1451 P1: A conversation is the clients': whom the company is talking with, what has been asked and heard,…
+  - requirement OR-1452 P1: A thing examined is the page's (attention, focused, acted): the thing looked at and the lens path…
+  - requirement OR-1453 P1: The map's selection and paging are the clients' (outdoors, charted, mapPage; the runner's map: and…
+  - requirement OR-1454 P1: The place at rest's parts and lenses, and the sheets, are the page's (exploring, kept, talking,…
+  - requirement OR-1455 P1: The frame's menu is drawn differently by what each client remembers (MenuModel.build's attention,…
   - requirement OR-1247 P3: The Pack beside the company's one page: what is carried is used, worn and dropped there, so it…
   - requirement OR-125 P1: The action row, M22's central object, given the precision of a larger composition (the owner, 19…
   - direction PA-08 P2: World assembly and social structure: can Kyr and Deem generate people within households, lineages,…
@@ -761,7 +767,7 @@ page's colours and opportunities.)
 
 ### The engine
 
-- **Incremental computation** · 5 pins · 3 defects · 10 asks
+- **Incremental computation** · 5 pins · 5 defects · 10 asks
   - ✓ keeps each record and the revision
   - ✓ replaces only the record that changed, and moves the revision
   - ✓ is not solved again while the clock moves, and fires once the part that failed holds

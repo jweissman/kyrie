@@ -10,8 +10,11 @@ Module world_elements "Fire, frost and other elements let loose in a place" {
   // what made it (OR-1100: `Event … when tried(webs, burning)`).
   Relation elementVerb(element, verb).
   Initially Assert elementVerb(fire, burning).
-  // A thing put to an element's try where it stands lets the element loose in that place.
-  Rule put_to when tried(?t, ?v) and elementVerb(?e, ?v) and at(?t, ?p) and not exposedTo(?p, ?e) {
+  // A thing put to an element's try where it stands lets the element loose in that place. Written by its try, not any
+  // try (tried(?t, ?v)): a rule that reads any try of any thing reads its being looked at too, and every thing in the
+  // world then answers a close look (LookAnswers), which put "Look closely at the corn-store padlock" among its tries
+  // and a close look among every scene's leads (OR-1462). One rule a try, as elementVerb gains them.
+  Rule put_to when tried(?t, burning) and elementVerb(?e, burning) and at(?t, ?p) and not exposedTo(?p, ?e) {
     Assert exposedTo(?p, ?e). }
   // An ability whose harm lets loose an element a try answers (Fire Bolt's fire, burning), written by the engine from
   // the rules domain's shadow of its effects; cast between fights at a thing that suits the try, for its cost (a spell

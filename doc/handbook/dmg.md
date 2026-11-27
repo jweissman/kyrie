@@ -1550,9 +1550,9 @@ What an element does to a thing it reaches, as a try (data/rules/probing.kyr): f
 
 *Kyr · rule* · `rule:world_elements.put_to`
 
-A thing put to an element's try where it stands lets the element loose in that place.
+A thing put to an element's try where it stands lets the element loose in that place. Written by its try, not any try (tried(?t, ?v)): a rule that reads any try of any thing reads its being looked at too, and every thing in the world then answers a close look (LookAnswers), which put "Look closely at the corn-store padlock" among its tries and a close look among every scene's leads (OR-1462). One rule a try, as elementVerb gains them.
 
-> When: tried(?t, ?v); elementVerb(?e, ?v); at(?t, ?p); not (exposedTo(?p, ?e))
+> When: tried(?t, burning); elementVerb(?e, burning); at(?t, ?p); not (exposedTo(?p, ?e))
 
 > Then: Assert exposedTo(?p, ?e).
 
