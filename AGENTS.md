@@ -283,7 +283,7 @@ this help the player forget the interface and become interested in what happens 
 - **The owner's checkout** is theirs: no stash, reset, edits or git in it beyond a fast-forward after landing. Their
   uncommitted edits (lint limits, deem.run.json) are requirements. Content they leave untracked (docs, paintings in
   assets/bg) is checked in byte for byte from a worktree. Never `git stash`; compare with a worktree or `git show`.
-- **Worktrees:** under /var/tmp/kyrie, dated names, made by `/var/tmp/kyrie/tools/worktree.sh <name> <base> [<new
+- **Worktrees:** under /var/tmp/kyrie, dated names, made by `scripts/machine/worktree.sh <name> <base> [<new
   branch>]`: a sparse checkout without assets/ (the owner's 1.7 GB of images), set for that worktree alone, then `bun
   install` (3.5 s against 30 s whole, install included, 25 November). `FULL=1` makes a full one, for painting work.
   Run git as `git -C <path>` and chain with `&&`, never `;`.
@@ -296,6 +296,11 @@ this help the player forget the interface and become interested in what happens 
   and pushed once (the owner, 26 November); on red, the failing spec or a bisect names the commit, which is reverted
   alone. Run `bun run test:small` before landing prose. `scripts/landing/full.sh`
   runs the whole suite first.
+  The lead gates and lands with `scripts/landing/gate.sh` (`WT=<worktree> TAG=<tag> SHA=<sha>`): a throwaway worktree
+  at the sha, rebased by `rebase-register.sh` (the register's conflicts resolved by row: `resolve-register.py`,
+  `planning-merge.py`), `reverts-guard.sh`, check:fast and test:small through heavy.sh, then land.sh. A batch is
+  stacked in a worktree of its own by `scripts/landing/stack.sh <sha>...` (it refuses the owner's checkout); a stop
+  names the file a person must resolve. Give every git-changing command a guarded `cd <worktree> || exit 1`.
 - **Gates:** a gate is the runner's exit status, read in its own call before committing; never a grep for "N fail".
   Guard spec paths (`test -n "$f" &&`): a bare `bun test` is the whole suite. Check a spec name is free before writing
   one. Never read `process.env` at module load in shared src.
@@ -305,8 +310,9 @@ this help the player forget the interface and become interested in what happens 
 - **Machine load:** at most two subagents at once, cold-play agents included (the owner, 26 November, superseding
   three besides the lead). The first slot goes to the critical path (the frame tree); the other rotates among World,
   Game and cold play. WSL has 19 GB: every heavy run (a suite, a world walk, the world gate) goes
-  through `/var/tmp/kyrie/tools/heavy.sh`, which takes the machine's lock and holds it under a memory ceiling, so a
-  runaway is killed rather than WSL (it hung twice on 25 November). No edits in a tree while its suite runs; no poll
+  through `scripts/machine/heavy.sh`, which takes the machine's lock and holds it under a memory ceiling, so a
+  runaway is killed rather than WSL (it hung twice on 25 November). Where there is no lock directory (a cloud builder,
+  CI) it simply runs the command. No edits in a tree while its suite runs; no poll
   loops; never `pkill -f` a pattern that is in the command itself. A worktree is removed once its branch lands.
 - **Autonomy:** decide ordinary design calls, and report each as a trade-off and a call. Never end a turn waiting on
   the owner. Ask only for direction-level or artistic choices. One app on main, in small verified increments.
