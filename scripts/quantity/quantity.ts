@@ -7,7 +7,8 @@
 // the Atlas's marks are, what is near the first town, how varied and how far the first hour's aims, the first
 // dungeon, and what authored content no world reaches. Each composes the instruments that already read it
 // (doc/architecture/quantity.md).
-//   bun scripts/quantity/quantity.ts [--update | --rebase] [--only walks,countries,stranded] [--seeds iscoed,a1,thorn]
+//   bun scripts/quantity/quantity.ts [--update | --rebase] [--only walks,delve,countries,stranded]
+//     [--seeds iscoed,a1,thorn]
 // Bands are written by hand in baseline.json, each with its reason in measures.ts. --update writes a ratchet where it
 // has moved the right way (or has no baseline yet), so the ratchet holds the gain; --rebase writes every ratchet as
 // read, for when a change is meant to move one the wrong way (say why in the commit).
@@ -17,9 +18,10 @@ import { ActivationCensus } from '../activation-census';
 import { QuantityCountry } from './country';
 import { QuantityMeasures, type Measure, type Reading, type Readings } from './measures';
 import { QuantityWalks } from './walks';
+import { QuantityDelver } from './delver';
 import { Reckon } from './reckon';
 
-type Group = 'walks' | 'countries' | 'stranded';
+type Group = 'walks' | 'delve' | 'countries' | 'stranded';
 export interface Baseline {
   bands: Record<string, { floor?: number; ceiling?: number }>; ratchets: Record<string, number>;
 }
@@ -37,6 +39,10 @@ export class Quantity {
     if (groups.includes('walks')) {
       r.golden = await QuantityWalks.golden();
       for (const seed of seeds) { r.gold.push(await QuantityWalks.gold(seed)); console.error(`walked ${seed}`); }
+    }
+    if (groups.includes('delve')) {
+      r.delved = [];
+      for (const seed of seeds) { r.delved.push(await QuantityDelver.walk(seed)); console.error(`delved ${seed}`); }
     }
     if (groups.includes('countries')) {
       for (const seed of seeds) { r.countries.push(await QuantityCountry.read(seed)); console.error(`read ${seed}`); }
@@ -96,7 +102,7 @@ export class Quantity {
     } catch { /* A reading not kept is only not said. */ }
   }
   static async run(args: string[]): Promise<number> {
-    const groups = (this.option(args, 'only')?.split(',') ?? ['walks', 'countries', 'stranded']) as Group[];
+    const groups = (this.option(args, 'only')?.split(',') ?? ['walks', 'delve', 'countries', 'stranded']) as Group[];
     const seeds = this.option(args, 'seeds')?.split(',') ?? this.seeds;
     const readings = await this.gather(seeds, groups), base = this.baseline(), rebase = args.includes('--rebase');
     const rows = QuantityMeasures.all.map(m => {
