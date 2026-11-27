@@ -1,3 +1,4 @@
+import type { Frame } from '../creation/protocol';
 import { appendFile } from 'node:fs/promises';
 import type { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
@@ -29,6 +30,7 @@ import { DoableJourneys } from '../presentation/doable-journeys';
 import { Itineraries } from '../ui/itinerary';
 import { RunnerTalks } from './runner-talks';
 import { MenuTree } from '../frame/menu-tree';
+import { PlaceQuestion } from '../frame/place-question';
 import { QuestionAsked } from '../frame/question-asked';
 import type { Question } from '../frame/talk-question';
 import { PackSaid } from '../presentation/pack-said';
@@ -59,8 +61,9 @@ export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' |
   // rest that, flat, in the same order.
   // more: how many of a lens are folded out of the rest, there to be looked at through it ({"lens":"journeys"}: CL-33;
   // {"lens":"pack"}, what is done with the things carried: CL-67).
+  // page: at the place, the page of its question offered and Something else… (OR-1494), its act the command next.
   offer: { primary: Offered[]; rest: Offered[]; lenses?: Partial<Record<Kept, Offered[]>>;
-    more?: Partial<Record<Kept, number>> };
+    more?: Partial<Record<Kept, number>>; page?: { at: number; of: number; next: string } };
   aim?: string; aims?: Aim[]; need?: string[]; next?: Next;
   amid?: true; broken?: string[]; end?: true; ending?: { title: string; lines: string[] };
   // How the aim followed goes on from here (Glance.continuance): its step, or what stands, in words, never nothing.
@@ -144,7 +147,9 @@ export class Runner {
     const leaf = this.journeyed(this.scene.leaf(c, screen, this.told), screen);
     now.glance = { of: leaf.glance }; this.leafed = leaf;
     // The question asked of the turn told (the session's focus: a talk's rows, as every client has them).
-    const question = c.running ? QuestionAsked.settle(this.session, { screen, leaf }) : undefined;
+    // Over the frame's menu, so that the place's pages are asked of it as the page's are (OR-1494).
+    const question = c.running ? QuestionAsked.settle(this.session, MenuTree.framed({ screen, leaf } as
+      Omit<Frame, 'menu'>)) : undefined;
     const lines = this.scene.lines(screen, leaf, turned, turned === 'act' && !!this.with).filter(l => l.trim());
     const g = leaf.glance, aim = AimSaid.of(screen, g?.aim);
     const { offer } = c.running ? this.offer(screen, g, question) : { offer: RunnerEnding.offer(this.session) };
@@ -192,10 +197,23 @@ export class Runner {
     const made = RunnerOffer.of(screen, g, this.names(), this.with);
     const asked = question?.talk ? RunnerTalks.asked(question, RunnerOffer.flat([...made.offer.primary,
       ...made.offer.rest, ...made.under])) : undefined;
+    // At the place, its page of the question (OR-1494), as the page and the terminal draw it: the four and Something
+    // else…, or a page after them; every other row of the scene in the rest.
+    const flat = RunnerOffer.flat([...made.offer.primary, ...made.offer.rest, ...made.under]);
+    // (The first page's four are the glance's offer, the runner's primary already: test/small/one-projection.)
+    const paged = !asked && question?.place?.page.at ? RunnerTalks.placed(question.place, flat) : undefined;
+    const shown = new Set(paged?.map(o => o.id) ?? []);
     const out = asked ? { ...made, offer: { primary: asked, rest: [] }, under: [...made.offer.primary,
-      ...made.offer.rest, ...made.under] } : made;
+      ...made.offer.rest, ...made.under] } : paged ? { ...made, offer: { ...made.offer, primary: paged,
+      rest: [...made.offer.primary, ...made.offer.rest].filter(o => !shown.has(o.id)), ...this.paging(question) } }
+      : !asked && question?.place ? { ...made, offer: { ...made.offer, ...this.paging(question) } } : made;
     this.again.keep(RunnerOffer.flat([...out.offer.primary, ...out.offer.rest, ...out.under]));
     return out;
+  }
+  // The place's page and Something else… (PlaceQuestion.next), where there is more than one.
+  private paging(question?: Question): { page?: { at: number; of: number; next: string } } {
+    const next = question?.place && PlaceQuestion.next(question.place);
+    return next ? { page: { at: next.at, of: next.of, next: next.command } } : {};
   }
   // A row by its id, by what it does, or by the id an older build kept it by (its place among its siblings: ChoiceIds).
   private static row<T extends { id: string; does?: string }>(all: T[], id: string): T | undefined {

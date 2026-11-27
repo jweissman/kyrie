@@ -83,4 +83,22 @@ export class PlaceQuestion {
     return all.find(c => c.id === o.choice) ?? all.find(c => !!o.command && c.command === o.command)
       ?? { id: o.choice, label: o.label, tone: 'way', command: o.command ?? o.choice };
   }
+  // The page shown as every client does it (OR-1494: one projection): each row that does something by a command, with
+  // the Atlas aspects its mark bears, Something else… apart (next); a thing's page (opened, not done) and the
+  // company's own page (the page's view) are the page's alone to open, the terminal and the runner listing them under
+  // all.
+  static paged(place: PlaceAsked): { id: string; label: string; command: string; aspects: string[]; note?: string }[] {
+    return place.rows.flatMap(r => !r.command || r.command.startsWith('view:') || r.id === this.more ? [] : [{
+      id: r.id, label: r.label, command: r.command, aspects: this.aspects(place, r.id),
+      ...r.note ? { note: r.note } : {} }]);
+  }
+  // Something else…, the page turned: its command and words, as every client offers it apart from the rows (the
+  // terminal's next, the runner's page.next), none where there is one page.
+  static next(place: PlaceAsked): { command: string; label: string; at: number; of: number } | undefined {
+    const r = place.rows.find(x => x.id === this.more);
+    return r?.command ? { command: r.command, label: r.label, at: place.page.at, of: place.page.of } : undefined;
+  }
+  private static aspects(place: PlaceAsked, id: string): string[] {
+    return [...new Set((place.marks[id] ?? []).flatMap(l => l.witnesses.flatMap(w => w.aspects)))].map(String);
+  }
 }

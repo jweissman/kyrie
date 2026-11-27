@@ -1,3 +1,4 @@
+import { PlaceQuestion, type PlaceAsked } from '../frame/place-question';
 import type { Act, Screen } from '../ui/screen-types';
 import { TalkFocus } from '../ui/talk-focus';
 import { TradeModel } from '../ui/trade-model';
@@ -67,6 +68,14 @@ export class RunnerTalks {
         .map(String);
       return [{ ...known ?? { id: r.command, label: r.label, type: 'talk' as const, marks: [] }, does: r.command,
         aspects, ...r.note && !known ? { note: r.note } : {} }];
+    });
+  }
+  // The place's page (PlaceQuestion.paged, OR-1494): each row as the offer has it, else by its command.
+  static placed(place: PlaceAsked, all: Offered[]): Offered[] {
+    return PlaceQuestion.paged(place).map(r => {
+      const known = all.find(o => o.does === r.command || o.id === r.command || o.id === r.id);
+      return { ...known ?? { id: r.command, label: r.label, type: 'other' as const, marks: [] }, does: r.command,
+        aspects: r.aspects, ...r.note && !known ? { note: r.note } : {} };
     });
   }
   // A talk called as the page calls it ("Talk to Kynes", not "Talk to Kynes, innkeeper").
