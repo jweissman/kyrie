@@ -25,9 +25,12 @@ class Town {
 }
 
 describe('the foreground, flat', () => {
+  // Read as the page draws the engine's four (GlanceStage.offered, in Doable's words): a thing's acts are on its own
+  // page now, one flat level (17a4355d0), so the glance's row for the tower holds no children to draw out of it, and
+  // it is the engine's own wording of the one act that says it.
   it('draws what a thing led by its name alone holds, in its own words', async () => {
-    const { g, app } = await Town.at('region__s1_shrine');
-    const shown = GlanceStage.foreground(app, g.glance.acts);
+    const { app } = await Town.at('region__s1_shrine');
+    const shown = GlanceStage.offered(app) ?? [];
     expect(shown.map(a => a.label)).toContain('Climb the tower and look out over Thornhaven');
     expect(shown.map(a => a.label)).not.toContain('the tower of the shrine');
   }, 120000);
