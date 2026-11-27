@@ -1,7 +1,7 @@
 import type { Campaign } from '../src/campaign/campaign';
 import type { Creature } from '../src/creature';
 import type { CombatEvent } from '../src/model';
-import type { Danger } from '../src/presentation/danger-sense';
+import { DangerSense, type Danger } from '../src/presentation/danger-sense';
 import { Marks } from '../src/ui/marks';
 import { Environment } from '../src/campaign/environment';
 import { ModuleWriter } from '../src/lang/module-writer';
@@ -58,7 +58,7 @@ export class FirstHourBands {
       name: world.module.entities.find(e => e.id === r.args[0])?.name ?? r.args[0]!, installation: '', trouble: '',
       minutes: 0, members: (members.get(r.args[0]!) ?? [])
         .map(m => world.module.entities.find(e => e.id === m)?.creatureId ?? m) }));
-    return bands.flatMap(b => this.band(begun, b, company, { trials, policy: 'stand' }));
+    return bands.flatMap(b => this.band(begun, b, company, { trials, policy: 'stand', told: true }));
   }
   // A member as a new life that has hired them stands: at full hit points.
   static whole(c: Creature): Creature {
@@ -70,8 +70,12 @@ export class FirstHourBands {
     const s = [...xs].sort((a, b) => a - b);
     return s[Math.floor(s.length / 2)] ?? 0;
   }
-  private static band(campaign: Campaign, band: Band, company: Creature[], run: { trials: number; policy: Policy })
-    : Banded[] {
+  // told: what the company is told of the band before it begins, as the game reckons it (DangerSense.reckon, its own
+  // key), not a reckoning of the census's own battle, whose trials are keyed apart: the swift banshees of s0's halls,
+  // lost one time in ten alone (36 of 40), were said hard by the game and fair by the census's own key, which had
+  // happened on 24 wins in 24 (Fights foretold, 27 November).
+  private static band(campaign: Campaign, band: Band, company: Creature[],
+    run: { trials: number; policy: Policy; told?: boolean }): Banded[] {
     const { trials, policy } = run;
     const creatures = campaign.readout.creatures, world = campaign.world, party = campaign.playerActor!;
     const foes = band.members.map(id => creatures.find(c => c.id === id)).filter((c): c is Creature => !!c);
@@ -81,7 +85,7 @@ export class FirstHourBands {
       prisoners: world.relates('takesPrisoners') && world.test(ModuleWriter.call('takesPrisoners', band.id)),
       place: Environment.encounter(world, party, company.map(c => c.id), band.id),
       ...reading.moment ? { moment: reading.moment } : {} };
-    const said = NoviceFights.reckoned(setup);
+    const said = (run.told ? DangerSense.reckon(campaign, band.id) : undefined) ?? NoviceFights.reckoned(setup);
     const out: Banded = { band: band.id, name: band.name, where: band.where, minutes: band.minutes,
       members: foes.length, said: said.danger, asks: Marks.asks(said), mortal: !!said.mortal, trials, won: 0,
       routed: 0, fled: 0, beaten: 0, fell: 0, rounds: [], lost: [], hit: 0, leaderLived: 0, meeting: reading.meeting,
