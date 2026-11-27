@@ -32,8 +32,9 @@ class Toll {
 }
 
 describe('a toll', () => {
-  // Ash and Kite have deserters on the road, Larch and Thorn the lord's customs-men; a warrior is believed in the first
-  // of each, not in the second.
+  // Ash and Kite have deserters on the road, Larch and Thorn the lord's customs-men; a warrior is believed in Ash, and
+  // not in the others (Larch's customs-men believed her until 239047cac kept the toll road off the quiet country by
+  // the first town, which placed it elsewhere, and its draws with it: OR-1348).
   it('can be talked down: through for nothing if believed, and not heard twice if not', async () => {
     const outcomes = await Promise.all(['ash', 'kite', 'larch', 'thorn'].map(async seed => {
       const { s, way, on } = await Toll.stopped(seed), talk = `tollKeepers__talk_toll(party,${way})`;
@@ -49,6 +50,6 @@ describe('a toll', () => {
       expect(Toll.legal(s)).toContain(`tollKeepers__pay_toll(party,${way})`);
       return 'not';
     }));
-    expect(outcomes).toEqual(['believed', 'not', 'believed', 'not']);
+    expect(outcomes).toEqual(['believed', 'not', 'not', 'not']);
   }, 240000);
 });
