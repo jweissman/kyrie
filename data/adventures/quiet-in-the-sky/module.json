@@ -25,6 +25,7 @@
     "after.kyr",
     "growth.kyr",
     "fellowship.kyr",
+    "count.kyr",
     "company.kyr",
     "lore.kyr"
   ],
@@ -37,7 +38,12 @@
   "canon": [
     "outer_ysgard",
     "imbar",
-    "cloudgate_fell"
+    "cloudgate_fell",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
   ],
   "exports": {
     "party": "party",

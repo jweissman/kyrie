@@ -52,7 +52,7 @@ export class MenuModel {
       return attended ?? MenuTree.opened(frame.menu, opened);
     }
     const sections = frame.combat ? ChoiceList.combat(frame.combat)
-      : view === 'pack' ? ChoiceList.pack(frame.screen) : this.character(frame.screen, member);
+      : view === 'pack' ? ChoiceList.pack(frame.screen) : this.carried(frame.screen, member);
     // What can be prepared in place of each spell is drawn under it, open (see CharacterPage.Prepared).
     return { sections, choices: sections.flatMap(s => s.id === 'prepare' ? s.choices.flatMap(g => g.children ?? [])
       : s.choices.flatMap(c => this.unfold(c, opened))) };
@@ -63,6 +63,13 @@ export class MenuModel {
   // A choice that spends a development, or opens only ways of spending one (Advance › Take up a skill).
   private static develops(c: Choice): boolean {
     return this.development.test(c.command ?? '') || (!!c.children?.length && c.children.every(k => this.develops(k)));
+  }
+  // The character's page whole (OR-1492: the backstage is your character): their sheet's sections, then what they
+  // carry, each thing with what can be done with it, and the company's tending.
+  static carried(screen: Frame['screen'], member?: string): Section[] {
+    const m = screen.party.find(x => x.id === member) ?? screen.party[0];
+    return [...this.character(screen, member), ...ChoiceList.pack(screen)
+      .filter(s => s.id === `pack:${m?.id ?? ''}` || s.id === 'tend')];
   }
   static character(screen: Frame['screen'], member?: string): Section[] {
     const m = screen.party.find(x => x.id === member) ?? screen.party[0];

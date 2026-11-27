@@ -1,0 +1,80 @@
+Module longman "The Long Man" {
+  Relation lmnCoinFound(group). Relation lmnDangerSettled(group). Relation lmnRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe lmn_coin_hint at rest when not lmnCoinFound(party)
+    "Water has run down the keeper’s niche though the ridge is dry. A stone bowl sits under the stain.".
+  Action lmn_find_coin(actor: group, site: place) "Lift the stone bowl in the keeper’s niche" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rest) and not lmnCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert lmnCoinFound(actor). Give count_coin to actor. }
+    Result "A man with a stylus is cut so faintly that only the nib shows. The first mill-keeper hid the coin here to mark the water owed after the lake was lowered.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe lmn_count_begins at road_end when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "A grey board lists Merrowdale’s water turns. The Long Man’s sluice is marked for the Ash.".
+  Observe lmn_count_broken at road_end when befell(ash_broken)
+    "The board comes down. Water is shared by the old marks on the sluice stone.".
+  Observe lmn_count_triumph at road_end when befell(ash_triumphs)
+    "The Ash controls the sluice. Merrowdale takes water by column, not by turn.".
+  Observe lmn_party_saved at road_end when lmnDangerSettled(party)
+    "Water slips under the old wheel-house. Dunnet rolls up the cart ledger before the road is empty.".
+
+  Person lmn_counting_leader "Surveyor Pel Stour" nowhere {
+    Role "a surveyor who knows which sluice can drown the old ledger room". Ancestry human. Calling warrior. Level 4.
+    Temperament defensive. Uses go, assail. Plans 5 steps.
+    Warns "Surveyor Pel Stour has set the measuring line across the road. Four guards hold the sluice for him.".
+  }
+  Person lmn_counting_party "the four sluice guards" nowhere {
+    Role "wheel-house guards who hold the waterway while the road is measured". Ancestry human. Calling warrior. Level 2. Numbers 4.
+    Temperament defensive. Uses go, assail. Plans 4 steps.
+    Warns "Four sluice guards hold the bank with polearms. They keep the old cart track under watch.".
+  }
+  Initially Assert serves(lmn_counting_party, lmn_counting_leader).
+  Rule lmn_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not lmnDangerSettled(party) {
+    Assert at(lmn_counting_party, road_end). Assert at(lmn_counting_leader, road_end).
+  }
+  Action lmn_fight(actor: group, site: place) "Stop Surveyor Stour at the water-measure" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road_end) and at(lmn_counting_party, road_end) and at(lmn_counting_leader, road_end) and not lmnDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(lmn_counting_party, actor). Assert assails(lmn_counting_leader, actor). }
+    Result "Surveyor Pel Stour turns the sluice wheel; the gallery takes his four guards in single file.".
+  }
+  Rule lmn_force_broken when at(lmn_counting_party, road_end) and at(lmn_counting_leader, road_end) and (not able(lmn_counting_party) or routed(lmn_counting_party)) and (not able(lmn_counting_leader) or routed(lmn_counting_leader)) and assails(lmn_counting_party, party) and assails(lmn_counting_leader, party) {
+    Assert lmnDangerSettled(party). Retract at(lmn_counting_party, road_end). Retract at(lmn_counting_leader, road_end).
+  }
+  Action lmn_coin_way(actor: group, site: place) "Offer the old coin as the mill-keeper’s water mark" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road_end) and at(lmn_counting_party, road_end) and at(lmn_counting_leader, road_end)
+      and not lmnDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert lmnDangerSettled(actor). Retract at(lmn_counting_party, road_end). Retract at(lmn_counting_leader, road_end). }
+    Result "The leader knows the mark from an older sluice book. His men withdraw from the wheel.".
+  }
+  Action lmn_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road_end) and at(lmn_counting_party, road_end) and at(lmn_counting_leader, road_end)
+      and not lmnDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert lmnDangerSettled(actor). Retract at(lmn_counting_party, road_end). Retract at(lmn_counting_leader, road_end). }
+    Result "The counters see your column and yield the sluice to the company.".
+  }
+  Action lmn_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road_end) and at(lmn_counting_party, road_end) and at(lmn_counting_leader, road_end)
+      and not lmnDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert lmnDangerSettled(actor). Retract at(lmn_counting_party, road_end). Retract at(lmn_counting_leader, road_end). }
+    Result "The slate gives the counters a lawful excuse to leave the wheel alone.".
+  }
+  Action lmn_local_way(actor: group, site: place) "Take Dunnet’s marked cart-way past the sluice" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road_end) and at(lmn_counting_party, road_end) and at(lmn_counting_leader, road_end)
+      and not lmnDangerSettled(actor) and noticedCart(dunnet).
+    Time 5 minutes.
+    On success { Assert lmnDangerSettled(actor). Retract at(lmn_counting_party, road_end). Retract at(lmn_counting_leader, road_end). }
+    Result "Dunnet’s mark leads under the water-measure and out beyond the guards. The old cart-way stays dry.".
+  }
+  Topic lmn_ri_help with dunnet "Ask Dunnet to mark the cart way for the Rì" when befell(company_sworn_ri) and not lmnRiHelped(actor) once {
+    Says "Dunnet taps the old cart ledger. “The measure is wrong where the wheel-house sinks. I’ll mark the dry cart way before Stour floods the page.”".
+    On discuss { Assert lmnRiHelped(actor). Assert noticedCart(dunnet). }
+  }
+
+}

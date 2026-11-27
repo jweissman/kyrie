@@ -1,4 +1,4 @@
-import { Voice } from '../../narrative/voice';
+import { VoiceWords } from '../../lang/index';
 import { Overlays } from '../../overlays';
 import { Canon } from '../../canon/canon';
 import { RegionGrowth } from '../region-growth';
@@ -62,7 +62,7 @@ export class CommunityWriter {
     return lines;
   }
   private static said(text: string, r: { name: string; pronoun: string }, place: string): string {
-    return Voice.render(text.replace(/\{Name\}/g, r.name).replace(/\{place\}/g, place), { pronoun: r.pronoun });
+    return VoiceWords.render(text.replace(/\{Name\}/g, r.name).replace(/\{place\}/g, place), { pronoun: r.pronoun });
   }
   // A painting of someone who could be them: of their sex, and of their work or its station; each one's own in the
   // country (see Portraits).
@@ -91,7 +91,7 @@ export class CommunityWriter {
   private static resident(region: Region, c: Community, r: Resident): string[] {
     const s = c.settlement, q = this.q, work = r.workplace ?? `${s.id}_green`;
     const kin = r.kin ? `, ${c.residents.find(x => x.id === r.kin!.to)?.name}'s ${r.kin.as}` : '';
-    const role = `the ${r.work.name}${kin}`, their = Voice.pronouns[r.pronoun]!.their;
+    const role = `the ${r.work.name}${kin}`, their = VoiceWords.pronouns[r.pronoun]!.their;
     const place = c.workplaces.find(w => w.id === r.workplace);
     const about = place && !place.common ? place.name : `${their} work`;
     const evening = r.evening === 'inn' && c.inn ? `${s.id}_taproom` : `${s.id}_houses`;

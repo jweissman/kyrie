@@ -1,0 +1,66 @@
+Module tallow "Tallow Deep" {
+  // The First Count, in a bowl of coins. Counting-coins turn up in out-of-the-way places all over the country (under a
+  // trough, behind a font, in a gannet's nest); Mistress Orpe weighs each one, and the bowl tells, a few coins at a
+  // time, what the First Count was, six hundred years ago, and why every keeping leaves its twelfth place empty. The
+  // tellings disagree, as the coins' faces do. At eleven, the company decides what goes in the twelfth place.
+  Measure lcCoinsWeighed(group).
+  Relation lcTroughCoin(group). Relation lcCoinOne(group). Relation lcCoinThree(group). Relation lcCoinFive(group).
+  Relation lcCoinEight(group). Relation lcCoinEleven(group). Relation lcMercyKept(group). Relation lcBlankFilled(group).
+  Discovery lc_fc_counter "The counting-coins are Aenean, struck for the First Count: not money, but one coin for each soul in the marches.".
+  Discovery lc_fc_prefect "The First Count was ordered by Lucan Vey, Prefect of the Marches, to raise a levy against an eastern power the coins call the Cinder.".
+  Discovery lc_fc_hiel "Twelve counters kept the First Count. The twelfth, Hiel of the fens, would not count the unnamed: the outlawed, the newborn, the unburied.".
+  Discovery lc_fc_faces "The coins' faces disagree: the stylus-man coins say Hiel was hanged for her blank column; the sickle-woman coins say she was pardoned; the blank coins say nothing, and weigh more.".
+  Discovery lc_first_count "By Lucan Vey's decree, every count since the First has left its twelfth place empty for those it will not count. The Ash means to fill it.".
+  Kind lc_twelfth_coin "The coin from the drawer marked NOT BLACK" is treasure worth 12 described "A counting-coin with no strokes on either face. It is warm. Mistress Orpe found it in her own drawer, where she says it has always been.".
+
+  Observe lc_trough_hint at green when not lcTroughCoin(party)
+    "A boy at the trough keeps pushing his thumb up under the stone lip and looking at it. The thumb comes out green.".
+  Action lc_trough_coin(actor: group, site: place) "Feel along the underside of the trough's lip" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and not lcTroughCoin(actor).
+    Time 5 minutes.
+    On success { Assert lcTroughCoin(actor). Give count_coin to actor. }
+    Result "Under the lip, pressed into a seam of old lead, is a green bronze disc the size of a thumbnail. Eleven strokes round the edge, and a gap. The boy watches you take it and says nothing, with great dignity.".
+  }
+
+  Action lc_weigh_coin(actor: group, site: place) "Ask Mistress Orpe to weigh a counting-coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(orpe, site) and holding(actor, count_coin)
+      and lcCoinsWeighed(actor) < 11.
+    Time 10 minutes.
+    On success { Spend count_coin from actor. Increase lcCoinsWeighed(actor) by 1. }
+    Result "Mistress Orpe sets the coin on the small pan and adds grains of shot to the other until they hang level. She writes the weight on a label and drops the coin into a pewter bowl. 'That is {lcCoinsWeighed(actor)},' she says. 'Bring me the rest. They want to be together. Coins do.'".
+  }
+  Rule lc_coin_one when lcCoinsWeighed(party) >= 1 and not lcCoinOne(party)
+    says "'This is not money,' says Mistress Orpe. 'Money is struck to be spent, and wears at the face. This has worn at the edge, from being counted out of a bowl and into a bowl. Aenean. The First Count. One for each soul.' She looks at the bowl as if it were full." teaches lc_fc_counter {
+    Assert lcCoinOne(party).
+  }
+  Rule lc_coin_three when lcCoinsWeighed(party) >= 3 and not lcCoinThree(party)
+    says "Three coins in the bowl, and Mistress Orpe has found a word under the green on the third: VEY. 'Lucan Vey,' she says. 'Prefect of the Marches. He counted every soul between the Mere and the sea to raise a levy against the Cinder, whatever the Cinder was. It is the same country the Ash is counting now.' She does not like the coincidence, and says so." teaches lc_fc_prefect {
+    Assert lcCoinThree(party).
+  }
+  Rule lc_coin_five when lcCoinsWeighed(party) >= 5 and not lcCoinFive(party)
+    says "With five in the bowl Mistress Orpe lays them out in a row by their strokes. 'Twelve counters,' she says, 'one to a column. The twelfth was a fen woman, Hiel. She would not count the ones without names: outlaws, babies, the dead nobody had buried yet. She left her column empty.' She touches the gap on the rim of a coin. 'Every one of these has her in it, as a hole.'" teaches lc_fc_hiel {
+    Assert lcCoinFive(party).
+  }
+  Rule lc_coin_eight when lcCoinsWeighed(party) >= 8 and not lcCoinEight(party)
+    says "Eight coins, and Mistress Orpe is cross with them. 'They do not agree,' she says. 'The ones with the man and the stylus say Hiel hanged at Vey's gate. The ones with the sickle say he pardoned her. The blank ones say nothing at all, and they weigh a grain more than the others, every one. A grain is not nothing, at this bench.'" teaches lc_fc_faces {
+    Assert lcCoinEight(party).
+  }
+  Rule lc_coin_eleven when lcCoinsWeighed(party) >= 11 and not lcCoinEleven(party)
+    says "Eleven coins in the pewter bowl, and a space in the ring of them where a twelfth would go. Mistress Orpe opens her drawer marked NOT BLACK and takes out a coin with no strokes on it at all. 'Vey's decree,' she says. 'Every count after his keeps the twelfth place empty, for the ones it will not count. Hanged or pardoned, that is what she left us.' She holds the blank coin over the gap and does not put it down. 'The Ash says the empty place is a debt. I say it is a door. It is your bowl now. You decide.'" teaches lc_first_count {
+    Assert lcCoinEleven(party).
+  }
+  Action lc_keep_blank(actor: group, site: place) "Leave the twelfth place in the bowl empty, and give Mistress Orpe back her blank coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(orpe, site) and lcCoinEleven(actor)
+      and not lcMercyKept(actor) and not lcBlankFilled(actor).
+    Time 10 minutes.
+    On success { Assert lcMercyKept(actor). Give lc_twelfth_coin to actor. }
+    Result "Mistress Orpe puts the blank coin in your hand instead of in the bowl, and closes your fingers on it. 'Then carry the door,' she says. By evening the assay house's clerk has copied Vey's decree out fair, and three carriers have taken it east to the marches, where councils argue about such things.".
+  }
+  Action lc_fill_blank(actor: group, site: place) "Lay the Ash's grey board in the twelfth place" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(orpe, site) and lcCoinEleven(actor)
+      and holding(actor, ash_tally) and not lcMercyKept(actor) and not lcBlankFilled(actor).
+    Time 5 minutes.
+    On success { Assert lcBlankFilled(actor). Retract at(orpe, site). }
+    Result "The board does not fit the gap, so you lay it across the bowl. Mistress Orpe looks at it for a long time. Then she takes off her apron, folds it on the counter, and walks out of her own assay house without her coat.".
+  }
+}

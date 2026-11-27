@@ -3564,6 +3564,18 @@
    "was": "defect",
    "pri": "P2",
    "why": "27 Nov: these headless walk specs must control the terminal environment they assert"
+  },
+  "OR-1500": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: an instrument the owner's playtest asked for (the first hour's wandering measured), not a failure of a claimed contract"
+  },
+  "OR-1505": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: the remainder of OR-1503's wanted connections, not an observed failure of a claimed contract"
   }
  },
  "blockedBy": {
@@ -3639,5 +3651,35 @@
   "GR-24": "OR-745",
   "OR-881": "OR-741",
   "OR-920": "OR-741"
+ },
+ "OR-1490": {
+  "kind": "defect",
+  "pri": "P1",
+  "why": "an observed violation of the one-menu, strict-four contract (the owner's playtest)"
+ },
+ "OR-1494": {
+  "kind": "requirement",
+  "pri": "P2",
+  "why": "the other clients' reading of a question the page already draws; no contract broken"
+ },
+ "OR-1495": {
+  "kind": "direction",
+  "pri": "P2",
+  "why": "how the rest of a big place should be chosen, a design question beyond the contract"
+ },
+ "OR-1491": {
+  "kind": "defect",
+  "pri": "P1",
+  "why": "surfaces shown without being earned, against the owner's ruling"
+ },
+ "OR-1492": {
+  "kind": "defect",
+  "pri": "P1",
+  "why": "the backstage drawn as several pages against the owner's ruling"
+ },
+ "OR-1493": {
+  "kind": "defect",
+  "pri": "P2",
+  "why": "the owner's ruling against ovals, observed on the fight page"
  }
 }

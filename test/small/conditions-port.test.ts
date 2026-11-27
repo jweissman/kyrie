@@ -16,13 +16,16 @@ const grey: InstalledDomain = { id: 'grey', conditions: {
 describe('the conditions port', () => {
   it('answers the runtime from the installation in scope', () => {
     expect(Installed.within(grey, () => [LevelDrain.drains('grey'), LevelDrain.drains('grey sleep'),
-      LevelDrain.drains('energy_drain'), Conditions.exact('grey sleep')])).toEqual([true, true, false, undefined]);
+      LevelDrain.drains('energy_drain'), Conditions.exact('grey sleep'), Conditions.name('grey sleep'),
+      Conditions.resolve('grey sleep'), Conditions.tone('grey')]))
+      .toEqual([true, true, false, undefined, 'the grey sleep', 'grey sleep', 'neutral']);
     expect(LevelDrain.drains('grey')).toBe(false);
   });
   it('is the fantasy canon\'s where the canon is loaded, and is not installed over', () => {
     const any = Object.keys(Canon.conditions)[0]!;
     expect(Conditions.exact(any)).toBe(Canon.conditions[any]);
     expect(Installed.rootId).toBe(FantasyRules.id);
+    expect(() => Installed.base(FantasyRules)).not.toThrow();
     expect(() => Installed.base(grey)).toThrow(/cannot replace/);
   });
   it('says so of an installation that brings no conditions', () => {

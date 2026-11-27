@@ -6,7 +6,8 @@ import type { TalkLine } from '../frame/talk-lines';
 // someone talked with (the page of their replies shown, and whether their wares are open). The session's own, never a
 // world fact: no rule reads it and the Digest does not change with it. Examination, the map, the parts of a place and
 // the sheets come in their own steps (OR-1452 to OR-1454); a fight, creation and the ending are derived, never set.
-export type Focus = { kind: 'place' } | { kind: 'talk'; with: string; page: number; trading: boolean };
+// At the place, the page of its rows shown past its four (the place's question, OR-1490), the first where none is said.
+export type Focus = { kind: 'place'; page?: number } | { kind: 'talk'; with: string; page: number; trading: boolean };
 // The conversation under way while the focus is talk: with whom, since when (the elapsed turn it opened at) and at
 // what turn the last thing was done in it; its lines, the text the player saw (narration is durable); the commands put
 // in it; heard, the commands that could be said before the last thing said (what is new since stands out); turned, the
@@ -98,7 +99,9 @@ export class Focusing {
       return { focus: { kind: 'talk', with: c.with, page: 0, trading: false }, conversation: { with: c.with, since: now,
         at: now, lines: [], asked: [], turned: at.turned, untold: { opening: true, exchange: false } } };
     }
-    if (focus.kind !== 'talk') { throw new Error(`${c.kind === 'page' ? 'A page' : 'Trade'} is turned to only in a talk`); }
+    // At the place, its next page of rows (the place's question: OR-1490); the first is its own (no page said).
+    if (focus.kind === 'place' && c.kind === 'page') { return { focus: c.page ? { kind: 'place', page: c.page } : this.place }; }
+    if (focus.kind !== 'talk') { throw new Error('Trade is turned to only in a talk'); }
     return { focus: c.kind === 'page' ? { ...focus, page: c.page } : { ...focus, trading: c.open, page: 0 },
       ...at.conversation ? { conversation: at.conversation } : {} };
   }

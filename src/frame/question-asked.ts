@@ -11,7 +11,7 @@ import type { Question } from './talk-question';
 // said and what came of it), then the question (MenuTree.question), which the session keeps as what was there to say.
 // Every client tells its frames by this one way: the page's host, the terminal and the runner.
 export class QuestionAsked {
-  static settle(session: PlaySession, frame: Pick<Frame, 'screen' | 'leaf'>): Question {
+  static settle(session: PlaySession, frame: Pick<Frame, 'screen' | 'leaf'> & Partial<Pick<Frame, 'menu'>>): Question {
     const c = session.conversation, untold = c?.untold;
     if (c && untold) {
       const says = untold.opening ? SceneModel.build(session.told?.screen ?? frame.screen).subjects

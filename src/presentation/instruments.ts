@@ -1,5 +1,5 @@
 import { SettingPort } from '../setting-port';
-import voice from '../../data/voice/instruments.json';
+import { PresentationResources } from '../ports/presentation-resources';
 import { Calendar } from '../campaign/calendar';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import type { Campaign } from '../campaign/campaign';
@@ -31,8 +31,9 @@ export class Instruments {
     return [...this.sky(campaign, screen), this.provisions(screen)];
   }
   private static named(id: Instrument['id'], extra?: string): Pick<Instrument, 'label' | 'gloss'> {
-    const v = (voice.instruments as Record<string, { label: string; gloss: string }>)[id]!;
-    return { label: v.label, gloss: extra ? `${v.gloss} ${extra}` : v.gloss };
+    const voice = PresentationResources.voice<{ instruments: Record<string, { label: string; gloss: string }> }>('instruments');
+    const v = voice?.instruments[id] ?? { label: id === 'sky' ? 'Sky' : 'Provisions', gloss: '' };
+    return { label: v.label, gloss: extra ? `${v.gloss} ${extra}`.trim() : v.gloss };
   }
   // The night sky as the company reads it, the one reading the instrument says and the night's telling tells (Fun
   // Friday's night sky: src/narrative/night-skies.ts): out under the sky only; the moon by its phase; the sign rising

@@ -103,8 +103,8 @@ Enduring: +2 hit points each level.
 *Faithful · not chosen by players* · `ancestry:gnoll`
 
 - STR +2 · DEX +1 · CON +1 · INT −2 · WIS −3 · CHA −1
-- Build: Seven feet when they stand up straight, which is seldom; lean and long-armed.
-- Ages: Grown at ten; old at fifty.
+- Build: Tall and strongly built, long-armed.
+- Ages: Grown in their late teens.
 - Callings: Warrior, Ranger, Thief, Commoner
 - Born with: Humanoid Traits, Enduring, Dread Fortitude
 
@@ -114,11 +114,11 @@ Enduring: +2 hit points each level.
 
 +10 against death, resists 10% of necrotic.
 
-> A tall, hyena-headed raider of the dry hills and the edges of the woods.
+> A hyena-featured person, strong and enduring; some join raiding packs along the dry hills and woods.
 
-> A spotted, sloping hide, a long jaw full of teeth, a stiff mane down the back, and a laugh that carries.
+> A spotted coat, long muzzle, rounded ears and a stiff mane, marked differently in every person.
 
-> Gnolls go in packs under the strongest, and live by what they take: herds, stores, travellers on the roads. A pack that finds old workings or a barrow near a town makes its den there and raids out of it until it is driven off.
+> Gnolls live in households and travelling bands. Some keep animals, work the roads or hire out their strength; others raid in packs under the strongest, taking herds, stores and travellers. A pack that finds old workings or a barrow near a town may make its den there until driven off.
 
 ### Glimmerkin
 
@@ -361,6 +361,30 @@ Faerie Charm: what they cast lasts 1 turn longer.
 > Too fair, or too strange, to be taken for anyone else for long. Something about them is always the colour of the season.
 
 > The fae keep courts in the deep woods, where the seasons turn as they please. Their rule is old, strange and bound by promises. A fae who walks among mortals does so out of curiosity, exile or a bargain, and keeps the letter of every word given.
+
+### Minotaur
+
+*Kyr · not chosen by players* · `ancestry:minotaur`
+
+- STR +4 · DEX 0 · CON +2 · INT −2 · WIS 0 · CHA −1
+- Build: Seven feet tall and heavy in the shoulder.
+- Ages: Grown at twenty; a keeper may hold one way for a century.
+- Callings: Warrior, Commoner
+- Born with: Humanoid Traits, Enduring, Berserker Rage
+
++1 against charms, +1 against fear.
+
+Enduring: +2 hit points each level.
+
++1 damage.
+
+> A bull-headed person, powerful and patient, a keeper of difficult ways.
+
+> A bull's head on a broad body taller than a door is made for, with horns that are mended, banded or carved, and never cut.
+
+> Minotaurs live alone or in pairs, each keeping one difficult way: a maze, a ford or a mill-race. A keeper takes a toll and keeps the way open in return. They count debts carefully and do not forget them.
+
+*Adapted: Kyr's keepers of difficult ways, met in the long campaign's hall of angles. The SRD minotaur's +8 Strength, +4 Constitution, -4 Intelligence and -2 Charisma, halved to this scale; its charge is the warrior's. A people rather than a catalogued monster until a minotaur is painted (every monster is painted by its own picture). Not a player ancestry.*
 
 ## Callings
 

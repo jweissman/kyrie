@@ -1,0 +1,100 @@
+Module hhg "The House That Grows" {
+  Relation htgCoinFound(group). Relation htgGlassGone(group). Relation htgRiAid(group). Relation htgAshRefused(group).
+  Discovery htg_pane_truth "The room in Haddo's barley has grown behind every watcher; its doors open only when nobody looks.".
+  Discovery htg_ri_word "Haddo will show a sworn company the old path through the barley without charging the watchers' mark.".
+  Discovery htg_ash_word "Haddo will not let a company carrying the Ash's name use his well.".
+
+  Observe htg_coin_hint at haddo_well when not htgCoinFound(party)
+    "A stone beside Haddo's well has been reset with pale mortar. The old cut on its underside points toward the barley.".
+  Action htg_find_coin(actor: group, site: place) "Lift the reset stone beside Haddo's well" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, haddo_well) and not htgCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert htgCoinFound(actor). Give count_coin to actor. }
+    Result "A bronze disc lies in the damp earth, its face blank from wear. Haddo says his grandfather found it in the first bucket drawn from the well, cut through the old ring's midden.".
+  }
+
+  Observe htg_count_barley at barley when befell(ash_count_begun) and not befell(ash_broken)
+    "A grey board stands against the annex. Twelve panes are ruled on it; the last has no name.".
+  Observe htg_count_ring at pond_side when befell(ash_count_begun) and not befell(ash_broken)
+    "Kezu has hung a lamp in the window. Below it a clerk has chalked a count on the pond stones.".
+  Observe htg_ash_broken at barley when befell(ash_broken)
+    "The grey board is facedown in Haddo's furrow. A row of barley has come up through its twelfth column.".
+  Observe htg_ash_triumphs at pond_side when befell(ash_triumphs)
+    "A grey board leans against the pond wall. Kezu has shut the door in her loft and does not answer.".
+
+  Observe htg_sabine_at_barley at barley when at(htg_sabine, barley)
+    "Sabine studies the glass room's doors. Four soldiers wait behind her with their hands on their belts.".
+  Person htg_sabine "Sabine of the Glass" nowhere {
+    Role "the Ash's glass mage, who read too far in the fallen room". Ancestry human. Calling mage. Level 8. Peaceable. Pronouns she.
+    Manner stoic. Carries dagger.
+    Arrives at barley when befell(ash_count_begun) and not befell(glass_mage_broken) and not befell(glass_mage_served).
+    Greets "Sabine measures each pane with a thread. 'A room that grows without a plan is waste,' she says. 'The Ash can count it properly.'".
+    Greets again "'The glass keeps its own counsel,' says Sabine. She puts the thread away.".
+  }
+  Person htg_panes "the Ash's pane-wardens" nowhere {
+    Role "Sabine's glass-wardens". Ancestry human. Calling warrior. Level 4. Numbers 5. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Warns "Five wardens spread along the barley. One carries a short bow; the others draw iron.".
+  }
+  Initially Assert serves(htg_panes, htg_sabine).
+  Rule htg_panes_arrive when at(htg_sabine, barley) and not htgGlassGone(party) {
+    Assert at(htg_panes, barley).
+  }
+  Action htg_read_glass(actor: group, site: place) "Read the backward tally scratched inside the glass room" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, root_cellar) and at(htg_sabine, barley) and not htgGlassGone(actor).
+    Time 5 minutes.
+    On success { Assert knows(actor, htg_pane_truth). }
+    Result "The tally runs from the last pane backward. Sabine has counted the room as if it were built from the outside.".
+  }
+  Topic htg_haddo_record with haddo "Show Haddo Sabine's backward tally" when knows(actor, htg_pane_truth) and at(htg_sabine, barley) and not htgGlassGone(actor) once {
+    Says "Haddo looks at the marks on the glass, then at the barley. 'It grew here before her board came,' he says. Sabine folds the thread. She will not count a room she cannot place.".
+    On discuss { Assert htgGlassGone(actor). Retract at(htg_sabine, barley). Retract at(htg_panes, barley). Assert befell(glass_mage_broken). }
+  }
+  Action htg_turn_the_watchers(actor: group, site: place) "Turn your back while the watchers open the glass door" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, barley) and at(htg_sabine, barley) and knows(actor, doors_known) and not htgGlassGone(actor).
+    Time 1 minute.
+    On success { Assert htgGlassGone(actor). Retract at(htg_sabine, barley). Retract at(htg_panes, barley). Assert befell(glass_mage_broken). }
+    Result "The door opens when you look away. Sabine takes one step into a room that was not there, then the house shuts it behind her.".
+  }
+  Action htg_challenge_sabine(actor: group, site: place) "Challenge Sabine and her pane-wardens" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, barley) and able(htg_sabine) and not htgGlassGone(actor).
+    Time 1 minute.
+    On success { Assert assails(htg_sabine, actor). Assert assails(htg_panes, actor). }
+    Result "Sabine gives a short order. The wardens draw their blades.".
+  }
+  Rule htg_sabine_broken when at(htg_sabine, barley) and assails(htg_panes, party) and (not able(htg_panes) or routed(htg_panes)) {
+    Assert htgGlassGone(party). Retract at(htg_sabine, barley). Retract at(htg_panes, barley). Assert befell(glass_mage_broken).
+  }
+  Action htg_serve_sabine(actor: group, site: place) "Promise Sabine the fallen room for the Ash's count" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, barley) and at(htg_sabine, barley) and befell(company_sworn_ash) and not htgGlassGone(actor).
+    Time 10 minutes.
+    On success { Assert htgGlassGone(actor). Retract at(htg_sabine, barley). Retract at(htg_panes, barley). Assert befell(glass_mage_served). Increase quantity(actor, gold) by 8. }
+    Result "Sabine gives you eight marks from her case. The wardens lift their board into the room and follow her through.".
+  }
+
+  Observe htg_ri_path_taken at barley when htgRiAid(party) "Two marks from the barley rent are missing. Haddo has left the west path open.".
+
+  Topic htg_ri_oath with haddo "Tell Haddo your company is sworn to the Rì" when befell(company_sworn_ri) and not knows(actor, htg_ri_word) once {
+    Says "Haddo points out the old path through the barley. 'The watchers have enough to watch,' he says. 'You can pass without their mark.'".
+    On discuss { Assert knows(actor, htg_ri_word). }
+  }
+  Action htg_ri_pass(actor: group, site: place) "Take Haddo's old path through the barley" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, barley) and knows(actor, htg_ri_word).
+    Time 5 minutes.
+    On success { Assert htgRiAid(actor). Increase quantity(actor, gold) by 2. }
+    Result "Haddo walks you past the watchers. He slips two marks into your hand for the west road.".
+  }
+  Topic htg_ash_oath with haddo "Tell Haddo your company is sworn to the Ash" when befell(company_sworn_ash) and not knows(actor, htg_ash_word) once {
+    Says "Haddo puts his bucket over the well. 'Not while that name is on your board,' he says. 'Go to the pond for water.'".
+    On discuss { Assert knows(actor, htg_ash_word). }
+  }
+  Action htg_ash_well(actor: group, site: place) "Draw water at Haddo's well under the Ash's tally" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, haddo_well) and knows(actor, htg_ash_word) and quantity(actor, gold) >= 2.
+    Time 10 minutes.
+    On success { Assert htgAshRefused(actor). Decrease quantity(actor, gold) by 2. }
+    Result "Haddo takes two marks for the water and leaves the bucket on the far side of the wall.".
+  }
+  Topic htg_tally with haddo "Show Haddo the Ash's tally-board" when holding(actor, ash_tally) and not htgAshRefused(actor) once {
+    Says "Haddo turns the board over. 'No names in my well,' he says. He drops it into the bucket and hauls it up without the tally.".
+    On discuss { Spend ash_tally from actor. Increase quantity(actor, gold) by 2. }
+  }
+}

@@ -1,0 +1,123 @@
+Module tallow "Tallow Deep" {
+  Place lc_basin "the hanging basin" is room within lc_mirror_land at 1, 1 outdoors.
+  Passage lc_basin_path "the steps across the still water" is path between lc_mirror_depths and lc_basin taking 10 minutes.
+  Person lc_basin_keeper "Senn, the keeper of the hanging basin" at lc_basin {
+    Role "a keeper of a house beneath a pool". Ancestry human. Calling mage. Level 2. Peaceable. Pronouns they.
+    Greets "The keeper looks up from the little house. 'It has never done that quickly before,' they say.".
+  }
+  Item lc_basin_bandages "the basin keeper's clean bandages" is bandages at lc_basin owned by lc_basin_keeper.
+  Relation lcBasinFloodStarted(group). Relation lcBasinFlooded(group). Relation lcBasinOpened(group).
+  Relation lcBasinLeft(group). Relation lcBasinGift(group).
+  Relation lcSennGateWorking(group). Measure lcSennGateDue(group).
+  Measure lcBasinFloodDue(group). Measure lcBasinPullDue(group). Measure lcBasinTurns(group).
+  Hazard lc_basin_slip "The turning wheel" means "Deal (1d4) physical damage to ally unless dexterity save against (12).".
+
+  Rule lc_basin_water_rises when lcMirrorReleased(party) and not lcBasinFloodStarted(party) {
+    Assert lcBasinFloodStarted(party). Assert lcBasinLeft(party). Give lc_basin_bandages to lc_basin_keeper.
+    Set lcBasinFloodDue(party) to watch(clock) + 18. Set lcBasinPullDue(party) to watch(clock) + 2.
+  }
+  Rule lc_basin_pull_right when lcBasinFloodStarted(party) and lcBasinLeft(party)
+    and not lcBasinFlooded(party) and not lcBasinOpened(party) and watch(clock) >= lcBasinPullDue(party) {
+    Retract lcBasinLeft(party). Set lcBasinPullDue(party) to watch(clock) + 2.
+  }
+  Rule lc_basin_pull_left when lcBasinFloodStarted(party) and not lcBasinLeft(party)
+    and not lcBasinFlooded(party) and not lcBasinOpened(party) and watch(clock) >= lcBasinPullDue(party) {
+    Assert lcBasinLeft(party). Set lcBasinPullDue(party) to watch(clock) + 2.
+  }
+  Rule lc_basin_overflows when lcBasinFloodStarted(party) and not lcBasinOpened(party) and not lcBasinFlooded(party)
+    and lcBasinTurns(party) < 2 and watch(clock) >= lcBasinFloodDue(party) {
+    Assert lcBasinFlooded(party).
+  }
+  Rule lc_basin_keeper_drowns when lcBasinFlooded(party) and at(lc_basin_keeper, lc_basin)
+    and able(lc_basin_keeper) {
+    Slay lc_basin_keeper.
+  }
+  Observe lc_basin_warning at lc_mirror_depths when lcBasinFloodStarted(party)
+    and not lcBasinOpened(party) and not lcBasinFlooded(party)
+    "Far across the water, a small house hangs below a pool rising quickly. Someone on its roof is shouting for help.".
+  Observe lc_basin_scene at lc_basin when true
+    "A house hangs beneath a bowl of water. Its chimney points down into the sky. A bronze spill-wheel stands on the near bank; the current runs uphill into the bowl.".
+  Observe lc_basin_keeper_holds at lc_basin when lcBasinFloodStarted(party) and not lcBasinOpened(party)
+    and not lcBasinFlooded(party) and able(lc_basin_keeper) and at(lc_basin_keeper, lc_basin)
+    "The keeper stands knee-deep on the roof, holding a hatch shut with both feet.".
+  Observe lc_basin_left at lc_basin when lcBasinFloodStarted(party) and lcBasinLeft(party)
+    and not lcBasinOpened(party) and not lcBasinFlooded(party)
+    "The spill-wheel pulls to the left. Two turns with the current will open it; against the current it snaps back.".
+  Observe lc_basin_right at lc_basin when lcBasinFloodStarted(party) and not lcBasinLeft(party)
+    and not lcBasinOpened(party) and not lcBasinFlooded(party)
+    "The spill-wheel pulls to the right. Two turns with the current will open it; against the current it snaps back.".
+  Observe lc_basin_progress at lc_basin when lcBasinTurns(party) == 1
+    and not lcBasinOpened(party) and not lcBasinFlooded(party) "The wheel has turned once; one more turn will open the spill.".
+  Action lc_basin_turn_left(actor: group, site: place) "Turn the spill-wheel left" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_basin)
+      and lcBasinFloodStarted(actor) and not lcBasinOpened(actor) and not lcBasinFlooded(actor)
+      and watch(clock) < lcBasinFloodDue(actor) and lcBasinLeft(actor).
+    Time 10 minutes.
+    On success { Increase lcBasinTurns(actor) by 1. }
+    Result "The wheel moves with the water.".
+  }
+  Action lc_basin_turn_right(actor: group, site: place) "Turn the spill-wheel right" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_basin)
+      and lcBasinFloodStarted(actor) and not lcBasinOpened(actor) and not lcBasinFlooded(actor)
+      and watch(clock) < lcBasinFloodDue(actor) and not lcBasinLeft(actor).
+    Time 10 minutes.
+    On success { Increase lcBasinTurns(actor) by 1. }
+    Result "The wheel moves with the water.".
+  }
+  Action lc_basin_wrong_left(actor: group, site: place) "Turn the spill-wheel left" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_basin)
+      and lcBasinFloodStarted(actor) and not lcBasinOpened(actor) and not lcBasinFlooded(actor)
+      and not lcBasinLeft(actor).
+    Time 10 minutes.
+    On success { Set lcBasinTurns(actor) to 0. Assert strikes(lc_basin_slip, actor). }
+    Result "The wheel kicks back against your hands.".
+  }
+  Action lc_basin_wrong_right(actor: group, site: place) "Turn the spill-wheel right" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_basin)
+      and lcBasinFloodStarted(actor) and not lcBasinOpened(actor) and not lcBasinFlooded(actor)
+      and lcBasinLeft(actor).
+    Time 10 minutes.
+    On success { Set lcBasinTurns(actor) to 0. Assert strikes(lc_basin_slip, actor). }
+    Result "The wheel kicks back against your hands.".
+  }
+  Rule lc_basin_spill when lcBasinTurns(party) >= 2 and not lcBasinOpened(party) and not lcBasinFlooded(party) {
+    Assert lcBasinOpened(party).
+  }
+  Observe lc_basin_safe at lc_basin when lcBasinOpened(party)
+    "The spill is open. Water falls from the bowl in a thin silver line, away from the little house.".
+  Observe lc_basin_lost at lc_basin when lcBasinFlooded(party)
+    "Water covers the house. The hatch floats open; the roof is empty.".
+  Topic lc_basin_thanks with lc_basin_keeper "Ask the basin keeper what they were holding shut"
+    when lcBasinOpened(party) and not lcBasinGift(party) and carries(lc_basin_keeper, lc_basin_bandages) once {
+    Says "'A cupboard,' they say. 'It has the clean things in it. I thought I could keep it dry.' They hand you a roll of bandages and look up at the open spill. 'I shall put the cupboard somewhere else.'".
+    On discuss { Give lc_basin_bandages to actor. Assert lcBasinGift(actor). }
+  }
+  Topic lc_basin_origin with lc_basin_keeper "Ask the basin keeper how they came here"
+    when lcBasinOpened(party) and not willing(lc_basin_keeper, actor) and not travelsWith(lc_basin_keeper, actor) once {
+    Says "'I studied the mere at Ammerlin,' Senn says. 'A pane showed this house, and I stepped through to see whether it was real. I could find no way back through that pane. If you mean to leave, I would like to come. There are people at home who should hear what this water does.'".
+    On discuss { Assert willing(lc_basin_keeper, actor). }
+  }
+  Action lc_senn_gate(actor: group, site: place) "Ask Senn to help lower the Calx Gate" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_house)
+      and travelsWith(lc_basin_keeper, actor) and joinedAs(?senn, lc_basin_keeper) and awake(?senn)
+      and state(calx_gate, raised) and not lcSennGateWorking(actor)
+      and (not at(lc_vanguard, gate_house) or not able(lc_vanguard)).
+    Time 30 minutes.
+    On success { Assert lcSennGateWorking(actor). Set lcSennGateDue(actor) to watch(clock) + 3. }
+    Result "Senn studies the teeth and finds a second purchase on the wheel. Together you begin lowering the gate.".
+  }
+  Rule lc_senn_gate_finished when lcSennGateWorking(party) and at(party, gate_house) and able(party)
+    and travelsWith(lc_basin_keeper, party) and joinedAs(?senn, lc_basin_keeper) and awake(?senn)
+    and state(calx_gate, raised) and (not at(lc_vanguard, gate_house) or not able(lc_vanguard))
+    and watch(clock) >= lcSennGateDue(party) {
+    Retract lcSennGateWorking(party). Assert state(calx_gate, freed).
+  }
+  Rule lc_senn_gate_interrupted when lcSennGateWorking(party)
+    and (not at(party, gate_house) or not able(party) or not travelsWith(lc_basin_keeper, party)
+    or not state(calx_gate, raised) or (at(lc_vanguard, gate_house) and able(lc_vanguard))) {
+    Retract lcSennGateWorking(party).
+  }
+  Rule lc_senn_gate_fallen when lcSennGateWorking(party) and joinedAs(?senn, lc_basin_keeper) and not awake(?senn) {
+    Retract lcSennGateWorking(party).
+  }
+}

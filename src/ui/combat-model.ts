@@ -2,9 +2,8 @@ import { Spellcasting } from '../rules/spellcasting';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { Narration } from '../presentation/narration';
 import { Effects } from '../effects';
-import { Canon } from '../canon/canon';
 import { Content } from '../content';
-import { ConditionSense } from '../canon/condition-sense';
+import { Conditions as ConditionSense } from '../ports/conditions';
 import type { Battle } from '../battle';
 import { Fighting } from '../rules/fighting';
 import { HitDicePool } from '../rules/hit-dice-pool';
@@ -23,8 +22,7 @@ import { FoeLore } from './foe-lore';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../lang/item-names';
 import type { CombatantRow, CombatScreen } from './screen-types';
-import { CreaturePortraits } from '../paintings/creature-portraits';
-import type { Face } from '../paintings/company-portraits';
+import { PresentationResources, type Face } from '../ports/presentation-resources';
 
 // Encounter projection for the game screen. Abilities and targets come from Battle.legalCommands only. Who is in the
 // fight is called as the company knows them (called, from BandNames): "the second of the agile bone hounds", as the
@@ -40,18 +38,18 @@ export class CombatModel {
       : quick ? DangerSense.known(battle).reckoning : DangerSense.of(battle);
     const moment = battle.opening && !battle.state.outcome ? DangerSense.of(battle) : undefined;
     const state = this.called(battle.state, called), actor = state.combatants.find(f => f.id === state.actor);
-    const ours = !!actor && battle.playerControls(actor.id);
+    const ours = !!actor && battle.playerControls(actor.id), portraits = PresentationResources.creaturePortraits();
     const choices = ours && !state.outcome ? CombatChoices.actions(battle.legalCommands(), battle.repertoire) : [];
     const foes = state.combatants.filter(f => f.team !== 'fighters')
-      .map(f => this.row(battle.catalog, f, state, CreaturePortraits.face(battle.catalog, f.raceId)));
+      .map(f => this.row(battle.catalog, f, state, portraits.face(battle.catalog, f.raceId)));
     return {
       turn: state.turn, actor: state.actor, actorName: actor?.name ?? '', ours, outcome: state.outcome,
-      ...foes.length && foes.every(f => f.face) ? { stage: 'portraits' as const } : {},
+      ...foes.length && foes.every(f => f.face) ? { stage: 'portraits' as const } : {}, theme: 'parchment' as const,
       // A creature by its kind's painting (a summoned hawk, a den's wolves), as one of the company by their portrait.
       foes,
       allies: state.combatants.filter(f => f.team === 'fighters')
         .map(f => this.row(
-          battle.catalog, f, state, faces?.get(f.id) ?? CreaturePortraits.face(battle.catalog, f.raceId),
+          battle.catalog, f, state, faces?.get(f.id) ?? portraits.face(battle.catalog, f.raceId),
         )),
       abilities: choices.map(c => ({ id: c.ability.id, name: this.named(c.ability, actor),
         text: MechanicsText.full(c.ability, actor && Effects.context(actor)),
@@ -75,7 +73,7 @@ export class CombatModel {
       order: (state.order ?? []).filter((id, i) => !i || state.combatants.some(f => f.id === id && f.hp > 0))
         .map(id => this.name(state, id)),
       laws: [...new Set(state.combatants.flatMap(f => f.statuses.map(s => s.id)).filter(id => ConditionSense.law(id)))]
-        .map(id => ({ name: ConditionSense.name(id), text: Canon.conditions[id]!.description })),
+        .map(id => ({ name: ConditionSense.name(id), text: ConditionSense.exact(id)!.description })),
       log: battle.events.map(e => this.line(e, state)).filter(line => !!line).slice(-40),
       round: battle.events.filter(e => e.type === 'initiative').length,
       exchanges: CombatTelling.exchanges(battle.events, state, said).map((t, n) => ({ n, ...t })),

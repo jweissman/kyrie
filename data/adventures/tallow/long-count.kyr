@@ -1,0 +1,277 @@
+Module tallow "Tallow Deep" {
+  // The turn of the second act. Lifting the hook in the water behind the measure (an act of mercy) let the
+  // standing water climb out. It had seen Rill, and it comes back as three of her. It is counting: what it was
+  // sent to count is Merren, who has kept the coalition's ledger of the road for a year.
+  Relation lcReflection(group). Relation lcSpent(group). Relation lcDiscHeld(group). Measure lcDisc(group).
+  Relation lcCountBegun(group). Relation lcCountClosed(group). Relation lcMerrenCounted(group).
+  Relation lcWheelGiven(group). Relation lcReflectionUnmade(group). Relation lcReflectionTurned(group).
+  Relation lcPaneOpened(group). Relation lcFerrymanDoubts(group). Relation lcFerrymanEast(group).
+  Relation lcQuirk(group, entity). Relation lcAskedFour(group).
+  Measure lcCountClose(group). Measure lcPaneAt(group). Measure lcPaneTarget(group).
+  Discovery lc_count_hands "Each of the new Rills holds her spear in her left hand. Rill holds hers in her right.".
+  Discovery lc_count_prints "A fourth line of wet prints crosses the Chandler's Arms to Merren's chair and stops there.".
+  Discovery lc_true_count "Merren's ledger gives the Ferryman's whole road: every post, every ration, every cart.".
+  Discovery lc_merren_wrong "The Merren in the Chandler's Arms does not remember the paper boats.".
+  Discovery lc_count_water "One of the new Rills counts a fifth, in the water, and does not trust her.".
+  Discovery lc_disc_window "Each brass disc is stamped with a window on its back, and a ring of holes on its face.".
+  Discovery lc_counting_city "Behind one of the panes, people sit at long tables counting. Merren is among them.".
+  Discovery lc_ferryman_east "The Ferryman means to go east, to the city behind the panes, when the season turns.".
+  Kind lc_wheel_kind "Merren's brass wheel" is gear described "A brass wheel the size of a coin, unpicked from a coat sleeve. The Rì's road crews wear it. The threads still hang from its edge.".
+  Item lc_merren_wheel "Merren's brass wheel" is lc_wheel_kind nowhere.
+  Hazard lc_pane_cold "the pane's cold" means "Deal (1d6) cold damage to ally.".
+  Hazard lc_spar_blow "a blow she did not see coming" means "Deal (1d8) physical damage to ally.".
+
+  Entity lc_quirk_loaf: fact "eating bread from the wrong end".
+  Entity lc_quirk_spoons: fact "counting spoons".
+  Entity lc_quirk_apron: fact "serving an empty table".
+  Entity lc_quirk_salute: fact "saluting the trough".
+  Entity lc_quirk_ducks: fact "drilling ducks".
+  Entity lc_quirk_echo: fact "answering with questions".
+  Entity lc_quirk_wading: fact "watching the river".
+  Entity lc_quirk_stones: fact "skipping stones".
+  Entity lc_quirk_sums: fact "writing in the mud".
+
+  Person lc_rill_bread "Rill at Lowen's table" nowhere {
+    Role "a gnoll in a patched soldier's coat". Ancestry gnoll. Calling warrior. Level 3. Peaceable. Pronouns she.
+    Greets "Rill looks up from the table. She has the same patched coat, the same notch in one ear. 'Sit,' she says. 'There is room on that side.'".
+  }
+  Person lc_rill_trough "Rill by the trough" nowhere {
+    Role "a gnoll in a patched soldier's coat". Ancestry gnoll. Calling warrior. Level 3. Peaceable. Pronouns she.
+    Greets "Rill turns from the trough with her spear on her shoulder. 'You took your time,' she says, pleasantly.".
+  }
+  Person lc_rill_bank "Rill on the bank" nowhere {
+    Role "a gnoll in a patched soldier's coat". Ancestry gnoll. Calling warrior. Level 3. Peaceable. Pronouns she.
+    Greets "Rill stands at the edge of the river. She nods to you, then to your Rill, exactly as long each time.".
+  }
+  Initially Assert lcReflection(lc_rill_bread). Initially Assert lcReflection(lc_rill_trough).
+  Initially Assert lcReflection(lc_rill_bank).
+
+  Rule lc_count_begins when lcMirrorReleased(party) and travelsWith(lc_gnoll_guide, party)
+    and joinedAs(?rill, lc_gnoll_guide) and awake(?rill) and not lcCountBegun(party)
+    and (at(party, green) or at(party, taproom))
+    says "Lowen comes out with a cloth over her shoulder and stops. She looks at Rill, then past you at the trough, then back through the door. 'Are you four Rills?' she asks. 'Only I have laid the table for one.'" {
+    Assert lcCountBegun(party). Set lcCountClose(party) to watch(clock) + 36.
+    Assert at(lc_rill_bread, taproom). Assert at(lc_rill_trough, green). Assert at(lc_rill_bank, bank).
+  }
+  Rule lc_count_numbers when lcCountBegun(party) and lcPaneTarget(party) < 3 {
+    Set lcDisc(lc_rill_bread) to 2. Set lcDisc(lc_rill_trough) to 1. Set lcDisc(lc_rill_bank) to 3.
+    Set lcPaneTarget(party) to 6.
+  }
+  Rule lc_ranger_sees_prints when lcCountBegun(party) and not lcCountClosed(party) and at(party, taproom)
+    and memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and not knows(party, lc_count_prints)
+    says "Before anyone has said a word, your ranger is looking at the floor. Three lines of wet prints come in at the door. A fourth goes across the room to Merren's chair and stops there." teaches lc_count_prints { }
+
+  Observe lc_quirk_loaf_seen at taproom when lcQuirk(lc_rill_bread, lc_quirk_loaf) and at(lc_rill_bread, taproom)
+    "Rill is eating Lowen's bread from the wrong end, carefully, as though it might be a trick.".
+  Observe lc_quirk_spoons_seen at taproom when lcQuirk(lc_rill_bread, lc_quirk_spoons) and at(lc_rill_bread, taproom)
+    "Rill is counting Lowen's spoons aloud. She reaches nine, frowns, and begins again at one.".
+  Observe lc_quirk_apron_seen at taproom when lcQuirk(lc_rill_bread, lc_quirk_apron) and at(lc_rill_bread, taproom)
+    "Rill has borrowed Lowen's apron and is serving soup to an empty table. She asks it whether it wants bread.".
+  Observe lc_quirk_salute_seen at green when lcQuirk(lc_rill_trough, lc_quirk_salute) and at(lc_rill_trough, green)
+    "Rill salutes the trough each time somebody dips a bucket in it.".
+  Observe lc_quirk_ducks_seen at green when lcQuirk(lc_rill_trough, lc_quirk_ducks) and at(lc_rill_trough, green)
+    "Rill is teaching the ducks to march in threes. The ducks are not interested.".
+  Observe lc_quirk_echo_seen at green when lcQuirk(lc_rill_trough, lc_quirk_echo) and at(lc_rill_trough, green)
+    "Rill answers every greeting with a question. A boy has been trying to make her stop for an hour.".
+  Observe lc_quirk_wading_seen at bank when lcQuirk(lc_rill_bank, lc_quirk_wading) and at(lc_rill_bank, bank)
+    "Rill stands in the river to the knees, very still, watching her own reflection with suspicion.".
+  Observe lc_quirk_stones_seen at bank when lcQuirk(lc_rill_bank, lc_quirk_stones) and at(lc_rill_bank, bank)
+    "Rill is skipping stones. Every stone skips three times and goes under without a splash.".
+  Observe lc_quirk_sums_seen at bank when lcQuirk(lc_rill_bank, lc_quirk_sums) and at(lc_rill_bank, bank)
+    "Rill is writing numbers in the mud with the butt of her spear, and rubbing them out with her foot.".
+  Observe lc_prints_seen at taproom when knows(party, lc_count_prints) and not lcCountClosed(party)
+    "Wet prints go from the door to Merren's chair. Nobody else seems to see them.".
+
+  Topic lc_four_bread with lc_rill_bread "Ask Rill whether there are four of her" when true once {
+    Says "'Four?' She looks at the bread. 'There is one of me. This is the third loaf. You may be counting the wrong things.' She hums while she chews; the tune is almost Tavi's.".
+    On discuss { Assert lcAskedFour(lc_rill_bread). }
+  }
+  Topic lc_four_trough with lc_rill_trough "Ask Rill whether there are four of her" when true once {
+    Says "'Are there?' she asks, interested. 'Are there four?' She waits, humming Tavi's tune from the wrong end. 'Are there?'".
+    On discuss { Assert lcAskedFour(lc_rill_trough). }
+  }
+  Topic lc_four_bank with lc_rill_bank "Ask Rill whether there are four of her" when true once {
+    Says "'Five, with the one in the water,' she says, without looking up. 'She is the one I do not trust. She walks into the Chandler's Arms and does not walk out.'".
+    On discuss { Assert knows(actor, lc_count_water). Assert lcAskedFour(lc_rill_bank). }
+  }
+
+  Action lc_watch_hands(actor: group, rill: group, site: place) "Watch how {rill} holds her spear" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and lcReflection(rill)
+      and not lcSpent(rill) and not knows(actor, lc_count_hands).
+    Time 10 minutes.
+    On success { Assert knows(actor, lc_count_hands). }
+    Result "She holds it in her left hand, as Rill holds hers in her right. When your Rill shifts her grip, so does she, the other way.".
+  }
+  Action lc_force_hand(actor: group, rill: group, site: place) "Put a spear in {rill}'s right hand" {
+    Description "She is the equal of your Rill in a fight.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and able(rill)
+      and lcReflection(rill) and not lcSpent(rill) and knows(actor, lc_count_hands) and peaceable(rill).
+    Time 0.
+    On success { Retract peaceable(rill). Assert assails(rill, actor). }
+    Result "She takes it. The hand closes on the shaft and keeps closing, through the wood, like water round a stick. Then she comes at you with your friend's whole weight.".
+  }
+  Action lc_spar(actor: group, fighter: member, rill: group, site: place) "Have {fighter} spar with {rill}" {
+    Description "A warrior can learn her timing in one pass and land the first blow. Then she fights in earnest.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and able(rill)
+      and lcReflection(rill) and not lcSpent(rill) and peaceable(rill)
+      and memberOf(fighter, actor) and awake(fighter) and hasCalling(fighter, calling_warrior).
+    Time 0.
+    On success { Retract peaceable(rill). Assert strikes(lc_spar_blow, rill). Assert assails(rill, actor). }
+    Result "{fighter} feints left. She answers right, exactly, as a reflection answers, and {fighter} is already inside the answer. The blow lands. The thing in Rill's coat stops smiling.".
+  }
+  Action lc_lift_disc(actor: group, thief: member, rill: group, site: place) "Have {thief} lift what {rill} carries in her coat" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and able(rill)
+      and lcReflection(rill) and not lcSpent(rill) and peaceable(rill)
+      and memberOf(thief, actor) and awake(thief) and hasCalling(thief, calling_thief).
+    Time 10 minutes.
+    On success { Retract at(rill, site). Assert lcSpent(rill). Assert lcDiscHeld(rill). }
+    Result "Her coat is too heavy on one side. {thief} brushes past and comes away with a brass disc. Rill pats her pocket, looks puzzled, and sits down on nothing. Her coat empties over the ground like a bucket.".
+  }
+  Action lc_light_rill(actor: group, mage: member, rill: group, site: place) "Have {mage} conjure light beside {rill}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and able(rill)
+      and lcReflection(rill) and not lcSpent(rill) and peaceable(rill)
+      and memberOf(mage, actor) and awake(mage) and canCast(mage, conjure_light).
+    Time 10 minutes.
+    On success { Retract at(rill, site). Assert lcSpent(rill). Assert lcDiscHeld(rill). }
+    Result "{mage}'s light hangs at her left. Her shadow falls to the left as well, towards it. She looks at the shadow, then at the light, as if one of them has made a mistake. When the light goes out there is a wet patch, and a brass disc in it.".
+  }
+  Action lc_charm_rill(actor: group, bard: member, rill: group, site: place) "Have {bard} sing Rill's mother's song to {rill}" {
+    Description "A bard's song is the one thing here a reflection cannot help answering, and it answers it backwards.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and able(rill)
+      and lcReflection(rill) and not lcSpent(rill) and peaceable(rill) and (lcKinMet(actor) or lcAskedFour(rill))
+      and memberOf(bard, actor) and awake(bard) and hasCalling(bard, calling_bard).
+    Time 10 minutes.
+    On success { Retract at(rill, site). Assert lcSpent(rill). Assert lcDiscHeld(rill). }
+    Result "{bard} sings the tune Tavi hummed at the Tally. She joins in, and sings it from the end back to the beginning, word for word. Your Rill laughs aloud. The other one stops, ashamed, and is a puddle with a brass disc in it.".
+  }
+  Action lc_still_rill(actor: group, monk: member, rill: group, site: place) "Have {monk} sit in stillness beside {rill}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and able(rill)
+      and lcReflection(rill) and not lcSpent(rill) and peaceable(rill)
+      and memberOf(monk, actor) and awake(monk) and canCast(monk, meditate).
+    Time 30 minutes.
+    On success { Retract at(rill, site). Assert lcSpent(rill). Assert lcDiscHeld(rill). }
+    Result "{monk} sits and breathes. She sits too. After a while it is plain that she breathes out each time {monk} breathes in. Water does that; people do not. When {monk} stops, she has stopped, and there is only a brass disc on the ground.".
+  }
+  Action lc_symbol_rill(actor: group, priest: member, rill: group, site: place) "Have {priest} show {rill} the holy sign" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(rill, site) and able(rill)
+      and lcReflection(rill) and not lcSpent(rill) and peaceable(rill)
+      and memberOf(priest, actor) and awake(priest) and hasCalling(priest, calling_cleric).
+    Time 10 minutes.
+    On success { Retract at(rill, site). Assert lcSpent(rill). Assert lcDiscHeld(rill). }
+    Result "{priest} makes the sign. She makes it back, reversed, and sees what she has done. 'Oh,' she says, quite kindly. Then she lets go, all at once, and leaves a brass disc behind.".
+  }
+  Rule lc_reflection_falls when lcReflection(?r) and not lcSpent(?r) and not able(?r)
+    says "Where she fell there is only water, running back towards the hill. A brass disc lies in it." {
+    Assert lcSpent(?r). Assert lcDiscHeld(?r).
+  }
+  Action lc_read_disc(actor: group, rill: group) "Turn over the brass disc from {rill}" {
+    Requires able(actor) and company(actor) and lcDiscHeld(rill).
+    Time 0.
+    On success { Assert knows(actor, lc_disc_window). }
+    Result "The disc is stamped on one side with {lcDisc(rill)} small holes in a ring, and on the other with a square like a window.".
+  }
+  Action lc_floor_prints(actor: group, site: place) "Look at the floor of the Chandler's Arms" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, taproom)
+      and lcCountBegun(actor) and not lcCountClosed(actor)
+      and (knows(actor, lc_count_hands) or knows(actor, lc_count_water)) and not knows(actor, lc_count_prints).
+    Time 10 minutes.
+    On success { Assert knows(actor, lc_count_prints). }
+    Result "The flags by the door are wet. Three lines of prints, each with the left foot leading. A fourth line goes across to Merren's chair and stops under it.".
+  }
+  Topic lc_merren_prints with lc_quartermaster "Show Merren the wet prints under her chair"
+    when knows(party, lc_count_prints) and lcCountBegun(party) and not lcCountClosed(party) once {
+    Says "Merren looks for a while. 'Then it is counting me,' she says. 'I have been counting them for a year; it was bound to notice.' She unpicks the brass wheel from her sleeve and puts it in your hand, then the ledger. 'The Rì's people know the wheel. The ledger is the Ferryman's whole road, every ration. Read it after.' She does not go anywhere. 'If I am counted, I would as soon be counted at my post.'".
+    On discuss { Give lc_merren_wheel to actor. Assert lcWheelGiven(actor). Assert knows(actor, lc_true_count). }
+  }
+
+  Person lc_merren_reflected "Merren Talwick" nowhere {
+    Role "a quartermaster with a brass wheel sewn to her left sleeve". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns she. Manner stoic.
+    Greets "'Merren Talwick,' she says. 'I am meant to get a repair crew fed.' She does not look at the paper boat on the sill.".
+  }
+  Rule lc_count_closes_last when lcCountBegun(party) and not lcCountClosed(party)
+    and lcSpent(lc_rill_bread) and lcSpent(lc_rill_trough) and lcSpent(lc_rill_bank)
+    says "Somewhere a door shuts that has no door. The last water does not run back to the hill. It runs towards the Chandler's Arms, under the door, and is gone. The Rill beside you puts her hand flat on her chest, as though checking which side it is on." {
+    Assert lcCountClosed(party). Assert lcMerrenCounted(party). Retract at(lc_quartermaster, taproom).
+    Assert at(lc_merren_reflected, taproom).
+  }
+  Rule lc_count_closes_late when lcCountBegun(party) and not lcCountClosed(party) and watch(clock) >= lcCountClose(party)
+    says "All at once Swallet is quieter, as if one of its voices had stopped. Anyone looking at a Rill who was not yours sees her turn to water where she stands and run downhill, every stream towards the Chandler's Arms." {
+    Assert lcCountClosed(party). Assert lcMerrenCounted(party). Retract at(lc_quartermaster, taproom).
+    Assert at(lc_merren_reflected, taproom).
+    Retract at(lc_rill_bread, taproom). Retract at(lc_rill_trough, green). Retract at(lc_rill_bank, bank).
+  }
+  Observe lc_chair_after at taproom when lcMerrenCounted(party) and at(lc_merren_reflected, taproom)
+    "The paper boat on the sill is wet through. Merren sits at the far table with the ledger. The brass wheel is on her other sleeve.".
+  Observe lc_chair_empty at taproom when lcMerrenCounted(party) and lcReflectionUnmade(party)
+    "Merren's chair is pushed back from the table. The paper boat on the sill has dried with a crease in it.".
+
+  Topic lc_reflected_boats with lc_merren_reflected "Ask Merren about the paper boats" when true once {
+    Says "'Boats?' She looks at the sill as though somebody had just put it there. 'I suppose someone made it.' She goes back to the ledger and writes a number in it with her left hand.".
+    On discuss { Assert knows(actor, lc_merren_wrong). }
+  }
+  Topic lc_reflected_road with lc_merren_reflected "Ask Merren how the road stands" when true once {
+    Says "'Rations in, rations out.' She turns a page. 'Somebody ought to know the numbers.' She never says who. Merren wrote with her right hand; this one writes with her left, and the ink runs uphill a little.".
+    On discuss { Assert knows(actor, lc_merren_wrong). }
+  }
+  Action lc_unmake_reflection(actor: group, site: place) "Tell her she is not Merren" {
+    Description "She will go. What she has been sending east will stop.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_merren_reflected, site)
+      and able(lc_merren_reflected) and knows(actor, lc_merren_wrong) and not lcReflectionTurned(actor).
+    Time 10 minutes.
+    On success { Retract at(lc_merren_reflected, site). Assert lcReflectionUnmade(actor). }
+    Result "She looks at her left hand for a long time. 'No,' she agrees. 'I was the count of her.' When you look again, the chair is wet and the ledger lies open at a page of numbers that read the same in neither direction.".
+  }
+  Action lc_turn_reflection(actor: group, site: place) "Give her the paper boat from the sill" {
+    Description "The boat was Merren's. What the reflection makes of it is hers.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_merren_reflected, site)
+      and able(lc_merren_reflected) and knows(actor, lc_merren_wrong) and knows(actor, lc_boats_memory)
+      and not lcReflectionTurned(actor).
+    Time 10 minutes.
+    On success { Assert lcReflectionTurned(actor). Assert knows(actor, lc_true_count). Assert knows(actor, lc_counting_city). }
+    Result "She turns the boat over. 'His always sank,' she says slowly, as though finding a word in another language. 'He said the water was unfair.' She looks up. 'I know where they keep her. I know what they want me to send them. I could send them something else.' She writes a number in the ledger, crosses it out, and writes another.".
+  }
+
+  Observe lc_panes_counted at lc_mirror_array when lcCountClosed(party) and not lcPaneOpened(party)
+    "Beneath the row of nine panes, somebody has scratched a sum into the floor: three rings of holes, a line, and a square.".
+  Action lc_count_panes(actor: group, site: place) "Step along to the next pane" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and lcCountClosed(actor) and knows(actor, lc_disc_window) and not lcPaneOpened(actor).
+    Time 0.
+    On success { Increase lcPaneAt(actor) by 1. }
+    Result "You stand before the pane numbered {lcPaneAt(actor)}, counting from the left.".
+  }
+  Rule lc_panes_wrap when lcPaneAt(party) > 9 { Set lcPaneAt(party) to 1. }
+  Action lc_press_wrong(actor: group, site: place) "Press your palm to the pane" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and lcCountClosed(actor) and not lcPaneOpened(actor) and lcPaneAt(actor) >= 1
+      and (lcPaneAt(actor) < lcPaneTarget(actor) or lcPaneAt(actor) > lcPaneTarget(actor)).
+    Time 10 minutes.
+    On success { Assert strikes(lc_pane_cold, actor). Set lcPaneAt(actor) to 0. }
+    Result "The glass is colder than ice. It holds the hand a moment too long. You lose your count pulling free.".
+  }
+  Action lc_press_right(actor: group, site: place) "Press your palm to the pane" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and lcCountClosed(actor) and not lcPaneOpened(actor) and lcPaneAt(actor) == lcPaneTarget(actor).
+    Time 10 minutes.
+    On success { Assert lcPaneOpened(actor). Assert knows(actor, lc_counting_city). Assert knows(actor, lc_true_count). }
+    Result "The glass gives like cold water. Beyond it are the terraces round the mere, boats lying on mud, and a long hall of tables where people sit counting. At the nearest a woman in a weather-stained coat writes in a ledger with her boots off. She does not look up. Chalked on the far wall are the Ferryman's posts and their rations, every one. Then the pane is hard again.".
+  }
+
+  Rule lc_ferryman_hears when lcMerrenCounted(party) and lcTermsHeard(party) and able(lc_ferryman)
+    and not lcFerrymanEast(party) and not at(lc_ferryman, green) and not lcFerrymanDoubts(party) {
+    Assert at(lc_ferryman, green).
+  }
+  Topic lc_ferryman_told with lc_ferryman "Tell the Ferryman that Merren has been counted"
+    when lcMerrenCounted(party) and not lcFerrymanDoubts(party) once {
+    Says "He does not answer for a while. 'They told me the count took only numbers.' He takes a scrap of paper from his coat and folds a boat, badly. 'I am going east when the season turns. If she is where you say, I may see her before you do.'".
+    On discuss { Assert knows(actor, lc_ferryman_east). }
+  }
+  Action lc_ferryman_carries(actor: group, site: place) "Ask the Ferryman to take the boat to her" {
+    Description "He would slow his raids, and go east.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_ferryman, site) and able(lc_ferryman)
+      and knows(actor, lc_ferryman_east) and not lcFerrymanDoubts(actor).
+    Time 10 minutes.
+    On success { Assert lcFerrymanDoubts(actor). Assert lcFerrymanEast(actor). Retract at(lc_ferryman, site). }
+    Result "He puts the boat inside his coat. 'It will sink,' he says. 'Mine always do.' He goes east along the lane without his pole, and the men at the end of the lane watch him go.".
+  }
+}

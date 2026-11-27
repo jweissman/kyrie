@@ -1,6 +1,6 @@
 import type { Act, Screen } from './screen-types';
 import { Content } from '../content';
-import { Canon } from '../canon/canon';
+import { Conditions } from '../ports/conditions';
 
 // Which of a member's acts give the company light: a spell whose effect lays a condition that grants it (Light).
 // Marked as the screen is built, so that the page can offer it in the dark without reading the catalogs (a mage in a
@@ -20,6 +20,6 @@ export class Illumination {
     const technique = /^field_spell\([^,]*,([^,)]*)/.exec(command)?.[1];
     const ability = technique ? Content.abilities.find(x => x.id === technique) : undefined;
     return !!ability?.effects.some(e => e.kind === 'apply'
-      && !!Canon.conditions[Canon.resolve('conditions', e.status)]?.grants?.includes('light'));
+      && !!Conditions.of(e.status)?.grants?.includes('light'));
   }
 }

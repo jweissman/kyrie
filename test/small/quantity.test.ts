@@ -5,6 +5,7 @@ import { QuantityMeasures, type Readings } from '../../scripts/quantity/measures
 import { Reckon } from '../../scripts/quantity/reckon';
 import { QuantityWalks, type Walked } from '../../scripts/quantity/walks';
 import { QuantityCountry, type Read } from '../../scripts/quantity/country';
+import { QuantityLeads, type Led } from '../../scripts/quantity/leads';
 import type { Campaign } from '../../src/campaign/campaign';
 import type { Predicate } from '../../src/lang/module';
 
@@ -85,6 +86,28 @@ describe('the quantity gate', () => {
       if (m.kind === 'band') { expect(base.bands[m.id]).toBeDefined(); }
       if (m.kind === 'up' || m.kind === 'down') { expect(base.ratchets[m.id]).toBeDefined(); }
     }
+  });
+  it('reads the reference game\'s first hour: the way to the dungeon, its colours, its aims, its blank moves', () => {
+    const life = (name: string, o: Partial<Led>): Led => ({ name, mouth: 10, wandered: 12, tones: ['gold', 'red'],
+      above: ['gold'], jobs: [], blank: { led: 1, wandered: 2 }, moves: { led: 60, wandered: 60 }, blanks: {}, ...o });
+    const leads: Readings = { ...fixed, leads: [life('warrior order', { mouth: 22, wandered: null, blanks: { ride: 3 },
+      jobs: [{ id: 'errand', text: '', opens: ['aim wood_go'] }, { id: 'home', text: '', opens: [] }] }),
+    life('mage debt', { mouth: 9, above: ['gold', 'blue', 'green'], blanks: { ride: 1, edge: 2 } }),
+    life('thief map', { mouth: null })] };
+    const at = (id: string) => Reckon[QuantityMeasures.all.find(m => m.id === id)!.read](leads);
+    // A life never come to the mouth counts as farthest; a wanderer that never finds it, as strayed.
+    expect([at('mouth').value, at('strayed').value, at('colours').value]).toEqual([22, 1, 1]);
+    expect(at('connected').value).toBe(50);
+    expect(at('connected').note).toContain('opening nothing: home');
+    expect(at('aimless').value).toBe(3);
+    expect(at('aimless').note).toBe('ride 4, edge 2');
+    // Unread, each is said not read and held by nothing.
+    expect(Reckon.mouth(fixed).value).toBeNull();
+    // What an aim seen through opened: another aim, a fact a condition asks, someone joined; not a fact nothing asks.
+    const step = (held: string[], facts: string[], members = 1) => ({ held: new Set(held), facts: new Set(facts),
+      members, history: 0 });
+    expect(QuantityLeads.opened(step(['a'], []), step(['b'], ['read', 'idle'], 2), 'a', new Set(['read'])))
+      .toEqual(['aim b', 'fact read', 'joined']);
   });
   it('reads an aim\'s kind from its condition, and hexes over a land\'s cells', () => {
     const not = (name: string): Predicate => ({ kind: 'not', value: { kind: 'call', name, args: ['x'] } });

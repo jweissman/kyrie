@@ -21,7 +21,7 @@ import { Advancement } from '../rules/advancement';
 import { Perks, type PerkContext } from '../rules/perks';
 import { Environment } from './environment';
 import { LevelDrain } from '../rules/level-drain';
-import { ConditionSense } from '../canon/condition-sense';
+import { Conditions as ConditionSense } from '../ports/conditions';
 import { Earned } from '../lang/index';
 
 type Entity = Module['entities'][number];
@@ -196,8 +196,8 @@ export class CreatureFacts {
     }
     // The surfaces the player's company has earned (Earned): asserted once earned, never retracted.
     if (has.has('earned') && actor.player) {
-      const level = Math.max(0, ...members.map(c => c.base.level));
-      changes.push(...Earned.now(world, actor.id, { level, learning: done.has('learning') })
+      const mapped = members.some(c => (c.state.inventory ?? []).some(i => Earned.maps.has(i.definition)));
+      changes.push(...Earned.now(world, actor.id, { learning: done.has('learning'), mapped })
         .map(s => ({ kind: 'assert' as const, call: ModuleWriter.call('earned', actor.id, s) })));
     }
     const alive = members.some(c => c.state.hp > 0);

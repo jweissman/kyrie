@@ -1,0 +1,74 @@
+Module windfall "Windfall" {
+  Relation wdfCoinFound(group). Relation wdfDangerSettled(group). Relation wdfRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe wdf_coin_hint at sluice_house when not wdfCoinFound(party)
+    "The sluice-house lintel is stained by a flood that stopped at the door. A stone beneath it has been turned.".
+  Action wdf_find_coin(actor: group, site: place) "Turn the stone beneath the sluice-house lintel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, sluice_house) and not wdfCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert wdfCoinFound(actor). Give count_coin to actor. }
+    Result "The coin shows a blank face. The Wardens set it here when the old tide-gate first held the Saltings back.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe wdf_count_begins at road when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "A grey board stands above the sea-bank. Orchard rows are entered as men for the Ash’s count.".
+  Observe wdf_count_broken at road when befell(ash_broken)
+    "The board is swept into the sluice. The orchard keeps its own rows.".
+  Observe wdf_count_triumph at road when befell(ash_triumphs)
+    "The Ash counts the orchard by tree and takes the last dry ground for its camp.".
+  Observe wdf_party_saved at road when wdfDangerSettled(party)
+    "The tide-gate stands open; Tamsin sweeps bruised apples away from the crown of the road.".
+
+  Person wdf_counting_party "five orchard tithe-men under Warden Sol Darn" nowhere {
+    Role "old tide-gate surveyors pressed into the orchard levy to seize the first windfall tithe". Ancestry human. Calling warrior. Level 3. Numbers 5.
+    Temperament obedient. Uses go, assail. Plans 4 steps.
+    Warns "Five tithe-men carry ash staves and measure sacks at the gate. Warden Sol Darn has marked the orchard’s first picking.".
+  }
+  Rule wdf_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not wdfDangerSettled(party) {
+    Assert at(wdf_counting_party, road).
+  }
+  Action wdf_fight(actor: group, site: place) "Keep Warden Venn from closing the windfall road" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wdf_counting_party, road) and not wdfDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(wdf_counting_party, actor). }
+    Result "The tide-gate clanks shut. Five orchard tithe-men lift their staves and block the narrow road.".
+  }
+  Rule wdf_force_broken when at(wdf_counting_party, road) and (not able(wdf_counting_party) or routed(wdf_counting_party)) and assails(wdf_counting_party, party) {
+    Assert wdfDangerSettled(party). Retract at(wdf_counting_party, road).
+  }
+  Action wdf_coin_way(actor: group, site: place) "Offer the blank coin as the old tide-gate toll" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wdf_counting_party, road)
+      and not wdfDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert wdfDangerSettled(actor). Retract at(wdf_counting_party, road). }
+    Result "The leader knows the old gate mark. He orders his men away from the orchard rows.".
+  }
+  Action wdf_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wdf_counting_party, road)
+      and not wdfDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert wdfDangerSettled(actor). Retract at(wdf_counting_party, road). }
+    Result "The tithe-men leave the orchard to the company named in the twelfth place.".
+  }
+  Action wdf_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wdf_counting_party, road)
+      and not wdfDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert wdfDangerSettled(actor). Retract at(wdf_counting_party, road). }
+    Result "The slate makes the tithe-men turn back toward the road.".
+  }
+  Action wdf_local_way(actor: group, site: place) "Set Tamsin’s sack down as the orchard tithe" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wdf_counting_party, road)
+      and not wdfDangerSettled(actor) and holding(actor, wf_sack).
+    Time 5 minutes.
+    On success { Spend wf_sack from actor. Assert wdfDangerSettled(actor). Retract at(wdf_counting_party, road). }
+    Result "Warden Venn takes the windfalls for the tithe. His men leave the road open to the orchard.".
+  }
+  Topic wdf_ri_help with tamsin "Ask Tamsin for windfalls for the Rì’s road party" when befell(company_sworn_ri) and not wdfRiHelped(actor) once {
+    Says "Tamsin gives you a grain-sack of bruised apples. “They’ll take fruit before they take a name. Keep the sack where Warden Venn can see it.”".
+    On discuss { Assert wdfRiHelped(actor). Give wf_sack to actor. }
+  }
+
+}

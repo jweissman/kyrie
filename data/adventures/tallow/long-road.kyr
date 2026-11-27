@@ -1,0 +1,145 @@
+Module tallow "Tallow Deep" {
+  Relation lcCrewSent(group). Relation lcCrewAtPortal(group). Relation lcPortalCleared(group).
+  Relation lcRivalReturned(group). Relation lcRoadTold(group). Relation lcVanguardArrived(group).
+  Relation lcWorkPaused(group). Relation lcClearedByCrew(group).
+  Relation lcFoeDigging(group). Relation lcFoeDug(group). Relation lcFoeEntering(group).
+  Relation lcFoeInRoad(group). Relation lcFoeAdvancing(group). Relation lcFoeThrough(group).
+  Relation lcGateClosing(group).
+  Measure lcCrewDue(group). Measure lcWorkDue(group). Measure lcVanguardDue(group).
+  Measure lcFoeDigDue(group). Measure lcFoeEnterDue(group). Measure lcFoeAdvanceDue(group).
+  Measure lcGateCloseDue(group).
+  Discovery lc_road_offer "Merren's crew can clear the western fall; a bronze gate farther in may still be shut.".
+
+  Topic lc_crew_work with lc_crew "Ask the road crew what they can repair" when lcCrewArrived(party) and able(lc_crew) once {
+    Says "'We can clear the western fall,' says the mason, 'if you show us the old portal. When it is clear, the way goes through. There may still be a gate farther in.'".
+    On discuss { Assert knows(actor, lc_road_offer). }
+  }
+  Action lc_send_crew(actor: group, site: place) "Send Merren's crew to clear the western portal" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_crew, site) and able(lc_crew)
+      and knows(actor, lc_road_offer) and not lcCrewSent(actor) and state(buried_portal, buried).
+    Time 10 minutes.
+    On success { Assert lcCrewSent(actor). Retract at(lc_crew, taproom). Set lcCrewDue(actor) to watch(clock) + 12. }
+    Result "The masons load their shovels and take the west road. They reckon two hours to the portal and three more to clear its face, if no one stops them.".
+  }
+  Rule lc_crew_reaches_portal when lcCrewSent(party) and able(lc_crew) and not lcCrewAtPortal(party) and watch(clock) >= lcCrewDue(party) {
+    Assert lcCrewAtPortal(party). Assert at(lc_crew, calx_portal). Set lcWorkDue(party) to watch(clock) + 18.
+  }
+  Rule lc_crew_clears_portal when lcCrewAtPortal(party) and not lcPortalCleared(party)
+    and at(lc_crew, calx_portal) and able(lc_crew) and state(buried_portal, buried) and watch(clock) >= lcWorkDue(party)
+    and not lcWorkPaused(party) and (not at(lc_vanguard, calx_portal) or not able(lc_vanguard))
+    and (not at(lc_convoy, calx_portal) or not able(lc_convoy)) {
+    Assert state(buried_portal, dug). Assert lcPortalCleared(party). Assert lcClearedByCrew(party).
+  }
+  Rule lc_work_interrupted when lcCrewAtPortal(party) and not lcPortalCleared(party)
+    and at(lc_crew, calx_portal) and able(lc_crew) and not lcWorkPaused(party)
+    and ((at(lc_vanguard, calx_portal) and able(lc_vanguard)) or (at(lc_convoy, calx_portal) and able(lc_convoy))) {
+    Assert lcWorkPaused(party).
+  }
+  Rule lc_work_resumes when lcWorkPaused(party) and not lcPortalCleared(party) and at(lc_crew, calx_portal) and able(lc_crew)
+    and (not at(lc_vanguard, calx_portal) or not able(lc_vanguard))
+    and (not at(lc_convoy, calx_portal) or not able(lc_convoy)) {
+    Retract lcWorkPaused(party). Set lcWorkDue(party) to watch(clock) + 18.
+  }
+  Rule lc_portal_already_clear when lcCrewAtPortal(party) and not lcPortalCleared(party)
+    and at(lc_crew, calx_portal) and able(lc_crew) and state(buried_portal, dug) {
+    Assert lcPortalCleared(party).
+  }
+  Observe lc_working at calx_portal when lcCrewAtPortal(party) and at(lc_crew, calx_portal) and able(lc_crew) and not lcPortalCleared(party)
+    and (not at(lc_vanguard, calx_portal) or not able(lc_vanguard))
+    and (not at(lc_convoy, calx_portal) or not able(lc_convoy))
+    "Merren's masons are shifting the scree, one shovel at a time.".
+  Observe lc_work_stopped at calx_portal when lcCrewAtPortal(party) and at(lc_crew, calx_portal) and able(lc_crew) and not lcPortalCleared(party)
+    and ((at(lc_vanguard, calx_portal) and able(lc_vanguard)) or (at(lc_convoy, calx_portal) and able(lc_convoy)))
+    "The masons have put their shovels down. Armed men are standing between them and the portal.".
+  Observe lc_work_finished at calx_portal when lcClearedByCrew(party)
+    "The masons have cleared the fall from the portal. The old gate farther in is another matter.".
+  Observe lc_work_already at calx_portal when lcPortalCleared(party) and not lcClearedByCrew(party)
+    "The fall was cleared before the masons finished. The old gate farther in is another matter.".
+
+  Topic lc_rival_meal with lc_rival "Accept Linnet's food for the next descent" when lcRivalHelp(party)
+    and lcRaidArrived(party) and quantity(lc_rival, rations) >= 1 and not lcRivalReturned(party) once {
+    Says "'My brother ate,' Linnet says. 'There is enough for you to take some back.' She wraps the food in cloth. 'Do not mistake it for a promise about what we find below.'".
+    On discuss { Decrease quantity(lc_rival, rations) by 1. Increase quantity(actor, rations) by 1. Assert lcRivalReturned(actor). }
+  }
+  Observe lc_rival_returned at garden when lcRivalReturned(party)
+    "Linnet is taking bent nails from a board. She has left a place beside her on the wall.".
+
+  Person lc_vanguard "the Ferryman's road guard" nowhere {
+    Role "three armed men with spades sent to hold the western portal". Ancestry human. Calling warrior. Level 3. Numbers 3. Temperament territorial.
+    Warns "Three men stand at the exposed end of the old road, with shields and short spears. One has a strip of the Ferryman's blue cloth around his arm.".
+    Comes "The men come forward together, keeping the portal behind them.".
+    Lair calx_portal.
+  }
+  Initially Set quantity(lc_vanguard, rations) to 1.
+  Topic lc_tell_road with lc_ferryman "Tell the Ferryman the road runs through the hill" when lcTermsHeard(party)
+    and been(party, calx_way) and not lcRoadTold(party) once {
+    Says "'So it does come out west,' he says. 'My men can hold that end. If Merren's crew is there they will have to stop work or leave.' He marks the road on his drawing.".
+    On discuss { Assert lcRoadTold(actor). Set lcVanguardDue(actor) to watch(clock) + 36. }
+  }
+  Rule lc_send_vanguard when lcRoadTold(party) and able(lc_vanguard) and not lcVanguardArrived(party) and not lcTruce(party)
+    and watch(clock) >= lcVanguardDue(party) {
+    Assert lcVanguardArrived(party). Assert at(lc_vanguard, calx_portal).
+    Decrease quantity(lc_vanguard, rations) by 1. Set lcGuardDue(party) to watch(clock) + 144.
+  }
+  Rule lc_foe_digs when lcVanguardArrived(party) and at(lc_vanguard, calx_portal) and able(lc_vanguard)
+    and state(buried_portal, buried) and not lcFoeDigging(party) and not lcFoeDug(party) {
+    Assert lcFoeDigging(party). Set lcFoeDigDue(party) to watch(clock) + 36.
+  }
+  Rule lc_foe_opens when lcFoeDigging(party) and at(lc_vanguard, calx_portal) and able(lc_vanguard)
+    and state(buried_portal, buried) and watch(clock) >= lcFoeDigDue(party) {
+    Assert state(buried_portal, dug). Assert lcFoeDug(party). Retract lcFoeDigging(party).
+  }
+  Rule lc_foe_dig_stops when lcFoeDigging(party)
+    and (not at(lc_vanguard, calx_portal) or not able(lc_vanguard) or not state(buried_portal, buried)) {
+    Retract lcFoeDigging(party).
+  }
+  Rule lc_foe_enters when lcVanguardArrived(party) and at(lc_vanguard, calx_portal) and able(lc_vanguard)
+    and state(portal_inside, cleared) and not lcFoeEntering(party) and not lcFoeInRoad(party) {
+    Assert lcFoeEntering(party). Set lcFoeEnterDue(party) to watch(clock) + 6.
+  }
+  Rule lc_foe_in_road when lcFoeEntering(party) and at(lc_vanguard, calx_portal) and able(lc_vanguard)
+    and state(portal_inside, cleared) and watch(clock) >= lcFoeEnterDue(party) {
+    Retract at(lc_vanguard, calx_portal). Assert at(lc_vanguard, calx_way).
+    Retract lcFoeEntering(party). Assert lcFoeInRoad(party).
+  }
+  Rule lc_foe_entry_stops when lcFoeEntering(party)
+    and (not at(lc_vanguard, calx_portal) or not able(lc_vanguard) or not state(portal_inside, cleared)) {
+    Retract lcFoeEntering(party).
+  }
+  Rule lc_foe_advances when lcFoeInRoad(party) and at(lc_vanguard, calx_way) and able(lc_vanguard)
+    and state(calx_gate, raised) and not lcFoeAdvancing(party) and not lcFoeThrough(party) {
+    Assert lcFoeAdvancing(party). Set lcFoeAdvanceDue(party) to watch(clock) + 6.
+  }
+  Rule lc_foe_through when lcFoeAdvancing(party) and at(lc_vanguard, calx_way) and able(lc_vanguard)
+    and state(calx_gate, raised) and watch(clock) >= lcFoeAdvanceDue(party) {
+    Retract at(lc_vanguard, calx_way). Assert at(lc_vanguard, gate_house).
+    Retract lcFoeAdvancing(party). Assert lcFoeThrough(party).
+  }
+  Rule lc_foe_stopped when lcFoeAdvancing(party)
+    and (not state(calx_gate, raised) or not at(lc_vanguard, calx_way) or not able(lc_vanguard)) {
+    Retract lcFoeAdvancing(party).
+  }
+  Observe lc_vanguard_sign at west_end when lcVanguardArrived(party) and able(lc_vanguard)
+    "Fresh bootprints turn off the west road toward the buried portal. There are several sets.".
+  Observe lc_digging at calx_portal when lcFoeDigging(party) and at(lc_vanguard, calx_portal)
+    "The Ferryman's men are working at the fall with their spades.".
+  Observe lc_road_guard at gate_house as sound when lcFoeInRoad(party) and at(lc_vanguard, calx_way) and able(lc_vanguard)
+    "Boots on the old road, west of the gate. There is more than one pair.".
+  Action lc_close_gate(actor: group, site: place) "Lower the Calx Gate behind you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_house) and state(calx_gate, raised)
+      and not lcGateClosing(actor) and (not at(lc_vanguard, gate_house) or not able(lc_vanguard)).
+    Time 1 hour.
+    On success { Assert lcGateClosing(actor). Set lcGateCloseDue(actor) to watch(clock) + 6. }
+    Result "You begin turning the wheel. The bronze gate starts down.".
+  }
+  Rule lc_close_gate_finished when lcGateClosing(party) and at(party, gate_house) and able(party)
+    and state(calx_gate, raised) and (not at(lc_vanguard, gate_house) or not able(lc_vanguard))
+    and watch(clock) >= lcGateCloseDue(party) {
+    Retract lcGateClosing(party). Assert state(calx_gate, freed).
+  }
+  Rule lc_close_gate_interrupted when lcGateClosing(party)
+    and (not at(party, gate_house) or not able(party) or not state(calx_gate, raised)
+    or (at(lc_vanguard, gate_house) and able(lc_vanguard))) {
+    Retract lcGateClosing(party).
+  }
+}

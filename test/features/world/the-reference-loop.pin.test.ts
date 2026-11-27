@@ -10,7 +10,8 @@ import { TalkWay } from '../../support/talk-way';
 // dungeon entrances → repeated descents → retreat and recovery → another descent"; register OR-611). The forest world
 // s0's Oakhythe, the first town of a forest country, made the reference game's settlement: buy a light and a ration
 // from the store, ask the herb-wife about the old woods and take on the soldier at her fire, go up into the woods, find
-// woundwort on the old ride and, by searching the burners' clearing and then the fallen stones, the way down; take what
+// woundwort on the old ride, see the fallen stones from it and go up to them, where the way down is in plain sight
+// between them (OR-1501: the dungeon's mouth a named, seen place, never found by circling); take what
 // the last party left on the ledge, go down into the first level and fight what is there, come out, rest at the shrine,
 // sell what was gathered, and after a night go down again, to find the first level as it was left and something new in
 // it. A rope left in the halls' dead-shaft on the second trip, the third begins there from the way in, in one act,
@@ -88,14 +89,17 @@ describe('World › The reference loop', () => {
     expect(s.scene.lines.join(' ')).toMatch(/Have you been into the old woods\?/);
     await act('^(Talk to .*come along|.*: whether .* would come along)'); await act('to join the company');
     expect(c.readout.partyIds.length).toBe(2);
-    // The woods: woundwort on the ride, the way to the stones from the burners' clearing, the way down at the stones.
+    // The woods: woundwort on the ride, the stones in sight from it and the deer-path up to them, and the way down
+    // between them seen there, with nothing searched for.
     await to('green'); await to('wood_edge'); await to('wood_ride');
     await act('^Search here'); await act('^Collect a stand of woundwort');
-    await to('wood_burners');
     expect(rows(s).some(x => x.id === `exit:${P('wood_stones')}`)).toBe(true);
-    await act('^Search here'); await to('wood_stones');
-    expect(rows(s).some(x => x.id === `exit:${P('ud')}`)).toBe(false);
-    await act('^Search here');
+    await to('wood_stones');
+    expect(rows(s).some(x => x.id === `exit:${P('ud')}`)).toBe(true);
+    // An hour among the stones, as long as the searches and the way round by the burners' clearing that had found
+    // them took: the loop's own clock kept, so that what walks the first level is where this walk has always met it
+    // (the dead of the mound gone off the back-stone). Later trips go up by the burners' deer-path, as they did.
+    await act('^Wait an hour');
     await act('^Light a torch'); await to('ud');
     expect(s.scene.lines.join(' ')).toMatch(/older than the woods above it/);
     // The ledge: what the last party left. Then the first level, and what holds it.
@@ -174,6 +178,8 @@ describe('World › The reference loop', () => {
     // And a rope left in the king's chimney: the next trip goes from the way in straight to the third level.
     await lit(); await maybe('^Attack '); await lit();
     await act("^Climb the king's chimney and leave a rope");
+    // Seen hanging by a light (a torch gone out as the rope went up had left it unknown).
+    await lit();
     await act(`^Out to ${heart}`);
     await to('wood_edge'); await to('wood_ride'); await to('wood_burners'); await to('wood_stones');
     await act('^Light a torch'); await to('ud');

@@ -1,0 +1,50 @@
+Module tallow "Tallow Deep" {
+  Place lc_maze_mouth "the hall of angles" is room within lc_battle_land at 2, 0.
+  Place lc_maze_heart "the room of reverse measures" is room within lc_battle_land at 2, 1.
+  Passage lc_maze_approach "the path into the hall of angles" is path between lc_gnoll_shelter and lc_maze_mouth taking 10 minutes.
+  Passage lc_maze_inner "the keeper's narrow door" is doorway between lc_maze_mouth and lc_maze_heart
+    opening when tolerates(lc_minotaur, party) or not able(lc_minotaur) or routed(lc_minotaur)
+    "The keeper stands in front of the narrow door.".
+  Passage lc_maze_return "the door facing the other way" is doorway between lc_maze_heart and quiet_gallery
+    opening when lcMazeDoorOpen(party) "A brass pointer rests across the door's seam.".
+  Relation lcMazeDoorOpen(group).
+
+  Observe lc_maze_mouth_scene at lc_maze_mouth when true
+    "The hall turns twice, though the walls are straight. Chalk arrows cover the floor; every one points toward the narrow door.".
+  Observe lc_maze_heart_scene at lc_maze_heart when true
+    "A brass pointer stands between two doors. Each door casts a shadow through the other. The pointer rests on the seam of one; a blade-wide groove runs along it.".
+  Person lc_minotaur "the keeper of the angles" at lc_maze_mouth {
+    Role "a horned keeper with a heavy axe and a brass band on one horn". Ancestry minotaur. Calling warrior. Level 6.
+    Carries battleaxe. Temperament territorial.
+    Warns "A broad figure with a bull's head steps in front of the door. 'Two rations,' the keeper says. 'I have not eaten. Pay, or turn back.'".
+    Comes "The keeper lowers their head, the brass band bright against the horn, and comes forward with the axe.".
+    Lair lc_maze_mouth.
+  }
+  Action lc_maze_feed(actor: group, site: place) "Give the keeper two rations for passage" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_maze_mouth)
+      and at(lc_minotaur, site) and able(lc_minotaur) and not tolerates(lc_minotaur, actor)
+      and not assails(lc_minotaur, actor) and quantity(actor, rations) >= 2.
+    Time 10 minutes.
+    On success {
+      Decrease quantity(actor, rations) by 2. Increase quantity(lc_minotaur, rations) by 2.
+      Retract warned(lc_minotaur, actor). Assert tolerates(lc_minotaur, actor).
+    }
+    Result "The keeper takes the food and steps aside. 'The pointer opens the other door,' they say. 'Do not ask which side you are on until you have gone through.'".
+  }
+  Action lc_maze_open(actor: group, site: place) "Turn the brass pointer away from the seam" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_maze_heart)
+      and not lcMazeDoorOpen(actor).
+    Time 10 minutes.
+    On success { Assert lcMazeDoorOpen(actor). }
+    Result "The pointer turns. The door opens onto the Quiet Gallery, although its shadow still falls across this floor.".
+  }
+  Action lc_sword_wake(actor: group, site: place) "Lay the sisters' sword across the brass pointer" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_maze_heart)
+      and carries(actor, lc_sisters_sword) and lcKinMet(actor) and lcMazeDoorOpen(actor)
+      and travelsWith(lc_gnoll_guide, actor) and joinedAs(?rill, lc_gnoll_guide) and awake(?rill)
+      and not lcSwordAwakened(lc_sisters_sword).
+    Time 10 minutes.
+    On success { Assert lcSwordAwakened(lc_sisters_sword). }
+    Result "Rill sets the blade across the pointer. In the door's shadow the two lines meet; on the blade they remain apart. When she lifts it, the old white light holds a little longer.".
+  }
+}

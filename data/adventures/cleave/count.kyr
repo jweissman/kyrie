@@ -1,0 +1,60 @@
+Module cleave "The Cradle Across the Cleave" {
+  Relation clCoinFound(group). Relation clDiversion(group). Relation clProvoked(group).
+  Relation clOathGift(group). Relation clAshToll(group). Relation clTallyRefused(group).
+
+  Observe cl_coin_hint at stub when not clCoinFound(party)
+    "At the Stub, one old anchor-stone has a thumb-wide seam packed with sheep's wool. The spiders have not spun here since their Mother died.".
+  Action cl_find_coin(actor: group, site: place) "Lift the old anchor-stone at the Stub" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, stub) and not clCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert clCoinFound(actor). Give count_coin to actor. }
+    Result "A green bronze disc lies in the hollow. Eleven strokes circle a blank face. The old bridge was free, and the people who kept it left a coin under each anchor so a crossing would be remembered without a toll.".
+  }
+
+  Observe cl_ii_road at road when befell(ash_count_begun)
+    "A grey board hangs from the road-post at Tarnlip. Its chalk lists the basket, the silk and every crossing the old bridge once gave away.".
+  Observe cl_broken at road when befell(ash_broken)
+    "The board is gone from the road-post. Ned has put a small cheese there, under a cloth, for the walk over the Cleave.".
+  Observe cl_triumph at road when befell(ash_triumphs)
+    "Two Ash counters have taken the road-post. Their board has twelve columns, and the empty one is the width of the Cleave.".
+
+  Person cl_counter "Sergeant Pell Durn" nowhere {
+    Role "an Ash levy-counter who has come to tax the haulers' crossing". Ancestry human. Calling warrior. Level 4. Manner proud. Carries spear.
+    Arrives at shed when befell(ash_count_begun) and not clDiversion(party).
+    Greets "Sergeant Pell Durn holds the haulers' brake with one hand. 'The road has been measured,' he says. 'So has its traffic.'".
+    Greets again "Pell taps the board with his spear-butt. 'Crossing by count now.'".
+  }
+  Person cl_collectors "Pell Durn's tally-men" nowhere {
+    Role "Ash levymen assigned to the Cleave's basket". Ancestry human. Calling warrior. Level 2. Numbers 4. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Arrives at shed when befell(ash_count_begun) and not clDiversion(party).
+    Warns "Four grey-clad levymen close round the basket. One has a hook for the cable; the others carry clubs.".
+  }
+  Initially Assert serves(cl_collectors, cl_counter).
+  Action cl_refuse(actor: group, site: place) "Refuse Pell Durn's count at the haulers' shed" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shed) and at(cl_counter, shed) and not clDiversion(actor).
+    Time 1 minute.
+    On success { Assert clProvoked(actor). Assert assails(cl_counter, actor). Assert assails(cl_collectors, actor). }
+    Result "Pell closes the brake. The tally-men leave their hooks on the basket and draw clubs.".
+  }
+  Action cl_ned_diverts(actor: group, site: place) "Send Ned's basket under the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shed) and at(ned, shed) and at(cl_counter, shed) and nedAsked(actor) and not clDiversion(actor).
+    Time 5 minutes.
+    On success { Assert clDiversion(actor). Retract at(cl_counter, shed). Retract at(cl_collectors, shed). }
+    Result "Ned turns the brake twice, then lets the empty basket swing below the lip. Pell follows it with his eyes. The cable sings once; by the time the basket comes back, the Ash's men have gone to count the road.".
+  }
+  Observe cl_diverted at shed when clDiversion(party)
+    "Ned has put the brake back. A strip of grey chalk remains on the lever where Pell marked it.".
+
+  Topic cl_ri_oath with ned "Tell Ned the company is sworn to the Rì" when at(ned, shed) and befell(company_sworn_ri) and not clOathGift(actor) once {
+    Says "Ned pushes a wedge of cheese into your hand. 'For the road west. It is the only thing I know that keeps.'".
+    On discuss { Assert clOathGift(actor). Increase quantity(actor, rations) by 1. }
+  }
+  Topic cl_ash_oath with ned "Tell Ned the company is sworn to the Ash" when at(ned, shed) and befell(company_sworn_ash) and not clAshToll(actor) once {
+    Says "Ned takes the brake-handle from you. 'The basket goes when I say, and not for a board.' He will not carry you until the wind drops.".
+    On discuss { Assert clAshToll(actor). Retract linePaid(actor). }
+  }
+  Topic cl_tally with ned "Show Ned the Ash's tally-board" when at(ned, shed) and holding(actor, ash_tally) and not clTallyRefused(actor) once {
+    Says "Ned turns the board over. 'My father hauled cheese over a free bridge. I am not putting a name where a crossing should go.' He drops the slate in the Cleave.".
+    On discuss { Assert clTallyRefused(actor). Spend ash_tally from actor. }
+  }
+}

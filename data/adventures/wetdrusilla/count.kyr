@@ -1,0 +1,80 @@
+Module wetdrusilla "Wet Drusilla" {
+  Relation wdrCoinFound(group). Relation wdrDangerSettled(group). Relation wdrRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe wdr_coin_hint at bilge when not wdrCoinFound(party)
+    "Under the third rib one plank is tarred newer than the rest, and its nails are bright.".
+  Action wdr_find_coin(actor: group, site: place) "Lift the bright-nailed plank under the third rib" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bilge) and not wdrCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert wdrCoinFound(actor). Give count_coin to actor. }
+    Result "A man with a stylus is rubbed down to his hand. The sand-sailors buried it before they took a dead woman’s ashes out across the Ebb.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe wdr_count_begins at road when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "A grey board counts the quay’s water casks before its houses. The Contrary Mary is entered as a store.".
+  Observe wdr_count_broken at road when befell(ash_broken)
+    "The board is left face down in the sand. The quay counts water by the cask again.".
+  Observe wdr_count_triumph at road when befell(ash_triumphs)
+    "The Ash takes the quay’s casks and sends the Mary east under guard.".
+  Observe wdr_party_saved at road when wdrDangerSettled(party)
+    "Alfie gets the bucket back to the bilge. The Mary rides the tide without a collector at her ladder.".
+
+  Person wdr_counting_leader "Cask Captain Toma Hedd" nowhere {
+    Role "a cask captain who levies water before the Mary can clear the bilge". Ancestry human. Calling thief. Level 4.
+    Temperament seizing. Uses go, assail. Plans 5 steps.
+    Warns "Cask Captain Toma Hedd has blocked the ladder with a mooring chain. Three haulers wait below him.".
+  }
+  Person wdr_counting_party "the three Ebb cask-haulers" nowhere {
+    Role "quay haulers trained to hook a boat by its water casks". Ancestry human. Calling warrior. Level 2. Numbers 3.
+    Temperament wary. Uses go, assail. Plans 4 steps.
+    Warns "Three haulers carry boat-hooks and a length of chain. They are after the Mary’s fresh-water casks.".
+  }
+  Initially Assert serves(wdr_counting_party, wdr_counting_leader).
+  Rule wdr_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not wdrDangerSettled(party) {
+    Assert at(wdr_counting_party, road). Assert at(wdr_counting_leader, road).
+  }
+  Action wdr_fight(actor: group, site: place) "Keep Captain Hedd off the Mary’s water casks" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wdr_counting_party, road) and at(wdr_counting_leader, road) and not wdrDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(wdr_counting_party, actor). Assert assails(wdr_counting_leader, actor). }
+    Result "Captain Toma Hedd drops the mooring chain over the quay steps. Three cask-haulers come up from the bilge with grappling hooks.".
+  }
+  Rule wdr_force_broken when at(wdr_counting_party, road) and at(wdr_counting_leader, road) and (not able(wdr_counting_party) or routed(wdr_counting_party)) and (not able(wdr_counting_leader) or routed(wdr_counting_leader)) and assails(wdr_counting_party, party) and assails(wdr_counting_leader, party) {
+    Assert wdrDangerSettled(party). Retract at(wdr_counting_party, road). Retract at(wdr_counting_leader, road).
+  }
+  Action wdr_coin_way(actor: group, site: place) "Offer the old coin as the Mary’s passage mark" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wdr_counting_party, road) and at(wdr_counting_leader, road)
+      and not wdrDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert wdrDangerSettled(actor). Retract at(wdr_counting_party, road). Retract at(wdr_counting_leader, road). }
+    Result "The leader recognizes the mark from an old sailing list. He leaves the Mary’s water aboard.".
+  }
+  Action wdr_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wdr_counting_party, road) and at(wdr_counting_leader, road)
+      and not wdrDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert wdrDangerSettled(actor). Retract at(wdr_counting_party, road). Retract at(wdr_counting_leader, road). }
+    Result "The collectors see your column and let the Mary keep its water.".
+  }
+  Action wdr_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wdr_counting_party, road) and at(wdr_counting_leader, road)
+      and not wdrDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert wdrDangerSettled(actor). Retract at(wdr_counting_party, road). Retract at(wdr_counting_leader, road). }
+    Result "The slate gives the collectors a reason to leave the ship’s water alone.".
+  }
+  Action wdr_local_way(actor: group, site: place) "Pay the cask-haulers with Alfie’s bucket" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wdr_counting_party, road) and at(wdr_counting_leader, road)
+      and not wdrDangerSettled(actor) and holding(actor, ds_bucket).
+    Time 5 minutes.
+    On success { Spend ds_bucket from actor. Assert wdrDangerSettled(actor). Retract at(wdr_counting_party, road). Retract at(wdr_counting_leader, road). }
+    Result "The haulers take Alfie’s bucket as their water levy. They pull the chain clear of the Mary’s ladder.".
+  }
+  Topic wdr_ri_help with alfie "Ask Alfie Wenlow to spare his bucket for the Rì" when befell(company_sworn_ri) and not wdrRiHelped(actor) once {
+    Says "Alfie gives you his scrubbed bucket. “The men below want water more than they want a fight. Fill it from the spare cask and let them take it.”".
+    On discuss { Assert wdrRiHelped(actor). Give ds_bucket to actor. }
+  }
+
+}

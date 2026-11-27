@@ -29,6 +29,6 @@ Module origin "Gone under" {
   // (the second blind playtest, BL-11: seen through "without saying what became of her").
   Relation pinTaken(entity).
   Rule pin_taken when carries(party, pin) and not pinTaken(pin) says "On the back of the pin, scratched in with a knife's point, are her mark and the day. It was midsummer. She came this far, and wanted someone to know it. It is something to take home to your mother." { Assert pinTaken(pin). }
-  Milestone m_pin "found your sister's cloak-pin" worth 100 when carries(party, pin).
+{then}  Milestone m_pin "found your sister's cloak-pin" worth 100 when carries(party, pin).
   Goal carries(party, pin).
 }

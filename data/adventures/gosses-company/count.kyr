@@ -1,0 +1,60 @@
+Module pentrice "Gosse's Company" {
+  Relation gcCoinFound(group). Relation gcBailiffWay(group). Relation gcProvoked(group).
+  Relation gcRiHelp(group). Relation gcAshRefusal(group). Relation gcBoardTorn(group).
+
+  Observe gc_coin_hint at press_room when not gcCoinFound(party)
+    "On Inchbald's imposing-stone, a screw has worked loose beside a blank space in the forme. The wood beneath it is green at one edge.".
+  Action gc_find_coin(actor: group, site: place) "Lift the loose screw beside the blank forme" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, press_room) and not gcCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert gcCoinFound(actor). Give count_coin to actor. }
+    Result "A thin bronze disc slips out. Its man with a stylus has been worn to a hand. When Pentrice first licensed every line on a stage, printers kept a coin under the stone for the sheets they dared not print.".
+  }
+
+  Observe gc_ii_road at road_end when befell(ash_count_begun)
+    "A grey board has been nailed over the Trial of the Wheel bills. The newest cast list is copied into its first column before the company reaches the Westgate.".
+  Observe gc_broken at road_end when befell(ash_broken)
+    "The Trial bills are back on the board. The Ash's grey sheet has been torn away.".
+  Observe gc_triumph at road_end when befell(ash_triumphs)
+    "The Trial bills have been pulled down. A grey board lists the companies entering Pentrice, and no playbill is posted beside it.".
+
+  Person gc_sergeant "Sergeant Avren Ock" nowhere {
+    Role "an Ash press-sergeant sent to take Pentrice's players for the levy". Ancestry human. Calling warrior. Level 4. Manner proud. Carries spear.
+    Arrives at westgate when befell(ash_count_begun) and not gcBailiffWay(party).
+    Greets "Sergeant Avren Ock stands at the Westgate with a slate. 'Players are already assembled,' he says. 'The Ash need only give them a direction.'".
+    Greets again "Ock points his stylus at the company. 'A name, then a number.'".
+  }
+  Person gc_press "Ock's press-men" nowhere {
+    Role "Ash levymen sent to enlist Pentrice's players". Ancestry human. Calling warrior. Level 2. Numbers 4. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Arrives at westgate when befell(ash_count_begun) and not gcBailiffWay(party).
+    Warns "Four grey-clad men close the gatehouse lane. They carry clubs and a folded levy-roll.".
+  }
+  Initially Assert serves(gc_press, gc_sergeant).
+  Action gc_refuse(actor: group, site: place) "Refuse Ock's press-gang at the Westgate" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, westgate) and at(gc_sergeant, westgate) and not gcBailiffWay(actor).
+    Time 1 minute.
+    On success { Assert gcProvoked(actor). Assert assails(gc_sergeant, actor). Assert assails(gc_press, actor). }
+    Result "Ock rolls the levy sheet shut. His men draw their clubs, and Grimsditch moves between the writ and the company.".
+  }
+  Action gc_bailiff_diverts(actor: group, site: place) "Ask Grimsditch to take the Ash count outside the Soke" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, westgate) and at(grimsditch, westgate) and at(gc_sergeant, westgate) and bailiffWarned(grimsditch) and not gcBailiffWay(actor).
+    Time 5 minutes.
+    On success { Assert gcBailiffWay(actor). Retract at(gc_sergeant, westgate). Retract at(gc_press, westgate). }
+    Result "Grimsditch opens the writ and points to the boundary of the Soke. 'You cannot distrain here,' he says. Ock folds his levy-roll. He and his men take the road out to find a jurisdiction that will have them.".
+  }
+  Observe gc_bailiff_writ at westgate when gcBailiffWay(party)
+    "Grimsditch has folded the Ash's levy-roll inside the tailor's writ. The brown paper is still open at the Soke's boundary.".
+
+  Topic gc_ri_grimsditch with grimsditch "Tell Grimsditch the company is sworn to the Rì" when at(grimsditch, westgate) and befell(company_sworn_ri) and not gcRiHelp(actor) once {
+    Says "Grimsditch folds his writ and points you west. 'The Soke ends at the river,' he says. 'The road beyond it is not my business. Take this for the walk.'".
+    On discuss { Assert gcRiHelp(actor). Increase quantity(actor, rations) by 1. }
+  }
+  Topic gc_ash_grimsditch with grimsditch "Tell Grimsditch the company is sworn to the Ash" when at(grimsditch, westgate) and befell(company_sworn_ash) and not gcAshRefusal(actor) once {
+    Says "Grimsditch puts the writ away. 'I am a bailiff, not a recruiting officer,' he says. 'Do not ask me to carry that paper.'".
+    On discuss { Assert gcAshRefusal(actor). Assert refusesService(grimsditch, actor). }
+  }
+  Topic gc_tally_grimsditch with grimsditch "Show Grimsditch the Ash's tally-board" when at(grimsditch, westgate) and holding(actor, ash_tally) and not gcBoardTorn(actor) once {
+    Says "Grimsditch lays the slate under his writ and tears it through the empty column. 'That is not a warrant,' he says, and hands the halves back.".
+    On discuss { Assert gcBoardTorn(actor). Spend ash_tally from actor. }
+  }
+}

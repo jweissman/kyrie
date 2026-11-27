@@ -368,3 +368,27 @@
   .fight.portraits .foes .fighter.faced .hp { margin-left: 14px; margin-right: 14px; padding: 0; }
   .fight.portraits .fighter.faced .chance { left: 8px; bottom: auto; top: 8px; max-width: none; }
 }
+
+/* ---- Parchment (the engine's hint, CombatScreen.theme; the owner's playtest of 27 November, OR-1493): each card a
+   leaf of the folio's parchment on the dark of the place, its inks the folio's, so the fight reads as a page of the
+   same book as the backstage; the foes' edge a darker red ink, the one acting ringed in the ink; and a foe's likeness
+   a plate on its card, square-cornered and whole, never an oval (a beast's figure contained on its own parchment).
+   What is told and the hand stay on the dark, as the scene's words do. ---- */
+.fight.theme-parchment .fighter {
+  --ivory: #2A2119; --ink: #2A2119; --grey: #4A3F31; --dim: #4A3F31; --faint: #51453A; --text-meta: #4A3F31;
+  --edge: rgba(42, 33, 25, .3); --lift: #C6B795; --life: #4E6B3A; --ember: #9A3B24;
+  color: #2A2119; border: 1px solid rgba(42, 33, 25, .45); box-shadow: 0 10px 30px rgba(0, 0, 0, .45);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .27 0 0 0 0 .14 0 0 0 .14 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 80% 70% at 50% 40%, #DCCEAD, #C9B990 80%, #B9A77D); }
+.fight.theme-parchment .foes .fighter { border-color: rgba(122, 40, 22, .55); }
+.fight.theme-parchment .fighter.acting { outline: 2px solid #2A2119; outline-offset: -2px; }
+.fight.theme-parchment .fighter .hp { background: rgba(42, 33, 25, .14); }
+:root .fight.theme-parchment .fighter .face { border-radius: 2px; aspect-ratio: auto; border: 1px solid rgba(42, 33, 25, .35);
+  background: #E3D3AE; }
+:root .fight.theme-parchment .fighter .face.whole img { padding: 4%; }
+@media (min-width: 900px) and (orientation: landscape) {
+  :root .fight.theme-parchment.portraits .foes .fighter.faced .face { top: 0; left: 0; width: 100%; border: 0;
+    height: clamp(110px, calc(var(--frame-h) * .24), 210px); border-bottom: 1px solid rgba(42, 33, 25, .3);
+    border-radius: 0; }
+}
+:root .fight.theme-parchment .ours .fighter .face { aspect-ratio: 1; }

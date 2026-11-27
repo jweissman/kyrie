@@ -5,6 +5,7 @@ import { MonoDriver } from '../test/support/mono-driver';
 import { LensPages } from '../test/support/lens-pages';
 import type { SheetCamera } from './contact-sheet-camera';
 import { SheetWalks, type SheetRun } from './contact-sheet-walks';
+import { PlacePages } from '../test/support/place-pages';
 import { Rail } from '../test/support/rail';
 
 // The first hour in a1, as test/safe-zone-browser walks it (the walk every nightly run proves): set out with the life
@@ -139,7 +140,9 @@ export class SheetHour {
   // Gone to by the places lens, as test/safe-zone-browser goes (CN-01).
   async to(place: string): Promise<void> {
     const { page } = this;
-    if (await page.locator('.act.opens-go').count()) { await page.click('.act.opens-go'); await this.d.settle(); return; }
+    // The way there among the place's rows (its four, or a page after them: PlacePages), else by the places lens.
+    const way = `.glance ol.led :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
+    if (await PlacePages.seek(page, way, () => this.d.settle())) { await this.d.click(way); return; }
     await Rail.click(page, '.rail-mark.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
     await LensPages.seek(page, row);

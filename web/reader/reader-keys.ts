@@ -21,7 +21,7 @@ import { Surfaces } from '../../src/presentation/surfaces';
 // Space and the digits are the map's own. Before play, arrows move between the page's choices and Enter takes the
 // one in focus.
 export class ReaderKeys {
-  static readonly views: Record<string, View> = { e: 'here', c: 'company', i: 'pack', j: 'journal', m: 'map', h: 'story' };
+  static readonly views: Record<string, View> = { e: 'here', c: 'company', i: 'company', j: 'journal', m: 'map', h: 'story' };
   // At a place at rest: Go… (G, or W for the ways), Look… (L), Wait… (Z, a while).
   static readonly parts: Record<string, Part> = { g: 'go', w: 'go', l: 'look', z: 'wait' };
   constructor(private readonly app: ReaderApp) {}
@@ -101,7 +101,7 @@ export class ReaderKeys {
       const drawn = ReaderKeys.keyed(Number(key)), shown = drawn ? menu.choices.findIndex(c => c.id === drawn) : -1;
       // One of the four the engine offers that the menu has no choice for (talking to someone here): its own row.
       if (drawn && shown < 0) {
-        const row = document.querySelector<HTMLElement>(`ol.led > li[data-promoted="${key}"] [data-choice]`);
+        const row = document.querySelector<HTMLElement>(`ol.led > li:nth-child(${key}) [data-choice]`);
         if (row) { row.click(); return true; }
       }
       if (drawn && ReaderKeys.opener(drawn)) { ReaderKeys.opener(drawn)!.click(); return true; }
@@ -131,10 +131,11 @@ export class ReaderKeys {
   private static opener(id: string): HTMLElement | null {
     return document.querySelector<HTMLElement>(`ol.led [data-act="${CSS.escape(id)}"][aria-expanded]`);
   }
-  // The choice drawn with this number on its key, where the glance leads with it (none under a raised sheet).
+  // The choice drawn with this number on its key, where the glance leads with it, or on a page of the place's rows
+  // after its four, Something else… among them (OR-1490); none under a raised sheet.
   private static keyed(n: number): string | undefined {
     if (document.querySelector('[aria-modal="true"]')) { return undefined; }
-    return document.querySelector<HTMLElement>(`ol.led > li[data-promoted="${n}"] [data-choice]`)?.dataset.choice;
+    return document.querySelector<HTMLElement>(`ol.led > li:nth-child(${n}) [data-choice]`)?.dataset.choice;
   }
   // A new game's opening: Enter, Space or an arrow on brings the next beat (and after the last, the place), once it
   // has been shown a moment (see PrologueStage.next), and never by a key held down; a digit answers whoever is met on

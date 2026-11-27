@@ -1,0 +1,80 @@
+Module weatherdrove "The Weather Drove" {
+  Relation wdCoinFound(group). Relation wdTallymenRead(group). Relation wdEvidence(group).
+  Relation wdGift(group). Relation wdRejected(group). Relation wdBoardRead(group).
+  Discovery wd_roster_known "The old drove roster lists the names the salt-pan owners erased when they sold the water shares.".
+
+  Observe wd_coin_hint at pen when not wdCoinFound(party)
+    "The empty pen's green hollow has a hard rim beneath the grass. One corner of bronze catches the light.".
+  Action wd_find_coin(actor: group, site: place) "Cut the turf at the rim of the empty pen" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pen) and not wdCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert wdCoinFound(actor). Give count_coin to actor. }
+    Result "The disc is green and cold. A woman with a sickle is on its face. The salt wives used to leave it at the pen when the drove brought its cloud home; the cloud stopped coming, but the coin stayed.".
+  }
+  Observe wd_count_cistern at cistern when befell(ash_count_begun) and not befell(ash_broken)
+    "A grey board stands beside the cistern's falling water-line. The chalk count goes up as the water goes down.".
+  Observe wd_ash_broken at cistern when befell(ash_broken)
+    "The board has been taken off the cistern. Someone has put the old dates back beside the water marks.".
+  Observe wd_ash_triumphs at cistern when befell(ash_triumphs)
+    "A grey clerk stands at the cistern and records every cup drawn. The town drinks by name now.".
+
+  Person wd_tallymen "the Tallymen of Wickering" nowhere {
+    Role "the Ash's salt-account, here to take the people counted against the pans". Ancestry human. Calling thief. Level 5. Manner acerbic. Carries dagger.
+    Arrives at heaps when befell(ash_count_begun) and not befell(tallymen_broken) and not befell(tallymen_served).
+    Greets "A narrow clerk in a salt-stained coat shuts his book. 'The pans have four days of water,' he says. 'The hands are the fifth day's supply.'".
+    Greets again "'I have your names,' says the clerk, without looking up.".
+  }
+  Person wd_coffle "the Tallymen's salt guard" nowhere {
+    Role "the hired guard for Wickering's counted salt hands". Ancestry human. Calling warrior. Level 3. Numbers 5. Temperament obedient. Uses go, assail. Plans 5 steps.
+    Arrives at heaps when befell(ash_count_begun) and not befell(tallymen_broken) and not befell(tallymen_served).
+    Warns "Five guards leave the salt heaps. Each carries a short spear and a length of chain for the hands.".
+  }
+  Initially Assert serves(wd_coffle, wd_tallymen).
+  Rule wd_ysolde_confronts when at(wd_tallymen, heaps) and at(ysolde, pan_house) {
+    Retract at(ysolde, pan_house). Assert at(ysolde, heaps).
+  }
+  Action wd_stand_salt(actor: group, site: place) "Tell the Tallymen to release the salt-pan hands" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, heaps) and able(wd_tallymen) and not befell(tallymen_broken).
+    Time 1 minute.
+    On success { Assert assails(wd_tallymen, actor). Assert assails(wd_coffle, actor). }
+    Result "The clerk shuts his book. The guards take the chain in both hands and come at you.".
+  }
+  Action wd_search_roster(actor: group, site: place) "Search the pan-house for the first salt-hands' roster" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pan_house) and not knows(actor, wd_roster_known).
+    Time 15 minutes.
+    On success { Assert knows(actor, wd_roster_known). Assert wdEvidence(actor). }
+    Result "Behind the brine casks, a roster has been wrapped in sailcloth. It names the first salt-hands who built the pans, then the owners who erased their descendants from the water shares.".
+  }
+  Topic wd_show_roster with ysolde "Show Ysolde the erased salt-hands' roster" when knows(actor, wd_roster_known) and at(wd_tallymen, heaps) once {
+    Says "Ysolde reads the names, then reads them to the pan-hands. The clerk has no deed to the people who cut the pans. The chains come off. He takes his book east.".
+    On discuss { Assert befell(tallymen_broken). Retract at(wd_tallymen, heaps). Retract at(wd_coffle, heaps). }
+  }
+  Action wd_buy_tallymen(actor: group, site: place) "Buy the salt-hands' names back from the Tallymen" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, heaps) and able(wd_tallymen) and quantity(actor, gold) >= 15 and not befell(tallymen_broken).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 15. Assert befell(tallymen_broken). Retract at(wd_tallymen, heaps). Retract at(wd_coffle, heaps). }
+    Result "The clerk takes the money. He does not count it twice. The guards lead the freed hands back to Wickering.".
+  }
+  Rule wd_tallymen_fall when at(wd_tallymen, heaps) and not able(wd_tallymen) and (not able(wd_coffle) or routed(wd_coffle)) and assails(wd_coffle, party)
+    says "The chain lies in the salt. The Tallymen's clerk backs toward the road, alone, while the pan-hands take their names back." {
+    Assert befell(tallymen_broken).
+  }
+  Action wd_serve_tallymen(actor: group, site: place) "Give the Tallymen the salt road and its counted hands" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, heaps) and able(wd_tallymen) and befell(company_sworn_ash) and not befell(tallymen_served).
+    Time 5 minutes.
+    On success { Assert befell(tallymen_served). Retract at(wd_tallymen, heaps). Retract at(wd_coffle, heaps). Increase quantity(actor, gold) by 10. }
+    Result "The clerk gives you ten gold and the salt road's tally. The guard drives the coffle east before the water marks move again.".
+  }
+  Topic wd_ri_oath with dorcas "Tell Dorcas the company is sworn to the Rì" when befell(company_sworn_ri) and not wdGift(actor) once {
+    Says "Dorcas puts a water-skin in your hand. 'The Rì's march drinks too,' she says. 'Tell them Wickering can spare one, not two.'".
+    On discuss { Assert wdGift(actor). Increase quantity(actor, gold) by 2. }
+  }
+  Topic wd_ash_oath with ysolde "Tell Ysolde the company is sworn to the Ash" when befell(company_sworn_ash) and not wdRejected(actor) once {
+    Says "Ysolde closes the pan-house door. 'No water for a company that sells the hands who draw it,' she says.".
+    On discuss { Assert wdRejected(actor). Assert refusesService(ysolde, actor). }
+  }
+  Topic wd_board with muckle "Show Muckle the company's grey board" when holding(actor, ash_tally) and not wdBoardRead(actor) once {
+    Says "Muckle takes the board and chalks the cistern's true water line across its twelfth column. He gives the slate back with the water mark still wet.".
+    On discuss { Assert wdBoardRead(actor). Spend ash_tally from actor. }
+  }
+}

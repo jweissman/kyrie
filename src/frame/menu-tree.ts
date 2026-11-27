@@ -7,6 +7,7 @@ import { Fold, type Chosen, type Leaf } from '../presentation/fold';
 import { Attest, type Projected } from '../presentation/attest';
 import { MenuModel, type Menu, type Sheets } from './menu-model';
 import { TalkQuestion, type Question } from './talk-question';
+import { PlaceQuestion } from './place-question';
 import type { Focus, Conversation } from '../session/focus';
 import type { Campaign } from '../campaign/campaign';
 
@@ -48,9 +49,14 @@ export class MenuTree {
   // The question asked from the session's focus (OR-1451): while it is a talk, the talk's menu, built once here over
   // the frame for every client (TalkQuestion). Its rows come from the player's immutable kept rows, never a fresh
   // PlayerFrame rebuild for this question.
-  static question(frame: Pick<Frame, 'screen' | 'leaf'>, focus: Focus, conversation?: Conversation,
-    campaign?: Campaign): Question {
-    return TalkQuestion.of(frame, focus, conversation, campaign);
+  // At the place, its own question, the four and the rest a page at a time (PlaceQuestion, OR-1490), where the frame
+  // has its menu.
+  static question(frame: Pick<Frame, 'screen' | 'leaf'> & { menu?: MenuNode }, focus: Focus,
+    conversation?: Conversation, campaign?: Campaign): Question {
+    const asked = TalkQuestion.of(frame, focus, conversation, campaign);
+    if (asked.focus.kind !== 'place') { return asked; }
+    const place = PlaceQuestion.of(frame, asked.focus.page ?? 0);
+    return place ? { ...asked, place } : asked;
   }
   static of(frame: Omit<Frame, 'menu'>): MenuNode {
     const raw = SceneModel.build(frame.screen), found = Attending.place(raw);

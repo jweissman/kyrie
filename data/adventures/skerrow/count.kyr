@@ -1,0 +1,80 @@
+Module skerrow "The Light on Scarth Holm" {
+  Relation skrCoinFound(group). Relation skrDangerSettled(group). Relation skrRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe skr_coin_hint at lamp_room when not skrCoinFound(party)
+    "A draught lifts the lamp-room mat although the tower doors are shut. One tile below it has a brass edge.".
+  Action skr_find_coin(actor: group, site: place) "Lift the brass-edged tile under the lamp-room mat" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and not skrCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert skrCoinFound(actor). Give count_coin to actor. }
+    Result "A woman with a sickle is worn almost flat on the coin. The keepers used to set one beneath the lamp before a storm watch, for the crews that did not come home by the causeway.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe skr_count_begins at shore_road when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "Grey strokes mark the causeway posts. The keeper has not asked who laid them.".
+  Observe skr_count_broken at shore_road when befell(ash_broken)
+    "The board is gone from the posts. The tide turns the causeway back to sand.".
+  Observe skr_count_triumph at shore_road when befell(ash_triumphs)
+    "Ash colours the lamp glass. The keeper keeps the light, but no boat answers it.".
+  Observe skr_party_saved at shore_road when skrDangerSettled(party)
+    "The lanterns stay hooded beyond the causeway. Edmund Seddon draws the keeper’s line back over the posts.".
+
+  Person skr_counting_leader "Sergeant Torrin Chale" nowhere {
+    Role "a causeway sergeant sent to make a fishing line into an Ash boundary". Ancestry human. Calling ranger. Level 4.
+    Temperament proud. Uses go, assail. Plans 5 steps.
+    Warns "Sergeant Torrin Chale has brought three lantern-rangers to take the keeper’s line and set his own posts.".
+  }
+  Person skr_counting_party "the three lantern-rangers" nowhere {
+    Role "lantern-rangers who mark tide posts before the keepers can erase them". Ancestry human. Calling ranger. Level 2. Numbers 3.
+    Temperament wary. Uses go, assail. Plans 4 steps.
+    Warns "Three rangers carry hooded lamps and short bows. They are watching the keeper’s chalk line.".
+  }
+  Initially Assert serves(skr_counting_party, skr_counting_leader).
+  Rule skr_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not skrDangerSettled(party) {
+    Assert at(skr_counting_party, shore_road). Assert at(skr_counting_leader, shore_road).
+  }
+  Action skr_fight(actor: group, site: place) "Hold the chalk causeway against Sergeant Chale" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shore_road) and at(skr_counting_party, shore_road) and at(skr_counting_leader, shore_road) and not skrDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(skr_counting_party, actor). Assert assails(skr_counting_leader, actor). }
+    Result "Sergeant Chale steps across the chalked causeway. His three lantern-rangers fan out behind him to cut off the keepers.".
+  }
+  Rule skr_force_broken when at(skr_counting_party, shore_road) and at(skr_counting_leader, shore_road) and (not able(skr_counting_party) or routed(skr_counting_party)) and (not able(skr_counting_leader) or routed(skr_counting_leader)) and assails(skr_counting_party, party) and assails(skr_counting_leader, party) {
+    Assert skrDangerSettled(party). Retract at(skr_counting_party, shore_road). Retract at(skr_counting_leader, shore_road).
+  }
+  Action skr_coin_way(actor: group, site: place) "Offer the old coin as the keeper’s due" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shore_road) and at(skr_counting_party, shore_road) and at(skr_counting_leader, shore_road)
+      and not skrDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert skrDangerSettled(actor). Retract at(skr_counting_party, shore_road). Retract at(skr_counting_leader, shore_road). }
+    Result "The sergeant knows the notch at its rim. He orders his counters to leave the lamp and its keeper off the levy.".
+  }
+  Action skr_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shore_road) and at(skr_counting_party, shore_road) and at(skr_counting_leader, shore_road)
+      and not skrDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert skrDangerSettled(actor). Retract at(skr_counting_party, shore_road). Retract at(skr_counting_leader, shore_road). }
+    Result "The counters see the twelfth place and leave the keeper to her lamp.".
+  }
+  Action skr_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shore_road) and at(skr_counting_party, shore_road) and at(skr_counting_leader, shore_road)
+      and not skrDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert skrDangerSettled(actor). Retract at(skr_counting_party, shore_road). Retract at(skr_counting_leader, shore_road). }
+    Result "The old slate unsettles the counters. They leave the oil store uncounted.".
+  }
+  Action skr_local_way(actor: group, site: place) "Cross by Seddon’s keeper-line" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shore_road) and at(skr_counting_party, shore_road) and at(skr_counting_leader, shore_road)
+      and not skrDangerSettled(actor) and lined(actor).
+    Time 5 minutes.
+    On success { Assert skrDangerSettled(actor). Retract at(skr_counting_party, shore_road). Retract at(skr_counting_leader, shore_road). }
+    Result "The keeper-line holds across the wet posts. The rangers cannot cross without breaking their own mark, so the party takes the far side of the causeway.".
+  }
+  Topic skr_ri_help with orrin "Ask Edmund Seddon to lay the keeper’s line for the Rì" when befell(company_sworn_ri) and not skrRiHelped(actor) once {
+    Says "Edmund Seddon coils a length of line around his palm. “I know every post by touch. If the Ash wants a boundary, let them find me standing on it.”".
+    On discuss { Assert skrRiHelped(actor). Assert lined(actor). }
+  }
+
+}

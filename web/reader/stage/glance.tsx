@@ -34,8 +34,7 @@ import { CompassStage } from './compass-stage';
 import { Look } from '../look';
 import { Signs } from '../../../src/presentation/signs';
 import { PageFrame } from '../page-frame';
-import { Unlensed } from './unlensed';
-import { PlaceMark } from './place-mark';
+import { PlaceQuestion } from '../../../src/frame/place-question';
 
 // A place at a glance (OWN-18, OWN-19), as the engine decides it (see Glance), under the place's head: what is told in
 // one column, and what can be done held in view beside it (under it on a screen held upright), never a scroll away.
@@ -186,63 +185,38 @@ export class GlanceStage {
       {!s.pending && g.next && <NextPull.View app={app} next={g.next} />}
     </div>;
   }
-  // And what can be done from it: only what will not wait (a danger, an answer owed, a warning, the dark), each one
-  // line, never a way; then a few quiet touches, each opening one thing for one purpose (see Explorer): Go… (where to
-  // go), Look… (the things at hand, where there are any), Wait… and Search. Who is here is on the picture.
-  // A touch is marked (its dot) only where what it opens serves the aim the company follows: Go… where a way goes
-  // where that aim does, Look… where a thing at hand is what it is about (the owner's play of 7 November: "Go…" in
-  // gold on every page, and a dot beside "Look…", while the notes said nothing was asked of the company yet).
-  // lens: the lens turned on (see GlanceStage.Lens), whose acts stand in place of the four; the place's own touches
-  // (the way back, the one way on, a notice, Search) stay as they are.
+  // And what can be done from it: one menu, from one source (the owner's playtest of 27 November, OR-1490: "one page,
+  // one menu, strict four"; several menus and a block of ways set apart had looked unintegrated). The place's question
+  // (PlaceQuestion): on its first page the engine's four (TB-02), drawn whole, the places among them, and Something
+  // else… under them in the same list; on each page after it, the next four of the scene's rows (each way, each thing
+  // by its look, each person by a talk, each wait, the company's own page first), as plain rows. The page draws
+  // nothing beside it: no way back, notice, one way on or block of ways, looks and waits of its own (they are rows of
+  // the question's pages).
+  // lens: the lens turned on (see GlanceStage.Lens), once lenses are earned, whose acts stand in place of the menu.
   static Resting({ app, draw, acts, top, lens }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string;
     lens?: Lens }) {
-    const search = Pastime.search(app), posted = GlanceStage.posted(app);
-    // What a touch of its own draws (a notice, the one way on) is not drawn again among what is led with.
-    // But the aim's next step is drawn as such where it is, whatever touch would draw it too: at Murkweard's door the
-    // gold was the search for the cross, drawn only as the rail's glass with nothing on it (round 10, S; R at
-    // Ísencepan), and the gold seen was on Go… and Look…, into the keep.
-    const next = GlanceStage.next(app);
-    // A notice the place leads with is one of the things to do, drawn as they are, with what it is at its left (the
-    // owner, 12 November: the bare link to the notice on the well-post, which "clearly gives you a clue").
-    const only = GlanceStage.only(app), touched = [only?.c.id, search?.id]
-      .filter(id => !id || id !== next);
-    // The engine's four where it offers them (TB-02), drawn whole, a touch of the place's own among them left out
-    // of the touches instead; else the glance's own foreground.
-    const offer = GlanceStage.offered(app);
-    const shown = offer ?? GlanceStage.foreground(app, acts).filter(a => !touched.includes(GlanceStage.choice(app, a.choice)?.id));
-    const drawn = shown.map(a => GlanceStage.choice(app, a.choice));
-    const yours = GlanceStage.yours(app, acts, [posted, search, ...drawn]);
-    // In a site or underground, the way back stays in sight, quietly, beside Go… (see CompanyRecall.back); inside an
-    // enclosed place the way out is a row of the engine's own offer instead (Compass, OR-188).
-    const compass = CompassStage.of(app), back = compass ? undefined : GlanceStage.back(app, [only?.c, ...drawn]);
-    // The rows beside the acts are items of the one foreground of four (see Foreground).
-    const opened = !!only && !lens && !(offer && drawn.some(d => d?.id === only.c.id));
-    const beside = (back ? 1 : 0) + (opened ? 1 : 0);
-    const fitted = Foreground.fit(shown, beside);
-    return <>
-      {lens ? <GlanceStage.Lens app={app} draw={draw} lens={lens} />
-        : fitted.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={fitted} top={top} />}
-      <p className="openers">
-        {back && <Act.View choice={back} draw={draw} quiet className="opener opens-back">
-          {Typography.curl(`Back: ${back.label.charAt(0).toLowerCase()}${back.label.slice(1)}`)}</Act.View>}
-        {/* What can change the world is drawn as a thing to do, a row with its line at the left, not a bare link (the
-            owner, 12 November: "The dues-receipt nailed to the post…" as a link); only the ways on stay quiet words. */}
-        {/* Not beside the engine's four where it offers them: the notice is then one of them, or no act drawn here (a
-            fifth item at a1's camp, the sellsword in the fourth place: foreground-browser, MT-18). */}
-        {posted && !offer && !drawn.some(d => d?.id === posted.id) && <ChoiceRow.Act choice={posted} draw={draw} quiet
-          className="opener opens-posted as-act" plain="neutral" label={Typography.curl(posted.label)} />}
-        {/* Its mark its witness's own (the trust contracts): it had been gold for any act the place led with. */}
-        {yours && <ChoiceRow.Act choice={yours} draw={draw} quiet className="opener opens-yours led as-act"
-          {...GlanceStage.marked(app, yours.id, true)} label={Typography.curl(yours.label)} />}
-        {/* A lens on is the one menu: no touch beside it, which had drawn the one way twice ("To the camp…" under its own row). */}
-        {only ? !opened ? null : <Act.View choice={only.c} draw={draw} quiet
-          className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
-          <PlaceMark.Dash app={app} to={Wayfinder.to(only)} />{Typography.curl(`To ${only.name}…`)}</Act.View>
-          : null}
-        {!lens && <Unlensed.View app={app} draw={draw} drawn={[only?.c.id, back?.id, ...drawn.map(d => d?.id)]} />}
-        {/* Go, Look, Wait and Search are the scene's rail, apart from what is told and led with (see SceneRail). */}
-      </p>
-    </>;
+    if (lens) { return <GlanceStage.Lens app={app} draw={draw} lens={lens} />; }
+    const asked = app.state.frame?.question?.place;
+    // The engine's four where it offers them, drawn whole; else the glance's own foreground.
+    const four = Foreground.fit(GlanceStage.offered(app) ?? GlanceStage.foreground(app, acts), 0);
+    if (asked && asked.page.at > 0) { return <GlanceStage.Paged app={app} draw={draw} rows={asked.rows} />; }
+    const after = asked?.rows.slice(asked.promoted) ?? [];
+    return four.length + after.length > 0
+      ? <GlanceStage.Acts app={app} draw={draw} acts={four} top={top} after={after} /> : null;
+  }
+  // A row of the place's question that is not one of the four (a page's rows, Something else…): plain, its mark the
+  // fold of its leaves as the question holds them, numbered by its place on the page.
+  static Asked({ app, draw, row, n }: { app: ReaderApp; draw: Draw; row: Choice; n: number }) {
+    const leaves = app.state.frame?.question?.place?.marks[row.id] ?? [];
+    return <li data-question={row.id === PlaceQuestion.more ? 'more' : 'row'}>
+      <ChoiceRow.Act choice={row} draw={draw} {...row.id === PlaceQuestion.more ? {} : { shown: n }} className="led-act asked"
+        {...ChoiceRow.mark(Fold.mark(leaves, Guidance.shown(app)))}
+        label={Typography.curl(row.label)} {...row.note ? { aside: Typography.curl(row.note) } : {}} /></li>;
+  }
+  // A page of the place's question past its four: its rows, and Something else….
+  static Paged({ app, draw, rows }: { app: ReaderApp; draw: Draw; rows: Choice[] }) {
+    return <ol {...PageFrame.slot('menu')} className="led asked-page" aria-label="What you could do now">
+      {rows.map((r, i) => <GlanceStage.Asked key={r.id} app={app} draw={draw} row={r} n={i + 1} />)}</ol>;
   }
   // The lens turned on at the rail (CN-01, CN-05; the owner, 14 November: "A lens is a change of attention, not a game
   // action or a new location"): Go the places, Look the things, Wait the time, Talk the people. Turning one on is the
@@ -570,14 +544,16 @@ export class GlanceStage {
   static fight(chance: string): string { return `A fight: ${chance}.`; }
   // What the glance leads with, best first: each as the player would say it, why beside it (your brother, your aim,
   // the way you came), and under it what it risks, in words; whatever it opens, open under it.
-  static Acts({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {
+  // after: the rows of the place's question drawn under the four in the same list (Something else…).
+  static Acts({ app, draw, acts, top, after = [] }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string;
+    after?: Choice[] }) {
     // An act offered with no choice of the menu's own (talking to someone here, which the page otherwise draws by their
     // likeness) is drawn as its own row and done by its command, so that the four are the engine's four.
     const shown = acts.flatMap(a => {
       const c = GlanceStage.taken(app, a);
       return c ? [{ a, c }] : [];
     }).filter((x, i, all) => all.findIndex(y => y.c.id === x.c.id) === i);
-    if (!shown.length) { return null; }
+    if (!shown.length && !after.length) { return null; }
     return (
       <ol {...PageFrame.slot('menu')} className="led" aria-label="What you could do now">{shown.map(({ a, c }, i) => {
         // What it is to the company, drawn by the page's one table of tones (see Emphasis), and said in words; the aim's
@@ -618,7 +594,7 @@ export class GlanceStage {
             extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)} />}
           <PlaceStage.Opened choice={c} draw={draw} />
         </li>;
-      })}</ol>
+      })}{after.map((r, i) => <GlanceStage.Asked key={r.id} app={app} draw={draw} row={r} n={shown.length + i + 1} />)}</ol>
     );
   }
   // What a row says under its words: what it adds (whom it is done with, what it opens); but what kind of thing it is

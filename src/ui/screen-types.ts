@@ -3,7 +3,7 @@ import type { Surface } from '../lang/index';
 import type { Counter } from './trade-model';
 import type { Danger } from '../presentation/danger-sense';
 import type { CharacterSheet, Development, Recruit } from '../presentation/character-sheet';
-import type { Face } from '../paintings/company-portraits';
+import type { Face } from '../ports/presentation-resources';
 
 // Renderer-independent game screen contract. Every executable leaf carries a PlayerView command id; the client
 // never decides what is legal. Rows describe what the party can perceive at its current location.
@@ -341,6 +341,10 @@ export interface CombatScreen {
   // every foe has a likeness, and they take most of the stage's left side, large, what is faced seen before it is read;
   // none, the cards as they stand.
   stage?: 'portraits';
+  // The page's theme for the fight, the engine's hint, as the backstage's folio is (the owner's playtest of 27
+  // November, OR-1493: a parchment treatment for combat): each card a leaf of parchment on the dark of the place,
+  // its inks the folio's; a foe's likeness a plate on it, never an oval.
+  theme?: 'parchment';
   // The round the fight is in: each begins with everyone's order drawn again.
   round: number;
   // Why a fight pressed on was handed back to the player before this turn (see PressOn): "Wenna could fall to the

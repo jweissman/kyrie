@@ -1,0 +1,97 @@
+Module sallowfield "Three Nights at Sallowfield" {
+  // Under the long campaign's count (doc/design/direction-2026-11-27-the-long-campaign.md, "The war's reach"): the
+  // Margrave stopped paying Wyre, and the Ash has noticed. Its purser waits at the parley stone with a cart of fire-pots
+  // and the promise of eleven hundred in arrears, for the price of a stripe on the board. A First Count coin is pegged
+  // into the oldest beam of the bell-frame, where the founders of the chapel paid the carpenter.
+  Relation sfCoinFound(group). Relation sfPotsSpoiled(group). Relation sfPotsDelivered(group). Relation sfPurserGone(group).
+  Relation sfWyreRefused(group). Relation sfWyreAsked(group). Relation sfSold(group). Relation sfStoleTried(group).
+  Relation sfAleGiven(group). Relation sfReeveShut(group). Relation sfAnvilWedge(group). Relation sfFought(group).
+
+  Action sf_find_coin(actor: group, site: place) "Feel along the oldest beam of the bell-frame" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_loft) and not sfCoinFound(actor).
+    Time 10 minutes.
+    Resolve check(actor, perception, dc_fair).
+    On success { Assert sfCoinFound(actor). Give count_coin to actor. }
+    Result "Under a century of pigeon-lime, the beam has a peg that is not oak. You work it out with a knife point: a bronze disc folded once, like a coin a carpenter was paid with and thought too good to spend. Eleven strokes on its face.".
+    Otherwise "Lime, splinters, a nest of last year's straw. The bell hums when your elbow touches it, and you stop.".
+  }
+
+  Person sf_purser "Purser Ebbel Thewlis" nowhere {
+    Role "the Ash's purser on the Brimble road, who buys companies whose masters have stopped paying". Ancestry human. Calling bard. Level 3. Manner compassionate. Carries dagger.
+    Arrives at parley_stone when befell(ash_count_begun) and watch(clock) >= 48 and not sfPurserGone(party).
+    Arrives "A two-horse cart under grey canvas comes down the Scar road behind the riders and stops at the standing stone. A thin man gets down and stretches, like someone who has been sitting on money for a long way.".
+    Greets "'Thewlis,' he says, and shakes your hand as if you had come to sell him something. 'I settle debts. Other men's, usually. The captain is owed eleven hundred; my masters can count to eleven hundred.'".
+    Greets again "Thewlis is writing in a small grey book. 'Every man on that hill has a number,' he says, not looking up. 'I am only the one who reads them out.'".
+  }
+  Person sf_escort "Thewlis's escort" nowhere {
+    Role "three Ash pikemen in grey quilted coats, who walk beside the cart in step". Ancestry human. Calling warrior. Level 3. Numbers 3. Temperament obedient. Carries spear. Uses go, assail. Plans 3 steps.
+    Arrives at parley_stone when befell(ash_count_begun) and watch(clock) >= 48 and not sfPurserGone(party).
+  }
+  Initially Assert serves(sf_escort, sf_purser).
+  Observe sf_cart at parley_stone when at(sf_purser, parley_stone) and not sfPotsSpoiled(party) and not sfPotsDelivered(party)
+    "Under the cart's canvas: straw, and in the straw clay pots the size of a man's head, stoppered with wax, each stamped with twelve short lines. The horses will not stand near the tail of the cart.".
+
+  // Delivered the second afternoon unless something prevents it. The pots go to Wyre's bridge party and his mill party.
+  Rule sf_pots_go when at(sf_purser, parley_stone) and watch(clock) >= 200 and not sfPotsSpoiled(party) and not sfWyreRefused(party) and not sfPotsDelivered(party) {
+    Assert sfPotsDelivered(party). Increase thrust(bridge) by 3. Increase thrust(mill_yard) by 2.
+  }
+  Observe sf_pots_word within vale when sfPotsDelivered(party) and not battleOn() and not morning(party)
+    "Smoke stands up straight from Wyre's camp in the afternoon, black and greasy, then stops. Crowther says it is somebody trying a pot to see if it will burn. It will.".
+
+  Action sf_wet_pots(actor: group, site: place) "Carry water to the purser's cart after dark and drown the pots" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, parley_stone) and at(sf_purser, parley_stone) and not sfPotsSpoiled(actor) and not sfPotsDelivered(actor) and not sfStoleTried(actor).
+    Time 30 minutes.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert sfPotsSpoiled(actor). Assert sfStoleTried(actor). }
+    On failure { Assert sfStoleTried(actor). Assert sfFought(actor). Assert assails(sf_escort, actor). Assert assails(sf_purser, actor). }
+    Result "Six trips from the river with your hat and a borrowed bucket. The wax gives under a thumbnail and the straw drinks the rest. In the morning the pots will be full of grey mud, and Thewlis will write it down.".
+    Otherwise "The second bucket rings against a wheel. A pike comes round the tail of the cart, and another, and the purser's voice says, quite mildly, 'Oh, dear.'".
+  }
+  Action sf_fall_on_cart(actor: group, site: place) "Fall on the purser's cart before it reaches the camp" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, parley_stone) and at(sf_purser, parley_stone) and not sfFought(actor) and not befell(company_sworn_ash).
+    Time 1 minute.
+    On success { Assert sfFought(actor). Assert assails(sf_escort, actor). Assert assails(sf_purser, actor). }
+    Result "The three pikemen turn together, as if someone had pulled one string. Thewlis puts his little book inside his coat, buttons it, and draws.".
+  }
+  Rule sf_cart_taken at parley_stone when at(party, parley_stone) and dead(sf_purser) and not sfPurserGone(party)
+    says "The cart horses have bolted to the end of their traces and stand trembling. You knock the stoppers out of the pots one by one and tip them into the ditch, where they lie and stink." {
+    Assert sfPurserGone(party). Assert sfPotsSpoiled(party). Retract at(sf_escort, parley_stone).
+  }
+
+  // Wyre is owed, and proud of it. Told what the purser's money buys, he may decide a debt is better than a stripe.
+  Action sf_tell_wyre(actor: group, site: place) "Tell the captain what the purser's silver costs: his name on the Ash's board" {
+    Speaker wyre.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wyre, site) and owedHeard(actor) and at(sf_purser, parley_stone) and not sfWyreAsked(actor) and not sfPotsDelivered(actor).
+    Time 0.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert sfWyreAsked(actor). Assert sfWyreRefused(actor). Assert sfPurserGone(actor). Retract at(sf_purser, parley_stone). Retract at(sf_escort, parley_stone). }
+    On failure { Assert sfWyreAsked(actor). }
+    Result "Wyre hears you out. Then he rides to the standing stone himself, and talks to Thewlis for the time it takes to drink a cup of something, and the grey cart turns round. 'I have been a debt for six years,' he says when he comes back. 'I find I would rather be a debt than a number.'".
+    Otherwise "'Every master writes his men down somewhere,' says Wyre. 'The Margrave wrote me down and then crossed me out. This one, at least, pays in pots.'".
+  }
+
+  Topic sf_purser_buys with sf_purser "Take Thewlis's silver to leave the ford unwatched on the second night" when befell(company_sworn_ash) and not sfSold(actor) once {
+    Says "Thewlis counts it out on the cart's tailboard in stacks of five, and turns each stack so the twelve lines face you. 'No one need be harmed who is indoors,' he says. 'I say that every time. It is sometimes true.'".
+    On discuss { Assert sfSold(actor). Increase quantity(actor, gold) by 5. Increase thrust(ford_stones) by 3. }
+  }
+  Observe sf_sold_known at green when sfSold(party) and morning(party)
+    "Nobody on the green will meet your eyes. Ellen Cragg has counted the arrows that came over the ford in the night, and she has written the number on the chapel door.".
+
+  Observe sf_broken at well when befell(ash_broken)
+    "The green well has a new bucket, and its rope is a grey pike-sling, plaited.".
+  Observe sf_triumph at east_road when befell(ash_triumphs)
+    "There is a tollpost on the ford road now, painted grey, with twelve notches cut in its top. Teasdale pays it with his face turned away.".
+
+  Topic sf_ri_ashworth with ashworth "Tell Nan Ashworth the company is sworn to the Rì" when befell(company_sworn_ri) and not sfAleGiven(actor) once {
+    Says "'Is he paying his soldiers?' asks Nan. You say he is trying. 'Then he is a better man than the Margrave already,' she says, and wraps a heel of bread and a cold pie in a cloth.".
+    On discuss { Assert sfAleGiven(actor). Increase quantity(actor, rations) by 2. }
+  }
+  Topic sf_ash_reeve with stansfield "Tell the reeve the company is sworn to the Ash" when befell(company_sworn_ash) and not sfReeveShut(actor) once {
+    Says "Aldred Stansfield takes off his chain of office and holds it, as if weighing whether it would make a better weapon. Then he puts it back on. 'You will want nothing from Sallowfield,' he says, 'and you will get it.'".
+    On discuss { Assert sfReeveShut(actor). Assert refusesService(stansfield, actor). }
+  }
+  Topic sf_tally_kersey with kersey "Show Peg Kersey the Ash's tally-board" when holding(actor, ash_tally) and not sfAnvilWedge(actor) once {
+    Says "Peg Kersey taps it with a hammer, listens, and nods. 'Seasoned,' she says. 'Somebody spent money on that.' She kicks it in under the anvil block, where the floor has always been low on the left side.".
+    On discuss { Assert sfAnvilWedge(actor). Spend ash_tally from actor. }
+  }
+}

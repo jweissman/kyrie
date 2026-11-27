@@ -190,7 +190,8 @@ export class Origins {
     // What is seen of it from the road is what made it: masts at a harbour, the brothers' wall, a fort's gate-tower.
     const sight = Foundings.table.foundings[Foundings.of(region, region.settlements.indexOf(s)).kind].sight;
     return { scene: a.scene.replace('{home}', s.name).replace('{trade}', trade).replace('{sight}', sight), home: s.name,
-      homename: s.name, region: region.name };
+      // then: what a reason's own find opens after it, where a country says (ReferenceOrigins: OR-1505); else nothing.
+      homename: s.name, region: region.name, then: '' };
   }
   private static way(region: Region): Way {
     return (tables.approach as Record<string, Way>)[region.terrain] ?? tables.approach.forest;

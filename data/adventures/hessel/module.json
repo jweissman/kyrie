@@ -13,6 +13,7 @@
     "endings.kyr",
     "growth.kyr",
     "season.kyr",
+    "count.kyr",
     "company.kyr",
     "lore.kyr"
   ],
@@ -25,7 +26,12 @@
   "canon": [
     "imbar",
     "slack_opened",
-    "remainder_harboured"
+    "remainder_harboured",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
   ],
   "exports": {
     "party": "party",
