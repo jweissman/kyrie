@@ -11,6 +11,7 @@ import { Challenge } from '../src/world/challenge';
 // barrow ghoul, on the edge at 2 (a second-level warrior had won six of twelve), measures 4.
 // Measured again after correcting the ghoul's secondary strikes to +0 (26 November): 1 at each rank, with a lone
 // first-level warrior winning six of twelve. Its bite and claws still each carry paralysis.
+// Those table entries predate SRD warrior hit points and modifiers; the ghoul now measures 2 (OR-1398).
 // Measured for the fell owlbear by the SRD's numbers (20 November, case 62): 8, the SRD's challenge 4 for a company of
 // four met by one warrior alone. The long centipede (21 November, case 63): a third, as the SRD's challenge 1/2; the
 // midden rat (case 64): a third, as the SRD's 1/3; the wild boar (case 65): 2, the SRD's 2.
@@ -24,9 +25,10 @@ describe('the challenge of the SRD kinds', () => {
     expect([Challenge.of('ghoul/barrow'), Challenge.of('ghoul')]).toEqual([1, 0.5]);
     expect(Challenge.of('ghoul/barrow', 5)).toBe(1);
   }, 60000);
-  it('measures the ghoul as a first-level match, but not a pair as one', () => {
-    expect(BestiaryTool.won('ghoul/barrow', 1, { warrior: 1, foes: 1 })).toBeGreaterThanOrEqual(0.5);
-    expect(BestiaryTool.won('ghoul/barrow', 1, { warrior: 1, foes: 2 })).toBeLessThan(0.5);
+  it('finds the ghoul harder for an SRD warrior than its earlier challenge measurement', () => {
+    expect(BestiaryTool.won('ghoul/barrow', 1, { warrior: 1, foes: 1 })).toBe(5 / 12);
+    expect(BestiaryTool.won('ghoul/barrow', 1, { warrior: 2, foes: 1 })).toBe(7 / 12);
+    expect(BestiaryTool.won('ghoul/barrow', 1, { warrior: 1, foes: 2 })).toBe(0);
   }, 60000);
   it('feels a level apart: the wild boar beats a first-level warrior, not a second-level one', () => {
     expect(Challenge.of('boar/wild')).toBe(2);

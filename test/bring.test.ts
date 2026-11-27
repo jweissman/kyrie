@@ -47,7 +47,7 @@ describe('someone brought', () => {
       .toThrow(/bell brings someone to where the one who acts stands, and nobody acts in it: say to whom/);
   });
   it('comes to where the company stands, and falls on it', async () => {
-    const j = await start();
+    const j = await start('a');
     expect(j.at('p__pinmen')).toBeUndefined();
     await j.play('^To the pantry$');
     const told = await j.play('Lift the pot from behind the throne');
@@ -64,11 +64,11 @@ describe('someone brought', () => {
     expect(j.at('p__watchman')).toBe('p__yard');
   }, 60000);
 });
-async function start(): Promise<Journey> {
+async function start(seed = 'br'): Promise<Journey> {
   const source = new OverlayBundleSource(NodeBundleSource.shared, { 'br/site.kyr': site,
     'br/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'], globals: ['party'],
       exports: { party: 'party' } }),
     'br.campaign.json': JSON.stringify({ version: 1, name: 'br', modules: [{ id: 'p', bundle: 'br/module.json' }],
       party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
-  return Journey.start(source.resolve('br.campaign.json'), 'br', { source });
+  return Journey.start(source.resolve('br.campaign.json'), seed, { source });
 }

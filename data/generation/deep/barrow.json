@@ -93,7 +93,7 @@
     { "depth": 2, "groups": [
       { "species": "revenant", "count": 3, "label": "the king's men", "role": "the king's own, laid with him and risen with him", "temperament": "territorial" },
       { "species": "wraith", "count": 2, "label": "the shades", "role": "shades that walk the king's grave, and cool the air before them", "temperament": "territorial" },
-      { "species": "vampire", "count": 1, "label": "the drinker", "role": "one of the king's house who would not lie down, and is thirsty", "temperament": "savage" }
+      { "species": "vampire", "count": 1, "label": "the drinker", "role": "one of the king's house who would not lie down, and is thirsty", "temperament": "savage", "variations": ["elder"] }
     ] }
   ],
   "elites": [

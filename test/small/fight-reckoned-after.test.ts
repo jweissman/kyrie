@@ -15,7 +15,8 @@ describe('a blow in a fight', () => {
     const t = await Tiny.start(`
       Place cellar "the cellar" is room at 0, 0 indoors.
       Person rats "the rats" at cellar { Role "rats, fat and bold". Species rat. Numbers 4. Level 1. Lair cellar. }
-      Company party "You" of 1 at cellar.`, { party: [{ name: 'Ilse', raceId: 'human', classId: 'mage' }] });
+      Company party "You" of 1 at cellar.`, { party: [{ name: 'Ilse', raceId: 'human', classId: 'mage',
+        rolled: { strength: 12, dexterity: 12, constitution: 17, intelligence: 12, wisdom: 12, charisma: 12 } }] });
     const posts: { frame: Frame; reckoned: number }[] = [], reckon = spyOn(DangerSense, 'of');
     const host = new EngineHost(m => { if (m.kind === 'frame') { posts.push({ frame: m.frame, reckoned: reckon.mock.calls.length }); } });
     (host as unknown as { session: PlaySession }).session = t.session;

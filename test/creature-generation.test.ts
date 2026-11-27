@@ -24,7 +24,7 @@ describe('compositional creature generation', () => {
     }
     expect(new Content('general').createCreature(ItemCatalog.canon, 'entity', contexts[0]!).classId).toBe('warrior');
   });
-  it('derives hit points, spell slots and spells from Orsino\'s chassis, honouring authored scores', () => {
+  it('derives hit points, spell slots and spells from the chassis, honouring authored scores', () => {
     const spells = ['cure', 'bless', 'anoint', 'prayer', 'cure_moderate', 'cure_serious'];
     const context = { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], spells, strength: 18,
       constitution: 15, wisdom: 14, name: 'Chosen' } satisfies CreatureGenerationContext;
@@ -33,8 +33,8 @@ describe('compositional creature generation', () => {
     expect([high.name, high.raceId, high.classId]).toEqual(['Chosen', 'dwarf', 'cleric']);
     for (const key of ['strength', 'constitution'] as const) { expect(high.base[key]).toBe(low.base[key]); }
     expect([high.base.strength, high.base.constitution]).toEqual([18, 15]);
-    // A level-1 character: hit die 8 + CON modifier 3. Above level 1, Orsino's NPC formula: 8 + 3 × 8 / 2 + 3.
-    expect([low.base.maxHp, high.base.maxHp]).toEqual([11, 23]);
+    // First level: 8 + 2. Three later levels: 5 + 2 each.
+    expect([low.base.maxHp, high.base.maxHp]).toEqual([10, 31]);
     // Slots by spell level from the cleric table (1 at level 1; 2 and 2 at level 4), plus one for WIS 14.
     expect([low.base.maxSlots, high.base.maxSlots]).toEqual([[2], [3, 2]]);
     expect(low.state.slots).toEqual([2]);

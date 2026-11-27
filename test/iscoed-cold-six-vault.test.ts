@@ -6,8 +6,8 @@ import { Runner, type Said } from '../src/cli/runner';
 import { BeforeRooms } from './support/before-rooms';
 
 // The sixth cold play of the golden route (mission-22/cold/cold-6-report.md), replayed with the keeper's corrected
-// SRD strike bonuses. A lone first-level warrior is in danger but is not certainly beaten by the first exchange, so
-// the offered warning names that uncertainty and the help available without claiming the fight is unwinnable.
+// SRD strike bonuses and OR-1396's hit points. The offered warning names the risk and the help available; this seed
+// is now fatal to the lone warrior.
 const lines = readFileSync('doc/architecture/mission-22/cold/cold-6-lines.txt', 'utf8').split('\n').filter(Boolean);
 function said(x: Said | { error: string }): Said { if ('error' in x) { throw new Error(x.error); } return x; }
 describe('the sealed vault, after the sixth cold play', () => {
@@ -30,11 +30,13 @@ describe('the sealed vault, after the sixth cold play', () => {
     expect(attack?.aside).toContain('the way back to the undercroft');
     expect(vault.offer.primary[0]?.id).not.toBe(attack?.id);
   });
-  it('does not call the first exchange a death', async () => {
+  it('calls the fatal exchange a death, and keeps the ending on a look', async () => {
     const fight = said(await runner.ask('{"act":"attack(region__s1_u_keeper)"}'));
-    expect(fight.end).toBeUndefined();
+    // OR-1396: the correctly warned grave fight is lost.
+    expect(fight.end).toBe(true);
     expect(fight.scene.lines.join(' ')).toContain('Wenna cannot move.');
     const look = said(await runner.ask('{"look":true}'));
-    expect([look.end, look.ending]).toEqual([undefined, undefined]);
+    expect(look.end).toBe(true);
+    expect(look.ending).toEqual(fight.ending);
   }, 120000);
 });

@@ -11,6 +11,121 @@ to Orsino, not to the SRD. Each case below is one of four classes:
 - **incomplete**: part of the defining behaviour runs, the rest is named as missing;
 - **unsupported**: the catalogue has it and nothing runs it.
 
+## Ability modifiers and calling hit points (OR-1396, 27 November)
+
+The shared modifier is `floor((score - 10) / 2)` for every ability score, including in creation cards, attacks,
+damage, saves, skills and spell slots. A first-level person has the maximum class die plus Constitution, minimum one.
+For a person generated at a higher level, each later level contributes half the die plus one plus Constitution,
+minimum one per level. Advancement instead rolls the die, keyed by campaign seed, creature identity and level.
+`test/attributes`, `test/srd-hit-dice` and `test/advancement` pin these routes.
+
+The eight callings were checked against the SRD class table: warrior/fighter d10, ranger d8, mage/wizard d4,
+thief/rogue d6, cleric d8, bard d6, monk d8 and commoner d4. Only warrior and ranger needed changing.
+
+Monster Hit Dice are not class Hit Dice. The fixed SRD stat blocks use their listed expressions, independent of
+encounter level; the three affected fixed-stat-block variations retain their SRD AC through natural armour. Legacy
+species without SRD Hit Dice retain their authored Orsino chassis or `Creation.grown` formula, now using the SRD
+modifier: neither substitutes the SRD creature-type dice or applies Constitution per monster die. That migration is
+OR-1397, not a claim of SRD fidelity. The Orsino source snapshot remains historical; the composed comparison uses the
+same SRD modifier as the live engine.
+
+**Measurements.** One local run on main `125fa163aaf710490aed68dcfa93082795246719` and one on this slice,
+serialized under the machine lock; the systemd user bus was unavailable, so the usual memory ceiling was not applied.
+These are single readings, not a performance experiment.
+
+| Quantity | Before | Stats slice | After whole-lane repairs |
+|---|---:|---:|---:|
+| Combat-place fights/game hour, median (a1, thorn) | 1.45 (1.45, 0.68) | 1.45 (1.45, 0.67) | 1.45 (1.45, 0.67) |
+| Dungeon delver fights/game hour, median (iscoed, a1, thorn) | 3.67 (3.23, 3.67, 3.70) | 3.70 (3.23, 3.96, 3.70) | 3.70 (3.23, 3.96, 3.70) |
+| Mortal bands warned | 100%, 55/55 | 100%, 62/62 | 100%, 62/62 |
+| Traversal/administration after first expedition | 77% | 75% | 75% |
+| Aims completed by arrival alone | 22% | 22% | 22% |
+
+The combat density and warning bands hold. The a1 delver reaches 6 rooms and fights 6 times after, against 14 rooms
+and 11 fights before; fights per hour alone does not mean the expedition became safer. The quantity command fails on
+the same two unrelated pre-existing ratchets: traversal must be at most 74%, and arrival-only aims at most 20%.
+Neither band was widened.
+
+The bestiary's earlier challenge table also needs remeasurement (OR-1398): against the barrow ghoul a lone
+first-level warrior now wins 5/12 fights, a second-level warrior 7/12, and against two ghouls 0/12. The table still
+records challenge 1; the current measuring tool says 2. This was not retuned from a single creature's reading.
+
+| Quality walk, ms unless noted | Before | Stats slice | After whole-lane repairs |
+|---|---:|---:|---:|
+| New life to first frame / first act | 3341 / 3537 | 3433 / 3556 | 5004 / 5313 |
+| Median turn | 89 | 78 | 137 |
+| Non-journey turn, median / p95 | 80 / 204 | 73 / 147 | 127 / 303 |
+| Decision, median / p95 | 24 / 62 | 24 / 59 | 33 / 102 |
+| Journey leg, median / p95 | 27.1 / 106.5 | 27.3 / 105.7 | 41.1 / 155 |
+| Page-host leg, median / p95 | 46.3 / 109.9 | 43.3 / 146.2 | 68.4 / 190.5 |
+| Retained heap, KB/turn | 985 | 995 | 1139 |
+
+The last reading is slower, not an improvement claim. It was made later in this shared, non-dedicated environment,
+without a fresh paired main run; its difference cannot be attributed to the stats or repair code alone. No quality
+or quantity baseline was changed. The final full quantity run still fails only the two ratchets named above.
+
+### Whole-lane repair and remaining authored cases
+
+`gh run view 46034791349 --log-failed` contains 47 distinct failed labels, after removing repeated end-of-job
+summaries; this includes two unnamed setup failures. The families below account for all 47. The unrelated
+`test/compositions` combatant error is not included or changed.
+
+| Family | Failed labels | Decision and proof |
+|---|---:|---|
+| Direct stats and forecast fixtures | 6 | Cold-three Wenna is 12/12; the lone thief is 7 HP; weir Ilse is 2 HP and Gesk 15/15, with the rats now grave alone. The novice covenant uses the existing lone-fighter grave boundary of 0.75, not the stale company's 0.6. HP and seeded odds are repinned, not the live reckoning weakened. |
+| Fixed SRD monsters | 3 | Two drove-dog cases and the boar census: natural armour 1 preserves the SRD dog's AC 15; the boar's explicit +4 tusks and +3 damage preserve its sole natural attack's one-and-a-half Strength damage. The expression census, handbooks and fidelity page are regenerated. |
+| Cost, tactics and routing | 4 | Two cost pins, spell-over-blow and bout. The spell wins 59/100 against 34/100 with the staff; it still wins a majority and beats the staff. Bout retains the original deadly losing seed and adds a warned-grave routing seed with two survivors. The cost repairs are detailed below; none of the strict conflict floors changes. |
+| Cold-play consequences | 3 | Cold-six and its vault case pin the newly fatal exchange. Cold-four's crown reaction is tested in a fresh, lit scene, because the old replay dies at the chest's zombies before reaching the king. These are not claims that the original cold transcript survives. |
+| Authored outcomes with truthful danger | 6 | Barge's original seeds stay: grave `m` wins with Bor down; deadly `a` loses all three. Low Water's `d3` is grave and all four fall before the late double speaks; singing still works. Parliament's five-HP bard dies to the five-point tide but is still put ashore; the posting case leaves through the hatch before it. Quiet's strike stays in the warm Oven rather than dying of exposure in Truce. No named adventure's enemy band is retuned. |
+| Walks and preparation | 8 | First Aims, the reference loop, deep refill, first-quarter, Porthalen Hall, under-town, nest aim and weir route. Explicit press-through now continues repeated fight handbacks. The reference loop brings its first ore home, hires Carlin, reports the quarry cleared, sleeps, then fights the chief; its solo warning is grave. The refill hires the offered recruit and lights the spare torch if needed. Under-town deliberately stands in the chosen keeper fight rather than randomly fleeing. Nest aim uses level two to test its gold projection; the weir pins actual arrival. Consecutive same-place camping no longer hides travel oscillation; Hall's backtracking floors stay unchanged. |
+| World skill check | 1 | World-lint pins the supported failed skill check, not an exception for an allegedly unsupported power. |
+| Mercy premise | 1 | Consequences now creates the one-person party its mercy case claims. The assembler's default three people can win; no riders are strengthened to force their loss. |
+| Kept trace | 1 | `wren-tower-climbed` is redigested last, only if the script reports `it comes where it came`; the kept destination, clock and words are not repinned. |
+| Sarn end-to-end | 6 | Still failing, reported rather than silently changing authored hazards or party strength; see OR-1399 below. |
+| Wapshott's Act IV | 7 | Still failing: the five quay variants (bare, cages, fire, both, meat), the Colonel's decision, and the played quay/return. See OR-1399. |
+| Bound Howe camp | 1 | Still failing for its written level-five party; see OR-1399. |
+
+**Cost repairs, not looser gates.** The hound's 8 wins in 10 was a lucky sample: 100 independent fights give 68 wins
+and 32 deaths, consistent with grave. The cost instrument now takes 100 trials for every band, retaining its entire
+scope and every floor. This exposed the drinker: before repair the company won 93/100, and the drinker survived the
+first round only 61/100, below the unchanged 70% boss floor. Its generated barrow band uses the existing elder variation, adding
+body rather than changing a threshold. The gate-well conger goes from level five to eight: with the SRD stats its
+old body could fall before answering the golden walk's second blow; even level seven's 15 HP fell to sweep 4 plus
+cleave 11. At eight the unchanged cost witness passes. All four **Fights that cost** and all three **Fights foretold**
+pins pass. No change remains in `DangerSense`.
+
+**Authored remainder (OR-1399).** The rerun of the two circus files and the camp case has 19 passes and 14 failures.
+Sarn/Wapshott's exposed seed starts Wren at 8 HP, loses 4 to the voyage storm and the remaining 4 to delta fever at
+watch 2160; the hunt begins at 2532. These fixtures die before the intended set piece. Replenishing water and rations
+does not cure fever. The adventure offers shelter/lashing during the storm and kingsfoil/feverwort care; a protected
+end-to-end replay has not been proved, so this is not evidence that every Sarn route is unwinnable. The six Sarn
+failures are egg, Society pair, clutch, young returned, fire on the fifth night, and pack on the sixth.
+
+The Bound Howe's written level-five warrior/cleric/thief/mage starts at 24/38/22/5 HP; all four fall and the foreman
+survives. The crew is reckoned hard and the separate foreman fair; the latter is not proof that their combined fight
+is fair. This is a fixed-seed loss, not a claim of universal unwinnability. Its winning set-piece assertion remains
+red for the lead to decide, without retuning the camp or increasing the fixture's level. Low Water's late-double
+beat likewise is not reached by `d3`'s losing fight, although its other route is proved.
+
+**Kite, not a1.** The six-room result belongs to a1, not Kite. The quantity delver deliberately has 300 HP and is not
+an ordinary first-level company. In the targeted Kite trace it reaches 14 rooms, fights 13 times across three
+levels, and falls at the king in `grave_heart` after 35 rounds (last slam 11), at 213 game minutes. The a1 delver stops
+after six fights/six rooms at the winze foot: spiders and a sturdy bear, final claws 10 after 13 rounds, no light and
+its accumulated 300 HP spent. Neither is a novice-viability proof.
+
+Forty independent fights per band with an ordinary first-level Kite warrior show the actual early barriers:
+grave-robbers 1/40 and their captain 0/40, both deadly. First-depth dead, rats, vicious bats and sturdy beetles win
+34, 35, 34 and 35 of 40, all hard. Deeper bone hounds win 2/40 and 0/40, swift banshees and forgotten centipedes 4/40,
+and the alpha mummy and king 0/40, all deadly; ghouls 11/40 and corpse-lights 14/40 are grave. The warnings identify
+these barriers, but the first depth is not uniformly suitable for a lone novice. Dungeon re-tuning remains a lead
+decision, not a hidden change in this slice.
+
+**Validation.** Full `check:fast` (2323 passes, 172 skips, 31 todos), `test:small` (1245 passes) and `test:honest`
+(4 passes) pass. Every changed spec, all `test/srd-*`, `test/fight*` and `test/cure-wounds`, plus the dog, boar, First
+Aims, Hall and foretold pins pass together: 285 passes across 52 files, four browser skips. The complete whole lane
+is not green: the 14 authored assertions above remain open. Browser fight-layout checks, human acceptance and a
+protected Sarn replay were not checked.
+
 ## The cases (16 November)
 
 ### 1. Sleep over a band outside a fight (CF-03): adapted, its route proved

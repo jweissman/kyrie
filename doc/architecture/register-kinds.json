@@ -1,6 +1,12 @@
 {
  "about": "What each live row of the register is, auditable (scripts/register-kinds.ts; the owner, 20 Nov: release-blocking defects, outstanding requirements and future directions kept apart, every reclassification shown with what it was and why, never changing a row's priority, evidence or acceptance). A row not named here is a defect; the families KX, SS, PG, SR, IM are directions by prefix. Each entry: kind, was (its kind before), pri (its priority when reclassified, which the register must still show), why. blockedBy: the architecture row a row waits on; a blocked defect is still a defect.",
  "rows": {
+  "OR-1397": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: SRD monster-type Hit Dice for unmigrated species are the remainder of OR-1396's proving slice, not a claim that the legacy species already follow the SRD"
+  },
   "OR-1463": {
    "kind": "requirement",
    "was": "defect",

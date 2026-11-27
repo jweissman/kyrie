@@ -39,13 +39,25 @@ describe('a bout, and a band that breaks', () => {
   }, 60000);
 
   it('a band that breaks runs once half of it is down, and is routed', async () => {
-    // (Seed d: since a foe brought to nothing stays down (CO-05), b's company fells all four before half can run.)
-    const j = await Bout.start('d');
+    // OR-1396: b now wins the warned grave bout hurt, with two left to flee; d's deadly fight is lost below.
+    const j = await Bout.start('b');
+    expect(DangerSense.reckon(j.campaign, 'p__pads')?.danger).toBe('grave');
     await j.play('To the lane', 'Attack');
     const end = j.taken.at(-1)!.event.combat.find(e => e.type === 'end');
     expect(end).toMatchObject({ outcome: 'fighters', reason: 'routed' });
     expect(Bout.hp(j, 'Four footpads').filter(n => n > 0).length).toBe(2);
     expect(Bout.holds(j, 'routed', 'p__pads')).toBe(true);
+  }, 60000);
+
+  it('can defeat the company before its own half falls, as its deadly warning says', async () => {
+    // OR-1396: keep the original d outcome rather than making its footpads easier.
+    const j = await Bout.start('d');
+    expect(DangerSense.reckon(j.campaign, 'p__pads')?.danger).toBe('deadly');
+    await j.play('To the lane', 'Attack');
+    expect(j.taken.at(-1)!.event.combat.find(e => e.type === 'end'))
+      .toMatchObject({ outcome: 'goblins', reason: 'elimination' });
+    expect(Bout.hp(j, 'Ama')).toEqual([0]);
+    expect(Bout.holds(j, 'routed', 'p__pads')).toBe(false);
   }, 60000);
 
   it("tells what a captor's rule says as the fight ends, on the fight's own page (GOS-13)", async () => {

@@ -11,6 +11,20 @@ import { Canon } from '../src/canon/canon';
 import { Fighting } from '../src/rules/fighting';
 import type { Effect } from '../src/lang/parse';
 
+describe('calling hit points', () => {
+  it.each([
+    [10, 1, 7, 8], [10, 1, 1, 5], [4, 1, 1, 1], [10, 3, 15, 28],
+    [10, 3, 7, 16], [4, 4, 1, 4],
+  ])('d%i at level %i with Constitution %i has %i', (die, level, con, hp) => {
+    expect(Creation.hitPoints(die, level, con)).toBe(hp);
+  });
+  it('uses the SRD hit dice for the corresponding callings', () => {
+    expect(Object.fromEntries(Object.entries(Canon.classes).map(([id, c]) => [id, c.hitDie]))).toEqual({
+      warrior: 10, mage: 4, thief: 6, cleric: 8, bard: 6, ranger: 8, monk: 8, commoner: 4,
+    });
+  });
+});
+
 // Dice wherever a number is wanted (the SRD adaptation briefing, §1). Hit Dice are an Amount like an effect's harm;
 // their mean is worked out from the expression (never sampled), and listed rounded down as the SRD prints it; a kind
 // with them is a fixed stat block, which no level it is met at grows.

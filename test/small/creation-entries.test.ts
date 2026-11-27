@@ -31,7 +31,7 @@ describe('the entry beside a choice', () => {
   it('says a calling by its hit die and armour, and what it knows from the start by what each does', () => {
     const flow = new CreationFlow(setting, Creation.catalog());
     const warrior = card(flow.steps(), 'calling', 'warrior'), mage = card(flow.steps(), 'calling', 'mage');
-    expect(warrior.play).toBe('d12 hit die · any armour');
+    expect(warrior.play).toBe('d10 hit die · any armour');
     expect(mage.play).toBe('d4 hit die · no armour · casts by Intelligence');
     expect(warrior.rules.join(' ')).not.toMatch(/Begins knowing/);
     const knows = warrior.groups!.find(g => g.heading === 'Begins knowing')!.rows;

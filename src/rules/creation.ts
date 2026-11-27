@@ -13,6 +13,7 @@ export interface Chassis {
   growth?: { hitPoints?: { base: number; perLevel: number } };
   // A fixed stat block's Hit Dice (see Statistics.hitDice): its hit points, whatever level it is met at.
   hitDice?: string;
+  legacySpecies?: boolean;
 }
 // Orsino's character creation (CharacterRecord and the pc template) and its NPC hit points, as rules over the canon.
 export class Creation {
@@ -35,6 +36,7 @@ export class Creation {
       // A kind with Hit Dice is a fixed stat block: met at any level, its qualities and hit points are its own.
       const grow = st.growth && !st.hitDice ? Math.round(level / 8) : 0;
       return { hitDie: st.hitDie ?? 0, attributes: {}, abilities: s.abilities ?? [], traits: s.traits ?? [],
+        legacySpecies: true,
         weapons: [st.weapon], armor: st.armor ? [st.armor] : [],
         ...typeof st.attributes === 'object' ? { fixed: Object.fromEntries(Object.entries(st.attributes)
           .map(([k, v]) => [k, v + grow])) as Record<Attribute, number> } : {},
@@ -51,8 +53,6 @@ export class Creation {
     return { hitDie: c.hitDie, attributes, abilities: [...c.abilities, ...features.abilities],
       traits: [...a.traits, ...features.traits], weapons: c.weapons, armor: c.armor };
   }
-  // A level-1 character has its hit die plus its positive CON modifier (the pc template). A creature made above level 1
-  // uses Orsino's NPC formula: max(2, round(hitDie + (level − 1) × hitDie / 2 + statMod(con))).
   // A creature's hit points: its Hit Dice's listed average (or the throw given for them), fixed, grown by Orsino's
   // monster template, or rolled from its hit die. Hit Dice come first, so no growth can reach a fixed stat block.
   static health(chassis: Chassis, level: number, constitution: number,
@@ -62,16 +62,23 @@ export class Creation {
       return Math.max(1, at.thrown ?? Amounts.listed(chassis.hitDice, { level, company: at.company ?? 1 }));
     }
     return chassis.hitPoints ?? (chassis.growth?.hitPoints ? this.grown(chassis.growth.hitPoints, level, constitution)
-      : this.hitPoints(chassis.hitDie, level, constitution));
+      : chassis.legacySpecies ? this.legacyHealth(chassis.hitDie, level, constitution)
+        : this.hitPoints(chassis.hitDie, level, constitution));
   }
   // Orsino's monster template: max(1, the line's hit points + statMod(con) + perLevel × level).
   static grown(growth: { base: number; perLevel: number }, level: number, constitution: number): number {
     return Math.max(1, growth.base + Fighting.statMod(constitution) + growth.perLevel * level);
   }
-  static hitPoints(hitDie: number, level: number, constitution: number): number {
+  // Unmigrated species retain their authored Orsino chassis; SRD species instead supply fixed Hit Dice.
+  static legacyHealth(hitDie: number, level: number, constitution: number): number {
     const mod = Fighting.statMod(constitution);
     return level <= 1 ? Math.max(1, hitDie + Math.max(0, mod))
-      : Math.max(2, Math.round(hitDie + ((level - 1) * hitDie) / 2 + mod));
+      : Math.max(2, Math.round(hitDie + (level - 1) * hitDie / 2 + mod));
+  }
+  static hitPoints(hitDie: number, level: number, constitution: number): number {
+    const mod = Fighting.statMod(constitution);
+    // For an already-grown person, use half the die plus one for each later level; advancement rolls by identity.
+    return Math.max(1, hitDie + mod) + Math.max(0, level - 1) * Math.max(1, Math.floor(hitDie / 2) + 1 + mod);
   }
   // Combat.maxSpellSlotsForCombatant: 2 + level for everyone; a mage, cleric or bard adds a base and a multiple of the
   // positive modifier of intelligence, wisdom or charisma.

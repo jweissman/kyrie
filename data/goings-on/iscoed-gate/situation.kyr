@@ -62,8 +62,9 @@ Module gate "The last sea-gate" {
   // conger out of the sluice, feeding in the well's moving water from dark to first light, gone back down by day. Heard
   // from the gatehouse before anyone goes down; in the well it warns, and comes at whoever stays to search the silt.
   // One, a lone company's match, as the undertown's packs are (src/world/region-undertown.ts's values).
+  // OR-1396: enough body to answer the golden walk's second blow, not a fight won without a scratch.
   Person conger "the conger in the gate-well" nowhere {
-    Role "a sea-eel thicker than a man's arm and longer than he is tall, come up the gate's chain from the sluice to feed". Species eel. Numbers 1. Level 5. Temperament territorial. Lair well.
+    Role "a sea-eel thicker than a man's arm and longer than he is tall, come up the gate's chain from the sluice to feed". Species eel. Numbers 1. Level 8. Temperament territorial. Lair well.
     Warns "The water about your knees heaves. A grey back as long as you are rolls past the chain, turns, and comes round again, slower.".
     Comes "The conger comes at you out of the silt, its jaws wide.".
   }

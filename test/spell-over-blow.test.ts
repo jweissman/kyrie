@@ -45,16 +45,22 @@ describe('a spell that fells, over a blow that might miss', () => {
     const cast = { actor: 'mage', ability: 'siphon_life', target: 'r1' }, swing = { actor: 'mage', ability: 'melee', target: 'r1' };
     expect(Tactics.choose(state, [swing, cast]).ability).toBe('melee');
   });
-  // Her one first-level slot cast at the first rat, the staff for the second: 73 of 100 seeded fights won, where the
-  // staff for both had won 51.
+  // OR-1396: floor modifiers change the fixed sample to 59 wins with the spell versus 34 with the staff alone.
   it('wins most fights against two rats of one by the tactics alone, over seeded fights', () => {
-    let won = 0;
+    let won = 0, plain = 0;
     for (let i = 0; i < 100; i++) {
       const b = new Battle({ id: `rats${i}`, combatants: [Rats.mage(), ...Rats.rats()], abilities: Content.abilities },
         `rats:${i}`);
       while (!b.state.outcome) { b.step(b.chosen()); }
       if (b.state.outcome === 'fighters') { won++; }
+      const mage = Rats.mage();
+      const staff = new Battle({ id: `rats${i}`, combatants: [{ ...mage, abilities: ['melee'] }, ...Rats.rats()],
+        abilities: Content.abilities }, `rats:${i}`);
+      while (!staff.state.outcome) { staff.step(staff.chosen()); }
+      if (staff.state.outcome === 'fighters') { plain++; }
     }
-    expect(won).toBeGreaterThanOrEqual(65);
+    expect(won).toBe(59);
+    expect(won).toBeGreaterThan(50);
+    expect(won).toBeGreaterThan(plain);
   });
 });

@@ -50,7 +50,8 @@ describe('the weir route', () => {
     p = new HonestPlayer(s);
     const shut = () => c.world.related('knows').some(k => k.args[0] === 'party' && k.args[1] === 'gate__shut');
     const at = () => c.world.one('at', 'party') ?? '';
-    expect(await p.until(() => shut() && /^region__s1_/.test(at()), 60)).toBe(true);
+    // OR-1396: the changed walk enters s1's road before arriving; a road prefix is not the town.
+    expect(await p.until(() => shut() && at() === 'region__s1_green', 80)).toBe(true);
     console.log(`weir route: at Porthalen (${at()}) ${hp().join(', ')}, ${c.history.length} acts`);
     expect(p.log.some(l => /journey: arrived/.test(l))).toBe(true);
   }, 300000);
