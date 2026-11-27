@@ -16,7 +16,7 @@ export interface Measure { id: string; label: string; kind: Kind; why: string; f
   read: Reckoned }
 export type Reckoned = 'fights' | 'places' | 'roads' | 'returned' | 'again' | 'bands' | 'fair' | 'economy' | 'treasure' | 'marks' | 'blank' | 'unwitnessed'
   | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit' | 'handed'
-  | 'stranded' | 'bestiary' | 'delved' | 'renewed' | 'prepared' | 'routine'
+  | 'stranded' | 'bestiary' | 'delved' | 'renewed' | 'prepared' | 'routine' | 'answered'
   | 'identity';
 
 // The measures, each with its kind and why it is held so (doc/architecture/quantity.md says them at length). A band's
@@ -38,6 +38,10 @@ export class QuantityMeasures {
     { id: 'prepared', label: '1. Distinct preparations over five expeditions', kind: 'report',
       why: 'the review\'s disconfirming test: five trips whose preparations are the same (OR-1440); said, not held',
       read: 'prepared' },
+    { id: 'answered', label: '1. Kinds of answer to what is met below, over five expeditions', kind: 'up',
+      why: 'each of the first dungeon\'s levels its own conflict grammar (OR-1392): fought, gone round, listened for, '
+        + 'talked round, lied to, warned off, asked, searched, a thing worked, a trap risked; may only rise',
+      read: 'answered' },
     { id: 'routine', label: '1. Traversal and administration after the first expedition (%)', kind: 'report',
       why: 'the review\'s first threshold to calibrate, at most a fifth of post-first moves (§9.3, OR-1440); said',
       read: 'routine' },

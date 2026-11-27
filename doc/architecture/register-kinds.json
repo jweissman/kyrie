@@ -3510,6 +3510,18 @@
    "was": "defect",
    "pri": "P2",
    "why": "the economy review of 27 November, split from OR-1433"
+  },
+  "OR-1446": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: answers the world now has, which the rung-3 player does not choose; a measure to extend, not a broken contract"
+  },
+  "OR-1447": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: the remainder of OR-1392's wanted grammars (the review's experience), not an observed failure of a claimed contract"
   }
  },
  "blockedBy": {

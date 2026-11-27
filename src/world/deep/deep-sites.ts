@@ -3,6 +3,7 @@ import { Canon } from '../../canon/canon';
 import { ItemNames } from '../../lang/item-names';
 import { DeepLayouts, type DeepLayout, type DeepLink, type DeepRoom } from './deep-layout';
 import { DeepMechanisms } from './deep-mechanisms';
+import { DeepLoosed } from './deep-loosed';
 import { DeepParley } from './deep-parley';
 import { DeepShortcuts } from './deep-shortcuts';
 import { DeepPacing, type DeepContent } from './deep-pacing';
@@ -57,6 +58,7 @@ export class DeepSites {
       ...DeepHistory.finds(layout, purpose), ...DeepCache.lines(layout, purpose, { values, key }), ...order,
       ...this.heard(layout, content),
       ...DeepTime.lines(purpose, layout, content, key), ...DeepParley.lines(layout, content),
+      ...DeepLoosed.lines(layout, content, purpose.mechanisms.seal),
       ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
       ...this.bane(purpose, layout), ...this.raised(purpose, layout, values),

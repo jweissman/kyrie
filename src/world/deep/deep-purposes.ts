@@ -53,7 +53,10 @@ export interface MechanismWords {
   winch?: { kind: string; thing: string; seized: string; turning: string; free: string; shut: string; climb: string };
   // What opening and shutting it needs, if not main force (brawn or a crowbar): a door that opens to a note, lore.
   seal?: { kind: string; thing: string; noun: string; opened: string; standing: string; broken: string; break: string;
-    rebuild: string; words: string; unread: string; read: string; readLabel: string; told: string; needs?: string };
+    rebuild: string; words: string; unread: string; read: string; readLabel: string; told: string; needs?: string;
+    // Who comes up through it while it stands broken (the dwellers of the room of that role below), and how they are
+    // found at its upper side (DeepLoosed).
+    loosed?: { role: string; scene: string } };
   vent?: { found: string; sign: string; night?: string; crawl: string; rungs: string };
   drowned?: { flooded: string; deep: string; going: string; gate: string; gateShut: string; gateOpen: string;
     open: string;
