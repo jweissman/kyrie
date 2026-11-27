@@ -471,6 +471,12 @@ in Tallow's taproom and offers the twelfth seat. Taking it gives the grey board 
 reads both oaths and the board: doors close or open, people give or refuse, a fight begins. Refusing the assessor is a
 fight in the taproom with his guard; paying the guard to take him home is quieter and tells the Ash who you are.
 
+Every adventure directory now holds a `count.kyr`, each in its own voice, with its own spec (`test/reach-*.test.ts`):
+a First Count coin behind an out-of-the-way search; an agent of the Ash who arrives with Act II on the adventure's own
+clock, does a named harm if left alone (a gate taken, a ford left dark, a column of the dead marched down), and can
+be fought or turned aside by that adventure's own evidence; and three allegiance answers, one for the Rì, one refusal
+of an Ash-sworn company (`refusesService`), and one use made of the grey board after the war.
+
 ### After the war
 
 Both endings (`ash_broken`, `ash_triumphs`) are read everywhere: a grey board on Swallet green, or counters walking

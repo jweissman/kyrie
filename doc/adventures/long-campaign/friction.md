@@ -159,6 +159,10 @@ observed authoring friction from ambitions that have not yet been attempted.
 34. **A placed spec depends on the hour of arrival.** `test/the-lull-placed.test.ts` expects Sixways' chalk board
     (LULL IN n), whose Observe is `not dark()`; the company now arrives at night, so the board is unread. It fails on
     this branch's base without any of this work, so it is recorded here rather than mended in passing.
+35. **A refusal is inert unless something reads it.** An allegiance topic that asserts only its own `once` guard
+    (`gbRejected`) counts as a self-only act in `test/small/inert-acts`. The refusals now also assert
+    `refusesService(<person>, actor)`, which trade and service read; a per-adventure flag that nothing else reads is
+    better dropped for `once`.
 
 ## Generation boundary and unbuilt requests
 

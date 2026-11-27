@@ -6,7 +6,8 @@ import { Placed } from './support/placed';
 // a counting-coin behind an out-of-the-way search, and once the count begins a force on the way in that a company can
 // fight, or turn aside with the coin, a local's help or the Ash's own oath. Skeel's case plays every way round it; the
 // rest play the coin and the oath, which every one of them shares.
-const cases: [campaign: string, module: string, prefix: string, coinRoom: string, coinAct: string, roadRoom: string][] = [
+type Case = [campaign: string, module: string, prefix: string, coinRoom: string, coinAct: string, roadRoom: string];
+const cases: Case[] = [
   ['skeel', 'skeel', 'skl', 'church', 'Lift the loose flagstone behind Lir Who Gives', 'coast_road'],
   ['skerrow', 'skerrow', 'skr', 'lamp_room', 'Lift the brass-edged tile under the lamp-room mat', 'shore_road'],
   ['tailrace', 'tailrace', 'trl', 'sill', 'Turn over the flat stone beside the loch road', 'road'],

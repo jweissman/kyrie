@@ -83,7 +83,7 @@ Module sennet "The Grand Tour" {
     On success { Assert tourRiAid(actor). Increase quantity(actor, gold) by 2. }
     Result "Pumphrey gives you two marks from the berth fee. He clears the quay.".
   }
-  Topic tour_ash_oath with pumphrey "Tell Pumphrey your company took the Ash's twelfth seat" when befell(company_sworn_ash) and not knows(actor, tour_ash_word) once {
+  Topic tour_ash_oath with pumphrey "Tell Pumphrey your company is sworn to the Ash" when befell(company_sworn_ash) and not knows(actor, tour_ash_word) once {
     Says "Pumphrey closes the harbour ledger. 'No berth under that board,' he says. 'Take your ship elsewhere.'".
     On discuss { Assert knows(actor, tour_ash_word). }
   }

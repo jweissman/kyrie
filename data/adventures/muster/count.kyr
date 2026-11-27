@@ -66,9 +66,9 @@ Module muster "The Long Muster's Road" {
     Says "Cattermole gives you a stamped pass for the supply carts. 'The Cohort can feed one more company on the road,' he says. 'Do not make me regret the arithmetic.'".
     On discuss { Assert muGift(actor). Increase quantity(actor, gold) by 3. }
   }
-  Topic mu_ash_oath with pryor "Tell Pryor the company took the Ash's twelfth seat" when befell(company_sworn_ash) and not muRejected(actor) once {
+  Topic mu_ash_oath with pryor "Tell Pryor the company is sworn to the Ash" when befell(company_sworn_ash) and not muRejected(actor) once {
     Says "Pryor turns the company away from his counter. 'The old road takes no toll from the Ash,' he says, and slides the door bolt home.".
-    On discuss { Assert muRejected(actor). }
+    On discuss { Assert muRejected(actor). Assert refusesService(pryor, actor). }
   }
   Topic mu_board with cattermole "Show Cattermole the company's grey board" when holding(actor, ash_tally) and not muBoardRead(actor) once {
     Says "Cattermole pulls the board's pin from its head and breaks the slate over his knee. 'No carts of mine under that column.' He throws the pieces into the ford.".

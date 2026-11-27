@@ -66,9 +66,9 @@ Module quittance "Quittance" {
     Says "Garrity enters the company in the brigade's muster book. 'The Phoenix will call you unpaid,' she says. 'The Rì will know where to find you.'".
     On discuss { Assert quGift(actor). Increase quantity(actor, gold) by 3. }
   }
-  Topic qu_ash_oath with cray "Tell Cray the company took the Ash's twelfth seat" when befell(company_sworn_ash) and not quRejected(actor) once {
+  Topic qu_ash_oath with cray "Tell Cray the company is sworn to the Ash" when befell(company_sworn_ash) and not quRejected(actor) once {
     Says "Cray draws a line through the company's account. 'The Sovereign does not insure a seat that has not been built,' he says, and withholds your advance.".
-    On discuss { Assert quRejected(actor). }
+    On discuss { Assert quRejected(actor). Assert refusesService(cray, actor). }
   }
   Topic qu_board with tench "Show Tench the company's grey board" when holding(actor, ash_tally) and not quBoardRead(actor) once {
     Says "Tench sets the board against the queue-stone. The name in the twelfth column matches no surety on the Exchange roll. He breaks the slate into the coal scuttle.".

@@ -83,7 +83,7 @@ Module hhg "The House That Grows" {
     On success { Assert htgRiAid(actor). Increase quantity(actor, gold) by 2. }
     Result "Haddo walks you past the watchers. He slips two marks into your hand for the west road.".
   }
-  Topic htg_ash_oath with haddo "Tell Haddo your company took the Ash's twelfth seat" when befell(company_sworn_ash) and not knows(actor, htg_ash_word) once {
+  Topic htg_ash_oath with haddo "Tell Haddo your company is sworn to the Ash" when befell(company_sworn_ash) and not knows(actor, htg_ash_word) once {
     Says "Haddo puts his bucket over the well. 'Not while that name is on your board,' he says. 'Go to the pond for water.'".
     On discuss { Assert knows(actor, htg_ash_word). }
   }

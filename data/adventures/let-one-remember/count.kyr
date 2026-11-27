@@ -72,9 +72,9 @@ Module corrow "Let One Remember" {
     Says "The Arbiter marks the company as a counterweight. 'You are counted among those who hold,' she says. The Chain's next shift is entered against your names.".
     On discuss { Assert lrGift(actor). Increase quantity(actor, gold) by 3. }
   }
-  Topic lr_ash_oath with lr_charge_holder "Tell the charge-holders the company took the Ash's twelfth seat" when befell(company_sworn_ash) and not lrRejected(actor) once {
+  Topic lr_ash_oath with lr_charge_holder "Tell the charge-holders the company is sworn to the Ash" when befell(company_sworn_ash) and not lrRejected(actor) once {
     Says "The charge-holders remove your names from the ballast roll. 'The mountain will not be held by the hand that lets go,' one says.".
-    On discuss { Assert lrRejected(actor). }
+    On discuss { Assert lrRejected(actor). Assert refusesService(lr_charge_holder, actor). }
   }
   Topic lr_board with lr_charge_holder "Show the Arbiter the company's grey board" when holding(actor, ash_tally) and not lrBoardRead(actor) once {
     Says "The Arbiter sets the grey board against the Chain's horn. The twelfth column weighs nothing. She breaks the slate against the link and gives you the pieces.".

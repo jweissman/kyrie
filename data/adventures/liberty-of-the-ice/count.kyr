@@ -83,7 +83,7 @@ Module pellam "The Liberty of the Ice" {
     On success { Assert iceRiAid(actor). Increase quantity(actor, gold) by 2. }
     Result "Harker gives you two marks from the scale's fee box.".
   }
-  Topic ice_ash_oath with harker "Tell Harker your company took the Ash's twelfth seat" when befell(company_sworn_ash) and not knows(actor, ice_ash_word) once {
+  Topic ice_ash_oath with harker "Tell Harker your company is sworn to the Ash" when befell(company_sworn_ash) and not knows(actor, ice_ash_word) once {
     Says "Harker covers the public scale with a cloth. 'I weigh wool, not people,' he says. 'Your board can go elsewhere.'".
     On discuss { Assert knows(actor, ice_ash_word). }
   }

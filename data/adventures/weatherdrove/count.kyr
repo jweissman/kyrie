@@ -69,9 +69,9 @@ Module weatherdrove "The Weather Drove" {
     Says "Dorcas puts a water-skin in your hand. 'The Rì's march drinks too,' she says. 'Tell them Wickering can spare one, not two.'".
     On discuss { Assert wdGift(actor). Increase quantity(actor, gold) by 2. }
   }
-  Topic wd_ash_oath with ysolde "Tell Ysolde the company took the Ash's twelfth seat" when befell(company_sworn_ash) and not wdRejected(actor) once {
+  Topic wd_ash_oath with ysolde "Tell Ysolde the company is sworn to the Ash" when befell(company_sworn_ash) and not wdRejected(actor) once {
     Says "Ysolde closes the pan-house door. 'No water for a company that sells the hands who draw it,' she says.".
-    On discuss { Assert wdRejected(actor). }
+    On discuss { Assert wdRejected(actor). Assert refusesService(ysolde, actor). }
   }
   Topic wd_board with muckle "Show Muckle the company's grey board" when holding(actor, ash_tally) and not wdBoardRead(actor) once {
     Says "Muckle takes the board and chalks the cistern's true water line across its twelfth column. He gives the slate back with the water mark still wet.".
