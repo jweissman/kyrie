@@ -37,8 +37,8 @@
   Observe {t}_wood_stones_marks at {t}_wood_stones as sign noticed by lore when not knows(party, {t}_wood_mark) "On the inner face of one fallen stone is a mark cut in the way of {old}: a door, drawn shut. It is cut beside the steps, as a word is written over a door." teaches {t}_wood_mark.
   Entity {t}_wood_mark: fact "On a fallen stone beside the steps, {old} cut a door drawn shut.".
   Discovery {t}_wood_door "Between two of the fallen stones a slot goes down into the dark, with steps in it.".
-  // The burners' hut: what they left, and why they left (found by searching here): a lamp, and on the bench the mark
-  // the old ones cut on the stones, which the shrine-keeper asks.
+  // The burners' hut: what they left, and why they left (found by searching here, or told by the herb-wife once she
+  // trusts the company): a lamp, and on the bench the mark the old ones cut on the stones, which the shrine-keeper asks.
   Item {t}_wood_lamp "a burner's old lamp" is lantern at {t}_wood_burners hidden until {t}_wood_hut.
   // The oil the finding says is in it is there to burn (OR-685).
   Item {t}_wood_oil "the burner's lamp-oil, in a stoppered flask" is lamp_oil at {t}_wood_burners hidden until {t}_wood_hut.
@@ -111,9 +111,19 @@
     On success { Decrease quantity(actor, gold) by 5. Increase quantity({dealer}, gold) by 5. }
     Result "{{dealer}} takes {pupil} out past the field wall for an hour. A deer's slot beside a boar's. The place a fox lay up. A broken stem a day old. 'Now you'll see what's in my woods,' {{dealer}} says.".
   }
+  // The woundwort brought down is a fetch only until it is shown (OR-1503: an exchange, its crux understanding): shown
+  // it, the herb-wife trusts the company with why the burners left the woods, which opens the hut in their clearing
+  // (the lamp under the bench, gear by the way in) and tells what the old ones cut on the stones, which is what the
+  // shrine-keeper asks before she says what lies under them (and so the place's name, which the old sayings of it and
+  // her own grief at the king's door are asked by).
+  Topic {t}_wood_burners_told with {dealer} "Ask {{dealer}} why the burners left the woods" when {t}_wood_shown(actor) and not knows(actor, {t}_wood_hut) once {
+    Says "{{dealer}} puts the woundwort down. 'My father was the last of the burners. One night he took his lamp up to the old stones, to see what the old ones had cut there. He came down with the lamp out, and never lit it again, nor a hearth. A door is cut on the stone, he said, drawn shut, and shut for a reason. The lamp's under his bench in the hut still. Take it, if you're going up.'".
+    On discuss { Assert knows(actor, {t}_wood_hut). Assert knows(actor, {t}_wood_mark). }
+  }
   // The shrine-keeper tests what the company says it knows of the stones before telling what is under them (OR-851):
   // what the old ones cut there, a shut door (on the burners' bench, and on the stone itself), said or called to mind.
-  // A wrong answer sends the company up to look; come back from the stones, it can say what it saw.
+  // A wrong answer sends the company up to look; come back from the stones, it can say what it saw; and one who knows
+  // the mark (seen on the stone by lore, or told by the herb-wife) can say it unasked.
   Relation {t}_rite_put(group). Relation {t}_rite_doubted(group).
   // A wrong answer is told something too (what would open her), so that the right one is not the only one the atlas
   // marks as teaching: the page had drawn "Say a door, drawn shut" blue among the three.
@@ -146,7 +156,7 @@
     Result "The old makers marked a way down with a door drawn shut, to keep the living out. You say so. {{t}_priest} looks at you again. 'Then you know. Between two of the stones a stair goes down, into {site}. Take light, and more than you think you need.'".
     Otherwise "You try to call it to mind, and it won't come. 'Then go up and look,' says {{t}_priest}. 'Come back when you have.'".
   }
-  Topic {t}_rite_again with {t}_priest "Tell {{t}_priest} a shut door is cut on the stones" when {t}_rite_doubted(actor) and been(actor, {t}_wood_stones) and not knows(actor, {w}_named) once {
+  Topic {t}_rite_again with {t}_priest "Tell {{t}_priest} a shut door is cut on the stones" when (({t}_rite_doubted(actor) and been(actor, {t}_wood_stones)) or knows(actor, {t}_wood_mark)) and not knows(actor, {w}_named) once {
     Says "'So it is,' says {{t}_priest}. 'Between two of the stones a stair goes down, into {site}. The dead there are older than {town}. Take light, and more than you think you need.'".
     On discuss { Assert knows(actor, {t}_wood_door). Assert knows(actor, {w}_named). }
   }

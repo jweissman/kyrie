@@ -234,7 +234,7 @@ page's colours and opportunities.)
   - direction TS-03 P2: A party's end continues as a relative (the brother) in the same world, as it was, not a reload…
   - direction CR-01 P1: A hunter's career: royal posting → dragon venture → knighthood → royal game-warden → continuing…
   - direction CR-02 P2: Two cities of Seven Towers: Gosse's Company builds its own "Dun Rierdan"…
-- **Jobs, debts and payoffs** · 7 pins · 0 defects · 1 asks
+- **Jobs, debts and payoffs** · 8 pins · 0 defects · 1 asks
   - ✓ leads to each part in turn under the gold, focus held, the Notes saying which parts are done
   - ✓ recognises what the company did unprompted, offers the undertaking after, and rewards each part once
   - ✓ is led from the proof to the sale, paid, and on to the road west, by the gold alone
@@ -242,6 +242,7 @@ page's colours and opportunities.)
   - ✓ ash: a load carried for the creditor's trade, and the purse brought back square
   - ✓ thorn: the salvage, sent to the inn to hear what is out in the country round
   - ✓ reveals the keep, the Walk and the career only after asking or searching
+  - ✓ turns woundwort shown to the herb-wife into the burners' lamp and the answer the shrine-keeper asks
   - requirement OR-310 P1: The starting situations too alike and too dull: across runs similar errands and fetches, hours of…
 - **Notes, journal and recap** · 2 pins · 0 defects · 3 asks
   - ✓ holds the Notes to what still holds, the aims few, and far news to one question a person
