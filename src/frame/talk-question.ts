@@ -11,11 +11,14 @@ import { Wares, type Ware } from './wares';
 import { Paging } from './paging';
 import type { TalkLine } from './talk-lines';
 import type { Menu } from './menu-model';
+import type { PlaceAsked } from './place-question';
 
 // The question asked from the focus, on every frame (OR-1451, engine-focus.md §4): the focus, and while it is a talk,
 // the talk's menu, worked out once here for every client (the page draws it, the terminal prints it, the runner offers
 // it). Examination, the map, the place's parts and sheets join it in their own steps.
-export interface Question { focus: Focus; talk?: TalkAsked }
+// At the place, its rows: the four, then the rest a page at a time (PlaceQuestion, OR-1490), where the frame's menu
+// is had to ask it of.
+export interface Question { focus: Focus; talk?: TalkAsked; place?: PlaceAsked }
 // A conversation's question: whom, what has passed (its lines), and what can be said now, in the order it is drawn
 // (an answer owed, a page of what can be said with Trade among it, taking leave; or, trading, what they buy of the
 // company's, their wares and services, and Back); each row with its command, and the leaves each row's mark is the

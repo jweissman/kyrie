@@ -1,6 +1,7 @@
 import type { Page } from 'playwright-core';
 import type { MonoDriver } from './mono-driver';
 import { LensPages } from './lens-pages';
+import { PlacePages } from './place-pages';
 import { Rail } from './rail';
 
 // Into a1's first fight on the page, as a player goes (test/fight-geometry-browser, scripts/performance/fight-press):
@@ -10,8 +11,10 @@ export class RatsWalk {
   // Gone to by the places lens (CN-01): the way there or the walk there, among its four or the rest unfolded.
   async to(place: string) {
     const { page } = this;
-    if (await page.locator('.act.opens-go').count()) { await Rail.click(page, '.opens-go'); await this.d.settle(); return; }
-    await Rail.click(page, '.opens-go');
+    // The way there among the place's rows (its four, or a page after them: PlacePages), else by the places lens.
+    const way = `.glance ol.led :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
+    if (await PlacePages.seek(page, way, () => this.d.settle())) { await this.d.click(way); return; }
+    await Rail.click(page, '.rail-mark.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
     await LensPages.seek(page, row);
     // A journey is held to set out on (OR-111); the driver holds what is held.
