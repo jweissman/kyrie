@@ -55,6 +55,8 @@ describe('relations and measures as typed exports', () => {
       id: 'kind:relation:tuned', name: 'tuned', namespace: 'relation', scope: 'own',
     });
     expect(user.symbols?.bindings.tuned?.file).toEndWith('v/kind.kyr');
+    expect(user.symbols?.bindings.tuned?.file).toBe('v/kind.kyr');
+    expect(JSON.stringify(user.symbols)).not.toContain(process.cwd());
   });
 
   it('rejects same-spelled local kinds from different installed modules', async () => {
@@ -66,6 +68,34 @@ describe('relations and measures as typed exports', () => {
     });
     const kind = await Vocabulary.kind(source);
     await expect(Vocabulary.user(source, [kind], { tuned: 'kind.tuned' })).rejects.toThrow('Incompatible import');
+  });
+  it('reports both signatures when an imported relation or measure differs', async () => {
+    const source = Vocabulary.source(both), kind = await Vocabulary.kind(source);
+    const mismatched = new OverlayBundleSource(source, {
+      'v/user.kyr': 'Module user "User" { Relation tuned(item, place). Measure tug(item). Goal false. }',
+    });
+    await expect(Vocabulary.user(mismatched, [kind], { tuned: 'kind.tuned', tug: 'kind.tug' }))
+      .rejects.toThrow('kind__tuned is imported as (item, place) but declared (item, fact)');
+    const measure = new OverlayBundleSource(source, {
+      'v/user.kyr': 'Module user "User" { Relation tuned(item, fact). Measure tug(item, fact). Goal false. }',
+    });
+    await expect(Vocabulary.user(measure, [kind], { tuned: 'kind.tuned', tug: 'kind.tug' }))
+      .rejects.toThrow('kind__tug is imported as (item, fact) but declared (item)');
+  });
+  it('keeps external source identities stable across host roots', async () => {
+    const read = async (root: string) => {
+      const source = new OverlayBundleSource(NodeBundleSource.shared, {
+        [`${root}/kind.json`]: JSON.stringify({ version: 1, source: 'kind.kyr', rules: ['world'],
+          exports: { tuned: 'tuned' } }),
+        [`${root}/kind.kyr`]: 'Module kind "Kind" { Relation tuned(item, fact). Goal false. }',
+      });
+      return (await ModuleBundle.load({ id: 'kind', bundle: `${root}/kind.json` },
+        { seed: 's', vocabulary: CanonVocabulary.context() }, source)).symbols;
+    };
+    const first = await read('/tmp/first-host'), second = await read('/tmp/another-host');
+    expect(first?.unit.files[0]?.file).toBe('kind/source/0');
+    expect(JSON.stringify(first)).not.toContain('/tmp/first-host');
+    expect(first).toEqual(second);
   });
   it('carries the original declaration through an installed re-export', async () => {
     const source = new OverlayBundleSource(NodeBundleSource.shared, {

@@ -131,6 +131,10 @@ export class SymbolTable {
     }
     const origin = target.scope !== 'shared' && this.pendingImports.get(target.unit)?.[target.name]
       ? this.import(target.unit, target.name, [...stack, key]) : right.to;
+    if (JSON.stringify(left.to.types) !== JSON.stringify(origin.types)) {
+      const installed = origin.scope === 'shared' ? origin.name : `${origin.unit}__${origin.name}`;
+      throw new Error(`${installed} is imported as (${left.to.types?.join(', ')}) but declared (${origin.types?.join(', ')})`);
+    }
     if (origin.namespace !== target.namespace || left.to.meaning !== origin.meaning
       || !this.sameKinds(left.to, origin)) {
       throw new Error(`Incompatible import ${unit}:${name} from ${target.unit}:${target.name}`);

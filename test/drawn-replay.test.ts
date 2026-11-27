@@ -32,6 +32,7 @@ describe('a game in a generated world', () => {
     expect(transcript.drawn).toEqual({ party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }],
       origin: 'wanderer' });
     expect(transcript.steps.length).toBe(3);
+    expect(session.canonical()).not.toContain(process.cwd());
     const dir = mkdtempSync(join(tmpdir(), 'kyrie-replay-')), file = join(dir, 'a1.transcript.json');
     try {
       writeFileSync(file, JSON.stringify(transcript));
@@ -39,7 +40,8 @@ describe('a game in a generated world', () => {
         { encoding: 'utf8', maxBuffer: 1 << 28 });
       expect([replayed.status, replayed.stderr]).toEqual([0, '']);
       // The same game, drawn where the terminal stands: only the world's path is the terminal's own.
-      const game = JSON.parse(replayed.stdout) as { transcript: { scenario: string } };
+      const game = JSON.parse(replayed.stdout) as { transcript: { scenario: string }; save: unknown };
+      expect(JSON.stringify(game.save)).not.toContain(process.cwd());
       expect(game.transcript.scenario).toBe(resolve(transcript.scenario));
       game.transcript.scenario = transcript.scenario;
       expect(JSON.stringify(game)).toBe(session.canonical());
