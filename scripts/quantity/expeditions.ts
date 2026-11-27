@@ -23,9 +23,17 @@ import { Tactics } from '../../src/tactics';
 // learned, risk changed, what the town remembers. The review's disconfirming test is read from it: five trips whose
 // preparations and approaches are the same.
 export type Kind = 'decision' | 'consequence' | 'traversal' | 'recovery' | 'administration' | 'exposition';
+// The answers to what is met below (OR-1392's grammars): fought, gone round, listened for, talked round, lied to,
+// warned off, asked, searched, a thing worked (a seal, a counterweight), a trap risked.
+export type Answer = 'fight' | 'round' | 'listen' | 'talk' | 'lie' | 'threaten' | 'ask' | 'search' | 'work' | 'risk';
+// The policy's OR-1392 branches (off, the policy before it): words to a band that talks, a way listened at, a room
+// searched.
+export interface Policy { grammar: boolean }
 export interface Trip {
   n: number; prepared: string[];
   approach: { attacks: number; traps: number; risked: number; avoided: number; deepest: number; turned: string };
+  // How it met what it met below, each kind of answer once (Answer), in the order first used.
+  answers: Answer[];
   moves: Record<Kind, number>; coin: number; items: string[]; fell: boolean;
   changed: { options: number; world: number; learned: number; risk: number; memory: number };
 }
@@ -45,7 +53,9 @@ export class QuantityExpeditions {
     }
     return 'decision';
   }
-  static async run(trips = 5): Promise<Trip[]> {
+  static policy: Policy = { grammar: true };
+  static async run(trips = 5, policy: Policy = { grammar: true }): Promise<Trip[]> {
+    this.policy = policy;
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', this.seed, '--as', 'human/warrior/Wenna',
       '--opening', 'none', '--origin', 'wanderer']));
     const s = journey.session, out: Trip[] = [];
@@ -62,7 +72,7 @@ export class QuantityExpeditions {
   // One expedition, from the town and back to it.
   private static async trip(s: PlaySession, n: number, seen: Map<string, Set<string>>): Promise<Trip> {
     const from = s.campaign.history.length, before = this.items(s), trip: Trip = { n, prepared: [], approach:
-      { attacks: 0, traps: 0, risked: 0, avoided: 0, deepest: 0, turned: '' }, moves: this.zero(), coin: 0, items: [], fell: false,
+      { attacks: 0, traps: 0, risked: 0, avoided: 0, deepest: 0, turned: '' }, answers: [], moves: this.zero(), coin: 0, items: [], fell: false,
       changed: { options: 0, world: 0, learned: 0, risk: 0, memory: 0 } };
     let options = 0;
     if (n === 1) {
@@ -93,6 +103,12 @@ export class QuantityExpeditions {
     if (this.hurt(s)) {
       await this.walk(s, 'region__s1_shrine');
       await this.act(s, this.ids(s).find(id => id.startsWith('take_lodging(')));
+      // Without the coin for a pallet, the keep worked for, else a night slept rough (OR-1392's measure: a company
+      // come home poor and hurt had turned back at the mouth three times running).
+      for (const v of ['work_keep(', 'take_lodging(', 'camp(', 'rest']) {
+        if (!this.hurt(s)) { break; }
+        await this.act(s, this.ids(s).find(id => id.startsWith(v)));
+      }
     }
     // A level gained is spent at once: the protagonist's strength, each companion's constitution.
     for (let i = 0; i < 6; i++) {
@@ -111,7 +127,10 @@ export class QuantityExpeditions {
   // Down below, as the delver goes: until anyone is down to half, or so many steps.
   private static async delve(s: PlaySession, trip: Trip, most: number) {
     const avoided: string[] = [];
-    try { await this.down(s, trip, most, avoided); } finally { trip.approach.avoided = avoided.length; }
+    try { await this.down(s, trip, most, avoided); } finally {
+      trip.approach.avoided = avoided.length;
+      if (avoided.length && !trip.answers.includes('round')) { trip.answers.push('round'); }
+    }
   }
   private static async down(s: PlaySession, trip: Trip, most: number, avoided: string[]) {
     const been = new Set<string>(), tried = new Set<string>();
@@ -128,6 +147,8 @@ export class QuantityExpeditions {
       if (next.startsWith('attack(')) { trip.approach.attacks++; }
       if (/^(look_closely|prod|hook)/.test(next)) { trip.approach.traps++; }
       if (next.startsWith('risk(')) { trip.approach.risked++; }
+      const answer = this.answer(next);
+      if (answer && !trip.answers.includes(answer)) { trip.answers.push(answer); }
       await this.act(s, next);
     }
     trip.approach.turned = 'steps';
@@ -141,6 +162,8 @@ export class QuantityExpeditions {
     at.avoided.push(...[...beyond].filter(id => !at.avoided.includes(id)));
     const fight = attacks.find(id => !beyond.has(id));
     if (fight) { return fight; }
+    const words = this.policy.grammar ? this.words(Journey.of(s).choices(), at.tried) : undefined;
+    if (words) { return words; }
     // What lies about is taken up (a thing found, the coins gathered), once each.
     const loot = Journey.of(s).choices().find(x => /^(Collect|Gather up)/.test(x.label) && !at.tried.has(x.command)
       && !this.kept.test(x.label.replace(/^Collect (an? )?/, '').replace(/ for \w+$/, '').replace(/ /g, '_')));
@@ -153,12 +176,35 @@ export class QuantityExpeditions {
       .filter(w => QuantityPlaces.place(c, w.to) === at.place && w.to !== 'region__s1_ud' && this.depth(s, w.to) <= at.most);
     const unseen = ways.filter(w => !at.been.has(w.to))
       .sort((a, b) => this.depth(s, b.to) - this.depth(s, a.to));
+    // Listened for first where a way can be listened at (the halls' sounds): one that tells of what lies in wait is
+    // gone round by the grave branch above, once heard.
+    const listen = this.policy.grammar ? ids.find(id => id.startsWith('listen(') && !at.tried.has(id)) : undefined;
+    if (unseen[0] && listen) { return listen; }
     if (unseen[0]) { return unseen[0].id; }
     // A trap is risked only where the page says it would not kill.
     const deadly = new Set(Journey.of(s).choices().filter(x => /could kill/.test(x.label)).map(x => x.command));
-    return ['look_closely(', 'prod(', 'hook', 'change_thing(', 'risk(', 'light_item(']
+    return ['look_closely(', 'prod(', 'hook', 'change_thing(', 'risk(', 'light_item(', ...this.policy.grammar ? ['search('] : []]
       .map(v => ids.find(id => id.startsWith(v) && !at.tried.has(id) && !grave.has(id) && !deadly.has(id)))
       .find(Boolean) ?? this.least(ways, at);
+  }
+  // A band that talks, which the reckoning says could end a life, is answered with words before it is gone round:
+  // the answer the page gives the best odds (talking round, then a lie, then a warning, where they are as good); and
+  // one that lets the company be is asked what it knows.
+  static readonly odds = ['sure', 'likely', 'an even chance'];
+  static words(offered: readonly { command: string; label: string }[], tried: Set<string>): string | undefined {
+    const verbs = ['talk_round(', 'pass_off(', 'face_down('];
+    const ask = offered.find(c => /_tells$/.test(c.command) && !tried.has(c.command));
+    if (ask) { return ask.command; }
+    return offered.filter(c => verbs.some(v => c.command.startsWith(v)) && this.rank(c.label) >= 0)
+      .sort((a, b) => this.rank(a.label) - this.rank(b.label)
+        || verbs.findIndex(v => a.command.startsWith(v)) - verbs.findIndex(v => b.command.startsWith(v)))[0]?.command;
+  }
+  private static rank(label: string): number { return this.odds.findIndex(o => label.includes(`· ${o}`)); }
+  static answer(id: string): Answer | undefined {
+    const by: [RegExp, Answer][] = [[/^attack\(/, 'fight'], [/^listen\(/, 'listen'], [/^talk_round\(/, 'talk'],
+      [/^pass_off\(/, 'lie'], [/^face_down\(/, 'threaten'], [/_tells$/, 'ask'], [/^search\(/, 'search'],
+      [/^change_thing\(/, 'work'], [/^risk\(/, 'risk']];
+    return by.find(([re]) => re.test(id))?.[1];
   }
   // Home: everything sold that is not a thing the company goes down with.
   private static async sell(s: PlaySession) {
@@ -277,5 +323,6 @@ export class QuantityExpeditions {
 }
 
 if (import.meta.main) {
-  for (const t of await QuantityExpeditions.run()) { console.log(JSON.stringify(t)); }
+  const grammar = !process.argv.includes('--before');
+  for (const t of await QuantityExpeditions.run(5, { grammar })) { console.log(JSON.stringify(t)); }
 }

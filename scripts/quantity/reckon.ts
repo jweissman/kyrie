@@ -174,6 +174,13 @@ export class Reckon {
       + `${t.approach.attacks} attacks, ${t.approach.avoided} gone round, turned ${t.approach.turned}, coin ${t.coin}`)
       .join('; ') };
   }
+  // The kinds of answer the five expeditions gave what they met below, and each one's own (OR-1392).
+  static answered(r: Readings): Reading {
+    const ts = r.expeditions;
+    if (!ts) { return { value: null, note: 'not read' }; }
+    return { value: new Set(ts.flatMap(t => t.answers)).size,
+      note: ts.map(t => `${t.n}: ${t.answers.join(' ') || 'none'}`).join('; ') };
+  }
   static routine(r: Readings): Reading {
     const ts = (r.expeditions ?? []).slice(1);
     if (!r.expeditions) { return { value: null, note: 'not read' }; }

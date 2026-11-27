@@ -1,6 +1,18 @@
 {
  "about": "What each live row of the register is, auditable (scripts/register-kinds.ts; the owner, 20 Nov: release-blocking defects, outstanding requirements and future directions kept apart, every reclassification shown with what it was and why, never changing a row's priority, evidence or acceptance). A row not named here is a defect; the families KX, SS, PG, SR, IM are directions by prefix. Each entry: kind, was (its kind before), pri (its priority when reclassified, which the register must still show), why. blockedBy: the architecture row a row waits on; a blocked defect is still a defect.",
  "rows": {
+  "OR-1446": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: answers the world now has, which the rung-3 player does not choose; a measure to extend, not a broken contract"
+  },
+  "OR-1447": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: the remainder of OR-1392's wanted grammars (the review's experience), not an observed failure of a claimed contract"
+  },
   "OR-1442": {
    "kind": "requirement",
    "was": "defect",
