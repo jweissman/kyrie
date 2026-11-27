@@ -157,6 +157,30 @@ export class Reckon {
     return this.of(each, Math.min(...Object.values(each)), `${this.said(each)}; ${r.countries.slice(0, 1)
       .map(c => `${c.seed}: ${c.reach.things.join(', ')}`).join('')}`);
   }
+  // The five expeditions (QuantityExpeditions): those after the first that opened an option and changed the world of
+  // the loop; how many preparations differ; and traversal and administration's share of the moves after the first.
+  static renewed(r: Readings): Reading {
+    const later = (r.expeditions ?? []).slice(1);
+    if (!r.expeditions) { return { value: null, note: 'not read' }; }
+    return { value: later.filter(t => t.changed.options > 0 && t.changed.world > 0).length, note: later.map(t =>
+      `${t.n}: ${t.changed.options} new options, ${t.changed.world} changes, ${t.changed.learned} learned, risk `
+      + `${t.changed.risk}, memory ${t.changed.memory}`).join('; ') };
+  }
+  static prepared(r: Readings): Reading {
+    const ts = r.expeditions;
+    if (!ts) { return { value: null, note: 'not read' }; }
+    const kinds = new Set(ts.map(t => t.prepared.join(',')));
+    return { value: kinds.size, note: ts.map(t => `${t.n}: ${t.prepared.join(' ') || 'nothing'}, `
+      + `${t.approach.attacks} attacks, ${t.approach.avoided} gone round, turned ${t.approach.turned}, coin ${t.coin}`)
+      .join('; ') };
+  }
+  static routine(r: Readings): Reading {
+    const ts = (r.expeditions ?? []).slice(1);
+    if (!r.expeditions) { return { value: null, note: 'not read' }; }
+    const all = ts.reduce((n, t) => n + Object.values(t.moves).reduce((a, b) => a + b, 0), 0);
+    const routine = ts.reduce((n, t) => n + t.moves.traversal + t.moves.administration, 0);
+    return { value: this.pct(routine, all), note: `${routine} of ${all} moves` };
+  }
   // Fights begun per game hour by the delver in each seed's first dungeon (QuantityDelver).
   static delved(r: Readings): Reading {
     const ds = (r.delved ?? []).filter(d => d.minutes > 0);

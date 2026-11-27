@@ -1,10 +1,11 @@
 import type { Read } from './country';
 import type { Walked } from './walks';
 import type { Delved } from './delver';
+import type { Trip } from './expeditions';
 
 // What the quantity gate reads, over the worlds and the walks (scripts/quantity/quantity.ts gathers them).
 export interface Readings { golden?: Walked; gold: Walked[]; countries: Read[]; stranded?: Record<string, string[]>;
-  delved?: Delved[] }
+  delved?: Delved[]; expeditions?: Trip[] }
 // A number as read: one for the measure, and where it is read per seed or walk, each (a band holds each).
 export interface Reading { value: number | null; each?: Record<string, number>; note: string }
 // band: held between a floor and a ceiling (either may be open); up, down: a ratchet that may only rise, or only
@@ -15,7 +16,7 @@ export interface Measure { id: string; label: string; kind: Kind; why: string; f
   read: Reckoned }
 export type Reckoned = 'fights' | 'places' | 'roads' | 'returned' | 'again' | 'bands' | 'fair' | 'economy' | 'treasure' | 'marks' | 'blank' | 'unwitnessed'
   | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit' | 'handed'
-  | 'stranded' | 'bestiary' | 'delved'
+  | 'stranded' | 'bestiary' | 'delved' | 'renewed' | 'prepared' | 'routine'
   | 'identity';
 
 // The measures, each with its kind and why it is held so (doc/architecture/quantity.md says them at length). A band's
@@ -29,6 +30,17 @@ export class QuantityMeasures {
       why: 'what a player meets who goes down into the first dungeon, the reference game\'s whole point (the owner, 26 '
         + 'November: "3-10x more combat"); the golden walk and the gold-follower never go down; may only rise',
       read: 'delved' },
+    { id: 'renewed', label: '1. Expeditions after the first that open an option and change the loop (of 4)', kind: 'report',
+      why: 'every expedition after the first creates at least one new option and one persistent change (the economy '
+        + 'review, §8 Priority 0, OR-1390; scripts/quantity/expeditions.ts); said, not held, for it does not hold yet '
+        + '(OR-1442); a ratchet once it does',
+      read: 'renewed' },
+    { id: 'prepared', label: '1. Distinct preparations over five expeditions', kind: 'report',
+      why: 'the review\'s disconfirming test: five trips whose preparations are the same (OR-1440); said, not held',
+      read: 'prepared' },
+    { id: 'routine', label: '1. Traversal and administration after the first expedition (%)', kind: 'report',
+      why: 'the review\'s first threshold to calibrate, at most a fifth of post-first moves (§9.3, OR-1440); said',
+      read: 'routine' },
     { id: 'roads', label: '1. Fights per game hour on the roads, walked', kind: 'report',
       why: 'roads with a little more danger (the owner, 24 November): said, not held, a modest chance', read: 'roads' },
     { id: 'returned', label: '1. Combat places quests return a company to, near the first town', kind: 'band', floor: 2,
