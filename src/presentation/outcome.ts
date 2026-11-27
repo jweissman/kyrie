@@ -98,8 +98,9 @@ export class Outcome {
   }
   // What an act that invokes an ability (Resolve invoke: a spell cast between fights, at one of the company or at a
   // thing) would write to the world, ahead of it, as the rules domain lowers its effects (the effects port: OR-1101).
-  private static lowered(world: World, action: Operator): Change[] {
-    const resolve = action.resolve, actor = action.bindings?.actor ?? action.actor;
+  static lowered(world: World, action: Operator): Change[] {
+    const resolve = action.resolve, actor = resolve?.name === 'invoke'
+      ? resolve.args[1] : action.bindings?.actor ?? action.actor;
     return resolve?.name === 'invoke' && actor
       ? EffectShadows.lower(resolve.args[0]!, { world, actor, target: resolve.args[2] ?? '' }) : [];
   }

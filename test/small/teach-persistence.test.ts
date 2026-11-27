@@ -7,9 +7,12 @@ import { Content } from '../../src/content';
 import { CreatureStore } from '../../src/creature-store';
 import { Expressions } from '../../src/expressions';
 import { ItemCatalog } from '../../src/item-catalog';
-import { Lesson } from '../../src/lesson';
-import { ModuleParser, ModuleWriter, parseAbility, World } from '../../src/lang';
+import { Canon } from '../../src/canon/canon';
+import { Lesson } from '../../src/lang';
+import { ModuleParser, ModuleWriter, parseAbility, World, type Operator } from '../../src/lang';
 import type { CombatEvent } from '../../src/model';
+import { Outcome } from '../../src/presentation/outcome';
+import { Installed } from '../../src/ports/installed';
 
 it('binds the fantasy lesson to the shared learned relation', () => {
   const lesson = FantasyVerbs.resolve('Teach fire_ward to ally');
@@ -30,11 +33,33 @@ it('keeps a lesson even when equipment also grants the ability', () => {
   const original = content.createCreature(ItemCatalog.canon, 'pupil', { raceId: 'human', classId: 'warrior' });
   original.state.inventory = [{ id: 'focus', definition: 'warding_focus', equipped: true }];
   const pupil = CombatProjection.fighter(ItemCatalog.canon, original, 'fighters');
-  const teacher = CombatProjection.fighter(ItemCatalog.canon,
-    content.createCreature(ItemCatalog.canon, 'teacher', { raceId: 'human', classId: 'warrior' }), 'fighters');
+  const teacherCreature = content.createCreature(ItemCatalog.canon, 'teacher', { raceId: 'human', classId: 'warrior' });
+  const teacher = CombatProjection.fighter(ItemCatalog.canon, teacherCreature, 'fighters');
   const context = { actor: teacher, fighters: [teacher, pupil], turn: 1, events: [] as CombatEvent[], content,
     abilities: ['fire_ward'], retreat: false, location: null };
   const lesson = parseAbility('lesson', 'Lesson', 'Teach fire_ward to ally.', FantasyVerbs.resolve);
+  const module = ModuleParser.parse(`Module lesson "Lesson" {
+    Kind group. Kind member. Kind ability. Kind good. Kind place.
+    Entity company: group "Company". Entity teacher_ref: member "Teacher" bound to teacher.
+    Entity pupil_ref: member "Pupil" bound to pupil. Entity fire_ward: ability "Fire ward".
+    Entity gold: good "Gold".
+    Relation at(group, place). Relation able(group). Relation dead(group). Relation awake(member).
+    Relation memberOf(member, group). Relation learned(member, ability). Measure quantity(group, good).
+  }`);
+  const before = new World(module);
+  const forecast = Installed.within({ id: 'test-lesson', effects: { element: () => undefined,
+    lower: (_ability, at) => Canon.lower(lesson.effects, at) } }, () => {
+    const action: Operator = {
+      id: 'invoke_lesson', name: 'Teach fire ward', description: 'Teach fire ward to the pupil.',
+      actor: 'company', requires: { kind: 'boolean', value: true }, success: [], failure: [], cost: 0, time: 0,
+      resolve: { kind: 'call', name: 'invoke', args: ['lesson', 'teacher_ref', 'pupil_ref'] },
+    };
+    const changes = Outcome.lowered(before, action);
+    return new World(module).apply(changes);
+  });
+  expect(forecast.related('learned')).toEqual([
+    { kind: 'call', name: 'learned', args: ['pupil_ref', 'fire_ward'] },
+  ]);
 
   teacher.mana = teacher.maxMana = 2;
   const conditional = parseAbility('conditional', 'Conditional',
@@ -58,17 +83,11 @@ it('keeps a lesson even when equipment also grants the ability', () => {
   const saved = CombatProjection.creature(pupil, original);
   expect(saved.state.learnedAbilities).toEqual(['fire_ward']);
   saved.state.inventory = [];
-  const restored = new CreatureStore(ItemCatalog.canon, [saved]).get(saved.id);
-  const module = ModuleParser.parse(`Module lesson "Lesson" {
-    Kind group. Kind member. Kind ability. Kind good. Kind place.
-    Entity company: group "Company". Entity pupil_ref: member "Pupil" bound to pupil.
-    Entity fire_ward: ability "Fire ward". Entity gold: good "Gold".
-    Relation at(group, place). Relation able(group). Relation dead(group). Relation awake(member).
-    Relation memberOf(member, group). Relation learned(member, ability). Measure quantity(group, good).
-  }`);
-  const world = CreatureFacts.project(new World(module), [{ id: 'company', members: ['pupil'],
-    actions: [], horizon: 1, goals: [] }], new CreatureStore(ItemCatalog.canon, [restored]));
+  const restored = new CreatureStore(ItemCatalog.canon, [teacherCreature, saved]).get(saved.id);
+  const world = CreatureFacts.project(before, [{ id: 'company', members: ['teacher', 'pupil'],
+    actions: [], horizon: 1, goals: [] }], new CreatureStore(ItemCatalog.canon, [teacherCreature, restored]));
   expect(world.test(ModuleWriter.call('learned', 'pupil_ref', 'fire_ward'))).toBe(true);
+  expect(world.related('learned')).toEqual(forecast.related('learned'));
   const caster = CombatProjection.fighter(ItemCatalog.canon, restored, 'fighters');
   expect(caster.abilities).toContain('fire_ward');
   const cast = { actor: caster, fighters: [caster], turn: 1, events: [] as CombatEvent[], content,

@@ -53,3 +53,4 @@ export * from './world';
 export * from './world-constructs';
 export * from './world-memo';
 export * from './world-reads';
+export { Lesson } from './lesson';

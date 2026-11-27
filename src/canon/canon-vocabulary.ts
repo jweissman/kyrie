@@ -11,7 +11,9 @@ import { FantasyVerbs } from './fantasy-verbs';
 export class CanonVocabulary implements Vocabulary {
   readonly id = 'canon';
   static context(): VocabularyContext {
-    return new VocabularyContext(new CanonVocabulary(), [], FantasyVerbs.resolve, FantasyVerbs.key);
+    return new VocabularyContext(new CanonVocabulary(), [], {
+      edition: { resolve: FantasyVerbs.resolve, key: FantasyVerbs.key }, bind: FantasyVerbs.forRules,
+    });
   }
   constructor(private readonly local = new LocalKinds()) {}
   fork(): Vocabulary { return new CanonVocabulary(this.local.fork()); }

@@ -1,4 +1,5 @@
-import type { Change, Effect } from './lang';
+import type { Change } from './module';
+import type { Effect } from './parse';
 
 export class Lesson {
   static change(effect: Extract<Effect, { kind: 'learn' }>, member: string): Extract<Change, { kind: 'assert' }> {

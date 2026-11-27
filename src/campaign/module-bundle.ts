@@ -81,7 +81,7 @@ export interface BundleManifest {
 export class ModuleBundle {
   // Rule modules named in a manifest resolve to data/rules; "world" is the standard set every world uses.
   static readonly world = ['core', 'passages', 'people', 'needs', 'services', 'discovery', 'care', 'belongings',
-    'dominion', 'probing', 'inhabitants', 'growing', 'making', 'belief', 'ambitions', 'canon'];
+    'dominion', 'probing', 'inhabitants', 'growing', 'making', 'belief', 'ambitions', 'canon', 'fantasy'];
   static readonly ruleNames = [...ModuleBundle.world, 'elements', 'devotion'];
   private static strings(v: unknown, min = 0): boolean {
     return typeof v === 'string' || (Array.isArray(v) && v.length >= min && v.every(x => typeof x === 'string'));
@@ -167,6 +167,11 @@ export class ModuleBundle {
   // And what a generator declared for it as values, where it did (the same text with other values is another module).
   private static key(text: string, declared: FileSource['declared'] = []): string {
     return `${text}${declared.length ? `\u0000${JSON.stringify(declared)}` : ''}`;
+  }
+  private static catalogs(contexts: VocabularyContext[], catalogs: readonly Module['catalog'][]): void {
+    for (const context of contexts) {
+      for (const catalog of catalogs) { context.install(catalog); }
+    }
   }
   // A module's own files, each read among every kind its files declare, as one file's are read among its own wherever
   // in it they are written: a felter in one file selling a cloak declared in another sold a trade good of that name,
@@ -380,18 +385,20 @@ export class ModuleBundle {
     // Its own files first, each read among every kind they declare (see `own`), and then the shared rules; or its own
     // as they were compiled before beside the same rules (see CompiledModules).
     const own = files.slice(0, situationPaths.length), rules = files.slice(situationPaths.length);
-    const { key, kept, mine, sources, read } = await this.reading(options.vocabulary, own, rules,
+    const ruleSources = rules.map(file => ({ file: file.path, module: this.parsed(options.vocabulary.fork(), file) }));
+    const vocabulary = options.vocabulary.withRuleSources(ruleSources);
+    const { key, kept, mine, sources, read } = await this.reading(vocabulary, own, rules,
       { manifest, path, source });
     const seed = RandomStreams.key(options.seed, 'module', kept?.id ?? mine[0]!.id, request.randomIdentity ?? '');
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
       { ...ModuleBundle.apart({ ...manifest.generation?.context, ...request.context }, options.people),
         now: options.elapsed ?? 0 }),
     imports: manifest.imports ?? [] };
-    const ruled = this.shared(options.vocabulary, rules), combined = ruled.value, reads = [...read, ...ruled.reads];
+    const ruled = this.shared(vocabulary, rules), combined = ruled.value, reads = [...read, ...ruled.reads];
     // The one kept is shared: of it, only what is changed here is copied (its company, sized; its entities, given the
     // canon's), and the shared rules too go to compose uncopied, which writes into neither (ModuleCompiler.instantiate
     // lowers into a module of its own: AX-04, test/small/frozen-modules).
-    const made = kept ?? this.compiled({ context: options.vocabulary, key, own, mine, combined,
+    const made = kept ?? this.compiled({ context: vocabulary, key, own, mine, combined,
       valued: sources.some(Boolean), reads });
     const composed = kept ? ModuleBundle.owned(made.module) : made.module, told = made.told;
     ModuleBundle.sized(composed, options.party);
@@ -399,11 +406,11 @@ export class ModuleBundle {
     const given = ModuleCanon.give(composed, manifest.canon ?? [], canon, path);
     const bound = given.length ? { ...manifest, globals: [...manifest.globals ?? [], ...given] } : manifest;
     // A module read before (and kept parsed) puts its own kinds back for the campaign being assembled.
-    options.vocabulary.install(combined.catalog); options.vocabulary.install(composed.catalog);
+    ModuleBundle.catalogs([vocabulary, options.vocabulary], [combined.catalog, composed.catalog]);
     let draft: ModuleDraft, imports: Record<string, string>;
     try {
       const instance = ModuleAssembly.compose(composed, combined, generated,
-        { seed, kinds: options.kinds, vocabulary: options.vocabulary });
+        { seed, kinds: options.kinds, vocabulary });
       ModuleCanon.settle(instance.module, given);
       if (told.length) { instance.campaign = { ...instance.campaign!, shadows: told }; }
       imports = this.imports(options.unbound ? { ...bound, optional: bound.imports } : bound, request,
@@ -411,7 +418,7 @@ export class ModuleBundle {
       draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
         imports, globals: bound.globals ?? [], exports: ModuleExports.locals(manifest.exports), kinds: options.kinds })
         .draft();
-      ModuleSymbols.prepare(draft, { id: request.id, context: options.vocabulary, imports, module: instance.module,
+      ModuleSymbols.prepare(draft, { id: request.id, context: vocabulary, imports, module: instance.module,
         requested: request.imports, exports: manifest.exports, installed: options.installed, unbound: options.unbound,
         mine, files: own, rules, declared: sources, parse: this.parsed.bind(this), parseOwn: this.own.bind(this) });
     } catch (error) {

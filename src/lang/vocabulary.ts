@@ -1,5 +1,6 @@
 import { EmptyVocabulary } from './empty-vocabulary';
 import type { VerbResolver } from './parse';
+import type { SymbolSource } from './symbol-table';
 
 // What the language may ask of the active setting while it reads a module: whether a kind of thing is one the setting
 // knows (and its name, and whether it has a use), and what a module's own kinds come to (Kind cart_wheel like wheel,
@@ -45,21 +46,41 @@ export type KindReads = readonly (readonly [kind: string, content: string])[];
 // A reading kept, with what it read.
 export interface ReadAmong<T> { value: T; reads: KindReads }
 interface Reading { reads: Map<string, string>; own: Set<string> }
+export interface BoundVerbs { resolve: VerbResolver; key: string }
+interface VocabularyVerbs {
+  edition?: BoundVerbs;
+  bind?: (sources: SymbolSource[], context: VocabularyContext) => BoundVerbs;
+}
 
 // Vocabulary and read tracking belong to one compilation, never to the process. A campaign keeps this context for
 // its parse, cache validation, and module installation; syntax-only callers use the explicit empty context.
 export class VocabularyContext {
   static readonly none = new VocabularyContext(new EmptyVocabulary());
+  readonly verbs?: VerbResolver;
+  readonly verbKey: string;
+  private readonly bindVerbs?: VocabularyVerbs['bind'];
   constructor(private readonly vocabulary: Vocabulary, private readonly open: Reading[] = [],
-    readonly verbs?: VerbResolver, readonly verbKey = '') {
-    if (!!verbs !== !!verbKey) { throw new Error('A verb vocabulary needs its own nonempty edition'); }
+    verbs: VocabularyVerbs = {}) {
+    this.verbs = verbs.edition?.resolve;
+    this.verbKey = verbs.edition?.key ?? '';
+    this.bindVerbs = verbs.bind;
+    if (!!this.verbs !== !!this.verbKey) { throw new Error('A verb vocabulary needs its own nonempty edition'); }
   }
   get id(): string { return this.vocabulary.id; }
   fork(): VocabularyContext {
-    return new VocabularyContext(this.vocabulary.fork(), this.open, this.verbs, this.verbKey);
+    const verbs: VocabularyVerbs = {};
+    if (this.verbs) { verbs.edition = { resolve: this.verbs, key: this.verbKey }; }
+    if (this.bindVerbs) { verbs.bind = this.bindVerbs; }
+    return new VocabularyContext(this.vocabulary.fork(), this.open, verbs);
   }
   withVerbs(verbs: VerbResolver, edition: string): VocabularyContext {
-    return new VocabularyContext(this.vocabulary.fork(), this.open, verbs, edition);
+    return new VocabularyContext(this.vocabulary.fork(), this.open, { edition: { resolve: verbs, key: edition } });
+  }
+  withRuleSources(sources: SymbolSource[]): VocabularyContext {
+    if (!this.bindVerbs) { return this; }
+    const { resolve, key } = this.bindVerbs(sources, this);
+    return new VocabularyContext(this.vocabulary.fork(), this.open,
+      { edition: { resolve, key }, bind: this.bindVerbs });
   }
   fingerprint(): string { return this.vocabulary.fingerprint(); }
   local(name: string): boolean {

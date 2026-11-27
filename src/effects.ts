@@ -3,7 +3,7 @@ import { FixedStatBlock } from './rules/fixed-stat-block';
 import { ActorValues } from './rules/actor-values';
 import { Spellcasting } from './rules/spellcasting';
 import { DailyUses } from './rules/daily-uses';
-import { Lesson } from './lesson';
+import { Lesson } from './lang';
 import { LevelDrain } from './rules/level-drain'; import { Flames } from './rules/flames';
 import { Summoning } from './summoning';
 import { Content } from './content';

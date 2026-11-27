@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { KyrLint } from '../../src/cli/kyr-lint';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 import { ModuleCompiler, ModuleParser, parseAbility, SymbolTable, VerbIndex, VocabularyContext,
   type SymbolSource } from '../../src/lang/index';
 
@@ -201,6 +202,29 @@ describe('the installation symbol table', () => {
 function parsedModule(id: string, declarations: string): SymbolSource['module'] {
   return ModuleParser.parseWithin(VocabularyContext.none.fork(), `Module ${id} "${id}" { ${declarations} }`);
 }
+
+it('builds a verb index from each installation\'s actual rule sources', () => {
+  const rules = parsed('rules/base.kyr', 'Module shared "Shared" { Kind member. Kind ability. '
+    + 'Relation learned(member, ability). }');
+  const teach = parsed('rules/fantasy.kyr', 'Module fantasy_rules "Fantasy" { '
+    + 'Verb teach(spell: ability, target: member) "Teach {spell} to {target}" '
+    + 'lowers to Assert learned(target, spell). }');
+  const instruct = parsed('rules/fantasy.kyr', 'Module fantasy_rules "Fantasy" { '
+    + 'Verb teach(spell: ability, target: member) "Instruct {spell} to {target}" '
+    + 'lowers to Assert learned(target, spell). }');
+  const first = CanonVocabulary.context().withRuleSources([rules, teach]);
+  const second = CanonVocabulary.context().withRuleSources([rules, instruct]);
+
+  expect(first.verbKey).not.toEqual(second.verbKey);
+  expect(parseAbility('teach', 'Teach', 'Teach fire_ward to ally.', first.verbs)).toMatchObject({
+    effects: [{ kind: 'learn', ability: 'fire_ward', target: 'ally' }],
+  });
+  expect(() => parseAbility('teach', 'Teach', 'Teach fire_ward to ally.', second.verbs))
+    .toThrow('No declared verb matches Teach fire_ward to ally');
+  expect(parseAbility('teach', 'Teach', 'Instruct fire_ward to ally.', second.verbs)).toMatchObject({
+    effects: [{ kind: 'learn', ability: 'fire_ward', target: 'ally' }],
+  });
+});
 
 it('binds a verb lowering to the shared relation and its kind identities', () => {
   const shared = parsed('rules.kyr', 'Module rules "Rules" { Kind member. Kind ability. Relation learned(member, ability). }');
