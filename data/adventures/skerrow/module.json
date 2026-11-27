@@ -10,6 +10,7 @@
     "morning.kyr",
     "wake.kyr",
     "lore.kyr",
+    "count.kyr",
     "company.kyr"
   ],
   "rules": [
@@ -25,7 +26,12 @@
     "remainder_kept",
     "pharos_lit",
     "pharos_dark",
-    "pharos_fed"
+    "pharos_fed",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
   ],
   "exports": {
     "party": "party",

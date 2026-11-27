@@ -1,0 +1,80 @@
+Module skeel "Fair Weather" {
+  Relation sklCoinFound(group). Relation sklDangerSettled(group). Relation sklRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe skl_coin_hint at church when not sklCoinFound(party)
+    "A loose flagstone behind Lir Who Gives rocks when the tide has gone out. The crack is too narrow for a finger.".
+  Action skl_find_coin(actor: group, site: place) "Lift the loose flagstone behind Lir Who Gives" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, church) and not sklCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert sklCoinFound(actor). Give count_coin to actor. }
+    Result "A man with a stylus is stamped on the green bronze. The old wreckers set one under the church sill for every boat the sea took before a name was agreed. This one was kept dry.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe skl_count_begins at coast_road when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "A grey board stands at the coast road. The wreckers have been asked for names before they can call a wreck salvage.".
+  Observe skl_count_broken at coast_road when befell(ash_broken)
+    "When the board comes down, the road is clear of chalk. The sea keeps its own list.".
+  Observe skl_count_triumph at coast_road when befell(ash_triumphs)
+    "The Ash wins the coast road. The wreckers put their names beside the boats and leave the church door shut.".
+  Observe skl_party_saved at coast_road when sklDangerSettled(party)
+    "No chalk remains by the church. The wreckers have put the ship-tithe back in the sea’s keeping.".
+
+  Person skl_counting_leader "Jory Bracken" nowhere {
+    Role "a salvage captain collecting bodies and ship’s stores for the Ash". Ancestry human. Calling thief. Level 4.
+    Temperament seizing. Uses go, assail. Plans 5 steps.
+    Warns "Jory Bracken wears the black seal of a ship-breaker. He has brought four assessors and two Cawse hounds to claim the survivors.".
+  }
+  Person skl_counting_party "the four quay assessors" nowhere {
+    Role "quay assessors who turn the wreckers’ dead into a recoverable list". Ancestry human. Calling warrior. Level 2. Numbers 4.
+    Temperament wary. Uses go, assail. Plans 4 steps.
+    Warns "Four assessors carry cudgels and a slate; two Cawse hounds strain at the leads.".
+  }
+  Initially Assert serves(skl_counting_party, skl_counting_leader).
+  Rule skl_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not sklDangerSettled(party) {
+    Assert at(skl_counting_party, coast_road). Assert at(skl_counting_leader, coast_road).
+  }
+  Action skl_fight(actor: group, site: place) "Keep Jory Bracken from claiming the shipwrecked" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, coast_road) and at(skl_counting_party, coast_road) and at(skl_counting_leader, coast_road) and not sklDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(skl_counting_party, actor). Assert assails(skl_counting_leader, actor). }
+    Result "Jory Bracken draws a salt-stained blade. Four assessors loose the Cawse hounds along the shore road.".
+  }
+  Rule skl_force_broken when at(skl_counting_party, coast_road) and at(skl_counting_leader, coast_road) and (not able(skl_counting_party) or routed(skl_counting_party)) and (not able(skl_counting_leader) or routed(skl_counting_leader)) and assails(skl_counting_party, party) and assails(skl_counting_leader, party) {
+    Assert sklDangerSettled(party). Retract at(skl_counting_party, coast_road). Retract at(skl_counting_leader, coast_road).
+  }
+  Action skl_coin_way(actor: group, site: place) "Offer the green coin as the first wreck payment" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, coast_road) and at(skl_counting_party, coast_road) and at(skl_counting_leader, coast_road)
+      and not sklDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert sklDangerSettled(actor). Retract at(skl_counting_party, coast_road). Retract at(skl_counting_leader, coast_road). }
+    Result "The sergeant turns the coin in his glove. It bears an older mark than his slate. He sends his assessors east to check the First Count.".
+  }
+  Action skl_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, coast_road) and at(skl_counting_party, coast_road) and at(skl_counting_leader, coast_road)
+      and not sklDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert sklDangerSettled(actor). Retract at(skl_counting_party, coast_road). Retract at(skl_counting_leader, coast_road). }
+    Result "The sergeant recognizes the twelfth place and orders his assessors off the coast road. They go without their slate.".
+  }
+  Action skl_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, coast_road) and at(skl_counting_party, coast_road) and at(skl_counting_leader, coast_road)
+      and not sklDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert sklDangerSettled(actor). Retract at(skl_counting_party, coast_road). Retract at(skl_counting_leader, coast_road). }
+    Result "The slate is enough. The assessors leave the survivors off their roll.".
+  }
+  Action skl_local_way(actor: group, site: place) "Throw Jago’s pie to the Cawse hounds" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, coast_road) and at(skl_counting_party, coast_road) and at(skl_counting_leader, coast_road)
+      and not sklDangerSettled(actor) and holding(actor, pilchard_pie).
+    Time 5 minutes.
+    On success { Spend pilchard_pie from actor. Assert sklDangerSettled(actor). Retract at(skl_counting_party, coast_road). Retract at(skl_counting_leader, coast_road). }
+    Result "The hounds break from their leads for the fish. The assessors follow them into the soft flats, leaving the wreckers a path to the church.".
+  }
+  Topic skl_ri_help with jago "Ask Mother Jago for a meal for the Rì’s shore hands" when befell(company_sworn_ri) and not sklRiHelped(actor) once {
+    Says "Mother Jago wraps a star-gazy pie in sailcloth. “For the hands who keep the wreckers’ names out of the Ash’s book. Take it before the hounds smell the fish.”".
+    On discuss { Assert sklRiHelped(actor). Give pilchard_pie to actor. }
+  }
+
+}
