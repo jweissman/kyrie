@@ -868,7 +868,7 @@ Also kept, without comment: memberOf, awake, slain, itemKind, ownedItem, knows, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 28 | 60 | 18 | 5 | 5 | 9 |
+| 29 | 62 | 18 | 5 | 5 | 9 |
 
 #### member, item, itemkind, fact
 
@@ -1061,6 +1061,18 @@ A company on the way, between where it set out and where it is going: enRoute(co
 *Kyr · kind; relation(group, craft)* · `rule:world_core.craft`
 
 The kind of work the company has done (its backgrounds' families): what those who do the same work know it by.
+
+#### surface, earned
+
+*Kyr · kind; relation(group, surface)* · `rule:world_core.surface`
+
+What of the game's own surfaces the company has earned (compactification, the owner, 26 November: "surfaces are earned"): each lens, the map, the encyclopedia and the journal, shown to every client once earned and kept after. The engine writes it (CreatureFacts), never a module: every lens once any of the company has come to the fourth level (act II); the encyclopedia once it has stood in a library; the journal once one of it has done the work of learning (a scholar, a scribe). Nothing writes the map's while compactification holds.
+
+#### library
+
+*Kyr · relation(place)* · `rule:world_core.library`
+
+A place where books are kept to be read: having stood in one, the company has the encyclopedia.
 
 #### callingkind, hasCalling
 
