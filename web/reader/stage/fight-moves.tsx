@@ -41,9 +41,12 @@ export class FightMoves {
       return <div className="hand opened"><FightMoves.Kind key={shown.id} section={shown} take={take} note={note}
         close={() => open()} room={(attack ? 1 : 0) + words.length + kinds.length + pace.length} said={said} /></div>;
     }
-    return <div className={`hand${aiming ? ' aiming' : ''}`}>
+    // Whom, asked in place of the hand's rows (the owner's playtest, 26 November, OR-1296: the targets had extended a
+    // copy of the menu beneath it): the rows come back once one is chosen, or the aim put aside.
+    if (aiming) { return <div className="hand aiming"><FightMoves.Whom aiming={aiming} app={app} aim={aim} /></div>; }
+    return <div className="hand">
       <div className="hand-menu" role="toolbar" aria-label="What you can do">
-        {attack && <ChoiceRow.Button className={`move main${aiming?.choice.id === attack.id ? ' opened' : ''}`}
+        {attack && <ChoiceRow.Button className="move main"
           data={{ action: 'attack', choice: attack.id }} act={attack.id} onClick={() => take(attack)} plain="blow"
           label={FightMoves.attack(attack)} />}
         {words.map(c => <ChoiceRow.Button key={c.id} className="move" data={{ action: 'words', choice: c.id }} act={c.id}
@@ -57,14 +60,13 @@ export class FightMoves {
           label={Typography.curl(Words.shown(c.label))} {...c.id === 'fight:auto' ? { extra: <kbd className="row-key">T</kbd> } : {}} />)}
       </div>
       <div className="hand-detail" aria-live="polite">
-        {aiming ? <FightMoves.Whom aiming={aiming} app={app} aim={aim} /> : null}
         {/* What the move under the hand does, in the one place it is said: never inside its row. */}
         {said}
       </div>
     </div>;
   }
-  // Whom to aim at, unfolded beside the act (OR-116, the owner's play of 18 November: "Attack unfolds its targets to
-  // its right"): each the act's own target, with how likely it is, as well as the reticle on its card.
+  // Whom to aim at, asked in place of the hand's rows (OR-1296; OR-116's targets beside the act had become a second
+  // menu under the first): each the act's own target, with how likely it is, as well as the reticle on its card.
   static Whom({ aiming, app, aim }: { aiming: Aiming; app: ReaderApp; aim: (a?: Aiming) => void }) {
     return <div className="aiming" role="status">
       <p className="hand-say">{Typography.curl(`${Words.upper(FightMoves.verb(aiming.choice))}: whom?`)}</p>
