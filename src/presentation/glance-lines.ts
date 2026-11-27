@@ -3,6 +3,7 @@ import { Sentences } from './sentences';
 import type { Campaign } from '../campaign/campaign';
 import type { Module, Observation } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
+import { EntityIndex } from '../lang/index';
 import { ObservationText } from '../lang/observation-text';
 import { FictionalTime } from '../campaign/fictional-time';
 import type { Screen, TargetRow } from '../ui/screen-types';
@@ -67,14 +68,14 @@ export class GlanceLines {
   static readonly listed = 3;
   private static contents(campaign: Campaign, screen: Screen, at: { defs: Map<string, Observation>;
     told: (string | undefined)[]; charge?: ReadonlySet<string> }): Glance['contents'] {
-    const types = new Map(campaign.module.entities.map(e => [e.id, e.type])), works = this.works(campaign.module);
+    const byId = EntityIndex.of(campaign.module.entities).byId, works = this.works(campaign.module);
     const lined = new Set(screen.observed.flatMap(o => {
       const d = this.def(at.defs, o.id);
       return d?.anchor === 'near' && d.place && !at.told.includes(o.id) ? [d.place] : [];
     }));
     const here = screen.things.filter(t => t.acts.length && !t.note && !at.told.includes(t.id)
       && (!at.charge || Charge.holds(t.id, at.charge))
-      && !works.has(t.id) && (types.get(t.id) === 'item' || (types.get(t.id) === 'thing' && lined.has(t.id))));
+      && !works.has(t.id) && (byId.get(t.id)?.type === 'item' || (byId.get(t.id)?.type === 'thing' && lined.has(t.id))));
     const ranked = [...here.filter(t => lined.has(t.id)), ...here.filter(t => !lined.has(t.id) && t.valuable),
       ...here.filter(t => !lined.has(t.id) && !t.valuable)].slice(0, this.listed);
     if (!ranked.length) { return undefined; }

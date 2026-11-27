@@ -1,4 +1,5 @@
 import { ModuleWriter } from '../lang/module-writer';
+import { EntityIndex } from '../lang/index';
 import { Knowing } from './knowing';
 import { ObservationText } from '../lang/observation-text';
 import { Checks, type Odds } from '../rules/checks';
@@ -17,7 +18,7 @@ export class ChoiceWording {
   // Where the company stands, as it knows the place.
   static here(campaign: Campaign): string | undefined {
     const world = campaign.world, at = Knowing.here(campaign);
-    const place = at && world.module.entities.find(e => e.id === at);
+    const place = at && EntityIndex.of(world.module.entities).byId.get(at);
     return place ? ObservationText.known(world, place) : undefined;
   }
   static word(campaign: Campaign, action: Operator, at: { name: string; here?: string }): string {

@@ -1,5 +1,6 @@
 // Layer: the generic player (presentation). Knows no setting; reads the frame's rows and the projection (Knowing).
 import type { Campaign } from '../campaign/campaign';
+import { EntityIndex } from '../lang/index';
 import { PlayerFrame, type FrameRow } from './player-frame';
 import { AimLeads } from './aim-leads';
 import { Companions } from './companions';
@@ -106,8 +107,8 @@ export class ArrivalAttention {
   // A mechanism or a door here not yet looked at closely.
   private static unlooked(campaign: Campaign, frame: PlayerFrame): boolean {
     const here = Knowing.here(campaign) ?? '', recall = CompanyRecall.of(campaign);
-    const types = new Map(campaign.module.entities.map(e => [e.id, e.type]));
+    const byId = EntityIndex.of(campaign.module.entities).byId;
     return frame.rows.some(r => r.action.schema === 'look_closely' && !recall.did(here, r.choice.id)
-      && (frame.bound().get(r.choice.id) ?? []).some(t => ['mechanism', 'door'].includes(types.get(t) ?? '')));
+      && (frame.bound().get(r.choice.id) ?? []).some(t => ['mechanism', 'door'].includes(byId.get(t)?.type ?? '')));
   }
 }

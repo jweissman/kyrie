@@ -14,7 +14,8 @@ export class Masked {
   // What the company does not yet call by its name, and what it calls it instead: a place not learned, as it is seen;
   // someone or something known as something while that holds, as that (the Book of Faces' BOF-01). Longest first.
   static unnamed(world: World): Unnamed[] {
-    return [...EntityIndex.of(world.module.entities).aliased, ...world.module.entities.filter(e => e.roles)]
+    const index = EntityIndex.of(world.module.entities);
+    return [...index.aliased, ...index.roled]
       .map(e => ({ id: e.id, name: e.name,
         called: ObservationText.knownAs(world, e) ?? ObservationText.known(world, e) }))
       .filter(u => u.called !== u.name).sort((a, b) => b.name.length - a.name.length);

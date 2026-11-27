@@ -18,6 +18,8 @@ export class EntityIndex {
   private readonly exits = new Map<string, Entity[]>();
   // The entities called otherwise until something is known (a place by what it looks like), in the module's order.
   readonly aliased: Entity[] = [];
+  // And those known by a role until they are known by name (a traveller with a pack), in the module's order.
+  readonly roled: Entity[] = [];
   private constructor(entities: readonly Entity[]) {
     this.size = entities.length;
     entities.forEach((e, i) => {
@@ -25,6 +27,7 @@ export class EntityIndex {
       EntityIndex.add(this.types, e.type, e);
       if (e.exit) { EntityIndex.add(this.exits, e.exit.origin, e); }
       if (e.alias) { this.aliased.push(e); }
+      if (e.roles) { this.roled.push(e); }
     });
   }
   private static add(index: Map<string, Entity[]>, key: string, e: Entity) {
