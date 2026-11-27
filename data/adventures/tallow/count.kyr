@@ -1,0 +1,151 @@
+Module tallow "Tallow Deep" {
+  // The Ash's war, as the generated world's Tallow carries it. The long campaign plays the war in Tallow itself; here
+  // Tallow is one country among forty, so the war is decided across the map: the count begins when the old road under
+  // the Edge is opened, or after forty days whether or not it is; the twelve seats of the Ferryman's board are broken
+  // or served wherever they sit; and when the reckoning comes, the side that has gained more holds the marches. A
+  // world in which nobody acts is a world the Ash counts.
+  Measure tcWest(group). Measure tcAsh(group). Measure tcDue(group). Measure tcNext(group).
+  Relation tcWeighed(fact). Relation tcEnded(group).
+  Relation tcAssessorHeard(group). Relation tcAssessorRefused(group). Relation tcAssessorGone(group).
+  Discovery tc_war_known "The Ash is counting the marches between the Mere and the Calx, and has a board of twelve seats to do it with.".
+
+  Rule tc_count_begins when not befell(ash_count_begun) and (state(calx_gate, raised) or watch(clock) >= 960)
+    says "Word comes up every road at once, as bad word does: the Ash has crossed the Mere, and is not burning anything. It is counting. Grey boards stand in the squares of the eastern marches, and men in grey write down who lives where." teaches tc_war_known {
+    Assert befell(ash_count_begun). Set tcDue(party) to watch(clock) + 2160. Set tcNext(party) to watch(clock) + 480.
+  }
+  // The Ash does not wait to be opposed: every twenty days it counts another march, whoever is looking.
+  Rule tc_ash_counts when befell(ash_count_begun) and not tcEnded(party) and watch(clock) >= tcNext(party) and tcNext(party) > 0 {
+    Increase tcAsh(party) by 1. Increase tcNext(party) by 480.
+  }
+
+  // ── The board's twelve seats, weighed once each, wherever they were broken or served ──
+  Rule tc_w_hierophant when befell(hierophant_broken) and not tcWeighed(hierophant_broken) { Assert tcWeighed(hierophant_broken). Increase tcWest(party) by 1. }
+  Rule tc_a_hierophant when befell(hierophant_served) and not tcWeighed(hierophant_served) { Assert tcWeighed(hierophant_served). Increase tcAsh(party) by 1. }
+  Rule tc_w_general when befell(general_broken) and not tcWeighed(general_broken) { Assert tcWeighed(general_broken). Increase tcWest(party) by 1. }
+  Rule tc_a_general when befell(general_served) and not tcWeighed(general_served) { Assert tcWeighed(general_served). Increase tcAsh(party) by 1. }
+  Rule tc_w_tallymen when befell(tallymen_broken) and not tcWeighed(tallymen_broken) { Assert tcWeighed(tallymen_broken). Increase tcWest(party) by 1. }
+  Rule tc_a_tallymen when befell(tallymen_served) and not tcWeighed(tallymen_served) { Assert tcWeighed(tallymen_served). Increase tcAsh(party) by 1. }
+  Rule tc_w_quorn when befell(quorn_broken) and not tcWeighed(quorn_broken) { Assert tcWeighed(quorn_broken). Increase tcWest(party) by 1. }
+  Rule tc_a_quorn when befell(quorn_served) and not tcWeighed(quorn_served) { Assert tcWeighed(quorn_served). Increase tcAsh(party) by 1. }
+  Rule tc_w_engineer when befell(engineer_broken) and not tcWeighed(engineer_broken) { Assert tcWeighed(engineer_broken). Increase tcWest(party) by 1. }
+  Rule tc_a_engineer when befell(engineer_served) and not tcWeighed(engineer_served) { Assert tcWeighed(engineer_served). Increase tcAsh(party) by 1. }
+  Rule tc_w_heretic when befell(heretic_broken) and not tcWeighed(heretic_broken) { Assert tcWeighed(heretic_broken). Increase tcWest(party) by 1. }
+  Rule tc_a_heretic when befell(heretic_served) and not tcWeighed(heretic_served) { Assert tcWeighed(heretic_served). Increase tcAsh(party) by 1. }
+  Rule tc_w_redhand when befell(redhand_broken) and not tcWeighed(redhand_broken) { Assert tcWeighed(redhand_broken). Increase tcWest(party) by 1. }
+  Rule tc_a_redhand when befell(redhand_served) and not tcWeighed(redhand_served) { Assert tcWeighed(redhand_served). Increase tcAsh(party) by 1. }
+  Rule tc_w_glass when befell(glass_mage_broken) and not tcWeighed(glass_mage_broken) { Assert tcWeighed(glass_mage_broken). Increase tcWest(party) by 1. }
+  Rule tc_a_glass when befell(glass_mage_served) and not tcWeighed(glass_mage_served) { Assert tcWeighed(glass_mage_served). Increase tcAsh(party) by 1. }
+  Rule tc_w_stone when befell(stone_elf_broken) and not tcWeighed(stone_elf_broken) { Assert tcWeighed(stone_elf_broken). Increase tcWest(party) by 1. }
+  Rule tc_a_stone when befell(stone_elf_served) and not tcWeighed(stone_elf_served) { Assert tcWeighed(stone_elf_served). Increase tcAsh(party) by 1. }
+  Rule tc_w_turncoat when befell(turncoat_broken) and not tcWeighed(turncoat_broken) { Assert tcWeighed(turncoat_broken). Increase tcWest(party) by 1. }
+  Rule tc_a_turncoat when befell(turncoat_served) and not tcWeighed(turncoat_served) { Assert tcWeighed(turncoat_served). Increase tcAsh(party) by 1. }
+  Rule tc_w_councillor when befell(councillor_broken) and not tcWeighed(councillor_broken) { Assert tcWeighed(councillor_broken). Increase tcWest(party) by 1. }
+  Rule tc_a_councillor when befell(councillor_served) and not tcWeighed(councillor_served) { Assert tcWeighed(councillor_served). Increase tcAsh(party) by 1. }
+  Rule tc_w_spymaster when befell(spymaster_broken) and not tcWeighed(spymaster_broken) { Assert tcWeighed(spymaster_broken). Increase tcWest(party) by 1. }
+  Rule tc_a_spymaster when befell(spymaster_served) and not tcWeighed(spymaster_served) { Assert tcWeighed(spymaster_served). Increase tcAsh(party) by 1. }
+  Rule tc_w_oath when befell(company_sworn_ri) and not tcWeighed(company_sworn_ri) { Assert tcWeighed(company_sworn_ri). Increase tcWest(party) by 1. }
+  Rule tc_a_oath when befell(company_sworn_ash) and not tcWeighed(company_sworn_ash) { Assert tcWeighed(company_sworn_ash). Increase tcAsh(party) by 2. }
+
+  // ── The reckoning: seven seats decide it at once; otherwise the ninety days do, and a tie is the Ash's ──
+  Rule tc_ash_broken when befell(ash_count_begun) and not tcEnded(party)
+    and (tcWest(party) >= 7 or (watch(clock) >= tcDue(party) and tcWest(party) > tcAsh(party)))
+    says "A drover with an empty cart comes west and stops to tell everyone he passes: the Ash's line broke at the Calx, and its counters went east with their boards under their arms, walking, not running." {
+    Assert tcEnded(party). Assert befell(ash_broken).
+  }
+  Rule tc_ash_triumphs when befell(ash_count_begun) and not tcEnded(party) and tcWest(party) < 7
+    and (tcAsh(party) >= 7 or (watch(clock) >= tcDue(party) and tcWest(party) <= tcAsh(party)))
+    says "Nobody brings the news; it is simply true one morning, the way frost is. The last march has fallen to the Ash. The roads are open, and on every one of them is a man in grey with a board." {
+    Assert tcEnded(party). Assert befell(ash_triumphs).
+  }
+
+  // ── The twelfth seat, in Merren's old chair: the Ash comes to Swallet to fill it ──
+  Person tc_assessor "Assessor Ninefold" nowhere {
+    Role "the Ash's assessor, who fills empty seats". Ancestry human. Calling mage. Level 5. Peaceable. Manner acerbic.
+    Carries dagger.
+    Greets "A thin man in grey sits by the Chandler's fire with a ledger shut under his gloved hand. 'The Ferryman's board has twelve seats,' he says. 'Eleven are filled. Sit down. You look like a column.'".
+  }
+  Person tc_assessor_guard "the assessor's guard" nowhere {
+    Role "three of the Ferryman's road soldiers in grey". Ancestry human. Calling warrior. Level 4. Numbers 3.
+    Temperament territorial. Carries spear.
+    Warns "Three soldiers in grey stand up from the bench by the door. One of them puts the bar across it.".
+    Comes "The soldiers come at you between the tables, shields first.".
+    Lair taproom.
+  }
+  Rule tc_assessor_sits when befell(ash_count_begun) and not tcEnded(party) and not tcAssessorGone(party)
+    and not tcAssessorRefused(party) and not befell(company_sworn_ash) and not befell(company_sworn_ri)
+    and not at(tc_assessor, taproom) {
+    Assert at(tc_assessor, taproom).
+  }
+  Topic tc_assessor_terms with tc_assessor "Ask the assessor what the twelfth seat is" when befell(ash_count_begun) once {
+    Says "'A column,' says Ninefold. 'Supply, force, the roads, the eyes, the councils, the faithful: eleven of us keep them, and the twelfth is kept empty, as the old counters kept it. The Prince would like it filled by people who go everywhere. You go everywhere.' He opens the ledger at a blank page and turns it to face you.".
+    On discuss { Assert tcAssessorHeard(actor). }
+  }
+  Action tc_take_seat(actor: group, site: place) "Take the twelfth seat at the Ferryman's board" {
+    Description "Swear to the Ash. Its people will know your name, and so will everyone it has counted.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(tc_assessor, site) and able(tc_assessor)
+      and tcAssessorHeard(actor) and not befell(company_sworn_ash) and not befell(company_sworn_ri) and not tcEnded(actor).
+    Time 10 minutes.
+    On success {
+      Assert befell(company_sworn_ash). Give ash_tally to actor. Increase quantity(actor, gold) by 12.
+      Assert tcAssessorGone(actor). Retract at(tc_assessor, site).
+    }
+    Result "Ninefold cuts your company's name at the head of the twelfth column of a grey board and gives you the board, and twelve silver pieces, counted twice. 'The Prince does not ask for loyalty,' he says. 'He asks for accuracy.' He leaves before his beer is cold.".
+  }
+  Action tc_refuse_seat(actor: group, site: place) "Tell the assessor to take his board out of the Chandler's" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(tc_assessor, site) and able(tc_assessor)
+      and tcAssessorHeard(actor) and not befell(company_sworn_ash) and not tcAssessorRefused(actor).
+    Time 1 minute.
+    On success { Assert tcAssessorRefused(actor). Assert at(tc_assessor_guard, site). }
+    Result "Ninefold stands and pulls his gloves tighter. 'Then you are in a column after all,' he says, and nods to the door.".
+  }
+  Rule tc_assessor_flees when tcAssessorRefused(party) and at(tc_assessor, taproom) and not tcAssessorGone(party)
+    and (not able(tc_assessor_guard) or routed(tc_assessor_guard))
+    says "Ninefold steps over his guard and out through the yard without his ledger. Eleven columns of names, from every march east of here, and the twelfth empty: a carrier takes it west within the hour." {
+    Assert tcAssessorGone(party). Retract at(tc_assessor, taproom). Increase tcWest(party) by 1.
+  }
+  Action tc_pay_assessor(actor: group, site: place) "Pay the assessor's guard to take him home" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(tc_assessor, site) and tcAssessorRefused(actor)
+      and not tcAssessorGone(actor) and quantity(actor, gold) >= 6.
+    Time 5 minutes.
+    On success {
+      Decrease quantity(actor, gold) by 6. Assert tcAssessorGone(actor). Retract at(tc_assessor, site).
+      Retract at(tc_assessor_guard, site). Increase tcAsh(party) by 1.
+    }
+    Result "The soldiers count your silver twice and walk the assessor out by the elbows. He has his ledger under his arm, and your company's description in it.".
+  }
+
+  // ── The Rì's oath: the brass wheel on the Calx chain ──
+  Action tc_hang_wheel(actor: group, site: place) "Hang a brass wheel on the Calx Gate's chain for the Rì" {
+    Description "Swear to the Rì's keeping. The West will know your name, and so will the Ash.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, calx_portal) and befell(ash_count_begun)
+      and not befell(company_sworn_ri) and not befell(company_sworn_ash) and not tcEnded(actor) and quantity(actor, gold) >= 2.
+    Time 20 minutes.
+    On success { Decrease quantity(actor, gold) by 2. Assert befell(company_sworn_ri). }
+    Result "Usk sold you the wheel for two silver and did not ask what it was for. It is the size of a hand, with eight spokes, the old sign of a keeping that does not count. You hang it on the gate's chain where the rust is thickest, and by the next morning there are three more beside it that you did not hang.".
+  }
+
+  // ── Swallet, under the count, sworn, and after ──
+  Observe tc_count_green at green when befell(ash_count_begun) and not tcEnded(party)
+    "Carts on the lane going west with furniture in them. The trough has a notice nailed over it in a clerk's hand: WATER COUNTED. Nobody has worked out what it means, and nobody has taken it down.".
+  Observe tc_count_tap at taproom when befell(ash_count_begun) and not tcEnded(party) and not at(tc_assessor, taproom)
+    "The Chandler's has a new rule chalked by the door: no names spoken after dark. The landlord says it is a joke. He does not say it as one.".
+  Observe tc_tally_tap at taproom when holding(party, ash_tally)
+    "The landlord serves you without looking at you, and wipes the board where your cups stood twice.".
+  Observe tc_ri_road at road when befell(company_sworn_ri) and not tcEnded(party)
+    "A brass wheel the size of a thumbnail is pressed into the mud of the road's crown, spokes up, where a rider will see it. Then another, a mile on.".
+  Observe tc_broken_green at green when befell(ash_broken)
+    "The notice is gone from the trough. In its place a child has scratched a wheel with eight spokes, and somebody else has scratched a ninth, as children will.".
+  Observe tc_triumph_green at green when befell(ash_triumphs)
+    "A grey tally-board stands on Swallet green, taller than the trough. Every household is on it. The twelfth column is still empty, and the grass under it has been worn bare by people standing in front of it, reading nothing.".
+  // After the Ash's triumph, its counters keep the green, and a company that refused the board has to walk past them.
+  Person tc_counters "the green's counters" nowhere {
+    Role "two of the Ash's counters, with staves and a board". Ancestry human. Calling warrior. Level 3. Numbers 2.
+    Temperament territorial. Carries spear.
+    Warns "The two counters by the board turn, and one of them reads your company's name aloud from it.".
+    Comes "The counters come at you with their staves, as if you were late.".
+    Lair green.
+  }
+  Rule tc_counters_keep when befell(ash_triumphs) and not befell(company_sworn_ash) and not at(tc_counters, green) and not tcWeighed(ash_triumphs) {
+    Assert tcWeighed(ash_triumphs). Assert at(tc_counters, green).
+  }
+}

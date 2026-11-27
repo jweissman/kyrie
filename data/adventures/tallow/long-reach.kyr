@@ -165,4 +165,10 @@ Module tallow "Tallow Deep" {
     and not lcATowns(party) says "Three towns of the marches have signed the Ash's terms without a soldier at their gates." {
     Assert lcATowns(party). Increase lcAshScore(party) by 1.
   }
+  // The coin bowl's twelfth place weighs on the war's polity: a decree copied and carried east, or a grey board on it.
+  Relation lcBowlWeighed(group).
+  Rule lc_bowl_mercy when lcMercyKept(party) and not lcBowlWeighed(party) { Assert lcBowlWeighed(party). Increase lcWPolity(party) by 2. }
+  Rule lc_bowl_board when lcBlankFilled(party) and not lcBowlWeighed(party) {
+    Assert lcBowlWeighed(party). Increase lcAPolity(party) by 2. Increase lcAshScore(party) by 1.
+  }
 }

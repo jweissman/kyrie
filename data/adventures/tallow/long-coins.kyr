@@ -53,14 +53,14 @@ Module tallow "Tallow Deep" {
     Requires able(actor) and company(actor) and at(actor, site) and at(orpe, site) and lcCoinEleven(actor)
       and not lcMercyKept(actor) and not lcBlankFilled(actor).
     Time 10 minutes.
-    On success { Assert lcMercyKept(actor). Increase lcWPolity(actor) by 2. Give lc_twelfth_coin to actor. }
+    On success { Assert lcMercyKept(actor). Give lc_twelfth_coin to actor. }
     Result "Mistress Orpe puts the blank coin in your hand instead of in the bowl, and closes your fingers on it. 'Then carry the door,' she says. By evening the assay house's clerk has copied Vey's decree out fair, and three carriers have taken it east to the marches, where councils argue about such things.".
   }
   Action lc_fill_blank(actor: group, site: place) "Lay the Ash's grey board in the twelfth place" {
     Requires able(actor) and company(actor) and at(actor, site) and at(orpe, site) and lcCoinEleven(actor)
       and holding(actor, ash_tally) and not lcMercyKept(actor) and not lcBlankFilled(actor).
     Time 5 minutes.
-    On success { Assert lcBlankFilled(actor). Increase lcAPolity(actor) by 2. Increase lcAshScore(actor) by 1. Retract at(orpe, site). }
+    On success { Assert lcBlankFilled(actor). Retract at(orpe, site). }
     Result "The board does not fit the gap, so you lay it across the bowl. Mistress Orpe looks at it for a long time. Then she takes off her apron, folds it on the counter, and walks out of her own assay house without her coat.".
   }
 }
