@@ -9,9 +9,12 @@
 # (a mend is what a red main is waiting for). A gate that fails is marked "# failed <tag> …" and the queue goes on;
 # a landing that leaves main red stops the queue, naming it, for a person to mend or revert.
 #   scripts/landing/queue.sh /var/tmp/kyrie/queue.txt
-# Lines added to the file while it runs are taken in their turn.
+# Lines added to the file while it runs are taken in their turn. With --watch it waits for new lines when the file
+# is empty, looking each minute, and stops after KYRIE_QUEUE_IDLE seconds with none (default six hours).
 L=$(cd "$(dirname "$0")" && pwd)
-Q=${1:?usage: queue.sh <queue file>}
+watch=; [ "${1:-}" = --watch ] && { watch=1; shift; }
+Q=${1:?usage: queue.sh [--watch] <queue file>}
+idle=0
 W=${KYRIE_WORKTREES:-/var/tmp/kyrie}; S=${KYRIE_LOGS:-$W/logs}; mkdir -p "$S"
 R=$(git -C "$L" worktree list --porcelain | awk 'NR == 1 { print $2 }')
 say() { echo "$(date +%H:%M) $*" | tee -a "$S/queue.log"; }
@@ -23,7 +26,11 @@ red() {
 }
 while :; do
   line=$(grep -vE '^\s*(#|$)' "$Q" | head -1)
-  [ -z "$line" ] && { say "queue empty"; exit 0; }
+  if [ -z "$line" ]; then
+    [ -n "$watch" ] && [ "$idle" -lt "${KYRIE_QUEUE_IDLE:-21600}" ] || { say "queue empty"; exit 0; }
+    sleep 60; idle=$((idle + 60)); continue
+  fi
+  idle=0
   read -r tag wt shas <<< "$line"
   if red && [[ $tag != mend* ]]; then say "main is red: stopped before $tag"; exit 3; fi
   if [ "$wt" = - ]; then

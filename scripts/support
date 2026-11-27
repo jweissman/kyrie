@@ -4,7 +4,7 @@
 #   scripts/support heavy <command…>                        a heavy run in one of the machine's capped slots
 #   scripts/support gate <worktree> <tag> [<sha>]           gate a branch and land it (rebase, guard, fast lanes, land)
 #   scripts/support stack <sha>…                            cherry-pick a batch onto this worktree's HEAD
-#   scripts/support queue <file>                            land a queue file's lines in order (see landing/queue.sh)
+#   scripts/support queue [--watch] <file>                  land a queue file's lines in order; --watch waits for more
 #   scripts/support queue-add <file> <tag> <worktree|-> <sha[,sha…]>   add a line to a queue file
 #   scripts/support rebase                                  rebase this worktree onto origin/main, register by row
 #   scripts/support guard                                   the reverts guard, after a rebase
