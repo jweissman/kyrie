@@ -3,6 +3,7 @@ import voice from '../../data/voice/instruments.json';
 import { Calendar } from '../campaign/calendar';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import type { Campaign } from '../campaign/campaign';
+import { CompanySenses } from './company-senses';
 import type { Screen } from '../ui/screen-types';
 import { Narrator } from './narrator';
 
@@ -13,7 +14,7 @@ import { Narrator } from './narrator';
 // the engine's; a client draws it and estimates nothing.
 // Its label and gloss say what it reports (data/voice/instruments.json), and what the sign named means where one is.
 export interface Instrument { id: 'sky' | 'provisions'; label: string; gloss: string; said: string; emblem?: string;
-  relevant: boolean }
+  name?: string; relevant: boolean }
 // A month of Imbar is a moon: thirty days from new to new.
 const phases = ['a new moon', 'a thin crescent moon', 'the moon at its first quarter', 'a waxing moon, near full',
   'the full moon', 'a waning moon', 'the moon at its last quarter', 'an old crescent moon'];
@@ -60,8 +61,8 @@ export class Instruments {
       : `${n.moon[0]!.toUpperCase()}${n.moon.slice(1)}${n.sign ? `, and ${n.sign.name} rising${whose ? `, ${whose}` : ''}`
         : ''}.`;
     const told = n.dark && n.sign ? `${n.sign.name}: ${n.sign.line}` : undefined;
-    return [{ id: 'sky', ...this.named('sky', told), said, ...n.dark && n.sign ? { emblem: n.sign.id } : {},
-      relevant: n.dark }];
+    return [{ id: 'sky', ...this.named('sky', told), said, ...n.dark && n.sign
+      ? { emblem: n.sign.id, name: n.sign.name.replace(/^the /i, '') } : {}, relevant: n.dark }];
   }
   // Whose sign it is, of the company's, if one was born under it: by name, and whether they came alone.
   private static born(campaign: Campaign, sign: string): Night['own'] {
@@ -69,12 +70,14 @@ export class Instruments {
     const under = campaign.readout.creatures.find(c => ids.includes(c.id) && c.sign === sign);
     return under && { name: under.name, alone: ids.length === 1 };
   }
-  // Whether anyone of the company reads the stars.
+  // Whether anyone of the company reads the stars: trained in Astronomy (or the wayfinding and lore that read them
+  // too), or granted the capability by the world (the old orrery turned: the company's, where training is one's own).
+  private static readonly readers = ['astronomy', 'wayfinding', 'lore'];
   private static reader(campaign: Campaign): boolean {
-    const ids = new Set(campaign.readout.partyIds);
-    return campaign.readout.creatures.filter(c => ids.has(c.id))
-      .some(c => PartyCapabilities.skilled(campaign.catalog, 'wayfinding', c)
-        || PartyCapabilities.skilled(campaign.catalog, 'lore', c));
+    const ids = new Set(campaign.readout.partyIds), who = campaign.playerActor ?? 'party';
+    return CompanySenses.capable(campaign, who, 'astronomy')
+      || campaign.readout.creatures.filter(c => ids.has(c.id))
+        .some(c => Instruments.readers.some(skill => PartyCapabilities.skilled(campaign.catalog, skill, c)));
   }
   private static provisions(screen: Screen): Instrument {
     const e = screen.expedition, days = e.rations;

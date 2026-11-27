@@ -31,6 +31,7 @@ import { Raised } from './raised';
 import { Told } from './told';
 import { Look } from '../look';
 import { Folded } from './folded-rail';
+import { SkySense } from './sky-sense';
 
 // Where the company is, as a world it moves through (the owner, 4 November, evening; spatial-play.md). Across the
 // stage the place bar (where, how deep, the hour); under it the surface and, beside it, the focus.
@@ -69,6 +70,7 @@ export class WorldStage {
           <section className="surface" aria-label="Where you are" {...PageFrame.slot('background')}>
             {overworld ? <WorldStage.Board app={app} screen={screen} chosen={focus} choose={pick} />
               : <><SceneSurface.View screen={screen} />
+                {resting && <SkySense.View instruments={frame.leaf.instruments} />}
                 {frame.leaf.glance && SceneRail.talking(app) && <WorldStage.Portraits app={app} draw={draw} />}
                 </>}
           </section>

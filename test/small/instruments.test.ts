@@ -20,7 +20,7 @@ describe('the company\'s instruments', () => {
     // By day, nothing to read, and it bears on nothing.
     expect(sky(mage)).toMatchObject({ said: 'Daylight.', relevant: false });
     for (const t of [mage, warrior]) { await t.play('Wait until dark'); }
-    expect(sky(mage)).toMatchObject({ emblem: 'sign_scythe', relevant: true });
+    expect(sky(mage)).toMatchObject({ emblem: 'sign_scythe', name: 'Scythe', relevant: true });
     expect(sky(mage)!.said).toMatch(/moon.*, and the Scythe rising\.$/);
     // What it reports is said beside it, and what the sign named means (TP-04).
     expect(sky(mage)).toMatchObject({ label: 'Sky' });
@@ -44,8 +44,19 @@ describe('the company\'s instruments', () => {
     expect(said(scythe)).toMatch(/, and the Scythe rising, your own sign\.$/);
     expect(said(bear)).toMatch(/, and the Scythe rising\.$/);
     await expect(born('sign_nowhere')).rejects.toThrow(/Unknown sign/);
-  });
-  it('count the provisions exactly, and bring them forward as night comes on', async () => {
+  });  it('lets Astronomy earned in the world read the rising sign', async () => {
+    const t = await Tiny.start(`${field}
+      Entity astronomy: capability "Astronomy".
+      Action study_orrery(actor: group) "Set the orrery's rings in motion" {
+        Requires able(actor) and company(actor).
+        On success { Assert granted(actor, astronomy). }
+        Result "The old mechanism turns, and the sky takes shape in its brass rings.".
+      }`, { party: [{ name: 'Wat', raceId: 'human', classId: 'warrior' }],
+      calendar: { year: 1312, month: 6, day: 5 } });
+    await t.play("Set the orrery's rings in motion", 'Wait until dark');
+    const sky = t.leaf.instruments!.find(i => i.id === 'sky')!;
+    expect(sky).toMatchObject({ emblem: 'sign_scythe', relevant: true });
+  });  it('count the provisions exactly, and bring them forward as night comes on', async () => {
     const t = await at('warrior'), food = () => t.leaf.instruments!.find(i => i.id === 'provisions')!;
     expect(food().said).toMatch(/^Food for \\d+ days?|^No food/);
     await t.play('Wait until dark');

@@ -29,6 +29,21 @@ describe('the outskirts of the starting town', () => {
     expect(painted).toEqual(['scene-manor', 'scene-great-hall', 'scene-portico', 'scene-ruins-hill',
       'scene-ruins-tribunal', 'scene-ruins-cenotaph', 'scene-ancient-tree']);
   }, 120000);
+  it('unlocks Astronomy from the old dome’s orrery without adding an instrument action', async () => {
+    const j = await debtor(), g = Glanced.of(j.session);
+    await g.to('region__s1_stones_dome');
+    const set = g.legal().find(c => c.includes('region__s1_stones_orrery'))!;
+    expect(set).toBeTruthy();
+    await g.perform(set);
+    expect(g.campaign.world.test(ModuleWriter.call('capable', 'party', 'astronomy'))).toBe(true);
+    await g.to('region__s1_stones_hall');
+    const wait = g.legal().find(c => c.startsWith('wait_for_dark'))!;
+    if (wait) { await g.perform(wait); }
+    const sky = g.leaf.instruments?.find(i => i.id === 'sky');
+    expect(sky).toMatchObject({ relevant: true });
+    expect(sky?.name).toBeTruthy();
+    expect(g.menu().some(c => c.includes('instrument') || c.startsWith('sky('))).toBe(false);
+  }, 120000);
   it('show from the hill the nearest of the country’s works', async () => {
     const j = await debtor();
     await j.play('>s1_stones_top');

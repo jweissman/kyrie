@@ -5,6 +5,7 @@
 // {sightside} which way. The base is always written; of each other group one option is drawn for the town. Nothing here
 // is an aim: the places are found by walking out of the town, and asked about at the Hall.
 --- base
+  Entity astronomy: capability "Astronomy".
   // The Hall: the house of whoever holds the land round the town now, at the top of an avenue from the town's heart.
   // Lived in, and safe; its household's things are theirs.
   Place {t}_manor "{town} Hall" is site within {t} at 5, 0.
@@ -79,6 +80,15 @@
   Observe {t}_stones_view at {t}_stones_top when not dark() "From up here the country lies open. Far off to the {sightside} you can make out {sightseen}." teaches {sight}_found.
   Observe {t}_stones_hall_scene at {t}_stones_hall when true "A long hall with no roof. Steps go up at the far end to a dais, and on it stand figures cut from the stone, taller than men, their faces worn smooth. Grass grows between the floor-slabs.".
   Observe {t}_stones_dome_scene at {t}_stones_dome when true "A dome of stone as wide as a church, open to the sky in its crown, so that a round of light moves slowly over the floor through the day. Round the walls are low slabs, each with a hollow in it the length of a body, and nothing in any of them.".
+  Thing {t}_stones_orrery "the old brass orrery" at {t}_stones_dome {
+    State still "At the dome's centre a brass orrery waits, its rings set at different heavens. They hold twelve small moons, one bright sun and a star for every night in the year.".
+    State turning "The orrery turns without winding. Its small world shadows cross one another, too slow to follow. Look away, and they have moved.".
+    Change set "Set the old orrery's rings in motion" from still to turning.
+    Wonder technological rare for aesthetic, cultural, scientific "One touch starts the old orrery. Every ring takes up another ring's motion. The sky in the dome becomes a diagram of what is passing overhead. Nobody in {town} remembers who last set it turning.".
+  }
+  Rule {t}_stones_orrery_teaches when state({t}_stones_orrery, turning) and not granted(party, astronomy) {
+    Assert granted(party, astronomy).
+  }
   Observe {t}_stones_tree_scene at {t}_stones_tree when true "A tree older than the stones, its trunk wider than a cart is long, its roots heaving up the turf. Strips of cloth are tied to its lowest branches, old and new: the folk of {town} still come up here.".
   Thing {t}_stones_words "the writing on the dais" at {t}_stones_hall {
     State unread "Letters are cut along the edge of the dais, deep and square, in no hand anyone in {town} could read.".

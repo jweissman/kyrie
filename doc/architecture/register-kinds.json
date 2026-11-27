@@ -3426,6 +3426,24 @@
    "was": "defect",
    "pri": "P2",
    "why": "the economy review of 27 November, split from OR-1391"
+  },
+  "OR-1420": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a use of the rules the owner asks for, wanted: not a broken contract"
+  },
+  "OR-1421": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a use of the rules the owner asks for, wanted: not a broken contract"
+  },
+  "OR-1422": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "a use of the rules the owner asks for, wanted: not a broken contract"
   }
  },
  "blockedBy": {

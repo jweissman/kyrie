@@ -1762,6 +1762,12 @@ Moving unseen and unheard: slipping past a watcher, a guardian or a beast withou
 
 Old histories, scripts and the workings of magic: reading what others only see.
 
+### Astronomy
+
+*Kyr* · `skill:astronomy`
+
+Reading the heavens: the season's turning, the stars that rise together and what their courses portend.
+
 ### Rites of the dead
 
 *Kyr* · `skill:rites`

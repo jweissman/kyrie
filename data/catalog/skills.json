@@ -84,6 +84,14 @@
         "kyr": true
       }
     },
+    "astronomy": {
+      "name": "Astronomy",
+      "rests": "intelligence",
+      "description": "Reading the heavens: the season's turning, the stars that rise together and what their courses portend.",
+      "source": {
+        "kyr": true
+      }
+    },
     "rites": {
       "name": "Rites of the dead",
       "rests": "wisdom",
