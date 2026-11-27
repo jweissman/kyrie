@@ -26,7 +26,7 @@
   Observe {t}_wood_edge_dark at {t}_wood_edge as fixture when dark() "The trees are a black wall above the field. Nothing of the track under them can be seen without a light.".
   Observe {t}_wood_ride_scene at {t}_wood_ride as fixture when not dark() "The old ride runs straight between the oaks, grassed over, with holly closing in on both sides. Old stumps along it were cut long ago, and the wood has grown back over them.".
   // The stones are in sight from the ride by day: grey shapes up the slope under the beeches, a deer-path going up.
-  Observe {t}_wood_ride_stones at {t}_wood_ride as fixture when not dark() "Up the slope ahead the oaks give way to beeches, and among them grey stones lie in a broken row along a mound. The slope goes up to them." teaches {t}_wood_stones_known.
+  Observe {t}_wood_ride_stones at {t}_wood_ride as fixture when not dark() "Up the slope ahead the oaks give way to beeches. Grey stones lie in a broken row among them." teaches {t}_wood_stones_known.
   Observe {t}_wood_ride_dark at {t}_wood_ride as fixture when dark() "Under the trees the dark is complete. A heavy beast moves off through the holly, unhurried.".
   Observe {t}_wood_ride_mist at {t}_wood_ride as ambience when hour(clock) >= 5 and hour(clock) < 7 "Mist lies in the ride at the height of your knees. Three deer stand in it and watch you. Then they are gone.".
   Observe {t}_wood_ride_tracks at {t}_wood_ride as sign noticed by woodcraft when not knows(party, {t}_wood_tracks) "Where the ride is wet, cloven feet bigger than a pig's have churned the ground. A run goes off through the holly at the height of your hip. Its edges are rubbed with mud and bristle." teaches {t}_wood_tracks.
@@ -50,8 +50,8 @@
   Item {t}_wood_lamp "a burner's old lamp" is lantern at {t}_wood_burners hidden until {t}_wood_hut.
   // The oil the finding says is in it is there to burn (OR-685).
   Item {t}_wood_oil "the burner's lamp-oil, in a stoppered flask" is lamp_oil at {t}_wood_burners hidden until {t}_wood_hut.
-  Discovery {t}_wood_stones_known "The old stones lie under the beeches above the old ride, up the slope from it, and a deer-path goes up to them from the burners' clearing.".
-  Discovery {t}_wood_hut "Under the turf bench in the burners' hut is a lamp, and above it a mark scratched in the bench: a row of standing stones, and a door drawn shut." {
+  Discovery {t}_wood_stones_known "The old stones lie under the beeches, up the slope from the old ride.".
+  Discovery {t}_wood_hut "A lamp lies under the turf bench in the burners' hut. Scratched in the bench above it is a door drawn shut." {
     Found by searching {t}_wood_burners "Under the turf bench in the hut is a lamp with oil still in it. Scratched into the bench above it are a row of standing stones and a mark like a shut door.".
   }
   Item {t}_wood_herbs "a stand of woundwort" is herbs at {t}_wood_ride hidden until {t}_wood_wort.
@@ -125,7 +125,7 @@
   // shrine-keeper asks before she says what lies under them (and so the place's name, which the old sayings of it and
   // her own grief at the king's door are asked by).
   Topic {t}_wood_burners_told with {dealer} "Ask {{dealer}} why the burners left the woods" when {t}_wood_shown(actor) and not knows(actor, {t}_wood_hut) once {
-    Says "{{dealer}} puts the woundwort down. 'My father was the last of the burners. One night he took his lamp up to the old stones, to see what the old ones had cut there. He came down with the lamp out, and never lit it again, nor a hearth. A door is cut on the stone, he said, drawn shut, and shut for a reason. The lamp's under his bench in the hut still. Take it, if you're going up.'".
+    Says "{{dealer}} puts the woundwort down. 'My father was the last of the burners. One night he took his lamp up to the old stones, to see what the old ones had cut there. He came down with the lamp out, and never lit it again, nor a hearth. There's a door cut on the stone, he said. It's drawn shut for a reason. The lamp's under his bench in the hut still. Take it, if you're going up.'".
     On discuss { Assert knows(actor, {t}_wood_hut). Assert knows(actor, {t}_wood_mark). }
   }
   // The shrine-keeper tests what the company says it knows of the stones before telling what is under them (OR-851):

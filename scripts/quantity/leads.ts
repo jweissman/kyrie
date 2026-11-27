@@ -5,7 +5,7 @@ import { RunnerOffer } from '../../src/cli/runner-offer';
 import { Indicator } from '../../src/presentation/indicator';
 import { Undertakings } from '../../src/presentation/undertakings';
 import type { Aspect } from '../../src/presentation/glance-types';
-import type { Module } from '../../src/lang/module';
+import type { Module } from '../../src/lang/index';
 import type { PlaySession } from '../../src/session/play-session';
 import { HonestPlayer } from '../../test/support/honest-player';
 import { QuantityWalks } from './walks';

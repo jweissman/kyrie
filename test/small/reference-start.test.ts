@@ -35,7 +35,7 @@ describe('the reference game\'s start', () => {
     expect(text).toMatch(new RegExp(`Person ${t}_ud_waiting .* at ${t}_ud `));
     expect(text).toMatch(new RegExp(`Initially Set hire\\(${t}_ud_waiting\\) to [1-9]`));
     // What it knows of the stones leads to the shrine-keeper, then down.
-    expect(text).toContain(`Objective ${t}_wood_ask `);
+    expect(text).toContain(`Objective ${t}_wood_go `);
     expect(text).toContain(`Objective ${t}_wood_below `);
   });
 });
