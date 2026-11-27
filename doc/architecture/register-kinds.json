@@ -3408,6 +3408,24 @@
    "was": "defect",
    "pri": "P2",
    "why": "a requirement of the platform the review names, not a broken contract"
+  },
+  "OR-1430": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the economy review of 27 November: a committed requirement (OR-1391's pin)"
+  },
+  "OR-1431": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the economy review of 27 November: a committed requirement"
+  },
+  "OR-1432": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the economy review of 27 November, split from OR-1391"
   }
  },
  "blockedBy": {

@@ -46,6 +46,20 @@ export class FirstHourBands {
     const near = [...country.bands].filter(b => b.minutes <= reach).sort((a, b) => a.minutes - b.minutes);
     return near.flatMap(b => this.band(begun, b, company, { trials, policy }));
   }
+  // The bands of one place and what lies within it (a dungeon, by its places' prefix: region__s1_ud_), each the group
+  // standing there with members, fought by the one who plays alone (OR-1430: the reference seed's first dungeon).
+  static within(begun: Campaign, prefix: string, trials: number): Banded[] {
+    const world = begun.world, creatures = begun.readout.creatures, company = begun.readout.partyIds
+      .map(id => creatures.find(c => c.id === id)).filter((c): c is Creature => !!c).map(c => FirstHourBands.whole(c));
+    const members = new Map<string, string[]>();
+    for (const r of world.related('memberOf')) { members.set(r.args[1]!, [...members.get(r.args[1]!) ?? [], r.args[0]!]); }
+    const bands = world.related('at').filter(r => r.args[1]!.startsWith(prefix) && members.has(r.args[0]!)
+      && r.args[0] !== begun.playerActor).map(r => ({ id: r.args[0]!, where: r.args[1]!, place: r.args[1]!,
+      name: world.module.entities.find(e => e.id === r.args[0])?.name ?? r.args[0]!, installation: '', trouble: '',
+      minutes: 0, members: (members.get(r.args[0]!) ?? [])
+        .map(m => world.module.entities.find(e => e.id === m)?.creatureId ?? m) }));
+    return bands.flatMap(b => this.band(begun, b, company, { trials, policy: 'stand' }));
+  }
   // A member as a new life that has hired them stands: at full hit points.
   static whole(c: Creature): Creature {
     const made = structuredClone(c);

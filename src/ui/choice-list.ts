@@ -363,10 +363,12 @@ export class ChoiceList {
     // A fight that has ended is held on its page, how it ended and what it was worth, until the player goes on.
     if (c.outcome) { return [{ id: 'onward', title: '', tone: 'way', glyph: '→', choices: [this.onward] }]; }
     if (!c.ours) { return []; }
-    const titles: Record<string, string> = { strike: 'Strike', abilities: 'Abilities', spells: 'Spells',
-      carried: 'What you carry', words: 'Words', other: 'Defend, wait or withdraw' };
+    const titles: Record<string, string> = { strike: 'Strike', away: 'Get away', abilities: 'Abilities', spells: 'Spells',
+      carried: 'What you carry', words: 'Words', other: 'Defend, wait or withdraw' }, dire = ['grave', 'deadly'];
+    // A fight reckoned grave or deadly offers its way out beside the blow, not behind Other (OR-1391: each dangerous
+    // fight wants a truthful witness and at least one response that is no attack).
     return Object.entries(titles).map(([id, title]): Section => {
-      const list = c.abilities.filter(a => this.kind(a) === id)
+      const list = c.abilities.filter(a => (dire.includes(c.danger ?? '') && a.id === 'flee' ? 'away' : this.kind(a)) === id)
         .sort((a, b) => (a.spell?.level ?? 0) - (b.spell?.level ?? 0)
           || this.last.indexOf(a.id) - this.last.indexOf(b.id));
       // And what cannot be used now, in its place, saying why (the completion plan, §2.4).

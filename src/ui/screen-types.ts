@@ -364,6 +364,9 @@ export interface CombatScreen {
   // The moment before a fight that came at the company closes: it acts first, and can get back the way it came; and
   // how the company reckons the fight from there ("It is more than you can take.").
   moment?: 'seen' | 'sprung'; reckoned?: string;
+  // How dangerous the fight is reckoned now, whichever way it is said (standing, or reckoned at its moment): what the
+  // hand offers beside the blow reads it (OR-1391).
+  danger?: Danger;
   // How the fight stands as the company reckons it now, every round it is not over (the owner, 6 November: a plain
   // danger line, not a ledger to read the odds from).
   standing?: { danger: Danger; text: string };

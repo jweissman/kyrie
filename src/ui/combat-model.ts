@@ -37,6 +37,7 @@ export class CombatModel {
     { said, quick = false }: { said?: ReadonlyMap<string, string>; quick?: boolean } = {}): CombatScreen {
     const standing = battle.opening || battle.state.outcome ? undefined
       : quick ? DangerSense.known(battle).reckoning : DangerSense.of(battle);
+    const moment = battle.opening && !battle.state.outcome ? DangerSense.of(battle) : undefined;
     const state = this.called(battle.state, called), actor = state.combatants.find(f => f.id === state.actor);
     const ours = !!actor && battle.playerControls(actor.id);
     const choices = ours && !state.outcome ? CombatChoices.actions(battle.legalCommands(), battle.repertoire) : [];
@@ -64,7 +65,8 @@ export class CombatModel {
         ...c.ability.id === 'demand' && actor ? { odds: battle.parley() } : {},
         ...actor?.stock?.[c.ability.id] ? { carried: actor.stock[c.ability.id]!.length } : {} })),
       ...ours && !state.outcome ? this.unavailable(battle, actor!) : {},
-      ...battle.opening && !state.outcome ? { moment: battle.opening, reckoned: DangerSense.of(battle).text } : {},
+      ...moment ? { moment: battle.opening, reckoned: moment.text } : {},
+      ...(moment ?? standing) ? { danger: (moment ?? standing)!.danger } : {},
       ...standing ? { standing } : {},
       // Who is still to act this round: not those who have fallen since it began (play 8's "then the second of the
       // risen dead", down).

@@ -186,7 +186,8 @@
        "feature": "fight",
        "pins": [
         "Conflict › Fights that cost",
-        "Conflict › Combat with outcomes, costs and consequences"
+        "Conflict › Combat with outcomes, costs and consequences",
+        "Conflict › Fights foretold"
        ],
        "default": true
       },

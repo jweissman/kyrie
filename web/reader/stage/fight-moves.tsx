@@ -32,7 +32,8 @@ export class FightMoves {
     const attack = strike[0], shown = FightMoves.section(sections, strike, panel);
     const pace = sections.find(s => s.id === 'pace')?.choices ?? [];
     // Words (a call to yield: ChoiceList's words), a row of the hand's own beside the blow, never in a kind.
-    const words = sections.find(s => s.id === 'words')?.choices ?? [];
+    // And the way out where the fight is reckoned grave or deadly (OR-1391), a row of the hand's own beside the blow.
+    const words = ['away', 'words'].flatMap(id => sections.find(s => s.id === id)?.choices ?? []);
     const take = (c: Choice) => FightMoves.take(app, c, aim, open);
     const note = (c: Choice) => ({ onMouseEnter: () => hover(c), onFocus: () => hover(c), onMouseLeave: () => hover(undefined) });
     const kinds = FightMoves.kinds.filter(([id]) => FightMoves.section(sections, strike, id)?.choices.length);
