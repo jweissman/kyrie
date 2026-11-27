@@ -39,11 +39,11 @@ type Setting = { key: keyof Settings; label: string; glyph: string; values: Valu
 
 export class OpeningPages {
   // The title: the core four and nothing else (the owner, 26 November, OR-1072: "I was even a little taken aback by how
-  // much complexity is creeping back into the title page"): Continue where a game is kept to continue, New Game,
-  // Options and Quit, in that order (test/features/interface/title-four.pin holds it). What else it had offered has
-  // gone inside: the world a new life begins in is New Game's to ask, the encyclopedia is Options' row, and the
-  // campaigns for testing are the address's alone (?campaign=). The game's name its heading and its line under it, the
-  // embers behind it.
+  // much complexity is creeping back into the title page"): New Game, Continue where a game is kept to continue,
+  // Options and Quit, in that order (OR-1683: New Game at the top; test/features/interface/title-four.pin holds it).
+  // What else it had offered has gone inside: the world a new life begins in is New Game's to ask, the encyclopedia
+  // is Options' row, and the campaigns for testing are the address's alone (?campaign=). The game's name its heading
+  // and its line under it, the embers behind it.
   static title(kept?: Kept): EnginePage {
     const step = FirstChoice.title(kept);
     return { id: 'title', ask: step.ask, chosen: step.chosen, hints: { backdrop: 'embers', heading: 'name' },

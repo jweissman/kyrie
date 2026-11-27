@@ -50,13 +50,12 @@ export class FirstChoice {
         say: `We enter the world as we are: a life of this country, whole as the world would make it.${replaced}` },
       { id: 'back', name: 'Back', say: 'Back to the title.' }] };
   }
-  // The title's ways in: Continue where the kept game is going and not refused, and New Game always. The keys are on
-  // the first offered.
+  // The title's ways in: New Game always, first (the owner's play, 27 November, OR-1683: "'New Game' needs to be at
+  // the top"), then Continue where the kept game is going and not refused. The keys are on the first offered.
   static title(kept?: Kept): TitleStep {
     const at = [kept?.where, kept?.when].filter(Boolean).join(' · ');
-    const cards: TitleStep['cards'] = [];
+    const cards: TitleStep['cards'] = [{ id: 'begin', name: 'New Game', said: 'New Game: a new life' }];
     if (FirstChoice.continues(kept)) { cards.push({ id: 'continue', name: 'Continue', said: `Continue${at ? `: ${at}` : ''}` }); }
-    cards.push({ id: 'begin', name: 'New Game', said: 'New Game: a new life' });
     return { id: 'title', ask: 'Ways in', chosen: cards[0]!.id, all: true, cards,
       ...kept?.refused ? { told: FirstChoice.refusal(kept.refused) } : {} };
   }

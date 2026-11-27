@@ -41,7 +41,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the ways in, and back to the title 
           .toEqual(['Back to the game', 'Return to title']);
         await page.click('.options-page .rows.back [data-action="title"]');
         await page.waitForSelector('[data-action="continue"]', { timeout: 10000 });
-        expect(await ways(page)).toEqual(['continue', 'begin', ...apart]);
+        expect(await ways(page)).toEqual(['begin', 'continue', ...apart]);
         await page.click('[data-action="continue"]');
         await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
         await driver.settle();

@@ -133,7 +133,7 @@ describe('a new game, set out on at once', () => {
     // Back to the title, and New Game: asked at once, a country drawn for it by a seed of its own (the kept game
     // names no seed of its own here).
     page.opening.title();
-    expect(page.actions()).toEqual(['continue', 'begin', ...apart]);
+    expect(page.actions()).toEqual(['begin', 'continue', ...apart]);
     page.press('begin');
     expect(page.mode()).toBe('begin');
     await page.aheads(2);
@@ -160,8 +160,8 @@ describe('a new game, set out on at once', () => {
     page.savedGame = { text: 'not a kept game', title: 'Kyr', where: 'The lane', when: 'Morning', company: 'Aud',
       seed: 'bakelo' };
     await page.opening.boot();
-    // Kept and still going: Continue first, and nothing is drawn ahead for a new game meanwhile.
-    expect(page.actions()).toEqual(['continue', 'begin', ...apart]);
+    // Kept and still going: Continue under New Game (OR-1683), and nothing is drawn ahead for a new game meanwhile.
+    expect(page.actions()).toEqual(['begin', 'continue', ...apart]);
     expect(page.asked.some(r => r.kind === 'ahead')).toBe(false);
     page.press('continue');
     for (let i = 0; i < 400 && page.state.phase !== 'title'; i++) { await new Promise(r => setTimeout(r, 25)); }
