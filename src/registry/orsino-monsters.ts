@@ -1,4 +1,5 @@
 import type { RegistryEntry } from './orsino-extract';
+import { AbilityModifier } from '../fantasy/ability-modifier';
 
 type Score = 'str' | 'dex' | 'con' | 'int' | 'wis' | 'cha';
 export interface MonsterChoice {
@@ -13,11 +14,10 @@ export interface MonsterDerivation {
 }
 
 // Orsino's `monster` generation template, step by step, with every random choice made explicit. It reads only
-// registry entries and reproduces the template's own arithmetic (overlays add numbers, concatenate arrays and replace
-// strings; hit points use Orsino's statMod), so a Kyr creature built from it can be checked against the source.
+// registry entries and reproduces the template's overlays (numbers add, arrays concatenate and strings replace).
+// Its hit points use Kyr's SRD modifier instead of the source's rounded modifier.
 export class OrsinoMonsters {
   static readonly scores: Score[] = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
-  static statMod(score: number): number { return Math.round((score - 10) / 2); }
   static compose(entry: (id: string) => RegistryEntry, choice: MonsterChoice): MonsterDerivation {
     const steps: MonsterStep[] = [];
     const klass = entry(`monsterClass:${choice.monsterClass}`).definition as Record<string, unknown>;
@@ -48,7 +48,7 @@ export class OrsinoMonsters {
     ] as [string, string, unknown][]) {
       steps.push({ step, source, values: this.overlay(record, overlay) });
     }
-    const hitPoints = Math.max(1, line.hp! + this.statMod(record.con as number) + choice.level * 3);
+    const hitPoints = Math.max(1, line.hp! + AbilityModifier.of(record.con) + choice.level * 3);
     steps.push({ step: 'hit points', source: 'template:monster', values: { hitPoints,
       formula: 'max(1, statLine.hp + statMod(con) + level * 3)' } });
     const rank = entry(`monsterRank:${choice.rank}`).definition as Record<string, unknown>;

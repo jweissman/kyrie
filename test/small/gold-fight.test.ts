@@ -24,7 +24,7 @@ const store = `
 
 describe('gold where the aim waits on a fight', () => {
   it('is on the fight in front of the company, not the way back to the place the aim names', async () => {
-    const t = await Tiny.start(store);
+    const t = await Tiny.start(store, { seed: 'c' });
     t.follow('clear');
     await t.perform('light_item(t__party_1__torch)');
     await t.play('To the rat-runs');

@@ -22,8 +22,8 @@ describe('creation, by the rules', () => {
       expect([CreationRules.fight(score), CreationRules.check(score)])
         .toEqual([Fighting.statMod(score), Checks.bonus(ItemCatalog.canon, c, 'lore').modifier]);
     }
-    expect(CreationRules.quality('strength', 13)).toEqual(['A blow with a weapon in the hand: +2 to hit, +2 to the harm it'
-      + ' does.', 'Climbing, and lifting or forcing what is stuck: +1 to the roll. Against paralysis: +3 and the die.']);
+    expect(CreationRules.quality('strength', 13)).toEqual(['A blow with a weapon in the hand: +1 to hit, +1 to the harm it'
+      + ' does.', 'Climbing, and lifting or forcing what is stuck: +1 to the roll. Against paralysis: +2 and the die.']);
     // The sheet says its saves on their own, with what is worn counted, and its qualities without them.
     expect(CreationRules.quality('wisdom', 10, undefined, false)).toEqual(['Searching a place: +0. Reading people and'
       + ' country, tending wounds, the rites, and the way across country: +0 to the roll.']);

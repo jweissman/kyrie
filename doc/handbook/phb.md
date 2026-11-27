@@ -368,9 +368,9 @@ A calling is what a companion does in a fight and on the road: their hit die, th
 
 ### Warrior
 
-*Faithful · calling* · `class:warrior`
+*Adapted · calling* · `class:warrior`
 
-- Hit die: d12
+- Hit die: d10
 - Qualities: +2 strength, +1 dexterity, +2 constitution, −1 intelligence, −1 wisdom
 - Weapons: all
 - Armour: all
@@ -404,6 +404,8 @@ Begins knowing Sweeping Strike.
 > Warriors are skilled combatants, excelling in melee and ranged combat with a variety of weapons and armor.
 
 > Most warriors learned the trade in a lord's levy, a town's watch or a caravan's guard; some learned it alone, in a hard place. They are hired by the day or by the season. In a company, a warrior is the one the others stand behind.
+
+*Adapted: Orsino chassis, with the SRD fighter's d10 hit die in place of Orsino's d12: attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots.*
 
 ### Mage
 
@@ -517,9 +519,9 @@ Begins knowing Riposte.
 
 ### Ranger
 
-*Faithful · calling* · `class:ranger`
+*Adapted · calling* · `class:ranger`
 
-- Hit die: d10
+- Hit die: d8
 - Qualities: +1 strength, +2 dexterity, +1 constitution, +2 wisdom, −1 charisma
 - Weapons: blade, bow, crossbow, polearm (light, medium)
 - Armour: all
@@ -542,6 +544,8 @@ Begins knowing Ensnare.
 > Rangers are skilled hunters and trackers, proficient with bows and survival in the wilderness.
 
 > A ranger learns the wild from a forester, a hunter or a warden of the marches: tracks, weather, the ways through. They guide travellers, hunt for the table, and keep watch on the edges of the settled land.
+
+*Adapted: Orsino chassis, with the SRD ranger's d8 hit die in place of Orsino's d10: attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots. Kyr adds the woodcraft skill for its deterministic world actions. Orsino's kit's rations are Kyr's company good (data/rules/core.kyr), counted and eaten by the company (needs.kyr, care.kyr), never an item a member carries: every company sets out with two, so the ranger's kit names none apart (proof-slices.md step 7).*
 
 ### Monk
 

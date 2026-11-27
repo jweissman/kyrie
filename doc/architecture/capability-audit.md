@@ -4,8 +4,8 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 
 | Family | Entries |
 |---|---|
-| Ancestries, callings, backgrounds and formations | 53 faithful, 250 adapted, 415 kyr, 5 not playable, 4 unreachable, 10 orsino data only |
-| Character creation | 16 faithful, 27 adapted, 1 kyr |
+| Ancestries, callings, backgrounds and formations | 51 faithful, 252 adapted, 415 kyr, 5 not playable, 4 unreachable, 10 orsino data only |
+| Character creation | 14 faithful, 29 adapted, 1 kyr |
 | Progression, feats and high levels | 210 faithful, 49 adapted, 7 kyr, 33 not playable |
 | Action timing, reactions, conditions, costs and targeting | 173 faithful, 35 adapted, 63 kyr, 21 not playable |
 | Spells: traditions, slots, durations and unusual magic | 207 faithful, 45 adapted, 7 kyr, 30 not playable |
@@ -17,7 +17,7 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 
 ## Ancestries, callings, backgrounds and formations
 
-Entries: 53 faithful, 250 adapted, 415 kyr, 5 not playable, 4 unreachable, 10 orsino data only.
+Entries: 51 faithful, 252 adapted, 415 kyr, 5 not playable, 4 unreachable, 10 orsino data only.
 
 **What Orsino defines.** 25 ancestries (racialModifier, occupationOptions, traits), 7 classes with classModifier gear, gold and proficiencies, 215 backgrounds, 16 party traits recognised from the company's make-up.
 
@@ -37,7 +37,7 @@ Handbook sections: `phb:ancestries`, `phb:callings`, `phb:backgrounds`, `phb:tra
 
 ## Character creation
 
-Entries: 16 faithful, 27 adapted, 1 kyr.
+Entries: 14 faithful, 29 adapted, 1 kyr.
 
 **What Orsino defines.** CharacterRecord and the pc template: 3d6 attributes with racial and class modifiers, hit die plus positive Constitution, starting spells for casters, class gear and gold.
 

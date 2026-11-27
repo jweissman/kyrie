@@ -142,7 +142,7 @@ describe('the terminal\'s human mode, in the awkward world', () => {
   });
   // One foe, one key: the move is made at it, as the page's fight makes it (FightMoves), the target never asked.
   it('makes a move at the only foe without asking at whom', async () => {
-    const t = await Awkward.start();
+    const t = await Awkward.start('i');
     t.journey.put('party', 't__cellar');
     const k = await Keyed.play(t.session, Array.from({ length: 40 }, () => 'return'));
     const asked = k.frames.filter(f => /at whom/.test(f.menu.title ?? ''));
@@ -153,12 +153,12 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     expect(turns.size).toBeGreaterThan(new Set(asked.map(f => f.menu)).size);
   });
   it('fights through the same picker: the moves, a target, back to the moves', async () => {
-    const t = await Awkward.start();
+    const t = await Awkward.start('i');
     t.journey.put('party', 't__cellar');
     const k = await Keyed.play(t.session, ['return', 'return', 'left', 'return', 'return']);
     const titles = k.frames.map(f => f.menu.title ?? '');
     expect(titles).toContain('Aud\'s turn');
-    expect(titles).toContain('Melee Attack: at whom?');
+    expect(titles).toContain('Ranged Attack: at whom?');
     expect(k.said.join('\n')).toMatch(/^Aud \d+\/\d+$/m);
   });
   // A town's rest had been 117 acts, 36 of them journeys in one unranked list: grouped by the map's own kinds, gone

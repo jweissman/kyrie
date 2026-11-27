@@ -11,6 +11,55 @@ to Orsino, not to the SRD. Each case below is one of four classes:
 - **incomplete**: part of the defining behaviour runs, the rest is named as missing;
 - **unsupported**: the catalogue has it and nothing runs it.
 
+## Ability modifiers and calling hit points (OR-1396, 27 November)
+
+The shared modifier is `floor((score - 10) / 2)` for every ability score, including in creation cards, attacks,
+damage, saves, skills and spell slots. A first-level person has the maximum class die plus Constitution, minimum one.
+For a person generated at a higher level, each later level contributes half the die plus one plus Constitution,
+minimum one per level. Advancement instead rolls the die, keyed by campaign seed, creature identity and level.
+`test/attributes`, `test/srd-hit-dice` and `test/advancement` pin these routes.
+
+The eight callings were checked against the SRD class table: warrior/fighter d10, ranger d8, mage/wizard d4,
+thief/rogue d6, cleric d8, bard d6, monk d8 and commoner d4. Only warrior and ranger needed changing.
+
+Monster Hit Dice are not class Hit Dice. The fixed SRD stat blocks use their listed expressions, independent of
+encounter level; the three affected fixed-stat-block variations retain their SRD AC through natural armour. Legacy
+species without SRD Hit Dice retain their authored Orsino chassis or `Creation.grown` formula, now using the SRD
+modifier: neither substitutes the SRD creature-type dice or applies Constitution per monster die. That migration is
+OR-1397, not a claim of SRD fidelity. The Orsino source snapshot remains historical; the composed comparison uses the
+same SRD modifier as the live engine.
+
+**Measurements.** One local run on main `125fa163aaf710490aed68dcfa93082795246719` and one on this slice,
+serialized under the machine lock; the systemd user bus was unavailable, so the usual memory ceiling was not applied.
+These are single readings, not a performance experiment.
+
+| Quantity | Before | After |
+|---|---:|---:|
+| Combat-place fights/game hour, median (a1, thorn) | 1.45 (1.45, 0.68) | 1.45 (1.45, 0.67) |
+| Dungeon delver fights/game hour, median (iscoed, a1, thorn) | 3.67 (3.23, 3.67, 3.70) | 3.70 (3.23, 3.96, 3.70) |
+| Mortal bands warned | 100%, 55/55 | 100%, 62/62 |
+| Traversal/administration after first expedition | 77% | 75% |
+| Aims completed by arrival alone | 22% | 22% |
+
+The combat density and warning bands hold. The a1 delver reaches 6 rooms and fights 6 times after, against 14 rooms
+and 11 fights before; fights per hour alone does not mean the expedition became safer. The quantity command fails on
+the same two unrelated pre-existing ratchets: traversal must be at most 74%, and arrival-only aims at most 20%.
+Neither band was widened.
+
+The bestiary's earlier challenge table also needs remeasurement (OR-1398): against the barrow ghoul a lone
+first-level warrior now wins 5/12 fights, a second-level warrior 7/12, and against two ghouls 0/12. The table still
+records challenge 1; the current measuring tool says 2. This was not retuned from a single creature's reading.
+
+| Quality walk, ms unless noted | Before | After |
+|---|---:|---:|
+| New life to first frame / first act | 3341 / 3537 | 3433 / 3556 |
+| Median turn | 89 | 78 |
+| Non-journey turn, median / p95 | 80 / 204 | 73 / 147 |
+| Decision, median / p95 | 24 / 62 | 24 / 59 |
+| Journey leg, median / p95 | 27.1 / 106.5 | 27.3 / 105.7 |
+| Page-host leg, median / p95 | 46.3 / 109.9 | 43.3 / 146.2 |
+| Retained heap, KB/turn | 985 | 995 |
+
 ## The cases (16 November)
 
 ### 1. Sleep over a band outside a fight (CF-03): adapted, its route proved

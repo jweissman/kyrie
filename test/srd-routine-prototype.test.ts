@@ -66,7 +66,7 @@ describe('staged SRD routines, not installed creatures', () => {
     const plain = { ...a, weapon: legacy };
     expect(Fighting.touchChance(a, mark(15), true)).toBe(Fighting.touchChance(plain, mark(15), true));
     expect(Fighting.touchChance(a, mark(15), false)).toBe(Fighting.touchChance(plain, mark(15), false));
-    expect(Fighting.weaponDamage(plain, 3, false).amount).toBe(9);
+    expect(Fighting.weaponDamage(plain, 3, false).amount).toBe(8);
     expect(Fighting.attack(plain, mark(60), () => 20).success).toBe(false);
     expect(Fighting.attack({ ...a, modifiers: { toHit: 2 } }, mark(15), () => 10).need).toBe(6);
     const penalized = { ...a, modifiers: { allRolls: -25 } }, boosted = { ...a, modifiers: { allRolls: 25 } };

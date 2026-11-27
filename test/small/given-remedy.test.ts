@@ -17,7 +17,7 @@ const taproom = `
 
 describe('a remedy given', () => {
   it('is offered for the companion it would help', async () => {
-    const t = await Tiny.start(taproom);
+    const t = await Tiny.start(taproom, { seed: 'a' });
     await t.play('^Ask Ysolde to come along');
     await t.session.leg(t.journey.choices().find(c => /^recruit\(/.test(c.command))!.command);
     const her = t.campaign.readout.partyIds[1]!, lease = (t.campaign as unknown as { creatures: CreatureStore })

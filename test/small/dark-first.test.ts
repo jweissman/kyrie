@@ -27,7 +27,7 @@ describe('in the dark, beside a danger', () => {
   it('gilds the light, with an aim followed', async () => {
     const t = await Tiny.start(`${face.replace('Goal false.', '')}
       Objective spoil when true toward face "Clear the beetles out of {face}.".
-      Goal false.`);
+      Goal false.`, { seed: 'dark-proof' });
     t.follow('spoil');
     await t.perform('go(t__cut,t__face)');
     expect(t.gold.map(a => a.why)).toEqual(['dark']);
