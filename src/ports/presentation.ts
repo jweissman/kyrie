@@ -12,6 +12,24 @@ export interface PaintingLooked { shows?: string; light?: string; season?: strin
 export interface ProseRule { phrase?: string; pattern?: string; why: string; evidence: string }
 export interface FightHelpWords { said: string; light: string; hand: string; back: string }
 export interface OutmatchedWords { help: string; alone: string }
+export interface EmblemSet {
+  about: string;
+  paths: Record<string, string>;
+  text?: Record<string, string>;
+  kinds?: Record<string, string[]>;
+}
+export interface LikenessResources {
+  ids: string[];
+  credits: Record<string, string>;
+  stations: Record<string, string>;
+  faces: Record<string, number>;
+  sitters: Record<string, string>;
+  unfit: string[];
+}
+export interface CompanyPortraitResource {
+  id: string; class: string; ancestry: string; presentation: 'man' | 'woman'; usable: boolean;
+  file: string; medium: string; source: string; crop: number[]; at: number[];
+}
 export interface PresentationResources {
   readonly voice?: VoiceTable[];
   readonly paintingFit?: PaintingFitRule[];
@@ -21,4 +39,7 @@ export interface PresentationResources {
   readonly outmatched?: OutmatchedWords;
   readonly instruments?: Record<string, { label: string; gloss: string }>;
   readonly conditionWords?: Record<string, Record<string, string>>;
+  readonly emblems?: Record<string, EmblemSet>;
+  readonly likenesses?: LikenessResources;
+  readonly companyPortraits?: CompanyPortraitResource[];
 }

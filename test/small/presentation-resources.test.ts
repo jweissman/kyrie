@@ -4,6 +4,13 @@ import { Voice } from '../../src/narrative/voice';
 import { Fits } from '../../src/ui/fits';
 import { ProseLint } from '../../src/presentation/prose-lint';
 import { CombatPresenter } from '../../src/ui/combat-presenter';
+import { Emblems } from '../../src/presentation/emblems';
+import { Signs } from '../../src/presentation/signs';
+import { Likeness } from '../../src/paintings/likeness';
+import { CompanyPortraits } from '../../src/paintings/company-portraits';
+import { Sittings } from '../../src/paintings/sittings';
+import type { Campaign } from '../../src/campaign/campaign';
+import { Tiny } from '../support/tiny';
 
 describe('installed presentation resources', () => {
   it('uses each installation’s voice tables and none when no voice is installed', () => {
@@ -39,5 +46,54 @@ describe('installed presentation resources', () => {
     const b: InstalledDomain = { id: 'b' };
     const held = (d: InstalledDomain) => Installed.within(d, () => CombatPresenter.told('strange', 'held'));
     expect([held(a), held(b), held(a)]).toEqual(['It holds.', undefined, 'It holds.']);
+  });
+  it('uses each installation’s emblems for both paths and text, or plain signs', () => {
+    const domain = (id: string, path: string, text: string): InstalledDomain => ({ id, presentation: {
+      emblems: { acts: { about: id, paths: { companion: path, someone: path },
+        text: { companion: text, someone: text }, kinds: { custom: ['inn'] } } },
+    } });
+    const a = domain('a', 'path-a', 'a'), b = domain('b', 'path-b', 'b'), plain: InstalledDomain = { id: 'plain' };
+    const read = (d: InstalledDomain) => Installed.within(d, () =>
+      [Emblems.path('companion'), Signs.emblem('companion'), Signs.aspects.companionship.sign, Signs.acts.talk]);
+    expect([read(a), read(b), read(plain), read(a)]).toEqual([
+      ['path-a', 'a', 'a', 'a'], ['path-b', 'b', 'b', 'b'], [undefined, undefined, '&', '·'], ['path-a', 'a', 'a', 'a'],
+    ]);
+    expect(Installed.within(a, () => Emblems.has('toString'))).toBe(false);
+  });
+  it('uses each installation’s likenesses and company portraits, or none', () => {
+    const domain = (id: string, file: string): InstalledDomain => ({ id, presentation: {
+      likenesses: { ids: ['portrait'], credits: { portrait: id }, stations: {}, faces: {},
+        sitters: { portrait: 'woman|adult|labouring|early|42' }, unfit: [] },
+      companyPortraits: [{ id, class: 'warrior', ancestry: 'human', presentation: 'woman', usable: true,
+        file, medium: file, source: '', crop: [], at: [0.5, 0.4] }],
+    } });
+    const a = domain('a', 'a.webp'), b = domain('b', 'b.webp'), plain: InstalledDomain = { id: 'plain' };
+    const read = (d: InstalledDomain) => Installed.within(d, () => [
+      Likeness.of({ own: 'portrait' }), Likeness.credits.portrait, Likeness.sitter('portrait')?.face,
+      CompanyPortraits.of({ classId: 'warrior', raceId: 'human', presentation: 'woman', key: 'one' })?.src,
+    ]);
+    expect([read(a), read(b), read(plain), read(a)]).toEqual([
+      ['portrait', 'a', 42, 'a.webp'], ['portrait', 'b', 42, 'b.webp'],
+      [undefined, undefined, undefined, undefined], ['portrait', 'a', 42, 'a.webp'],
+    ]);
+  });
+  it('keeps sittings separate for installations sharing a compiled module', async () => {
+    const t = await Tiny.start(`
+      Place yard "the yard" is room at 0, 0 outdoors.
+      Company party "You" of 1 at yard.
+      Person mother "Mara, the mother" at yard { Role "your mother". Peaceable. Pronouns she. }
+      Goal false.`);
+    const domain = (id: string): InstalledDomain => ({ id, presentation: { likenesses: {
+      ids: [id], credits: {}, stations: {}, faces: {}, sitters: { [id]: 'woman|adult|labouring|early|42' }, unfit: [],
+    } } });
+    const scoped = (installation: InstalledDomain): Campaign => {
+      const campaign = Object.create(t.campaign) as Campaign;
+      Object.defineProperty(campaign, 'installation', { value: installation });
+      return campaign;
+    };
+    const a = scoped(domain('first')), b = scoped(domain('second'));
+    expect(a.module).toBe(b.module);
+    expect([Sittings.of(a, 't__mother'), Sittings.of(b, 't__mother'), Sittings.of(a, 't__mother')])
+      .toEqual(['first', 'second', 'first']);
   });
 });

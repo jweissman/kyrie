@@ -1,14 +1,14 @@
-import portraits from '../../data/paintings/pcs.json';
 import folk from '../../data/generation/scenes/folk.json';
 import { Canon } from '../canon/canon';
 import { Likeness } from './likeness';
 import type { World } from '../lang/world';
+import { Installed } from '../ports/installed';
+import type { CompanyPortraitResource } from '../ports/presentation';
 
 export type Presentation = 'man' | 'woman';
 // One portrait of a player character, as recorded by looking at it (data/paintings/pcs.json): what it shows, not
 // what its sheet was labelled.
-export interface PcPortrait { id: string; class: string; ancestry: string; presentation: Presentation; usable: boolean;
-  file: string; medium: string; source: string; crop: number[]; at: number[] }
+export type PcPortrait = CompanyPortraitResource;
 // Whom a portrait is wanted for: their calling, people and background, how they present where anything says, and a
 // key that is theirs alone.
 export interface Sitting { classId?: string; raceId?: string; backgroundId?: string; presentation?: Presentation;
@@ -23,8 +23,16 @@ export interface Face { id: string; src: string; medium: string; at?: [number, n
 // are and nothing else. Where nothing painted fits (a halfling, a calling the paintings have no column for, a
 // portrait refused on looking) there is none, and the page shows the first letter of their name instead.
 export class CompanyPortraits {
-  static readonly all = (portraits as { portraits: PcPortrait[] }).portraits;
-  static readonly usable = this.all.filter(p => p.usable);
+  private static readonly empty: PcPortrait[] = [];
+  private static readonly indexes = new WeakMap<PcPortrait[], PcPortrait[]>();
+  static get all(): PcPortrait[] { return Installed.current().presentation?.companyPortraits ?? this.empty; }
+  static get usable(): PcPortrait[] {
+    const all = this.all, cached = this.indexes.get(all);
+    if (cached) { return cached; }
+    const usable = all.filter(p => p.usable);
+    this.indexes.set(all, usable);
+    return usable;
+  }
   // Backgrounds of birth or the court, painted as the aristocrat when there is no calling to paint.
   static readonly courtly = new Set(['aristocrat', 'noble', 'royalty', 'courtier']);
   // The general types, painted for those of no calling and never for a calling's own.

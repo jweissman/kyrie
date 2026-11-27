@@ -18,6 +18,10 @@ import fightHelp from '../../data/voice/fight-help.json';
 import outmatched from '../../data/voice/outmatched.json';
 import instruments from '../../data/voice/instruments.json';
 import conditions from '../../data/voice/conditions.json';
+import emblems from '../../data/paintings/emblems.json';
+import likeness from '../../data/paintings/likeness.json';
+import unfit from '../../data/paintings/unfit.json';
+import portraits from '../../data/paintings/pcs.json';
 import type { PresentationResources, VoiceTable } from '../ports/presentation';
 
 export const FantasyPresentation: PresentationResources = {
@@ -29,4 +33,7 @@ export const FantasyPresentation: PresentationResources = {
   outmatched,
   instruments: instruments.instruments,
   conditionWords: conditions.conditions,
+  emblems: emblems.sets,
+  likenesses: { ...likeness, unfit: Object.keys(unfit.paintings) },
+  companyPortraits: portraits.portraits as PresentationResources['companyPortraits'],
 };

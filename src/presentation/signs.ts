@@ -1,4 +1,4 @@
-import emblems from '../../data/paintings/emblems.json';
+import { Emblems } from './emblems';
 import { Emphasis } from './emphasis';
 import type { Aspect, MarkKind } from './glance-types';
 import type { Bearing, Offer } from './offer';
@@ -35,20 +35,18 @@ export class Signs {
   // The board's kinds of place, as the map's own signs draw them (web/reader/board/board-glyphs), one character each.
   static readonly places: Record<string, string> = { tower: '♜', ruin: '◫', cave: '◠', stone: '▮', ford: '≋',
     way: '⇢', camp: '△', shrine: '☩', barrow: '◓', tarn: '◯', crag: '▲', grove: '♣', place: '◆', unknown: '?' };
-  private static readonly texts: Record<string, string> = Object.assign({},
-    ...Object.values(emblems.sets as Record<string, { text?: Record<string, string> }>).map(s => s.text ?? {}));
   // Each aspect as one character, and as a plain one where a terminal has no unicode: drawn where colour is not (an
   // act's indicator without colour), and for what an act is besides its colour (see Indicator). A companion is the
   // emblem the page draws beside such an act (acts.companion).
-  static readonly aspects: Record<Aspect, { sign: string; plain: string }> = {
+  static get aspects(): Record<Aspect, { sign: string; plain: string }> { return {
     undertaking: { sign: '✦', plain: '*' }, danger: { sign: '⚠', plain: '!' }, exploration: { sign: '◇', plain: '+' },
     payoff: { sign: '¤', plain: '$' }, knowledge: { sign: 'ℹ', plain: 'i' }, wonder: { sign: '✧', plain: '~' },
-    companionship: { sign: Signs.texts.companion!, plain: '&' } };
+    companionship: { sign: Emblems.text('companion') ?? '&', plain: '&' } }; }
   // Each kind of act (Offers' types) as one character, drawn before its words in a list (the terminal's rows), the
   // emblems' own where they have one.
-  static readonly acts: Record<string, string> = { talk: Signs.texts.someone!, fight: '⚔', act: '◆', search:
-    Signs.texts.search!, go: Signs.texts.go_on!, journey: Signs.texts.journey!, light: '☀', wait: Signs.texts.wait!,
-    care: '✚', study: '✎', other: '·' };
+  static get acts(): Record<string, string> { return { talk: Emblems.text('someone') ?? '·', fight: '⚔', act: '◆', search:
+    Emblems.text('search') ?? '·', go: Emblems.text('go_on') ?? '·', journey: Emblems.text('journey') ?? '·', light: '☀',
+    wait: Emblems.text('wait') ?? '·', care: '✚', study: '✎', other: '·' }; }
   static way(whither: string | undefined, shut = false): string {
     return shut ? this.shut : this.whither[whither ?? ''] ?? '·';
   }
@@ -59,6 +57,6 @@ export class Signs {
     return far > 1 ? `perhaps ${Emphasis.words[aspect]}, farther on` : `${Emphasis.words[aspect]}, that way`;
   }
   // An emblem as one character, where its set gives one.
-  static emblem(id: string): string | undefined { return Object.hasOwn(this.texts, id) ? this.texts[id] : undefined; }
+  static emblem(id: string): string | undefined { return Emblems.text(id); }
   static place(kind: string): string { return this.places[kind] ?? this.places.place!; }
 }

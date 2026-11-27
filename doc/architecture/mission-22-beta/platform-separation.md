@@ -18,10 +18,11 @@ of four units:
 The clients (`src/cli`, `src/autoplay`, `web/engine`, `web/reader`) stand over them. An import that goes the wrong
 way is an edge. `test/small/layers` holds the baseline, which may only shrink.
 
-The installed presentation resources now carry voice tables, combat and instrument words, painting fit and
-observations, and prose rules per installation (`src/ports/presentation.ts`). A setting may supply none: voice has no
-lines, painting fit has no restrictions, and the editorial rules are empty. Emblems, likenesses and the remaining
-painting resources are not yet behind this port.
+The installed presentation resources now carry voice tables, combat and instrument words, emblems, likenesses and
+company portraits, painting fit and observations, and prose rules per installation (`src/ports/presentation.ts`).
+A setting may supply none: voice has no lines, painting fit has no restrictions, emblems draw no glyph, likenesses
+and portraits are absent, and the editorial rules are empty. Some player code still imports painting services
+directly; moving those services behind installed capabilities remains.
 
 The static handbook and encyclopedia renderers accept their branding and emblem renderer from the CLI composition
 root. The books also receive their mechanics wording explicitly. No setting imports player presentation; creation

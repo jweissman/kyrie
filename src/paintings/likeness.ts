@@ -1,7 +1,7 @@
 import type { World } from '../lang/world';
-import likeness from '../../data/paintings/likeness.json';
-import unfit from '../../data/paintings/unfit.json';
 import { PaintingConcepts } from './painting-concepts';
+import { Installed } from '../ports/installed';
+import type { LikenessResources } from '../ports/presentation';
 
 // Who a portrait shows, as recorded by looking at it (data/paintings/seen.json, through bun scripts/paintings.ts).
 // What is said of someone a painting is chosen for (see Likeness.of).
@@ -22,16 +22,30 @@ export interface Wanted { sex?: 'man' | 'woman'; age?: string; stations?: string
 // country gives each of its people a painting of their own (see Portraits). Where the world names one (Likeness
 // "fisherman" in Kyr), that is the one.
 export class Likeness {
-  static readonly ids = new Set((likeness as { ids: string[] }).ids);
-  static readonly credits = (likeness as { credits: Record<string, string> }).credits;
-  static readonly stations = (likeness as unknown as { stations: Record<string, string> }).stations;
-  static readonly faces = (likeness as unknown as { faces: Record<string, number> }).faces;
-  static readonly sitters = new Map(Object.entries((likeness as unknown as { sitters: Record<string, string> }).sitters)
-    .map(([id, s]) => {
+  private static readonly empty: LikenessResources = {
+    ids: [], credits: {}, stations: {}, faces: {}, sitters: {}, unfit: [] };
+  private static readonly indexes = new WeakMap<LikenessResources, { ids: Set<string>; unfit: Set<string>;
+    sitters: Map<string, Sitter> }>();
+  private static get resources(): LikenessResources {
+    return Installed.current().presentation?.likenesses ?? this.empty;
+  }
+  private static index(): { ids: Set<string>; unfit: Set<string>; sitters: Map<string, Sitter> } {
+    const data = this.resources, cached = this.indexes.get(data);
+    if (cached) { return cached; }
+    const sitters = new Map(Object.entries(data.sitters).map(([id, s]) => {
       const [sex, age, station, era, face] = s.split('|');
       return [id, { sex: sex as Sitter['sex'], ...age ? { age } : {}, ...station ? { station } : {}, era: era!,
         face: Number(face) }] as [string, Sitter];
     }));
+    const index = { ids: new Set(data.ids), unfit: new Set(data.unfit), sitters };
+    this.indexes.set(data, index);
+    return index;
+  }
+  static get ids(): Set<string> { return this.index().ids; }
+  static get credits(): Record<string, string> { return this.resources.credits; }
+  static get stations(): Record<string, string> { return this.resources.stations; }
+  static get faces(): Record<string, number> { return this.resources.faces; }
+  static get sitters(): Map<string, Sitter> { return this.index().sitters; }
   // Works of the same name, said differently by Orsino's backgrounds and the painters.
   static readonly synonyms: Record<string, string> = { smith: 'blacksmith', woodworker: 'carpenter', herdsman: 'shepherd',
     laborer: 'peasant', beadle: 'reeve', acolyte: 'deacon', stone_mason: 'mason', woodcutter: 'feller', skinner: 'furrier',
@@ -48,7 +62,7 @@ export class Likeness {
     margins: ['labouring'] };
   // What the game will not cast for someone of its own making (data/paintings/unfit.json): a severed head, another
   // world's saints, a king for an innkeeper.
-  static readonly unfit = new Set(Object.keys((unfit as { paintings: Record<string, string> }).paintings));
+  static get unfit(): Set<string> { return this.index().unfit; }
   static sitter(id: string): Sitter | undefined { return this.sitters.get(id); }
   // The best painting for someone among those not yet taken: their work's own painting if it shows someone of their
   // sex; else one of their sex and station, of their age if it can be, in an older manner before a newer; ties settled

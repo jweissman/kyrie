@@ -17,11 +17,14 @@ type Creature = Campaign['readout']['creatures'][number];
 // young shepherd once he had joined (play 10). One of the company's own family is painted as what they are to the
 // company (your mother), as well as what the world says of them.
 export class Sittings {
-  private static readonly cast = new WeakMap<object, { chosen: Map<string, string | undefined>;
-    asked: Map<string, string | undefined> }>();
+  private static readonly cast = new WeakMap<object, WeakMap<object, { chosen: Map<string, string | undefined>;
+    asked: Map<string, string | undefined> }>>();
   // The painting someone is met in, if any; someone the world's people are not (one asked of by name alone) is given
   // one none of them hangs in.
   static of(campaign: Campaign, id: string): string | undefined {
+    return campaign.within(() => this.portrait(campaign, id));
+  }
+  private static portrait(campaign: Campaign, id: string): string | undefined {
     const { chosen, asked } = this.sat(campaign);
     if (chosen.has(id)) { return chosen.get(id); }
     if (!asked.has(id)) {
@@ -33,13 +36,16 @@ export class Sittings {
   // Every painting the world's people hang in: what the world holds, not whom a page has asked after, so the same
   // commands draw the same country beyond the march (see Frontier).
   static held(campaign: Campaign): string[] {
-    return [...new Set([...this.sat(campaign).chosen.values()].filter((p): p is string => !!p))].sort();
+    return campaign.within(() => [...new Set([...this.sat(campaign).chosen.values()]
+      .filter((p): p is string => !!p))].sort());
   }
   private static sat(campaign: Campaign) {
-    let sat = this.cast.get(campaign.module);
+    let installations = this.cast.get(campaign.module);
+    if (!installations) { installations = new WeakMap(); this.cast.set(campaign.module, installations); }
+    let sat = installations.get(campaign.installation);
     if (!sat) {
       sat = { chosen: this.sitting(campaign), asked: new Map() };
-      this.cast.set(campaign.module, sat);
+      installations.set(campaign.installation, sat);
     }
     return sat;
   }
