@@ -45,3 +45,10 @@ Dun Rìerdan is the closing image); Aenean pipes cut into rock, unexplained. Del
 - Deem: a table an authored adventure can draw from at install, for mule names, the weather on the day, the pitch and the keeper's stops.
 - Reach: let the greedy player spend a ration when a mule blocks the road, so it climbs.
 - Tooling: `verify` should read the journey tests' endings and count them as reached.
+
+## Integrated (27 November)
+- Placed as a province of the first country: north, the Organ Stair, on fell and heath under the mountain, its marker Gnomon, four hexes or more from the first town (data/adventures/countries.json; test/pitchpass-placed).
+- The pipe the glass matches is drawn with the site (site.kyr), not by the test company's file, which a placed world does not read: there it had been none, and the chord could not be set.
+- Once the train is over, the Cut is a way on foot in both directions, so a company on the far side can go back down the Stair; the train waits on the far side.
+- Seven talks whose words were all they did teach what they tell (the mirror, Gnomon, the fog, Nesta's denial, her master, Lathe's offer, the price of oil); Lathe's offer, refused, is read at the Shelf.
+- In the register: OR-1640 (its thin parts), OR-1641 (its proposals, with AU-57, AU-10, OR-781), OR-1642 (a journey's short names in a placed world).

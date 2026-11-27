@@ -18,6 +18,8 @@ Module pitchpass "The Pitch of the Glass" {
   Passage cairn_path "the upper turns" is path between turns and cairn taking 2 hours.
   Passage cut_path "the track to the Cut" is path between cairn and cut_mouth taking 20 minutes.
   Passage saddle_path "the Shelf path" is path between ledge and saddle taking 30 minutes.
+  // Once the train is over, the Cut is a way on foot in both directions: the company can go back down the Stair.
+  Passage cut_way "the Cut" is path between cut_mouth and ledge taking 10 minutes hidden until cut_walked.
 
   Query windUp() means hour(clock) >= 10 and hour(clock) < 18.
   Query fogUp() means hour(clock) >= 18.
@@ -25,6 +27,8 @@ Module pitchpass "The Pitch of the Glass" {
   Relation wrapped(group). Relation hobAgrees(group). Relation hobHelps(group). Relation nesTrust(group). Relation lathePaid(group).
   Relation lintDumbTold(group). Relation martaKnows(group). Relation crossed(group). Relation chordHeard(group). Relation unveiled(group). Relation answered(group). Relation fateTold(entity).
   Measure pitch(entity). Measure picked(entity).
+  // Which of the four pipes the glass matches, drawn when the module is installed: a placed world draws it too.
+  Initially Set pitch(crate) to (1d4).
 
   Discovery wind_known "The Cut plays whenever the wind is up, between ten in the morning and six at night. Marta takes her mules through it before ten or after six, never between.".
   Discovery hum_known "The crate hums when a hand is laid on it. The grinder hums to it, and it hums back.".
@@ -32,6 +36,14 @@ Module pitchpass "The Pitch of the Glass" {
   Discovery stops_known "The four pipes in the Cut's wall are stopped by Lintern's pole. Left open, they play in a dull key that mules can stand.".
   Discovery dumb_known "Marta's husband took nine mules into the Cut in a snowed winter when the stops were choked and the Cut was dumb. Carriers steer by its note in fog.".
   Discovery chord_known "Four pipes were built to be played together, a chord from one wind. Lintern has never had a note to set them to.".
+  Discovery mirror_known "The crate holds a mirror five feet across, for the lower tower of the Star-Readers at Dun Rìerdan: one lamp behind it does the work of nine.".
+  Discovery gnomon_known "Gnomon stops on the fourth turn of the Stair, as he has for nine years. A ration or a song moves him on.".
+  Discovery fog_known "Marta will take no mules into a dumb Cut in a fog. With the pipes plugged, the train must be over before six.".
+  Discovery hum_denied "Nesta says the crate hums from the cold and the ash poles. She does not take her hand off it.".
+  Discovery master_known "Nesta's master began the mirror and died two years into it. She ground the rest alone, a hair a day.".
+  Discovery lathe_known "Dunstan Lathe, the oil factor, will pay forty crowns for the crate to slip off the Shelf.".
+  Discovery oil_known "Rape-oil sells at three coin the gallon, whale at five when there is any. The whalers have stopped coming, and the lower tower burns rape, which smokes.".
+  Discovery cut_walked "Once the train is over, the Cut can be walked on foot in either direction: forty yards of rock between the cairn's side and the Shelf.".
   Discovery ring_known "A mirror's ring grows in the Cut, in a wind, until the poles buzz on the glass. A small mirror in Nesta's master's shop cracked from it.".
 
   Observe road_scene at road when true "The carriers' road ends at a yard gate. Above it, the Organ Stair goes up the mountain in seven pale zigzags.".

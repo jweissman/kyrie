@@ -1,48 +1,49 @@
 Module pitchpass "The Pitch of the Glass" {
-  // The train goes where the company goes.
-  Rule marta_to_yard when at(party, yard) and at(marta, ?p) and distinct(?p, yard) { Retract at(marta, ?p). Assert at(marta, yard). }
-  Rule marta_to_turns when at(party, turns) and at(marta, ?p) and distinct(?p, turns) { Retract at(marta, ?p). Assert at(marta, turns). }
-  Rule marta_to_cairn when at(party, cairn) and at(marta, ?p) and distinct(?p, cairn) { Retract at(marta, ?p). Assert at(marta, cairn). }
-  Rule marta_to_cut_mouth when at(party, cut_mouth) and at(marta, ?p) and distinct(?p, cut_mouth) { Retract at(marta, ?p). Assert at(marta, cut_mouth). }
+  // The train goes where the company goes, and once it is over the Cut it waits on the far side.
+  Rule marta_to_yard when at(party, yard) and not crossed(party) and at(marta, ?p) and distinct(?p, yard) { Retract at(marta, ?p). Assert at(marta, yard). }
+  Rule marta_to_turns when at(party, turns) and not crossed(party) and at(marta, ?p) and distinct(?p, turns) { Retract at(marta, ?p). Assert at(marta, turns). }
+  Rule marta_to_cairn when at(party, cairn) and not crossed(party) and at(marta, ?p) and distinct(?p, cairn) { Retract at(marta, ?p). Assert at(marta, cairn). }
+  Rule marta_to_cut_mouth when at(party, cut_mouth) and not crossed(party) and at(marta, ?p) and distinct(?p, cut_mouth) { Retract at(marta, ?p). Assert at(marta, cut_mouth). }
   Rule marta_to_shelf when at(party, ledge) and at(marta, ?p) and distinct(?p, ledge) { Retract at(marta, ?p). Assert at(marta, ledge). }
   Rule marta_to_saddle when at(party, saddle) and at(marta, ?p) and distinct(?p, saddle) { Retract at(marta, ?p). Assert at(marta, saddle). }
-  Rule nesta_to_yard when at(party, yard) and at(nesta, ?p) and distinct(?p, yard) { Retract at(nesta, ?p). Assert at(nesta, yard). }
-  Rule nesta_to_turns when at(party, turns) and at(nesta, ?p) and distinct(?p, turns) { Retract at(nesta, ?p). Assert at(nesta, turns). }
-  Rule nesta_to_cairn when at(party, cairn) and at(nesta, ?p) and distinct(?p, cairn) { Retract at(nesta, ?p). Assert at(nesta, cairn). }
-  Rule nesta_to_cut_mouth when at(party, cut_mouth) and at(nesta, ?p) and distinct(?p, cut_mouth) { Retract at(nesta, ?p). Assert at(nesta, cut_mouth). }
+  Rule nesta_to_yard when at(party, yard) and not crossed(party) and at(nesta, ?p) and distinct(?p, yard) { Retract at(nesta, ?p). Assert at(nesta, yard). }
+  Rule nesta_to_turns when at(party, turns) and not crossed(party) and at(nesta, ?p) and distinct(?p, turns) { Retract at(nesta, ?p). Assert at(nesta, turns). }
+  Rule nesta_to_cairn when at(party, cairn) and not crossed(party) and at(nesta, ?p) and distinct(?p, cairn) { Retract at(nesta, ?p). Assert at(nesta, cairn). }
+  Rule nesta_to_cut_mouth when at(party, cut_mouth) and not crossed(party) and at(nesta, ?p) and distinct(?p, cut_mouth) { Retract at(nesta, ?p). Assert at(nesta, cut_mouth). }
   Rule nesta_to_shelf when at(party, ledge) and at(nesta, ?p) and distinct(?p, ledge) { Retract at(nesta, ?p). Assert at(nesta, ledge). }
   Rule nesta_to_saddle when at(party, saddle) and at(nesta, ?p) and distinct(?p, saddle) { Retract at(nesta, ?p). Assert at(nesta, saddle). }
-  Rule crate_to_yard when at(party, yard) and at(crate, ?p) and distinct(?p, yard) { Retract at(crate, ?p). Assert at(crate, yard). }
-  Rule crate_to_turns when at(party, turns) and at(crate, ?p) and distinct(?p, turns) { Retract at(crate, ?p). Assert at(crate, turns). }
-  Rule crate_to_cairn when at(party, cairn) and at(crate, ?p) and distinct(?p, cairn) { Retract at(crate, ?p). Assert at(crate, cairn). }
-  Rule crate_to_cut_mouth when at(party, cut_mouth) and at(crate, ?p) and distinct(?p, cut_mouth) { Retract at(crate, ?p). Assert at(crate, cut_mouth). }
-  Rule crate_to_shelf when at(party, ledge) and at(crate, ?p) and distinct(?p, ledge) { Retract at(crate, ?p). Assert at(crate, ledge). }
-  Rule crate_to_saddle when at(party, saddle) and at(crate, ?p) and distinct(?p, saddle) { Retract at(crate, ?p). Assert at(crate, saddle). }
+  Rule crate_to_yard when at(party, yard) and not crossed(party) and at(crate, ?p) and distinct(?p, yard) { Retract at(crate, ?p). Assert at(crate, yard). }
+  Rule crate_to_turns when at(party, turns) and not crossed(party) and at(crate, ?p) and distinct(?p, turns) { Retract at(crate, ?p). Assert at(crate, turns). }
+  Rule crate_to_cairn when at(party, cairn) and not crossed(party) and at(crate, ?p) and distinct(?p, cairn) { Retract at(crate, ?p). Assert at(crate, cairn). }
+  Rule crate_to_cut_mouth when at(party, cut_mouth) and not crossed(party) and at(crate, ?p) and distinct(?p, cut_mouth) { Retract at(crate, ?p). Assert at(crate, cut_mouth). }
+  Rule crate_to_shelf when at(party, ledge) and not state(crate, shattered) and at(crate, ?p) and distinct(?p, ledge) { Retract at(crate, ?p). Assert at(crate, ledge). }
+  Rule crate_to_saddle when at(party, saddle) and not state(crate, shattered) and at(crate, ?p) and distinct(?p, saddle) { Retract at(crate, ?p). Assert at(crate, saddle). }
 
   Action cross_chord(actor: group, site: place) "Lead the train through the Cut under the chord" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cut_mouth) and state(stops, tuned) and windUp() and state(crate, sound).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cut_mouth) and not crossed(actor) and state(stops, tuned) and windUp() and state(crate, sound).
     Time 5.
-    On success { Retract at(actor, cut_mouth). Assert at(actor, ledge). Assert crossed(actor). Assert chordHeard(actor). }
+    On success { Retract at(actor, cut_mouth). Assert at(actor, ledge). Assert crossed(actor). Assert knows(actor, cut_walked). Assert chordHeard(actor). }
     Result "The wind is full in the Cut and the Cut is playing, one chord from four throats, as wide as a nave. The crate rings in it and does not shake; the ash poles lie still. Alidade walks into the sound with his ears forward. Behind you Nesta has stopped singing and is only listening, and Marta, at the tail, has taken off her hat.".
   }
   Action cross_safe(actor: group, site: place) "Lead the train through the Cut" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cut_mouth) and state(crate, sound) and not dark()
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cut_mouth) and not crossed(actor) and state(crate, sound) and not dark()
       and (not windUp() or state(stops, plugged) or wrapped(actor)) and (not state(stops, tuned) or not windUp()) and (not state(stops, plugged) or not fogUp()).
     Time 5.
-    On success { Retract at(actor, cut_mouth). Assert at(actor, ledge). Assert crossed(actor). }
+    On success { Retract at(actor, cut_mouth). Assert at(actor, ledge). Assert crossed(actor). Assert knows(actor, cut_walked). }
     Result "The Cut is dumb, and so close to a dark you can hear the mules breathing. You pass between its walls in single file with the crate scraping the rock on both hands, and come out into the light on the other side as one comes out of a church after a funeral.".
     Result "The wind is full in the Cut, and the pipes play, and through the fleeces the crate goes on humming, a long way down. You count the mules in. You count them out. Nesta walks beside the dray with both hands flat on the fleece, and it is not clear which of them she is steadying." when windUp() and wrapped(actor) and not state(stops, plugged).
     Result "Nothing sounds. The pipes are plugged, and the wind goes over the Cut's lip without a word. It is a quiet so complete that Marta looks up twice at the sky." when windUp() and state(stops, plugged).
   }
   Action cross_rash(actor: group, site: place) "Lead the train through the Cut in the wind" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cut_mouth) and state(crate, sound) and windUp() and state(stops, plain) and not wrapped(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cut_mouth) and not crossed(actor) and state(crate, sound) and windUp() and state(stops, plain) and not wrapped(actor).
     Time 5.
-    On success { Retract at(actor, cut_mouth). Assert at(actor, ledge). Assert crossed(actor). Assert state(crate, cracked). }
+    On success { Retract at(actor, cut_mouth). Assert at(actor, ledge). Assert crossed(actor). Assert knows(actor, cut_walked). Assert state(crate, cracked). }
     Result "Halfway through, the pipes find the crate. The hum climbs; the ash poles begin to buzz against the glass, a wasp in a jar. Nesta says 'Stop,' once, quite calmly, and nobody can. Then there is a sound like a nut being cracked, small and clean, from somewhere inside the fleeces. The mules go on. They have heard worse.".
   }
   Rule cut_dark when at(party, cut_mouth) and dark() and not fateTold(nesta) says "It is too dark to take a train into the Cut. Alidade will not go, and nor will the rest." { Assert fateTold(nesta). }
 
   Observe ledge_lip at ledge as sign when lathePaid(party) and state(crate, sound) "The lashing runs along the lip of the Shelf here, over a drop of two hundred feet. This is the place Lathe meant.".
+  Observe lip_known at ledge as sign when knows(party, lathe_known) and not lathePaid(party) and state(crate, sound) "The lashing runs along the lip of the Shelf here, over a drop of two hundred feet. This is the place Lathe would have meant.".
   Action cut_lashing(actor: group, site: place) "Cut the crate's lashing at the lip" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ledge) and lathePaid(actor) and state(crate, sound).
     Time 1.

@@ -11,9 +11,11 @@ Module pitchpass "The Pitch of the Glass" {
   }
   Topic marta_crate with marta "Ask Marta what is in the crate" when true once {
     Says "'A mirror. Five feet. For the Star-Readers at Dun Rìerdan, to throw the light of one lamp as far as nine.' She runs a thumb down the mule's frog. 'It has taken four years and a girl to make. I have not seen it. I'm told that is how it is done.'".
+    On discuss { Assert knows(actor, mirror_known). }
   }
   Topic marta_gnomon with marta "Ask Marta about Gnomon" when true once {
     Says "'He is called after the part of a sundial that is only there to make a shadow,' says Marta. 'He is the finest mule on the Stair. He stops on the fourth turn because he has opinions about the fourth turn. A ration, or a song, and he will have another.'".
+    On discuss { Assert knows(actor, gnomon_known). }
   }
   Topic marta_nine with marta "Ask Marta why she will not take the Cut at noon" when knows(party, wind_known) once {
     Says "Marta sets down the hoof. 'My man took nine mules into it in a snowed winter. The old keeper was away, the stops were choked, and the Cut was dumb. You steer by that note, in fog, the way you steer by a bell. He could not hear the edge.' She picks the hoof up again. 'It was not a wind that killed him, and I do not trust the quiet either. I am not an easy woman.'".
@@ -25,6 +27,7 @@ Module pitchpass "The Pitch of the Glass" {
   }
   Topic marta_cut with marta "Tell Marta you mean to have the pipes silenced" when state(stops, plugged) once {
     Says "Marta does not look up from the hoof for a long moment. 'Then you had better be right about the fog,' she says. 'And there had better not be any.'".
+    On discuss { Assert knows(actor, fog_known). }
   }
   Action marta_fleece(actor: group, site: place) "Pay Marta 3 coin for twenty more fleeces" {
     Speaker marta.
@@ -43,9 +46,11 @@ Module pitchpass "The Pitch of the Glass" {
   Observe nesta_hums at yard as sign when state(crate, sound) and not nesTrust(party) "Nesta has her palm flat on the crate and her lips shut, and her throat is moving. The crate hums, and it is hard to say which began it." teaches hum_known.
   Topic nesta_hum with nesta "Ask Nesta why the crate hums" when true once {
     Says "'It's the cold,' says Nesta. 'It's the poles. It's a thing that happens with ash.' She does not take her hand off the crate.".
+    On discuss { Assert knows(actor, hum_denied). }
   }
   Topic nesta_four with nesta "Ask Nesta how long the mirror took" when true once {
     Says "'Four years and three months. A disc that size, you have to turn it by hand, a hair a day.' She considers her hands. 'My master said eight. He died at six. I was the one left to see how it would come out.'".
+    On discuss { Assert knows(actor, master_known). }
   }
   Topic nesta_press with nesta "Tell Nesta you saw her humming to it" when knows(party, hum_known) once {
     Says "She takes her hand off the crate, which seems to cost her. 'Every night,' says Nesta. 'I ground it to a tune. You cannot see a thing that fine, so I listened. When it sang true I stopped, and it sang true two summers ago and I have not been able to stop since.' She looks at the poles. 'It rings at pipe {pitch(crate) in words} of the Cut, I think. I have never heard the Cut. I have been told. I don't know what happens when a mirror this size meets a wind like that.'".
@@ -64,6 +69,7 @@ Module pitchpass "The Pitch of the Glass" {
   }
   Topic lathe_asks with lathe "Ask Lathe what he wants" when true once {
     Says "'A mirror that makes one lamp do nine lamps' work,' says Lathe pleasantly, 'is a fine thing for the Star-Readers. I would like to know what it does for me. Forty crowns, and a slip on the Shelf. Mules do slip. I would only ask that it be thorough.'".
+    On discuss { Assert knows(actor, lathe_known). }
   }
   Topic lathe_take with lathe "Take his forty crowns" answering lathe_asks when true {
     Says "He counts it into your hand, coin by coin, without any hurry. 'On the Shelf,' he says. 'There is a place where the lashing runs along the lip. You'll know it.'".
@@ -74,6 +80,7 @@ Module pitchpass "The Pitch of the Glass" {
   }
   Topic lathe_trade with lathe "Ask Lathe what a tower pays for oil" when true once {
     Says "'Rape, by the gallon, three coin. Whale, better, five, when there is whale. The whalers have stopped coming up the coast,' says Lathe, 'and I've been feeding the lower tower with rape for two winters, and it smokes. They love me for it. Do you know what it is to be loved by nine towers? It is like being an anchor.'".
+    On discuss { Assert knows(actor, oil_known). }
   }
 
   Person lintern "Tobiah Lintern" at cairn {
