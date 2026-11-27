@@ -145,8 +145,11 @@ describe('the raider-hold kit in play', () => {
     expect([event.response, ...(event.perceptions ?? []).map(p => p.text)].join(' ')).toContain('Said don\'t touch nothing');
     expect(s.campaign.world.test(ModuleWriter.call('hostile', 'knotFolk__gaffer', 'party'))).toBe(true);
   }, 60000);
+  // The hold-up is the band's fortune on its road for the day (fortune(band, road) <= 6, the day's die keyed by the
+  // seed and the day, OR-1345): seed a2 is one whose first day it falls on (its die 94, the band's fortune 1), where
+  // a's (29) holds nobody up all that day.
   it('has outlaws who stop a company on their road by day, and let it go for road-money', async () => {
-    const s = await PlaySession.start(Compose.outlaws, 'a', NodeBundleSource.shared);
+    const s = await PlaySession.start(Compose.outlaws, 'a2', NodeBundleSource.shared);
     Compose.put(s, 'fells__alders');
     let stopped;
     for (let h = 0; h < 10 && !stopped; h++) {
@@ -160,7 +163,7 @@ describe('the raider-hold kit in play', () => {
     expect(s.campaign.world.test(ModuleWriter.call('tolerates', 'fellFolk__band', 'party'))).toBe(true);
   }, 60000);
   it('lets a demand die with the men who made it', async () => {
-    const s = await PlaySession.start(Compose.outlaws, 'a', NodeBundleSource.shared);
+    const s = await PlaySession.start(Compose.outlaws, 'a2', NodeBundleSource.shared);
     Compose.put(s, 'fells__alders');
     const demanding = () => s.campaign.world.test(ModuleWriter.call('fellFolk__demanding', 'fellFolk__band'));
     for (let h = 0; h < 10 && !demanding(); h++) { await s.leg('wait_hour'); }
