@@ -25,7 +25,8 @@ export interface Brought { text: string; own?: true; at?: string }
 export interface Condition { hp: number; weary: boolean; hungry: boolean; dark: boolean }
 // What a journey does to the campaign: one ordinary command at a time, as the page would do it.
 export interface Traveller {
-  campaign: Campaign; perform(command: string, said: string): Promise<CampaignEvent>;
+  // id: the act the way's row is of, as the row it was chosen from has it, so that it is not looked for again.
+  campaign: Campaign; perform(command: string, said: string, id: string): Promise<CampaignEvent>;
 }
 
 // Travel along known ways: going somewhere the company knows how to reach without choosing every leg of it. The way
@@ -93,7 +94,8 @@ export class Travel {
     }
     const before = this.condition(t.campaign);
     // The leg is the journey's: it may cross into the next hex, as no command of the page's may (Campaign.bounded).
-    const event = await t.campaign.crossing.travelling(leg.to, () => t.perform(choice.choice.id, choice.choice.name));
+    const event = await t.campaign.crossing.travelling(leg.to, () => t.perform(choice.choice.id, choice.choice.name,
+      choice.action.id));
     const made: Journeyed['legs'][number] = { command: choice.choice.id, said: choice.choice.name, event,
       ...this.brought(t.campaign, event, leg.to) };
     done.legs.push(made);

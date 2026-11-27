@@ -149,8 +149,8 @@ export class PlaySession {
   // Whether the company can wait: the wait's rows alone, not the whole frame (PlayerView.only).
   private static readonly waits: ReadonlySet<string> = new Set(['wait']);
   // A leg of a journey, as Travel.go takes it (its words aside), its fight the controller's.
-  private travelled(controller: CombatController, command: string): Promise<CampaignEvent> {
-    return this.perform(command, controller);
+  private travelled(controller: CombatController, command: string, _said: string, id: string): Promise<CampaignEvent> {
+    return this.perform(command, controller, id);
   }
   // Where an offered command goes, if it goes anywhere; and, for a driver of the page's engine, where it goes if that
   // is into another hex, which the page sets out on as a journey (a travel request), never as the command itself.
@@ -162,7 +162,8 @@ export class PlaySession {
     const to = this.whither(command), from = this.campaign.world.one('at', this.campaign.playerActor ?? 'party');
     return to && from && HexBoundary.crosses(this.campaign.module, from, to) ? to : undefined;
   }
-  async perform(command: string, controller: CombatController = PlaySession.auto): Promise<CampaignEvent> {
+  // id: the act the command is of, where the one who asks has it already (a journey's leg, its way's row: OR-1361).
+  async perform(command: string, controller = PlaySession.auto, id?: string): Promise<CampaignEvent> {
     if (this.busy) { throw new Error('A command is already in progress'); }
     if (command.startsWith('follow:')) {
       const followed = this.follow(command.slice('follow:'.length));
@@ -170,13 +171,13 @@ export class PlaySession {
       this.receipts.push(this.last.receipt(this.steps.length, followed.result));
       return followed;
     }
-    const { id, aims } = Costs.time('resolve', () => this.resolving(command));
+    const { id: act, aims } = Costs.time('resolve', () => this.resolving(command, id));
     // Open from resolved to committed: no save, no frame meanwhile.
-    this.campaign.command = id;
+    this.campaign.command = act;
     const open = this.last = new OpenCommand(command);
     const combat: Command[] = [], barked: Voiced[] = [];
     try {
-      const event = await this.campaign.executeAsync(id, async battle => {
+      const event = await this.campaign.executeAsync(act, async battle => {
         // What fighters said in the fights before is not said again in this one (see Barks).
         battle.heard(Barks.before([...this.campaign.history.flatMap(e => e.voiced ?? []), ...barked]));
         while (!battle.state.outcome) {
@@ -227,8 +228,8 @@ export class PlaySession {
   }
   // The command's action, and the aims held before it; the step of the aim to follow, done, takes the aim up first
   // (one row, one act: HeldLead, OR-466).
-  private resolving(command: string): { id: string; aims: string[] } {
-    const id = PlayerView.resolve(this.campaign, command);
+  private resolving(command: string, known?: string): { id: string; aims: string[] } {
+    const id = known ?? PlayerView.resolve(this.campaign, command);
     const takes = HeldLead.taken(this.campaign, command, this.campaign.operator(id));
     if (takes) { this.follow(takes); }
     return { id, aims: Undertakings.held(this.campaign).map(o => o.id) };
