@@ -1,4 +1,5 @@
 import { SingleModule } from '../../src/campaign/single-module';
+import type { BundleSource } from '../../src/campaign/bundle-source';
 import { PlaySession } from '../../src/session/play-session';
 import { Journey } from '../../src/session/journey';
 import type { CreatureGenerationContext } from '../../src/content';
@@ -36,10 +37,11 @@ export class Tiny {
   private constructor(readonly journey: Journey) { this.look(); }
   // The module's body (or a whole `Module t "…" { … }`), the company's members, and any other rules it reads; and the
   // land of its place `region` where it has one drawn by hand, its open country as places t0, t1… (see LandModel).
-  // horizon: the packages of the shared rules it is proved among, beyond the kernel (rules: the whole set, by default).
+  // horizon: the packages of the shared rules it is proved among, beyond the kernel (rules: the whole set, by default);
+  // base: the source of the rules, where a spec lays its own over them.
   static async start(kyr: string, options: { party?: CreatureGenerationContext[]; rules?: string[];
     horizon?: string[]; seed?: string; chart?: LandChart; calendar?: CalendarStart; canon?: string[]; own?: boolean;
-    night?: 'none'; currency?: string; earned?: boolean } = {}): Promise<Tiny> {
+    night?: 'none'; currency?: string; earned?: boolean; base?: BundleSource } = {}): Promise<Tiny> {
     if (options.horizon && options.rules) { throw new Error('A tiny world takes a horizon or its rules, not both'); }
     const horizon = options.horizon && new Horizon(options.horizon);
     const started = () => Tiny.started(kyr, horizon

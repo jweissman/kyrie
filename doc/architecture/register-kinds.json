@@ -3612,6 +3612,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "27 Nov, found declaring the rule packages (BX-02): a declaration in the wrong package, waiting on a re-digest; not an observed violation of a player-facing contract"
+  },
+  "OR-1582": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov, split from OR-407: the specs' cost (each fragment on its horizon), a maturity task, not an observed violation of a player-facing contract"
   }
  },
  "blockedBy": {
