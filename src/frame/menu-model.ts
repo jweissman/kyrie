@@ -91,7 +91,9 @@ export class MenuModel {
   // the frame's menu is held equal to (test/menu-tree).
   static resting(found: Scene, opened: Set<string>, frame: Omit<Frame, 'menu'>): Menu {
     const screen = frame.screen, inside = MenuModel.inside(screen);
-    const kept = { ...found, you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen)
+    // Each talk's row done by its command (MenuTree.turning: the owner's one "Talk to" row, OR-1451).
+    const kept = { ...found, subjects: found.subjects.map(x => ({ ...x, choices: x.choices.map(MenuTree.turning) })),
+      you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen)
       : /^prepare:/.test(c.id) ? this.preparing(c, screen) : c) };
     // On a road the page draws what the glance leads with, as a place does (the fresh ruts the father's cart went off
     // by had been one of four things under "By the road": Mission 19).

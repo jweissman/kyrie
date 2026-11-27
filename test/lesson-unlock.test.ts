@@ -3,6 +3,7 @@ import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
 import type { CreatureStore } from '../src/creature-store';
 import { RunnerFind } from './support/runner-find';
+import { TalkWay } from './support/talk-way';
 
 // A new verb, and how it is opened (round 9's diagnosis of the owner's OR-60: "or unlock new adventuring verbs"): the
 // drill-yard named its lessons, "only to one who has done enough out in the world to have earned it", and never what
@@ -33,8 +34,9 @@ describe('a lesson at the drill-yard', () => {
     s = await Yard.act(r, r.said() as Said, /^Ask Ebba for a lesson$/);
     expect(s.scene.lines.join(' ')).toMatch(/You have earned a lesson\. Come back with 20 coin/);
     j.coin(25);
-    s = r.said() as Said;
-    expect([...s.offer.primary, ...s.offer.rest].map(o => o.label)).toEqual(expect.arrayContaining([
-      expect.stringMatching(/^Train Wenna in (Taunt|Riposte|Rapid Strike)/)]));
+    // The lesson is had of her under her Trade (the talk's question: OR-1451).
+    const taught = /^Train Wenna in (Taunt|Riposte|Rapid Strike)/;
+    const lesson = await TalkWay.find(r, r.said() as Said, o => taught.test(o.label));
+    expect(lesson.o?.label).toMatch(taught);
   }, 120000);
 });

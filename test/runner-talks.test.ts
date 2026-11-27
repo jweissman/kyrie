@@ -31,11 +31,13 @@ describe('the runner holds what is said to someone under their talk', () => {
       .not.toContain('the taproom of the Stone Horn');
     // What can be said to him is the engine's question (OR-1451), as the page draws it: a page of it at a time, the
     // next by its own row (focus:page), what is had of him for coin under Trade (focus:trade:on), talk before trade.
-    const pages: Said[] = [his];
+    // (Asked from the place, his question leaves the company where it stands; turned to, his talk is open.)
+    const opened = said(await r.ask(JSON.stringify({ act: 'talk:region__s1_innkeeper' })));
+    const pages: Said[] = [opened];
     for (let n = 0; n < 8; n++) {
       const next = pages.at(-1)!.offer.primary.find(o => o.does?.startsWith('focus:page:'));
       const page = next && said(await r.ask(JSON.stringify({ act: next.does })));
-      if (!page || page.offer.primary.map(o => o.id).join() === his.offer.primary.map(o => o.id).join()) { break; }
+      if (!page || page.offer.primary.map(o => o.id).join() === opened.offer.primary.map(o => o.id).join()) { break; }
       pages.push(page);
     }
     const all = pages.flatMap(p => [...p.offer.primary, ...p.offer.rest]), labels = all.map(o => o.label);
@@ -46,7 +48,7 @@ describe('the runner holds what is said to someone under their talk', () => {
     expect(trading.offer.primary.some(o => /^buy_item\(region__s1_innkeeper_/.test(RunnerOffer.act(o)))).toBe(true);
     said(await r.ask(JSON.stringify({ act: 'focus:trade:off' })));
     // (A question to him led among the four is titled short, "Kynes: what is out in the country round": OR-802.)
-    expect(his.offer.primary.filter(o => /^(Ask Kynes|Kynes: )/.test(o.label)).length).toBeGreaterThan(0);
+    expect(opened.offer.primary.filter(o => /^(Ask Kynes|Kynes: )/.test(o.label)).length).toBeGreaterThan(0);
     // What he has heard of far places is one question, as the page asks it (CL-67): the word of the country and the
     // lands beyond had stood as thirteen asks, each by name, in the runner's rows where the page asked him once.
     expect([...new Set(all.filter(o => /^ask\(|_beyond_told_/.test(RunnerOffer.act(o))).map(o => o.label))])

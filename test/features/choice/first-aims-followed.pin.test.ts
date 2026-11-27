@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'bun:test';
 import { PlayTool } from '../../../src/cli/play-tool';
-import { Runner, type Said } from '../../../src/cli/runner';
+import { Runner } from '../../../src/cli/runner';
 import { ScreenModel } from '../../../src/ui/screen-model';
 import { Milestones } from '../../../src/lang';
 import { ContinuityCensus } from '../../../scripts/continuity-census';
 import { AsMeant } from '../../support/as-meant';
 import { GoldenWalk } from '../../support/golden-walk';
 import { HonestPlayer } from '../../support/honest-player';
+import { TalkWay } from '../../support/talk-way';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. Choice and consequence › The First Aims followed
 // (OR-468): the warrior's walk, then the page's lead alone (HonestPlayer) until the undertaking is there to take up;
@@ -14,10 +15,6 @@ import { HonestPlayer } from '../../support/honest-player';
 // workings under the town, to their second level; then, Dai going with the company from the adit, the green, where
 // the Rì's proclamation is posted), the aim followed going on into its next part as it arises; held each turn by the
 // continuity census's focus and undertaking invariants; and the Notes say which of its parts are done.
-type Row = { id: string; label: string; opens?: Row[] };
-const flat = (rs: Row[]): Row[] => rs.flatMap(x => [x, ...flat(x.opens ?? [])]);
-const rows = (s: Said): Row[] => flat([...s.offer?.primary ?? [], ...s.offer?.rest ?? [],
-  ...Object.values(s.offer?.lenses ?? {}).flat()] as Row[]);
 describe('Choice and consequence › The First Aims followed', () => {
   it('leads to each part in turn under the gold, focus held, the Notes saying which parts are done', async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
@@ -28,7 +25,7 @@ describe('Choice and consequence › The First Aims followed', () => {
     for (const step of ['^Read the notice on the well-post', "^To Holgar's salt-house",
       '^Holgar: the rats in the corn-store', '^Buy a torch for', '^To the old corn-store', '^Light a torch',
       '^Down to the corn-store cellar']) {
-      const row = rows(r.said('look')).find(x => new RegExp(step, 'i').test(x.label));
+      const row = (await TalkWay.find(r, r.said('look'), x => new RegExp(step, 'i').test(x.label))).o;
       expect([step, row?.label]).toEqual([step, expect.any(String)]);
       await AsMeant.ask(r, JSON.stringify({ act: row!.id }));
     }

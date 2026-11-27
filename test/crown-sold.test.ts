@@ -32,9 +32,14 @@ describe('the crown of the first king, sold', () => {
     await take(r, /^Talk to the Guldríce agent/);
     const coin = (w: typeof c.world) => w.number(ModuleWriter.call('quantity', 'party', 'gold'));
     const before = coin(c.world);
+    // Sold under his Trade (the talk's question, OR-1451).
+    await take(r, /^Trade$/);
     expect(said(await take(r, /^Sell the crown of the first king to the Guldríce agent/)).scene.lines.join(' '))
       .toContain('pays you 380 coin');
     expect(c.world.test(ModuleWriter.call('won', 'region__w8_rivals'))).toBe(true);
+    // Back from his trade, and his leave taken (the place's acts are the place's: OR-1451), then a while waited.
+    await take(r, /^Back$/);
+    await take(r, /^Take your leave/);
     await take(r, /^Wait a while/);
     expect((await asks(r)).filter(l => /about the king-barrow/.test(l))).toEqual([]);
     const again = PlaySession.resume(JSON.parse(JSON.stringify(journey.session.checkpoint())));

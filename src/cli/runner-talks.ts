@@ -36,7 +36,7 @@ export class RunnerTalks {
       || o.id === `${p}#talk`)).flatMap(p => {
       // Never one the four lead with: it is drawn there.
       const row = Doable.flat(rows).find(r => r.id === `${p}#talk` && !r.led);
-      return row ? [{ id: row.id, label: row.label, ...row.does ? { does: row.does } : {}, aspects: [],
+      return row ? [{ id: row.id, label: row.label, does: row.does ?? `focus:talk:${p}`, aspects: [],
         type: 'talk' as const, marks: [] }] : [];
     });
   }

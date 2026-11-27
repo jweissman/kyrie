@@ -25,7 +25,6 @@ import { RunnerLed } from './runner-led';
 import { Glance } from '../presentation/glance';
 import { Promotion } from '../ui/promotion';
 import { RunnerOffer, type Kept } from './runner-offer';
-import { Doable } from '../presentation/doable';
 import { DoableJourneys } from '../presentation/doable-journeys';
 import { Itineraries } from '../ui/itinerary';
 import { RunnerTalks } from './runner-talks';
@@ -294,9 +293,7 @@ export class Runner {
     // or by talk:<person>, the cold plays' kept lines' (an alias of focus:talk:<person>, the session's own: OR-1451).
     const holder = row?.id === asked.act && !row.does ? /^(.+)#talk$/.exec(asked.act)?.[1] : undefined;
     const turned = /^talk:(.+)$/.exec(asked.act)?.[1] ?? holder;
-    if (turned && g && [...RunnerTalks.whose(Doable.of(g, screen)).values()].includes(turned)) {
-      return this.focused(`focus:talk:${turned}`);
-    }
+    if (turned) { return this.focused(`focus:talk:${turned}`); }
     if (act.startsWith('focus:')) { return this.focused(act); }
     // Talking to the one already talked with greets no one again: it turns back to what is said (the owner's ruling,
     // OR-1451: "Talk to" turns and greets in one act only when not already talking).

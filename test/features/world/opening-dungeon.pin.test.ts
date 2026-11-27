@@ -6,6 +6,7 @@ import { ModuleWriter } from '../../../src/lang/module-writer';
 import { ScreenModel } from '../../../src/ui/screen-model';
 import { AsMeant } from '../../support/as-meant';
 import { GoldenWalk } from '../../support/golden-walk';
+import { TalkWay } from '../../support/talk-way';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. World › The opening dungeon, unmistakable (OR-311;
 // the owner's playtest of 23-24 November: "the loop: notice the dungeon, prepare, recruit, explore, face danger,
@@ -26,10 +27,12 @@ describe('World › The opening dungeon, unmistakable', () => {
     for (const line of GoldenWalk.lines().slice(0, GoldenWalk.opened())) { await AsMeant.ask(r, line); }
     let s = r.said('look'), fights = 0;
     const holds = (name: string, ...args: string[]) => c.world.test(ModuleWriter.call(name, ...args));
-    const row = (words: string) => rows(s).find(x => new RegExp(words, 'i').test(x.label));
     const play = async (steps: string[]) => {
       for (const step of steps) {
-        const found = step === 'through' ? undefined : row(step);
+        // Found as the page's player finds it, a talk open (TalkWay, OR-1451).
+        const way = step === 'through' ? undefined : await TalkWay.find(r, s, x => new RegExp(step, 'i').test(x.label));
+        if (way) { s = way.said; }
+        const found = way?.o;
         if (step !== 'through') { expect([step, found?.label]).toEqual([step, expect.any(String)]); }
         const said = await AsMeant.ask(r, JSON.stringify({ act: found?.id ?? RunnerFight.through }));
         expect([step, 'error' in said ? said.error : '']).toEqual([step, '']);

@@ -55,10 +55,8 @@ export class MenuTree {
     const tops = [...found.subjects.flatMap(s => s.choices), ...found.near, ...found.far, ...found.you];
     const openers = new Set(Attending.all(tops).filter(c => c.children?.length).map(c => c.id));
     const full = MenuModel.resting(found, openers, frame);
-    const scene = { ...full.scene!, subjects: full.scene!.subjects
-      .map(x => ({ ...x, choices: x.choices.map(MenuTree.turning) })) };
-    const node: Omit<MenuNode, 'marks'> = { choices: this.flattened(full.choices, tops).map(MenuTree.turning),
-      sections: full.sections, scene, destinations: full.destinations ?? [], around: full.around ?? [], under: {},
+    const node: Omit<MenuNode, 'marks'> = { choices: this.flattened(full.choices, tops), sections: full.sections,
+      scene: full.scene!, destinations: full.destinations ?? [], around: full.around ?? [], under: {},
       ...full.overland ? { overland: [...full.overland] } : {}, ...full.leads ? { leads: full.leads } : {},
       ...full.leading ? { leading: [...full.leading] } : {}, ...full.said ? { said: [...full.said] } : {},
       ...full.sheets ? { sheets: full.sheets } : {} };

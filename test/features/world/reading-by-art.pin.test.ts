@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { PlayTool } from '../../../src/cli/play-tool';
 import { Runner, type Said } from '../../../src/cli/runner';
 import { Placed } from '../../support/placed';
+import { TalkWay } from '../../support/talk-way';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. World › Reading by art (OR-1099; the research of 26
 // November, doc/design/research-abilities-and-the-world-2026-11-26.md, slice 1): an ability reaches the world by what
@@ -26,7 +27,9 @@ describe('World › Reading by art', () => {
       s = said as Said;
     };
     const act = async (words: string) => {
-      const found = rows(s).find(x => new RegExp(words, 'i').test(x.label));
+      // Found as the page's player finds it, a talk open (TalkWay, OR-1451).
+      const way = await TalkWay.find(r, s, x => new RegExp(words, 'i').test(x.label)), found = way.o;
+      s = way.said;
       if (!found) { throw new Error(`${words} not among ${rows(s).map(x => x.label).join(' | ')}`); }
       await say(found.id);
     };

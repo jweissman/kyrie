@@ -3,6 +3,7 @@ import { PlayTool } from '../../../src/cli/play-tool';
 import { Runner, type Said } from '../../../src/cli/runner';
 import { RunnerFight } from '../../../src/cli/runner-fight';
 import { ScreenModel } from '../../../src/ui/screen-model';
+import { TalkWay } from '../../support/talk-way';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. World › The reference loop (the owner, 25 November:
 // doc/design/direction-2026-11-25-reference-game.md §1, "one tiny settlement → one nearby wilderness → discoverable
@@ -42,12 +43,15 @@ describe('World › The reference loop', () => {
     };
     const to = (place: string) => say(`exit:${P(place)}`);
     const act = async (words: string) => {
-      const found = rows(s).find(x => new RegExp(words, 'i').test(x.label));
+      // Found as the page's player finds it, a talk open (TalkWay, OR-1451).
+      const way = await TalkWay.find(r, s, x => new RegExp(words, 'i').test(x.label)), found = way.o;
+      s = way.said;
       if (!found) { throw new Error(`${words} at ${at()} not among ways ${rows(s).filter(x => /^(exit|travel)/.test(x.id)).map(x => x.id).join(' ')}; ${rows(s).map(x => x.label).join(' | ')}`); }
       await say(found.id);
     };
     const maybe = async (words: string) => {
-      const found = rows(s).find(x => new RegExp(words, 'i').test(x.label));
+      const way = await TalkWay.find(r, s, x => new RegExp(words, 'i').test(x.label)), found = way.o;
+      s = way.said;
       if (found) { await say(found.id); }
       return !!found;
     };
@@ -121,6 +125,8 @@ describe('World › The reference loop', () => {
     // A night in the town, and down again: the ways found are still known, the bats lie dead where they fell, and
     // something from deeper has moved into the room they held (DeepTime: one band a level, the first dawn after the
     // company has gone off it).
+    // (The store's talk put by first: its ways and waits are the place's, OR-1451.)
+    if (TalkWay.talking(s)) { await say('focus:place'); }
     if (rows(s).some(x => /^Wait until dark/.test(x.label))) { await act('^Wait until dark'); }
     await act('^Wait until first light');
     await to('green'); await to('wood_edge'); await to('wood_ride'); await to('wood_burners'); await to('wood_stones');

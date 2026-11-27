@@ -66,11 +66,8 @@ export class Focusing {
     const { focus, conversation: was, op, event, campaign } = at, schema = op?.schema;
     const ended = at.moved || at.fought || !campaign.running || schema === 'take_leave';
     if (ended) { return { focus: this.place }; }
-    // Something said to someone from the place (their talk led for that question: one row, the talk and the question
-    // in it) turns to them as it is said, as talking to them does.
-    const speaker = focus.kind === 'place' && op?.speaker && this.there(campaign, op.speaker) ? op.speaker : undefined;
-    if (schema === 'talk_to' || speaker) {
-      const person = speaker ?? this.whom(op);
+    if (schema === 'talk_to') {
+      const person = this.whom(op);
       if (!person) { return { focus: this.place }; }
       const again = focus.kind === 'talk' && focus.with === person && was;
       return { focus: { kind: 'talk', with: person, page: 0, trading: false },

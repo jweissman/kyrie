@@ -16,7 +16,7 @@ describe('a game served a line at a time', () => {
     const card = await serve.handle({ op: 'card', id: 'region__s1_merchant' }) as { card: { name: string } };
     expect(card.card.name).toBe('Tuck, woodwright');
     const kept = await serve.handle({ op: 'checkpoint' }) as { checkpoint: { version: number } };
-    expect(kept.checkpoint.version).toBe(1);
+    expect(kept.checkpoint.version).toBe(2);
     await expect(serve.handle({ op: 'nothing' })).rejects.toThrow('No such op');
   }, 120000);
 });
