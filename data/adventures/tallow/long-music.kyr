@@ -1,0 +1,73 @@
+Module tallow "Tallow Deep" {
+  Relation lcMusicPlaying(group). Relation lcMusicRound(group).
+  Measure lcMusicGood(group). Measure lcMusicMissed(group). Measure lcMusicDue(group). Measure lcMusicRoundDue(group).
+
+  Action lc_music_start(actor: group, site: place) "Play a road tune with the travelling players" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, west_end)
+      and at(lc_cell, site) and able(lc_cell) and lc_cell_kind(lc_musicians)
+      and not lcCellSongTried(actor) and not lcCellDefied(actor) and not lcCellPaid(actor)
+      and not lcCellLeft(actor) and not lcTruce(actor) and quantity(lc_cell, rations) >= 1
+      and watch(clock) + 1 < lcCellWalkDue(actor).
+    Time 10 minutes.
+    On success {
+      Assert lcCellSongTried(actor). Assert lcMusicPlaying(actor). Set lcMusicDue(actor) to watch(clock) + 4.
+    }
+    Result "The fiddler lifts her bow. 'Two good turns before two missed ones, and we will share a ration. We must be on the road in half an hour.'".
+  }
+  Observe lc_music_score at west_end when lcMusicPlaying(party)
+    and at(lc_cell, west_end) and able(lc_cell)
+    "The players have counted {lcMusicGood(party)} good turns and {lcMusicMissed(party)} missed.".
+  Action lc_music_melody(actor: group, site: place) "Carry the melody" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, west_end)
+      and at(lc_cell, site) and able(lc_cell) and lcMusicPlaying(actor) and not lcMusicRound(actor)
+      and watch(clock) + 1 <= lcMusicDue(actor).
+    Time 10 minutes.
+    Resolve check(actor, performance, dc_fair).
+    On success { Increase lcMusicGood(actor) by 1. Assert lcMusicRound(actor). Set lcMusicRoundDue(actor) to watch(clock) + 1. }
+    On failure { Increase lcMusicMissed(actor) by 1. Assert lcMusicRound(actor). Set lcMusicRoundDue(actor) to watch(clock) + 1. }
+    Result "You take the tune from the fiddle and carry it on.".
+    Otherwise "The tune slips; the fiddler catches it before it reaches the ditch.".
+  }
+  Action lc_music_listen(actor: group, site: place) "Listen for the fiddler's next turn" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, west_end)
+      and at(lc_cell, site) and able(lc_cell) and lcMusicPlaying(actor) and not lcMusicRound(actor)
+      and watch(clock) + 1 <= lcMusicDue(actor).
+    Time 10 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Increase lcMusicGood(actor) by 1. Assert lcMusicRound(actor). Set lcMusicRoundDue(actor) to watch(clock) + 1. }
+    On failure { Increase lcMusicMissed(actor) by 1. Assert lcMusicRound(actor). Set lcMusicRoundDue(actor) to watch(clock) + 1. }
+    Result "You wait for the turn in her bow and answer it.".
+    Otherwise "You come in too early. The fiddler keeps playing and raises an eyebrow.".
+  }
+  Rule lc_music_round_finished when lcMusicPlaying(party) and lcMusicRound(party)
+    and at(party, west_end) and able(party) and at(lc_cell, west_end) and able(lc_cell)
+    and not lcCellDefied(party) and not lcCellPaid(party) and not lcTruce(party)
+    and watch(clock) >= lcMusicRoundDue(party) {
+    Retract lcMusicRound(party).
+  }
+  Rule lc_music_won when lcMusicPlaying(party) and not lcMusicRound(party) and lcMusicGood(party) >= 2
+    and at(party, west_end) and able(party) and at(lc_cell, west_end) and able(lc_cell)
+    and not lcCellDefied(party) and not lcCellPaid(party) and not lcTruce(party)
+    and quantity(lc_cell, rations) >= 1
+    says "The fiddler stops on the last note. 'That will do.' Her companion breaks a ration from their pack and gives it to you. 'The guard will have to sing for the rest.' They pick up the pack." {
+    Decrease quantity(lc_cell, rations) by 1. Increase quantity(party, rations) by 1.
+    Retract lcMusicPlaying(party).
+  }
+  Rule lc_music_lost when lcMusicPlaying(party) and not lcMusicRound(party) and lcMusicMissed(party) >= 2
+    and at(party, west_end) and able(party) and at(lc_cell, west_end) and able(lc_cell)
+    and not lcCellDefied(party) and not lcCellPaid(party) and not lcTruce(party)
+    says "The fiddler gives the last note to her companion, who gets it wrong too. 'That is a fair way to end,' she says. They pick up the pack." {
+    Retract lcMusicPlaying(party).
+  }
+  Rule lc_music_time when lcMusicPlaying(party) and not lcMusicRound(party)
+    and lcMusicGood(party) < 2 and lcMusicMissed(party) < 2 and watch(clock) >= lcMusicDue(party)
+    and at(party, west_end) and able(party) and at(lc_cell, west_end) and able(lc_cell)
+    says "'We must go,' says the fiddler. She puts the bow away and picks up the pack." {
+    Retract lcMusicPlaying(party).
+  }
+  Rule lc_music_abandoned when lcMusicPlaying(party)
+    and (not at(party, west_end) or not able(party) or not at(lc_cell, west_end) or not able(lc_cell)
+    or lcCellDefied(party) or lcCellPaid(party) or lcCellLeft(party) or lcTruce(party)) {
+    Retract lcMusicPlaying(party). Retract lcMusicRound(party).
+  }
+}

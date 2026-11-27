@@ -1,0 +1,77 @@
+Module quittance "Quittance" {
+  Relation quCoinFound(group). Relation quQuornRead(group). Relation quEvidence(group).
+  Relation quGift(group). Relation quRejected(group). Relation quBoardRead(group).
+  Discovery qu_claim_known "The Old Exchange's first roll records the names its later clerks called unclaimed.".
+
+  Observe qu_coin_hint at cellar_arcade when not quCoinFound(party)
+    "At the end of the arcade, a queue-stone rocks underfoot. Its underside is green with old bronze.".
+  Action qu_find_coin(actor: group, site: place) "Turn the loose queue-stone in the Old Exchange" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cellar_arcade) and not quCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert quCoinFound(actor). Give count_coin to actor. }
+    Result "A worn coin rolls into the dust. Its face once showed a clerk with a stylus; only the hand remains. Tenants used to put it beneath the Exchange queue-stone as surety for the next winter's coal.".
+  }
+  Observe qu_count_exchange at cellar_arcade when befell(ash_count_begun) and not befell(ash_broken)
+    "A grey board has been set beside the old Exchange queue. The clerk now asks for a name before he asks what is owed.".
+  Observe qu_ash_broken at cellar_arcade when befell(ash_broken)
+    "The board is gone. The queue has become a queue again, with all its usual arguments.".
+  Observe qu_ash_triumphs at cellar_arcade when befell(ash_triumphs)
+    "The Exchange has shut its doors. A clerk reads its debtors into the street from a grey board.".
+
+  Person qu_mother "Mother Quorn" nowhere {
+    Role "the Ash's salvage valuer, who makes the Phoenix's old claims answer for the city's dead". Ancestry human. Calling thief. Level 5. Manner stoic. Carries dagger.
+    Arrives at cellar_arcade when befell(ash_count_begun) and not befell(quorn_broken) and not befell(quorn_served).
+    Greets "Mother Quorn sets a salvage ledger on the old Exchange desk. 'Every claim here has a value,' she says. 'The city never did learn the difference between a value and a life.'".
+    Greets again "'The Phoenix has not paid,' says Quorn. 'It has only delayed.'".
+  }
+  Person qu_fence "Quorn's salvage men" nowhere {
+    Role "the Ash's salvage guard, hired from the quay". Ancestry human. Calling warrior. Level 3. Numbers 4. Temperament obedient. Uses go, assail. Plans 5 steps.
+    Arrives at cellar_arcade when befell(ash_count_begun) and not befell(quorn_broken) and not befell(quorn_served).
+    Warns "Four salvage men shut the arcade's doors. They carry boat-hooks and a length of chain.".
+  }
+  Initially Assert serves(qu_fence, qu_mother).
+  Action qu_refuse_claim(actor: group, site: place) "Refuse Mother Quorn's claim on the Exchange queue" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cellar_arcade) and able(qu_mother) and not befell(quorn_broken).
+    Time 1 minute.
+    On success { Assert assails(qu_mother, actor). Assert assails(qu_fence, actor). }
+    Result "Quorn closes the ledger. The salvage men raise their hooks and close the way out.".
+  }
+  Action qu_search_roll(actor: group, site: place) "Search the coal ledger for the Exchange's first roll" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cellar_arcade) and not knows(actor, qu_claim_known).
+    Time 15 minutes.
+    On success { Assert knows(actor, qu_claim_known). Assert quEvidence(actor). }
+    Result "A roll is wedged behind the coal account. It names the tenants who paid surety for each other, before the Phoenix called them unclaimed and sold their claims to the highest bidder.".
+  }
+  Topic qu_show_roll with tench "Show Tench the Exchange's first roll" when knows(actor, qu_claim_known) and at(qu_mother, cellar_arcade) once {
+    Says "Tench matches each name to the old queue marks. 'They were sureties, not assets,' he says. He reads the roll aloud. Quorn closes her ledger and leaves the Exchange to its tenants.".
+    On discuss { Assert befell(quorn_broken). Retract at(qu_mother, cellar_arcade). Retract at(qu_fence, cellar_arcade). }
+  }
+  Action qu_buy_ledger(actor: group, site: place) "Pay Quorn to release the Exchange's claims" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cellar_arcade) and able(qu_mother) and quantity(actor, gold) >= 15 and not befell(quorn_broken).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 15. Assert befell(quorn_broken). Retract at(qu_mother, cellar_arcade). Retract at(qu_fence, cellar_arcade). }
+    Result "Quorn counts the gold without looking at it. 'A claim settled is a claim settled,' she says, and leaves the tenants their queue.".
+  }
+  Rule qu_mother_falls when at(qu_mother, cellar_arcade) and not able(qu_mother) and (not able(qu_fence) or routed(qu_fence)) and assails(qu_fence, party)
+    says "The salvage men drop their hooks. Quorn takes one last look at the queue-stone and goes up the steps alone." {
+    Assert befell(quorn_broken).
+  }
+  Action qu_serve_mother(actor: group, site: place) "Give Quorn the Exchange's salvage claims" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cellar_arcade) and able(qu_mother) and befell(company_sworn_ash) and not befell(quorn_served).
+    Time 5 minutes.
+    On success { Assert befell(quorn_served). Retract at(qu_mother, cellar_arcade). Retract at(qu_fence, cellar_arcade). Increase quantity(actor, gold) by 10. }
+    Result "Quorn gives you ten gold and a salvage mark. Barges carry the Exchange's silver east under the old claims.".
+  }
+  Topic qu_ri_oath with garrity "Tell Captain Garrity the company is sworn to the Rì" when befell(company_sworn_ri) and not quGift(actor) once {
+    Says "Garrity enters the company in the brigade's muster book. 'The Phoenix will call you unpaid,' she says. 'The Rì will know where to find you.'".
+    On discuss { Assert quGift(actor). Increase quantity(actor, gold) by 3. }
+  }
+  Topic qu_ash_oath with cray "Tell Cray the company is sworn to the Ash" when befell(company_sworn_ash) and not quRejected(actor) once {
+    Says "Cray draws a line through the company's account. 'The Sovereign does not insure a seat that has not been built,' he says, and withholds your advance.".
+    On discuss { Assert quRejected(actor). Assert refusesService(cray, actor). }
+  }
+  Topic qu_board with tench "Show Tench the company's grey board" when holding(actor, ash_tally) and not quBoardRead(actor) once {
+    Says "Tench sets the board against the queue-stone. The name in the twelfth column matches no surety on the Exchange roll. He breaks the slate into the coal scuttle.".
+    On discuss { Assert quBoardRead(actor). Spend ash_tally from actor. }
+  }
+}

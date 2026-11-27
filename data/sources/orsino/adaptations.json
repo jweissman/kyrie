@@ -1001,6 +1001,15 @@
       "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
     },
     {
+      "orsino": "ancestry:gnoll",
+      "kyr": [
+        "ancestry:gnoll"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Attribute modifiers, class options and racial traits with humanoid given at birth; Kyr also opens the commoner."
+    },
+    {
       "orsino": "ancestry:halfling",
       "kyr": [
         "ancestry:halfling"

@@ -1,6 +1,7 @@
 {
   "version": 1,
   "canon": [
+    "imbar",
     "inner_fire",
     "inner_earth",
     "inner_air",
@@ -10,7 +11,14 @@
     "remainder_harboured",
     "remainder_kept",
     "mechanus_seen",
-    "remainder_steadied"
+    "remainder_steadied",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs",
+    "spymaster_broken",
+    "spymaster_served"
   ],
   "source": [
     "clock.kyr",
@@ -43,6 +51,7 @@
     "growth.kyr",
     "lore.kyr",
     "callings.kyr",
+    "count.kyr",
     "placed.kyr"
   ],
   "rules": [

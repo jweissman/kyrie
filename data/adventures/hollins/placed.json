@@ -19,6 +19,7 @@
     "endings.kyr",
     "after.kyr",
     "lore.kyr",
+    "count.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -38,7 +39,12 @@
   },
   "canon": [
     "imbar",
-    "rose_made_whole"
+    "rose_made_whole",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
   ],
   "exports": {
     "party": "party",

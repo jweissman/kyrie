@@ -18,7 +18,9 @@ import { PlaceStage } from './place-stage';
 // Its kind (family: a glyph of emblems' places) is said in its words, and drawn only in the flows that open from the
 // scene: a glyph in the title would compete with the pips (the owner, 11 November).
 export class PlaceMark {
-  static readonly families = (Emblems.sets.places as unknown as { kinds: Record<string, string[]> }).kinds;
+  static get families(): Record<string, string[]> {
+    return (Emblems.sets.places as unknown as { kinds: Record<string, string[]> } | undefined)?.kinds ?? {};
+  }
   static readonly words: Record<string, string> = { town: 'a town', ruin: 'a ruin', shrine: 'a holy place',
     cave: 'under the ground', road: 'a road', wild: 'open country' };
   static View({ app }: { app: ReaderApp }) {

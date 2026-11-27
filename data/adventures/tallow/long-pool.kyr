@@ -1,0 +1,79 @@
+Module tallow "Tallow Deep" {
+  Discovery lc_pool_fishing "The keeper lends a line: a light tapping calls for a gentle pull, a hard pull for slack.".
+  Relation lcPoolCasting(group). Relation lcPoolDrying(group).
+  Measure lcPoolBite(group). Measure lcPoolBiteDue(group). Measure lcPoolAgain(group). Measure lcPoolReady(group).
+
+  Topic lc_pool_question with lc_ring_keeper "Ask whether anything lives in the pool" when not knows(actor, lc_pool_fishing) once {
+    Says "'Blind eels,' the keeper says. 'You may borrow my line. If it taps lightly, pull steadily; if it pulls hard, give it slack first. Do not leave a bite for half an hour. Bring one up and I will smoke it. That takes six hours, and I have room for one at a time.'".
+    On discuss { Assert knows(actor, lc_pool_fishing). }
+  }
+  Action lc_pool_cast(actor: group, site: place) "Cast the keeper's line into the pool" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring)
+      and at(lc_ring_keeper, site) and able(lc_ring_keeper) and knows(actor, lc_pool_fishing)
+      and not lcPoolCasting(actor) and not lcPoolDrying(actor) and lcPoolBite(actor) == 0
+      and watch(clock) >= lcPoolAgain(actor).
+    Time 10 minutes.
+    On success { Assert lcPoolCasting(actor). }
+    Result "You lower the keeper's line into the black water and wait.".
+  }
+  Rule lc_pool_empty when lcPoolCasting(party) and dice(clock) <= 25 {
+    Retract lcPoolCasting(party). Set lcPoolAgain(party) to watch(clock) + 12.
+  }
+  Rule lc_pool_taps when lcPoolCasting(party) and dice(clock) > 25 and dice(clock) <= 60 {
+    Retract lcPoolCasting(party). Set lcPoolBite(party) to 1. Set lcPoolBiteDue(party) to watch(clock) + 3.
+  }
+  Rule lc_pool_pulls when lcPoolCasting(party) and dice(clock) > 60 {
+    Retract lcPoolCasting(party). Set lcPoolBite(party) to 2. Set lcPoolBiteDue(party) to watch(clock) + 3.
+  }
+  Rule lc_pool_bite_lost when lcPoolBite(party) > 0 and watch(clock) >= lcPoolBiteDue(party) {
+    Set lcPoolBite(party) to 0. Set lcPoolAgain(party) to watch(clock) + 12.
+  }
+  Observe lc_pool_tap_seen at lc_ring when lcPoolBite(party) == 1 "The line taps lightly against your fingers.".
+  Observe lc_pool_pull_seen at lc_ring when lcPoolBite(party) == 2 "The line pulls hard against your fingers.".
+  Observe lc_pool_empty_seen at lc_ring when knows(party, lc_pool_fishing) and lcPoolBite(party) == 0
+    and not lcPoolDrying(party) and watch(clock) < lcPoolAgain(party)
+    "The pool is quiet. The keeper says to leave it undisturbed for two hours before trying again.".
+
+  Action lc_pool_gentle_tap(actor: group, site: place) "Pull the line steadily" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring) and at(lc_ring_keeper, site)
+      and able(lc_ring_keeper) and lcPoolBite(actor) == 1.
+    Time 10 minutes.
+    // The response takes one watch; smoking starts once the eel is landed.
+    On success { Set lcPoolBite(actor) to 0. Assert lcPoolDrying(actor). Set lcPoolReady(actor) to watch(clock) + 37. }
+    Result "A pale eel comes in with the line. The keeper puts it on her smoking rack. 'Six hours,' she says.".
+  }
+  Action lc_pool_slack_pull(actor: group, site: place) "Give the line slack" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring) and at(lc_ring_keeper, site)
+      and able(lc_ring_keeper) and lcPoolBite(actor) == 2.
+    Time 10 minutes.
+    On success { Set lcPoolBite(actor) to 0. Assert lcPoolDrying(actor). Set lcPoolReady(actor) to watch(clock) + 37. }
+    Result "The pull eases. You draw up a pale eel and the keeper puts it on her smoking rack. 'Six hours,' she says.".
+  }
+  Action lc_pool_gentle_pull(actor: group, site: place) "Pull the line steadily" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring) and at(lc_ring_keeper, site)
+      and able(lc_ring_keeper) and lcPoolBite(actor) == 2.
+    Time 10 minutes.
+    On success { Set lcPoolBite(actor) to 0. Set lcPoolAgain(actor) to watch(clock) + 13. }
+    Result "The line jerks once and goes slack. The keeper retrieves her hook. 'Let the pool settle,' she says.".
+  }
+  Action lc_pool_slack_tap(actor: group, site: place) "Give the line slack" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring) and at(lc_ring_keeper, site)
+      and able(lc_ring_keeper) and lcPoolBite(actor) == 1.
+    Time 10 minutes.
+    On success { Set lcPoolBite(actor) to 0. Set lcPoolAgain(actor) to watch(clock) + 13. }
+    Result "The tapping stops. The keeper pulls the empty hook in. 'Let the pool settle,' she says.".
+  }
+  Action lc_pool_collect(actor: group, site: place) "Collect the smoked eel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring) and at(lc_ring_keeper, site)
+      and able(lc_ring_keeper) and lcPoolDrying(actor) and watch(clock) >= lcPoolReady(actor).
+    Time 10 minutes.
+    On success {
+      Increase quantity(actor, rations) by 1. Retract lcPoolDrying(actor). Set lcPoolAgain(actor) to watch(clock) + 13.
+    }
+    Result "The keeper wraps the smoked eel. It will make a ration for the road.".
+  }
+  Observe lc_pool_smoking at lc_ring when lcPoolDrying(party) and watch(clock) < lcPoolReady(party)
+    "The eel is still on the keeper's smoking rack.".
+  Observe lc_pool_smoked at lc_ring when lcPoolDrying(party) and watch(clock) >= lcPoolReady(party)
+    "The smoked eel is ready to wrap.".
+}

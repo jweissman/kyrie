@@ -26,5 +26,7 @@ describe('foes in their likenesses', () => {
       Company party "You" of 1 at cellar.`);
     expect(f.combat!.foes.every(x => !!x.face)).toBe(true);
     expect(f.combat!.stage).toBe('portraits');
+    // On parchment, the engine's theme for a fight (OR-1493), as the backstage's folio is the Book's.
+    expect(f.combat!.theme).toBe('parchment');
   });
 });

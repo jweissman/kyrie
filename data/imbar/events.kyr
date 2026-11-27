@@ -37,4 +37,40 @@ Module canon "Imbar and the planes" {
   Entity pharos_lit: fact "The Pharos on Skerrow was left burning, and its keeper kept it.".
   Entity pharos_dark: fact "The Pharos on Skerrow went dark: its bronze was sold off the hill, or its engine was stilled and not fed.".
   Entity pharos_fed: fact "The pilot of the lamp under the Pharos on Skerrow was fed, and a green light shows on the Reach at night.".
+
+  // The long campaign's, at Tallow (branch copilot/meta-campaign-outline-20261127): the Ash's war, read everywhere.
+  // Tallow asserts the turn, the company's oath and the war's end; each of the Ash's eleven lieutenants is broken or
+  // served in an adventure of its own, and Tallow's war ledger reads every one. Nothing here says the Ash caused what
+  // an adventure already had: its agents come to use a consequence, not to make it.
+  Entity ash_count_begun: fact "The Ash has begun to count the marches: grey tally-boards stand in the squares between the Mere and the Calx, and the Ferryman's people write down who lives where.".
+  Entity merren_counted: fact "Merren Talwick, quartermaster of the Tallow road, was counted by the Ash's panes and taken out of the world.".
+  Entity company_sworn_ri: fact "A company hung a brass wheel on the Calx Gate's chain and sent Merren's count west to the Rì.".
+  Entity company_sworn_ash: fact "A company took the twelfth seat at the Ash's board, the one the Ferryman keeps empty.".
+  Entity ash_broken: fact "The Ash's line broke at the Calx, and its counters went east carrying their boards.".
+  Entity ash_triumphs: fact "The last march fell to the Ash, and a grey tally-board stands on the green at Swallet.".
+  // The Ash's eleven: a seat each at the Ferryman's board, and the twelfth kept empty for whoever will take it.
+  Entity hierophant_broken: fact "The Hierophant of the Blank, who preached that the twelfth place is owed to the Ash, has been silenced at Hexworth.".
+  Entity hierophant_served: fact "The Hierophant of the Blank has rung Hexworth's dusk bell for the Ash, and the town counts with her.".
+  Entity general_broken: fact "General Corvin Hask's column was turned back from Kell Ford, and the paved road is closed to the Ash.".
+  Entity general_served: fact "General Corvin Hask's column has crossed at Kell Ford on the old paved road.".
+  Entity tallymen_broken: fact "The Tallymen of Wickering are broken, and the people they had counted for sale walked out of the salt.".
+  Entity tallymen_served: fact "The Tallymen of Wickering have driven a coffle of counted people east across the Sere.".
+  Entity quorn_broken: fact "Mother Quorn's fences in the ashes of Quittance are closed, and her ledgers burned.".
+  Entity quorn_served: fact "Mother Quorn's barges carry the Ash's silver out of Quittance under salvage marks.".
+  Entity engineer_broken: fact "Master Iselt Brann, the Ash's engineer, was stopped at the Corrow before her hooks were set in the chain.".
+  Entity engineer_served: fact "Master Iselt Brann has set the Ash's hooks in the Corrow's chain, and the mountain answers to a winch.".
+  Entity heretic_broken: fact "Doctor Aumery Fell's tables were read out to the Parliament of Books at Calamy and found false.".
+  Entity heretic_served: fact "Doctor Aumery Fell's tables have gone east to the Ash, copied fair, from the Parliament of Books at Calamy.".
+  Entity redhand_broken: fact "Gethin Redhand's riders were held at the Gape, and the grass bridge still stands.".
+  Entity redhand_served: fact "Gethin Redhand's riders crossed the Gape and cut the bridge behind them.".
+  Entity glass_mage_broken: fact "Sabine of the Glass, who read too far in the fallen room at the Strewnfield, has been brought out of it, or buried.".
+  Entity glass_mage_served: fact "Sabine of the Glass has given the Ash what the fallen room at the Strewnfield shows.".
+  Entity stone_elf_broken: fact "Aeleth, the last watcher of the stones in the Lull, refused the Ash and was let go home.".
+  Entity stone_elf_served: fact "Aeleth, the last watcher of the stones in the Lull, watches for the Ash now.".
+  Entity turncoat_broken: fact "Captain Hollis Drey, who sold the Haddle company's colours, has been answered for on the glebe.".
+  Entity turncoat_served: fact "Captain Hollis Drey has led the Haddle company east under the Ash's grey.".
+  Entity councillor_broken: fact "Alderman Wystan Pellow's seat on the Wool Council at Pellam is empty, and his letters to the Ash are read out in the hall.".
+  Entity councillor_served: fact "Alderman Wystan Pellow has carried the Wool Council at Pellam for the Ash's terms.".
+  Entity spymaster_broken: fact "The Blue Cords' house at Sennet is shut, and their couriers on every road are known.".
+  Entity spymaster_served: fact "The Blue Cords' house at Sennet reads every letter that leaves the port for the Ash.".
 }

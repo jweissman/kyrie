@@ -1,0 +1,80 @@
+Module dorothea "The Dorothea" {
+  Relation dorCoinFound(group). Relation dorDangerSettled(group). Relation dorRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe dor_coin_hint at pharos_lamp when not dorCoinFound(party)
+    "One frame of the lamp-room glazing has fresh putty, pressed in by a thumb, not a knife.".
+  Action dor_find_coin(actor: group, site: place) "Prise out the freshly puttied pane" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pharos_lamp) and not dorCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert dorCoinFound(actor). Give count_coin to actor. }
+    Result "A sickle-woman remains under the green patina, one arm rubbed away. The road crew set it beneath the mile stone when the Pharos first took its night watch.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe dor_count_begins at road_end when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "A grey board stands at the road-end. The Dorothea’s crew is listed beside the salt cargo, as if a ship were a warehouse.".
+  Observe dor_count_broken at road_end when befell(ash_broken)
+    "The board is carried back inland. The Dorothea’s crew are left to their own manifest.".
+  Observe dor_count_triumph at road_end when befell(ash_triumphs)
+    "The port road takes orders from the Ash. The salt is counted before the ship is loaded.".
+  Observe dor_party_saved at road_end when dorDangerSettled(party)
+    "Captain Bascom gets the quay road back; the salt ships move without a press-gang on their heels.".
+
+  Person dor_counting_leader "Captain Gannet Dorr" nowhere {
+    Role "a press-captain who treats deckhands as freight on the Dorothea’s manifest". Ancestry human. Calling warrior. Level 5.
+    Temperament proud. Uses go, assail. Plans 5 steps.
+    Warns "Captain Gannet Dorr has closed the quay road with a chain. His press-gangers are ready to take the Dorothea’s crew.".
+  }
+  Person dor_counting_party "the three quay press-gangers" nowhere {
+    Role "port press-gangers trained to clear a quay before a ship sails". Ancestry human. Calling warrior. Level 2. Numbers 3.
+    Temperament obedient. Uses go, assail. Plans 4 steps.
+    Warns "Three press-gangers carry cudgels and a coil of chain. They wait for the Dorothea’s deckhands to come ashore.".
+  }
+  Initially Assert serves(dor_counting_party, dor_counting_leader).
+  Rule dor_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not dorDangerSettled(party) {
+    Assert at(dor_counting_party, road_end). Assert at(dor_counting_leader, road_end).
+  }
+  Action dor_fight(actor: group, site: place) "Keep Captain Dorr’s press-gang off the quay road" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road_end) and at(dor_counting_party, road_end) and at(dor_counting_leader, road_end) and not dorDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(dor_counting_party, actor). Assert assails(dor_counting_leader, actor). }
+    Result "Captain Gannet swings the quay chain across the road. Three press-gangers spread between the salt carts.".
+  }
+  Rule dor_force_broken when at(dor_counting_party, road_end) and at(dor_counting_leader, road_end) and (not able(dor_counting_party) or routed(dor_counting_party)) and (not able(dor_counting_leader) or routed(dor_counting_leader)) and assails(dor_counting_party, party) and assails(dor_counting_leader, party) {
+    Assert dorDangerSettled(party). Retract at(dor_counting_party, road_end). Retract at(dor_counting_leader, road_end).
+  }
+  Action dor_coin_way(actor: group, site: place) "Offer the old coin as passage through the road books" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road_end) and at(dor_counting_party, road_end) and at(dor_counting_leader, road_end)
+      and not dorDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert dorDangerSettled(actor). Retract at(dor_counting_party, road_end). Retract at(dor_counting_leader, road_end). }
+    Result "The sergeant reads the old rim and waves the deckhands through. His men return to the inland road.".
+  }
+  Action dor_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road_end) and at(dor_counting_party, road_end) and at(dor_counting_leader, road_end)
+      and not dorDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert dorDangerSettled(actor). Retract at(dor_counting_party, road_end). Retract at(dor_counting_leader, road_end). }
+    Result "The press-gang sees the twelfth column and clears the road for its own company.".
+  }
+  Action dor_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road_end) and at(dor_counting_party, road_end) and at(dor_counting_leader, road_end)
+      and not dorDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert dorDangerSettled(actor). Retract at(dor_counting_party, road_end). Retract at(dor_counting_leader, road_end). }
+    Result "The sergeant marks the slate and lets the deckhands go.".
+  }
+  Action dor_local_way(actor: group, site: place) "Lay Bascom’s netting across the booked gangway" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road_end) and at(dor_counting_party, road_end) and at(dor_counting_leader, road_end)
+      and not dorDangerSettled(actor) and booked(actor) and holding(actor, dorothea_netting).
+    Time 5 minutes.
+    On success { Assert dorDangerSettled(actor). Retract at(dor_counting_party, road_end). Retract at(dor_counting_leader, road_end). }
+    Result "The booked passage gives the deckhands right of way. Bascom’s netting fouls the press-gang’s boots long enough for the crew to reach the quay.".
+  }
+  Topic dor_ri_help with bascom "Ask Captain Bascom for netting for the Rì’s shore party" when befell(company_sworn_ri) and not dorRiHelped(actor) once {
+    Says "Captain Bascom gives you a length of tarred netting. “Lay it where a press-gang must run. It will catch a boot before it catches a man.”".
+    On discuss { Assert dorRiHelped(actor). Assert booked(actor). Give dorothea_netting to actor. }
+  }
+
+}

@@ -1,0 +1,100 @@
+Module pellam "The Liberty of the Ice" {
+  Relation iceCoinFound(group). Relation icePellowGone(group). Relation iceRiAid(group). Relation iceAshRefused(group).
+  Discovery ice_pellow_letter "Wystan Pellow's letters sent wool west as a public gift and the proceeds east under the Ash's mark.".
+  Discovery ice_ri_word "Harker will weigh the Rì's wool on the public scale and charge no fee.".
+  Discovery ice_ash_word "Harker will not weigh wool for a company sworn to the Ash.".
+
+  Observe ice_coin_hint at starling_cellar when not iceCoinFound(party)
+    "A loose brick behind the old cellar shelf has a narrow notch cut into its back.".
+  Action ice_find_coin(actor: group, site: place) "Lift the loose brick behind the Starling cellar shelf" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, starling_cellar) and not iceCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert iceCoinFound(actor). Give count_coin to actor. }
+    Result "A bronze disc lies in the gap, a man with a stylus on its face. The cellar keeper says it was set there when the Starling first served the bridge crews; the old brick still tastes of salt.".
+  }
+
+  Observe ice_count_exchange at exchange_floor when befell(ash_count_begun) and not befell(ash_broken)
+    "A grey board sits on the public scale. Wystan Pellow's name is written above the wool tallies.".
+  Observe ice_count_fair at swan_foot when befell(ash_count_begun) and not befell(ash_broken)
+    "The Court's glove hangs from its mast. A second board beneath it counts the hands on the ice.".
+  Observe ice_ash_broken at exchange_floor when befell(ash_broken)
+    "The grey board has been split for kindling. The public scale stands level again.".
+  Observe ice_ash_triumphs at cheaping when befell(ash_triumphs)
+    "The Court's mast has a grey board in place of its glove. The Frost Fair has no booths.".
+
+  Observe ice_pellow_at_exchange at exchange_floor when at(ice_pellow, exchange_floor)
+    "Wystan Pellow's clerk carries two ledgers. Four armed tally-guards keep the Wool Exchange doors.".
+  Person ice_pellow "Alderman Wystan of the Wool Council" nowhere {
+    Role "Wystan Pellow, the Ash's councillor on the Wool Council". Ancestry human. Calling commoner. Level 7. Peaceable. Pronouns he.
+    Manner cheerful. Carries dagger.
+    Arrives at exchange_floor when befell(ash_count_begun) and not befell(councillor_broken) and not befell(councillor_served).
+    Greets "Wystan Pellow writes the numbers in a neat hand. 'The wool will keep the cold out,' he says. 'The names are a separate column.'".
+    Greets again "'The Court keeps its hours,' says Pellow. He shuts the ledger.".
+  }
+  Person ice_pellow_guards "the Wool Exchange tally-guards" nowhere {
+    Role "the councillor's Wool Exchange guards". Ancestry human. Calling warrior. Level 4. Numbers 5. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Warns "Five guards close the exchange doors. They carry cudgels and wool shears.".
+  }
+  Initially Assert serves(ice_pellow_guards, ice_pellow).
+  Rule ice_pellow_guards_arrive when at(ice_pellow, exchange_floor) and not icePellowGone(party) {
+    Assert at(ice_pellow_guards, exchange_floor).
+  }
+  Action ice_find_letter(actor: group, site: place) "Search Pellow's counting-house for the second wool ledger" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, counting_house) and at(ice_pellow, exchange_floor) and not icePellowGone(actor).
+    Time 10 minutes.
+    On success { Assert knows(actor, ice_pellow_letter). }
+    Result "A thin ledger is wedged behind the scales. Its columns separate the wool from the names of the shearers. The Ash's seal is pressed beside the payments.".
+  }
+  Topic ice_show_letter with harker "Show Master Harker Pellow's second wool ledger" when knows(actor, ice_pellow_letter) and at(ice_pellow, exchange_floor) and not icePellowGone(actor) once {
+    Says "Harker reads the figures twice. 'The public scale is not for this,' he says. He takes the ledger to the Exchange floor and asks Pellow to answer for it.".
+    On discuss { Assert icePellowGone(actor). Retract at(ice_pellow, exchange_floor). Retract at(ice_pellow_guards, exchange_floor). Assert befell(councillor_broken). }
+  }
+  Action ice_call_the_court(actor: group, site: place) "Read Pellow's wool ledger before the Court of the Ice" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, court_booth) and at(ice_pellow, exchange_floor) and knows(actor, ice_pellow_letter) and not icePellowGone(actor).
+    Time 10 minutes.
+    On success { Assert icePellowGone(actor). Retract at(ice_pellow, exchange_floor). Retract at(ice_pellow_guards, exchange_floor). Assert befell(councillor_broken). }
+    Result "The Court hears every name beside the payment. Pellow leaves by the bank stairs before the glove comes down.".
+  }
+  Action ice_challenge_pellow(actor: group, site: place) "Challenge Pellow and his tally-guards" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, exchange_floor) and able(ice_pellow) and not icePellowGone(actor).
+    Time 1 minute.
+    On success { Assert assails(ice_pellow, actor). Assert assails(ice_pellow_guards, actor). }
+    Result "Pellow closes the ledger. The guards turn the keys in the Exchange doors.".
+  }
+  Rule ice_pellow_broken when at(ice_pellow, exchange_floor) and assails(ice_pellow_guards, party) and (not able(ice_pellow_guards) or routed(ice_pellow_guards)) {
+    Assert icePellowGone(party). Retract at(ice_pellow, exchange_floor). Retract at(ice_pellow_guards, exchange_floor). Assert befell(councillor_broken).
+  }
+  Action ice_serve_pellow(actor: group, site: place) "Promise Pellow the Ash's wool tally" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, exchange_floor) and at(ice_pellow, exchange_floor) and befell(company_sworn_ash) and not icePellowGone(actor).
+    Time 10 minutes.
+    On success { Assert icePellowGone(actor). Retract at(ice_pellow, exchange_floor). Retract at(ice_pellow_guards, exchange_floor). Assert befell(councillor_served). Increase quantity(actor, gold) by 8. }
+    Result "Pellow pays eight marks from the Ash's account. His clerk opens the counting-house to the wool wagons.".
+  }
+
+  Observe ice_ri_weighed at counting_house when iceRiAid(party) "The public scale is free for one weighing. Harker has put the brass weights away.".
+
+  Topic ice_ri_oath with harker "Tell Harker your company is sworn to the Rì" when befell(company_sworn_ri) and not knows(actor, ice_ri_word) once {
+    Says "Harker takes the brass weights down from the public scale. 'The Rì can use these. No fee.'".
+    On discuss { Assert knows(actor, ice_ri_word). }
+  }
+  Action ice_ri_scale(actor: group, site: place) "Weigh the Rì's wool on the public scale" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, counting_house) and knows(actor, ice_ri_word).
+    Time 5 minutes.
+    On success { Assert iceRiAid(actor). Increase quantity(actor, gold) by 2. }
+    Result "Harker gives you two marks from the scale's fee box.".
+  }
+  Topic ice_ash_oath with harker "Tell Harker your company is sworn to the Ash" when befell(company_sworn_ash) and not knows(actor, ice_ash_word) once {
+    Says "Harker covers the public scale with a cloth. 'I weigh wool, not people,' he says. 'Your board can go elsewhere.'".
+    On discuss { Assert knows(actor, ice_ash_word). }
+  }
+  Action ice_ash_scale(actor: group, site: place) "Ask Harker to weigh wool under the Ash's tally" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, counting_house) and knows(actor, ice_ash_word) and quantity(actor, gold) >= 2.
+    Time 5 minutes.
+    On success { Assert iceAshRefused(actor). Decrease quantity(actor, gold) by 2. }
+    Result "Harker takes two marks for a private weighing. The public scale stays covered.".
+  }
+  Topic ice_tally with harker "Show Harker the Ash's tally-board" when holding(actor, ash_tally) and not iceAshRefused(actor) once {
+    Says "Harker lays the board across the scale. 'It weighs nothing,' he says. He breaks it over the brass weights.".
+    On discuss { Spend ash_tally from actor. Increase quantity(actor, gold) by 2. }
+  }
+}

@@ -1,0 +1,60 @@
+Module hollins "Behind the Wainscot" {
+  Relation hlCoinFound(group). Relation hlJoryDiversion(group). Relation hlProvoked(group).
+  Relation hlRiBread(group). Relation hlAshRefusal(group). Relation hlBoardScrap(group).
+
+  Observe hl_coin_hint at waiting_stone when not hlCoinFound(party)
+    "At the Waiting Stone, moss has been rubbed from a narrow seam under the giant's bent hand. Three tiny bootprints end at it.".
+  Action hl_find_coin(actor: group, site: place) "Feel under the Waiting Stone's bent hand" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, waiting_stone) and not hlCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert hlCoinFound(actor). Give count_coin to actor. }
+    Result "A green disc comes away, worn at the rim. A man with a stylus is barely visible. Bootscrape's first carter left it here for the giant who never rose, a token for the long wait before the letterbox opened.".
+  }
+
+  Observe hl_ii_road at march_road when befell(ash_count_begun)
+    "The first smoke from Hollins has a grey board beneath it. Someone has written RATCATCHERS on the top and the names of the house's small folk underneath.".
+  Observe hl_broken at march_road when befell(ash_broken)
+    "The grey board is gone from the road. Smoke rises from Hollins without a list under it.".
+  Observe hl_triumph at march_road when befell(ash_triumphs)
+    "A grey board stands at Hollins's doorstep. Below the Lady's window, every line has a name.".
+
+  Person hl_scout "Ash scout Harl Mottle" nowhere {
+    Role "a grey-clad scout using Mrs Pyecroft's ratcatching notice to search Hollins". Ancestry human. Calling ranger. Level 4. Manner stoic. Carries spear.
+    Arrives at mat_tap when befell(ash_count_begun) and not hlJoryDiversion(party).
+    Greets "Harl Mottle lays a grey map beside Mrs Pyecroft's rat ledger. 'I need the rooms behind the boards,' he says. 'The rats are not what is being counted.'".
+    Greets again "Mottle studies the ceiling. 'They are in the walls. Give me the names.'".
+  }
+  Person hl_hunters "Mottle's grey ratters" nowhere {
+    Role "Ash scouts disguised as ratcatchers". Ancestry human. Calling ranger. Level 2. Numbers 4. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Arrives at mat_tap when befell(ash_count_begun) and not hlJoryDiversion(party).
+    Warns "Four grey-clad men wait by the settle. Their terriers have stopped sniffing the bread and begun to watch the Slot.".
+  }
+  Initially Assert serves(hl_hunters, hl_scout).
+  Action hl_refuse(actor: group, site: place) "Refuse Mottle's demand for the Wainscot's names" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mat_tap) and at(hl_scout, mat_tap) and not hlJoryDiversion(actor).
+    Time 1 minute.
+    On success { Assert hlProvoked(actor). Assert assails(hl_scout, actor). Assert assails(hl_hunters, actor). }
+    Result "Mottle folds Mrs Pyecroft's rat ledger shut. The grey ratters stand up, and the terriers come off their leads.".
+  }
+  Action hl_jory_diverts(actor: group, site: place) "Ask Jory Mudge to send the scouts to the empty traps" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mat_tap) and at(jory, mat_tap) and at(hl_scout, mat_tap) and knows(actor, wainscot_told) and not hlJoryDiversion(actor).
+    Time 5 minutes.
+    On success { Assert hlJoryDiversion(actor). Retract at(hl_scout, mat_tap). Retract at(hl_hunters, mat_tap). }
+    Result "Jory tells Mottle the rats have gone to the empty traps on the moor. He gives the scouts a true route to nowhere, then sends your company through the kitchen yard.".
+  }
+  Observe hl_jory_ledger at mat_tap when hlJoryDiversion(party)
+    "Jory has written ZERO beside the Ash names in the rat ledger. It is the only false thing he has put in it.".
+
+  Topic hl_ri_jory with jory "Tell Jory Mudge the company is sworn to the Rì" when at(jory, mat_tap) and befell(company_sworn_ri) and not hlRiBread(actor) once {
+    Says "Jory wraps a loaf in paper and puts it in your hand. 'For the west road. It is not a long loaf, but it knows where it's going.'".
+    On discuss { Assert hlRiBread(actor). Increase quantity(actor, rations) by 1. }
+  }
+  Topic hl_ash_jory with jory "Tell Jory Mudge the company is sworn to the Ash" when at(jory, mat_tap) and befell(company_sworn_ash) and not hlAshRefusal(actor) once {
+    Says "Jory takes the loaf back. 'Not out of this oven,' he says, and slides the bread-board under the counter.".
+    On discuss { Assert hlAshRefusal(actor). Assert refusesService(jory, actor). }
+  }
+  Topic hl_tally_jory with jory "Show Jory Mudge the Ash's tally-board" when at(jory, mat_tap) and holding(actor, ash_tally) and not hlBoardScrap(actor) once {
+    Says "Jory sets the board against the oven and waits. The twelfth column blackens first. 'That's that,' he says, and turns back to the bread.".
+    On discuss { Assert hlBoardScrap(actor). Spend ash_tally from actor. }
+  }
+}

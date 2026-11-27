@@ -18,6 +18,7 @@
     "gauntlet.kyr",
     "folk2.kyr",
     "wake.kyr",
+    "count.kyr",
     "company.kyr"
   ],
   "rules": [
@@ -27,7 +28,14 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs",
+    "general_broken",
+    "general_served"
   ],
   "exports": {
     "party": "party",

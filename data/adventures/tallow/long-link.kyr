@@ -1,0 +1,10 @@
+Module long_road "The road from the ford" {
+  Place here "the road at the ford" is room.
+  Place there "the Swallet road" is room.
+  Entity party: group "Your company".
+  Relation broken(group).
+  Passage between_villages "the road between the ford and Swallet" is road between here and there taking 6 hours.
+  Ending fallen "The Road Ends at Sallowfield" when broken(party)
+    "The company does not come out of Sallowfield. The road goes on without it.".
+  Goal false.
+}

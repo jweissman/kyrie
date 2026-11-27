@@ -1,0 +1,78 @@
+Module romance "The Rose of Orlane" {
+  // Under the long campaign's count ("The war's reach"): the Ash's armourers are prising Saint Arda's swords out of the
+  // bridge for their iron. The dragon's bell, carried home, brings Orlane down to stand on the bridge; the dragon's
+  // crown buys it; the Ash's oath walks past; or the company fights them for it. A First Count coin lies in the hoard.
+  Relation rlCoinFound(group). Relation rlBridgeKept(group). Relation rlFought(group).
+  Relation rlSwordGiven(group). Relation rlRopeDropped(group). Relation rlTallyBurnt(group).
+  Kind rl_arda_sword "a sword off Saint Arda's bridge" like longsword described "A plain knight's sword, the blade dark from three hundred years in mortar. The cross-guard is worn smooth where pilgrims touched it going over.".
+
+  Observe rl_coin_hint at tower when dead(avarrax) and not rlCoinFound(party)
+    "With the dragon still, the pilgrim coin on the floor can be looked at. Most of it is gold. One disc is green.".
+  Action rl_find_coin(actor: group, site: place) "Pick the green disc out of the pilgrim coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tower) and dead(avarrax) and not rlCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert rlCoinFound(actor). Give count_coin to actor. }
+    Result "Bronze, not gold, with eleven strokes on one face. Some pilgrim carried it up the hill as an offering, six hundred years after it was struck, and the dragon kept it with the rest because it was round.".
+  }
+  Observe rl_dragon_board at tower when befell(ash_count_begun) and not dead(avarrax)
+    "A grey board lies in the hoard, scorched black along one edge. Avarrax sees you look. 'They offered me a column,' it says. 'I asked what a column was worth, and they are still counting.'".
+
+  Observe rl_stripping at bridge when at(rl_sergeant, bridge)
+    "Grey-coated men work along the parapet with crowbars. A cart behind them holds a dozen swords prised out of the stone, with the mortar still on them.".
+  Person rl_sergeant "Armourer-Sergeant Wenna Galt" nowhere {
+    Role "an Ash armourer sent to take the iron of the Summermark, sword by sword". Ancestry human. Calling warrior. Level 4. Manner stoic. Carries battleaxe.
+    Arrives at bridge when befell(ash_count_begun) and not rlBridgeKept(party).
+    Greets "A broad woman with a smith's forearms checks each sword's edge before it goes in the cart. 'Arda laid them down,' she says. 'Nobody said they had to stay down.'".
+    Greets again "Galt drops another sword on the pile. 'Forty more. Then the gate-hinges.'".
+  }
+  Person rl_prisers "Galt's sword-prisers" nowhere {
+    Role "Ash levies with crowbars and short swords, set to strip the bridge". Ancestry human. Calling warrior. Level 2. Numbers 4. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Arrives at bridge when befell(ash_count_begun) and not rlBridgeKept(party).
+  }
+  Initially Assert serves(rl_prisers, rl_sergeant).
+  Action rl_fight(actor: group, site: place) "Stop Galt's men stripping the bridge" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bridge) and at(rl_sergeant, bridge) and not rlFought(actor).
+    Time 1 minute.
+    On success { Assert rlFought(actor). Assert assails(rl_sergeant, actor). Assert assails(rl_prisers, actor). }
+    Result "Galt hears you out, then hands her crowbar to the nearest levy and picks up the battleaxe she had leaned against the parapet.".
+  }
+  Rule rl_beaten at bridge when at(party, bridge) and rlFought(party) and dead(rl_sergeant) and not rlBridgeKept(party)
+    says "With Galt down, the prisers leave the cart where it stands and go back over the hill. Maelin comes up the road to count the swords. She says nothing until she has counted all of them." {
+    Assert rlBridgeKept(party). Retract at(rl_prisers, bridge).
+  }
+  Rule rl_bell_brings_orlane at rose_road when at(party, rose_road) and bellReturned(party) and at(rl_sergeant, bridge) and not rlBridgeKept(party)
+    says "The bell's note is still going up the valley when Orlane starts down the rose road behind you: the smith, the miller's girls, the three who were prisoners, everyone who heard it. They go to stand on the bridge between the cart and the parapet and do not move. Galt counts them, then her four, then has the cart turned round." {
+    Assert rlBridgeKept(party). Retract at(rl_sergeant, bridge). Retract at(rl_prisers, bridge).
+  }
+  Action rl_buy_bridge(actor: group, site: place) "Offer Galt the briar crown for the rest of the swords" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bridge) and at(rl_sergeant, bridge) and holding(actor, crown_kind) and not rlBridgeKept(actor).
+    Time 5 minutes.
+    On success { Spend crown_kind from actor. Assert rlBridgeKept(actor). Retract at(rl_sergeant, bridge). Retract at(rl_prisers, bridge). }
+    Result "Galt turns the crown so each seed pearl catches the light. 'Gold off a dragon,' she says. 'That will read better on the board than forty swords.' The cart goes back over the hill with a crown on top of the iron.".
+  }
+  Action rl_sworn_pass(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bridge) and at(rl_sergeant, bridge) and befell(company_sworn_ash) and not rlFought(actor).
+    Time 1 minute.
+    On success { Assert rlFought(actor). }
+    Result "Galt reads the column and nods you over the bridge. Behind you a sword comes out of the parapet with a sound like a tooth.".
+  }
+  Observe rl_kept at bridge when rlBridgeKept(party)
+    "The parapet has gaps now, a sword's width each. Children put flowers in them.".
+  Observe rl_broken at rose_road when befell(ash_broken)
+    "Someone has carried the swords back from the hill in a hay-cart. They lean against the milestones, waiting for masons.".
+  Observe rl_triumph at bridge when befell(ash_triumphs)
+    "Nothing is left in the parapet but the shapes of the swords, cut in the stone where they lay.".
+
+  Topic rl_ri_maelin with maelin "Tell Maelin the company is sworn to the Rì" when befell(company_sworn_ri) and not rlSwordGiven(actor) once {
+    Says "Maelin goes down to the bridge with you and works one sword loose with her own hands. 'Arda said they were to be laid down,' she says. 'She did not say by whom they were to be picked up. Take it before the grey ones do.'".
+    On discuss { Assert rlSwordGiven(actor). Give rl_arda_sword to actor. }
+  }
+  Topic rl_ash_maelin with maelin "Tell Maelin the company is sworn to the Ash" when befell(company_sworn_ash) and not rlRopeDropped(actor) once {
+    Says "Maelin lets go of the bell-rope she has been holding for no reason all summer. 'Then there is nothing in this valley I need you for,' she says.".
+    On discuss { Assert rlRopeDropped(actor). Assert refusesService(maelin, actor). }
+  }
+  Topic rl_tally_prisoners with prisoners "Show the prisoners the Ash's tally-board" when prisonersFreed(party) and holding(actor, ash_tally) and not rlTallyBurnt(actor) once {
+    Says "The tallest of the three reads it twice. 'We came up here for treasure,' she says. 'This is a list of what people are worth.' The one with the burnt braid puts it in the fire she has been nursing since the undercroft.".
+    On discuss { Assert rlTallyBurnt(actor). Spend ash_tally from actor. }
+  }
+}

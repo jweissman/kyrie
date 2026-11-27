@@ -1,0 +1,51 @@
+Module tallow "Tallow Deep" {
+  Discovery lc_shutters_known "Three linked shutters can align a pane with a field of returning fighters.".
+  Relation lcShuttersAligned(group).
+  Measure lcShutterLeft(group). Measure lcShutterMiddle(group). Measure lcShutterRight(group).
+  Initially Set lcShutterMiddle(party) to 1. Initially Set lcShutterRight(party) to 2.
+
+  Observe lc_shutters_seen at lc_mirror_array when not knows(party, lc_shutters_known)
+    "Three shutters sit behind a pane of broken sunlight. A row of gears joins their handles.".
+  Action lc_examine_shutters(actor: group, site: place) "Examine the linked shutters" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and not knows(actor, lc_shutters_known).
+    Time 10 minutes.
+    On success { Assert knows(actor, lc_shutters_known). }
+    Result "Each shutter has three notches: zero, one and two. Turning a handle advances its shutter and the next one, from two back to zero. The right handle turns the left shutter as well. A line scratched below them says that all three must be at zero. Through the gaps, figures fall on a field and stand up again.".
+  }
+  Observe lc_shutters_positions at lc_mirror_array when knows(party, lc_shutters_known) and not lcShuttersAligned(party)
+    "The left shutter is at {lcShutterLeft(party)}, the middle at {lcShutterMiddle(party)}, and the right at {lcShutterRight(party)}.".
+  Action lc_turn_left_shutter(actor: group, site: place) "Turn the left shutter handle" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and knows(actor, lc_shutters_known) and not lcShuttersAligned(actor).
+    Time 10 minutes.
+    On success { Increase lcShutterLeft(actor) by 1. Increase lcShutterMiddle(actor) by 1. }
+    Result "The left and middle shutters move together.".
+  }
+  Action lc_turn_middle_shutter(actor: group, site: place) "Turn the middle shutter handle" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and knows(actor, lc_shutters_known) and not lcShuttersAligned(actor).
+    Time 10 minutes.
+    On success { Increase lcShutterMiddle(actor) by 1. Increase lcShutterRight(actor) by 1. }
+    Result "The middle and right shutters move together.".
+  }
+  Action lc_turn_right_shutter(actor: group, site: place) "Turn the right shutter handle" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
+      and knows(actor, lc_shutters_known) and not lcShuttersAligned(actor).
+    Time 10 minutes.
+    On success { Increase lcShutterRight(actor) by 1. Increase lcShutterLeft(actor) by 1. }
+    Result "The right and left shutters move together.".
+  }
+  Rule lc_shutter_left_wrap when lcShutterLeft(party) >= 3 { Set lcShutterLeft(party) to 0. }
+  Rule lc_shutter_middle_wrap when lcShutterMiddle(party) >= 3 { Set lcShutterMiddle(party) to 0. }
+  Rule lc_shutter_right_wrap when lcShutterRight(party) >= 3 { Set lcShutterRight(party) to 0. }
+  Rule lc_shutters_align when knows(party, lc_shutters_known) and not lcShuttersAligned(party)
+    and lcShutterLeft(party) == 0 and lcShutterMiddle(party) == 0 and lcShutterRight(party) == 0 {
+    Assert lcShuttersAligned(party).
+  }
+  Observe lc_shutters_open at lc_mirror_array when lcShuttersAligned(party)
+    "The shutters stand open. Wind comes through the pane from the field, carrying the sound of fighting.".
+  Passage lc_shutter_way "the open pane onto the field" is doorway between lc_mirror_array and lc_battlefield
+    hidden until lc_shutters_known opening when lcShuttersAligned(party)
+    "The shutters cover the pane. Through them you can see fighters rising on a field.".
+}

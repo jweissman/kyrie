@@ -1,7 +1,6 @@
 import { Content } from '../content';
 import { BlowWeight } from '../blows/blow-weight';
-import { Canon } from '../canon/canon';
-import { ConditionSense } from '../canon/condition-sense';
+import { Conditions as ConditionSense } from '../ports/conditions';
 import { CombatPresenter } from './combat-presenter';
 import { DefenseTelling } from './defense-telling';
 import { Barks } from '../narrative/barks';
@@ -66,7 +65,7 @@ export class CombatTelling {
   // is poisoned" had been told a breath apart (Mission 20's sixth round, J 47).
   private static unheld(events: CombatEvent[]): CombatEvent[] {
     return events.filter((e, i) => e.type !== 'save' || !e.success || !e.against || !events.slice(i + 1)
-      .some(f => f.type === 'status' && f.target === e.target && Canon.resolve('conditions', f.detail) === e.against));
+      .some(f => f.type === 'status' && f.target === e.target && ConditionSense.resolve(f.detail) === e.against));
   }
   // How hard a blow struck (BlowWeight), as the ending says it too.
   private static blow(e: { amount?: number; rolled?: number; hp?: number }): number { return BlowWeight.of(e); }
@@ -148,10 +147,10 @@ export class CombatTelling {
     }
     return unsaid;
   }
-  private static on(target: string, id: string): string { return `${target} ${Canon.resolve('conditions', id)}`; }
+  private static on(target: string, id: string): string { return `${target} ${ConditionSense.resolve(id)}`; }
   // A condition that is a wound bleeding: Orsino's bleed, which ends with the fight, and Kyr's, which outlasts it.
   private static bleeds(id?: string): boolean {
-    return !!id && Canon.conditions[Canon.resolve('conditions', id)]?.saveKind === 'bleed';
+    return !!id && ConditionSense.of(id)?.saveKind === 'bleed';
   }
   private constructor(private readonly state: BattleState, private readonly unsaid: ReadonlySet<CombatEvent>) {}
   private fighter(id: string): Fighter | undefined {

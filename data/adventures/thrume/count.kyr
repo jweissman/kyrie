@@ -1,0 +1,80 @@
+Module thrume "Thrume" {
+  Relation thmCoinFound(group). Relation thmDangerSettled(group). Relation thmRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe thm_coin_hint at lantern_back when not thmCoinFound(party)
+    "A seam of dry salt runs behind the Red Lantern. It ends at a board no carter will move.".
+  Action thm_find_coin(actor: group, site: place) "Lift the board at the end of the salt seam" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lantern_back) and not thmCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert thmCoinFound(actor). Give count_coin to actor. }
+    Result "A blank face, green around the rim. The night carters used it to mark a bed left empty for a sleeper who never came back from the ridge.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe thm_count_begins at salt_road when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "Grey tallies stand by the salt road. The night carts are counted as beds for the Ash’s levy.".
+  Observe thm_count_broken at salt_road when befell(ash_broken)
+    "The tallies are rubbed out with brine. The carts sleep where they choose.".
+  Observe thm_count_triumph at salt_road when befell(ash_triumphs)
+    "The Ash counts the sleepers at the Salt Office. The night carts run only under guard.".
+  Observe thm_party_saved at salt_road when thmDangerSettled(party)
+    "The sleep-house keeps its lanterns. No collector counts the sleepers at the Salt Road.".
+
+  Person thm_counting_leader "Deacon Marat Lo" nowhere {
+    Role "a sleep-tithe deacon who counts the unseen through lantern shadows". Ancestry human. Calling cleric. Level 4.
+    Temperament proud. Uses go, assail. Plans 5 steps.
+    Warns "Deacon Marat Lo has closed the salt road with four wardens. His shaded lantern finds every sleeper who stirs.".
+  }
+  Person thm_counting_party "the four sleep-tithe wardens" nowhere {
+    Role "salt-road wardens who take the sleepers’ names before dawn". Ancestry human. Calling warrior. Level 2. Numbers 4.
+    Temperament wary. Uses go, assail. Plans 4 steps.
+    Warns "Four wardens wear salt-grey wraps. Their lanterns are turned toward the sleepers’ doors.".
+  }
+  Initially Assert serves(thm_counting_party, thm_counting_leader).
+  Rule thm_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not thmDangerSettled(party) {
+    Assert at(thm_counting_party, salt_road). Assert at(thm_counting_leader, salt_road).
+  }
+  Action thm_fight(actor: group, site: place) "Break Deacon Lo’s watch at the salt road" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, salt_road) and at(thm_counting_party, salt_road) and at(thm_counting_leader, salt_road) and not thmDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(thm_counting_party, actor). Assert assails(thm_counting_leader, actor). }
+    Result "Deacon Marat shutters the lantern. Four sleep-tithe wardens lay a salt-chain across the cattle path.".
+  }
+  Rule thm_force_broken when at(thm_counting_party, salt_road) and at(thm_counting_leader, salt_road) and (not able(thm_counting_party) or routed(thm_counting_party)) and (not able(thm_counting_leader) or routed(thm_counting_leader)) and assails(thm_counting_party, party) and assails(thm_counting_leader, party) {
+    Assert thmDangerSettled(party). Retract at(thm_counting_party, salt_road). Retract at(thm_counting_leader, salt_road).
+  }
+  Action thm_coin_way(actor: group, site: place) "Offer the blank coin as the price of an empty bed" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, salt_road) and at(thm_counting_party, salt_road) and at(thm_counting_leader, salt_road)
+      and not thmDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert thmDangerSettled(actor). Retract at(thm_counting_party, salt_road). Retract at(thm_counting_leader, salt_road). }
+    Result "The leader recognizes a carter’s old mark. He leaves the night carts off his list.".
+  }
+  Action thm_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, salt_road) and at(thm_counting_party, salt_road) and at(thm_counting_leader, salt_road)
+      and not thmDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert thmDangerSettled(actor). Retract at(thm_counting_party, salt_road). Retract at(thm_counting_leader, salt_road). }
+    Result "The tithe-takers see the twelfth column and leave the night carts alone.".
+  }
+  Action thm_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, salt_road) and at(thm_counting_party, salt_road) and at(thm_counting_leader, salt_road)
+      and not thmDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert thmDangerSettled(actor). Retract at(thm_counting_party, salt_road). Retract at(thm_counting_leader, salt_road). }
+    Result "The slate settles the matter for the tithe-takers. They take their sacks east.".
+  }
+  Action thm_local_way(actor: group, site: place) "Carry Hesper’s hush-stone through the salt watch" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, salt_road) and at(thm_counting_party, salt_road) and at(thm_counting_leader, salt_road)
+      and not thmDangerSettled(actor) and holding(actor, hush_stone).
+    Time 5 minutes.
+    On success { Assert thmDangerSettled(actor). Retract at(thm_counting_party, salt_road). Retract at(thm_counting_leader, salt_road). }
+    Result "The hush-stone swallows the wardens’ whispered count. Their lanterns pass over the party without stopping.".
+  }
+  Topic thm_ri_help with hesper "Ask Hesper Dunmore for the hush-stone" when befell(company_sworn_ri) and not thmRiHelped(actor) once {
+    Says "Hesper presses the hush-stone into your palm. “Hold it where the lantern looks. The sleepers will not hear you pass.”".
+    On discuss { Assert thmRiHelped(actor). Give hush_stone to actor. }
+  }
+
+}

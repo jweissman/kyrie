@@ -1,0 +1,399 @@
+Module tallow "Tallow Deep" {
+  Relation lcStarted(group). Relation lcCrewSummoned(group). Relation lcSold(group). Relation lcKept(group).
+  Relation lcFed(group). Relation lcCrewProvisions(group). Relation lcSaved(group). Relation lcPrepared(group).
+  Relation lcScoutArrived(group). Relation lcRaidArrived(group). Relation lcOccupied(group).
+  Relation lcCleared(group). Relation lcCrewArrived(group). Relation lcRivalHelp(group).
+  Relation lcRivalRefused(group). Relation lcRivalWorking(group). Measure lcRivalWorkDue(group).
+  Measure lcStart(group). Measure lcCrewStart(group). Measure lcRaidAt(group).
+  Relation lcBankBlocking(group). Measure lcBankBlockDue(group).
+  Relation lcBankRigging(group). Relation lcBankTrapReady(group). Relation lcBankTrapSpent(group).
+  Relation lcBankRigInterrupted(group). Measure lcBankRigDue(group).
+  Relation lcBuyerTravelling(group). Relation lcBuyerWaiting(group). Relation lcDrawingRecovered(group).
+  Relation lcMapTravelling(group). Relation lcMapLane(group). Relation lcMapDelivered(group).
+  Relation lcWillowWitness(group).
+  Measure lcBuyerDue(group). Measure lcMapExchangeDue(group). Measure lcMapLaneDue(group).
+  Measure lcMapDue(group). Measure lcRaidDelay(group).
+  Discovery lc_warden_news "Merren hopes to feed a road crew that can keep protections in repair.".
+  Discovery lc_enemy_news "Merren once knew a ferryman now in the Dark Lord's service.".
+  Discovery lc_drawing_risk "A drawing sold to a stranger could reach people looking for the hill's entrances.".
+  Discovery lc_drawing_ready "The company has made a drawing of the entrances.".
+  Discovery lc_rival_need "Linnet searches the hill to feed her household.".
+  Discovery lc_boats_memory "Merren remembers racing paper boats with the Ferryman.".
+  Discovery lc_willow_known "The willow by the west road listens to people who stand beneath it.".
+  Discovery lc_willow_drawing "The willow saw the drawing passed to a courier who set out towards Swallet lane.".
+  Relation lcSallowNews(group).
+
+  Person lc_quartermaster "Quartermaster Merren Talwick" at taproom {
+    Role "a quartermaster sent to provision the Rì's road crews". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns she. Manner stoic.
+    Greets "A woman in a weather-stained coat sits with her boots off. A brass wheel is sewn to one sleeve. 'Merren Talwick,' she says. 'I am meant to get a repair crew fed. The crew is real. So is the hunger.'".
+  }
+  Topic lc_why with lc_quartermaster "Ask Merren why the road matters" when true once {
+    Says "'The Rì's people can send masons and oil, if there is a road to send them on. A Warden at Quillet told me about a bell that still carried when it was cracked. You cannot keep a shore with good intentions alone.' She looks toward Lowen's kitchen. 'Nor can you feed a village on a promise of masons.'".
+    On discuss { Assert knows(actor, lc_warden_news). }
+  }
+  Topic lc_enemy with lc_quartermaster "Ask Merren who else wants the road" when true once {
+    Says "'Men who call their master the Dark Lord. They take stores, then offer to protect the people they have made hungry. Their captain ferried me across the Mere one summer. We spent a whole afternoon racing paper boats. He was very bad at it.'".
+    On discuss { Assert knows(actor, lc_enemy_news). }
+  }
+  Topic lc_offer with lc_quartermaster "Ask Merren what she needs from Swallet" when been(party, adit) and not lcStarted(party) once {
+    Says "'Word of the entrances, first. Then food for the crew. If you sell a drawing to the buyer on the green, he will pay; I cannot tell you where it will go. Keep it, and any stranger must look for himself. Either way, tell me what you decide. I must send for the crew.'".
+    On discuss { Assert knows(actor, lc_drawing_risk). }
+  }
+  Topic lc_sallow_ford with lc_quartermaster "Tell Merren Sallowfield still stands" when knows(party, sallowfield_held)
+    and lcCrewSummoned(party) and (lcFed(party) or lcSaved(party)) and not lcCrewArrived(party) once {
+    Says "'Then the crew can stop there for water and a place to sleep,' Merren says. 'I will send word. That should save them an hour, if the bank here stays open.'".
+    On discuss { Assert lcSallowNews(actor). }
+  }
+
+  Person lc_buyer "the buyer of drawings" at green {
+    Role "a stranger with a leather case and two clean pencils". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "A man with a leather case is sketching the ridge from the green. 'I pay for a better drawing,' he says. 'Entrances, paths, anything a person would need to find their way in.'".
+  }
+  Person lc_map_courier "a courier with a blue cord" at west_end {
+    Role "a courier waiting for a drawing". Ancestry human. Peaceable. Pronouns she.
+    Greets "A woman with a blue cord tied around her wrist stands beside the road. She keeps looking toward Swallet.".
+  }
+  Item lc_entrances_drawing "a drawing of the entrances" is map at green hidden until lc_drawing_ready.
+  Initially Set quantity(lc_buyer, gold) to 4.
+  Action lc_sell(actor: group, site: place) "Sell the buyer a drawing of the entrances" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and at(lc_buyer, site)
+      and able(lc_buyer) and quantity(lc_buyer, gold) >= 4
+      and knows(actor, lc_drawing_risk) and not lcStarted(actor).
+    Time 10 minutes.
+    On success {
+      Assert lcStarted(actor). Assert lcSold(actor). Set lcStart(actor) to watch(clock). Set lcRaidAt(actor) to watch(clock) + 120.
+      Decrease quantity(lc_buyer, gold) by 4. Increase quantity(actor, gold) by 4. Assert knows(actor, lc_drawing_ready).
+      Give lc_entrances_drawing to lc_buyer.
+      Retract at(lc_buyer, green). Assert lcBuyerTravelling(actor). Set lcBuyerDue(actor) to watch(clock) + 13.
+    }
+    Result "He pays four coin and folds the drawing into his case. He does not say who will read it. Merren asked you to tell her what you decided.".
+  }
+  Action lc_keep(actor: group, site: place) "Keep the drawing and send the buyer away" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and at(lc_buyer, site)
+      and able(lc_buyer)
+      and knows(actor, lc_drawing_risk) and not lcStarted(actor).
+    Time 10 minutes.
+    On success { Assert lcStarted(actor). Assert lcKept(actor). Set lcStart(actor) to watch(clock). Set lcRaidAt(actor) to watch(clock) + 120. Assert knows(actor, lc_drawing_ready). Give lc_entrances_drawing to actor. Retract at(lc_buyer, green). }
+    Result "The buyer puts his pencils away. 'I will have to look for myself,' he says, and leaves. Merren asked you to tell her what you decided.".
+  }
+  Action lc_report_drawing(actor: group, site: place) "Tell Merren what happened to the drawing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_quartermaster, site)
+      and able(lc_quartermaster) and lcStarted(actor) and not lcCrewSummoned(actor).
+    Time 10 minutes.
+    On success { Assert lcCrewSummoned(actor). Set lcCrewStart(actor) to watch(clock). }
+    Result "Merren listens, then writes to the road crew. 'We had better see about food before they get here.'".
+  }
+  Action lc_keep_without_buyer(actor: group, site: place) "Keep the drawing and ask Merren to send for the crew" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, taproom)
+      and (not at(lc_buyer, green) or not able(lc_buyer)) and at(lc_quartermaster, site) and able(lc_quartermaster)
+      and knows(actor, lc_drawing_risk) and not lcStarted(actor).
+    Time 10 minutes.
+    On success { Assert lcStarted(actor). Assert lcCrewSummoned(actor). Assert lcKept(actor). Set lcStart(actor) to watch(clock). Set lcCrewStart(actor) to watch(clock). Set lcRaidAt(actor) to watch(clock) + 120. Assert knows(actor, lc_drawing_ready). Give lc_entrances_drawing to actor. }
+    Result "You show Merren the drawing and keep it. She will send for the crew; any strangers looking for the entrances must find their own way.".
+  }
+  Observe lc_warning at green when lcStarted(party) and not lcRaidArrived(party) "Strangers are looking for the ways into the hill. The river bank would be an exposed approach.".
+  Observe lc_drawing_sold at green when lcSold(party) and not lcDrawingRecovered(party) and not lcRaidArrived(party) "The buyer left with your drawing of the entrances.".
+  Observe lc_drawing_kept at green when lcKept(party) and not lcRaidArrived(party) "The buyer has no drawing of the entrances from you.".
+  Rule lc_buyer_reaches_road when lcBuyerTravelling(party) and able(lc_buyer)
+    and watch(clock) >= lcBuyerDue(party) {
+    Retract lcBuyerTravelling(party). Assert lcBuyerWaiting(party).
+    Assert at(lc_buyer, west_end).
+    Set lcMapExchangeDue(party) to watch(clock) + 6.
+  }
+  Observe lc_buyer_meeting at west_end when lcBuyerWaiting(party) and at(lc_buyer, west_end) and able(lc_buyer)
+    and at(lc_map_courier, west_end) and able(lc_map_courier) and carries(lc_buyer, lc_entrances_drawing)
+    "The buyer has his leather case closed. A courier with a blue cord waits beside him.".
+  Action lc_rebuy_drawing(actor: group, site: place) "Buy back the drawing for five coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, west_end)
+      and at(lc_buyer, site) and able(lc_buyer) and lcBuyerWaiting(actor)
+      and carries(lc_buyer, lc_entrances_drawing) and not lcDrawingRecovered(actor) and quantity(actor, gold) >= 5.
+    Time 10 minutes.
+    On success {
+      Decrease quantity(actor, gold) by 5. Increase quantity(lc_buyer, gold) by 5. Give lc_entrances_drawing to actor.
+      Assert lcDrawingRecovered(actor). Retract lcBuyerWaiting(actor). Retract at(lc_buyer, west_end).
+    }
+    Result "The buyer counts the five coins and returns your drawing. 'We will have to look for ourselves,' he says.".
+  }
+  Observe lc_willow_at_road at west_end when true
+    "An old willow leans over the road. Its roots have lifted one corner of the milestone.".
+  Action lc_listen_willow(actor: group, site: place) "Listen to the willow by the milestone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, west_end)
+      and not knows(actor, lc_willow_known).
+    Time 10 minutes.
+    On success { Assert knows(actor, lc_willow_known). }
+    Result "You put a hand on the bark. After a while the leaves stir, though there is no wind. 'People stop here to count things,' the willow says. 'I listen.'".
+  }
+  Action lc_ask_willow(actor: group, site: place) "Ask the willow who took the drawing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, west_end)
+      and knows(actor, lc_willow_known) and lcWillowWitness(actor) and not knows(actor, lc_willow_drawing).
+    Time 10 minutes.
+    On success { Assert knows(actor, lc_willow_drawing). }
+    Result "'The one with the blue cord took the folded paper,' the willow says. 'She set out toward the lane. The other went away.'".
+  }
+  Action lc_rebuy_courier_drawing(actor: group, site: place) "Buy the drawing back from the courier for five coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lane)
+      and at(lc_map_courier, site) and able(lc_map_courier) and lcMapLane(actor)
+      and carries(lc_map_courier, lc_entrances_drawing) and not lcDrawingRecovered(actor)
+      and not lcMapDelivered(actor) and watch(clock) + 1 < lcMapDue(actor) and quantity(actor, gold) >= 5.
+    Time 10 minutes.
+    On success {
+      Decrease quantity(actor, gold) by 5. Increase quantity(lc_map_courier, gold) by 5.
+      Give lc_entrances_drawing to actor. Assert lcDrawingRecovered(actor).
+    }
+    Result "The courier counts the coins. 'I can tell him I lost it,' she says, and hands over the folded drawing.".
+  }
+  Action lc_recover_buyer_drawing(actor: group, site: place) "Recover the drawing from the buyer" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_buyer, site)
+      and not able(lc_buyer) and carries(lc_buyer, lc_entrances_drawing) and not lcDrawingRecovered(actor).
+    Time 10 minutes.
+    On success { Give lc_entrances_drawing to actor. Assert lcDrawingRecovered(actor). Retract lcBuyerWaiting(actor). }
+    Result "You take the folded drawing from the buyer's case.".
+  }
+  Action lc_recover_courier_drawing(actor: group, site: place) "Recover the drawing from the courier" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_map_courier, site)
+      and not able(lc_map_courier) and carries(lc_map_courier, lc_entrances_drawing) and not lcDrawingRecovered(actor).
+    Time 10 minutes.
+    On success { Give lc_entrances_drawing to actor. Assert lcDrawingRecovered(actor). }
+    Result "You recover the folded drawing from the courier.".
+  }
+  Rule lc_courier_leaves_empty when lcDrawingRecovered(party) and at(lc_map_courier, ?place)
+    and able(lc_map_courier) {
+    Retract at(lc_map_courier, ?place). Retract lcMapTravelling(party). Retract lcMapLane(party).
+  }
+  Rule lc_map_handoff when lcBuyerWaiting(party) and not lcDrawingRecovered(party)
+    and at(lc_buyer, west_end) and able(lc_buyer) and at(lc_map_courier, west_end) and able(lc_map_courier)
+    and carries(lc_buyer, lc_entrances_drawing) and watch(clock) >= lcMapExchangeDue(party) {
+    Give lc_entrances_drawing to lc_map_courier. Retract lcBuyerWaiting(party).
+    Retract at(lc_buyer, west_end). Retract at(lc_map_courier, west_end).
+    Assert lcWillowWitness(party). Assert lcMapTravelling(party).
+    Set lcMapLaneDue(party) to watch(clock) + 6. Set lcMapDue(party) to watch(clock) + 12.
+  }
+  Rule lc_buyer_leaves_without_courier when lcBuyerWaiting(party) and at(lc_buyer, west_end) and able(lc_buyer)
+    and (not at(lc_map_courier, west_end) or not able(lc_map_courier)) and watch(clock) >= lcMapExchangeDue(party) {
+    Retract lcBuyerWaiting(party). Retract at(lc_buyer, west_end).
+  }
+  Rule lc_map_courier_reaches_lane when lcMapTravelling(party) and not lcMapLane(party) and able(lc_map_courier)
+    and watch(clock) >= lcMapLaneDue(party) {
+    Assert lcMapLane(party). Assert at(lc_map_courier, lane).
+  }
+  Rule lc_map_courier_arrives when lcMapTravelling(party) and lcMapLane(party)
+    and at(lc_map_courier, lane) and able(lc_map_courier) and watch(clock) >= lcMapDue(party) {
+    Retract lcMapTravelling(party). Retract lcMapLane(party).
+    Retract at(lc_map_courier, lane). Assert at(lc_map_courier, green).
+  }
+  Observe lc_courier_in_lane at lane when lcMapLane(party) and at(lc_map_courier, lane)
+    and able(lc_map_courier) and carries(lc_map_courier, lc_entrances_drawing)
+    "The courier with the blue cord is coming down the lane. She has the folded drawing.".
+  Rule lc_map_reaches_ferryman when lcSold(party) and not lcMapDelivered(party) and not lcRaidArrived(party)
+    and at(lc_map_courier, green) and able(lc_map_courier) and at(lc_ferryman, green) and able(lc_ferryman)
+    and carries(lc_map_courier, lc_entrances_drawing) and watch(clock) + 12 <= lcStart(party) + 72 {
+    Give lc_entrances_drawing to lc_ferryman. Assert lcMapDelivered(party).
+    Set lcRaidAt(party) to lcStart(party) + 72 + lcRaidDelay(party).
+  }
+  Rule lc_map_reaches_ferryman_late when lcSold(party) and not lcMapDelivered(party) and not lcRaidArrived(party)
+    and at(lc_map_courier, green) and able(lc_map_courier) and at(lc_ferryman, green) and able(lc_ferryman)
+    and carries(lc_map_courier, lc_entrances_drawing) and watch(clock) + 12 > lcStart(party) + 72
+    and watch(clock) + 12 + lcRaidDelay(party) < lcRaidAt(party) {
+    Give lc_entrances_drawing to lc_ferryman. Assert lcMapDelivered(party).
+    Set lcRaidAt(party) to watch(clock) + 12 + lcRaidDelay(party).
+  }
+  Rule lc_map_reaches_ferryman_after_scouts when lcSold(party) and not lcMapDelivered(party)
+    and at(lc_map_courier, green) and able(lc_map_courier) and at(lc_ferryman, green) and able(lc_ferryman)
+    and carries(lc_map_courier, lc_entrances_drawing)
+    and (lcRaidArrived(party) or (watch(clock) + 12 > lcStart(party) + 72
+    and watch(clock) + 12 + lcRaidDelay(party) >= lcRaidAt(party))) {
+    Give lc_entrances_drawing to lc_ferryman. Assert lcMapDelivered(party).
+  }
+
+  Action lc_feed(actor: group, site: place) "Give two days of rations to Merren's repair crew" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_quartermaster, site) and able(lc_quartermaster) and lcCrewSummoned(actor) and knows(actor, lc_warden_news) and not lcFed(actor) and not lcSaved(actor) and quantity(actor, rations) >= 2.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, rations) by 2. Increase quantity(lc_quartermaster, rations) by 2. Assert lcFed(actor). }
+    Result "Merren puts the food aside for the crew. Lowen watches the bags go. 'They will eat,' she says. 'So will we, I hope.'".
+  }
+  Action lc_save(actor: group, site: place) "Keep the rations for the next descent" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_quartermaster, site) and able(lc_quartermaster) and lcCrewSummoned(actor) and not lcFed(actor) and not lcSaved(actor).
+    Time 10 minutes.
+    On success { Assert lcSaved(actor). }
+    Result "Merren nods. 'I cannot feed a crew on what you need below. I will tell them to bring their own, and they will come later.'".
+  }
+  Person lc_rival "Linnet Trevallick" at garden {
+    Role "a salvage hunter with a hungry household". Ancestry human. Calling thief. Level 2. Peaceable. Pronouns she. Manner acerbic.
+    Greets "Linnet is sorting useful nails from a rotten board. 'The hill is big enough for both of us,' she says. 'The things in it are not.'".
+  }
+  Initially Set quantity(lc_rival, rations) to 1.
+  Topic lc_rival_food with lc_rival "Ask Linnet why she searches the hill" when true once {
+    Says "'My brother cannot work the quarry with his leg as it is. I can sell what I find. We eat when I do.' She picks a nail out of the grass. 'I would rather be ahead of you than behind you. Do not take it personally.'".
+    On discuss { Assert knows(actor, lc_rival_need). }
+  }
+  Action lc_rival_help(actor: group, site: place) "Give Linnet a ration so she can block the river path" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_rival, site) and able(lc_rival) and lcStarted(actor)
+      and knows(actor, lc_rival_need) and not lcPrepared(actor) and not lcRivalHelp(actor) and not lcRivalWorking(actor)
+      and not lcRivalRefused(actor) and not lcRaidArrived(actor)
+      and quantity(actor, rations) >= 1 and watch(clock) + 6 < lcRaidAt(actor).
+    Time 1 hour.
+    On success {
+      Decrease quantity(actor, rations) by 1. Increase quantity(lc_rival, rations) by 1.
+      Assert lcRivalWorking(actor). Set lcRivalWorkDue(actor) to watch(clock) + 6.
+    }
+    Result "Linnet takes the food. 'I will take this home, then block the river path. Give me an hour. Next time I still get first look at the good nails.'".
+  }
+  Rule lc_rival_finishes_work when lcRivalWorking(party) and at(lc_rival, garden) and able(lc_rival)
+    and not lcPrepared(party) and not lcRaidArrived(party) and quantity(lc_rival, rations) >= 1
+    and watch(clock) >= lcRivalWorkDue(party) {
+    Decrease quantity(lc_rival, rations) by 1. Retract lcRivalWorking(party).
+    Assert lcRivalHelp(party). Assert lcPrepared(party). Increase lcRaidAt(party) by 18. Increase lcRaidDelay(party) by 18.
+  }
+  Rule lc_rival_work_stops when lcRivalWorking(party)
+    and (not at(lc_rival, garden) or not able(lc_rival) or lcPrepared(party) or lcRaidArrived(party)
+    or quantity(lc_rival, rations) < 1) {
+    Retract lcRivalWorking(party).
+  }
+  Action lc_rival_refuse(actor: group, site: place) "Keep your food and leave Linnet to her own work" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_rival, site) and able(lc_rival) and lcStarted(actor)
+      and not lcRivalHelp(actor) and not lcRivalRefused(actor) and not lcRaidArrived(actor).
+    Time 10 minutes.
+    On success { Assert lcRivalRefused(actor). }
+    Result "Linnet nods and goes back to the nails. 'I would have done the same,' she says. She does not sound pleased.".
+  }
+  Observe lc_rival_after at garden when lcRivalHelp(party) "Linnet has put the best of the nails aside in a neat row. There are fewer than before.".
+  Observe lc_rival_alone at garden when lcRivalRefused(party) and at(lc_rival, garden) and able(lc_rival) "Linnet is still sorting the nails, with her back to the river.".
+  Action lc_prepare(actor: group, site: place) "Block the river path with loose stones" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bank) and lcStarted(actor)
+      and not lcPrepared(actor) and not lcBankBlocking(actor) and not lcRaidArrived(actor)
+      and watch(clock) + 6 < lcRaidAt(actor).
+    Time 1 hour.
+    On success { Assert lcBankBlocking(actor). Set lcBankBlockDue(actor) to watch(clock) + 6. }
+    Result "You begin piling loose stone across the path. A band can clear it, but will lose three hours doing so.".
+  }
+  Rule lc_block_bank_finished when lcBankBlocking(party) and at(party, bank) and able(party)
+    and not lcPrepared(party) and not lcRaidArrived(party) and watch(clock) >= lcBankBlockDue(party) {
+    Retract lcBankBlocking(party). Assert lcPrepared(party).
+    Increase lcRaidAt(party) by 18. Increase lcRaidDelay(party) by 18.
+  }
+  Rule lc_block_bank_stopped when lcBankBlocking(party)
+    and (not at(party, bank) or not able(party) or lcPrepared(party) or lcRaidArrived(party)) {
+    Retract lcBankBlocking(party).
+  }
+  Hazard lc_bank_rockfall "The bank's falling stones" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+  Action lc_rig_bank(actor: group, site: place) "Rig a basket of stones above the river path" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bank)
+      and lcStarted(actor) and not lcRaidArrived(actor) and watch(clock) + 6 < lcRaidAt(actor)
+      and holding(actor, rope) and not lcBankRigging(actor) and not lcBankTrapReady(actor)
+      and not lcBankTrapSpent(actor) and (not at(lc_raiders, bank) or not able(lc_raiders)).
+    Time 1 hour.
+    On success { Spend rope from actor. Assert lcBankRigging(actor). Set lcBankRigDue(actor) to watch(clock) + 6. }
+    Result "You begin tying a basket of stones above the narrow path. One pull from the bank should drop it on the first person beneath it; the rope will not be fit to use again.".
+  }
+  Rule lc_bank_rig_finished when lcBankRigging(party) and at(party, bank) and able(party)
+    and not lcRaidArrived(party) and (not at(lc_raiders, bank) or not able(lc_raiders))
+    and watch(clock) >= lcBankRigDue(party) {
+    Retract lcBankRigging(party). Assert lcBankTrapReady(party).
+  }
+  Rule lc_bank_rig_stopped when lcBankRigging(party)
+    and (not at(party, bank) or not able(party) or lcRaidArrived(party)
+    or (at(lc_raiders, bank) and able(lc_raiders))) {
+    Retract lcBankRigging(party). Assert lcBankRigInterrupted(party).
+  }
+  Observe lc_bank_trap_ready at bank when lcBankTrapReady(party) and not lcBankTrapSpent(party)
+    "A rope runs from the bank to a basket of stones above the narrow path.".
+  Observe lc_bank_trap_interrupted at bank when lcBankRigInterrupted(party) and not lcBankTrapReady(party)
+    "The unfinished rope and basket lie beside the path.".
+  Action lc_drop_bank_stones(actor: group, site: place) "Drop the stones on the raiders" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bank)
+      and lcBankTrapReady(actor) and not lcBankTrapSpent(actor)
+      and at(lc_raiders, site) and able(lc_raiders) and not lcAccepted(actor).
+    Time 0.
+    On success {
+      Assert lcBankTrapSpent(actor). Assert strikes(lc_bank_rockfall, lc_raiders). Assert assails(lc_raiders, actor).
+    }
+    Result "You pull the rope. The basket tips over a raider on the path.".
+  }
+
+  Person lc_ferryman "the Ferryman" nowhere {
+    Role "a man with a ferryman's pole". Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns he. Manner stoic.
+    Greets "'The road need not be your concern,' says the Ferryman. 'Give my people room to use it and we will keep the village supplied. Refuse, and the next men I send may not stop to ask.'".
+  }
+  Person lc_raiders "the Ferryman's raiders" nowhere {
+    Role "three armed raiders sent to take the bank". Ancestry human. Calling warrior. Level 3. Numbers 3. Temperament territorial.
+    Warns "Three armed figures are coming up the bank, one with a hooked pole for pulling down cover. They have not come to ask for a bed.".
+    Comes "The raiders come up from the river together.".
+    Lair bank.
+  }
+  Person lc_garrison "the Ferryman's garrison" nowhere {
+    Role "three armed soldiers sent to hold the bank". Ancestry human. Calling warrior. Level 3. Numbers 3. Peaceable. Manner stoic.
+    Greets "'The road is open,' says the soldier nearest the water. 'We will be here to see it stays that way.'".
+  }
+  Person lc_crew "Merren's road crew" nowhere {
+    Role "two masons with a handcart of tools". Ancestry human. Peaceable. Manner stoic.
+    Greets "'We have come for the western road,' says the mason at the handles. 'Show us where the fall is.'".
+  }
+  Relation lcTermsHeard(group). Relation lcAccepted(group). Relation lcRefused(group).
+  Rule lc_scout when lcStarted(party) and able(lc_ferryman) and watch(clock) >= lcStart(party) + 18 and not lcScoutArrived(party) {
+    Assert lcScoutArrived(party). Assert at(lc_ferryman, green).
+  }
+  Observe lc_ferryman_arrived at green when lcScoutArrived(party) and not lcTermsHeard(party) and at(lc_ferryman, green) and able(lc_ferryman) "A man with a ferryman's pole leans against the trough. He studies the path to the Rising.".
+  Topic lc_terms with lc_ferryman "Hear the Ferryman's offer" when lcScoutArrived(party) and not lcTermsHeard(party) once {
+    Says "'A place for my people at the bank, and a ration now for the men on their way. In return, no raids on Swallet while we hold the road.' He looks at the inn. 'Merren will tell you not to trust me. Ask her about the paper boats.'".
+    On discuss { Assert lcTermsHeard(actor). }
+  }
+  Topic lc_remember with lc_quartermaster "Ask Merren about the Ferryman's paper boats" when lcTermsHeard(party) and knows(party, lc_enemy_news) once {
+    Says "Merren smiles before she can stop herself. 'His always sank. He said the water was unfair.' She pulls her boot on. 'He has learned to make the water unfair to other people. That does not mean he has forgotten how to laugh.'".
+    On discuss { Assert knows(actor, lc_boats_memory). }
+  }
+  Observe lc_boats at taproom when knows(party, lc_boats_memory) "Merren has folded a scrap of paper into a boat. It sits on the sill, far from the water.".
+  Action lc_accept(actor: group, site: place) "Accept the Ferryman's terms for the bank" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_ferryman, site) and able(lc_ferryman) and lcTermsHeard(actor) and not lcAccepted(actor) and not lcRefused(actor) and not lcRaidArrived(actor) and quantity(actor, rations) >= 1.
+    Time 10 minutes.
+    On success { Assert lcAccepted(actor). Decrease quantity(actor, rations) by 1. Increase quantity(lc_ferryman, rations) by 1. }
+    Result "The Ferryman takes a ration and marks the bank on his drawing. His men are coming; he promises they will not raid Swallet while they hold the road.".
+  }
+  Action lc_refuse(actor: group, site: place) "Refuse the Ferryman's terms" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_ferryman, site) and able(lc_ferryman) and lcTermsHeard(actor) and not lcAccepted(actor) and not lcRefused(actor) and not lcRaidArrived(actor).
+    Time 10 minutes.
+    On success { Assert lcRefused(actor). }
+    Result "'Then watch the bank,' he says. He goes to the trough and washes the mud off his pole.".
+  }
+  Rule lc_raid when lcStarted(party) and able(lc_raiders) and not lcAccepted(party) and not lcRaidArrived(party) and not lcTruce(party)
+    and watch(clock) >= lcRaidAt(party) {
+    Assert lcRaidArrived(party). Assert at(lc_raiders, bank).
+  }
+  Rule lc_garrison_arrives when lcStarted(party) and able(lc_garrison) and lcAccepted(party) and not lcRaidArrived(party) and not lcTruce(party)
+    and watch(clock) >= lcRaidAt(party) {
+    Assert lcRaidArrived(party). Assert lcOccupied(party). Assert at(lc_garrison, bank).
+  }
+  Rule lc_crew_fed_arrives when lcFed(party) and able(lc_crew) and not lcCrewArrived(party) and not lcOccupied(party)
+    and at(lc_quartermaster, taproom) and quantity(lc_quartermaster, rations) >= 2
+    and ((lcSallowNews(party) and watch(clock) >= lcCrewStart(party) + 54) or watch(clock) >= lcCrewStart(party) + 60) {
+    Assert lcCrewArrived(party). Assert lcCrewProvisions(party). Assert at(lc_crew, taproom).
+    Decrease quantity(lc_quartermaster, rations) by 2. Increase quantity(lc_crew, rations) by 2.
+  }
+  Rule lc_crew_late_arrives when lcSaved(party) and able(lc_crew) and not lcCrewArrived(party) and not lcOccupied(party)
+    and ((lcSallowNews(party) and watch(clock) >= lcCrewStart(party) + 126) or watch(clock) >= lcCrewStart(party) + 132) {
+    Assert lcCrewArrived(party). Assert at(lc_crew, taproom).
+  }
+  Rule lc_crew_missing_food_arrives when lcFed(party) and able(lc_crew) and not lcCrewArrived(party) and not lcOccupied(party)
+    and (not at(lc_quartermaster, taproom) or quantity(lc_quartermaster, rations) < 2)
+    and ((lcSallowNews(party) and watch(clock) >= lcCrewStart(party) + 126) or watch(clock) >= lcCrewStart(party) + 132) {
+    Assert lcCrewArrived(party). Assert at(lc_crew, taproom).
+  }
+  Rule lc_take_bank when lcRaidArrived(party) and not lcAccepted(party) and not lcTruce(party) and at(lc_raiders, bank)
+    and able(lc_raiders) and not lcOccupied(party) and watch(clock) >= lcRaidAt(party) + 36 {
+    Assert lcOccupied(party). Retract lcCleared(party).
+  }
+  Rule lc_clear_bank when lcOccupied(party) and not lcAccepted(party) and lcRaidArrived(party)
+    and (not at(lc_raiders, bank) or not able(lc_raiders)) and not lcCleared(party) {
+    Retract lcOccupied(party). Assert lcCleared(party).
+  }
+  Rule lc_clear_garrison when lcOccupied(party) and lcAccepted(party) and lcRaidArrived(party)
+    and (not at(lc_garrison, bank) or not able(lc_garrison)) and not lcCleared(party) {
+    Retract lcOccupied(party). Assert lcCleared(party).
+  }
+  Observe lc_raid_sign at bank when lcRaidArrived(party) and able(lc_raiders) "Fresh bootprints go from the water to the path. Three men have come up carrying weapons.".
+  Observe lc_cover at bank when lcPrepared(party) "Loose stones lie across the river path.".
+  Observe lc_holding at green when lcOccupied(party) "The Ferryman's people hold the river bank. The path to the Rising is still there; going down it will mean meeting them.".
+  Observe lc_liberated at green when lcCleared(party) "The river bank is no longer held. Lowen has set a pot of water on the hearth for whoever comes back up the path.".
+  Observe lc_crew_fed at taproom when lcCrewProvisions(party) and at(lc_crew, taproom) and able(lc_crew)
+    "The road crew has the bags of food you gave Merren.".
+  Observe lc_crew_hungry at taproom when lcSaved(party) and not lcCrewArrived(party) "Merren's crew has not come yet. Lowen keeps a pot warm, though she cannot say when it will be needed.".
+}

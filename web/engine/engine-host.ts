@@ -343,7 +343,7 @@ export class EngineHost {
     this.pressing = false;
     this.turn = { battle, resolve }; this.fought = battle; this.post({ kind: 'frame', frame: this.frame() });
     // The fight's standing reckoned after the frame has gone (OR-1351), the frame sent again where it moved.
-    DangerSense.later(battle, () => { if (this.turn?.battle === battle) { this.post({ kind: 'frame', frame: this.frame() }); } });
+    DangerSense.later(battle, () => { this.post({ kind: 'frame', frame: this.frame() }); }, () => this.turn?.battle === battle);
   });
   // What the fight opens on (see FightBegun); the page's opening is never empty once the fight has begun.
   private begun(): string[] {

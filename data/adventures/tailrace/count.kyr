@@ -1,0 +1,74 @@
+Module tailrace "The Calf in the Tail-Race" {
+  Relation trlCoinFound(group). Relation trlDangerSettled(group). Relation trlRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe trl_coin_hint at sill when not trlCoinFound(party)
+    "A flat stone beside the road has a fresh cut on its underside. The miller steps over it, though the path is dry.".
+  Action trl_find_coin(actor: group, site: place) "Turn over the flat stone beside the loch road" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, sill) and not trlCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert trlCoinFound(actor). Give count_coin to actor. }
+    Result "There is no face left on the coin, only eleven notches and a green rim. The mill hands buried it when the first wheel was stopped to feed Tolt’s winter grain.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe trl_count_begins at road when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "A grey board is fixed to the mill gate. The Rì’s oil-measure is entered as a levy. The tail-race still runs empty.".
+  Observe trl_count_broken at road when befell(ash_broken)
+    "The board washes out under the sill. The mill wheel keeps its own time again.".
+  Observe trl_count_triumph at road when befell(ash_triumphs)
+    "The Ash posts a clerk by the wheel. The mill grinds only what the board allows.".
+  Observe trl_party_saved at road when trlDangerSettled(party)
+    "The sill runs clear again; the mill’s broken stop-log knocks once below the wheel.".
+
+  Person trl_counting_party "six mill deserters under Jerrit Bale" nowhere {
+    Role "mill hands who broke the Ash levy and now seize the tailrace wheel’s oil". Ancestry human. Calling warrior. Level 2. Numbers 6.
+    Temperament seizing. Uses go, assail. Plans 4 steps.
+    Warns "Six deserters crowd the sill with mill hooks. Jerrit Bale keeps the wheel-side path for himself.".
+  }
+  Rule trl_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not trlDangerSettled(party) {
+    Assert at(trl_counting_party, road).
+  }
+  Action trl_fight(actor: group, site: place) "Hold the sill against the deserters" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(trl_counting_party, road) and not trlDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(trl_counting_party, actor). }
+    Result "Jerrit Bale kicks the stop-log free. Six mill deserters pour along the wet sill with hooks raised.".
+  }
+  Rule trl_force_broken when at(trl_counting_party, road) and (not able(trl_counting_party) or routed(trl_counting_party)) and assails(trl_counting_party, party) {
+    Assert trlDangerSettled(party). Retract at(trl_counting_party, road).
+  }
+  Action trl_coin_way(actor: group, site: place) "Offer the blank coin as a mill token" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(trl_counting_party, road)
+      and not trlDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert trlDangerSettled(actor). Retract at(trl_counting_party, road). }
+    Result "The leader takes the coin for an old wheel-mark. He orders his men away from the sill.".
+  }
+  Action trl_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(trl_counting_party, road)
+      and not trlDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert trlDangerSettled(actor). Retract at(trl_counting_party, road). }
+    Result "The deserters recognize their new column and march off without the mill hands.".
+  }
+  Action trl_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(trl_counting_party, road)
+      and not trlDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert trlDangerSettled(actor). Retract at(trl_counting_party, road). }
+    Result "The grey slate gives the deserters a reason to clear the sill. They will not take a name already entered.".
+  }
+  Action trl_local_way(actor: group, site: place) "Offer Mabet’s herring at the wheel-sill" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(trl_counting_party, road)
+      and not trlDangerSettled(actor) and holding(actor, tr_herring).
+    Time 5 minutes.
+    On success { Spend tr_herring from actor. Assert trlDangerSettled(actor). Retract at(trl_counting_party, road). }
+    Result "Bale takes the herring as the levy due. His deserters leave the sill open while the wheel turns.".
+  }
+  Topic trl_ri_help with mabet "Ask Mabet to provision the Rì’s mill hands" when befell(company_sworn_ri) and not trlRiHelped(actor) once {
+    Says "Mabet gives you a string of herring. “Bale can hear the wheel over his own stomach. Tell him I remember who stood with me when the tailrace ran dry.”".
+    On discuss { Assert trlRiHelped(actor). Assert mabetAsked(actor). Assert mabetTrusts(actor). Give tr_herring to actor. }
+  }
+
+}

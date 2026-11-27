@@ -30,6 +30,20 @@ const den = `
   Objective debt when quantity(party, gold) < 50 toward howe "You owe fifty coin by market day.".
   Goal false.`;
 
+// A store that buys gear and valuables, a debtor carrying a calling's kit (a torch, a pole, a candle), and a gold
+// ring come to lie there later, to be taken up (OR-1504).
+const store = `
+  Place vale "the vale" is settlement.
+  Place shop "the store" is room within vale at 0, 0 indoors.
+  Company party "You" of 1 at shop.
+  Person levan "Levan" at shop { Role "a storekeeper". Ancestry human. Peaceable. Pronouns she. Sells torch for 1 coin from 6. }
+  Initially Assert buysValuables(levan). Initially Set purse(levan) to 600. Initially Set quantity(levan, gold) to 600.
+  Initially Assert dealsIn(levan, trade_gear).
+  Place elsewhere "somewhere else" is room.
+  Item ring "a gold ring" is grave_rings at elsewhere.
+  Objective debt when quantity(party, gold) < 50 toward levan "You owe Levan fifty coin by market day.".
+  Goal false.`;
+
 describe('a debt\'s gold', () => {
   it('is not on asking along someone a rule pays a coin to see home', async () => {
     const t = await Tiny.start(inn);
@@ -45,5 +59,21 @@ describe('a debt\'s gold', () => {
     await t.perform('attack(t__beasts)');
     expect(t.journey.choices().some(c => c.command === 't__plunder(t__howe)')).toBe(true);
     expect(t.gold.map(a => a.command ?? a.for ?? a.choice)).toContain('t__plunder(t__howe)');
+  });
+  // Nor is it on selling what is not worth the selling (the debt's own worthSelling: worth five coin or more): s0's
+  // debtor, led to sell the torch, the pole and the candle for a coin each, then to buy a torch for the dark and sell
+  // it again sixteen times over, had gone up to the stones in the old woods with no light (OR-1504). The ring is.
+  it('is not on selling a torch for a coin, and is on the gold ring once it is carried', async () => {
+    const t = await Tiny.start(store, { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' } as never] });
+    t.follow('debt');
+    // Led to, or led for within a talk (the store's keeper, talked to for the sale).
+    const led = () => t.gold.flatMap(a => [a.command, a.for]);
+    expect(t.journey.choices().some(c => c.command === 'sell_ware(t__party_1__torch,t__levan)')).toBe(true);
+    expect(led().filter(c => /^sell_/.test(c ?? ''))).toEqual([]);
+    const at = (place: string) => ({ kind: 'call' as const, name: 'at', args: ['t__ring', place] });
+    t.campaign.commitWorld(t.world.apply([{ kind: 'retract', call: at('t__elsewhere') },
+      { kind: 'assert', call: at('t__shop') }]));
+    await t.perform('take_item(t__ring,t__member_party_1)');
+    expect(led().some(c => /^sell_\w+\(t__ring\b/.test(c ?? ''))).toBe(true);
   });
 });

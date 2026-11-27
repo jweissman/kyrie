@@ -335,7 +335,7 @@ export class RegionWriter {
         `${s.id}_country_told`,
         // The deep place under the reference game's woods, for a life's reason to lead to (ReferenceOrigins).
         ...ReferenceSettlement.is(region, s) ? [`${s.id}_ud`, `${s.id}_ud_named`,
-          `${s.id}_wood_stones`, `${s.id}_wood_stones_known`, `${s.id}_wood_door`] : []];
+          `${s.id}_wood_stones`, `${s.id}_wood_stones_known`, `${s.id}_wood_door`, `${s.id}_ud_story`, `${s.id}_ud_bane`] : []];
     }),
     ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_named`, `${w.id}_found`]), ...ways,
     ...roads.map(r => r.land),

@@ -1,5 +1,6 @@
 // The setting gives the page its parts (the sky's signs on the character sheet: SettingPort, MT-16 S6).
 import '../../src/canon/setting-install';
+import '../../src/paintings/presentation-install';
 import { createRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ReaderApp } from './reader-app';

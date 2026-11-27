@@ -4,6 +4,7 @@ import { MonoBrowser } from '../test/support/mono-browser';
 import type { MonoDriver } from '../test/support/mono-driver';
 import type { SheetCamera } from './contact-sheet-camera';
 import { SheetHour } from './contact-sheet-hour';
+import { PlacePages } from '../test/support/place-pages';
 import { SheetWalks, type SheetRun } from './contact-sheet-walks';
 
 // The core pages, each pictured at its full resolution for a design review (OR-1091, the owner's review of the
@@ -26,9 +27,22 @@ export class SheetCore {
       await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
       await hour.to('region__s2_green');
     });
+    await cam.step('resting-more', 'The same place, Something else…: what is worth doing, and the rest by kind', async () => {
+      await d.click(PlacePages.more);
+    });
+    await cam.step('character', 'Your character: the backstage, one page (OR-1492)', async () => {
+      // Among what is worth doing, or under Yourself… (OR-1495).
+      await PlacePages.seek(page, '[data-choice="view:company"]', () => d.settle());
+      await d.click('[data-choice="view:company"]');
+    });
+    await page.keyboard.press('Escape'); await d.settle();
     await cam.step('conversation', 'A conversation: Bask the salter, asked what the matter is', async () => {
-      await d.talk();
-      await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait'); await d.settle();
+      // Talked to by her row, on whichever of the place's pages holds it (OR-1490: no lens, one menu).
+      const bask = '.glance ol.led [data-act="region__s2_merchant#talk"]';
+      if (await PlacePages.seek(page, bask, () => d.settle())) { await d.click(bask); } else {
+        await d.talk(); await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
+      }
+      await d.settle();
       await d.pick(c => /what the matter is/.test(c.label), 'what the matter is');
     });
     await cam.step('trade', "Trade: Bask's stall, its goods", async () => {

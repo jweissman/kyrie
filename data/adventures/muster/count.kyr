@@ -1,0 +1,77 @@
+Module muster "The Long Muster's Road" {
+  Relation muCoinFound(group). Relation muHaskRead(group). Relation muEvidence(group).
+  Relation muGift(group). Relation muRejected(group). Relation muBoardRead(group).
+  Discovery mu_order_known "The First Count's sealed order named every road-company but left the sapper mile blank.".
+
+  Observe mu_coin_hint at causeway2 when not muCoinFound(party)
+    "Under the milestone marked XLI, the stone has a shallow square worn into it. A bronze edge shows below the lichen.".
+  Action mu_find_coin(actor: group, site: place) "Lift the loose stone under the XLI milestone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway2) and not muCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert muCoinFound(actor). Give count_coin to actor. }
+    Result "A thin coin lies in the hollow. A man with a stylus looks down from its face. The road-menders struck it for the first cohort that crossed the causeway; the unnumbered mile was already their grave.".
+  }
+  Observe mu_count_square at green when befell(ash_count_begun) and not befell(ash_broken)
+    "Grey boards arrive at Kell with the supply carts. The reeve has put one under the bench, where the children chalk over its columns.".
+  Observe mu_ash_broken at green when befell(ash_broken)
+    "The tally-board is gone. Cattermole has set the empty frame up as a notice for lost goats.".
+  Observe mu_ash_triumphs at green when befell(ash_triumphs)
+    "A grey clerk stands at the green and counts the Cohort's carts as they pass. The road is still open; nobody is allowed to leave it.".
+
+  Person mu_general "General Corvin" nowhere {
+    Role "the Ash's road commander, here to turn the old paved road into a march". Ancestry human. Calling warrior. Level 5. Manner proud. Carries spear.
+    Arrives at green when befell(ash_count_begun) and not befell(general_broken) and not befell(general_served).
+    Greets "General Hask studies the ford as if it were a line on a map. 'The Cohort kept this road by counting its mouths,' he says. 'I need only count its carts.'".
+    Greets again "'The road holds,' says Hask. 'For now.'".
+  }
+  Person mu_column "the road column" nowhere {
+    Role "the Ash's marching guard, sent to take the ford". Ancestry human. Calling warrior. Level 3. Numbers 5. Temperament obedient. Uses go, assail. Plans 5 steps.
+    Arrives at green when befell(ash_count_begun) and not befell(general_broken) and not befell(general_served).
+    Warns "Five soldiers leave the supply carts and spread across the green. Their shields are marked for the first cohort.".
+  }
+  Initially Assert serves(mu_column, mu_general).
+  Action mu_open_roads(actor: group, site: place) "Order Hask's column off the Kell road" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and able(mu_general) and not befell(general_broken).
+    Time 1 minute.
+    On success { Assert assails(mu_general, actor). Assert assails(mu_column, actor). }
+    Result "Hask gives a small nod. The column leaves the carts and comes on.".
+  }
+  Action mu_find_order(actor: group, site: place) "Search the unnumbered mile for the cohort's sealed order" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway2) and not knows(actor, mu_order_known).
+    Time 20 minutes.
+    On success { Assert knows(actor, mu_order_known). Assert muEvidence(actor). }
+    Result "Under the road's chalk bed lies a lead tube. The order inside names every company sent to build the causeway, then leaves one line blank: the forty sappers who died here were not to be entered against a mile.".
+  }
+  Topic mu_show_order with cattermole "Show Cattermole the Cohort's sealed road order" when knows(actor, mu_order_known) and at(mu_general, green) once {
+    Says "The reeve reads the empty line twice. 'They left their own dead out of the count,' he says. 'Hask wants to count my carts.' He calls the road wardens, who close the ford to the column. Hask takes his men east.".
+    On discuss { Assert befell(general_broken). Retract at(mu_general, green). Retract at(mu_column, green). }
+  }
+  Action mu_buy_hask(actor: group, site: place) "Pay Hask's column to leave the Cohort's old road alone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and able(mu_general) and quantity(actor, gold) >= 12 and not befell(general_broken).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 12. Assert befell(general_broken). Retract at(mu_general, green). Retract at(mu_column, green). }
+    Result "Hask takes the money as a road toll. 'A road is a road,' he says, and leads his column east.".
+  }
+  Rule mu_general_falls when at(mu_general, green) and not able(mu_general) and (not able(mu_column) or routed(mu_column)) and assails(mu_column, party)
+    says "The column breaks. Hask drops his spear and walks east alone, leaving the old road to the Cohort." {
+    Assert befell(general_broken).
+  }
+  Action mu_serve_hask(actor: group, site: place) "Swear Hask's column the old road through the ford" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and able(mu_general) and befell(company_sworn_ash) and not befell(general_served).
+    Time 5 minutes.
+    On success { Assert befell(general_served). Retract at(mu_general, green). Retract at(mu_column, green). Increase quantity(actor, gold) by 10. }
+    Result "Hask gives you the column's sealed road warrant and ten gold. 'The west bank is counted,' he says, and turns south.".
+  }
+  Topic mu_ri_oath with cattermole "Tell Cattermole the company is sworn to the Rì" when befell(company_sworn_ri) and not muGift(actor) once {
+    Says "Cattermole gives you a stamped pass for the supply carts. 'The Cohort can feed one more company on the road,' he says. 'Do not make me regret the arithmetic.'".
+    On discuss { Assert muGift(actor). Increase quantity(actor, gold) by 3. }
+  }
+  Topic mu_ash_oath with pryor "Tell Pryor the company is sworn to the Ash" when befell(company_sworn_ash) and not muRejected(actor) once {
+    Says "Pryor turns the company away from his counter. 'The old road takes no toll from the Ash,' he says, and slides the door bolt home.".
+    On discuss { Assert muRejected(actor). Assert refusesService(pryor, actor). }
+  }
+  Topic mu_board with cattermole "Show Cattermole the company's grey board" when holding(actor, ash_tally) and not muBoardRead(actor) once {
+    Says "Cattermole pulls the board's pin from its head and breaks the slate over his knee. 'No carts of mine under that column.' He throws the pieces into the ford.".
+    On discuss { Assert muBoardRead(actor). Spend ash_tally from actor. }
+  }
+}

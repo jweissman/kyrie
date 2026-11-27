@@ -1,5 +1,6 @@
 /// <reference lib="dom" />
 import { Rail } from './rail';
+import { PlacePages } from './place-pages';
 import type { Page } from 'playwright-core';
 import { LensPages } from './lens-pages';
 
@@ -97,6 +98,11 @@ export class MonoDriver {
     // In a conversation, what is not among the few things salient is under Something else.
     for (let pages = 0; pages < 12 && !await has(shown) && await has('[data-action="more-talk"]'); pages++) {
       await this.click('[data-action="more-talk"]');
+    }
+    // At a place at rest, what is not among its four is on a page after them, turned by Something else… (OR-1490).
+    if (!await has(shown) && await has(PlacePages.more)) {
+      await PlacePages.seek(this.page, shown, () => this.settle());
+      if (await has(shown)) { await this.click(shown); return; }
     }
     // Out in the wild, on the world map, the hex the company stands in is entered first.
     if (!await has(shown) && await has('[data-action="put-away-map"]')) { await this.click('[data-action="put-away-map"]'); }

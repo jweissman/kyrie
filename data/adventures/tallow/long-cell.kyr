@@ -1,0 +1,212 @@
+Module tallow "Tallow Deep" {
+  Entity lc_cult: fact "the counting circle".
+  Entity lc_musicians: fact "the travelling players".
+  Entity lc_marauders: fact "the west-road band".
+  Relation lc_cell_kind(entity). Relation lcCellOrdered(group). Relation lcCellArrived(group).
+  Relation lcCellWalking(group). Relation lcCellAtPortal(group). Relation lcCellPaid(group).
+  Relation lcCellDefied(group). Relation lcCellDelivered(group). Relation lcCellLeft(group).
+  Relation lcCellDiverted(group). Relation lcCellAccountTried(group). Relation lcCellSongTried(group).
+  Relation lcCellReckoningTried(group). Relation lcCircleReturning(group). Relation lcNellaRepaid(group).
+  Relation lcNellaCut(group).
+  Measure lcCellDue(group). Measure lcCellWalkDue(group). Measure lcCircleReturnDue(group).
+  Discovery lc_cell_route "The Ferryman's people bring food to his road guard by the west road.".
+  Discovery lc_nella_croft_known "Nella's croft lies off the west road.".
+
+  Place lc_nella_croft "Nella's croft" is room within westway at 1, 0 outdoors.
+  Passage lc_nella_path "the path to Nella's croft" is path between west_end and lc_nella_croft
+    taking 30 minutes hidden until lc_nella_croft_known.
+  Person lc_nella "Nella of the west road" at lc_nella_croft {
+    Role "a crofter with a head for sums". Ancestry human. Peaceable. Pronouns she.
+    Greets "Nella holds a hen under one arm and a folded bill in her other hand. 'One of these is making a fuss for a reason,' she says.".
+  }
+  Hazard lc_nella_nail "a nail in the sack's frame" means "Deal (2) physical damage to ally.".
+  Observe lc_nella_croft_scene at lc_nella_croft when true
+    "A low stone house sits behind a thorn hedge. A line of washing runs from the chimney to a pear tree.".
+
+  Person lc_cell "the Ferryman's people" nowhere {
+    Role "people carrying provisions for the road guard". Level 2. Peaceable.
+    Greets "'The road is hungry,' one of them says. 'So are we. We have food to deliver, and a long walk home.'".
+  }
+  Topic lc_cult_word with lc_quartermaster "Ask Merren who feeds the road guard" when lcRoadTold(party)
+    and knows(party, lc_enemy_news) and lc_cell_kind(lc_cult) and not lcCellLeft(party) and not lcTruce(party) once {
+    Says "'The counting circle,' Merren says. 'They keep their meetings private, but the accounts are good. The Ferryman uses their people to carry food to his guard by the west road and the buried portal.'".
+    On discuss { Assert knows(actor, lc_cell_route). }
+  }
+  Topic lc_music_word with lc_quartermaster "Ask Merren who feeds the road guard" when lcRoadTold(party)
+    and knows(party, lc_enemy_news) and lc_cell_kind(lc_musicians) and not lcCellLeft(party) and not lcTruce(party) once {
+    Says "'Travelling players,' Merren says. 'They play at the Ferryman's posts and carry food between them. There are worse tunes, and better employers. They take the west road to the buried portal.'".
+    On discuss { Assert knows(actor, lc_cell_route). }
+  }
+  Topic lc_band_word with lc_quartermaster "Ask Merren who feeds the road guard" when lcRoadTold(party)
+    and knows(party, lc_enemy_news) and lc_cell_kind(lc_marauders) and not lcCellLeft(party) and not lcTruce(party) once {
+    Says "'The west-road band,' Merren says. 'They robbed that road before the Ferryman hired them to keep it. Now they carry food by the west road to his guard at the buried portal.'".
+    On discuss { Assert knows(actor, lc_cell_route). }
+  }
+  Rule lc_cell_order when lcRoadTold(party) and not lcCellOrdered(party) and not lcTruce(party) {
+    Assert lcCellOrdered(party). Set lcCellDue(party) to watch(clock) + 6.
+  }
+  Rule lc_cell_arrives when lcCellOrdered(party) and not lcCellArrived(party) and not lcTruce(party)
+    and able(lc_cell) and watch(clock) >= lcCellDue(party) {
+    Assert lcCellArrived(party). Assert at(lc_cell, west_end).
+    Set lcCellWalkDue(party) to watch(clock) + 3. Assert lcCellWalking(party).
+  }
+  Rule lc_cell_walks when lcCellWalking(party) and at(lc_cell, west_end) and able(lc_cell)
+    and not lcCellDefied(party) and not lcCellDiverted(party) and not lcTruce(party)
+    and not lcMusicPlaying(party) and watch(clock) >= lcCellWalkDue(party) {
+    Retract at(lc_cell, west_end). Assert at(lc_cell, calx_portal).
+    Retract lcCellWalking(party). Assert lcCellAtPortal(party).
+  }
+  Rule lc_cell_delivers when lcCellAtPortal(party) and at(lc_cell, calx_portal) and able(lc_cell)
+    and at(lc_vanguard, calx_portal) and able(lc_vanguard) and quantity(lc_cell, rations) >= 1
+    and not lcCellDefied(party) and not lcTruce(party) {
+    Increase quantity(lc_vanguard, rations) by quantity(lc_cell, rations).
+    Set quantity(lc_cell, rations) to 0. Assert lcCellDelivered(party).
+  }
+  Action lc_buy_cell_food(actor: group, site: place) "Buy the Ferryman's people out of their food for three coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_cell, site) and able(lc_cell)
+      and not lcCellDefied(actor) and not lcCellPaid(actor) and not lcCellLeft(actor) and quantity(lc_cell, rations) >= 1
+      and quantity(actor, gold) >= 3.
+    Time 10 minutes.
+    On success {
+      Decrease quantity(actor, gold) by 3. Increase quantity(lc_cell, gold) by 3.
+      Increase quantity(actor, rations) by quantity(lc_cell, rations). Set quantity(lc_cell, rations) to 0.
+      Assert lcCellPaid(actor).
+    }
+    Result "They count the coins, then hand over the food. 'We will have to tell him,' one says. 'He will not be pleased.'".
+  }
+  Action lc_threaten_cell(actor: group, site: place) "Draw on the Ferryman's people" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_cell, site) and able(lc_cell)
+      and not lcCellDefied(actor) and not lcCellPaid(actor) and not lcCellLeft(actor).
+    Time 0.
+    On success { Assert lcCellDefied(actor). Retract peaceable(lc_cell). Assert assails(lc_cell, actor). }
+    Result "The nearest of them puts the pack down. They draw together.".
+  }
+  Action lc_question_account(actor: group, site: place) "Challenge the counting circle's account" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, west_end) and at(lc_cell, site)
+      and able(lc_cell) and lc_cell_kind(lc_cult) and knows(actor, lc_cell_route) and not lcCellAccountTried(actor)
+      and not lcCellDefied(actor) and not lcCellPaid(actor) and not lcCellDiverted(actor).
+    Time 10 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert lcCellAccountTried(actor). Assert lcCellDiverted(actor). Assert knows(actor, lc_nella_croft_known). }
+    On failure { Assert lcCellAccountTried(actor). }
+    Result "You find Nella charged twice for the same food. The keeper of the book turns the page back, then closes it. 'We had better put this right before we deliver it.' They point out her path through the thorn hedge and shoulder the pack.".
+    Otherwise "They look at the account with you. The figures will not settle in your head, and they close the book. 'If there is a mistake,' one says, 'we will find it later.'".
+  }
+  Observe lc_cell_receipts at west_end when at(lc_cell, west_end) and able(lc_cell) and lc_cell_kind(lc_cult)
+    and knows(party, lc_cell_route) and not lcCellAccountTried(party) and not lcCellPaid(party)
+    and not lcCellDiverted(party) and not lcCellDefied(party)
+    "The circle's book lists Dym: two sacks, Nella: two, Teal: three. The tied receipts say Dym gave two, Nella one and Teal three. Nella's receipt has a folded copy beneath it.".
+  Action lc_account_nella(actor: group, site: place) "Question Nella's entry in the book" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, west_end) and at(lc_cell, site)
+      and able(lc_cell) and lc_cell_kind(lc_cult) and knows(actor, lc_cell_route) and not lcCellAccountTried(actor)
+      and not lcCellDefied(actor) and not lcCellPaid(actor) and not lcCellDiverted(actor).
+    Time 10 minutes.
+    On success { Assert lcCellAccountTried(actor). Assert lcCellDiverted(actor). Assert knows(actor, lc_nella_croft_known). }
+    Result "The bookkeeper unfolds the copy. 'I counted the paper twice.' They point out the path to Nella's croft through the thorn hedge. 'She will want her sack before she hears why.'".
+  }
+  Action lc_account_dym(actor: group, site: place) "Question Dym's entry in the book" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, west_end) and at(lc_cell, site)
+      and able(lc_cell) and lc_cell_kind(lc_cult) and knows(actor, lc_cell_route) and not lcCellAccountTried(actor)
+      and not lcCellDefied(actor) and not lcCellPaid(actor) and not lcCellDiverted(actor).
+    Time 10 minutes.
+    On success { Assert lcCellAccountTried(actor). }
+    Result "The bookkeeper holds Dym's receipt against the entry. 'Two and two.' They close the book and shoulder the food.".
+  }
+  Action lc_account_teal(actor: group, site: place) "Question Teal's entry in the book" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, west_end) and at(lc_cell, site)
+      and able(lc_cell) and lc_cell_kind(lc_cult) and knows(actor, lc_cell_route) and not lcCellAccountTried(actor)
+      and not lcCellDefied(actor) and not lcCellPaid(actor) and not lcCellDiverted(actor).
+    Time 10 minutes.
+    On success { Assert lcCellAccountTried(actor). }
+    Result "The bookkeeper holds Teal's receipt against the entry. 'Three and three.' They close the book and shoulder the food.".
+  }
+  Action lc_trade_song(actor: group, site: place) "Offer the travelling players a song for their food" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, west_end) and at(lc_cell, site)
+      and able(lc_cell) and lc_cell_kind(lc_musicians) and not lcCellSongTried(actor) and not lcCellDefied(actor)
+      and not lcCellPaid(actor) and quantity(lc_cell, rations) >= 1.
+    Time 10 minutes.
+    Resolve check(actor, performance, dc_fair).
+    On success {
+      Assert lcCellSongTried(actor). Assert lcCellPaid(actor).
+      Increase quantity(actor, rations) by quantity(lc_cell, rations). Set quantity(lc_cell, rations) to 0.
+    }
+    On failure { Assert lcCellSongTried(actor). }
+    Result "They listen, then try the chorus themselves. One of them gets the last line wrong twice and likes it better that way. They hand over the food for the song and go back down the road, still arguing about the line.".
+    Otherwise "The fiddler tries to find the tune behind your voice. At the end she shakes her head. 'I am sorry. We still have food to deliver.'".
+  }
+  Action lc_band_reckoning(actor: group, site: place) "Call the west-road band to account for their robberies" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, west_end) and at(lc_cell, site)
+      and able(lc_cell) and lc_cell_kind(lc_marauders) and knows(actor, lc_cell_route) and not lcCellReckoningTried(actor)
+      and not lcCellDefied(actor) and not lcCellPaid(actor) and not lcCellDiverted(actor).
+    Time 10 minutes.
+    Resolve check(actor, intimidation, dc_hard).
+    On success { Assert lcCellReckoningTried(actor). Assert lcCellDiverted(actor). }
+    On failure { Assert lcCellReckoningTried(actor). Assert lcCellDefied(actor). Retract peaceable(lc_cell). Assert assails(lc_cell, actor). }
+    Result "The one with the boot in his hand puts it back on. 'There is no profit in this road today,' he says. They take the food and leave.".
+    Otherwise "'You have a long account to settle, then,' says the band leader. They draw together.".
+  }
+  Action lc_take_cell_food(actor: group, site: place) "Take the Ferryman's people's remaining food" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_cell, site) and not able(lc_cell)
+      and quantity(lc_cell, rations) >= 1.
+    Time 10 minutes.
+    On success { Increase quantity(actor, rations) by quantity(lc_cell, rations). Set quantity(lc_cell, rations) to 0. }
+    Result "You open their pack and take the food.".
+  }
+  Rule lc_circle_starts_back when lcCellDiverted(party) and lc_cell_kind(lc_cult)
+    and at(lc_cell, west_end) and able(lc_cell) and not lcCircleReturning(party) and not lcCellLeft(party) {
+    Retract at(lc_cell, west_end). Assert lcCellLeft(party). Assert lcCircleReturning(party).
+    Set lcCircleReturnDue(party) to watch(clock) + 3.
+  }
+  Rule lc_circle_reaches_croft when lcCircleReturning(party) and able(lc_cell)
+    and watch(clock) >= lcCircleReturnDue(party) {
+    Retract lcCircleReturning(party). Assert at(lc_cell, lc_nella_croft).
+  }
+  Rule lc_circle_repays_nella when lcCellDiverted(party) and lc_cell_kind(lc_cult)
+    and at(lc_cell, lc_nella_croft) and able(lc_cell) and at(lc_nella, lc_nella_croft) and able(lc_nella)
+    and quantity(lc_cell, rations) >= 1 and not lcNellaRepaid(party) {
+    Decrease quantity(lc_cell, rations) by 1. Increase quantity(lc_nella, rations) by 1.
+    Assert lcNellaRepaid(party).
+  }
+  Rule lc_nella_catches_hand when lcNellaRepaid(party) and not lcNellaCut(party)
+    and at(party, lc_nella_croft) and at(lc_nella, lc_nella_croft) and able(lc_nella)
+    says "Nella catches her hand on a nail while opening the returned sack. She puts the hen down and presses her thumb over the cut." {
+    Assert lcNellaCut(party). Assert strikes(lc_nella_nail, lc_nella).
+  }
+  Observe lc_nella_cut_seen at lc_nella_croft when lcNellaCut(party) and at(lc_nella, lc_nella_croft)
+    and able(lc_nella) and memberOf(?patient, lc_nella) and needsCare(?patient)
+    "Nella has wrapped her cut hand in a corner of her apron.".
+  Action lc_cure_nella(actor: group, caster: member, patient: member, site: place) "Have {caster} cast Cure on Nella" {
+    Requires able(actor) and at(actor, site) and at(lc_nella, site) and able(lc_nella)
+      and lcNellaCut(actor) and memberOf(caster, actor) and awake(caster)
+      and memberOf(patient, lc_nella) and awake(patient) and canCast(caster, cure) and treatable(patient, cure).
+    Time 10 minutes.
+    Resolve invoke(cure, caster, patient).
+    Result "{caster} casts Cure on Nella's hand. She opens and closes it once. 'That is better. Thank you.'".
+  }
+  Action lc_tend_nella(actor: group, caster: member, patient: member, site: place) "Have {caster} cast Cure Minor Wounds on Nella" {
+    Requires able(actor) and at(actor, site) and at(lc_nella, site) and able(lc_nella)
+      and lcNellaCut(actor) and memberOf(caster, actor) and awake(caster)
+      and memberOf(patient, lc_nella) and awake(patient) and canCast(caster, cure_minor) and treatable(patient, cure_minor).
+    Time 10 minutes.
+    Resolve invoke(cure_minor, caster, patient).
+    Result "{caster} casts Cure Minor Wounds on Nella's hand. The cut closes a little. 'That is better,' she says.".
+  }
+  Topic lc_nella_ring with lc_nella "Ask Nella what she knows of the hill"
+    when lcNellaRepaid(party) and not knows(actor, lc_ring_known) once {
+    Says "'My grandmother kept a tally for the miners. She drew a passage behind the Quiet Gallery, down by the old works. I thought it was a mistake until I saw how many times she had drawn it.' Nella holds the hen away from the paper. 'She never said what was at the other end.'".
+    On discuss { Assert knows(actor, lc_ring_known). }
+  }
+  Observe lc_nella_repaid at lc_nella_croft when lcNellaRepaid(party) and at(lc_nella, lc_nella_croft)
+    and able(lc_nella) "Nella has set the returned food beside the door, under the eaves.".
+  Rule lc_cell_leaves when lcCellArrived(party) and at(lc_cell, ?place) and able(lc_cell)
+    and (lcTruce(party) or lcCellPaid(party) or lcCellDelivered(party)
+    or (lcCellDiverted(party) and not lc_cell_kind(lc_cult))) and not lcCellLeft(party) {
+    Retract at(lc_cell, ?place). Assert lcCellLeft(party).
+  }
+  Observe lc_cell_cult at west_end when at(lc_cell, west_end) and lc_cell_kind(lc_cult) and able(lc_cell)
+    "Two people stand over a little book on the road, checking its sums against the pack at their feet.".
+  Observe lc_cell_music at west_end when at(lc_cell, west_end) and lc_cell_kind(lc_musicians) and able(lc_cell)
+    "Two travellers have put down a fiddle case and a pack. One plucks a string; the other winces.".
+  Observe lc_cell_band at west_end when at(lc_cell, west_end) and lc_cell_kind(lc_marauders) and able(lc_cell)
+    "Three armed travellers sit beside a pack. One has taken off a boot and is shaking stones out of it.".
+}

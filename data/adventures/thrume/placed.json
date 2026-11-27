@@ -12,6 +12,7 @@
     "wages.kyr",
     "voices.kyr",
     "faces.kyr",
+    "count.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -23,7 +24,12 @@
   "canon": [
     "imbar",
     "slack_opened",
-    "cloudgate_fell"
+    "cloudgate_fell",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
   ],
   "imports": [
     "party",

@@ -1,0 +1,90 @@
+Module season "The Patient Star" {
+  // Under the long campaign's count (doc/design/direction-2026-11-27-the-long-campaign.md, "The war's reach"): the
+  // Ash wants stillglass, glass that holds light still, for engines that must not tire. Its factor has stuffed the Glass
+  // Office's lottery with a sheaf of names in one hand, so the month's licences fall to his cutters, who go down the
+  // North Well on the morning of the draw. A First Count coin lies under the loose step in Old Quell, where the plateau's
+  // first wardens paid the masons.
+  Relation psCoinFound(group). Relation psFactorGone(group). Relation psExposed(group). Relation psCrowded(group).
+  Relation psFought(group). Relation psShowTried(group). Relation psSold(group). Relation psHoney(group).
+  Relation psWendaShut(group). Relation psRunner(group).
+
+  Action ps_find_coin(actor: group, site: place) "Dig under the loose step in Old Quell" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, old_quell) and not psCoinFound(actor).
+    Time 20 minutes.
+    Resolve check(actor, digging, dc_fair).
+    On success { Assert psCoinFound(actor). Give count_coin to actor. }
+    Result "The step lifts on its third rocking. Under it, packed in grey clay, is a bronze disc with eleven strokes on it, and beside it a mason's mark: a star with one long ray, pointing east.".
+    Otherwise "Under the step is older step, and under that, rock. Your hands come up red with the plateau's dust.".
+  }
+
+  Person ps_factor "Factor Wendel Orrage" nowhere {
+    Role "the Ash's glass-factor, who buys stillglass for engines that must never tire". Ancestry human. Calling thief. Level 4. Manner cheerful. Carries dagger.
+    Arrives at weighing when befell(ash_count_begun) and not psFactorGone(party).
+    Arrives "A man in a grey felt coat comes into the weighing yard with a sheaf of slips under his arm and pays Pike's clerk for each of them in good silver, one at a time, and the clerk drops them into the drum one at a time.".
+    Greets "'Orrage,' he says, and offers you a slip from his sheaf as if offering a sweet. Every name on every slip is different. Every one is in the same hand. 'Glass that holds light still,' he says. 'You would not believe what my masters can do with an hour that does not pass.'".
+    Greets again "Orrage is writing another slip. He has a good hand, and is proud of it.".
+  }
+  Person ps_cutters "Orrage's cutters" nowhere {
+    Role "three grey-felted cutters off the eastern road, with hooded lanterns and long saws". Ancestry human. Calling warrior. Level 4. Numbers 3. Temperament obedient. Carries spear. Uses go, assail. Plans 3 steps.
+    Arrives at weighing when befell(ash_count_begun) and not psFactorGone(party).
+  }
+  Initially Assert serves(ps_cutters, ps_factor).
+
+  // The draw is at dawn on the sixth. An hour before, the drum is so full of Orrage's slips that every licence is his:
+  // the company's name, if it went in, is not drawn, and his cutters go down the Well.
+  Rule ps_crowds when at(ps_factor, weighing) and day(clock) == 6 and hour(clock) >= 7 and not psExposed(party) and not psCrowded(party) {
+    Assert psCrowded(party). Retract entered(party). Assert psFactorGone(party).
+    Retract at(ps_factor, weighing). Retract at(ps_cutters, weighing). Assert at(ps_cutters, watch_room).
+  }
+  Observe ps_crowded_yard at weighing when psCrowded(party)
+    "The licence board at the weighing-yard gate has twelve names for the month, all in one hand. Pike will not look at it.".
+  Observe ps_cutters_below at watch_room when at(ps_cutters, watch_room)
+    "Three hooded lanterns are set on the floor in a row with their shutters to the wall, and in their little light three grey-felted cutters are sawing a pane out of the old glass. They do not stop for you, except to look.".
+  Rule ps_cutters_turn at watch_room when at(party, watch_room) and at(ps_cutters, watch_room) and psCrowded(party) and not befell(company_sworn_ash) and not psFought(party)
+    says "The nearest cutter puts down his saw and picks up his spear. 'Licensed,' he says, and points at himself. Then at you. 'Not.'" {
+    Assert psFought(party). Assert assails(ps_cutters, party).
+  }
+
+  Action ps_show_pike(actor: group, site: place) "Show Pike that every slip in Orrage's sheaf is in one hand" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, weighing) and at(ps_factor, weighing) and at(pike, weighing) and not psShowTried(actor) and not psCrowded(actor).
+    Time 10 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert psShowTried(actor). Assert psExposed(actor). Assert psFactorGone(actor). Retract at(ps_factor, weighing). Retract at(ps_cutters, weighing). }
+    On failure { Assert psShowTried(actor). }
+    Result "You lay three slips side by side on the weighing table: the same loop on every d, the same hook on every g. Pike looks for a long time. Then he tips the drum out on the ground and begins, slowly, to sort it, and Orrage sighs and goes to find his horse.".
+    Otherwise "'Clerks write alike,' says Pike. 'It is what we pay them for.' Orrage smiles and writes another slip.".
+  }
+  Action ps_fight(actor: group, site: place) "Take Orrage's sheaf off him in the weighing yard" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, weighing) and at(ps_factor, weighing) and not psFought(actor) and not befell(company_sworn_ash).
+    Time 1 minute.
+    On success { Assert psFought(actor). Assert assails(ps_cutters, actor). Assert assails(ps_factor, actor). }
+    Result "Orrage holds the sheaf above his head like a man keeping a letter from a dog. His cutters close round him with their long saws.".
+  }
+  Rule ps_factor_dies at weighing when at(party, weighing) and dead(ps_factor) and not psFactorGone(party)
+    says "The slips have gone everywhere in the dust. Pike's clerk picks them up one by one, reads each name aloud, and puts it in his own pocket." {
+    Assert psFactorGone(party). Assert psExposed(party). Retract at(ps_cutters, weighing).
+  }
+
+  Topic ps_sell with ps_factor "Sell Orrage the company's name in the draw" when befell(company_sworn_ash) and entered(actor) and not psSold(actor) once {
+    Says "Orrage copies your names onto a slip in his good hand and pays for them twice what Pike charged. 'Now you are in it twice,' he says. 'And out of it once.'".
+    On discuss { Assert psSold(actor). Retract entered(actor). Increase quantity(actor, gold) by 20. }
+  }
+
+  Observe ps_broken at square when befell(ash_broken)
+    "The barrow boy is selling grey felt cheap, very cheap, and will not say where he got so much of it.".
+  Observe ps_triumph at well_head when befell(ash_triumphs)
+    "There is a second chain on the North Well now, grey, and the man who keeps it is not Hal Brewin, and does not sleep at midnight.".
+
+  Topic ps_ri_aunt with honey_seller "Tell Ezh's aunt the company is sworn to the Rì" when befell(company_sworn_ri) and not psHoney(actor) once {
+    Says "'The Tovash have no king,' says Ezh's aunt. 'We have bees.' She considers. 'But the bees would like him, I think.' She wraps a heel of black bread round a comb of night honey and will not take money for it.".
+    On discuss { Assert psHoney(actor). Increase quantity(actor, rations) by 2. }
+  }
+  Topic ps_ash_wenda with wenda "Tell Sister Wenda the company is sworn to the Ash" when befell(company_sworn_ash) and not psWendaShut(actor) once {
+    Says "Sister Wenda goes on stirring. 'The Arbitrals take in anyone,' she says. 'If you come back held, I will feed you broth through a reed for as long as it takes.' She does not offer you any now.".
+    On discuss { Assert psWendaShut(actor). Assert refusesService(wenda, actor). }
+  }
+  Topic ps_tally_ness with ness "Show Ness Oakum the Ash's tally-board" when holding(actor, ash_tally) and not psRunner(actor) once {
+    Says "Ness Oakum weighs the board, flexes it over her knee and listens to it creak. 'Runner,' she tells her pole. 'For the sledge. The old one split on the Ramp.' She takes it.".
+    On discuss { Assert psRunner(actor). Spend ash_tally from actor. }
+  }
+}

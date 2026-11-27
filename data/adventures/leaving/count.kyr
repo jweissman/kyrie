@@ -1,0 +1,96 @@
+Module leaving "The Leaving Supper" {
+  Relation leaCoinFound(group). Relation leaDreyGone(group). Relation leaRiAid(group). Relation leaAshRefused(group).
+  Discovery lea_old_colour "The Gannick Company never gave Hollis Drey its colours; he sold a false set from the Skellet stores.".
+  Discovery lea_ri_word "Gannick will set a place at the table for the Rì's runners and send them with the Company's meal.".
+  Discovery lea_ash_word "Gannick will not share her supper with a company sworn to the Ash.".
+
+  Observe lea_coin_hint at weir when not leaCoinFound(party)
+    "The lowest plank of the eel-smokehouse has a nail driven through its head, not its point.".
+  Action lea_find_coin(actor: group, site: place) "Pull the reversed nail from the eel-smokehouse plank" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, weir) and not leaCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert leaCoinFound(actor). Give count_coin to actor. }
+    Result "A bronze disc is wedged behind the plank, a woman with a sickle on its face. Josiah says his grandfather found it when the first weir was cut; it has been listening to eels ever since.".
+  }
+
+  Observe lea_count_square at square when befell(ash_count_begun) and not befell(ash_broken)
+    "A grey board stands beside the long table. The Ash has put sixty names in the first eleven columns.".
+  Observe lea_count_camp at camp when befell(ash_count_begun) and not befell(ash_broken)
+    "A clerk counts the Company's boots. Captain Gannick has sent the cook to ask how many supper bowls remain.".
+  Observe lea_ash_broken at square when befell(ash_broken)
+    "The grey board has been used to level one leg of the long table.".
+  Observe lea_ash_triumphs at camp when befell(ash_triumphs)
+    "The grey board stands at the head of the Company's camp. The Captain's fire is cold.".
+
+  Observe lea_drey_at_camp at camp when at(lea_drey, camp)
+    "Hollis Drey wears a grey sash. Six Ash soldiers stand in a line behind him.".
+  Person lea_drey "Captain Hollis Drey" nowhere {
+    Role "the turncoat captain who sold the Haddle company's colours". Ancestry human. Calling warrior. Level 8. Peaceable. Pronouns he.
+    Manner acerbic. Carries battleaxe.
+    Arrives at camp when befell(ash_count_begun) and not befell(turncoat_broken) and not befell(turncoat_served).
+    Greets "Hollis Drey puts a grey sash over the Company's old supper bell. 'Your colors are mine already,' he says. 'The Ash needs a company that knows how to leave.'".
+    Greets again "'The cook still has the bell,' says Drey. He taps the sash at his shoulder.".
+  }
+  Person lea_drey_guards "Drey's standard-men" nowhere {
+    Role "Hollis Drey's standard-men". Ancestry human. Calling warrior. Level 4. Numbers 6. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Warns "Six soldiers close around the camp. One carries a heavy standard, the rest short spears.".
+  }
+  Initially Assert serves(lea_drey_guards, lea_drey).
+  Rule lea_drey_guards_arrive when at(lea_drey, camp) and not leaDreyGone(party) {
+    Assert at(lea_drey_guards, camp).
+  }
+  Action lea_find_colour(actor: group, site: place) "Search under the Bell and Barrow's old table for the real colours" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and at(lea_drey, camp) and not leaDreyGone(actor).
+    Time 10 minutes.
+    On success { Assert knows(actor, lea_old_colour). }
+    Result "Under the table is a tin tube. Its cloth has the Gannick Company's mark, stitched through with the old Skellet thread.".
+  }
+  Topic lea_show_colour with gannick "Show Captain Gannick the colours Drey sold" when knows(actor, lea_old_colour) and at(lea_drey, camp) and not leaDreyGone(actor) once {
+    Says "Gannick turns the cloth over. 'He sold a copy,' she says. 'He never held my company.' She rings the supper bell once. Drey takes his sash off and goes.".
+    On discuss { Assert leaDreyGone(actor). Retract at(lea_drey, camp). Retract at(lea_drey_guards, camp). Assert befell(turncoat_broken). }
+  }
+  Topic lea_captain_reason with lea_drey "Tell Drey why Gannick has not marched after her nine suppers" when knows(actor, captain_wants_reason) and not leaDreyGone(actor) once {
+    Says "Drey looks toward the table. 'A company needs a reason,' he says. 'A name on a board is not one.' He takes his men back to the road.".
+    On discuss { Assert leaDreyGone(actor). Retract at(lea_drey, camp). Retract at(lea_drey_guards, camp). Assert befell(turncoat_broken). }
+  }
+  Action lea_challenge_drey(actor: group, site: place) "Challenge Drey and his standard-men" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, camp) and able(lea_drey) and not leaDreyGone(actor).
+    Time 1 minute.
+    On success { Assert assails(lea_drey, actor). Assert assails(lea_drey_guards, actor). }
+    Result "Drey gives the standard a sharp jerk. His men level their spears.".
+  }
+  Rule lea_drey_broken when at(lea_drey, camp) and assails(lea_drey_guards, party) and (not able(lea_drey_guards) or routed(lea_drey_guards)) {
+    Assert leaDreyGone(party). Retract at(lea_drey, camp). Retract at(lea_drey_guards, camp). Assert befell(turncoat_broken).
+  }
+  Action lea_serve_drey(actor: group, site: place) "Swear the Haddle company under Drey's grey standard" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, camp) and at(lea_drey, camp) and befell(company_sworn_ash) and not leaDreyGone(actor).
+    Time 10 minutes.
+    On success { Assert leaDreyGone(actor). Retract at(lea_drey, camp). Retract at(lea_drey_guards, camp). Assert befell(turncoat_served). Increase quantity(actor, gold) by 8. }
+    Result "Drey pays eight marks from the Ash's purse. He takes the supper bell with him.".
+  }
+
+  Topic lea_ri_oath with gannick "Tell Gannick your company is sworn to the Rì" when befell(company_sworn_ri) and not knows(actor, lea_ri_word) once {
+    Says "Gannick puts an extra bowl beside the fire. 'The Rì's runners eat here before they ride,' she says.".
+    On discuss { Assert knows(actor, lea_ri_word). }
+  }
+  Action lea_ri_table(actor: group, site: place) "Set a place at the table for the Rì's runners" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, square) and knows(actor, lea_ri_word).
+    Time 5 minutes.
+    On success { Assert leaRiAid(actor). Give 2 lv_eel to actor. }
+    Result "The Captain sends two smoked eels with the runners. They leave before the next drum roll.".
+  }
+  Topic lea_ash_oath with gannick "Tell Gannick your company is sworn to the Ash" when befell(company_sworn_ash) and not knows(actor, lea_ash_word) once {
+    Says "Gannick lifts the supper bell from the grey board. 'No Ash board at my table,' she says. She keeps the bell.".
+    On discuss { Assert knows(actor, lea_ash_word). }
+  }
+  Action lea_ash_supper(actor: group, site: place) "Ask Gannick to serve supper under the Ash's tally" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and knows(actor, lea_ash_word) and quantity(actor, gold) >= 2.
+    Time 5 minutes.
+    On success { Assert leaAshRefused(actor). Decrease quantity(actor, gold) by 2. }
+    Result "Gannick takes two marks for the firewood. You eat outside the Company's square.".
+  }
+  Topic lea_tally with gannick "Show Gannick the Ash's tally-board" when holding(actor, ash_tally) and not leaAshRefused(actor) once {
+    Says "Gannick lays the board across the empty trestles. 'No names at supper,' she says, and breaks it over her knee.".
+    On discuss { Spend ash_tally from actor. Give 2 lv_eel to actor. }
+  }
+}

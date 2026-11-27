@@ -302,6 +302,7 @@ export class Canon {
   // A condition by its id or any name it is known by, and by its id alone: the rules' port (src/ports/conditions.ts).
   static conditionOf(id: string): Condition | undefined { return this.conditions[this.resolve('conditions', id)]; }
   static conditionExact(id: string): Condition | undefined { return this.conditions[id]; }
+  static conditionKey(id: string): string { return this.resolve('conditions', id); }
   // An ability by its id, and all of them: the rules' port (src/ports/abilities.ts).
   static abilityOf(id: string): Ability | undefined { return this.abilities[id]; }
   static allAbilities(): [string, Ability][] { return Object.entries(this.abilities); }
@@ -373,7 +374,8 @@ export class Canon {
 // callings, one installation; named the composition root's where they load, and a campaign's unless it brings its own.
 export const FantasyRules: InstalledDomain = Object.freeze({
   id: 'fantasy-rules',
-  conditions: { condition: Canon.conditionOf.bind(Canon), exact: Canon.conditionExact.bind(Canon) },
+  conditions: { condition: Canon.conditionOf.bind(Canon), exact: Canon.conditionExact.bind(Canon),
+    resolve: Canon.conditionKey.bind(Canon) },
   abilities: { ability: Canon.abilityOf.bind(Canon), all: Canon.allAbilities.bind(Canon) },
   traits: { one: Canon.traitOf.bind(Canon), table: Canon.traitTable.bind(Canon) },
   callings: { one: Canon.callingOf.bind(Canon), table: Canon.callingTable.bind(Canon) },

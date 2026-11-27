@@ -1,0 +1,80 @@
+Module wrongboat "The Wrong Boat" {
+  Relation wbtCoinFound(group). Relation wbtDangerSettled(group). Relation wbtRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe wbt_coin_hint at hold when not wbtCoinFound(party)
+    "At the Mary’s hold, one onion sack is tied with a strip of red sailcloth. It is dry though the bilge is wet.".
+  Action wbt_find_coin(actor: group, site: place) "Cut the red sailcloth from the onion sack in the Mary’s hold" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hold) and not wbtCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert wbtCoinFound(actor). Give count_coin to actor. }
+    Result "The coin is blank, green at the rim. The Staithe ferrymen hid it in the first wrong cargo, so no clerk could charge a passenger for a parcel.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe wbt_count_begins at road when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "A grey board is nailed to the Staithe road sign. It records barge places before passengers.".
+  Observe wbt_count_broken at road when befell(ash_broken)
+    "The board is gone from the sign. The ferry takes its own count again.".
+  Observe wbt_count_triumph at road when befell(ash_triumphs)
+    "The Ash lists every barge on the Aldwater. The wrong parcel is found before it reaches the fair.".
+  Observe wbt_party_saved at road when wbtDangerSettled(party)
+    "Bess unhooks the toll chain. The Mary gets through with its own hands aboard.".
+
+  Person wbt_counting_leader "Scout Pellen" nowhere {
+    Role "a fen scout who tracks the Mary by the mud on her towline". Ancestry human. Calling ranger. Level 4.
+    Temperament wary. Uses go, assail. Plans 5 steps.
+    Warns "Scout Pellen has brought four trackers to the towpath. He knows which mud belongs to the Mary.".
+  }
+  Person wbt_counting_party "the four fen trackers" nowhere {
+    Role "fen trackers who cut off the towpath for the Ash’s counting board". Ancestry human. Calling ranger. Level 2. Numbers 4.
+    Temperament ambush. Uses go, assail. Plans 4 steps.
+    Warns "Four trackers carry reed bows and dogs’ whistles. They have followed the Mary’s towline to the road.".
+  }
+  Initially Assert serves(wbt_counting_party, wbt_counting_leader).
+  Rule wbt_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not wbtDangerSettled(party) {
+    Assert at(wbt_counting_party, road). Assert at(wbt_counting_leader, road).
+  }
+  Action wbt_fight(actor: group, site: place) "Keep Scout Pellen from taking the Mary’s crew" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wbt_counting_party, road) and at(wbt_counting_leader, road) and not wbtDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(wbt_counting_party, actor). Assert assails(wbt_counting_leader, actor). }
+    Result "Scout Pellen lets his hounds off the leash. Four fen trackers string out behind him, hemming the towpath.".
+  }
+  Rule wbt_force_broken when at(wbt_counting_party, road) and at(wbt_counting_leader, road) and (not able(wbt_counting_party) or routed(wbt_counting_party)) and (not able(wbt_counting_leader) or routed(wbt_counting_leader)) and assails(wbt_counting_party, party) and assails(wbt_counting_leader, party) {
+    Assert wbtDangerSettled(party). Retract at(wbt_counting_party, road). Retract at(wbt_counting_leader, road).
+  }
+  Action wbt_coin_way(actor: group, site: place) "Offer the blank coin as the old ferrymen’s toll" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wbt_counting_party, road) and at(wbt_counting_leader, road)
+      and not wbtDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert wbtDangerSettled(actor). Retract at(wbt_counting_party, road). Retract at(wbt_counting_leader, road). }
+    Result "The sergeant sees the ferry mark. He calls off the hounds and leaves the parcel aboard.".
+  }
+  Action wbt_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wbt_counting_party, road) and at(wbt_counting_leader, road)
+      and not wbtDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert wbtDangerSettled(actor). Retract at(wbt_counting_party, road). Retract at(wbt_counting_leader, road). }
+    Result "The scouts recognize your company’s column and call off the hounds.".
+  }
+  Action wbt_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wbt_counting_party, road) and at(wbt_counting_leader, road)
+      and not wbtDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert wbtDangerSettled(actor). Retract at(wbt_counting_party, road). Retract at(wbt_counting_leader, road). }
+    Result "The slate draws the scouts away from the parcel and back to the road.".
+  }
+  Action wbt_local_way(actor: group, site: place) "Take Bess Lowther’s open towpath" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wbt_counting_party, road) and at(wbt_counting_leader, road)
+      and not wbtDangerSettled(actor) and bessAlly(actor).
+    Time 5 minutes.
+    On success { Assert wbtDangerSettled(actor). Retract at(wbt_counting_party, road). Retract at(wbt_counting_leader, road). }
+    Result "Bess keeps the chain unhooked. The Mary’s crew pass the count on their own towpath.".
+  }
+  Topic wbt_ri_help with bess "Ask Bess Lowther to open the towpath for the Rì" when befell(company_sworn_ri) and not wbtRiHelped(actor) once {
+    Says "Bess Lowther unhooks the toll chain. “The Mary has work still to do. I will not let the Ash count her hands here.”".
+    On discuss { Assert wbtRiHelped(actor). Assert bessAlly(actor). }
+  }
+
+}

@@ -61,6 +61,10 @@
   "handed": 14,
   "bestiary": 49,
   "delved": 3.33,
-  "answered": 8
+  "answered": 8,
+  "mouth": 15,
+  "strayed": 0,
+  "colours": 3,
+  "aimless": 10
  }
 }

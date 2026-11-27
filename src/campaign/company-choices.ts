@@ -1,7 +1,7 @@
 import { Content, type CreatureGenerationContext } from '../content';
 import { Callings } from '../ports/callings';
 import { SettingPort } from '../setting-port';
-import { Likeness } from '../paintings/likeness';
+import { PresentationResources } from '../ports/presentation-resources';
 import { Creation } from '../rules/creation';
 import type { ModuleDraft } from './module-namespace';
 import { Formations } from '../rules/formations';
@@ -67,8 +67,10 @@ export class CompanyChoices {
       if ((context.gear ?? []).some(g => !catalog.has(catalog.itemId(g)))) {
         throw new Error('Unknown starting gear');
       }
-      // A likeness chosen at creation is a painting of the collection's (see Likeness).
-      if (context.likeness && !Likeness.ids.has(context.likeness)) { throw new Error('Unknown likeness'); }
+      // A likeness chosen at creation is a painting of the collection's (see PresentationResources).
+      if (context.likeness && !PresentationResources.likeness().ids.has(context.likeness)) {
+        throw new Error('Unknown likeness');
+      }
       // So is a sign one of Imbar's sky's (OR-13: chosen at creation, it had reached no creature).
       if (context.sign && !SettingPort.sky.signs.some(x => x.id === context.sign)) { throw new Error('Unknown sign'); }
       // Rolls placed at creation are six, one to each quality, each three dice.

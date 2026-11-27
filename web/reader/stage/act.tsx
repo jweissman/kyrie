@@ -99,15 +99,20 @@ export class Act {
   static readonly backstage: readonly View[] = ['company', 'journal', 'pack', 'story'];
   // Those standing now: the notes and the story only with the journal earned (Surfaces, OR-1244); else the company,
   // and what it carries.
+  // The backstage is your character (the owner's playtest of 27 November, OR-1492): one page, what is carried on it
+  // with what can be done with each thing, and save and Options; the notes and the story beside it only with the
+  // journal earned. Pack (its key, I) opens the same page.
   static pages(app: ReaderApp): readonly View[] {
     const journal = Surfaces.has(app.state.frame?.screen, 'the_journal');
-    return Act.backstage.filter(view => journal || !['journal', 'story'].includes(view));
+    return Act.backstage.filter(view => view !== 'pack' && (journal || !['journal', 'story'].includes(view)));
   }
   static Sheets({ app }: { app: ReaderApp }) {
     const many = (app.state.frame?.screen.party.length ?? 0) > 1;
     const named: Record<string, [string, string]> = { company: [many ? 'Company' : 'Character', 'c'],
       journal: ['Notes', 'j'], pack: ['Pack', 'i'], story: ['Story', 'h'] };
     const sheets = Act.pages(app).map(view => [view, ...named[view]!] as [View, string, string]);
+    // One page has no tabs.
+    if (sheets.length < 2) { return null; }
     return (
       <ul {...PageFrame.slot('rail')} className="sheets" aria-label="Books">{sheets.map(([view, label, key]) => <li key={view}><button type="button"
         className="sheet-key" data-action="mode" data-view={view} data-key={key}

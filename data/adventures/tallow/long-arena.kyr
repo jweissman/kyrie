@@ -1,0 +1,191 @@
+Module tallow "Tallow Deep" {
+  Place lc_ring "the drowned ring" is room within l5 at 1, 5.
+  Place lc_wyrm_walk "the scorched walk" is room within l5 at 0, 5.
+  Place lc_war_door "the door of spears" is room within l5 at 0, 6.
+  Place lc_battle_plane "the Field Without Evening" is plane.
+  Place lc_battle_region "the Field Without Evening" is region within lc_battle_plane elsewhere.
+  Place lc_battle_land "the Field Without Evening" is wilderness within lc_battle_region at 0, 0 elsewhere.
+  Place lc_battlefield "the field of the returning" is room within lc_battle_land at 0, 0 outdoors.
+  Initially Assert unlit(lc_ring). Initially Assert unlit(lc_wyrm_walk). Initially Assert unlit(lc_war_door).
+
+  Discovery lc_ring_known "A narrow way behind the Quiet Gallery leads to a ring cut beside a deep pool.".
+  Discovery lc_field_known "The door beyond the ring opens on a field where fallen fighters rise again.".
+  Relation lcArenaStarted(group). Relation lcArenaWon(group). Relation lcArenaBet(group).
+  Relation lcArenaPaid(group). Relation lcShadesWaiting(group). Relation lcShadesRising(group).
+  Measure lcShadesDue(group). Measure lcReturnsOvercome(group).
+  Relation lcReturnRewarded(group).
+  Discovery lc_return_request "The keeper will pay five coin for an account of putting the returning fighters down three times.".
+  Discovery lc_stones_rules "The keeper's tile game pays three coin for a total of five or six; more than six loses.".
+  Relation lcStonesPlaying(group). Relation lcStonesDrawing(group). Measure lcStonesTotal(group). Measure lcStonesAgain(group).
+
+  Action lc_find_ring(actor: group, site: place) "Follow the marks behind the Quiet Gallery" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, quiet_gallery) and not knows(actor, lc_ring_known).
+    Time 30 minutes.
+    On success { Assert knows(actor, lc_ring_known). }
+    Result "The marks are cuts in the wall, not scratches: pairs of feet, laid one ahead of the other. You follow them to a narrow opening. Beyond it a ring has been cut in the floor beside black water.".
+  }
+  Passage lc_ring_way "the narrow opening behind the Quiet Gallery" is passage between quiet_gallery and lc_ring
+    hidden until lc_ring_known.
+  Passage lc_ring_walk "the arch beyond the ring" is arch between lc_ring and lc_wyrm_walk
+    opening when lcArenaWon(party) or lcMeasuresSolved(party) "The arch is barred. A bronze balance is set into the wall beside it.".
+  Passage lc_wyrm_way "the scorched stair" is passage between lc_wyrm_walk and lc_war_door
+    opening when not able(lc_young_dragon) or routed(lc_young_dragon) or tolerates(lc_young_dragon, party)
+    "The young dragon lies across the stair. Its claws have left white scores in the stone.".
+  Passage lc_field_way "the door of spears" is door between lc_war_door and lc_battlefield.
+
+  Observe lc_ring_scene at lc_ring when true "A ring is cut in the floor beside a pool. There are seats above it, empty and furred with salt, and a rack of practice blades with edges that are not practice.".
+  Observe lc_walk_scene at lc_wyrm_walk when true "The walk is scorched in overlapping fans. A brass bell hangs low enough to touch, its rope burned away.".
+  Observe lc_door_scene at lc_war_door when true "A door stands open between two upright spears. Through it a wind carries the sound of people fighting; it does not come any nearer.".
+  Observe lc_field_scene at lc_battlefield when true "A field under a sky the colour of old iron. At the far edge a line of fighters advances and falls, then advances again. Near the door, figures in broken mail turn toward you.".
+
+  Person lc_ring_keeper "the keeper of the ring" at lc_ring {
+    Role "a merfolk woman in a stone pool, with a purse at her belt". Ancestry undine. Calling cleric. Level 3. Peaceable. Pronouns she.
+    Offers healing "clean bandages" for 2 coin.
+    Greets "A woman lifts her head from the pool. Silver scales go down her throat; her hands rest on the rim. 'The ring is open,' she says. 'The blades are sharp. I can mend what comes back to me, for a price.'".
+  }
+  Topic lc_ring_rules with lc_ring_keeper "Ask the keeper what is beyond the ring" when not knows(actor, lc_field_known) once {
+    Says "'Two fighters keep the arch. They yield when they have had enough, or die if they do not. The old balance can open it too. Beyond them is a dragon, and beyond that a door. The field behind the door gives its fallen back. It has never given me a reason.'".
+    On discuss { Assert knows(actor, lc_field_known). }
+  }
+  Topic lc_return_question with lc_ring_keeper "Ask why the keeper watches the field" when knows(actor, lc_field_known)
+    and not knows(actor, lc_return_request) once {
+    Says "'They rise, but I have never seen the same face twice. I want to know whether the fighting changes them or only me. Put them down three times, then tell me what you saw. I will pay five coin for the account.'".
+    On discuss { Assert knows(actor, lc_return_request). }
+  }
+  Topic lc_stones_question with lc_ring_keeper "Ask about the numbered tiles by the pool" when not knows(actor, lc_stones_rules) once {
+    Says "'One coin to play,' she says. 'There are four tiles: a one, a two and two threes. I put each tile back after drawing it. Stop on five or six and I pay three coins. Go past six and you lose. You can stop sooner, but you will lose then too. Each draw takes a little while.'".
+    On discuss { Assert knows(actor, lc_stones_rules). }
+  }
+  Person lc_fencers "the ring's fighters" at lc_ring {
+    Role "two armed fighters waiting beside the ring". Ancestry human. Calling warrior. Level 3. Numbers 2. Peaceable.
+    Greets "Two fighters stand on the far side of the ring with their helmets under their arms. One rubs the other's shoulder where a strap has chafed it.".
+  }
+  Initially Set quantity(lc_ring_keeper, gold) to 13.
+  Action lc_arena_challenge(actor: group, site: place) "Challenge the ring's fighters without a wager" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring)
+      and at(lc_fencers, site) and able(lc_fencers) and knows(actor, lc_field_known) and not lcArenaStarted(actor).
+    Time 0.
+    On success { Assert lcArenaStarted(actor). Retract peaceable(lc_fencers). Assert assails(lc_fencers, actor). }
+    Result "The fighters pull on their helmets. The keeper takes her hands off the rim of the pool.".
+  }
+  Action lc_arena_wager(actor: group, site: place) "Wager two coin against the ring's fighters" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring)
+      and at(lc_ring_keeper, site) and able(lc_ring_keeper) and at(lc_fencers, site) and able(lc_fencers)
+      and knows(actor, lc_field_known) and not lcArenaStarted(actor) and quantity(actor, gold) >= 2
+      and quantity(lc_ring_keeper, gold) >= 3.
+    Time 0.
+    On success {
+      Decrease quantity(actor, gold) by 2. Increase quantity(lc_ring_keeper, gold) by 2.
+      Assert lcArenaBet(actor). Assert lcArenaStarted(actor). Retract peaceable(lc_fencers). Assert assails(lc_fencers, actor).
+    }
+    Result "'Five back if they yield or fall,' the keeper says. She puts your two coins in her purse. The fighters pull on their helmets.".
+  }
+  Rule lc_arena_result when not lcArenaWon(party)
+    and (not able(lc_fencers) or routed(lc_fencers)) { Assert lcArenaWon(party). }
+  Action lc_collect_wager(actor: group, site: place) "Collect five coin from the ring keeper" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring)
+      and at(lc_ring_keeper, site) and able(lc_ring_keeper) and lcArenaWon(actor) and lcArenaBet(actor)
+      and not lcArenaPaid(actor) and quantity(lc_ring_keeper, gold) >= 5
+      and (not lcStonesPlaying(actor) or quantity(lc_ring_keeper, gold) >= 8).
+    Time 10 minutes.
+    On success {
+      Decrease quantity(lc_ring_keeper, gold) by 5. Increase quantity(actor, gold) by 5. Assert lcArenaPaid(actor).
+    }
+    Result "The keeper counts five coins onto the rim of the pool. One lands on its edge and rolls back into her hand. She puts it down again.".
+  }
+  Action lc_report_returns(actor: group, site: place) "Tell the keeper how the fighters fell three times" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_ring_keeper, site) and able(lc_ring_keeper)
+      and knows(actor, lc_return_request) and lcReturnsOvercome(actor) >= 3 and not lcReturnRewarded(actor)
+      and quantity(lc_ring_keeper, gold) >= 5
+      and (not lcStonesPlaying(actor) or quantity(lc_ring_keeper, gold) >= 8).
+    Time 10 minutes.
+    On success {
+      Decrease quantity(lc_ring_keeper, gold) by 5. Increase quantity(actor, gold) by 5. Assert lcReturnRewarded(actor).
+    }
+    Result "You tell her what you saw. She asks you to repeat the part about their faces, then pays you from her purse. 'I shall have to watch them again,' she says. 'I had hoped you would make it simple.'".
+  }
+  Action lc_stones_start(actor: group, site: place) "Pay one coin to play the keeper's tile game" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring) and at(lc_ring_keeper, site)
+      and able(lc_ring_keeper) and knows(actor, lc_stones_rules) and not lcStonesPlaying(actor)
+      and watch(clock) >= lcStonesAgain(actor) and quantity(actor, gold) >= 1 and quantity(lc_ring_keeper, gold) >= 2.
+    Time 10 minutes.
+    On success {
+      Decrease quantity(actor, gold) by 1. Increase quantity(lc_ring_keeper, gold) by 1.
+      Set lcStonesTotal(actor) to 0. Assert lcStonesPlaying(actor).
+    }
+    Result "The keeper takes your coin and shakes the tiles in a little cloth bag.".
+  }
+  Action lc_stones_draw(actor: group, site: place) "Draw another numbered tile" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring) and at(lc_ring_keeper, site)
+      and able(lc_ring_keeper) and lcStonesPlaying(actor) and not lcStonesDrawing(actor) and lcStonesTotal(actor) <= 6.
+    Time 10 minutes.
+    On success { Assert lcStonesDrawing(actor). }
+    Result "The keeper draws a tile and puts it back into the bag.".
+  }
+  Rule lc_stones_one when lcStonesDrawing(party) and dice(clock) <= 25 {
+    Increase lcStonesTotal(party) by 1. Retract lcStonesDrawing(party).
+  }
+  Rule lc_stones_two when lcStonesDrawing(party) and dice(clock) > 25 and dice(clock) <= 50 {
+    Increase lcStonesTotal(party) by 2. Retract lcStonesDrawing(party).
+  }
+  Rule lc_stones_three when lcStonesDrawing(party) and dice(clock) > 50 {
+    Increase lcStonesTotal(party) by 3. Retract lcStonesDrawing(party).
+  }
+  Action lc_stones_win(actor: group, site: place) "Stop and collect three coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring) and at(lc_ring_keeper, site)
+      and able(lc_ring_keeper) and lcStonesPlaying(actor) and lcStonesTotal(actor) >= 5 and lcStonesTotal(actor) <= 6
+      and quantity(lc_ring_keeper, gold) >= 3.
+    Time 10 minutes.
+    On success {
+      Decrease quantity(lc_ring_keeper, gold) by 3. Increase quantity(actor, gold) by 3.
+      Retract lcStonesPlaying(actor). Set lcStonesAgain(actor) to watch(clock) + 12.
+    }
+    Result "The keeper counts three coins onto the rim of the pool. 'You have made me very nearly poor,' she says, and puts the bag away for a while.".
+  }
+  Action lc_stones_lose(actor: group, site: place) "End the tile game without a prize" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_ring) and at(lc_ring_keeper, site)
+      and able(lc_ring_keeper) and lcStonesPlaying(actor) and lcStonesTotal(actor) > 0
+      and (lcStonesTotal(actor) < 5 or lcStonesTotal(actor) > 6).
+    Time 10 minutes.
+    On success { Retract lcStonesPlaying(actor). Set lcStonesAgain(actor) to watch(clock) + 12. }
+    Result "The keeper closes the bag. 'Another time,' she says.".
+  }
+  Observe lc_stones_zero at lc_ring when lcStonesPlaying(party) and lcStonesTotal(party) == 0 "The tiles have not been drawn yet.".
+  Observe lc_stones_one_seen at lc_ring when lcStonesPlaying(party) and lcStonesTotal(party) == 1 "The tiles total one.".
+  Observe lc_stones_two_seen at lc_ring when lcStonesPlaying(party) and lcStonesTotal(party) == 2 "The tiles total two.".
+  Observe lc_stones_three_seen at lc_ring when lcStonesPlaying(party) and lcStonesTotal(party) == 3 "The tiles total three.".
+  Observe lc_stones_four_seen at lc_ring when lcStonesPlaying(party) and lcStonesTotal(party) == 4 "The tiles total four.".
+  Observe lc_stones_five_seen at lc_ring when lcStonesPlaying(party) and lcStonesTotal(party) == 5 "The tiles total five.".
+  Observe lc_stones_six_seen at lc_ring when lcStonesPlaying(party) and lcStonesTotal(party) == 6 "The tiles total six.".
+  Observe lc_stones_bust_seen at lc_ring when lcStonesPlaying(party) and lcStonesTotal(party) > 6 "The tiles total more than six.".
+  Observe lc_arena_won at lc_ring when lcArenaWon(party) "The arch beyond the ring is open.".
+
+  Person lc_young_dragon "the young dragon of the scorched walk" at lc_wyrm_walk {
+    Role "a young dragon keeping the scorched stair". Species dragon. Variant young. Level 3. Temperament proud.
+    Warns "A small dragon, small only beside the scores its claws have made, lifts its head from the stair. Smoke comes out between its teeth. 'Twelve coins to pass,' it says. 'Or turn round. I am not hungry enough to follow.'".
+    Comes "The dragon unfolds its wings against both walls and comes down the stair.".
+    Lair lc_wyrm_walk.
+  }
+  Initially Set tribute(lc_young_dragon) to 12.
+  Person lc_shades "the returning fighters" at lc_battlefield {
+    Role "three armoured fighters whose faces do not stay the same". Species revenant. Level 2. Numbers 3. Temperament savage.
+    Warns "Three figures in broken mail lift their heads. Their faces change as you look: old, young, strangers, then the same faces again.".
+    Comes "The three come forward across the trampled grass.".
+    Lair lc_battlefield.
+  }
+  Rule lc_shades_fall_seen when not able(lc_shades) and able(party) and at(party, lc_battlefield)
+    and not lcShadesWaiting(lc_shades) and not lcShadesRising(lc_shades) {
+    Increase lcReturnsOvercome(party) by 1. Assert lcShadesWaiting(lc_shades). Set lcShadesDue(lc_shades) to watch(clock) + 18.
+  }
+  Rule lc_shades_fall_unseen when not able(lc_shades) and (not able(party) or not at(party, lc_battlefield))
+    and not lcShadesWaiting(lc_shades) and not lcShadesRising(lc_shades) {
+    Assert lcShadesWaiting(lc_shades). Set lcShadesDue(lc_shades) to watch(clock) + 18.
+  }
+  Rule lc_shades_return when lcShadesWaiting(lc_shades) and watch(clock) >= lcShadesDue(lc_shades)
+    and not at(party, lc_battlefield) {
+    Restore lc_shades. Retract lcShadesWaiting(lc_shades). Assert lcShadesRising(lc_shades).
+  }
+  Rule lc_shades_ready when lcShadesRising(lc_shades) { Retract lcShadesRising(lc_shades). }
+  Observe lc_shades_waiting at lc_battlefield when lcShadesWaiting(lc_shades)
+    "The fighters lie where they fell. The grass is already lifting around them.".
+}

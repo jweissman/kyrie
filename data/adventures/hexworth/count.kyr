@@ -1,0 +1,93 @@
+Module hexworth "A Voice for Hexworth" {
+  // The long campaign's reach (copilot/meta-campaign-outline-20261127): a counting-coin in the chapel, the town's
+  // mood once the Ash begins to count, what Hexworth makes of a company's oath, and the Ash's mystery-cult lieutenant,
+  // the Hierophant of the Blank, who comes to the moor town to teach that the twelfth place is owed. Hexworth's own
+  // story (a bell for the cutters on the Edge) is untouched: she wants the bell for the Ash's count, and the town
+  // decides.
+  Relation hxCoinFound(group). Relation hxCongregation(group). Relation hxRegisterFound(group).
+  Relation hxHierophantGone(group). Relation hxOathGift(group). Relation hxBoardBurned(group).
+  Discovery hx_register_known "The Hierophant keeps a register of the cutters lost on the Edge: each one marked owed, not dead.".
+
+  // ── A coin, under the drowned ──────────────────────────────────────────────────────────────────────────────
+  Observe hx_coin_hint at nave when not hxCoinFound(party)
+    "Under the lowest of the drowned tablets the floor has been patched, a hand's width, with a different mortar.".
+  Action hx_coin_dig(actor: group, site: place) "Pick out the patch of new mortar under the lowest tablet" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nave) and not hxCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert hxCoinFound(actor). Give count_coin to actor. }
+    Result "Behind the patch is a hollow the size of an egg, and in it a green bronze disc on a bed of sheep's wool. Eleven strokes round the rim, and a gap. On its face a woman with a sickle, worn almost away. Father Culver, watching over your shoulder, says that someone wanted it kept dry, and was not a mason.".
+  }
+
+  // ── When the Ash begins to count ───────────────────────────────────────────────────────────────────────────
+  Observe hx_count_square at square when befell(ash_count_begun) and not befell(ash_broken)
+    "A grey board is nailed to the frame over the iron heap, ruled in twelve columns. Somebody has chalked a bell over it.".
+  Observe hx_count_taproom at taproom when befell(ash_count_begun) and not befell(ash_broken)
+    "The cutters in the brewhouse talk about the marches in the south the way they talk about weather on the Edge: it is coming or it is not, and nobody here can ring for it.".
+  Observe hx_ash_broken at square when befell(ash_broken)
+    "The grey board has come down off the frame. Dilly is using it as a sledge on the wet cobbles.".
+  Observe hx_ash_rules at square when befell(ash_triumphs)
+    "A man in grey reads names off a board in the square at noon. Each one answers. Gundred Ludlam does not come out of the shed.".
+
+  // ── The Hierophant of the Blank ────────────────────────────────────────────────────────────────────────────
+  Person hx_hierophant "Sister Ondine Vasse" nowhere {
+    Role "the Hierophant of the Blank, the Ash's preacher". Ancestry human. Calling cleric. Level 6. Peaceable. Pronouns she.
+    Manner compassionate. Carries dagger.
+    Arrives at nave when befell(ash_count_begun) and not befell(hierophant_broken) and not befell(hierophant_served).
+    Greets "A woman in undyed wool sits in the front pew with her hands open on her knees. Her voice is very gentle. 'Eleven are counted,' she says, 'and the twelfth is left. Your priest calls it mercy. I call it a debt the moor has been owed for six hundred years. When the new bell rings, let it ring eleven, and then be still for the ones the Edge took.'".
+    Greets again "'Still here,' says Sister Ondine, as Dilly does, and smiles as if she knew it.".
+  }
+  Person hx_blank_bearers "the Blank-bearers" nowhere {
+    Role "the Hierophant's congregation: cutters' widows and two of the Ash's soldiers". Ancestry human. Calling warrior. Level 3.
+    Numbers 4. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Warns "Four in undyed wool stand up from the back pews. Two of them carry short swords under the wool; two carry peat-spades.".
+  }
+  Initially Assert serves(hx_blank_bearers, hx_hierophant).
+  Rule hx_congregation_gathers when at(hx_hierophant, nave) and not hxCongregation(party) and not hxHierophantGone(party) {
+    Assert hxCongregation(party). Assert at(hx_blank_bearers, nave).
+  }
+  Action hx_pew_box(actor: group, site: place) "Lift the seat of the Hierophant's pew" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hx_hierophant, site) and at(actor, nave)
+      and not knows(actor, hx_register_known).
+    Time 2 minutes.
+    On success { Assert knows(actor, hx_register_known). }
+    Result "Sister Ondine watches you do it and does not stop you. Under the seat, in a box pegged with horn, is a register in a fair hand: every cutter the Edge has taken in forty years, Edric Ludlam among them. Against each name, not DEAD but OWED. The last page is headed HEXWORTH, and is blank.".
+  }
+  // The quiet way: Father Culver reads her register to the congregation.
+  Topic hx_culver_register with culver "Show Father Culver the Hierophant's register" when knows(actor, hx_register_known) and at(hx_hierophant, nave) once {
+    Says "Father Culver reads it standing up, all of it, Edric's line twice. Then he walks to the front pew and reads it aloud, every name and every OWED, to the widows in undyed wool. By the end two of them are crying and one has gone out. 'They are not owed,' he says to Sister Ondine, very quietly. 'They are missed. It is a different column.' She looks at him a long time, gathers her wool round her, and goes out onto the road south. The soldiers go after her.".
+    On discuss { Assert hxHierophantGone(actor). Retract at(hx_hierophant, nave). Retract at(hx_blank_bearers, nave). Assert befell(hierophant_broken). }
+  }
+  // The hard way: she will not be moved by force without her people standing up.
+  Action hx_drive_out(actor: group, site: place) "Order the Hierophant out of Saint Odwin's" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hx_hierophant, site) and able(hx_hierophant)
+      and not hxHierophantGone(actor).
+    Time 1 minute.
+    On success { Assert assails(hx_blank_bearers, actor). }
+    Result "'Then you are the Edge's too,' says Sister Ondine, and does not get up. Behind you the back pews empty.".
+  }
+  Rule hx_hierophant_falls when at(hx_hierophant, nave) and not hxHierophantGone(party)
+    and (not able(hx_blank_bearers) or routed(hx_blank_bearers)) and assails(hx_blank_bearers, party)
+    says "With her people down, Sister Ondine stands at last, and walks past you out of the chapel with her hands open. Nobody stops her. On the road she does not look back." {
+    Assert hxHierophantGone(party). Retract at(hx_hierophant, nave). Assert befell(hierophant_broken).
+  }
+  // Serving her: a company sworn to the Ash may give her the bell's last silence.
+  Action hx_serve_hierophant(actor: group, site: place) "Promise the Hierophant the new bell will ring eleven and fall silent" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hx_hierophant, site) and befell(company_sworn_ash)
+      and not hxHierophantGone(actor).
+    Time 10 minutes.
+    On success { Assert hxHierophantGone(actor). Assert befell(hierophant_served). Retract at(hx_hierophant, site). Increase quantity(actor, gold) by 8. }
+    Result "Sister Ondine takes your hand in both of hers. 'Then the moor will have its column,' she says, and pays you in old silver from a widow's purse. She goes south before dusk, to the next town with a bell.".
+  }
+
+  // ── What Hexworth makes of an oath ─────────────────────────────────────────────────────────────────────────
+  Topic hx_brome_oath with brome "Tell Brome the Rì's host is on the road" when befell(company_sworn_ri) and not hxOathGift(actor) once {
+    Says "'Then they will want charcoal,' says Brome, who has been told the world is ending before. He loads a sack onto your back without asking for the coin. 'For the Rì's smiths. Tell them it is birch.'".
+    On discuss { Assert hxOathGift(actor). Give charcoal_sack to actor. }
+  }
+  Observe hx_sworn_ash at square when befell(company_sworn_ash)
+    "Dilly gets down off the iron heap when you come into the square, and takes her soldier indoors.".
+  Topic hx_dilly_board with dilly "Show Dilly the grey board with your company's name on it" when holding(actor, ash_tally) and not hxBoardBurned(actor) once {
+    Says "Dilly looks at the board, and at the name at the head of the twelfth column, and then she takes it out of your hands and walks it to the casting pit and drops it in. 'Margery didn't have names on,' she says. 'Nor should anyone.' She climbs back onto the heap.".
+    On discuss { Assert hxBoardBurned(actor). Spend ash_tally from actor. }
+  }
+}

@@ -11,6 +11,7 @@
     "battle.kyr",
     "wake.kyr",
     "lore.kyr",
+    "count.kyr",
     "company.kyr"
   ],
   "rules": [
@@ -23,11 +24,22 @@
     "imbar",
     "sallowfield_held",
     "sallowfield_burned",
-    "cloudgate_fell"
+    "cloudgate_fell",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
   ],
   "exports": {
     "party": "party",
     "region": "vale",
-    "road": "east_road"
+    "road": "east_road",
+    "green": "green",
+    "elland": "elland",
+    "companyBroken": {
+      "entity": "companyBroken",
+      "role": "relation"
+    }
   }
 }

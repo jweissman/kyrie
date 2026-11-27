@@ -1,4 +1,4 @@
-import voice from '../../data/voice/fight-help.json';
+import { PresentationResources } from '../ports/presentation-resources';
 import type { Campaign } from '../campaign/campaign';
 import type { Act, Screen, TargetRow } from '../ui/screen-types';
 import { ObservationText } from '../lang/observation-text';
@@ -35,11 +35,12 @@ export class FightHelp {
     const world = campaign.world, help = Outmatched.helper(campaign), who = help?.who, where = help?.at;
     const back = CompanyRecall.of(campaign).back(screen, true).back;
     const place = back && screen.exits.find(e => e.id === back)?.destination.name;
-    const ways = [...screen.dark ? [voice.light] : [],
-      ...who && where ? [voice.hand.replace('{who}', ObservationText.label(world, who))
+    const voice = PresentationResources.voice<{ light?: string; hand?: string; back?: string; said?: string }>('fight-help');
+    const ways = [...screen.dark && voice?.light ? [voice.light] : [],
+      ...who && where && voice?.hand ? [voice.hand.replace('{who}', ObservationText.label(world, who))
         .replace('{where}', ObservationText.label(world, where))] : [],
-      ...place ? [voice.back.replace('{place}', place)] : []];
-    return ways.length ? voice.said.replace('{ways}', this.or(ways)) : undefined;
+      ...place && voice?.back ? [voice.back.replace('{place}', place)] : []];
+    return ways.length && voice?.said ? voice.said.replace('{ways}', this.or(ways)) : undefined;
   }
   private static or(ways: string[]): string {
     return ways.length > 1 ? `${ways.slice(0, -1).join(', ')} or ${ways.at(-1)!}` : ways[0]!;

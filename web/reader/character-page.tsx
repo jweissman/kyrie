@@ -11,6 +11,7 @@ import { Told } from './stage/told';
 import { Words } from '../../src/presentation/words';
 import { Surfaces } from '../../src/presentation/surfaces';
 import { CompanyGoals } from './company-goals';
+import { PackGrid } from './pack-grid';
 
 // The character: who they are, how they stand, what they can do and what they could become. Everything on it is
 // worked out by the rules the game plays by (see CharacterSheets), so what it says is what a fight or a check will
@@ -52,7 +53,7 @@ export class CharacterPage {
         <div className="sheet-grid">
           <CharacterPage.Fighting member={m} />
           <CharacterPage.Can member={m} swaps={sections.find(s => s.id === 'prepare')?.choices ?? []} draw={draw} />
-          <div className="kit"><CharacterPage.Carries member={m} screen={screen} />
+          <div className="kit"><CharacterPage.Carries app={app} member={m} screen={screen} />
             {acts.length > 0 && <section><h3>What can be done</h3><Act.List choices={acts} draw={draw} className="column" />
             </section>}</div>
         </div>
@@ -204,7 +205,14 @@ export class CharacterPage {
       <span key={k.id}>{i > 0 && ' · '}{k.name}</span>)}</p></>;
   }
   // What they carry: what is in hand and worn first, then the rest, the same things together.
-  static Carries({ member: m, screen }: { member: MemberRow; screen: Screen }) {
+  // On the page whole (OR-1492), the grid of what they carry, each thing chosen beside it with what can be done with
+  // it (PackGrid: the pack's page had been a tab of its own); a line of names only where there is no grid to draw.
+  static Carries({ app, member: m, screen }: { app: ReaderApp; member: MemberRow; screen: Screen }) {
+    const section = app.menu.sections.find(s => s.id === `pack:${m.id}`);
+    if (section) {
+      return <section className="carries"><PackGrid.Owner app={app} draw={Act.draw(app)} section={section}
+        items={screen.items} /><p className="how">{CharacterPage.purse(screen)}</p></section>;
+    }
     const gear = CharacterPage.counted(screen.items.filter(i => i.owner === m.id));
     const used = gear.filter(g => g.item.equipped), rest = gear.filter(g => !g.item.equipped);
     const named = (xs: typeof gear) => xs.map(({ item: i, count }) =>
@@ -227,6 +235,12 @@ export class CharacterPage {
         {(swap?.children ?? []).length > 0 && <div className="instead"><span className="label">Or prepare instead</span>
           <Act.List choices={swap!.children!} draw={draw} className="small swaps" /></div>}</li>;
     })}</ul></section>;
+  }
+  // The company's coin and rations, under what is carried.
+  static purse(screen: Screen): string {
+    const p = screen.purse;
+    return `${p.coin} ${p.currency ?? 'coin'} · ${p.rations} ${p.rations === 1 ? 'ration' : 'rations'}`
+      + `${p.other.length ? ` · ${p.other.join(', ')}` : ''}`;
   }
   // What is carried, the same things together (three torches, not a torch three times), what is in use apart.
   static counted<T extends { name: string; equipped?: boolean }>(items: T[]): { item: T; count: number }[] {

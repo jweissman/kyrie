@@ -28,6 +28,7 @@
     "beyond.kyr",
     "post.kyr",
     "voices.kyr",
+    "count.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -37,9 +38,17 @@
     "party"
   ],
   "canon": [
+    "imbar",
     "outer_cthell",
     "outer_exalted",
-    "slack_opened"
+    "slack_opened",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs",
+    "heretic_broken",
+    "heretic_served"
   ],
   "imports": [
     "party",

@@ -12,11 +12,12 @@ import { CreatureFacts } from '../../src/campaign/creature-facts';
 import { CreatureStore } from '../../src/creature-store';
 import type { CampaignActor } from '../../src/campaign/definition';
 
-// Surfaces are earned (compactification, the owner, 26 November; OR-1240): the engine writes earned(company, surface)
-// for the player's company, and only asserts it. Every lens once any of the company is of the fourth level (act II);
-// the encyclopedia once it has stood in a library; the journal once one of it has done the work of learning (a scribe);
-// the world map by nothing while compactification holds. The screen says what is earned (Screen.surfaces), and a save
-// from before earning was said is brought up to date, not refused.
+// Surfaces are earned (compactification, the owner, 26 November; OR-1240), and by a find, never a level (the owner's
+// playtest of 27 November, OR-1491): the engine writes earned(company, surface) for the player's company, and only
+// asserts it. The map once one of the company carries a map of the land; the encyclopedia once it has stood in a
+// library; the journal once one of it has done the work of learning (a scribe); no lens, which no find grants yet.
+// The screen says what is earned (Screen.surfaces), and a save from before earning was said is brought up to date,
+// not refused.
 const rooms = 'Place yard "the yard" is room at 0, 0 outdoors. Place books "the reading room" is room at 1, 0. '
   + 'Passage door "the door" is door between yard and books. Initially Assert library(books). '
   + 'Company party "You" of 1 at yard.';
@@ -28,11 +29,18 @@ describe('surfaces earned', () => {
     expect(earned(t)).toEqual([]);
     expect(t.screen.surfaces).toEqual([]);
   });
-  it('earns every lens at the fourth level, and never the map', async () => {
+  it('earns nothing by a level: no lens and no map at the fourth', async () => {
     const t = await Tiny.start(rooms, { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior', level: 4,
       backgroundId: 'soldier' }] });
-    expect(t.screen.surfaces).toEqual([...Earned.lenses]);
-    expect(t.screen.surfaces).not.toContain('the_map');
+    expect(t.screen.surfaces).toEqual([]);
+  });
+  it('earns the map once a map of the land is carried, and keeps it', async () => {
+    const t = await Tiny.start(`${rooms} Item atlas "a map of the district" is map at yard.`, { party: [{ name: 'Wenna',
+      raceId: 'human', classId: 'warrior', level: 1, backgroundId: 'soldier' }] });
+    expect(t.screen.surfaces).toEqual([]);
+    const take = t.campaign.offered().find(o => /atlas/.test(o.id) && /take|pick/i.test(o.schema ?? o.id))!;
+    await t.perform(take.id);
+    expect(t.screen.surfaces).toEqual(['the_map']);
   });
   it('earns the journal with a scribe among the company', async () => {
     const t = await Tiny.start(rooms, { party: [{ name: 'Odo', raceId: 'human', classId: 'mage', level: 1,
@@ -49,8 +57,8 @@ describe('surfaces earned', () => {
     expect(t.screen.surfaces).toEqual(['the_encyclopedia']);
   });
   it('reads a save that never said what was earned as stale, and refuses nothing', async () => {
-    const t = await Tiny.start(rooms, { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior', level: 4,
-      backgroundId: 'soldier' }] });
+    const t = await Tiny.start(rooms, { party: [{ name: 'Odo', raceId: 'human', classId: 'mage', level: 1,
+      backgroundId: 'scribe' }] });
     const save = t.campaign.save(), before = t.world.apply(t.world.related('earned')
       .map(call => ({ kind: 'retract' as const, call: ModuleWriter.call(call.name, ...call.args) })));
     const actors = save.definition!.actors as CampaignActor[];
@@ -94,9 +102,9 @@ describe('every surface, earned at once', () => {
 // notes and the story so far with it; and the map no view at all before it is earned (OR-1242).
 describe('the Book, by what is earned', () => {
   const app = (surfaces?: Surface[]) => ({ state: { frame: { screen: surfaces ? { surfaces } : {} } } }) as never;
-  it('is the company\'s page and its pack until the journal, and every page with it', () => {
-    expect(Act.pages(app([]))).toEqual(['company', 'pack']);
-    expect(Act.pages(app(['the_journal']))).toEqual(['company', 'journal', 'pack', 'story']);
+  it('is your character alone until the journal, and its notes and story with it', () => {
+    expect(Act.pages(app([]))).toEqual(['company']);
+    expect(Act.pages(app(['the_journal']))).toEqual(['company', 'journal', 'story']);
     expect(ReaderApp.earned('journal', { surfaces: [] } as never)).toBe('company');
     expect(ReaderApp.earned('map', { surfaces: [] } as never)).toBeUndefined();
     expect(ReaderApp.earned('map', { surfaces: ['the_map'] } as never)).toBe('map');
