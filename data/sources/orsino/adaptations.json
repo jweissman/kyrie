@@ -983,6 +983,15 @@
       "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
     },
     {
+      "orsino": "ancestry:gnoll",
+      "kyr": [
+        "ancestry:gnoll"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Attribute modifiers, class options and racial traits (tough, resilient), with humanoid given at birth; not a player's people (OR-1236)."
+    },
+    {
       "orsino": "ancestry:goblin",
       "kyr": [
         "ancestry:goblin"

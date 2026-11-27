@@ -18,11 +18,13 @@ export class DeepTime {
       const held = content.filter(c => c.dwellers && !c.dwellers.elite && c.room.level === level.index);
       const pool = purpose.dwellers.find(d => d.depth === level.index)?.groups ?? [];
       if (!held.length || !pool.length) { return []; }
-      // Newcomers are of a kind not already on the level: not a second band of bats.
+      // Newcomers are of a kind not already on the level: not a second band of bats. To the way in, those the purpose
+      // says come in from outside (a pack of gnolls out of the hills, OR-1236), where it says any.
       const here = new Set(content.filter(c => c.room.level === level.index && c.dwellers)
         .map(c => c.dwellers!.group.label));
-      const fresh = pool.filter(g => !here.has(g.label));
-      const draw = new Draw(`${key}:newcomers:${level.index}`), group = draw.pick(fresh.length ? fresh : pool), q = this.q;
+      const fresh = pool.filter(g => !here.has(g.label)), incomers = level.index === 0 ? purpose.incomers ?? [] : [];
+      const draw = new Draw(`${key}:newcomers:${level.index}`), q = this.q;
+      const group = draw.pick(incomers.length ? incomers : fresh.length ? fresh : pool);
       const id = `${level.id}_newcomers`, beyond = `${level.id}_beyond`, rank = 1 + level.index;
       const who = group.species ? `Species ${group.species}.` : `Ancestry ${group.ancestry}. Calling ${group.calling ?? 'warrior'}.`;
       return [`  Place ${beyond} "the workings beyond" is room within ${level.id}.`,

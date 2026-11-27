@@ -74,6 +74,7 @@
     "root": { "names": ["the root of the hill"], "scenes": ["Behind the last hall the cut stone gives out into the hill's own rock, cracked and raw. The crack goes a long way down, its edges pushed outward."] }
   },
   "dwellerHabitats": ["cave"],
+  "incomers": [{ "ancestry": "gnoll", "calling": "warrior", "count": 2, "label": "the gnolls", "role": "a pack of gnolls come in from outside, howling back at the stone", "temperament": "territorial" }],
   "dwellers": [
     { "depth": 0, "groups": [
       { "species": "bat", "count": 4, "label": "the bats", "role": "bats that roost in the hall of doors", "temperament": "wary" },

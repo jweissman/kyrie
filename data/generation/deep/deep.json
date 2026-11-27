@@ -524,6 +524,7 @@
     }
   },
   "dwellerHabitats": ["cave"],
+  "incomers": [{ "ancestry": "gnoll", "calling": "warrior", "count": 2, "label": "the gnolls", "role": "a pack of gnolls come in from outside, denning where the old dwellers were", "temperament": "territorial" }],
   "dwellers": [
     {
       "depth": 0,

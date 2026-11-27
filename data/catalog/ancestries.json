@@ -141,6 +141,39 @@
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino marks goblins evil and not a player race."
       }
     },
+    "gnoll": {
+      "name": "Gnoll",
+      "description": "A tall, hyena-headed raider of the dry hills and the edges of the woods.",
+      "appearance": "A spotted, sloping hide, a long jaw full of teeth, a stiff mane down the back, and a laugh that carries.",
+      "society": "Gnolls go in packs under the strongest, and live by what they take: herds, stores, travellers on the roads. A pack that finds old workings or a barrow near a town makes its den there and raids out of it until it is driven off.",
+      "build": "Seven feet when they stand up straight, which is seldom; lean and long-armed.",
+      "ages": "Grown at ten; old at fifty.",
+      "nameGroup": "gnoll",
+      "classes": [
+        "warrior",
+        "ranger",
+        "thief",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": 2,
+        "dexterity": 1,
+        "constitution": 1,
+        "intelligence": -2,
+        "wisdom": -3,
+        "charisma": -1
+      },
+      "traits": [
+        "humanoid",
+        "tough",
+        "resilient"
+      ],
+      "source": {
+        "orsino": "ancestry:gnoll",
+        "fidelity": "faithful",
+        "notes": "Orsino racialModifier attributes, occupation options and racial traits (tough, resilient); humanoid is given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make gnolls a player race: in Kyr a pack of them moves into a first dungeon's way in once its first dwellers are dealt with (OR-1236)."
+      }
+    },
     "glimmerkin": {
       "name": "Glimmerkin",
       "description": "A small, soft-footed person of the deep caves, with eyes that shine like a cat's in lamplight and a trader's patience.",

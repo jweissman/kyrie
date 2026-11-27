@@ -48,10 +48,10 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 14,
+    "integrated": 15,
     "represented": 0,
     "reference": 0,
-    "blocked": 11
+    "blocked": 10
    }
   },
   "animal": {
@@ -1961,10 +1961,10 @@
   },
   {
    "id": "ancestry:gnoll",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "ancestry:gnoll"
    ]
   },
   {
