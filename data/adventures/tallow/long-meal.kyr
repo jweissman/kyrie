@@ -1,0 +1,40 @@
+Module tallow "Tallow Deep" {
+  Relation lcMealSet(group). Relation lcMealDone(group). Relation lcMealWarm(group).
+  Measure lcMealFood(group).
+
+  Action lc_set_meal(actor: group, site: place) "Set aside a ration for a meal with Linnet" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, garden) and at(lc_rival, site)
+      and knows(actor, lc_rival_need) and not lcMealSet(actor) and not lcMealDone(actor)
+      and quantity(actor, rations) >= 1.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, rations) by 1. Set lcMealFood(actor) to 1. Assert lcMealSet(actor). }
+    Result "Linnet clears a place among the nails. You set the food down. She has a small pot: you can warm it together in an hour, or eat it cold and be away sooner.".
+  }
+  Action lc_warm_meal(actor: group, site: place) "Cook the meal with Linnet" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, garden) and at(lc_rival, site)
+      and lcMealSet(actor) and not lcMealDone(actor) and lcMealFood(actor) >= 1.
+    Time 1 hour.
+    On success { Decrease lcMealFood(actor) by 1. Assert lcMealDone(actor). Assert lcMealWarm(actor). }
+    Result "The pot catches at the bottom. Linnet insists the dark bit is the best part, and proves it by eating it herself. You sit on the wall until the pot is cool enough to wash.".
+  }
+  Action lc_cold_meal(actor: group, site: place) "Share the meal cold with Linnet" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, garden) and at(lc_rival, site)
+      and lcMealSet(actor) and not lcMealDone(actor) and lcMealFood(actor) >= 1.
+    Time 10 minutes.
+    On success { Decrease lcMealFood(actor) by 1. Assert lcMealDone(actor). }
+    Result "You break the food between you. Linnet puts the smallest piece beside the neat row of nails, then eats it before either of you can decide whose it was.".
+  }
+  Action lc_put_meal_away(actor: group, site: place) "Put the ration away for another time" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, garden)
+      and lcMealSet(actor) and not lcMealDone(actor) and lcMealFood(actor) >= 1.
+    Time 0.
+    On success { Decrease lcMealFood(actor) by 1. Increase quantity(actor, rations) by 1. Retract lcMealSet(actor). }
+    Result "You wrap the food again and put the pot aside.".
+  }
+  Observe lc_meal_waiting at garden when lcMealSet(party) and not lcMealDone(party) and lcMealFood(party) >= 1
+    "A ration is set aside on the wall. Linnet's pot is beside it.".
+  Observe lc_meal_warm_memory at garden when lcMealDone(party) and lcMealWarm(party)
+    "Linnet has put her clean pot upside down on the wall. There is still a dark patch on the bottom.".
+  Observe lc_meal_cold_memory at garden when lcMealDone(party) and not lcMealWarm(party)
+    "Linnet has brushed the crumbs off the wall, except for one lodged under a nail.".
+}
