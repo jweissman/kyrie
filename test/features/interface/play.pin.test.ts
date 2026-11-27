@@ -73,7 +73,8 @@ describe('Interface › No long presses on the way in', () => {
       renderToStaticMarkup(createElement(TitlePage.View, { app: app('begin') })),
       renderToStaticMarkup(createElement(ComposedRow.View, { option: { id: 'human', name: 'Human' },
         onConsider: () => undefined, onChoose: () => undefined })),
-      renderToStaticMarkup(createElement(PrologueStage.Continue, { action: 'go-on', then: () => undefined }))];
+      renderToStaticMarkup(createElement(PrologueStage.Continue, { action: 'go-on', label: 'Go on…',
+        then: () => undefined }))];
     expect(drawn.map(html => html.includes('data-action') || html.includes('data-option'))).toEqual([true, true, true, true]);
     expect(drawn.filter(html => /data-hold|Hold to/.test(html))).toEqual([]);
   });

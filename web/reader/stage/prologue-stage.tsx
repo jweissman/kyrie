@@ -47,13 +47,18 @@ export class PrologueStage {
   // The opening's painting is the shell's, behind the page (Shell.plate): it rose once, over the dark, as the last step
   // of setting out ran, and is not put up again here (the owner, 18 November, OR-77; M22's second review, OR-43: on a
   // phone the country behind creation had shown, then been replaced).
-  // The page's one menu: a beat's Continue, a meeting's answers, the way on after it (the first aim said above it).
+  // The page's one menu: a meeting's answers, else the engine's one way on (Told.on, OR-1682: "There's no interaction
+  // on the introduction page, even an 'okay…'"), on every page read, the last one too. While what was answered on the
+  // road is still being told it stands, waiting, and is pressed once it is told (it had not been drawn at all).
   private static menu(app: ReaderApp, page: Page): ReactNode {
-    if (page.kind === 'meeting') { return <PrologueStage.Answers app={app} meeting={app.state.told!.meeting!} />; }
+    const told = app.state.told!, on = told.on;
+    if (page.kind === 'meeting') { return <PrologueStage.Answers app={app} meeting={told.meeting!} />; }
     if (page.kind === 'beat' && !page.last) {
-      return <PrologueStage.Continue key={`on${page.at}`} action="beat" then={() => PrologueStage.next(app)} />;
+      return <PrologueStage.Continue key={`on${page.at}`} action="beat" label={on.label}
+        then={() => PrologueStage.next(app)} />;
     }
-    return app.state.pending ? undefined : <PrologueStage.Continue action="go-on" then={() => PrologueStage.done(app)} />;
+    return <PrologueStage.Continue action={on.id} label={on.label} waiting={!!app.state.pending}
+      then={() => PrologueStage.done(app)} />;
   }
   static page(app: ReaderApp): Page {
     const s = app.state, told = s.told!, n = told.beats.length, at = s.prologue ?? 0;
@@ -105,13 +110,16 @@ export class PrologueStage {
       <p className="first-aim" data-id="aim"><span className="kicker">Your first goal</span>{Typography.curl(aim)}</p>
     </div> : null;
   }
-  // The one way on from a page of the opening: a row taken at a press (OR-169: no long presses; it had been held), the
-  // keys on it from the start, and nothing goes on by itself (the owner, 16 November).
-  static Continue({ action, then }: { action: string; then: () => void }) {
+  // The one way on from a page of the opening, in the engine's words: a row taken at a press (OR-169: no long presses;
+  // it had been held), the keys on it from the start, and nothing goes on by itself (the owner, 16 November). Waiting,
+  // it stands and cannot yet be pressed.
+  static Continue({ action, then, label, waiting }: { action: string; then: () => void; label: string;
+    waiting?: boolean }) {
     const ref = useRef<HTMLButtonElement>(null);
     useEffect(() => { ref.current?.focus({ preventScroll: true }); }, []);
-    return <ChoiceRow.Button ref={ref} className="go-on" data={{ action }} own={{ 'data-nav': true, ...PressGuard.once(then) }}
-      plain="neutral" label="Continue" />;
+    return <ChoiceRow.Button ref={ref} className="go-on" data={{ action }}
+      own={{ 'data-nav': true, ...waiting ? { disabled: true, 'aria-busy': true } : PressGuard.once(then) }}
+      plain="neutral" label={label} />;
   }
   // An answer to the meeting, done as any choice is (and timed so); its page waits on what came of it.
   static answer(app: ReaderApp, choice: Meeting['choices'][number]) {
