@@ -3415,6 +3415,42 @@
    "pri": "P1",
    "why": "a direction kept whole, from the review"
   },
+  "OR-1450": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "a step of OR-1364's design (engine-focus.md), committed once the design is accepted"
+  },
+  "OR-1451": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "a step of OR-1364's design (engine-focus.md), committed once the design is accepted"
+  },
+  "OR-1452": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "a step of OR-1364's design (engine-focus.md), committed once the design is accepted"
+  },
+  "OR-1453": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "a step of OR-1364's design (engine-focus.md), committed once the design is accepted"
+  },
+  "OR-1454": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "a step of OR-1364's design (engine-focus.md), committed once the design is accepted"
+  },
+  "OR-1455": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "a step of OR-1364's design (engine-focus.md), committed once the design is accepted"
+  },
   "OR-1366": {
    "kind": "requirement",
    "was": "defect",
