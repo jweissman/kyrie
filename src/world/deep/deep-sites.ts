@@ -3,6 +3,7 @@ import { Canon } from '../../canon/canon';
 import { ItemNames } from '../../lang/item-names';
 import { DeepLayouts, type DeepLayout, type DeepLink, type DeepRoom } from './deep-layout';
 import { DeepMechanisms } from './deep-mechanisms';
+import { DeepParley } from './deep-parley';
 import { DeepShortcuts } from './deep-shortcuts';
 import { DeepPacing, type DeepContent } from './deep-pacing';
 import { DeepRooms } from './deep-rooms';
@@ -36,7 +37,7 @@ export class DeepSites {
     string[] {
     const { purpose, values } = at, key = `${RegionKey.of(region)}:${site.id}:deep`;
     const layout = DeepLayouts.make(purpose, site.id, key), content = DeepPacing.plan(purpose, layout, key);
-    const handled = this.handled(layout), order = DeepOrder.lines(layout, content, { purpose, key });
+    const handled = this.handled(layout, content), order = DeepOrder.lines(layout, content, { purpose, key });
     // What the kingdom after the makers did with it, and what its fall left there.
     const after = [...purpose.after?.[values.kingdomkind!] ?? [], ...purpose.fallen?.[values.fallen!] ?? []];
     return [`  Measure deepWater(place). Measure deepPumped(place).`, ...this.kinds(purpose, DeepHistory.kinds(after)),
@@ -55,7 +56,8 @@ export class DeepSites {
       ...this.ore(purpose, layout), ...this.rest(purpose, layout, content), ...DeepSounds.listening(layout),
       ...DeepHistory.finds(layout, purpose), ...DeepCache.lines(layout, purpose, { values, key }), ...order,
       ...this.heard(layout, content),
-      ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
+      ...DeepTime.lines(purpose, layout, content, key), ...DeepParley.lines(layout, content),
+      ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
       ...this.bane(purpose, layout), ...this.raised(purpose, layout, values),
       ...this.hooks(purpose, values, this.bane(purpose, layout).length > 0), ...this.answers(purpose, values, layout),
@@ -100,11 +102,12 @@ export class DeepSites {
     return [`  Passage ${layout.site}_in "the way in" is tunnel between ${layout.site} and ${mouth.id} taking 2 minutes.`,
       ...layout.links.filter(l => !handled.has(l.id)).map(l => `  Passage ${l.id} ${q(l.name)} is ${l.kind} between ${l.a} and ${l.b}${l.oneWay ? ' one way' : ''} taking ${l.minutes} minutes${l.needs ? ` needing ${l.needs.join(' or ')}` : ''}.`)];
   }
-  private static handled(layout: DeepLayout): Set<string> {
+  private static handled(layout: DeepLayout, content: DeepContent[]): Set<string> {
+    const parleyed = new Set(DeepParley.ways(layout, content).map(l => l.id));
     const flooded = new Set(layout.levels.filter(l => l.flooded).flatMap(l => l.rooms.map(r => r.id)));
     const vent = DeepMechanisms.room(layout, 'vent');
     return new Set(layout.links.filter((l: DeepLink) => l.mechanism || (!l.between && flooded.has(l.a))
-      || (vent && l.b === vent.id && !l.between)).map(l => l.id));
+      || (vent && l.b === vent.id && !l.between) || parleyed.has(l.id)).map(l => l.id));
   }
   // Where a company can rest (a hall, a store-room, an old camp), and what may find it there: the savage and the
   // territorial of a level go about it, and now and then one comes to wherever the company is on their level, the

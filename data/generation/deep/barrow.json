@@ -98,7 +98,16 @@
   ],
   "elites": [
     { "depth": 0, "groups": [
-      { "ancestry": "human", "calling": "warrior", "count": 1, "label": "the robbers' captain", "role": "the captain of the grave-robbers, who means to have the king's gold", "temperament": "territorial" }
+      { "ancestry": "human", "calling": "warrior", "count": 1, "label": "the robbers' captain", "role": "the captain of the grave-robbers, who means to have the king's gold", "temperament": "territorial",
+        "parley": {
+          "ask": "Ask {band} what is worth having down here",
+          "tells": "'Not the king's door,' says {band}. 'There are words cut round it I would not read twice. We went under it. Behind the fallen bones in the ossuary there's a tunnel up into his treasury. Go quiet, and leave me my share.'",
+          "way": ["halls", "ossuary"],
+          "found": "Behind the fallen bones in the ossuary, a tunnel propped with grave-boards goes down under the king's door. It is the robbers' way to his treasury.",
+          "slips": "Taken for one of the gang, you hear the gang's business. Nobody breaks the king's door. A tunnel behind the fallen bones in the ossuary comes up in his treasury.",
+          "quit": "The recess is empty. The captain's fire has been kicked out and the bedroll taken; only a cut strap and the smell of smoke are left. The warning was taken.",
+          "known": "The captain is waiting, sword out. A night was long enough to think over what you said you were after."
+        } }
     ] },
     { "depth": 1, "groups": [
       { "species": "bone_hound", "count": 1, "label": "the great hound", "role": "the king's own hound, knitted of bones bigger than a horse's", "temperament": "territorial", "variations": ["great"] },

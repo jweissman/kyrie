@@ -1606,7 +1606,7 @@ Also kept, without comment: arrival, plea, greeting, greeted, petted, warned, yi
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 27 | 2 | 1 | 21 | 5 |
+| 1 | 30 | 2 | 1 | 23 | 6 |
 
 #### temperament
 
@@ -1937,6 +1937,46 @@ A deadline already given stands as it was (patience past this watch); one never 
 > Needs: able(actor); company(actor); at(actor, site); at(hearers, site); able(hearers); talks(hearers); temperament(hearers, ?t); hears(?t); not (tolerates(hearers, actor)); not (assails(hearers, actor)); not (routed(hearers)); not (spokenTo(hearers, actor))
 
 > Then: Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor). Assert warnedOff(hearers, actor).
+
+#### deceived, seenThrough
+
+*Kyr · relation(group, group); relation(group, group)* · `rule:inhabitants.deceived`
+
+A lie instead of either (OR-1392, the thinking inhabitants' grammar): told you are after what they are after, a band that talks takes the company for its own kind and lets it be, and says what it would say to its own (a deep site's band says what, DeepParley); seen through, it falls on the company at once. Believed, it holds while the company is there; gone, and a night to think it over, the band knows it was lied to, and falls on the company the next time it is met.
+
+#### pass off
+
+*Kyr · action (group, group, place)* · `rule:inhabitants.pass_off`
+
+- Shown as: Tell {hearers} you are after the same thing
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); company(actor); at(actor, site); at(hearers, site); able(hearers); talks(hearers); temperament(hearers, ?t); hears(?t); not (tolerates(hearers, actor)); not (assails(hearers, actor)); not (routed(hearers)); not (spokenTo(hearers, actor))
+
+> Then: Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor). Assert deceived(hearers, actor).
+
+#### lie_found_out
+
+*Kyr · rule* · `rule:inhabitants.lie_found_out`
+
+> When: deceived(?g, ?c); not (together(?g, ?c)); untilLight(clock) == 1
+
+> Then: Retract deceived(?g, ?c). Retract tolerates(?g, ?c). Assert seenThrough(?g, ?c).
+
+#### lie_remembered
+
+*Kyr · rule* · `rule:inhabitants.lie_remembered`
+
+> When: seenThrough(?g, ?c); together(?g, ?c); able(?g); not (assails(?g, ?c))
+
+> Then: Assert assails(?g, ?c).
+
+#### quit
+
+*Kyr · relation(group)* · `rule:inhabitants.quit`
+
+Warned off where it has nowhere of its own to fall back to (a deep site's band, DeepParley), it does not stay to be warned again: once the company has gone, it quits the place, and whoever comes by finds where it was empty.
 
 #### pay tribute
 

@@ -236,6 +236,35 @@ Module inhabitants "How creatures that live somewhere answer those who come into
     Result "You face {hearers} out, and you are given room.".
     Otherwise "You face {hearers} out, and it goes the wrong way.".
   }
+  // A lie instead of either (OR-1392, the thinking inhabitants' grammar): told you are after what they are after, a
+  // band that talks takes the company for its own kind and lets it be, and says what it would say to its own (a deep
+  // site's band says what, DeepParley); seen through, it falls on the company at once. Believed, it holds while the
+  // company is there; gone, and a night to think it over, the band knows it was lied to, and falls on the company the
+  // next time it is met.
+  Relation deceived(group, group). Relation seenThrough(group, group).
+  Action pass_off(actor: group, hearers: group, site: place) "Tell {hearers} you are after the same thing" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hearers, site) and able(hearers) and talks(hearers)
+      and temperament(hearers, ?t) and hears(?t) and not tolerates(hearers, actor) and not assails(hearers, actor)
+      and not routed(hearers) and not spokenTo(hearers, actor).
+    Resolve check(actor, deception, dc_fair).
+    On success {
+      Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor).
+      Assert deceived(hearers, actor).
+    }
+    On failure { Assert spokenTo(hearers, actor). Assert assails(hearers, actor). }
+    Result "You say you are after the same thing as {hearers}. You are taken at your word.".
+    Otherwise "You say you are after the same thing as {hearers}. The lie is seen through.".
+  }
+  Rule lie_found_out when deceived(?g, ?c) and not together(?g, ?c) and untilLight(clock) == 1 {
+    Retract deceived(?g, ?c). Retract tolerates(?g, ?c). Assert seenThrough(?g, ?c).
+  }
+  Rule lie_remembered when seenThrough(?g, ?c) and together(?g, ?c) and able(?g) and not assails(?g, ?c) {
+    Assert assails(?g, ?c).
+  }
+  // Warned off where it has nowhere of its own to fall back to (a deep site's band, DeepParley), it does not stay to be
+  // warned again: once the company has gone, it quits the place, and whoever comes by finds where it was empty.
+  Relation quit(group).
   // A proud creature's price, paid: it lets the company be.
   // Said without a pronoun, which a band and one alike agree with ("Give the footpads what it asks": Hessel friction 8).
   Action pay_tribute(actor: group, lord: group, site: place) "Pay {lord} the price named" {

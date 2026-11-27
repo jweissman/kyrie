@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 205 pins (174 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 708 live rows, 228 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 210 pins (179 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 709 live rows, 229 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -95,10 +95,15 @@ page's colours and opportunities.)
 
 ### Conflict
 
-- **Engagements and warnings** · 3 pins · 4 defects · 4 asks
+- **Engagements and warnings** · 8 pins · 4 defects · 4 asks
   - ○ before a fight the company is told what is at risk, as it reckons it, in words
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same
+  - ✓ hides the way she dug until she tells of it, or the ossuary is searched
+  - ✓ talked round (seed p1), lets the company be, and tells of the tunnel when asked
+  - ✓ lied to (seed p3), lets the tunnel slip, and after a night falls on the company when it comes back
+  - ✓ lied to badly (seed p0), falls on the company at once
+  - ✓ warned off (seed p4), quits the den once the company has gone, and the den is found empty
   - requirement CB-28 P2: Two forecast cases unmeasured: hobs reckoned "hard" that never hit want a placed-band measurement…
   - requirement OA-05 P2: Review T1, a departure reckoning: before setting out, route and terrain, duration and arrival…
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
@@ -150,7 +155,7 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 8 pins · 10 defects · 12 asks
+- **Journeys over known ways** · 8 pins · 9 defects · 12 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
@@ -760,7 +765,7 @@ page's colours and opportunities.)
 
 ### The engine
 
-- **Incremental computation** · 5 pins · 3 defects · 10 asks
+- **Incremental computation** · 5 pins · 5 defects · 10 asks
   - ✓ keeps each record and the revision
   - ✓ replaces only the record that changed, and moves the revision
   - ✓ is not solved again while the clock moves, and fires once the part that failed holds
