@@ -4,6 +4,7 @@
   "under": 10000,
   "sentinels": {},
   "away": {
+   "test/focus-parity.test.ts": "three clients begun from one drawn world and walked five steps, about ten seconds: CI's suite and the night's, never the push lane's ten seconds",
    "test/discovery-scale.test.ts": "A measure of how a time grows with the world: on a loaded CI runner it fails one run in a few (16 November: red on f7c1d0d0 and before, best of three already), and every red push run keeps Pages from deploying. Nightly and on demand, where its trend is read.",
    "test/features/conflict/words-before-blows.pin.test.ts": "a new life drawn on s0 and every band of its first dungeon met and stood beside (about ten seconds): CI's suite and the night's, never the push lane's ten seconds",
    "test/features/conflict/fights-foretold.pin.test.ts": "three new lives drawn on s0 and every band of its first dungeon fought ten times each (about a minute): CI's suite and the night's, never the push lane's ten seconds"

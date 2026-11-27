@@ -42,17 +42,18 @@ const quitPlay = 'The player left the encounter.';
 // A choice as the terminal lists it, and what the page draws on it in words.
 // journey: set out on over the map, not a way from here, and which of the map's kinds it is (see Journeyed).
 // opens: an opener's, the commands of its rows (see TerminalDoable): taken, it lists them.
-interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[]; signed?: Signed;
+export interface Listed {
+  id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[]; signed?: Signed;
   journey?: Journeyed; type?: ActType; told?: string[]; opens?: string[]; says?: string }
 // What a turn offers: every act, the few led with (or said to whoever is spoken with), and the lens they come through.
 // rest: where the few are a surface's own (a lens, a talk), the rest of its own, as the page's All or Something
 // else… has them.
-interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number; rest?: Listed[];
+export interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number; rest?: Listed[];
   lens?: { name: Lens; more: number }; opened?: string; says?: string }
 // How a play is shown: its scene (a walk keeps its own), with profile, and saved as asked.
 interface Played { scene?: TerminalScene; profile?: boolean; saveAs?: boolean }
 // Whom the company is speaking with (and what the likeness turned to was drawn for), what was last told, the scene.
-interface Talking { id: string; inside: Promoted['inside'] }
+export interface Talking { id: string; inside: Promoted['inside'] }
 interface Turn {
   told?: Told; current?: { screen: Screen; leaf: ReturnType<typeof Narrator.leaf> }; talking?: Talking;
   scene?: TerminalScene; helped?: boolean; attended?: boolean; profile?: { world?: number }; lens?: Lens;
@@ -120,7 +121,8 @@ export class Terminal {
     }
     return { screen, leaf };
   }
-  private static foreground(session: PlaySession, glance: ReturnType<typeof Narrator.leaf>['glance'], screen: Screen,
+  // What a turn offers (read by test/support/three-clients too, beside the page's and the runner's: OR-1450).
+  static foreground(session: PlaySession, glance: ReturnType<typeof Narrator.leaf>['glance'], screen: Screen,
     at: { talking?: Talking; lens?: Lens; opened?: Listed; travel?: Asked } = {}): Offered {
     const { talking, lens } = at;
     // Each choice's minutes, as the page says them (ActionTime.minutes), not its ticks: "Bury him · 1 min" had taken
@@ -172,6 +174,13 @@ export class Terminal {
     const after = lensed ? lensed.rest.flatMap(a => byId.get(key(a)) ?? []) : [];
     return { all, first: shown,
       ...lensed ? { lens: { name: lens, more }, rest: after } : { more: all.length - shown.length } };
+  }
+  // Whom the company is speaking with after an act: no one once it has moved or taken its leave; whom it spoke to, by
+  // talking to them; else as before (OR-1450: the terminal's step, read beside the page's and the runner's).
+  static talked(talking: Talking | undefined, at: { moved: boolean; does?: string; target?: string;
+    inside?: Promoted['inside'] }): Talking | undefined {
+    if (at.moved || at.does === 'take_leave') { return undefined; }
+    return at.does === 'talk_to' && at.target ? { id: at.target, inside: at.inside } : talking;
   }
   // As an aim is seen through, what pulls next (see Succession, PL-06): offered, as the choice to type or the aim to
   // follow, never followed for the player.
@@ -430,8 +439,8 @@ export class Terminal {
       const feedback = ActionFeedbackView.read(session.campaign, event, before);
       const moved = before.location?.id !== after.location?.id;
       const turned = turn.current?.leaf.glance?.acts.find(a => (a.command ?? a.choice) === choice.id);
-      turn.talking = moved || does === 'take_leave' ? undefined
-        : does === 'talk_to' && choice.targets?.[0] ? { id: choice.targets[0], inside: turned?.inside } : turn.talking;
+      turn.talking = Terminal.talked(turn.talking,
+        { moved, does, target: choice.targets?.[0], inside: turned?.inside });
       turn.told = { event, feedback, said: choice.name, moved };
       if (moved) { turn.lens = undefined; }
       turn.current = undefined;

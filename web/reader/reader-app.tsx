@@ -9,6 +9,7 @@ import { MenuModel, type Menu, type Travel, type View } from '../../src/frame/me
 import { WorldStage } from './stage/world-stage';
 import { Explorer, type Part } from './stage/explorer';
 import { Conversation, type TalkLine } from './conversation';
+import { PageFocus } from './page-focus';
 import type { Attention } from '../../src/ui/attention';
 import type { Promoted } from '../../src/presentation/glance-types';
 import { Surfaces } from '../../src/presentation/surfaces'; import { Earned } from '../../src/lang/index';
@@ -296,8 +297,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const doing = attention.kind === 'person' ? this.menu.scene?.subjects.find(x => x.id === attention.id)?.says?.[0] : undefined;
     const turned = attention.kind === 'place' ? []
       : (this.state.frame?.leaf.glance?.acts ?? []).filter(a => a.subject === attention.id);
-    this.setState({ attention, open: [], cursor: 0, hovered: undefined, keyed: false, turned,
-      talk: attention.kind !== 'person' ? this.state.talk : doing ? [{ kind: 'telling', text: doing }] : [], asked: [] });
+    const { talk, asked } = PageFocus.turned(this.state, attention, doing);
+    this.setState({ attention, open: [], cursor: 0, hovered: undefined, keyed: false, turned, talk, asked });
     if (choice.command) { void this.perform(choice, choice.label, attention); }
   }
   // Automation (kyrieMono.act): a command done by its id, as choosing it would, and timed as a choice is.
@@ -356,9 +357,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       // What is done from the pack or the company page in the middle of a conversation is not said in it: the follow-up
       // review tended a wound from the pack and was put back in the creditor's dialogue, the bandaging told there.
       const aside = !turning && (this.state.view === 'pack' || this.state.view === 'company');
-      const attention = aside ? Conversation.place : Conversation.holds(turning ?? this.state.attention, frame, next);
-      const person = attention.kind === 'person';
-      const talk = person ? [...this.state.talk, ...Conversation.lines(next, choice, said, this.state.talk)] : [];
+      const { attention, talk, asked, heard: since, trading } = PageFocus.after({ ...this.state, attention: was },
+        { choice, said, ...turning ? { turning } : {}, aside, frame, next, ...heard ? { replies: heard } : {} });
       const keeps = ReaderApp.keeps(this.state.exploring, frame, next);
       performance.mark('page:frame');
       this.setState({ frame: next, pending: undefined, cursor: 0,
@@ -366,9 +366,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         // Set out from the map, the journey is told where it arrives; anything else done from the map or the company
         // leaves it open.
         view: !journey && ['map', 'company'].includes(this.state.view) ? this.state.view : 'here', stage: '', attention, talk,
-        asked: person && !turning ? [...this.state.asked, choice.id] : [],
-        heard: person && was.kind === 'person' ? heard : undefined,
-        trading: person && was.kind === 'person' && was.id === attention.id ? this.state.trading : undefined,
+        asked, heard: since, trading,
         // A journey across the land (from one hex to another) is told on the map, and come to a town the company is at
         // its gate, not yet in it: entering is the player's. Set out on from the scene, the scene is back once the walk
         // is shown. A walk within a town or a site never raises the map (the

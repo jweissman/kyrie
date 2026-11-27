@@ -1,0 +1,23 @@
+{
+ "apart": [
+  "person marks runner: origin__carter_bargain exploration where page ",
+  "person marks terminal: origin__carter_bargain exploration where page ",
+  "person row runner only: follow:fever__herbs",
+  "person row runner only: go(region__s1_approach_way,region__s1_green)",
+  "person row runner only: light_item(region__party_1__candle)",
+  "person row runner only: light_item(region__party_1__torch)",
+  "person row runner only: origin__cart#look",
+  "person row runner only: wait",
+  "person row runner only: wait_for_dark",
+  "person row runner only: wait_hour",
+  "person row runner only: wait_watch",
+  "place marks runner: origin__carter_bargain exploration where page ",
+  "place row page, not terminal: origin__carter_bargain",
+  "place row page, not terminal: wait",
+  "place row page, not terminal: wait_for_dark",
+  "place row page, not terminal: wait_hour",
+  "place row page, not terminal: wait_watch",
+  "place row runner only: light_item(region__party_1__candle)",
+  "place row runner only: light_item(region__party_1__torch)"
+ ]
+}
