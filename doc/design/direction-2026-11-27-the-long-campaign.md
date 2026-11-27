@@ -7,7 +7,8 @@ do not populate the opening with this outline or require the wider world for bet
 The optional `data/adventures/tallow/long-campaign.campaign.json` plays Tallow Deep with an additional Swallet thread:
 a drawing, a rival's food, a road crew and the Ferryman's approach. Its choices change supplies, timing and who
 occupies the river bank. The crew can clear the real western fall; a guard may interrupt it, dig its way in, and be
-stopped at the Calx Gate. A negotiated withdrawal costs four rations and clears the actual positions, not the war.
+stopped at the Calx Gate. A negotiated withdrawal costs four rations, or three if Merren bargains with the Ferryman;
+it clears the actual positions, not the war. Their shared past gives her access, not control over his loyalties.
 
 The optional `data/adventures/tallow/long-ford.campaign.json` starts at Sallowfield and joins its east road to Swallet.
 The same company travels between them. The Sallowfield chapter closes without stopping a surviving company, but a

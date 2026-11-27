@@ -76,4 +76,30 @@ describe('The road under the hill: a breathing-space', () => {
     expect(j.holds('lcVanguardArrived', 'party')).toBe(false);
     expect(j.at('lc_vanguard')).not.toBe('tallow__calx_portal');
   }, 120000);
+
+  it('lets Merren bargain over her old acquaintance without changing his allegiance', async () => {
+    const j = await Journey.start(campaign, 'long-road');
+    await j.play('To Swallet lane', 'To Swallet green', 'To the Brasiers\' garden',
+      'To the Day-Level portal', 'To the adit', 'To the Day-Level portal',
+      'To the Brasiers\' garden', 'To Swallet green', 'Into the Chandler\'s Arms',
+      'Ask Merren who else wants the road', 'Ask Merren what she needs from Swallet',
+      'Out to Swallet green', 'Sell the buyer a drawing of the entrances', '=+18',
+      'Hear the Ferryman\'s offer', 'Into the Chandler\'s Arms',
+      'Ask Merren about the Ferryman\'s paper boats', '==+75',
+      'Out to Swallet green', 'Ask what it would take to withdraw his men',
+      'Into the Chandler\'s Arms');
+    const before = j.watch();
+    await j.play('Ask Merren to bargain with the Ferryman');
+    expect(j.watch() - before).toBe(6);
+    expect(j.at('lc_raiders')).toBe('tallow__bank');
+    await j.play('Out to Swallet green', 'Into Usk\'s store',
+      'Buy › A ration', 'Buy › A ration', 'Buy › A ration', 'Out to Swallet green');
+    expect(j.offers('Give the Ferryman four rations to withdraw his men')).toBe(false);
+    const food = j.measure('quantity', 'party', 'rations');
+    await j.play('Give the Ferryman three rations to withdraw his men');
+    expect(j.measure('quantity', 'party', 'rations')).toBe(food - 3);
+    expect(j.measure('lcFoeFood', 'party')).toBe(3);
+    expect(j.holds('lcTruce', 'party')).toBe(true);
+    expect(j.at('lc_raiders')).not.toBe('tallow__bank');
+  }, 120000);
 });
