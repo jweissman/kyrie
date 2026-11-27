@@ -1,7 +1,14 @@
 import type { Module, Signature } from './module';
 import type { VocabularyContext } from './vocabulary';
+import type { SiteSpan } from './declaration-sites';
+import { ModulePositions } from './module-positions';
 
 export class ModuleDiagnosticText {
+  static kind(module: Module, kind: string, span?: SiteSpan): void {
+    if (kind !== 'entity' && !module.kinds.includes(kind)) {
+      throw new Error(ModulePositions.message(span, `Unknown kind ${kind}`));
+    }
+  }
   static shape(s: Signature): string {
     return `${s.name}(${s.types.map((t, i) => s.roles?.[i] ? `${s.roles[i]}: ${t}` : t).join(', ')})`;
   }

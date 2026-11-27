@@ -1574,6 +1574,12 @@ An ability whose harm lets loose an element a try answers (Fire Bolt's fire, bur
 
 > Then: nothing changes
 
+### Fantasy ability verbs
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 0 | 0 | 0 | 0 | 0 | 0 |
+
 ### What grows where, and what can be gathered from it
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |

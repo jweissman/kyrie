@@ -4,6 +4,7 @@ import type { HookKey, Hooks, ItemKind, Species, Statistics } from './rules/cata
 import type { Defense } from './rules/defenses';
 import { StatExpressions } from './rules/stat-expressions';
 import { parseAbility, type ArenaAbility, type Effect } from './lang/parse';
+import { EffectShadows } from './ports/effects';
 import { ModifierSet, type Modifiers } from './rules/modifiers';
 import type { WeaponProfile } from './rules/fighting';
 import type { Attribute, Creature } from './creature';
@@ -204,7 +205,7 @@ export class CatalogContext {
   }
   private static parsed(kind: string, d: { name: string; use?: string; casterLevel?: number } | undefined):
     ArenaAbility | undefined {
-    const parsed = d?.use ? parseAbility(`item-${kind}`, d.name, d.use) : undefined;
+    const parsed = d?.use ? parseAbility(`item-${kind}`, d.name, d.use, EffectShadows.verb()) : undefined;
     if (d?.casterLevel === undefined) { return parsed; }
     if (!parsed?.effects.some(e => e.kind === 'cast')) {
       throw new Error(`${kind} sets a caster level but does not cast a spell`);

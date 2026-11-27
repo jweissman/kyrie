@@ -1,5 +1,6 @@
 import { parseAbility, type Amount, type Area, type ArenaAbility } from '../lang/parse';
 import { Canon, type Family } from './canon';
+import { FantasyVerbs } from './fantasy-verbs';
 import { Amounts } from '../rules/amounts';
 import type { Ability, Condition, Hooks, ItemKind, Modifiers, Perk, Species, WeaponStats } from '../rules/catalog-schema';
 
@@ -46,7 +47,7 @@ export class CanonRuntime {
       ...this.area(id, a) ? { area: this.area(id, a)! } : {},
       ...a.resist ? { resist: { kind: a.resist.kind, difficulty: this.amount(a.resist.difficulty) } } : {} };
     if (a.effects) { return { id, name: a.name, effects: a.effects, ...common, description: a.description ?? a.name }; }
-    return { ...parseAbility(id, a.name, a.effect!), description: a.effect!, ...common };
+    return { ...parseAbility(id, a.name, a.effect!, FantasyVerbs.resolve), description: a.effect!, ...common };
   }
   // The shape of what it lets loose, its own or the rules' for it (Orsino's areas name none: see Positions).
   static area(id: string, a: Ability): Area | undefined {

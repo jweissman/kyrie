@@ -39,6 +39,9 @@ export interface Entity {
 // relation may name the part each argument plays (roles), the same length as its types.
 export interface Signature { name: string; types: string[]; exclusive: boolean; most?: number; roles?: string[] }
 export interface Query { name: string; parameters: { name: string; type: string }[]; body: Predicate }
+export interface VerbDeclaration {
+  name: string; parameters: { name: string; type: string }[]; phrase: string; lowering: Change;
+}
 export interface Operator {
   searchPlace?: string;
   report?: string; seen?: string; speaker?: string; movement?: ExitDefinition;
@@ -163,6 +166,7 @@ export interface Module {
   pursuits?: Pursuit[];
   id: string; name: string; description: string; kinds: string[]; entities: Entity[];
   relations: Signature[]; measures: Signature[]; queries: Query[]; initial: Change[];
+  verbs?: VerbDeclaration[];
   goal: Predicate; actions: Operator[]; budget: NumberValue;
   // The land of each region with one, by the region's id: what its map is drawn from.
   charts?: Record<string, LandChart>;

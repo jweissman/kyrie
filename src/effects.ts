@@ -3,6 +3,7 @@ import { FixedStatBlock } from './rules/fixed-stat-block';
 import { ActorValues } from './rules/actor-values';
 import { Spellcasting } from './rules/spellcasting';
 import { DailyUses } from './rules/daily-uses';
+import { Lesson } from './lesson';
 import { LevelDrain } from './rules/level-drain'; import { Flames } from './rules/flames';
 import { Summoning } from './summoning';
 import { Content } from './content';
@@ -367,9 +368,10 @@ export class Effects {
     }
   }
   private static learn(effect: Extract<Effect, { kind: 'learn' }>, target: Fighter, context: EffectContext) {
-    if (!target.abilities.includes(effect.ability)) { target.abilities.push(effect.ability); }
-    if (!(target.taught ??= []).includes(effect.ability)) { target.taught.push(effect.ability); }
-    Effects.detail(context, target, { type: 'learn', detail: effect.ability });
+    const ability = Lesson.change(effect, target.id).call.args[1]!;
+    if (!target.abilities.includes(ability)) { target.abilities.push(ability); }
+    if (!(target.taught ??= []).includes(ability)) { target.taught.push(ability); }
+    Effects.detail(context, target, { type: 'learn', detail: ability });
   }
   // Spell slots made ready again, mana up to its maximum, or coin and experience.
   private static gain(effect: Extract<Effect, { kind: 'gain' }>, target: Fighter, rolled: number,

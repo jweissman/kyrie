@@ -26,6 +26,7 @@ import { Composition, type Composed, type ManifestEntry } from '../world/compose
 import { Routes } from '../lang/routes';
 import { ModuleExports, type ExportEntry } from './module-exports';
 import { ModuleFiles } from './module-files';
+import { ModuleSymbols } from './module-symbols';
 // A file read ahead: its text, the kinds it was read among, and what was declared for it as values.
 interface Ahead { text: string; kinds: string; declared: FileSource['declared'] }
 
@@ -139,7 +140,8 @@ export class ModuleBundle {
   }
   // The parse kept, uncopied (each caller copies what it changes: KeptParses), its own kinds declared again.
   private static kept(context: VocabularyContext, text: string, declared: FileSource['declared'] = []): Module {
-    const key = this.key(text, declared), variants = this.parses.get(key), known = context.kept(variants);
+    const key = `${context.verbKey}\u0000${this.key(text, declared)}`;
+    const variants = this.parses.get(key), known = context.kept(variants);
     if (known) { context.install(known.value.catalog); return known.value; }
     const reading = context.reading(() => KeptParses.of(context, text, declared,
       (t, d) => ModuleParser.parseWithin(context, t, d)));
@@ -152,7 +154,8 @@ export class ModuleBundle {
   // been most of what reading a generated world cost (M19-49). Kept, never changed: compose writes nothing of it.
   private static readonly rulesets = new Map<string, ReadAmong<Module>[]>();
   private static shared(context: VocabularyContext, files: SourceFile[]): ReadAmong<Module> {
-    const key = files.map(f => f.text).join('\u0001'), variants = this.rulesets.get(key);
+    const key = `${context.verbKey}\u0000${files.map(f => f.text).join('\u0001')}`;
+    const variants = this.rulesets.get(key);
     const known = context.kept(variants);
     if (known) { context.install(known.value.catalog); return known; }
     const read = context.reading(() => this.merge(context, files.map(f => this.parsed(context, f))));
@@ -211,6 +214,7 @@ export class ModuleBundle {
       kinds: [...new Set(modules.flatMap(m => m.kinds))],
       relations: ModuleBundle.once(modules.flatMap(m => m.relations)), measures: modules.flatMap(m => m.measures),
       queries: modules.flatMap(m => m.queries), initial: modules.flatMap(m => m.initial),
+      ...modules.some(m => m.verbs) ? { verbs: modules.flatMap(m => m.verbs ?? []) } : {},
       actions: modules.flatMap(m => m.actions), people: modules.flatMap(m => m.people ?? []),
       pursuits: modules.flatMap(m => m.pursuits ?? []), rules: Bringing.once(modules.flatMap(m => m.rules ?? [])),
       observations: modules.flatMap(m => m.observations ?? []), objectives: modules.flatMap(m => m.objectives ?? []),
@@ -251,14 +255,6 @@ export class ModuleBundle {
       if (installed?.some(m => Object.values(m.exports).includes(name))) { imports[name] = name; }
     }
     return imports;
-  }
-  // The roles its exports declare, each held to the entity it names, and kept with the installation for the modules
-  // composed after it (see ModuleExports).
-  private static exported(id: string, manifest: BundleManifest, draft: ModuleDraft) {
-    const declared = ModuleExports.declared(manifest.exports);
-    if (!Object.keys(declared).length) { return; }
-    ModuleExports.check(id, ModuleExports.read(manifest.exports, draft.exports, draft.instance.module));
-    draft.exported = declared;
   }
   // A chart's places, roads and parts named as the installed module names them.
   private static chart(chart: import('../lang/module').LandChart, id: string): import('../lang/module').LandChart {
@@ -317,8 +313,8 @@ export class ModuleBundle {
     const local = context.fork();
     const read: Ahead[] = [];
     for (const [i, file] of files.entries()) {
-      const own = i < at.own, declared = own ? at.values[i]?.declared ?? [] : [];
-      const text = await source.read(file), fresh = !local.kept(this.parses.get(this.key(text, declared)));
+      const text = await source.read(file), own = i < at.own, declared = own ? at.values[i]?.declared ?? [] : [];
+      const fresh = !local.kept(this.parses.get(`${local.verbKey}\u0000${this.key(text, declared)}`));
       // The parse kept, uncopied: these are copied as they are handed out (see parsed); a failure said when it is
       // loaded.
       this.ahead(local, text, declared);
@@ -375,8 +371,7 @@ export class ModuleBundle {
     unbound?: boolean;
   }, source: BundleSource): Promise<ModuleDraft> {
     if (!/^[A-Za-z][A-Za-z0-9-]*$/.test(request.id)) { throw new Error('Invalid module installation ID'); }
-    const path = source.resolve(request.bundle);
-    const manifest = JSON.parse(await source.read(path)) as BundleManifest;
+    const path = source.resolve(request.bundle), manifest = JSON.parse(await source.read(path)) as BundleManifest;
     ModuleBundle.check(manifest);
     const canon = ModuleCanon.is(path, source) ? undefined : await ModuleCanon.declarations(source, options.vocabulary);
     const { situations: situationPaths, rules: rulePaths } = this.paths(manifest, path, source, options.canonless);
@@ -416,7 +411,9 @@ export class ModuleBundle {
       draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
         imports, globals: bound.globals ?? [], exports: ModuleExports.locals(manifest.exports), kinds: options.kinds })
         .draft();
-      if (!options.unbound) { ModuleBundle.exported(request.id, manifest, draft); }
+      ModuleSymbols.prepare(draft, { id: request.id, context: options.vocabulary, imports, module: instance.module,
+        requested: request.imports, exports: manifest.exports, installed: options.installed, unbound: options.unbound,
+        mine, files: own, rules, declared: sources, parse: this.parsed.bind(this), parseOwn: this.own.bind(this) });
     } catch (error) {
       throw Diagnostics.explain(error, files.slice(0, situationPaths.length), files.slice(situationPaths.length));
     }

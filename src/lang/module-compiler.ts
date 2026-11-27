@@ -11,6 +11,7 @@ import { CheckedActions } from './checked-actions';
 import type { SiteSpan } from './declaration-sites';
 import { ModulePositions } from './module-positions';
 import { ModuleDiagnosticText } from './module-diagnostic-text';
+import { VerbDeclarations } from './verb-declarations';
 
 // Name lookups for one validation pass; validation reads every action, so linear scans make it quadratic.
 interface Lookup { types: Map<string, string>; relations: Signature[]; predicates: Signature[] }
@@ -81,6 +82,7 @@ export class ModuleCompiler {
       this.predicate(module, query.body, bindings);
       this.acyclic(module, query.name, []);
     }
+    VerbDeclarations.check(module, name => this.kind(module, name), (c, b) => this.change(module, c, b));
   }
   // What the world does on its own: people's pursuits, rules, and what is observed and wanted.
   private behaviours(module: Module) {
@@ -287,9 +289,7 @@ export class ModuleCompiler {
     return type;
   }
   private kind(module: Module, kind: string, span?: SiteSpan) {
-    if (kind !== 'entity' && !module.kinds.includes(kind)) {
-      throw new Error(ModulePositions.message(span, `Unknown kind ${kind}`));
-    }
+    ModuleDiagnosticText.kind(module, kind, span);
     this.noted?.push(`k ${kind}`);
   }
   private index(signatures: Signature[]): Map<string, Signature> {

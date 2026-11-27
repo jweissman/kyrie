@@ -47,6 +47,7 @@ export * from './symbol-references';
 export * from './symbol-table';
 export * from './templated-predicates';
 export * from './text-hash';
+export * from './verb-index';
 export * from './vocabulary';
 export * from './world';
 export * from './world-constructs';

@@ -17,6 +17,6 @@ KyrQuick <: Kyr {
   // A declaration tried by how often a drawn country writes each, the commonest first: each begins with its own word,
   // so the one that matches is the one it was, and fewer are tried and failed before it (AX-04).
   Declaration := Observation | Initial | Passage | Topic | Place | ItemDecl | Thing | WorldRule | Information | Entity
-    | Person | Relation | Action | Kind | LocalKind | LocalSpecies | Measure | Query | Goal | Budget | Description
+    | Person | Relation | Action | Kind | LocalKind | LocalSpecies | Measure | Query | Verb | Goal | Budget | Description
     | Pursuit | Route | Exit | Event | Objective | Ending | Chapter | Promise | Occasion | Situation | During | Milestone | Company | HazardDecl
 }

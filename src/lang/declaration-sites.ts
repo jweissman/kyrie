@@ -6,7 +6,7 @@ import type { Module } from './module';
 // kept and copied (ParseCache), whole or a declaration at a time (DeclarationParses) alike; a module of several files
 // joined, or installed, keeps none (ModuleBundle.joined; a save keeps none: SemanticRecords.unwritten).
 export type SymbolNamespace = 'entity' | 'person' | 'relation' | 'measure' | 'query' | 'kind' | 'act' | 'rule'
-  | 'observation' | 'objective' | 'pursuit';
+  | 'observation' | 'objective' | 'pursuit' | 'verb';
 // One declaration of the text: its field (person, passage, relation…), where it begins by the character, and its
 // line and column; or a value a generator declared (ModuleSource), which has no line of the text, but the generator
 // and construct that made it, and where its line would have been.
@@ -73,6 +73,7 @@ export class DeclarationSites {
       ['person', (m.people ?? []).map(p => p.id)],
       ['relation', m.relations.map(r => r.name)], ['measure', m.measures.map(r => r.name)],
       ['query', m.queries.map(q => q.name)], ['kind', m.kinds], ['act', m.actions.map(a => a.id)],
+      ['verb', (m.verbs ?? []).map(v => v.name)],
       ['rule', (m.rules ?? []).map(r => r.id)], ['observation', (m.observations ?? []).map(o => o.id)],
       ['objective', (m.objectives ?? []).map(o => o.id)], ['pursuit', (m.pursuits ?? []).map(p => p.id)]];
     for (const [namespace, names] of lists) {
@@ -91,6 +92,7 @@ export class DeclarationSites {
     return { entity: m.entities.length, person: m.people?.length ?? 0,
       relation: m.relations.length, measure: m.measures.length,
       query: m.queries.length, kind: m.kinds.length, act: m.actions.length, rule: m.rules?.length ?? 0,
+      verb: m.verbs?.length ?? 0,
       observation: m.observations?.length ?? 0, objective: m.objectives?.length ?? 0,
       pursuit: m.pursuits?.length ?? 0, initial: m.initial.length };
   }

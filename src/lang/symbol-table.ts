@@ -1,4 +1,4 @@
-import type { Module } from './module';
+import type { Module, VerbDeclaration } from './module';
 import type { SymbolNamespace, SiteSpan } from './declaration-sites';
 import type { VocabularyContext } from './vocabulary';
 import { SymbolReferences, type SymbolOccurrence, type SymbolRole, type SymbolSought } from './symbol-references';
@@ -9,7 +9,9 @@ import { EngineOwned } from './engine-owned';
 export interface SymbolSource { module: Module; file: string }
 // What a table is built of: the shared rules an installation is read with, and each module installed in it, by its
 // installed id, of its files.
-export interface SymbolImport { unit: string; namespace: 'relation' | 'measure'; name: string }
+export interface SymbolImport {
+  unit: string; namespace: 'relation' | 'measure'; name: string; scope?: 'own' | 'shared';
+}
 export interface SymbolInstallation {
   shared: SymbolSource[];
   modules: { id: string; files: SymbolSource[]; imports?: Record<string, SymbolImport> }[];
@@ -24,7 +26,7 @@ export interface SymbolDeclaration {
   id: string; namespace: SymbolNamespace; name: string; unit: string; module: string; file: string;
   scope: 'own' | 'shared'; origin: SymbolOrigin; span?: SymbolSpan;
   // What an entity is (place, group, situation…), or that an act is a topic.
-  type?: string; meaning?: string;
+  type?: string; meaning?: string; types?: string[]; verb?: VerbDeclaration;
 }
 export type SymbolBinding = { status: 'bound'; to: SymbolDeclaration } | { status: 'ambiguous'; candidates: SymbolDeclaration[] }
   | { status: 'language' } | { status: 'catalog' } | { status: 'lexical' } | { status: 'unresolved' };
@@ -36,7 +38,7 @@ export interface SymbolReference {
 }
 interface DeclarationInput {
   source: SymbolSource; unit: string; scope: 'own' | 'shared'; namespace: SymbolNamespace; name: string;
-  type?: string; meaning?: string;
+  type?: string; meaning?: string; types?: string[]; verb?: VerbDeclaration;
 }
 interface DeclarationSite { span: SymbolSpan; lowered: boolean }
 const searched: Record<SymbolSought, readonly SymbolNamespace[]> = {
@@ -122,19 +124,27 @@ export class SymbolTable {
     const target = this.pendingImports.get(unit)?.[name];
     if (!target) { throw new Error(`Unresolved import ${key}`); }
     const local = this.lookup(name, 'own', [target.namespace], unit);
-    const exported = this.lookup(target.name, 'own', [target.namespace], target.unit);
+    const exported = this.lookup(target.name, target.scope ?? 'own', [target.namespace], target.unit);
     const left = SymbolTable.one(local), right = SymbolTable.one(exported);
     if (!local.length || !exported.length || left.status !== 'bound' || right.status !== 'bound') {
       throw new Error(`Unresolved or ambiguous import ${unit}:${name} from ${target.unit}:${target.name}`);
     }
-    const origin = this.pendingImports.get(target.unit)?.[target.name]
+    const origin = target.scope !== 'shared' && this.pendingImports.get(target.unit)?.[target.name]
       ? this.import(target.unit, target.name, [...stack, key]) : right.to;
-    if (origin.namespace !== target.namespace || left.to.meaning !== origin.meaning) {
+    if (origin.namespace !== target.namespace || left.to.meaning !== origin.meaning
+      || !this.sameKinds(left.to, origin)) {
       throw new Error(`Incompatible import ${unit}:${name} from ${target.unit}:${target.name}`);
     }
     const imports = this.imports.get(unit) ?? new Map<string, SymbolDeclaration>();
     imports.set(name, origin); this.imports.set(unit, imports);
     return origin;
+  }
+  private sameKinds(left: SymbolDeclaration, right: SymbolDeclaration): boolean {
+    return (left.types ?? []).every((name, i) => {
+      const actual = this.resolve(left.unit, name, 'kind');
+      const expected = this.resolve(right.unit, right.types?.[i] ?? '', 'kind');
+      return actual.status === 'bound' && expected.status === 'bound' && actual.to.id === expected.to.id;
+    });
   }
   private declare(unit: string, scope: 'own' | 'shared', source: SymbolSource) {
     const m = source.module;
@@ -145,15 +155,18 @@ export class SymbolTable {
     for (const p of m.people ?? []) { this.add({ source, unit, scope, namespace: 'person', name: p.id, type: 'person' }); }
     for (const r of m.relations) {
       this.add({ source, unit, scope, namespace: 'relation', name: r.name,
-        meaning: JSON.stringify({ types: r.types, exclusive: r.exclusive }) });
+        meaning: JSON.stringify({ types: r.types, exclusive: r.exclusive }), types: [...r.types] });
     }
     for (const r of m.measures) {
       this.add({ source, unit, scope, namespace: 'measure', name: r.name,
-        meaning: JSON.stringify({ types: r.types, most: r.most }) });
+        meaning: JSON.stringify({ types: r.types, most: r.most }), types: [...r.types] });
     }
     for (const q of m.queries) {
       const meaning = q.parameters.map(p => p.type).join(',');
       this.add({ source, unit, scope, namespace: 'query', name: q.name, meaning });
+    }
+    for (const verb of m.verbs ?? []) {
+      this.add({ source, unit, scope, namespace: 'verb', name: verb.name, verb: structuredClone(verb) });
     }
     const kinds = new Set([
       ...m.kinds, ...Object.keys(m.catalog?.items ?? {}), ...Object.keys(m.catalog?.species ?? {}),

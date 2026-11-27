@@ -6,6 +6,7 @@ import { CreatureStore } from '../src/creature-store';
 import { Battle } from '../src/battle';
 import { CombatProjection } from '../src/combat-projection';
 import { parseAbility } from '../src/lang/parse';
+import { FantasyVerbs } from '../src/canon/fantasy-verbs';
 import { Campaign } from '../src/campaign/campaign';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 
@@ -156,7 +157,8 @@ describe('canonical creature lifecycle', () => {
   it('commits healing, mana, learned abilities and death to the right persistent IDs', () => {
     const { store } = Lifecycle.setup();
     const ability = { ...parseAbility('test', 'Test',
-      'Deal 3 physical damage to self. Heal 1 health to self. Teach firebolt to self. Kill enemy.'), cost: 2 };
+      'Deal 3 physical damage to self. Heal 1 health to self. Teach firebolt to self. Kill enemy.',
+      FantasyVerbs.resolve), cost: 2 };
     const lease = store.acquire(['hero']);
     lease.creatures[0]!.base.maxMana = 4;
     expect(() => lease.commit(lease.creatures)).toThrow('characteristics');

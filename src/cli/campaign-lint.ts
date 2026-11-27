@@ -5,6 +5,7 @@ import { ItemCatalog } from '../item-catalog';
 import { Canon } from '../canon/canon';
 import { Spatial } from '../lang/spatial';
 import { Effects } from '../effects';
+import { EffectShadows } from '../ports/effects';
 import { parseAbility } from '../lang/parse';
 import type { Entity, Module } from '../lang/module';
 import { EndingOrder } from '../lang/ending-order';
@@ -155,7 +156,11 @@ export class CampaignLint {
   hazards() {
     const abilities = Object.keys(Canon.abilities);
     for (const h of this.module.entities.filter(e => e.type === 'hazard' && e.effect)) {
-      try { for (const e of parseAbility(h.id, h.name, h.effect!).effects) { Effects.validate(e, abilities); } }
+      try {
+        for (const e of parseAbility(h.id, h.name, h.effect!, EffectShadows.verb()).effects) {
+          Effects.validate(e, abilities);
+        }
+      }
       catch (error) { this.add('error', 'hazard', `${h.id}: ${error instanceof Error ? error.message : String(error)}`); }
     }
   }

@@ -78,6 +78,14 @@ export class SymbolReferences {
       }
       this.predicate(q.body, within, own);
     }
+    for (const verb of m.verbs ?? []) {
+      const within = { namespace: 'verb' as const, name: verb.name };
+      const own = new Set(verb.parameters.map(p => p.name));
+      for (const p of verb.parameters) {
+        this.add({ name: p.type, sought: 'kind', role: 'type', within, lexical: false });
+      }
+      this.change(verb.lowering, within, own);
+    }
   }
   private acts(m: Module) {
     for (const a of m.actions) {

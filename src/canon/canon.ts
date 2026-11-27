@@ -1,5 +1,6 @@
 import abilities from '../../data/catalog/abilities.json';
 import { Installed, type InstalledDomain } from '../ports/installed';
+import { FantasyVerbs } from './fantasy-verbs';
 import type { Change, Effect, World } from '../lang';
 import aliases from '../../data/catalog/aliases.json';
 import ancestries from '../../data/catalog/ancestries.json';
@@ -362,6 +363,6 @@ export const FantasyRules: InstalledDomain = Object.freeze({
   abilities: { ability: Canon.abilityOf.bind(Canon), all: Canon.allAbilities.bind(Canon) },
   traits: { one: Canon.traitOf.bind(Canon), table: Canon.traitTable.bind(Canon) },
   callings: { one: Canon.callingOf.bind(Canon), table: Canon.callingTable.bind(Canon) },
-  effects: { element: Canon.elementOf.bind(Canon), lower: Canon.lowerAbility.bind(Canon) },
+  effects: { element: Canon.elementOf.bind(Canon), lower: Canon.lowerAbility.bind(Canon), verb: FantasyVerbs.resolve },
 });
 Installed.base(FantasyRules);

@@ -1,6 +1,7 @@
 import { Canon } from './canon';
 import type { ItemKind, Species } from '../rules/catalog-schema';
 import { parseAbility } from '../lang/parse';
+import { FantasyVerbs } from './fantasy-verbs';
 import type { KindsMade, LocalKindSpec, LocalSpeciesSpec } from '../lang/vocabulary';
 
 export interface LocalCatalog extends KindsMade {
@@ -51,7 +52,7 @@ export class LocalKinds {
   }
   private usable(spec: LocalKindSpec, category: ItemKind['category']) {
     if (category !== 'consumable') { throw new Error(`Kind ${spec.id} is using: what is used up is consumable, not ${category}`); }
-    try { parseAbility(spec.id, spec.name, spec.use!); } catch (error) {
+    try { parseAbility(spec.id, spec.name, spec.use!, FantasyVerbs.resolve); } catch (error) {
       throw new Error(`Kind ${spec.id} is using "${spec.use}", which the effect language does not read: ${(error as Error).message}`);
     }
   }

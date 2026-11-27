@@ -1,6 +1,7 @@
 import { Deem } from 'deem';
 import * as ohm from 'ohm-js';
 import { Grammars } from './grammars';
+import type { Change } from './module';
 
 // it: the thing, way or person the act names; here: the place it is done in (the effect language's world targets, L1:
 // doc/design/research-abilities-and-the-world-2026-11-26.md §3.3).
@@ -34,7 +35,7 @@ type EffectBody =
   | { kind: 'remove'; status: string; target: Target; pattern?: string }
   | { kind: 'kill'; target: Target }
   | { kind: 'gain'; amount: Amount; resource: Resource; target: Target }
-  | { kind: 'learn'; ability: string; target: Target }
+  | { kind: 'learn'; ability: string; target: Target; lowering?: Extract<Change, { kind: 'assert' }> }
   // Orsino's summon: amount creatures (one when unstated) of the named species, or drawn from those `from` names, or
   // from the summoner's ancestry's companions; made at a level (first when unstated). The summoner owns them.
   | { kind: 'summon'; creature: string; target: Target; from?: string[]; byAncestry?: Record<string, string[]>;
@@ -77,7 +78,11 @@ export interface ArenaAbility {
 }
 export type Area = 'burst' | 'cone' | 'line';
 
-type Ast = Effect | Effect[] | Amount;
+type UnboundVerb = { kind: 'verb'; text: string; line: number; column: number; target: 'self';
+  when?: string; save?: Save; onResist?: 'half' | 'negate'; targetTrait?: string };
+type AbilityForm = Effect | UnboundVerb;
+export type VerbResolver = (text: string) => Effect;
+type Ast = AbilityForm | AbilityForm[] | Amount;
 type AstNode = ohm.Node & { ast(): Ast };
 
 export class AbilityParser {
@@ -99,25 +104,25 @@ export class AbilityParser {
     Kill: AbilityParser.Kill,
     Flee: AbilityParser.Flee,
     Gain: AbilityParser.Gain,
-    Learn: AbilityParser.Learn,
     Summon: AbilityParser.Summon,
     Travel: AbilityParser.Travel,
     Cast: AbilityParser.Cast,
     Try_on: AbilityParser.TryOn,
     Try_here: AbilityParser.TryHere,
+    VerbCall: AbilityParser.VerbCall,
     expression: AbilityParser.expression,
     integer: AbilityParser.integer,
   });
 
-  static Program(statements: ohm.Node): Effect[] {
-    const effects: Effect[] = [];
+  static Program(statements: ohm.Node): AbilityForm[] {
+    const effects: AbilityForm[] = [];
     for (const statement of statements.children) {
-      effects.push((statement as AstNode).ast() as Effect);
+      effects.push((statement as AstNode).ast() as AbilityForm);
     }
     return effects;
   }
-  static Statement(statement: ohm.Node, save: ohm.Node, outcomes: ohm.Node, _dot: ohm.Node): Effect {
-    const effect = (statement as AstNode).ast() as Effect;
+  static Statement(statement: ohm.Node, save: ohm.Node, outcomes: ohm.Node, _dot: ohm.Node): AbilityForm {
+    const effect = (statement as AstNode).ast() as AbilityForm;
     if (save.children[0]) {
       const node = save.children[0];
       effect.save = AbilityParser.saving(node.children[1]!, node.children[4]!);
@@ -134,7 +139,7 @@ export class AbilityParser {
   // What a save that succeeds does ("; a dexterity save against 15 halves it."), what resisting does ("; resisting
   // halves it."): the SRD's half damage on a save, Orsino's onResist (OR-1320, OR-1321); and on whom alone it falls
   // ("; only on undead or construct."), Orsino's targetTrait (OR-1322).
-  private static outcome(effect: Effect, outcome: ohm.Node): void {
+  private static outcome(effect: AbilityForm, outcome: ohm.Node): void {
     const node = outcome.ctorName === 'Outcome' ? outcome.children[0]! : outcome;
     if (node.ctorName === 'Outcome_resisted') { effect.onResist = AbilityParser.verdict(node.children[2]!); return; }
     if (node.ctorName === 'Outcome_only') {
@@ -145,8 +150,8 @@ export class AbilityParser {
     const saving = AbilityParser.saving(node.children[2]!, node.children[5]!);
     effect.save = { ...saving, success: AbilityParser.verdict(node.children[6]!) };
   }
-  static Conditional(_if: ohm.Node, expression: ohm.Node, _comma: ohm.Node, action: ohm.Node): Effect {
-    const effect = (action as AstNode).ast() as Effect;
+  static Conditional(_if: ohm.Node, expression: ohm.Node, _comma: ohm.Node, action: ohm.Node): AbilityForm {
+    const effect = (action as AstNode).ast() as AbilityForm;
     const condition = ((expression as AstNode).ast() as { expression: string }).expression;
     effect.when = effect.when ? `(${condition}) && (${effect.when})` : condition;
     return effect;
@@ -207,9 +212,6 @@ export class AbilityParser {
     return { kind: 'gain', amount: (amount as AstNode).ast() as Amount,
       resource: resource.sourceString as Resource, target: target.sourceString as Target };
   }
-  static Learn(_teach: ohm.Node, ability: ohm.Node, _to: ohm.Node, target: ohm.Node): Effect {
-    return { kind: 'learn', ability: ability.sourceString, target: target.sourceString as Target };
-  }
   static Summon(_summon: ohm.Node, creature: ohm.Node, _for: ohm.Node, target: ohm.Node): Effect {
     return { kind: 'summon', creature: creature.sourceString, target: target.sourceString as Target };
   }
@@ -227,6 +229,10 @@ export class AbilityParser {
   static TryHere(_try: ohm.Node, verb: ohm.Node, _here: ohm.Node): Effect {
     return { kind: 'try', verb: verb.sourceString, target: 'here' };
   }
+  static VerbCall(this: ohm.Node, _head: ohm.Node, _words: ohm.Node): UnboundVerb {
+    const at = this.source.getLineAndColumn();
+    return { kind: 'verb', text: this.sourceString, line: at.lineNum, column: at.colNum, target: 'self' };
+  }
   static expression(_open: ohm.Node, content: ohm.Node, _close: ohm.Node): Amount {
     return { kind: 'deem', expression: content.sourceString.trim() };
   }
@@ -234,24 +240,45 @@ export class AbilityParser {
     return { kind: 'literal', value: Number(this.sourceString) };
   }
 
-  static parse(id: string, name: string, text: string): ArenaAbility {
+  static parse(id: string, name: string, text: string, resolve?: VerbResolver): ArenaAbility {
+    const forms = AbilityParser.forms(id, text);
+    const effects = forms.map(form => AbilityParser.resolve(form, resolve));
+    for (const effect of effects) { AbilityParser.check(id, effect); }
+    return { id, name, effects };
+  }
+  static syntax(id: string, text: string): void {
+    for (const form of AbilityParser.forms(id, text)) { AbilityParser.check(id, form); }
+  }
+  private static forms(id: string, text: string): AbilityForm[] {
     const match = AbilityParser.grammar.match(text, 'Program');
     if (match.failed()) { throw new Error(`Invalid ability ${id}: ${match.message}`); }
-    const effects = AbilityParser.semantics(match).ast() as Effect[];
-    for (const effect of effects) {
-      if (effect.when && Deem.grammar.match(effect.when).failed()) { throw new Error('Invalid condition'); }
-      const amounts = ['amount' in effect ? effect.amount : undefined, effect.save?.difficulty];
-      for (const amount of amounts) {
-        if (!amount) { continue; }
-        if (amount.kind === 'literal' && !Number.isSafeInteger(amount.value)) {
-          throw new Error(`Unsafe numeric literal in ${id}`);
-        }
-        if (amount.kind === 'deem' && Deem.grammar.match(amount.expression).failed()) {
-          throw new Error(`Invalid Deem expression in ${id}: ${amount.expression}`);
-        }
+    return AbilityParser.semantics(match).ast() as AbilityForm[];
+  }
+  private static check(id: string, effect: AbilityForm): void {
+    if (effect.when && Deem.grammar.match(effect.when).failed()) { throw new Error('Invalid condition'); }
+    const amounts = ['amount' in effect ? effect.amount : undefined, effect.save?.difficulty];
+    for (const amount of amounts) {
+      if (!amount) { continue; }
+      if (amount.kind === 'literal' && !Number.isSafeInteger(amount.value)) {
+        throw new Error(`Unsafe numeric literal in ${id}`);
+      }
+      if (amount.kind === 'deem' && Deem.grammar.match(amount.expression).failed()) {
+        throw new Error(`Invalid Deem expression in ${id}: ${amount.expression}`);
       }
     }
-    return { id, name, effects };
+  }
+  private static resolve(form: AbilityForm, resolve?: VerbResolver): Effect {
+    if (form.kind !== 'verb') { return form; }
+    if (!resolve) { throw new Error(`Line ${form.line}, col ${form.column}: No vocabulary for ${form.text}`); }
+    let effect: Effect;
+    try { effect = resolve(form.text); }
+    catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      throw new Error(`Line ${form.line}, col ${form.column}: ${message}`, { cause: error });
+    }
+    return { ...effect, ...form.when ? { when: form.when } : {}, ...form.save ? { save: form.save } : {},
+      ...form.onResist ? { onResist: form.onResist } : {},
+      ...form.targetTrait ? { targetTrait: form.targetTrait } : {} };
   }
 }
 

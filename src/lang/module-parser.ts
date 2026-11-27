@@ -1,4 +1,4 @@
-import { parseAbility } from './parse'; import type { DiscoveryDefinition } from './discovery';
+import { AbilityParser } from './parse'; import type { DiscoveryDefinition } from './discovery';
 import type { Declared } from './module-source'; import * as ohm from 'ohm-js';
 import { Grammars } from './grammars'; import { ModuleActions } from './module-actions';
 import type { Call, Change, Module, Operator, Predicate } from './module';
@@ -207,7 +207,7 @@ export class ModuleParser {
   // A mechanism of this place: its effect is written in the Kyr effect language and belongs to this module only.
   static HazardDecl(_h: Node, id: Node, name: Node, _means: Node, effect: Node, _dot: Node): Field {
     const text = ModuleParser.ast(effect) as string;
-    parseAbility(id.sourceString, ModuleParser.ast(name) as string, text);
+    AbilityParser.syntax(id.sourceString, text);
     return { field: 'hazard', value: { id: id.sourceString, type: 'hazard', name: ModuleParser.ast(name), effect: text } };
   }
   static Company(_c: Node, id: Node, name: Node, _of: Node, size: Node, most: Node, _at: Node, place: Node,
@@ -332,6 +332,11 @@ export class ModuleParser {
     _means: Node, predicate: Node, _dot: Node): Field {
     return { field: 'query', value: { name: name.sourceString, parameters: ModuleParser.list(parameters),
       body: ModuleParser.ast(predicate) } };
+  }
+  static Verb(_verb: Node, name: Node, _open: Node, parameters: Node, _close: Node, phrase: Node,
+    _lowers: Node, _to: Node, change: Node, _dot: Node): Field {
+    return { field: 'verb', value: { name: name.sourceString, parameters: ModuleParser.list(parameters),
+     phrase: ModuleParser.ast(phrase), lowering: ModuleParser.ast(change) } };
   }
   static Entity(_entity: Node, id: Node, _colon: Node, type: Node, name: Node, binding: Node, _dot: Node): Field {
     return { field: 'entity', value: { id: id.sourceString, type: type.sourceString, name: ModuleParser.ast(name),

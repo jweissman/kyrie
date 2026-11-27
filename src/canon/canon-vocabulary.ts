@@ -3,13 +3,16 @@ import { VocabularyContext, type KindsMade, type LocalKindSpec, type LocalSpecie
 import { LocalKinds, type LocalCatalog } from './local-catalog';
 import { Canon } from './canon';
 import { ItemCatalog } from '../item-catalog';
+import { FantasyVerbs } from './fantasy-verbs';
 
 // The setting's catalogs as the language reads a module against them (see Vocabulary): its kinds of thing, and a
 // module's own kinds made from them. Given to the language as this is imported, by whatever loads the setting (the
 // content), so that the language itself imports none of it.
 export class CanonVocabulary implements Vocabulary {
   readonly id = 'canon';
-  static context(): VocabularyContext { return new VocabularyContext(new CanonVocabulary()); }
+  static context(): VocabularyContext {
+    return new VocabularyContext(new CanonVocabulary(), [], FantasyVerbs.resolve, FantasyVerbs.key);
+  }
   constructor(private readonly local = new LocalKinds()) {}
   fork(): Vocabulary { return new CanonVocabulary(this.local.fork()); }
   fingerprint(): string { return this.local.fingerprint(); }

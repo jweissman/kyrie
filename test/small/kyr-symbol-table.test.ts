@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { KyrLint } from '../../src/cli/kyr-lint';
-import { ModuleCompiler, ModuleParser, SymbolTable, VocabularyContext, type SymbolSource } from '../../src/lang/index';
+import { ModuleCompiler, ModuleParser, parseAbility, SymbolTable, VerbIndex, VocabularyContext,
+  type SymbolSource } from '../../src/lang/index';
 
 const parsed = (file: string, text: string): SymbolSource => ({
   file, module: ModuleParser.parseWithin(VocabularyContext.none.fork(), text),
@@ -69,6 +70,21 @@ describe('the installation symbol table', () => {
     }
   });
 
+  it('rejects invalid verb slots and incompatible lowerings', () => {
+    const prefix = 'Module one "One" { Kind member. Kind ability. Relation learned(member, ability). ';
+    const cases = [
+      ['Verb teach(spell: ability) "Teach {missing}" lowers to Assert learned(spell, spell).', 'Invalid phrase slots'],
+      ['Verb teach(spell: ability) "Teach {spell} {spell}" lowers to Assert learned(spell, spell).', 'Invalid phrase slots'],
+      ['Verb teach(spell: ability) "Teach {spell}" lowers to Assert learned(spell, spell).', 'Invalid argument spell'],
+      ['Verb teach(spell: ability) "Teach {spell}s" lowers to Assert learned(spell, spell).', 'Invalid phrase slots'],
+      ['Verb teach(spell: ability) "Teach {spell}" lowers to Assert learned(?missing, spell).', 'unbound lowering'],
+    ];
+    for (const [body, message] of cases) {
+      const parsedModule = ModuleParser.parse(`${prefix}${body} }`);
+      expect(() => new ModuleCompiler().validate(parsedModule)).toThrow(message);
+    }
+  });
+
   it('keeps separate call and argument positions, including repeated calls', () => {
     const text = 'Module one "One" {\n  Query check() means known(a, a) and known(a, a).\n}';
     const modules = [ModuleParser.whole(text), ModuleParser.chunked(text)!,
@@ -99,6 +115,29 @@ describe('the installation symbol table', () => {
     }
   });
 
+  it('records a verb declaration and its lowering references', () => {
+    const text = `Module one "One" {
+      Kind member. Kind ability. Relation learned(member, ability).
+      Verb teach(spell: ability, target: member) "Teach {spell} to {target}" lowers to Assert learned(target, spell).
+    }`;
+    const modules = [ModuleParser.whole(text), ModuleParser.chunked(text)!, ModuleParser.parse(text)];
+    for (const parsedModule of modules) {
+      expect(() => new ModuleCompiler().validate(parsedModule)).not.toThrow();
+      expect(parsedModule.verbs).toEqual([{ name: 'teach',
+        parameters: [{ name: 'spell', type: 'ability' }, { name: 'target', type: 'member' }],
+        phrase: 'Teach {spell} to {target}',
+        lowering: { kind: 'assert', call: { kind: 'call', name: 'learned', args: ['target', 'spell'] } } }]);
+      const source = { file: 'one.kyr', module: parsedModule };
+      const refs = table([], [module('one', [source])]).references('one').filter(r => r.within === 'verb:teach');
+      expect(refs.find(r => r.name === 'learned')?.binding).toMatchObject({
+        status: 'bound', to: { name: 'learned', namespace: 'relation' },
+      });
+
+      expect(refs.filter(r => r.name === 'target' || r.name === 'spell')
+        .every(r => r.binding.status === 'lexical')).toBe(true);
+    }
+  });
+
   it('isolates declarations between installations', () => {
     const own = parsed('adventures/one.kyr', 'Module one "One" { Query check() means known(). }');
     const rules = parsed('rules/core.kyr', 'Module rules "Rules" { Relation known(group). }');
@@ -114,7 +153,8 @@ describe('the installation symbol table', () => {
     const relay = parsed('relay.kyr', 'Module relay "Relay" { Relation news(group). }');
     const user = parsed('user.kyr', 'Module user "User" { Relation tidings(group). Query check() means tidings(?x). }');
     const other = parsed('other.kyr', 'Module other "Other" { Relation known(group). }');
-    const symbols = SymbolTable.of(VocabularyContext.none.fork(), { shared: [], modules: [
+    const shared = parsed('rules.kyr', 'Module rules "Rules" { Kind group. }');
+    const symbols = SymbolTable.of(VocabularyContext.none.fork(), { shared: [shared], modules: [
       { id: 'user', files: [user], imports: { tidings: { unit: 'relay', namespace: 'relation', name: 'news' } } },
       { id: 'relay', files: [relay], imports: { news: { unit: 'source', namespace: 'relation', name: 'known' } } },
       module('source', [source]), module('other', [other]),
@@ -130,11 +170,21 @@ describe('the installation symbol table', () => {
       id, files: [file], imports: { [local]: { unit: target, namespace: 'relation' as const,
         name: local === 'news' ? 'known' : 'news' } },
     });
+
     expect(() => SymbolTable.of(VocabularyContext.none.fork(), { shared: [],
       modules: [module('source', [source]), entry('own', own, 'source', 'news')] })).toThrow('Incompatible import');
     expect(() => SymbolTable.of(VocabularyContext.none.fork(), { shared: [], modules: [
       entry('source', source, 'own', 'known'), entry('own', own, 'source', 'news'),
     ] })).toThrow('Cyclic import');
+  });
+
+  it('rejects an import whose equally spelled kinds are distinct declarations', () => {
+    const source = parsed('source.kyr', 'Module source "Source" { Kind mark. Relation known(mark). }');
+    const own = parsed('own.kyr', 'Module own "Own" { Kind mark. Relation news(mark). }');
+    expect(() => SymbolTable.of(VocabularyContext.none.fork(), { shared: [], modules: [
+      module('source', [source]), { id: 'own', files: [own],
+        imports: { news: { unit: 'source', namespace: 'relation', name: 'known' } } },
+    ] })).toThrow('Incompatible import');
   });
 
   it('keeps the existing twins lint findings exactly', () => {
@@ -151,3 +201,67 @@ describe('the installation symbol table', () => {
 function parsedModule(id: string, declarations: string): SymbolSource['module'] {
   return ModuleParser.parseWithin(VocabularyContext.none.fork(), `Module ${id} "${id}" { ${declarations} }`);
 }
+
+it('binds a verb lowering to the shared relation and its kind identities', () => {
+  const shared = parsed('rules.kyr', 'Module rules "Rules" { Kind member. Kind ability. Relation learned(member, ability). }');
+  const own = parsed('one.kyr', `Module one "One" {
+    Verb teach(spell: ability, target: member) "Teach {spell} to {target}" lowers to Assert learned(target, spell).
+  }`);
+  const symbols = table([shared], [module('one', [own])]);
+  const operands = new Map([
+    ['rules:kind:ability', { kind: 'identifier' as const }],
+    ['rules:kind:member', { kind: 'choice' as const, values: ['ally', 'self'] }],
+  ]);
+  const verbs = VerbIndex.of(symbols, ['one'], operands);
+  expect(verbs.match('Teach fire_ward to ally')).toMatchObject({
+    relation: { id: 'rules:relation:learned' },
+    change: { kind: 'assert', call: { name: 'learned', args: ['ally', 'fire_ward'] } },
+  });
+  expect(() => verbs.match('Teach fire_ward to nobody')).toThrow('No declared verb matches');
+});
+
+it('rejects overlapping phrases and same-spelled kinds with different identities', () => {
+  const shared = parsed('rules.kyr', 'Module rules "Rules" { Kind member. Kind ability. Relation learned(member, ability). }');
+  const verb = 'Verb teach(spell: ability, target: member) "Teach {spell} to {target}" '
+    + 'lowers to Assert learned(target, spell).';
+  const overlapping = verb.replace('Verb teach(', 'Verb instruct(');
+  const distinct = overlapping.replace('} to {', '} beside {');
+  const operands = new Map([
+    ['rules:kind:ability', { kind: 'identifier' as const }],
+    ['rules:kind:member', { kind: 'choice' as const, values: ['ally', 'self'] }],
+    ['one:kind:member', { kind: 'choice' as const, values: ['ally', 'self'] }],
+  ]);
+  const index = (body: string) => VerbIndex.of(table([shared], [module('one', [
+    parsed('one.kyr', `Module one "One" { ${body} }`),
+  ])]), ['one'], operands);
+  expect(() => index(`${verb} ${overlapping}`)).toThrow('Ambiguous verb phrase');
+  expect(index(`${verb} ${distinct}`).match('Teach fire_ward beside self').change.call.args)
+    .toEqual(['self', 'fire_ward']);
+  expect(() => index(`Kind member. ${verb}`)).toThrow('Incompatible lowering argument target');
+});
+
+it('passes generic ability calls to the supplied vocabulary, retaining conditions and saves', () => {
+  const resolve = (text: string) => {
+    expect(text).toBe('Instruct fire_ward to ally');
+    return { kind: 'learn' as const, ability: 'fire_ward', target: 'ally' as const };
+  };
+  const ability = parseAbility('lesson', 'Lesson',
+    'If (true), Instruct fire_ward to ally unless wisdom save against 12.', resolve);
+  expect(ability.effects).toEqual([{ kind: 'learn', ability: 'fire_ward', target: 'ally', when: 'true',
+    save: { stat: 'wisdom', difficulty: { kind: 'literal', value: 12 } } }]);
+  expect(() => parseAbility('lesson', 'Lesson', 'Instruct fire_ward to ally.')).toThrow('No vocabulary');
+  expect(() => parseAbility('lesson', 'Lesson', '\n  Instruct fire_ward to ally.',
+    () => { throw new Error('No matching verb'); })).toThrow('Line 2, col 3: No matching verb');
+});
+
+it('validates hazard verbs again for each vocabulary edition, even on a kept parse', () => {
+  const text = 'Module m "M" { Hazard lesson "Lesson" means "Instruct fire_ward to ally.". }';
+  const lesson = () => ({ kind: 'learn' as const, ability: 'fire_ward', target: 'ally' as const });
+  const accepts = VocabularyContext.none.withVerbs(lesson, 'accepts');
+  const refuses = VocabularyContext.none.withVerbs(() => { throw new Error('No such verb'); }, 'refuses');
+  expect(ModuleParser.parseWithin(accepts, text).entities[0]?.effect).toBe('Instruct fire_ward to ally.');
+  expect(ModuleParser.parseWithin(accepts.fork(), text).entities[0]?.effect).toBe('Instruct fire_ward to ally.');
+  expect(() => ModuleParser.parseWithin(refuses, text)).toThrow('No such verb');
+  expect(() => ModuleParser.parseWithin(VocabularyContext.none, text)).toThrow('No vocabulary');
+  expect(() => VocabularyContext.none.withVerbs(lesson, '')).toThrow('nonempty edition');
+});

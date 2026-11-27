@@ -1,4 +1,5 @@
 import { EmptyVocabulary } from './empty-vocabulary';
+import type { VerbResolver } from './parse';
 
 // What the language may ask of the active setting while it reads a module: whether a kind of thing is one the setting
 // knows (and its name, and whether it has a use), and what a module's own kinds come to (Kind cart_wheel like wheel,
@@ -49,9 +50,17 @@ interface Reading { reads: Map<string, string>; own: Set<string> }
 // its parse, cache validation, and module installation; syntax-only callers use the explicit empty context.
 export class VocabularyContext {
   static readonly none = new VocabularyContext(new EmptyVocabulary());
-  constructor(private readonly vocabulary: Vocabulary, private readonly open: Reading[] = []) {}
+  constructor(private readonly vocabulary: Vocabulary, private readonly open: Reading[] = [],
+    readonly verbs?: VerbResolver, readonly verbKey = '') {
+    if (!!verbs !== !!verbKey) { throw new Error('A verb vocabulary needs its own nonempty edition'); }
+  }
   get id(): string { return this.vocabulary.id; }
-  fork(): VocabularyContext { return new VocabularyContext(this.vocabulary.fork(), this.open); }
+  fork(): VocabularyContext {
+    return new VocabularyContext(this.vocabulary.fork(), this.open, this.verbs, this.verbKey);
+  }
+  withVerbs(verbs: VerbResolver, edition: string): VocabularyContext {
+    return new VocabularyContext(this.vocabulary.fork(), this.open, verbs, edition);
+  }
   fingerprint(): string { return this.vocabulary.fingerprint(); }
   local(name: string): boolean {
     const signature = this.vocabulary.signature(name);

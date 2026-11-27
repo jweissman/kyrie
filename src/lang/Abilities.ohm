@@ -1,7 +1,7 @@
 KyrAbilities <: Kyr {
   Program = Statement+
   Statement = AbilityAction Save? Outcome* "."
-  AbilityAction = Conditional | Damage | Healing | Defend | Apply | Remove | DrainLevel | Drain | Revive | Kill | Flee | Gain | Learn | Summon | Travel | Cast | Try
+  AbilityAction = Conditional | Damage | Healing | Defend | Apply | Remove | DrainLevel | Drain | Revive | Kill | Flee | Gain | Summon | Travel | Cast | Try | VerbCall
   Conditional = "If" expression "," AbilityAction
   Save = "unless" ident "save" "against" Amount
   Outcome = ";" "a" ident "save" "against" Amount Verdict "it"  -- saved
@@ -21,12 +21,14 @@ KyrAbilities <: Kyr {
   Kill = "Kill" Target
   Flee = "Flee"
   Gain = "Grant" Amount Resource "to" Target
-  Learn = "Teach" ident "to" Target
   Summon = "Summon" ident "for" Target
   Travel = "Travel" "to" ident
   Cast = "Cast" ident "on" Target
   Try = "Try" ident "on" Target  -- on
       | "Try" ident "here"       -- here
+  VerbCall = ident VerbWord*
+  VerbWord = ~unlessKeyword (expression | integer | ident)
+  unlessKeyword = "unless" ~identPart
   Span = Turns | Hours
   Turns = "turns" | "turn"
   Hours = "hours" | "hour"
