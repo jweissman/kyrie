@@ -1,86 +1,25 @@
 import { parseAbility } from './parse'; import type { DiscoveryDefinition } from './discovery';
 import type { Declared } from './module-source'; import * as ohm from 'ohm-js';
-import { Grammars } from './grammars'; import type { Change, Module, Operator, Predicate } from './module';
+import { Grammars } from './grammars'; import { ModuleActions } from './module-actions';
+import type { Change, Module, Operator, Predicate } from './module';
 import type { PassageSpec } from './world-constructs'; import { PersonParser } from './person-parser';
-import { StatementParser } from './statement-parser'; import { ObjectParser } from './object-parser';
-import { CatalogParser } from './catalog-parser'; import { Milestones } from './milestones';
-import { InformationParser } from './information-parser'; import { Endings } from './endings';
+import { ObjectParser } from './object-parser'; import { InformationParser } from './information-parser';
 import { VocabularyContext } from './vocabulary'; import { type Parts } from './declaration-parses';
-import { Routes } from './routes'; import { ActionParts } from './action-parts'; import { ObjectiveParser } from './objective-parser';
+import { ObjectiveParser } from './objective-parser';
 import { TemplatedPredicates } from './templated-predicates'; import { ModuleReads } from './module-reads';
 
 type Node = ohm.Node; type AstNode = ohm.Node & { ast(): unknown }; type Field = { field: string; value: unknown };
 interface UnmadeModule { id: string; name: string; fields: Field[]; starts: number[] }
 export class ModuleParser {
   static readonly grammar = Grammars.quick;
-  static readonly semantics = ModuleParser.grammar.createSemantics().addOperation<unknown>('ast', {
-    Place: ModuleParser.Place, PlaceParent: ModuleParser.PlaceParent, PlaceGrid: ModuleParser.PlaceGrid,
-    PlaceAlias: ModuleParser.PlaceAlias, PlaceShelter: ModuleParser.text, PlaceDepth: ModuleParser.PlaceDepth,
-    ObservationAspect: ModuleParser.Second, ItemPlace_at: ObjectParser.At, WonderPart: ObjectParser.WonderPart,
-    ObservationBy: ModuleParser.Third, ObservationInstead: ModuleParser.Third, TopicAnswering: ModuleParser.Second,
-    Passage: ModuleParser.Passage, PassagePart_oneway: ModuleParser.OneWay, PassagePart_hidden: ModuleParser.Hidden,
-    PassagePart_needs: ModuleParser.Needs, NeedsEnd_to: ModuleParser.NeedsTo, NeedsEnd_from: ModuleParser.Anchor,
-    Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In, ItemEnd_parts: ObjectParser.ItemParts,
-    HoldsPart: ObjectParser.HoldsPart, MarvelPart: ObjectParser.MarvelPart, Concealed: ObjectParser.Concealed,
-    ItemPlace_in: ObjectParser.In, FoundBy: ModuleParser.FoundBy, FoundWith: ObjectParser.FoundWith,
-    ThingSite_at: ModuleParser.Site, ThingSite_on: ObjectParser.SiteOn, WayEnd: ObjectParser.WayEnd,
-    ThingKind: ModuleParser.ThingKind, StatePart: ModuleParser.StatePart, PersonLeavesTo: PersonParser.PersonLeavesTo,
-    ChangePart: ModuleParser.ChangePart, ChangeNeeds: ModuleParser.ChangeNeeds, ChangeAfter: ModuleParser.Third,
-    ChangeConsumes: ModuleParser.Second, HurtsPart: ModuleParser.HurtsPart, GuardsPart: ModuleParser.GuardsPart,
-    TriesPart: ModuleParser.TriesPart, MemberBinding: StatementParser.MemberBinding, LeavesTo: PersonParser.LeavesTo,
-    Event: ModuleParser.Event, EventTail_effects: ModuleParser.EventEffects, EventTail_plain: ModuleParser.EventPlain,
-    Anchor_at: ModuleParser.Anchor, Anchor_near: ModuleParser.Anchor, Anchor_beside: ObjectParser.Beside,
-    Anchor_within: ModuleParser.Anchor, RuleWhere_heard: ModuleParser.Heard, Objective: ModuleParser.Objective,
-    PersonCalled: PersonParser.PersonCalled, GreetsAgain: PersonParser.GreetsAgain, WonderKind: ObjectParser.WonderKind,
-    PersonHorizon: PersonParser.PersonHorizon, PersonPeaceable: PersonParser.PersonPeaceable,
-    RuleSays: PersonParser.RuleSays, Seen: ModuleParser.Seen, TopicOnce: PersonParser.TopicOnly,
-    TopicTravelling: PersonParser.TopicOnce, RuleOnce: PersonParser.TopicOnce, PersonAgain: PersonParser.PersonAgain,
-    Company: ModuleParser.Company, ItemDecl: ModuleParser.ItemDecl, PassageKind: ModuleParser.ThingKind,
-    PassagePart_taking: ModuleParser.Taking, PassagePart_opening: ModuleParser.Opening,
-    PersonProfession: PersonParser.PersonProfession, Meanwhile: StatementParser.Meanwhile,
-    PersonBackground: PersonParser.PersonBackground, OffersPart: ModuleParser.OffersPart,
-    SellsPart: ModuleParser.SellsPart, BuysPart: ModuleParser.BuysPart, Time_fixed: StatementParser.Time,
-    Time_minutes: StatementParser.Minutes, Time_measured: StatementParser.Duration,
-    Exit: ModuleParser.Exit, ExitDoor: ModuleParser.ExitDoor, ExitKnowledge: ModuleParser.ExitKnowledge,
-    Person: ModuleParser.Person, PersonRole: PersonParser.PersonRole, RoleWhen: PersonParser.RoleWhen,
-    PersonKnown: PersonParser.PersonKnown, PersonRemarks: PersonParser.PersonRemarks,
-    PersonRace: PersonParser.PersonRace, PersonClass: PersonParser.PersonClass, WonderFor: ObjectParser.WonderFor,
-    PersonLevel: PersonParser.PersonLevel, PersonSpecies: PersonParser.PersonSpecies,
-    PersonVariant: PersonParser.PersonVariant, PersonSeen: PersonParser.PersonSeen,
-    PersonCreature: PersonParser.PersonCreature, PersonCount: PersonParser.PersonCount,
-    PersonTrait: PersonParser.PersonTrait, PersonCarries: PersonParser.PersonCarries,
-    HazardDecl: ModuleParser.HazardDecl, PersonUses: PersonParser.PersonUses, PersonWants: PersonParser.PersonWants,
-    Topic: ModuleParser.Topic, TopicEffects: ModuleParser.TopicEffects, Lessen: StatementParser.Lessen,
-    ToNothing: StatementParser.ToNothing, Information_parts: ModuleParser.Information,
-    InformationSource: ModuleParser.InformationSource,
-    ChangeAt: ModuleParser.Second, ItemOwner: ModuleParser.Third,
-    PersonManner: PersonParser.PersonManner, PersonPronouns: PersonParser.PersonPronouns,
-    PersonHaunt: PersonParser.PersonHaunt, Grave: PersonParser.Grave,
-    Module: ModuleParser.Module, Observation: ModuleParser.Observation, Speaker: PersonParser.Speaker,
-    WorldRule: ModuleParser.WorldRule, Pursuit: ModuleParser.Pursuit, PursuitUsing: ModuleParser.PursuitUsing,
-    Kind: StatementParser.Kind, Relation: ModuleParser.Relation, Measure: ModuleParser.Measure,
-    Query: ModuleParser.Query, Parameter: StatementParser.Parameter, Entity: ModuleParser.Entity,
-    Initial: StatementParser.Initial, Goal: StatementParser.Goal, Budget: StatementParser.Budget,
-    Description: StatementParser.Description, ActionParameters: StatementParser.ActionParameters,
-    Action: ModuleParser.Action, Requires: StatementParser.Requires, Give: StatementParser.Give,
-    GiveWhat: StatementParser.GiveWhat, Success: ModuleParser.Success, Failure: ModuleParser.Failure,
-    Cost: StatementParser.Cost, Resolve: StatementParser.Resolve, ChangeStatement: StatementParser.ChangeStatement,
-    Interruption: StatementParser.Interruption, Watchful: StatementParser.Watchful,
-    Assert: StatementParser.Assert, Retract: StatementParser.Retract, Set: StatementParser.Set,
-    Increase: StatementParser.Increase, Decrease: StatementParser.Decrease, Spend: StatementParser.Spend,
-    Bring: StatementParser.Bring, ThingSite_nowhere: ObjectParser.Nowhere, ItemPlace_nowhere: ObjectParser.Nowhere,
-    Or_binary: StatementParser.Or, And_binary: StatementParser.And,
-    Unary_not: StatementParser.Not, Unary_group: StatementParser.Group,
-    Unary_true: StatementParser.True, Unary_false: StatementParser.False,
-    Comparison: StatementParser.Comparison, Call: StatementParser.Call,
-    Value: StatementParser.Value, expression: StatementParser.Expression, integer: StatementParser.Integer,
-    string: StatementParser.String, Product: StatementParser.Value, Operand_group: StatementParser.Group,
-    Operand_extreme: StatementParser.Extreme, ExtremeArgs: StatementParser.ExtremeArgs, ...ActionParts.actions,
-    Operand_given: StatementParser.Given, Restore: StatementParser.Restore, Slay: StatementParser.Slay,
-    Operand_count: StatementParser.Count,
-    ...CatalogParser.actions, ...InformationParser.actions, ...Endings.actions, ...Milestones.actions,
-    ...PersonParser.actions, ...Routes.actions,
-  }).addOperation<unknown>('parts', { Module: ModuleParser.Parts });
+  // Built on first use, not as the module loads: its actions are the other parsers', which import this one, so read
+  // at load they could be half-made, as Kyr's entry loaded first met them (c006d2d13; OR-542).
+  private static made?: ohm.Semantics;
+  static get semantics(): ohm.Semantics {
+    return ModuleParser.made ??= ModuleParser.grammar.createSemantics()
+      .addOperation<unknown>('ast', ModuleActions.of(ModuleParser))
+      .addOperation<unknown>('parts', { Module: ModuleParser.Parts });
+  }
   // A text parsed before comes back as it was, and declares its own kinds again, as its parse did: a start meanwhile
   // may have put other kinds in their place, and the files read after it place things of these kinds. Kept by the
   // text and what it read of the kinds it was read among (the review's H7; 26 November's review, §1).

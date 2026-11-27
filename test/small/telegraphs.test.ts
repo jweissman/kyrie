@@ -1,6 +1,4 @@
 import { describe, expect, it } from 'bun:test';
-// The runtime that loads the language's parser first, then the language through its entry (OR-542).
-import '../../src/campaign/campaign';
 import { Battle } from '../../src/arena';
 import { Canon } from '../../src/canon/canon';
 import { Content } from '../../src/content';
