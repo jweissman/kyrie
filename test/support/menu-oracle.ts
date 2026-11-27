@@ -21,10 +21,14 @@ export class MenuOracle {
   // Each difference between the frame's tree and the oracle, named; none where they agree.
   static differences(frame: Frame): string[] {
     const out: string[] = [], tree = MenuTree.of(frame), at = frame.screen.place.id;
+    // One flat level outside a fight (OR-1295): the page's old menu with every fold open, flattened as the frame
+    // flattens it (a thing's and a person's rows their own page's; any other fold's rows flat beside it), is the tree.
+    const raw = Attending.place(SceneModel.build(frame.screen));
+    const tops = [...raw.subjects.flatMap(s => s.choices), ...raw.near, ...raw.far, ...raw.you];
     const openers = Attending.all(this.built(frame, []).choices).filter(c => c.children?.length).map(c => c.id);
-    for (const open of [[], ...openers.map(id => [id]), openers]) {
-      const was = this.built(frame, open), now = MenuTree.opened(tree, open);
-      if (!this.same(now, was)) { out.push(`${at}: the menu with ${open.join(',') || 'nothing'} open differs`); }
+    const was = this.built(frame, openers), now = MenuTree.opened(tree, []);
+    if (!this.same(now, { ...was, choices: MenuTree.flattened(was.choices, tops) })) {
+      out.push(`${at}: the menu differs`);
     }
     const g = frame.leaf.glance, menu = this.built(frame, []), chosen = MenuModel.lead.bind(MenuModel, menu);
     const around = frame.screen.around ?? [];

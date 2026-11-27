@@ -546,10 +546,13 @@ export class GlanceStage {
     const journey = /^travel:/.test(a.command ?? a.choice);
     const charted = g && screen && journey ? Doable.one(g, screen, a.choice, a.command) : undefined;
     if (charted?.chart) { return { ...c, id: a.choice, label: charted.label, command: charted.does! }; }
-    if (c.focus || !c.children?.length || !g || !screen) { return c; }
+    // A look's acts are the thing's own page's (OR-1295: the frame's rows carry none), read from the scene.
+    const kids = c.children ?? Attending.all(app.menu.scene?.subjects.flatMap(s => s.choices) ?? [])
+      .find(k => k.id === c.id)?.children;
+    if (c.focus || !kids?.length || !g || !screen) { return c; }
     const does = Doable.one(g, screen, c.id, a.command).does;
     if (!does || c.command === does) { return c; }
-    return Attending.all(c.children ?? []).find(k => k.command === does && !k.children?.length) ?? c;
+    return Attending.all(kids).find(k => k.command === does && !k.children?.length) ?? c;
   }
   // The choice one of the four is drawn as and done by (what the parity measure reads as the page's: MT-18).
   static taken(app: ReaderApp, a: Promoted): Choice | undefined {

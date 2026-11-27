@@ -1,4 +1,3 @@
-import { Earned } from '../src/lang/index';
 import { Charted } from './support/charted';
 import { Doable } from '../src/presentation/doable';
 import { describe, expect, it } from 'bun:test';
@@ -12,6 +11,7 @@ import type { Lens } from '../src/presentation/glance-types';
 import { Glanced } from './support/glanced';
 import { GeneratedWorld } from './support/generated';
 import { Heard } from './support/heard';
+import { Earned } from '../src/lang/index';
 
 // The interior walk, headless (the owner, 14 November: CN-08, the fast half of the acceptance; the aesthetic line walks
 // it in the browser). In a1's undertown at Millholm: down the churchyard's stair into the crypt, a light, the lenses

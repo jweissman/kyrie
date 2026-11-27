@@ -9,11 +9,12 @@ import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';
 import { Tiny } from '../support/tiny';
 import { Glanced } from '../support/glanced';
+import { Conversation } from '../../web/reader/conversation';
 
-// A thing's look among the scene's four never turns the page to the thing (the lens step's regression, found twice
-// in the browser: Low Water's channel head and What Tessary Owes's notice, where the thing's page was left open
-// with only Back on it). It does what the engine's one row for it does (Doable, TB-12; AT-07 step 4): the one act
-// under it where it holds only that, done at once; else it opens in place, under its own words. It is never done by
+// A thing's look among the scene's four does what the engine's one row for it does (Doable, TB-12; AT-07 step 4): the
+// one act under it where it holds only that, done at once; else it turns to the thing's own page of flat acts, where
+// it had opened in place under its own words (OR-1295: one flat level outside a fight; the thing's page has more than
+// Back on it, the regression of Low Water's channel head and What Tessary Owes's notice). It is never done by
 // its first act, a guess of the page's own (CL-34: the speaking door's look done as "Push and pull").
 class Page {
   constructor(public state: AppState) {}
@@ -52,15 +53,17 @@ describe('a thing\'s look among the four', () => {
     expect(done.command).toBe(Doable.one(t.glance, t.screen, look.id).does!);
     expect(done.id).not.toBe(look.id);
   });
-  it('opens in place where it holds more, never done by its first act, and never turns the page', async () => {
+  // Where it holds more, it is one row, and pressed it turns to the thing's own page of flat acts (the playtest,
+  // 26 November, OR-1295: "Unfolding menus only in a fight"; "Look at the bronze ring" had opened its acts beneath it),
+  // never done by its first act.
+  it('is one row where it holds more, which turns to the thing\'s own page, never unfolding under it', async () => {
     const t = await Tiny.start(lane), page = Page.of(t), look = GlanceStage.choice(page.app, 't__tablet#look')!;
-    expect(look.children?.length).toBeGreaterThan(1);
+    expect(look.children).toBeUndefined();
     expect(GlanceStage.acted(page.app, led(look.id), look)).toBe(look);
-    // Led for one of its acts, it still opens, that act first under it (Doable's for), as the terminal lists it.
-    const read = look.children!.find(k => /Read/.test(k.label))!;
-    expect(GlanceStage.acted(page.app, led(look.id, { for: read.command! }), look)).toBe(look);
     const html = renderToStaticMarkup(createElement(GlanceStage.Acts, { app: page.app, draw: Act.draw(page.app),
       acts: [led(look.id)] }));
-    expect(/<button[^>]*data-act="t__tablet#look"[^>]*aria-expanded/.test(html)).toBe(true);
+    expect(/data-act="t__tablet#look"/.test(html)).toBe(true);
+    expect(html).not.toContain('aria-expanded');
+    expect(Conversation.turn(look)).toEqual({ kind: 'thing', id: 't__tablet' });
   });
 });

@@ -47,12 +47,43 @@ export class MenuTree {
     const tops = [...found.subjects.flatMap(s => s.choices), ...found.near, ...found.far, ...found.you];
     const openers = new Set(Attending.all(tops).filter(c => c.children?.length).map(c => c.id));
     const full = MenuModel.resting(found, openers, frame);
-    const node: Omit<MenuNode, 'marks'> = { choices: full.choices, sections: full.sections, scene: full.scene!,
-      destinations: full.destinations ?? [], around: full.around ?? [], under: this.under(tops),
+    const node: Omit<MenuNode, 'marks'> = { choices: this.flattened(full.choices, tops), sections: full.sections,
+      scene: full.scene!, destinations: full.destinations ?? [], around: full.around ?? [], under: {},
       ...full.overland ? { overland: [...full.overland] } : {}, ...full.leads ? { leads: full.leads } : {},
       ...full.leading ? { leading: [...full.leading] } : {}, ...full.said ? { said: [...full.said] } : {},
       ...full.sheets ? { sheets: full.sheets } : {} };
-    return { ...node, marks: this.marks(frame, this.opened(node, []), raw) };
+    // Its marks from the rows as the scene holds them, an opener's the fold of its own rows (MenuTree.marks).
+    return { ...node, marks: this.marks(frame, this.opened({ ...node, choices: full.choices, under: this.under(tops) },
+      []), raw) };
+  }
+  // One flat level outside a fight (AGENTS.md: "Unfolding menus only in a fight"; the owner's playtest, 26 November,
+  // OR-1295: "Look at the bronze ring" had opened its acts beneath it): no row of the resting scene unfolds rows of its
+  // own. A thing looked at or someone talked to is a page of their own (Attending: the thing's page, the
+  // conversation), so its rows are that page's, never under its row here; any other row's rows (a way's obstacle, a
+  // fold of the company's acts) stand flat beside it, the fold itself gone; and no row carries rows.
+  static readonly paged = /#(look|talk)$/;
+  // A riddle's focus (the speaking door's words under the question it reads out whole) stays as it is until it is asked
+  // in place of the four, as a fight's target is to be (OR-1301, with OR-1296).
+  static flattened(choices: Choice[], tops: Choice[]): Choice[] {
+    const under = this.under(tops), focused = new Set(Attending.all(tops).filter(c => c.focus).map(c => c.id));
+    return choices.filter(c => MenuTree.focused(c.id, under, focused) || (!MenuTree.inPage(c.id, under)
+      && !(c.children?.length && !c.command && !MenuTree.paged.test(c.id))))
+      .map(c => (MenuTree.focused(c.id, under, focused) ? c : MenuTree.leaf(c)));
+  }
+  private static focused(id: string, under: Record<string, string>, focused: Set<string>): boolean {
+    for (let u: string | undefined = id; u; u = under[u]) { if (focused.has(u)) { return true; } }
+    return false;
+  }
+  // Whether a row is inside a thing's or a person's page, under its opener.
+  private static inPage(id: string, under: Record<string, string>): boolean {
+    for (let u = under[id]; u; u = under[u]) { if (MenuTree.paged.test(u)) { return true; } }
+    return false;
+  }
+  private static leaf(c: Choice): Choice {
+    if (!c.children) { return c; }
+    const row = { ...c };
+    delete row.children;
+    return row;
   }
   // The menu as drawn with the folds the player has open: every row whose openers are all open.
   static opened(node: Omit<MenuNode, 'marks'>, open: Iterable<string>): Menu {

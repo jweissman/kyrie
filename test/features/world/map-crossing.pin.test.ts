@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'bun:test';
-import { Earned } from '../../../src/lang/index';
 import { DrawnWorld } from '../../../src/world/drawn-world';
 import { NodeBundleSource } from '../../../src/campaign/node-bundle-source';
 import { PlayerView } from '../../../src/presentation/player-view';
@@ -11,6 +10,7 @@ import { Doable } from '../../../src/presentation/doable';
 import { MapRows } from '../../../src/presentation/map-rows';
 import { HexBoundary } from '../../../src/hex-boundary';
 import { Passages } from '../../../src/ui/passages';
+import { Earned } from '../../../src/lang/index';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. Ways to another hex appear only on the map (the
 // owner, 25 November: in a new life's first town one act had carried the company more than a hex, the map never

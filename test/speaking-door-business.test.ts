@@ -1,4 +1,3 @@
-import { Earned } from '../src/lang/index';
 import { describe, expect, it } from 'bun:test';
 import { RunnerOffer } from '../src/cli/runner-offer';
 import { DrawnWorld } from '../src/world/drawn-world';
@@ -7,6 +6,7 @@ import { Runner } from '../src/cli/runner';
 import { RunnerWalk } from '../src/cli/runner-walk';
 import { Narrator } from '../src/presentation/narrator';
 import { ScreenModel } from '../src/ui/screen-model';
+import { Earned } from '../src/lang/index';
 
 // At the place the followed aim names, its grave choices are its business: promoted into the four with their grave
 // mark and no gold, and nothing gilds the way back out (the lead's ruling, 15 November). At Mistlake's speaking door,

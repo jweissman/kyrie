@@ -1,4 +1,3 @@
-import { Earned } from '../src/lang/index';
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import type { Frame } from '../src/creation/protocol';
@@ -6,6 +5,7 @@ import { MapRows } from '../src/presentation/map-rows';
 import { MapView } from '../web/reader/map-view';
 import { MapMenu } from '../web/reader/map-menu';
 import { ModuleWriter } from '../src/lang/index';
+import { Earned } from '../src/lang/index';
 
 // The map's card plays the engine's row for the place viewed, never a set-out of its own (OR-840). A place viewed from
 // the map's rows (MapMenu's View …) had been chosen as the hex it stands in, and the card's Travel to set out for that
