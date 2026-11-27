@@ -1,5 +1,5 @@
 import { SettingPort } from '../setting-port';
-import voice from '../../data/voice/instruments.json';
+import { Installed } from '../ports/installed';
 import { Calendar } from '../campaign/calendar';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import type { Campaign } from '../campaign/campaign';
@@ -27,11 +27,13 @@ export interface Night { dark: boolean; moon: string; sign?: { id: string; name:
   own?: { name: string; alone: boolean } }
 export class Instruments {
   static of(campaign: Campaign, screen: Screen): Instrument[] {
-    return [...this.sky(campaign, screen), this.provisions(screen)];
+    return campaign.within(() => [...this.sky(campaign, screen), this.provisions(screen)]);
   }
   private static named(id: Instrument['id'], extra?: string): Pick<Instrument, 'label' | 'gloss'> {
-    const v = (voice.instruments as Record<string, { label: string; gloss: string }>)[id]!;
-    return { label: v.label, gloss: extra ? `${v.gloss} ${extra}` : v.gloss };
+    const v = Installed.current().presentation?.instruments?.[id];
+    const gloss = v?.gloss ?? '';
+    return { label: v?.label ?? `${id[0]!.toUpperCase()}${id.slice(1)}`,
+      gloss: extra ? [gloss, extra].filter(Boolean).join(' ') : gloss };
   }
   // The night sky as the company reads it, the one reading the instrument says and the night's telling tells (Fun
   // Friday's night sky: src/narrative/night-skies.ts): out under the sky only; the moon by its phase; the sign rising

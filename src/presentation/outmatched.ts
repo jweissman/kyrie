@@ -1,4 +1,3 @@
-import voice from '../../data/voice/outmatched.json';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import type { Call, Objective, Predicate } from '../lang/module';
 import { World } from '../lang/world';
@@ -79,6 +78,8 @@ export class Outmatched {
   }
   // What the one who gave an aim says of it, where its fight is beyond the company: by those aims just taken.
   static warning(campaign: Campaign, event: CampaignEvent, taken: { id: string }[]): string | undefined {
+    const voice = campaign.installation.presentation?.outmatched;
+    if (!voice) { return undefined; }
     const giver = campaign.operator(event.action)?.speaker, ids = new Set(taken.map(t => t.id));
     const given = (campaign.module.objectives ?? []).filter(o => ids.has(o.id));
     if (!giver || !given.some(o => this.band(campaign, o))) { return undefined; }

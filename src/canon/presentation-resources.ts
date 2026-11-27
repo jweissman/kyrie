@@ -14,6 +14,10 @@ import answer from '../../data/voice/answer.json';
 import fit from '../../data/paintings/fit.json';
 import seen from '../../data/paintings/seen.json';
 import prose from '../../data/editorial/prose-lint.json';
+import fightHelp from '../../data/voice/fight-help.json';
+import outmatched from '../../data/voice/outmatched.json';
+import instruments from '../../data/voice/instruments.json';
+import conditions from '../../data/voice/conditions.json';
 import type { PresentationResources, VoiceTable } from '../ports/presentation';
 
 export const FantasyPresentation: PresentationResources = {
@@ -21,4 +25,8 @@ export const FantasyPresentation: PresentationResources = {
   paintingFit: fit.rules,
   paintingSeen: seen.paintings,
   proseRules: prose.banned,
+  fightHelp,
+  outmatched,
+  instruments: instruments.instruments,
+  conditionWords: conditions.conditions,
 };

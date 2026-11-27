@@ -1,4 +1,3 @@
-import voice from '../../data/voice/fight-help.json';
 import type { Campaign } from '../campaign/campaign';
 import type { Act, Screen, TargetRow } from '../ui/screen-types';
 import { ObservationText } from '../lang/observation-text';
@@ -31,6 +30,8 @@ export class FightHelp {
   }
   // What would help, in words; none where nothing is known to.
   static said(campaign: Campaign, screen: Screen): string | undefined {
+    const voice = campaign.installation.presentation?.fightHelp;
+    if (!voice) { return undefined; }
     // Someone who would go along, where the company knows to find them (OR-881).
     const world = campaign.world, help = Outmatched.helper(campaign), who = help?.who, where = help?.at;
     const back = CompanyRecall.of(campaign).back(screen, true).back;

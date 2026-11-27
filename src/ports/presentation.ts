@@ -10,9 +10,15 @@ export interface PaintingFitRule {
 }
 export interface PaintingLooked { shows?: string; light?: string; season?: string; weather?: string }
 export interface ProseRule { phrase?: string; pattern?: string; why: string; evidence: string }
+export interface FightHelpWords { said: string; light: string; hand: string; back: string }
+export interface OutmatchedWords { help: string; alone: string }
 export interface PresentationResources {
   readonly voice?: VoiceTable[];
   readonly paintingFit?: PaintingFitRule[];
   readonly paintingSeen?: Record<string, PaintingLooked>;
   readonly proseRules?: ProseRule[];
+  readonly fightHelp?: FightHelpWords;
+  readonly outmatched?: OutmatchedWords;
+  readonly instruments?: Record<string, { label: string; gloss: string }>;
+  readonly conditionWords?: Record<string, Record<string, string>>;
 }

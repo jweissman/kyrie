@@ -3,6 +3,7 @@ import { Installed, type InstalledDomain } from '../../src/ports/installed';
 import { Voice } from '../../src/narrative/voice';
 import { Fits } from '../../src/ui/fits';
 import { ProseLint } from '../../src/presentation/prose-lint';
+import { CombatPresenter } from '../../src/ui/combat-presenter';
 
 describe('installed presentation resources', () => {
   it('uses each installation’s voice tables and none when no voice is installed', () => {
@@ -32,5 +33,11 @@ describe('installed presentation resources', () => {
     const b: InstalledDomain = { id: 'b' };
     const rules = (d: InstalledDomain) => Installed.within(d, () => ProseLint.source('A very nice room.'));
     expect([rules(a).length, rules(b).length, rules(a).length]).toEqual([1, 0, 1]);
+  });
+  it('uses only the installation’s condition words', () => {
+    const a: InstalledDomain = { id: 'a', presentation: { conditionWords: { strange: { held: 'It holds.' } } } };
+    const b: InstalledDomain = { id: 'b' };
+    const held = (d: InstalledDomain) => Installed.within(d, () => CombatPresenter.told('strange', 'held'));
+    expect([held(a), held(b), held(a)]).toEqual(['It holds.', undefined, 'It holds.']);
   });
 });
