@@ -40,8 +40,11 @@ export interface DeepGroup {
   temperament: string;
   // What a kind is always made of or descended from, where a party was composed for the room (see Parties).
   variations?: string[];
+  // What a band that talks says, and what comes of each answer to it (DeepParley).
+  parley?: Parley;
 }
 import type { Alteration } from './deep-history';
+import type { Parley } from './deep-parley';
 
 export interface Valuable { id: string; name: string; worth: number; weight: number; text: string }
 // The words a purpose gives its working parts (DeepMechanisms): a way between levels that its gear must be freed to

@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 352,
+    "kyr": 357,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 306,
+      "kyr": 311,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -15719,6 +15719,41 @@
   {
    "id": "rule:inhabitants.face_down",
    "title": "face down",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.deceived",
+   "title": "deceived, seenThrough",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.pass_off",
+   "title": "pass off",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.lie_found_out",
+   "title": "lie_found_out",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.lie_remembered",
+   "title": "lie_remembered",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.quit",
+   "title": "quit",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"

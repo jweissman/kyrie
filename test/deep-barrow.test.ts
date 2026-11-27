@@ -68,7 +68,9 @@ describe('a king-barrow from the same generator as the mine', () => {
     expect(Barrow.names(s)).toEqual(expect.arrayContaining(['Break the seal-stone',
       'Listen at the seal-stone across the king\'s door']));
     expect(Barrow.names(s).some(n => /^Take the king's door/.test(n))).toBe(false);
+    // The robbers' way is theirs to tell of (DeepParley), or found by searching where it starts.
     Barrow.enter(s, room('halls_ossuary'));
+    await Barrow.take(s, /^Search the ossuary/);
     expect(Barrow.names(s).some(n => n.startsWith('Take the robbers\' tunnel to the king\'s treasury'))).toBe(true);
   }, 90000);
   it('has a king who cannot abide the day, and the embalmers\' jar of it two rooms from his door', async () => {
