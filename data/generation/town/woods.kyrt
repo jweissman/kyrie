@@ -2,9 +2,11 @@
 // A Kyr template (see src/world/kyr-template.ts), written for the reference settlement only (ReferenceSettlement).
 // {t} is the town's id, {town} its name, {w} the deep place under the woods and {site} its name, {old} the first
 // makers as the folk call them, {dealer} the one in the town who buys what the woods give and hears what is seen in
-// them; {!wet} and {!windy} are the country's wet and windy weathers as its sky has them. Several places of their own in the woods, none on the way to another but the stones: two known from the
-// first (the old ride and the burners' clearing), one found by its tracks (the wallow), one by asking or searching
-// (the fallen stones), and under the stones a way down, found by searching them. Every way in the woods takes time,
+// them; {!wet} and {!windy} are the country's wet and windy weathers as its sky has them. Several places of their own in the woods, none on the way to another: two known from the first (the old
+// ride and the burners' clearing), one found by its tracks (the wallow), and the fallen stones, seen from the ride up
+// under the beeches (the slope up from the ride, or the deer-path from the burners' clearing); and between the stones the way down, in plain sight once the company stands there (the owner's
+// playtest of 27 November, OR-1501: the dungeon had been hard to find, circled for; its mouth is a named, seen place,
+// never found by circling). What is under it, and what the old ones cut there, is still found out by asking. Every way in the woods takes time,
 // and the woods are dark at night; there is a beast in them that will fight for its ground. Nothing here is an errand.
 --- base
   Place {t}_wood "the old woods above {town}" is site within {t} at 0, 4.
@@ -17,28 +19,32 @@
   Passage {t}_wood_into "the old ride under the trees" is path between {t}_wood_edge and {t}_wood_ride taking 30 minutes.
   Passage {t}_wood_burnway "the burners' track" is path between {t}_wood_ride and {t}_wood_burners taking 20 minutes.
   Passage {t}_wood_runs "the boar-runs through the holly" is path between {t}_wood_ride and {t}_wood_wallow taking 30 minutes hidden until {t}_wood_tracks.
-  Passage {t}_wood_beeches "the deer-path up under the beeches" is path between {t}_wood_burners and {t}_wood_stones taking 30 minutes hidden until {t}_wood_stones_known.
+  Passage {t}_wood_beeches "the deer-path up under the beeches" is path between {t}_wood_burners and {t}_wood_stones taking 30 minutes.
+  Passage {t}_wood_slope "the slope up to the stones" is path between {t}_wood_ride and {t}_wood_stones taking 30 minutes.
   Passage {t}_wood_down "the dark slot between the fallen stones" is stair between {t}_wood_stones and {w} hidden until {t}_wood_door.
   Observe {t}_wood_edge_scene at {t}_wood_edge as fixture when not dark() "Oak and holly come down to the last field of {town}, and the field wall stops at them. A track goes in under the trees, wide enough once for a cart and now for one walker.".
   Observe {t}_wood_edge_dark at {t}_wood_edge as fixture when dark() "The trees are a black wall above the field. Nothing of the track under them can be seen without a light.".
   Observe {t}_wood_ride_scene at {t}_wood_ride as fixture when not dark() "The old ride runs straight between the oaks, grassed over, with holly closing in on both sides. Old stumps along it were cut long ago, and the wood has grown back over them.".
+  // The stones are in sight from the ride by day: grey shapes up the slope under the beeches, a deer-path going up.
+  Observe {t}_wood_ride_stones at {t}_wood_ride as fixture when not dark() "Up the slope ahead the oaks give way to beeches, and among them grey stones lie in a broken row along a mound. The slope goes up to them." teaches {t}_wood_stones_known.
   Observe {t}_wood_ride_dark at {t}_wood_ride as fixture when dark() "Under the trees the dark is complete. A heavy beast moves off through the holly, unhurried.".
   Observe {t}_wood_ride_mist at {t}_wood_ride as ambience when hour(clock) >= 5 and hour(clock) < 7 "Mist lies in the ride at the height of your knees. Three deer stand in it and watch you. Then they are gone.".
   Observe {t}_wood_ride_tracks at {t}_wood_ride as sign noticed by woodcraft when not knows(party, {t}_wood_tracks) "Where the ride is wet, cloven feet bigger than a pig's have churned the ground. A run goes off through the holly at the height of your hip. Its edges are rubbed with mud and bristle." teaches {t}_wood_tracks.
   Entity {t}_wood_tracks: fact "A boar's runs go off the old ride through the holly, to wherever it wallows.".
   Observe {t}_wood_burners_scene at {t}_wood_burners as fixture when true "A round clearing, black underfoot, with the rings of old charcoal-hearths in it and a hut of turf at the edge. Nobody has burned here for years. The hut's door hangs by one hinge.".
   Observe {t}_wood_wallow_scene at {t}_wood_wallow as fixture when true "A sunk place among alders, all mud, the trees round it rubbed bare and caked to the height of your chest. It smells of rank animal.".
-  Observe {t}_wood_stones_scene at {t}_wood_stones as fixture when true "Under the beeches the ground rises to a long mound. Great stones lie fallen along it, grey and green with moss. They were set up in a row once, by {old}. Between two of them the earth has fallen in.".
-  Observe {t}_wood_stones_marks at {t}_wood_stones as sign noticed by lore when not knows(party, {t}_wood_door) "On the inner face of one fallen stone is a mark cut in the way of {old}: a door, drawn shut. Where the earth has fallen in beside it, the dark goes down further than it should." teaches {t}_wood_door.
-  Discovery {t}_wood_door "Between two of the fallen stones a slot goes down into the dark, with steps in it." {
-    Found by searching {t}_wood_stones "You pull the ferns away from where the earth has fallen in. It has fallen in onto steps of dressed stone. They go down between the two fallen stones into the dark. Cold air comes up them.".
-  }
-  // The burners' hut: what they left, and why they left (the way to the stones, found by searching here, or asked).
-  Item {t}_wood_lamp "a burner's old lamp" is lantern at {t}_wood_burners hidden until {t}_wood_stones_known.
+  Observe {t}_wood_stones_scene at {t}_wood_stones as fixture when true "Under the beeches the ground rises to a long mound. Great stones lie fallen along it, grey and green with moss. They were set up in a row once, by {old}. Between two of them the earth has fallen in onto steps of dressed stone, going down into the dark. Cold air comes up them." teaches {t}_wood_door.
+  Observe {t}_wood_stones_marks at {t}_wood_stones as sign noticed by lore when not knows(party, {t}_wood_mark) "On the inner face of one fallen stone is a mark cut in the way of {old}: a door, drawn shut. It is cut beside the steps, as a word is written over a door." teaches {t}_wood_mark.
+  Entity {t}_wood_mark: fact "On a fallen stone beside the steps, {old} cut a door drawn shut.".
+  Discovery {t}_wood_door "Between two of the fallen stones a slot goes down into the dark, with steps in it.".
+  // The burners' hut: what they left, and why they left (found by searching here): a lamp, and on the bench the mark
+  // the old ones cut on the stones, which the shrine-keeper asks.
+  Item {t}_wood_lamp "a burner's old lamp" is lantern at {t}_wood_burners hidden until {t}_wood_hut.
   // The oil the finding says is in it is there to burn (OR-685).
-  Item {t}_wood_oil "the burner's lamp-oil, in a stoppered flask" is lamp_oil at {t}_wood_burners hidden until {t}_wood_stones_known.
-  Discovery {t}_wood_stones_known "A deer-path goes up out of the burners' clearing to the old stones under the beeches." {
-    Found by searching {t}_wood_burners "Under the turf bench in the hut is a lamp with oil still in it. Scratched into the bench above it are a row of standing stones and a mark like a shut door. A deer-path goes up out of the clearing toward the beeches, the way the mark points.".
+  Item {t}_wood_oil "the burner's lamp-oil, in a stoppered flask" is lamp_oil at {t}_wood_burners hidden until {t}_wood_hut.
+  Discovery {t}_wood_stones_known "The old stones lie under the beeches above the old ride, up the slope from it, and a deer-path goes up to them from the burners' clearing.".
+  Discovery {t}_wood_hut "Under the turf bench in the burners' hut is a lamp, and above it a mark scratched in the bench: a row of standing stones, and a door drawn shut." {
+    Found by searching {t}_wood_burners "Under the turf bench in the hut is a lamp with oil still in it. Scratched into the bench above it are a row of standing stones and a mark like a shut door.".
   }
   Item {t}_wood_herbs "a stand of woundwort" is herbs at {t}_wood_ride hidden until {t}_wood_wort.
   Discovery {t}_wood_wort "Woundwort grows along the ride where the sun gets in." {
@@ -52,7 +58,7 @@
   Initially Set encounterXp({t}_wood_boar) to 100.
   // Asked, the one who buys what the woods give asks back, and tells what they know of the woods.
   Topic {t}_wood_asked with {dealer} "Ask {{dealer}} about the old woods" when true once {
-    Says "'Have you been into the old woods?' says {{dealer}}, and looks at your boots. 'Go up by the field path, and keep to the old ride. Bring back woundwort, there's a price for it here. Keep away from the holly where the ground is churned, there's a boar that has had two dogs this year. And past the burners' clearing, up under the beeches, are the old stones. Nobody goes there. The burners went, and didn't burn there again.'".
+    Says "'Have you been into the old woods?' says {{dealer}}, and looks at your boots. 'Go up by the field path, and keep to the old ride. Bring back woundwort, there's a price for it here. Keep away from the holly where the ground is churned, there's a boar that has had two dogs this year. And up the ride, where the beeches start, are the old stones. Nobody goes there. The burners went, and didn't burn in the woods again.'".
     On discuss { Assert knows(actor, {t}_wood_stones_known). }
   }
   // The one who buys what the woods give asks the company in turn (OR-850; src/campaign/put-questions.ts): what brings it
@@ -68,7 +74,7 @@
     On discuss { Assert knows(actor, {t}_wood_wort). }
   }
   Topic {t}_wood_why_stones with {dealer} "Say you are going up to the old stones" answering {t}_wood_why when true {
-    Says "{{dealer}} is quiet for a moment. 'Then go by the burners' clearing. A deer-path goes up from it to the beeches. And go to the shrine first. {{t}_priest} knows what is under the stones, and doesn't tell just anyone.'".
+    Says "{{dealer}} is quiet for a moment. 'Then keep to the ride. Where the beeches start, the slope goes up to them. And go to the shrine first. {{t}_priest} knows what is under the stones, and doesn't tell just anyone.'".
     On discuss { Assert knows(actor, {t}_wood_stones_known). }
   }
   Action {t}_wood_why_lie(actor: group, site: place) "Say you are only passing through" {
@@ -79,7 +85,7 @@
     On success { Assert knows(actor, {t}_wood_tracks). }
     On failure { Assert knows(actor, {t}_wood_stones_known). }
     Result "'Then keep to the ride and out of the holly,' says {{dealer}}. 'A boar runs through it. It has had two dogs this year. Where the ground is churned, that's its run.'".
-    Otherwise "'Passing through,' says {{dealer}}, and laughs. 'You've the stones in your face. Go by the burners' clearing, then. A deer-path goes up from it. And see the shrine first.'".
+    Otherwise "'Passing through,' says {{dealer}}, and laughs. 'You've the stones in your face. Keep to the ride, then. The slope goes up to them where the beeches start. And see the shrine first.'".
   }
   Topic {t}_wood_plant with {dealer} "{{dealer}} asks about the herbs you carry" when addressed({dealer}, actor) and holding(actor, herbs) and {t}_wood_met(actor) once {
     Says "{{dealer}} has seen the green in your pack. 'Show me that. Do you know what you've got there?'".
@@ -144,14 +150,12 @@
     Says "'So it is,' says {{t}_priest}. 'Between two of the stones a stair goes down, into {site}. The dead there are older than {town}. Take light, and more than you think you need.'".
     On discuss { Assert knows(actor, {t}_wood_door). Assert knows(actor, {w}_named). }
   }
-  // Where what is heard of the stones leads (OR-1040): to the shrine-keeper, who knows what is under them; told to go and
-  // look, up to the stones; and once the way down is known, down it. Each follows from something said or found.
-  Objective {t}_wood_ask when knows(party, {t}_wood_stones_known) and not knows(party, {t}_wood_door) and not knows(party, {w}_named) and not {t}_rite_put(party) toward {t}_priest "{{t}_priest} at the shrine knows what lies under the fallen stones in the old woods.".
+  // Where what is heard of the stones leads (OR-1040, OR-1501): up the ride to the stones, where the way down is seen;
+  // and once it is known, down it. The shrine-keeper's question (what is cut on them) is answered on the way or not at
+  // all: it tells what is under them (the place's name, which the herb-wife's old sayings and the shrine-keeper's own
+  // grief about the king's door are asked by), not the way down, which no one needs telling once they stand there.
+  Objective {t}_wood_go when knows(party, {t}_wood_stones_known) and not been(party, {t}_wood_stones) and not knows(party, {t}_wood_door) toward {t}_wood_stones "The old stones lie up the old ride, under the beeches. Nobody in {town} goes there.".
   Objective {t}_wood_answer when {t}_rite_put(party) and not {t}_rite_doubted(party) and not knows(party, {t}_wood_door) and not knows(party, {w}_named) toward {t}_priest "{{t}_priest} asks what the old ones cut on the fallen stones.".
-  Objective {t}_wood_tell when {t}_rite_doubted(party) and been(party, {t}_wood_stones) and not knows(party, {t}_wood_door) and not knows(party, {w}_named) toward {t}_priest "You have seen what is cut on the fallen stones. Tell {{t}_priest}.".
-  Objective {t}_wood_look when {t}_rite_doubted(party) and not been(party, {t}_wood_stones) and not knows(party, {t}_wood_door) toward {t}_wood_stones "{{t}_priest} will say what lies under the fallen stones to one who has been up and seen what is cut on them.".
-  // The way down known (the shrine-keeper's word, a life's own), the way up to the stones is seen from the clearing.
-  Rule {t}_wood_stones_told heard at {t}_wood_burners when knows(party, {t}_wood_door) and not knows(party, {t}_wood_stones_known) says "A deer-path goes up out of the clearing toward the beeches, where you were told the stones are." teaches {t}_wood_stones_known { }
   Objective {t}_wood_below when knows(party, {t}_wood_door) and not been(party, {w}) toward {w} "Between two of the fallen stones in the old woods a stair goes down into the dark. Take light, and more than you think you need.".
   // The woods go on without the company (OR-641), by the world's own clock: woundwort grows back on the ride a few
   // days after it is picked, twice, and not in winter; some nights after the old boar is killed a young one takes its

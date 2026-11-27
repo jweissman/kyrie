@@ -63,6 +63,7 @@
    "world/the-spell-foreseen": "spells",
    "choice/asked-in-turn": "talk",
    "world/the-herb-wife-asks": "talk",
+   "world/the-stones-in-sight": "adventures",
    "interface/oracle": "testing"
   },
   "describes": {
@@ -705,6 +706,7 @@
  ],
  "rows": {
   "OR-1500": "adventures",
+  "OR-1501": "adventures",
   "TR-01": "travel",
   "TR-02": "travel",
   "TR-03": "travel",
