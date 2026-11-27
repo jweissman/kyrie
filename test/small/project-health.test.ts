@@ -45,7 +45,8 @@ describe('project health calculation', () => {
         .toISOString().slice(0, 10)})`, existedYesterday: true,
     }, '2026-11-27').cost)).toEqual([0, 1, 1, 2, 2, 3, 3]);
     expect(HealthScoreModel.statusDate('open (20 Nov): evidence from 11 Nov', '2026-11-27')).toBe('2026-11-20');
-    expect(HealthScoreModel.statusDate('open: evidence from 11 Nov', '2026-11-27')).toBeNull();
+    expect(HealthScoreModel.statusDate('open: evidence from 11 Nov', '2026-11-27')).toBe('2026-11-11');
+    expect(HealthScoreModel.statusDate('open with no date', '2026-11-27')).toBeNull();
     expect(HealthScoreModel.statusDate('open (Dec 31)', '2027-01-01')).toBe('2026-12-31');
     expect(HealthScoreModel.statusDate('open (November 19, 2025)', '2026-11-27')).toBe('2025-11-19');
   });

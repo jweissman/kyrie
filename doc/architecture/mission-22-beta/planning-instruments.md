@@ -29,7 +29,8 @@ archive at the end of the relevant UTC day, using that revision's kinds and the 
 still count. This needs Git history back through the cutoff; a shallow checkout must fetch it before using `health`
 or `next`. The view prints both historical revisions and blob hashes for its input files.
 
-P1 dates come from the leading status, using the most recent nonfuture year where no year is written. A row absent from the
+P1 dates come from the first recognizable date in the status, using the most recent nonfuture year where no year is
+written; that date may describe later evidence rather than the original filing. A row absent from the
 previous day's register is free on its filing day, even if its status is undated. Thereafter an undated P1 costs one;
 a dated P1 costs one from day seven and one more per full 14 days, capped at three. The checked-in
 `scripts/health/zero-targets.json` names the debt ratchets and their zero targets. Their counts are the **recorded

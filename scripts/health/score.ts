@@ -46,7 +46,7 @@ export class HealthScoreModel {
     return `${year ?? inferred}-${suffix}`;
   }
   static statusDate(status: string, today: string): string | null {
-    const lead = status.replaceAll('*', '').split(':')[0]!.slice(0, 120);
+    const lead = status.replaceAll('*', '');
     const dates: { date: string; index: number }[] = [];
     for (const match of lead.matchAll(/\b(\d{4}-\d{2}-\d{2})\b/g)) {
       dates.push({ date: match[1]!, index: match.index });
