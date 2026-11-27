@@ -44,7 +44,7 @@ describe('a fight\'s unavailable acts', () => {
     expect(renderToStaticMarkup(createElement(FightMoves.View, { app, aim: () => undefined, panel: 'abilities',
       open: () => undefined }))).toContain('data-action="panel-back"');
     const html = renderToStaticMarkup(createElement(FightMoves.Kind, { section: page, take: () => undefined,
-      close: () => undefined, note: () => ({}), room: 4, said: null }));
+      close: () => undefined, note: () => ({}), room: 4, said: null, page: 0, turn: () => undefined }));
     expect(html).toMatch(/data-choice="unusable:cleave" data-disabled="true"[^>]*>[\s\S]*?again in \d turns?</);
     const aimed: unknown[] = [];
     FightMoves.take(app, cleave, a => { aimed.push(a); }, () => undefined);

@@ -9,6 +9,7 @@ import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
 import { LensPages } from './support/lens-pages';
 import { Rail } from './support/rail';
+import { PlacePages } from './support/place-pages';
 
 // The fight holds still (CN-06, the owner, 14 November: "Selecting an enemy currently causes its card to expand
 // vertically … switching targets must not reflow the scene"; "the highlighted menu unexpectedly becomes a horizontal
@@ -82,8 +83,13 @@ class Walk {
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await this.to('region__s2_green');
-    await d.talk();
-    await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
+    // Talked to by her row, on whichever of the place's pages holds it (OR-1490: one menu; OR-1564: her portrait had
+    // been pressed, which no longer opens a talk there, and the walk stopped before the fight).
+    const bask = '.glance ol.led [data-act="region__s2_merchant#talk"]';
+    if (await PlacePages.seek(page, bask, () => d.settle())) { await d.click(bask); } else {
+      await d.talk(); await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
+    }
+    await d.settle();
     // The job is asked after once told what the matter is (OR-423, OR-370).
     await d.pick(c => /what the matter is/.test(c.label), 'what the matter is');
     await d.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');
@@ -143,8 +149,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a fight that holds still', () => {
     // Aiming: Attack, three rats to choose from; the reticle on each (changing target); then not now.
     await page.click('.fight .hand-menu [data-action="attack"]');
     expect(await page.locator('.fight.aiming').count()).toBe(1);
-    // Whom is asked in place of the hand's rows (OR-1296): the cards hold still; the hand's rows are its question's.
-    seen('aiming', await still(), true);
+    // Whom is asked in place of the hand's rows (OR-1296): the cards hold still; the hand's rows are its question's,
+    // the targets standing where the hand's first rows stood, the hand and its details region unmoved (OR-1563).
+    seen('aiming', await still());
     // Nothing made see-through to say who is aimed at or whose turn it is, and a foe's card no taller than it needs
     // (OR-115, the owner's play of 18 November).
     const looks = await page.evaluate(() => [...document.querySelectorAll('.fight .fighter')].map(f =>
@@ -156,7 +163,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a fight that holds still', () => {
     expect(await targets.count()).toBeGreaterThan(1);
     // And asked in place of the hand's rows, one row for each (OR-116, OR-1296): clicking a card is not the only way.
     expect(await page.locator('.fight .hand .whom [data-action="whom"]').count()).toBe(await targets.count());
-    expect(await page.locator('.fight .hand-menu').count()).toBe(0);
+    expect(await page.locator('.fight .hand-menu:not(.whom)').count()).toBe(0);
+    // Where the hand's rows stood: the menu's column, hard right on a wide screen (OR-1563: they had been at the left).
+    expect(await Walk.column(page)).toBe(true);
+    if (width > 900) {
+      const off = await Walk.columned(page);
+      expect([Math.abs(off.x) < 2, Math.abs(off.width) < 2]).toEqual([true, true]);
+    }
     for (let i = 0; i < await targets.count(); i++) {
       await targets.nth(i).hover(); seen(`the reticle on rat ${i + 1}`, await still(), true);
     }

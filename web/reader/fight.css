@@ -231,8 +231,10 @@
 .fight .hand-note { margin: 6px 0 0; min-height: 1.4em; font: var(--t-aside); color: var(--dim); }
 .fight .hand-detail .aiming { display: grid; align-content: start; justify-items: start; gap: var(--s3); }
 .fight .hand-say { margin: 0; font: var(--t-choice); color: var(--ivory); }
-/* Whom, unfolded to the act's right (OR-116): the act's targets as rows of the one height, each its chance beside it. */
-.fight .hand-detail .whom { display: grid; grid-auto-rows: min-content; gap: 6px; justify-self: stretch; max-width: 22rem; }
+/* Whom, in the menu's place (OR-1563): the hand's height kept, one row's room for each of the hand's rows (its tracks,
+   set by FightMoves.Whom), the targets in the first of them, so that nothing beside the hand moves while it is asked.
+   On a phone the question stands under the rows, which take only their own room. */
+@media (max-width: 600px) { .fight .hand-menu.whom { grid-template-rows: none !important; } }
 /* The quieter rows at the menu's foot: letting the fight go on, pressing on to its end; quieter in colour, not smaller
    (one height in a list: the owner, 15 November). */
 :root .fight .hand-menu .quiet-row.choice-row.choice-row { color: var(--dim); background: none; }
@@ -292,7 +294,6 @@
   .fight .hand > .hand-menu { grid-column: 2; grid-row: 1; }
   .fight .hand > .hand-detail { grid-column: 1; grid-row: 1; }
   .fight .hand-detail .aiming { justify-items: end; }
-  .fight .hand-detail .whom { justify-self: end; }
   .fight .hand-note { text-align: right; }
   .fight-told-col { padding: 0 var(--menu-inset); box-sizing: border-box; }
   /* Whose turn it is, over the rows it is theirs to choose from; who follows, at the page's left edge, under the
@@ -334,14 +335,13 @@
   .fight .fighter .n .hurt { font-size: 12.5px; }
 }
 /* Whom to strike, read at a glance (OR-1133's cold reading, 26 November): each foe's chance at the card's foot, never
-   over its name or how hurt it is; on a phone, aiming, the target rows take the hand's place in view (they had fallen
-   below the fold under the hand). */
+   over its name or how hurt it is; on a phone, aiming, the target rows are the hand's menu, in its place (they had
+   fallen below the fold under the hand). */
 .fight .fighter .chance { top: auto; bottom: 6px; }
 /* On a card with a face, over the face's foot, where no words are (it had lain over the foe's intent). */
 .fight .fighter.faced .chance { left: 4px; right: auto; bottom: 4px; max-width: calc(var(--panel) - 8px);
   white-space: nowrap; }
 @media (max-width: 600px) {
-  .fight.aiming .hand > .hand-menu { display: none; }
   /* On a phone each target's chance is said in the rows that stand in the hand's place, not over a narrow card. */
   .fight .fighter .chance { display: none; }
 }

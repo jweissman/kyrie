@@ -29,13 +29,14 @@ export class FightStage {
     const [log, show] = useState(false), moves = useRef(null), sides = useRef(null);
     const [aiming, aim] = useState<Aiming | undefined>(), [panel, open] = useState<string | undefined>();
     const s = app.state, frame = s.frame!, combat = frame.combat!, mark = s.fight;
-    // Aiming and an open kind are let go with Escape, and whenever the fight moves on.
+    // Aiming and an open kind are let go whenever the fight moves on, and with Escape.
     useEffect(() => { aim(undefined); open(undefined); }, [combat.round, combat.actorName, combat.exchanges.length]);
+    // A level at a time, as Not now and Back are (OR-1561): out of aiming to the kind it was aimed from, then the hand.
     useEffect(() => {
-      const key = (e: KeyboardEvent) => { if (e.key === 'Escape') { aim(undefined); open(undefined); } };
+      const key = (e: KeyboardEvent) => { if (e.key === 'Escape') { if (aiming) { aim(undefined); } else { open(undefined); } } };
       window.addEventListener('keydown', key);
       return () => window.removeEventListener('keydown', key);
-    }, []);
+    }, [aiming]);
     const seen = mark?.seen ?? 0, recent = combat.exchanges.filter(e => e.n >= seen);
     // The blows before, quieter, above the last: the middle of the page had been white under one line (Mission 17).
     const earlier = combat.exchanges.filter(e => e.n < seen).slice(-FightStage.kept);

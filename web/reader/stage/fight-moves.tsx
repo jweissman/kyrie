@@ -24,6 +24,8 @@ export class FightMoves {
     panel?: string; open: (p?: string) => void }) {
     const sections = app.menu.sections, strike = sections.find(s => s.id === 'strike')?.choices ?? [];
     const onward = sections.find(s => s.id === 'onward')?.choices[0], [under, hover] = useState<Choice>();
+    // The page of a kind opened, held here so that aiming from it and putting the aim aside comes back to the same page.
+    const [leaf, turn] = useState(0);
     if (onward) {
       return <div className="hand ended"><div className="hand-menu" role="toolbar" aria-label="What you can do">
         <ChoiceRow.Act choice={onward} draw={Act.draw(app)} className="move main"
@@ -38,13 +40,17 @@ export class FightMoves {
     const note = (c: Choice) => ({ onMouseEnter: () => hover(c), onFocus: () => hover(c), onMouseLeave: () => hover(undefined) });
     const kinds = FightMoves.kinds.filter(([id]) => FightMoves.section(sections, strike, id)?.choices.length);
     const said = <p className="hand-note">{under?.note ? Typography.curl(`${Words.shown(under.label)}: ${under.note}`) : ''}</p>;
+    // Whom, asked in place of the hand's rows (the owner's playtest, 26 November, OR-1296: the targets had extended a
+    // copy of the menu beneath it): the rows come back once one is chosen, or the aim put aside; a move aimed from a
+    // kind opened comes back to that kind, at its page (OR-1561: Not now had dropped it for the hand's first rows).
+    const room = (attack ? 1 : 0) + words.length + kinds.length + pace.length;
+    if (aiming) {
+      return <div className="hand aiming"><FightMoves.Whom aiming={aiming} app={app} aim={aim} room={room} /></div>;
+    }
     if (shown) {
       return <div className="hand opened"><FightMoves.Kind key={shown.id} section={shown} take={take} note={note}
-        close={() => open()} room={(attack ? 1 : 0) + words.length + kinds.length + pace.length} said={said} /></div>;
+        close={() => { turn(0); open(); }} room={room} said={said} page={leaf} turn={turn} /></div>;
     }
-    // Whom, asked in place of the hand's rows (the owner's playtest, 26 November, OR-1296: the targets had extended a
-    // copy of the menu beneath it): the rows come back once one is chosen, or the aim put aside.
-    if (aiming) { return <div className="hand aiming"><FightMoves.Whom aiming={aiming} app={app} aim={aim} /></div>; }
     return <div className="hand">
       <div className="hand-menu" role="toolbar" aria-label="What you can do">
         {attack && <ChoiceRow.Button className="move main"
@@ -54,7 +60,7 @@ export class FightMoves {
           onClick={() => take(c)} events={note(c)} label={Typography.curl(Words.shown(c.label))} />)}
         {kinds.map(([id, label]) =>
           <ChoiceRow.Button key={id} className="move kind" data={{ action: 'panel', panel: id }}
-            onClick={() => { aim(); open(id); }} label={label} />)}
+            onClick={() => { aim(); turn(0); open(id); }} label={label} />)}
         {/* The fight's pace, the contract's own acts (ChoiceList.pace: fight:auto, and fight:through when as good as
             won): rows of the one menu, quieter, at its foot. */}
         {pace.map(c => <ChoiceRow.Act key={c.id} choice={c} draw={Act.draw(app)} className="move quiet-row"
@@ -67,17 +73,27 @@ export class FightMoves {
     </div>;
   }
   // Whom to aim at, asked in place of the hand's rows (OR-1296; OR-116's targets beside the act had become a second
-  // menu under the first): each the act's own target, with how likely it is, as well as the reticle on its card.
-  static Whom({ aiming, app, aim }: { aiming: Aiming; app: ReaderApp; aim: (a?: Aiming) => void }) {
-    return <div className="aiming" role="status">
-      <p className="hand-say">{Typography.curl(`${Words.upper(FightMoves.verb(aiming.choice))}: whom?`)}</p>
-      <div className="whom" role="toolbar" aria-label="Whom">
+  // menu under the first): each the act's own target, with how likely it is, as well as the reticle on its card. The
+  // hand's own composition, as a kind opened is: the targets in the menu's place, where the hand's rows stood, and the
+  // question and Not now beside them in the details region (OR-1563: drawn as one block in the hand's first column, the
+  // targets had stood at the page's left on a wide screen, away from the menu column the hand's rows stand in). room:
+  // how many rows the hand has, which the targets' menu keeps a row's room for each of, so that the hand holds still
+  // (fight.css: not on a phone, where the question stands under them).
+  static Whom({ aiming, app, aim, room = 1 }: { aiming: Aiming; app: ReaderApp; aim: (a?: Aiming) => void; room?: number }) {
+    return <>
+      <div className="hand-menu whom" role="toolbar" aria-label="Whom"
+        style={{ gridTemplateRows: `repeat(${room}, var(--choice-h))` }}>
         {[...aiming.targets].map(([id, t]) => <ChoiceRow.Button key={id} className="move whom-row"
           data={{ action: 'whom', choice: t.id }} act={t.id} onClick={() => app.choose(t)}
           label={Typography.curl(Words.upper(FightMoves.whom(t)))} aside={Typography.curl(t.note?.split(' · ')[0] ?? '')} />)}
       </div>
-      <FightMoves.Quiet action="unaim" go={() => aim()} label="Not now" />
-    </div>;
+      <div className="hand-detail" aria-live="polite">
+        <div className="aiming" role="status">
+          <p className="hand-say">{Typography.curl(`${Words.upper(FightMoves.verb(aiming.choice))}: whom?`)}</p>
+          <FightMoves.Quiet action="unaim" go={() => aim()} label="Not now" />
+        </div>
+      </div>
+    </>;
   }
   // A target's name, from its own label ("Strike the first rat" → "the first rat").
   private static whom(t: Choice): string { return t.alone || Words.shown(t.label); }
@@ -85,10 +101,10 @@ export class FightMoves {
   // its moves in place of the hand's, in their order (what cannot be done now among them, saying why), as many at a
   // time as the hand has rows, so that the hand holds still (CN-06); turning the page (no act) and Back are beside them,
   // where aiming's Not now is, with what the move under the hand does.
-  static Kind({ section, take, note, close, room, said }: { section: Section; take: (c: Choice) => void; close: () => void;
-    note: (c: Choice) => Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onMouseEnter' | 'onMouseLeave' | 'onFocus'>;
-    room: number; said: ReactNode }) {
-    const [page, turn] = useState(0), paged = Paging.of(FightMoves.flat(section.choices), Math.min(4, room), page, true);
+  static Kind({ section, take, note, close, room, said, page, turn }: { section: Section; take: (c: Choice) => void;
+    close: () => void; note: (c: Choice) => Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onMouseEnter' | 'onMouseLeave' | 'onFocus'>;
+    room: number; said: ReactNode; page: number; turn: (page: number) => void }) {
+    const paged = Paging.of(FightMoves.flat(section.choices), Math.min(4, room), page, true);
     return <>
       <div className="hand-menu" role="toolbar" aria-label={section.title}>
         {paged.shown.map(c => <ChoiceRow.Button key={c.id} className={`move${c.disabled ? ' unusable' : ''}`}
@@ -128,19 +144,19 @@ export class FightMoves {
   private static flat(choices: Choice[]): Choice[] {
     return choices.flatMap(c => /^more:/.test(c.id) ? c.children ?? [] : [c]);
   }
-  // Something to do: at once when it is done to nobody or to one alone; else aimed on the field.
+  // Something to do: at once when it is done to nobody or to one alone, the kind it was chosen from put away; else
+  // aimed on the field, the kind kept open beneath the aim, for Not now to come back to (OR-1561).
   // What cannot be done now (a spell with no slot left) is never aimed: it had opened "choose whom, on the field" with
   // no one to choose and nothing saying why (the second blind playtest, BL-02: Ander's Charm Person, its one slot
   // spent). Its row says why, and touching it does nothing more.
   static take(app: ReaderApp, c: Choice, aim: (a?: Aiming) => void, open: (p?: string) => void) {
     if (c.disabled) { return; }
-    open();
-    if (c.command && !c.children) { app.choose(c); return; }
+    if (c.command && !c.children) { open(); app.choose(c); return; }
     const targets = new Map((c.children ?? []).flatMap(t => {
       const id = t.id.split('/').pop();
       return id && t.command ? [[id, t] as [string, Choice]] : [];
     }));
-    if (targets.size === 1) { app.choose([...targets.values()][0]!); return; }
+    if (targets.size === 1) { open(); app.choose([...targets.values()][0]!); return; }
     aim({ choice: c, targets });
   }
 }
