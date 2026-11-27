@@ -45,7 +45,9 @@ export interface Trip {
 export class QuantityExpeditions {
   static readonly seed = 's0';
   static readonly steps = 30;
-  static readonly kept = /^(torch|candle|rations|oil_firebomb|longsword|chainmail|pole|rope|lamp_oil|lantern)$/;
+  // The gear the company goes down with, never sold (the jar of noonlight the halls' bane, OR-1620).
+  static readonly kept =
+    /^(torch|candle|rations|oil_firebomb|longsword|chainmail|pole|rope|lamp_oil|lantern|noonlight)$/;
   static kind(id: string): Kind {
     if (/^(go\(|travel:)/.test(id)) { return 'traversal'; }
     if (/^(wait|take_lodging|work_keep|camp\(|rest|bed|.*_heal)/.test(id)) { return 'recovery'; }
@@ -61,6 +63,7 @@ export class QuantityExpeditions {
   static policy: Policy = { grammar: true };
   static async run(trips = 5, policy: Policy = { grammar: true }): Promise<Trip[]> {
     this.policy = policy;
+    this.found = new Set();
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', this.seed, '--as', 'human/warrior/Wenna',
       '--opening', 'none', '--origin', 'wanderer']));
     const s = journey.session, out: Trip[] = [], start = this.coin(s), wares = QuantityLadder.wares(s.campaign);
@@ -99,8 +102,11 @@ export class QuantityExpeditions {
     options += this.offered(s, seen, 'region__s1_ud');
     trip.prepared = this.items(s).filter(k => !before.includes(k));
     await this.delve(s, trip, n - 1);
-    await this.walk(s, 'region__s1_shop');
-    await this.sell(s);
+    // Home: what was found sold to Trader 1, and the wonders among it to Trader 2, who keeps the chest.
+    for (const room of ['region__s1_shop', 'region__s1_taproom']) {
+      await this.walk(s, room);
+      await this.sell(s);
+    }
     for (const e of s.campaign.history.slice(from)) { trip.moves[this.kind(e.action)]++; }
     trip.coin = this.coin(s);
     trip.watches = this.watch(s) - began;
@@ -177,26 +183,21 @@ export class QuantityExpeditions {
     if (fight) { return fight; }
     const words = this.policy.grammar ? this.words(Journey.of(s).choices(), at.tried) : undefined;
     if (words) { return words; }
-    // What lies about is taken up (a thing found, the coins gathered), once each.
-    const loot = Journey.of(s).choices().find(x => /^(Collect|Gather up)/.test(x.label) && !at.tried.has(x.command)
-      && !this.kept.test(x.label.replace(/^Collect (an? )?/, '').replace(/ for \w+$/, '').replace(/ /g, '_')));
-    if (loot) { return loot.command; }
+    const loot = this.loot(Journey.of(s).choices(), at.tried, act => this.kindOf(s, act));
+    if (loot) { this.found.add(this.itemOf(loot)); return loot; }
     // A way the page says is grave (it could be lost, what lies in wait there) is gone round, not into.
     const grave = new Set(Journey.of(s).choices().filter(x => x.grave).map(x => x.command));
     at.avoided.push(...ids.filter(id => grave.has(id) && id.startsWith('go(') && !at.avoided.includes(id)));
     const ways = ids.filter(id => id.startsWith('go(') && !grave.has(id))
       .map(id => ({ id, to: /,([^,)]+)\)$/.exec(id)?.[1] ?? '' }))
       .filter(w => QuantityPlaces.place(c, w.to) === at.place && w.to !== 'region__s1_ud' && this.depth(s, w.to) <= at.most);
-    // A level's way through, known and unchanged (DeepKnown, OR-1448), is taken in one act, not room by room.
-    const through = ways.find(w => /^go\([^,]*_through,/.test(w.id) && !at.been.has(w.to));
-    if (through) { return through.id; }
-    const unseen = ways.filter(w => !at.been.has(w.to))
-      .sort((a, b) => this.depth(s, b.to) - this.depth(s, a.to));
     // Listened for first where a way can be listened at (the halls' sounds): one that tells of what lies in wait is
     // gone round by the grave branch above, once heard.
     const listen = this.policy.grammar ? ids.find(id => id.startsWith('listen(') && !at.tried.has(id)) : undefined;
-    if (unseen[0] && listen) { return listen; }
-    if (unseen[0]) { return unseen[0].id; }
+    const ever = new Set(c.world.related('been').filter(r => r.args[0] === 'party').map(r => r.args[1]!));
+    const on = this.onward(ways, { now: at.been, ever, depth: new Map(ways.map(w => [w.to, this.depth(s, w.to)])),
+      ...listen ? { listen } : {} });
+    if (on) { return on; }
     // A trap is risked only where the page says it would not kill.
     const deadly = new Set(Journey.of(s).choices().filter(x => /could kill/.test(x.label)).map(x => x.command));
     return ['look_closely(', 'prod(', 'hook', 'change_thing(', 'risk(', 'light_item(', ...this.policy.grammar ? ['search('] : []]
@@ -216,6 +217,30 @@ export class QuantityExpeditions {
         || verbs.findIndex(v => a.command.startsWith(v)) - verbs.findIndex(v => b.command.startsWith(v)))[0]?.command;
   }
   private static rank(label: string): number { return this.odds.findIndex(o => label.includes(`· ${o}`)); }
+  // What lies about is taken up (a thing found, a thing in a pack or a chest, the coins gathered), once each, but the
+  // gear the company goes down with: read by the act, not its words (the page draws a find's row as "Take" under the
+  // thing's name, and a policy reading "Collect" had taken up nothing but coins: OR-1620).
+  static loot(offered: readonly { command: string; label: string }[], tried: Set<string>,
+    kind: (act: string) => string): string | undefined {
+    return offered.find(x => (/^(take_item|take_out)\(/.test(x.command) || x.label.startsWith('Gather up'))
+      && !tried.has(x.command) && !this.kept.test(kind(x.command)))?.command;
+  }
+  // The way on: a room never yet been in, on any expedition, deeper first (the halls' well and mourners' hall lay
+  // beside the way through, and a company that took the way through each time never went in: OR-1620); else a level's
+  // way through, known and unchanged (DeepKnown, OR-1448), taken in one act, not room by room; else a room not been in
+  // on this one, deeper first. Where a way can be listened at, it is listened at before a room is gone into.
+  static onward(ways: { id: string; to: string }[],
+    at: { now: Set<string>; ever: Set<string>; depth: Map<string, number>; listen?: string }): string | undefined {
+    const fresh = this.deepest(ways.filter(w => !at.now.has(w.to) && !at.ever.has(w.to)), at.depth);
+    if (fresh) { return at.listen ?? fresh.id; }
+    const through = ways.find(w => /^go\([^,]*_through,/.test(w.id) && !at.now.has(w.to));
+    if (through) { return through.id; }
+    const unseen = this.deepest(ways.filter(w => !at.now.has(w.to)), at.depth);
+    return unseen ? at.listen ?? unseen.id : undefined;
+  }
+  private static deepest(ways: { id: string; to: string }[], depth: Map<string, number>) {
+    return [...ways].sort((a, b) => (depth.get(b.to) ?? 0) - (depth.get(a.to) ?? 0))[0];
+  }
   static answer(id: string): Answer | undefined {
     const by: [RegExp, Answer][] = [[/^attack\(/, 'fight'], [/^listen\(/, 'listen'], [/^talk_round\(/, 'talk'],
       [/^pass_off\(/, 'lie'], [/^face_down\(/, 'threaten'], [/_tells$/, 'ask'], [/^search\(/, 'search'],
@@ -228,7 +253,8 @@ export class QuantityExpeditions {
       // What was found below, each valuable; and what the protagonist carries that is not gear (a companion's own
       // arms are theirs).
       const ids = this.ids(s), sell = ids.find(id => id.startsWith('sell_valuable('))
-        ?? ids.find(id => /^sell_ware\(region__party_1__/.test(id) && !this.kept.test(this.kindOf(s, id)));
+        ?? ids.find(id => /^sell_ware\(/.test(id) && (id.startsWith('sell_ware(region__party_1__')
+          || this.found.has(this.itemOf(id))) && !this.kept.test(this.kindOf(s, id)));
       if (!sell || !await this.act(s, sell)) { return; }
     }
   }
@@ -316,10 +342,14 @@ export class QuantityExpeditions {
       .map(r => w.one('itemKind', r.args[0]!) ?? r.args[0]!).sort();
   }
   private static count(s: PlaySession, kind: string): number { return this.items(s).filter(k => k === kind).length; }
-  private static kindOf(s: PlaySession, sell: string): string {
-    const item = /^sell_ware\(([^,]+),/.exec(sell)?.[1] ?? '';
-    return s.campaign.world.one('itemKind', item) ?? item.replace(/^.*__/, '');
+  // The thing an act is about (its first argument), and its kind.
+  private static itemOf(act: string): string { return /^\w+\(([^,)]+)/.exec(act)?.[1] ?? ''; }
+  private static kindOf(s: PlaySession, act: string): string {
+    const item = this.itemOf(act);
+    return s.campaign.world.one('itemKind', item) ?? (item.includes('__') ? item.replace(/^.*__/, '') : '');
   }
+  // What the company took up below, sold at home as its own.
+  static found = new Set<string>();
   private static depth(s: PlaySession, room: string): number {
     const level = s.campaign.module.entities.find(e => e.id === room)?.space?.parent;
     const levels = s.campaign.module.entities.filter(e => e.space?.kind === 'level' && e.id.startsWith('region__s1_ud'));

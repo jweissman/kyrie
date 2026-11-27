@@ -21,6 +21,28 @@ describe('the expeditions\' answers', () => {
     expect(QuantityExpeditions.words(asked, new Set())).toBe('cap_tells');
     expect(QuantityExpeditions.words(asked, new Set(['cap_tells']))).toBe('talk_round(cap)');
   });
+  it('take up what lies about by the act, not its words, and keep the gear they go down with (OR-1620)', () => {
+    const kinds: Record<string, string> = { mirror: 'bronze_mirror', ring: 'ring_of_protection', brand: 'torch' };
+    const kind = (act: string) => kinds[/\(([^,)]+)/.exec(act)?.[1] ?? ''] ?? '';
+    const lying = [row('take_item(brand,me)', 'Take'), row('take_item(mirror,me)', 'Take'),
+      row('take_out(ring,pack,me)', 'Take a ring of protection from a rotted pack'),
+      row('change_thing(coins_gather)', 'Gather up the coins')];
+    expect(QuantityExpeditions.loot(lying, new Set(), kind)).toBe('take_item(mirror,me)');
+    expect(QuantityExpeditions.loot(lying, new Set(['take_item(mirror,me)']), kind)).toBe('take_out(ring,pack,me)');
+    expect(QuantityExpeditions.loot(lying.slice(0, 1), new Set(), kind)).toBeUndefined();
+  });
+  it('go into a room never been in before the way through, deeper first (OR-1620)', () => {
+    const ways = [{ id: 'go(halls_through,kings_door)', to: 'kings_door' }, { id: 'go(g,well)', to: 'well' },
+      { id: 'go(g,mourners)', to: 'mourners' }, { id: 'go(g,stair)', to: 'stair' }];
+    const depth = new Map([['kings_door', 1], ['well', 1], ['mourners', 1], ['stair', 0]]);
+    const at = { now: new Set<string>(), ever: new Set(['kings_door', 'stair', 'mourners']), depth };
+    expect(QuantityExpeditions.onward(ways, at)).toBe('go(g,well)');
+    expect(QuantityExpeditions.onward(ways, { ...at, listen: 'listen(well)' })).toBe('listen(well)');
+    // Every room been in once: the way through, then a room not been in on this expedition.
+    const all = { ...at, ever: new Set([...at.ever, 'well']) };
+    expect(QuantityExpeditions.onward(ways, all)).toBe('go(halls_through,kings_door)');
+    expect(QuantityExpeditions.onward(ways, { ...all, now: new Set(['kings_door', 'well']) })).toBe('go(g,mourners)');
+  });
   it('count each command as the answer it is', () => {
     expect(['attack(cap)', 'pass_off(cap)', 'face_down(cap)', 'cap_tells', 'listen(door)', 'change_thing(seal)',
       'go(a,b)'].map(id => QuantityExpeditions.answer(id))).toEqual(['fight', 'lie', 'threaten', 'ask', 'listen', 'work',
