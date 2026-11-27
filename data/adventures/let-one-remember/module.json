@@ -13,6 +13,7 @@
     "act4_voyage.kyr",
     "act5_road.kyr",
     "witness.kyr",
+    "count.kyr",
     "company.kyr",
     "growth.kyr",
     "lore.kyr"
@@ -29,6 +30,13 @@
   },
   "canon": [
     "imbar",
-    "perrin_lives"
+    "perrin_lives",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs",
+    "engineer_broken",
+    "engineer_served"
   ]
 }

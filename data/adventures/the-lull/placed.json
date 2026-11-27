@@ -19,6 +19,7 @@
     "after.kyr",
     "fellowship.kyr",
     "lore.kyr",
+    "count.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -47,6 +48,13 @@
   ],
   "canon": [
     "imbar",
-    "remainder_kept"
+    "remainder_kept",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs",
+    "stone_elf_broken",
+    "stone_elf_served"
   ]
 }

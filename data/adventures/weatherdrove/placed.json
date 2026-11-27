@@ -5,6 +5,7 @@
     "folk.kyr",
     "endings.kyr",
     "voices.kyr",
+    "count.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -14,7 +15,14 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs",
+    "tallymen_broken",
+    "tallymen_served"
   ],
   "exports": {
     "party": "party",
