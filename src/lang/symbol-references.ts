@@ -11,6 +11,8 @@ export type SymbolWithin = { namespace: SymbolNamespace; name: string } | { fact
 // lexical: a variable (?x) or a parameter of what it is written in, bound there and declared nowhere.
 export interface SymbolOccurrence {
   name: string; sought: SymbolSought; role: SymbolRole; within: SymbolWithin; lexical: boolean;
+  typeIndex?: number; signatureIndex?: number;
+  call?: Call; argIndex?: number;
 }
 
 // Every reference a parsed module makes, read off the module the parse made (never its text): the calls of its
@@ -62,9 +64,10 @@ export class SymbolReferences {
   }
   private signatures(m: Module) {
     for (const [namespace, list] of [['relation', m.relations], ['measure', m.measures]] as const) {
-      for (const s of list) {
-        for (const t of s.types) {
-          this.add({ name: t, sought: 'kind', role: 'type', within: { namespace, name: s.name }, lexical: false });
+      for (const [signatureIndex, s] of list.entries()) {
+        for (const [typeIndex, t] of s.types.entries()) {
+          this.add({ name: t, sought: 'kind', role: 'type', within: { namespace, name: s.name }, lexical: false,
+            typeIndex, signatureIndex });
         }
       }
     }
@@ -146,11 +149,11 @@ export class SymbolReferences {
     }
   }
   private call(c: Call, role: 'read' | 'write', within: SymbolWithin, own: ReadonlySet<string>) {
-    this.add({ name: c.name, sought: 'function', role, within, lexical: false });
-    for (const arg of c.args) {
+    this.add({ name: c.name, sought: 'function', role, within, lexical: false, call: c });
+    for (const [argIndex, arg] of c.args.entries()) {
       if (/^-?\d/.test(arg)) { continue; }
       this.add({ name: arg, sought: 'entity', role: 'mention', within,
-        lexical: arg.startsWith('?') || own.has(arg) });
+        lexical: arg.startsWith('?') || own.has(arg), call: c, argIndex });
     }
   }
   private add(occurrence: SymbolOccurrence) {

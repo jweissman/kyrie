@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { KyrLint } from '../../src/cli/kyr-lint';
-import { ModuleParser, SymbolTable, VocabularyContext, type SymbolSource } from '../../src/lang/index';
+import { ModuleCompiler, ModuleParser, SymbolTable, VocabularyContext, type SymbolSource } from '../../src/lang/index';
 
 const parsed = (file: string, text: string): SymbolSource => ({
   file, module: ModuleParser.parseWithin(VocabularyContext.none.fork(), text),
@@ -45,14 +45,58 @@ describe('the installation symbol table', () => {
     expect(symbols.shadowing('one', ['relation'], ['relation']).map(s => s.own.name)).toEqual(['known']);
   });
 
-  it('reports an unresolved reference at its declaration position', () => {
+  it('reports an unresolved reference at its identifier', () => {
     const own = parsed('adventures/one.kyr', 'Module one "One" {\n  Query check() means missing().\n}');
     const reference = table([], [module('one', [own])]).unresolved('one').find(r => r.name === 'missing');
 
     expect(reference).toMatchObject({
       file: 'adventures/one.kyr', binding: { status: 'unresolved' },
-      span: { field: 'query', line: 2, column: 3 },
+      span: { field: 'query', line: 2, column: 23 },
     });
+
+  });
+
+  it('keeps exact relation parameter positions through whole, chunked and cached parses', () => {
+    const text = 'Module one "One" {\n  Relation known(first: group,\n    missing, last: group).\n}';
+    const modules = [ModuleParser.whole(text), ModuleParser.chunked(text)!,
+      ModuleParser.parse(text), ModuleParser.parse(text)];
+    for (const parsedModule of modules) {
+      const source = { file: 'one.kyr', module: parsedModule };
+      const refs = table([], [module('one', [source])]).references('one').filter(r => r.role === 'type');
+      expect(refs.map(r => [r.name, r.span?.line, r.span?.column, text.slice(r.span?.at, r.span?.end)])).toEqual([
+        ['group', 2, 25, 'group'], ['missing', 3, 5, 'missing'], ['group', 3, 20, 'group'],
+      ]);
+    }
+  });
+
+  it('keeps separate call and argument positions, including repeated calls', () => {
+    const text = 'Module one "One" {\n  Query check() means known(a, a) and known(a, a).\n}';
+    const modules = [ModuleParser.whole(text), ModuleParser.chunked(text)!,
+      ModuleParser.parse(text), ModuleParser.parse(text)];
+    for (const parsedModule of modules) {
+      const source = { file: 'one.kyr', module: parsedModule };
+      const refs = table([], [module('one', [source])]).references('one');
+      expect(refs.map(r => [r.name, r.span?.line, r.span?.column, text.slice(r.span?.at, r.span?.end)])).toEqual([
+        ['known', 2, 23, 'known'], ['a', 2, 29, 'a'], ['a', 2, 32, 'a'],
+        ['known', 2, 39, 'known'], ['a', 2, 45, 'a'], ['a', 2, 48, 'a'],
+      ]);
+    }
+  });
+
+  it('rejects invalid relation uses at the identifier that caused the error', () => {
+    const cases = [
+      ['Kind group.\n  Relation known(group, missing).', 'Line 3, col 25: Unknown kind missing'],
+      ['Kind group.\n  Relation known(group, group).\n  Query check() means known().',
+        'Line 4, col 23: Unknown function or arity'],
+      ['Kind group.\n  Kind place.\n  Entity p: place "P".\n  Relation known(group).\n  Query check() means known(p).',
+        'Line 6, col 29: Invalid argument p'],
+    ];
+    for (const [body, message] of cases) {
+      const text = `Module one "One" {\n  ${body}\n}`;
+      for (const module of [ModuleParser.whole(text), ModuleParser.chunked(text)!, ModuleParser.parse(text)]) {
+        expect(() => new ModuleCompiler().validate(module)).toThrow(message);
+      }
+    }
   });
 
   it('isolates declarations between installations', () => {

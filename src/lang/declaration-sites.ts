@@ -10,25 +10,37 @@ export type SymbolNamespace = 'entity' | 'person' | 'relation' | 'measure' | 'qu
 // One declaration of the text: its field (person, passage, relation…), where it begins by the character, and its
 // line and column; or a value a generator declared (ModuleSource), which has no line of the text, but the generator
 // and construct that made it, and where its line would have been.
-export interface SiteSpan { field: string; at: number; line?: number; column?: number; generator?: string }
+export interface SiteSpan {
+  field: string; at: number; end?: number; line?: number; column?: number; generator?: string;
+}
 // A name declared, the declaration it came of (an index into spans), and whether it is that declaration's own name or
 // one its lowering made (a Person's acts, a once Rule's latch).
 export interface DeclaredSite { namespace: SymbolNamespace; name: string; span: number; lowered: boolean }
 // facts: for each of the module's initial facts, the declaration that wrote it (an index into spans), -1 for none.
-export interface Sites { spans: SiteSpan[]; declared: DeclaredSite[]; facts: number[] }
+export interface Sites {
+  spans: SiteSpan[]; declared: DeclaredSite[]; facts: number[];
+  signatureTypes?: { index: number; spans: SiteSpan[] }[];
+  references?: Record<number, SiteSpan>;
+}
 type Counts = Record<SymbolNamespace | 'initial', number>;
 
 export class DeclarationSites {
   private readonly spans: SiteSpan[] = [];
   private readonly declared: DeclaredSite[] = [];
   private readonly facts: number[] = [];
+  private readonly signatureTypes: NonNullable<Sites['signatureTypes']> = [];
   constructor(private readonly module: Module) {}
   // What a declaration adds to the module while it is declared, told it came of that declaration (primary: its own
   // name, where it has one).
-  during(span: SiteSpan, primary: string | undefined, declare: () => void): void {
+  during(span: SiteSpan, primary: string | undefined, types: { at: number; end: number }[] | undefined,
+    declare: () => void): void {
     const before = this.counts(), i = this.spans.push(span) - 1;
     declare();
     this.since(before, (_ns, name) => ({ span: i, lowered: primary !== undefined && name !== primary }));
+    if (span.field === 'relation' && primary && types) {
+      this.signatureTypes.push({ index: before.relation,
+        spans: types.map(t => ({ field: span.field, at: span.at + t.at, end: span.at + t.end })) });
+    }
   }
   // What one step adds for many declarations at once (a module's own kinds, all declared before the rest): each name
   // told the declaration whose own it is, by name; a fact, the declaration its first argument names.
@@ -43,15 +55,17 @@ export class DeclarationSites {
     });
   }
   // The sites recorded, each declaration's line and column read off the text it was written in.
-  finish(text: string): Sites {
+  finish(text: string, references: { index: number; span: SiteSpan }[] = []): Sites {
     const starts = DeclarationSites.lines(text);
-    for (const s of this.spans) {
+    for (const s of [...this.spans, ...this.signatureTypes.flatMap(t => t.spans), ...references.map(r => r.span)]) {
       if (s.generator) { continue; }
       const line = DeclarationSites.line(starts, s.at);
       s.line = line + 1; s.column = s.at - starts[line]! + 1;
     }
     while (this.facts.length < this.module.initial.length) { this.facts.push(-1); }
-    return { spans: this.spans, declared: this.declared, facts: this.facts };
+    return { spans: this.spans, declared: this.declared, facts: this.facts,
+      ...this.signatureTypes.length ? { signatureTypes: this.signatureTypes } : {},
+      ...references.length ? { references: Object.fromEntries(references.map(r => [r.index, r.span])) } : {} };
   }
   private since(before: Counts,
     of: (ns: SymbolNamespace, name: string) => { span: number; lowered: boolean } | undefined) {

@@ -203,10 +203,14 @@ export class SymbolTable {
   private bind(unit: string): SymbolReference[] {
     return (this.files.get(unit) ?? []).flatMap(source => {
       const sites = this.sites(source), facts = source.module.sites;
-      return SymbolReferences.of(source.module).map((o: SymbolOccurrence): SymbolReference => {
-        const within = 'fact' in o.within ? `fact ${o.within.fact}` : `${o.within.namespace}:${o.within.name}`;
-        const at = 'fact' in o.within ? facts?.spans[facts.facts[o.within.fact] ?? -1]
-          : sites.get(`${o.within.namespace}\u0000${o.within.name}`)?.span;
+      return SymbolReferences.of(source.module).map((o: SymbolOccurrence, index): SymbolReference => {
+        const subject = o.within;
+        const within = 'fact' in subject ? `fact ${subject.fact}` : `${subject.namespace}:${subject.name}`;
+        const declaration = 'fact' in subject ? facts?.spans[facts.facts[subject.fact] ?? -1]
+          : (o.typeIndex === undefined || subject.namespace !== 'relation' ? undefined
+            : facts?.signatureTypes?.find(t => t.index === o.signatureIndex)?.spans[o.typeIndex])
+            ?? sites.get(`${subject.namespace}\u0000${subject.name}`)?.span;
+        const at = facts?.references?.[index] ?? declaration;
         const span = at ? { ...at, file: source.file } : undefined;
         return { unit, file: source.file, name: o.name, sought: o.sought, role: o.role, within,
           ...span ? { span } : {},

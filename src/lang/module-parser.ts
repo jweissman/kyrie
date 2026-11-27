@@ -7,6 +7,7 @@ import { ObjectParser } from './object-parser'; import { InformationParser } fro
 import { VocabularyContext } from './vocabulary'; import { type Parts } from './declaration-parses';
 import { ObjectiveParser } from './objective-parser';
 import { TemplatedPredicates } from './templated-predicates'; import { ModuleReads } from './module-reads';
+import { ReferenceSpans } from './reference-spans';
 
 type Node = ohm.Node; type AstNode = ohm.Node & { ast(): unknown }; type Field = { field: string; value: unknown };
 interface UnmadeModule { id: string; name: string; fields: Field[]; starts: number[] }
@@ -47,7 +48,8 @@ export class ModuleParser {
     return ModuleReads.chunked(this, context, text, declared);
   }
   static Parts(_m: Node, id: Node, name: Node, _o: Node, declarations: Node, _c: Node): Parts {
-    const c = declarations.children, fields = c.map(x => ModuleParser.ast(x) as Field);
+    const c = declarations.children;
+    const fields = c.map(x => ReferenceSpans.declaration(x, () => ModuleParser.ast(x) as Field));
     return { id: id.sourceString, name: ModuleParser.ast(name) as string, fields, sources: c.map(x => x.sourceString) };
   }
   static predicate(text: string): Predicate {
@@ -77,7 +79,8 @@ export class ModuleParser {
     // Ohm builds a node's children afresh each time they are asked for: asked once per declaration, a module of N
     // declarations took N² to read (scripts/scale-costs).
     const children = declarations.children;
-    const fields = children.map(child => ModuleParser.located(child, () => ModuleParser.ast(child) as Field));
+    const fields = children.map(child => ModuleParser.located(child,
+      () => ReferenceSpans.declaration(child, () => ModuleParser.ast(child) as Field)));
     return { id: id.sourceString, name: ModuleParser.ast(name) as string, fields,
       starts: children.map(c => c.source.startIdx) };
   }
@@ -307,13 +310,18 @@ export class ModuleParser {
   // A relation's arguments may each be named for the part it plays (`Relation addressed(person: group, company:
   // group)`): two of one kind are told apart by their names, in the handbook and in what is refused (WPC-07: written
   // the other way round, the circus's metCircus never held, and nothing said so).
-  static Relation(_relation: Node, name: Node, _open: Node, types: Node,
+  static Relation(this: Node, _relation: Node, name: Node, _open: Node, types: Node,
     _close: Node, exclusive: Node, _dot: Node): Field {
-    const parameters = types.asIteration().children.map(p => p.children[0]!.ctorName === 'Parameter'
+    const children = types.asIteration().children;
+    const parameters = children.map(p => p.children[0]!.ctorName === 'Parameter'
       ? ModuleParser.ast(p.children[0]!) as { name: string; type: string } : { name: '', type: p.sourceString });
     const roles = parameters.some(p => p.name) ? { roles: parameters.map(p => p.name) } : {};
     return { field: 'relation', value: { name: name.sourceString, types: parameters.map(p => p.type), ...roles,
-      exclusive: exclusive.children.length > 0 } };
+     exclusive: exclusive.children.length > 0 },
+     typeSpans: children.map(p => {
+       const node = p.children[0]!.ctorName === 'Parameter' ? p.children[0]!.children[2]! : p.children[0]!;
+       return { at: node.source.startIdx - this.source.startIdx, end: node.source.endIdx - this.source.startIdx };
+     }) } as Field;
   }
   static Measure(_measure: Node, name: Node, _open: Node, types: Node, _close: Node, most: Node, _dot: Node): Field {
     return { field: 'measure', value: { name: name.sourceString,
