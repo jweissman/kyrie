@@ -18,6 +18,7 @@ import { ReaderStore, type SavedGame } from './reader-store';
 import { WorldVault } from './world-vault';
 import { ReaderKeys } from './reader-keys';
 import { PressGuard } from './press-guard';
+import { KeyLabels } from './key-labels';
 import { Tone } from './instrument/tone';
 import { ReaderOpening } from './reader-opening';
 import { Timings } from './timings'; import { FightRefresh } from './fight-refresh';
@@ -149,6 +150,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     // (they share one frame).
     PressGuard.attach(() => this.state.told && this.state.prologue !== undefined ? `opening:${this.state.prologue}`
       : this.state.frame ?? this.state.phase);
+    // The keys' labels shown to a hand that can press them, on every page (OR-1560).
+    KeyLabels.attach();
     ReaderOptions.apply(this.state.options);
     this.booted = this.opening.boot();
   }

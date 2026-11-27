@@ -89,7 +89,6 @@
 .glance-keys kbd, .act.led-act .key { letter-spacing: 0; }
 .glance .need { margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 4px 16px; font: 500 12.5px/1.4 var(--do);
   letter-spacing: .08em; text-transform: uppercase; color: var(--ivory); opacity: .8; }
-@media (hover: none) { .act.led-act .key, .glance-keys kbd { display: none; } }
 @media (max-height: 960px) and (min-width: 700px) {
   .glance-keys { padding-bottom: max(18px, env(safe-area-inset-bottom)); }
   .glance .sight { font-size: 19px; line-height: 1.55; margin-bottom: 14px; }

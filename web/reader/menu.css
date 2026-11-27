@@ -114,7 +114,10 @@
   position: static; min-width: 0; padding: 0; border: 0; background: none; font: var(--t-key); color: var(--dim); opacity: .7; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:is(.risk, .grave)::after { flex: none; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row .row-label small { font: var(--t-aside); color: var(--dim); }
-@media (hover: none) { :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-key { display: none; } }
+/* A key's label means nothing to a finger: hidden, on every page, while the last input was a touch (KeyLabels, OR-1560:
+   :root[data-touch], set from the last input, where `@media (hover: none)` had hidden them on a phone forever and on a
+   touch laptop never, in three rules of three sheets). */
+:root[data-touch] .row-key.row-key.row-key { display: none; }
 /* Taking one's leave, quieter than what can be said. */
 :root .talk .dialogue .leave .choice-row.choice-row { color: var(--dim); }
 :root .talk .dialogue .choosing:not(:has(button)) + .leave .choice-row.choice-row { color: var(--ivory); }

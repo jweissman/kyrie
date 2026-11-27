@@ -148,8 +148,6 @@
 /* More below than is in view: the foot of it fades, so that it is seen to go on (see Scrolled). */
 .fight > .slot > :is(.sides, .moves)[data-more] { mask-image: linear-gradient(180deg, #000 calc(100% - 36px), transparent); }
 .fight .moves .cards { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
-/* A key to press means nothing to a finger. */
-@media (hover: none) { .fight .auto kbd { display: none; } }
 /* An upright screen: the two sides side by side over what has passed, the hand at the foot. */
 @media (max-width: 1023px), (orientation: portrait) {
   .fight > .slot > .sides { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
