@@ -47,7 +47,7 @@ export class FightStage {
     // told by its end, in a sentence or two, not shown as a fight page.
     if (combat.outcome && (mark?.first ?? true)) { return <FightStage.Told app={app} log={log} show={show} />; }
     return (
-      <PageFrame.View kind="fight" className={`fight${aiming ? ' aiming' : ''}${combat.stage ? ` ${combat.stage}` : ''}`} header={<p className="status"><span>A fight</span><span>Round {Math.max(1, combat.round)}</span>
+      <PageFrame.View kind="fight" className={`fight${aiming ? ' aiming' : ''}${combat.stage ? ` ${combat.stage}` : ''}${combat.theme ? ` theme-${combat.theme}` : ''}`} header={<p className="status"><span>A fight</span><span>Round {Math.max(1, combat.round)}</span>
           <span data-id="place">{Typography.curl(frame.screen.place.name)}</span>
           {/* Said once: in the beat where it is told whole at the start, not again in the head. */}
           {combat.standing && !(first && !recent.length && !frame.opening.some(Boolean)) && <span

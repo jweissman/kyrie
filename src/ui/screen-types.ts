@@ -341,6 +341,10 @@ export interface CombatScreen {
   // every foe has a likeness, and they take most of the stage's left side, large, what is faced seen before it is read;
   // none, the cards as they stand.
   stage?: 'portraits';
+  // The page's theme for the fight, the engine's hint, as the backstage's folio is (the owner's playtest of 27
+  // November, OR-1493: a parchment treatment for combat): each card a leaf of parchment on the dark of the place,
+  // its inks the folio's; a foe's likeness a plate on it, never an oval.
+  theme?: 'parchment';
   // The round the fight is in: each begins with everyone's order drawn again.
   round: number;
   // Why a fight pressed on was handed back to the player before this turn (see PressOn): "Wenna could fall to the

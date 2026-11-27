@@ -3670,5 +3670,10 @@
   "kind": "defect",
   "pri": "P1",
   "why": "the backstage drawn as several pages against the owner's ruling"
+ },
+ "OR-1493": {
+  "kind": "defect",
+  "pri": "P2",
+  "why": "the owner's ruling against ovals, observed on the fight page"
  }
 }

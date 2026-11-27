@@ -44,7 +44,7 @@ export class CombatModel {
       .map(f => this.row(battle.catalog, f, state, portraits.face(battle.catalog, f.raceId)));
     return {
       turn: state.turn, actor: state.actor, actorName: actor?.name ?? '', ours, outcome: state.outcome,
-      ...foes.length && foes.every(f => f.face) ? { stage: 'portraits' as const } : {},
+      ...foes.length && foes.every(f => f.face) ? { stage: 'portraits' as const } : {}, theme: 'parchment' as const,
       // A creature by its kind's painting (a summoned hawk, a den's wolves), as one of the company by their portrait.
       foes,
       allies: state.combatants.filter(f => f.team === 'fighters')
