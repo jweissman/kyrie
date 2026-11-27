@@ -43,7 +43,18 @@ export class AimAdvances {
     return new Set(rows.filter(r => !r.action.movement && !/^(hold_here|call_on)$/.test(r.action.schema ?? '') && ((r.action.schema === 'buy_item'
       && wanted.has(r.action.bindings?.form ?? '')) || (!/^buy_/.test(r.action.schema ?? '')
       && (this.brings(r.action).some(c => calls.some(x => this.match(c, x) && this.held(campaign, x) === (c.kind === 'retract')))
-        || (coin && !worn.has(r.action.bindings?.ware ?? '') && (/^sell/.test(r.action.schema ?? '') || this.pays(r.action, actor))))))).map(r => r.choice.id));
+        || (coin && !worn.has(r.action.bindings?.ware ?? '') && this.raises(campaign, r.action, actor)))))).map(r => r.choice.id));
+  }
+  // Coin raised for the aim: a sale only of what is worth the selling, as the debt's own Kyr says it (worthSelling:
+  // worth five coin or more), else an act that pays. The reference town's debtor had been led to sell the torch, the
+  // pole and the candle for a coin each, then to buy a torch for the dark and sell it again, sixteen times, and had
+  // gone up to the stones with no light (OR-1504).
+  static readonly worthy = 5;
+  private static raises(campaign: Campaign, action: Operator, actor: string): boolean {
+    if (!/^sell/.test(action.schema ?? '')) { return this.pays(action, actor); }
+    const w = campaign.world, ware = action.bindings?.ware, kind = ware ? w.one('itemKind', ware) : undefined;
+    if (!kind || !w.module.measures.some(m => m.name === 'worth')) { return true; }
+    return w.number(ModuleWriter.call('worth', kind)) >= this.worthy;
   }
   // Where what the aim followed waits on lies hidden, to be searched for: the places, while it is still to be found.
   // From anywhere else the way there is the aim's (see Glance.ways): inside Murkweard, the cross at its door still to
