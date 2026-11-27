@@ -7,7 +7,6 @@
 // by building it again). Printed: p50, p95 and the worst of each, against the browser's 300 ms p95 for an act settled.
 //   bun scripts/performance/fight-engine.ts [--fights 3]
 import { EngineHost } from '../../web/engine/engine-host';
-import { PlayerView } from '../../src/presentation/player-view';
 import { GeneratedWorld } from '../../test/support/generated';
 import type { Frame } from '../../src/creation/protocol';
 import type { Battle } from '../../src/battle';
@@ -26,10 +25,8 @@ export class FightEngine {
       party: [{ name: 'Hamo', raceId: 'human', classId: seed % 2 ? 'mage' : 'thief' }] } as never);
     const session = host.played!;
     GeneratedWorld.put(session, 's1_u_warren');
-    const attack = PlayerView.choices(session.campaign).find(x => x.choice.id === 'attack(region__s1_u_rats)');
-    if (!attack) { throw new Error(`no attack on the rats at seed ${seed}`); }
     posted = undefined;
-    const done = host.handle({ kind: 'perform', command: attack.choice.id });
+    const done = host.handle({ kind: 'perform', command: 'attack(region__s1_u_rats)' });
     let over = false;
     void done.then(() => { over = true; });
     const blows: Blow[] = [];

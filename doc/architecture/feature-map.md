@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 204 pins (172 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 679 live rows, 220 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 204 pins (172 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 681 live rows, 222 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -101,7 +101,7 @@ page's colours and opportunities.)
   - requirement OA-05 P2: Review T1, a departure reckoning: before setting out, route and terrain, duration and arrival…
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
-- **Fights that cost** · 5 pins · 17 defects · 16 asks
+- **Fights that cost** · 5 pins · 19 defects · 16 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -835,10 +835,10 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - NP-19 (Narration), NP-18 (Narration), PL-29 (Companions and hirelings), T24-09 (Fights that cost), OR-195 (Fights that cost), GR-23 (Aims and the gold thread), CO-19 (Narration), CP-15 (The Atlas: marks and their witnesses), GR-21 (Aims and the gold thread), CL-50 (Dungeons and sites)
 - **AP-03** P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts with): an act whose effects give the company something to… · blocks 8 (6 P0/P1) over 8 capabilities
   - OR-140 (Rows, lenses and the frame), CL-31 (Dungeons and sites), AP-07 (The Atlas: marks and their witnesses), BO-07 (Interlocutors who ask, test and teach), R11-02 (Conversation held to its focus), BO-11 (Days, hours and waiting), PL-31 (Spellcasting), AP-11 (What an act would teach)
+- **AX-05** P1: The screen costs more than the turn at full scale (63 % of 0.5 s), and `EngineHost.travel` builds a full screen per leg of a journey · **Partly (the lead, 15… · blocks 6 (2 P0/P1) over 5 capabilities
+  - OR-1350 (Fights that cost), OR-145 (Rows, lenses and the frame), OR-182 (Accessibility and readability), AR-15 (Architecture and layers), OA-06 (Journeys over known ways), PL-04 (Fights that cost)
 - **OR-741** P2: The knowledge door as a capability boundary (the fifth review's step 6), slice by slice: the door is declarative (ScreenModel takes the campaign and hands it… · blocks 6 (0 P0/P1) over 4 capabilities
   - OR-774 (Journeys over known ways), OR-533 (News and rumour), AP-13 (The Atlas: marks and their witnesses), R7-04 (Journeys over known ways), NM-07 (Wayfinding and bearings), OR-920 (The Atlas: marks and their witnesses)
-- **AX-05** P1: The screen costs more than the turn at full scale (63 % of 0.5 s), and `EngineHost.travel` builds a full screen per leg of a journey · **Partly (the lead, 15… · blocks 5 (2 P0/P1) over 5 capabilities
-  - OR-145 (Rows, lenses and the frame), OR-182 (Accessibility and readability), AR-15 (Architecture and layers), OA-06 (Journeys over known ways), PL-04 (Fights that cost)
 - **AX-04** P1: A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the 1.7 MB of Kyr the generators just wrote: generate to the AST,… · blocks 4 (4 P0/P1) over 2 capabilities
   - OR-144 (Start-up and loading), OR-137 (Start-up and loading), OR-23 (Openings), OR-127 (Start-up and loading)
 - **OR-310** P1: The starting situations too alike and too dull: across runs similar errands and fetches, hours of travel for trivial reasons to places with nothing worth… · blocks 4 (2 P0/P1) over 4 capabilities
