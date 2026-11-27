@@ -36,7 +36,7 @@ class High {
 }
 
 describe('somewhere high', () => {
-  // A hex or two about where it stands, and no further (the owner, 26 November, OR-1250): each sighting not far off or
+  // A hex or two about where it stands, and no further (the owner, 26 November, OR-1253): each sighting not far off or
   // some way off, none at the edge of sight, and each known from then on.
   it('shows, climbed, what is in sight of it within a hex or two, each known after', async () => {
     const { c, told } = await High.climbed('larch');
@@ -76,7 +76,7 @@ describe('somewhere high', () => {
     expect(ScreenModel.build(c).exits.filter(e => e.destination.id === 'region__w3').map(e => e.destination.name))
       .toEqual(['Palelake']);
   }, 120000);
-  // Through a spyglass, nothing past a hex or two either (OR-1250): the climb shows the place's neighbourhood alone.
+  // Through a spyglass, nothing past a hex or two either (OR-1253): the climb shows the place's neighbourhood alone.
   it('shows nothing past a hex or two, even through a spyglass', async () => {
     const w = await WorldAssembler.assemble('pine', NodeBundleSource.shared, { standing: [] });
     const s = await PlaySession.start(w.path, 'pine', w.source), c = s.campaign;
@@ -94,7 +94,7 @@ describe('somewhere high', () => {
     const town = [{ id: 'town', cell: 4 }];
     expect(Vantage.seen(land, 0, town, { kind: 'oak' })).toEqual([]);
     expect(Vantage.seen(land, 2, town, { kind: 'cairn' }).map(s => [s.id, s.bearing, s.far])).toEqual([['town', 'east', true]]);
-    // Three hexes off is past what a climb shows (OR-1250).
+    // Three hexes off is past what a climb shows (OR-1253).
     const flat = { width: 5, height: 1, heights: [0.3, 0.3, 0.3, 0.3, 0.3] } as unknown as Land;
     expect(Vantage.seen(flat, 0, [{ id: 'near', cell: 2 }, { id: 'far', cell: 3 }], { kind: 'tower' }).map(x => x.id))
       .toEqual(['near']);

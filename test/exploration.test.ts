@@ -14,7 +14,7 @@ import { LandModel } from '../src/ui/land-model';
 // way each stretch lies, looking out from there and seeing what stands up from the land a long way off, and going to
 // it across the country between, by what is now known; and what was learned is kept.
 describe('exploring the open country', () => {
-  // Looked out over from the fells, the country shows its own neighbourhood (the owner, 26 November, OR-1250): the land
+  // Looked out over from the fells, the country shows its own neighbourhood (the owner, 26 November, OR-1253): the land
   // a hex or two about where the company stands is known, no further, and what is seen there is told once, in words,
   // with no row to set out for it; crossing to it is the map's, hidden while compactification holds.
   it('leaves a town with no destination, looks out from the fells, and comes to know its own neighbourhood', async () => {

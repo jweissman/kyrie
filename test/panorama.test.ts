@@ -31,7 +31,7 @@ describe('a panorama', () => {
       by: 'It is your wayfinding that makes it out.',
       way: 'The way: to the edge of Beorquudu, and on to the old bank, where the track to it starts.' });
   });
-  // Told once, in words (the owner, 26 November, OR-1250): no row for each place seen, none to set out or to look at
+  // Told once, in words (the owner, 26 November, OR-1253): no row for each place seen, none to set out or to look at
   // the map; a place known for what it is said by its name and its look.
   it('tells the view once, in words, with no row for any place seen', () => {
     const { sights } = Moments.of(lines);

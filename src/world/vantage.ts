@@ -8,7 +8,7 @@ import type { Land } from './land/terrain';
 // looks.
 export interface Sighting { id: string; cell: number; bearing: string; far: boolean; glass: boolean; distance: number }
 export class Vantage {
-  // A hex or two about where the company stands, and no further, glass or no (the owner, 26 November, OR-1250: a climb
+  // A hex or two about where the company stands, and no further, glass or no (the owner, 26 November, OR-1253: a climb
   // had revealed half the country; under compactification it shows the place's own neighbourhood).
   static readonly near = 1.5;
   static readonly far = 2;

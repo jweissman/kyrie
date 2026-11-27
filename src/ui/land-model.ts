@@ -155,7 +155,7 @@ export class LandModel {
     const well = new Set(surveys?.well ?? []);
     for (const id of surveys?.surveyed ?? []) {
       const c = chart.places[id];
-      // A hex or two about where the company stands, and no further (the owner, 26 November, OR-1250).
+      // A hex or two about where the company stands, and no further (the owner, 26 November, OR-1253).
       if (c !== undefined) {
         this.reveal(c, Math.min(LandModel.lookout, (LandModel.sight[chart.cover[c] ?? '.'] ?? 2) + (well.has(id) ? 1 : 0)), known);
       }

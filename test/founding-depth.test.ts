@@ -38,7 +38,7 @@ describe('a founding\'s own place', () => {
     const seen = await Town.act(s, /^Climb to the top of the gate-tower/);
     expect(seen).toContain('On the roof of the gate-tower the wind is cold, and the country lies open all round, the road'
       + ' running out of it both ways.');
-    // Its own neighbourhood, a hex or two about it, and nothing at the edge of sight (OR-1250).
+    // Its own neighbourhood, a hex or two about it, and nothing at the edge of sight (OR-1253).
     const sights = seen.filter(l => /^To the [a-z-]+, /.test(l));
     expect(sights.length).toBeGreaterThan(0);
     expect(sights.filter(l => /, far off|through the glass/.test(l))).toEqual([]);
