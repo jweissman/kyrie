@@ -64,7 +64,7 @@ The last reading is slower, not an improvement claim. It was made later in this 
 without a fresh paired main run; its difference cannot be attributed to the stats or repair code alone. No quality
 or quantity baseline was changed. The final full quantity run still fails only the two ratchets named above.
 
-### Whole-lane repair and remaining authored cases
+### Whole-lane repair and remaining authored cases (first follow-up)
 
 `gh run view 46034791349 --log-failed` contains 47 distinct failed labels, after removing repeated end-of-job
 summaries; this includes two unnamed setup failures. The families below account for all 47. The unrelated
@@ -125,6 +125,31 @@ decision, not a hidden change in this slice.
 Aims, Hall and foretold pins pass together: 285 passes across 52 files, four browser skips. The complete whole lane
 is not green: the 14 authored assertions above remain open. Browser fight-layout checks, human acceptance and a
 protected Sarn replay were not checked.
+
+### Follow-up on run 46059873272 (OR-1396, OR-1399)
+
+At `563adb0d7`, five files held eighteen failed cases that passed on main `9380ed192`
+(run 46052065483). Each file was reproduced separately before repair. None of these repairs changes the
+stats, an authored band or hazard, the reckoning, or the strict conflict floors.
+
+| Family | Failure and decision | Re-proving the original claim |
+|---|---|---|
+| Sarn, six journeys | The lone eight-HP bard had stood through the storm and then ignored delta fever. Provisioning alone was not care. These are survivable routes, not unwinnable set pieces. | Go below during the storm; follow the fern-runners at noon, gather three real sprigs of kingsfoil and tend fever during the stay. The egg, pair, clutch and returned-young walks wait to the Colonel's third-day decision, rather than adding 520 watches after the extra care journey and drifting into an unprotected fifth night. The fifth-night fire and sixth-night pack remain played; all six original ending assertions pass. |
+| Wapshott's Act IV, seven cases | The same unattended hazards ended the company before the quay or decision. | The same shelter and gathered care, with food and water replenished while waiting. All five distinct quay outcomes, both Colonel decisions, and the played night/reef departure keep their assertions. |
+| Bound Howe camp | At `kahitude`, the four level-five characters start at 24/38/22/5 HP and all fall; the foreman survives. The separate foreman's fair warning does not describe the whole camp; the crew is hard. | Seed `b2` keeps the warrior/cleric/thief/mage party and level five: 29/28/37/16 HP, crew hard and foreman slight with a control condition. The foreman falls and one company member falls; the original fewer-than-three-casualties assertion passes. Bounded checks also found `a1` loses all four (crew grave), while `thorn` wins with one casualty (crew hard). This proves a winning drawn company, not that every such company wins. |
+| Counting-circle ledger, three cases | No fight or changed receipt branch: at `cell-approach-2`, Nella's Constitution 7 gives SRD max HP 2. The sack's fixed two-damage nail incapacitates her, removing her topic and both healing offers. | Seed `cell-approach-4` still draws the circle and the duplicated receipt, but Nella's Constitution 9 gives three HP, leaving one after the nail. Dori lacks Cure and has Cure Minor Wounds; the original one-point healing and persistence assertions pass. The separate actual-Cure case keeps seed 6. |
+| Ferryman's supply party | At `long-road`, the SRD company wins, but loses Dori and takes 99 turns to kill both suppliers. Its grave warning is not an easy-win lie. | `long-road-3` keeps the same road preparation and unprepared assault, without extra wounds, disarming or inflated enemies. The company's 7/10/12 HP meets the suppliers' 20/16 HP; the warning is deadly, all three fall and the suppliers remain able. `long-road-2` also wins but loses two; `long-road-4` loses all three. The loss claim is re-pinned, not weakened. |
+
+The original fourteen OR-1399 assertions are now re-proved. `test/support/circus-care.ts` shares only the
+obligation to heed the storm and obtain/administer care; it plays existing engine offers, not invented controls.
+Its noon trail check uses the same explicit successful roll as the existing spring journey. No new healing stock
+is handed to the company. The changed seed pins document OR-1396 at the case.
+
+**Validation:** each of `circus-journeys`, `circus-act4`, `bound-howe`, `long-cell-ledger` and `long-logistics`
+was run as its own `bun test <file>`: 10, 22, 15, 8 and 4 passes respectively, zero failures (59 cases).
+Full `check:fast` passes (2332 pass, 172 skip, 31 todo), `test:small` passes (1254), `test:honest` passes (4),
+and both unchanged strict conflict files pass (7 cases). Full whole-lane confirmation is left to the lead's next CI run; no claim is
+made that the original losing seeds now win, or that the authored hazards and camps have been rebalanced.
 
 ## The cases (16 November)
 

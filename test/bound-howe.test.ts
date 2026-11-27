@@ -139,12 +139,12 @@ describe('the camp in the lee: a foreman, a crew, a cook, and four ways with the
     }
   }, 300000);
 
-  // At the fifth level: the drawn company of four at the fourth, its casters' spells drawn by rank since case 11 of
-  // srd-proving-cases.md (the cleric without Entangle and Confuse), falls to the crew to a man.
+  // OR-1396: b2's four SRD level-five characters win with one casualty; kahitude's four now all fall.
   it('is the camp that can be fought: the crew breaks and the foreman falls to a company of four at level five', async () => {
-    const j = await Howe.at('lee', levelled(5, 'warrior', 'cleric', 'thief', 'mage'));
+    const j = await Howe.at('lee', levelled(5, 'warrior', 'cleric', 'thief', 'mage'), 'b2');
     await Howe.torch(j);
     await j.fight('Attack');
+    expect(Howe.holds(j, 'routed', R('crew'))).toBe(true);
     expect(Howe.holds(j, 'dead', R('foreman'))).toBe(true);
     expect(Howe.downed(j)).toBeLessThan(3);
   }, 300000);

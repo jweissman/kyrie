@@ -22,7 +22,8 @@ const meeting = async (seed = 2) => {
 
 describe('the counting circle ledger', () => {
   it('can reach the circle from the green after learning about its delivery', async () => {
-    const j = await Journey.start(campaign, 'cell-approach-2');
+    // OR-1396: seed 2's two-HP Nella cannot speak after the sack's two-damage nail.
+    const j = await Journey.start(campaign, 'cell-approach-4');
     Placed.at(j, 'tallow__green');
     j.put('lc_ferryman', 'tallow__green');
     j.assert('lcTermsHeard', 'party');
@@ -38,7 +39,7 @@ describe('the counting circle ledger', () => {
   }, 10000);
 
   it('lets a reader identify the duplicated receipt and divert the food', async () => {
-    const j = await meeting();
+    const j = await meeting(4); // OR-1396: the returned sack wounds Nella without incapacitating her.
     const food = j.measure('quantity', 'lc_cell', 'rations');
     await j.play('Question Nella\'s entry in the book');
     const resumed = Journey.of(PlaySession.resume(
@@ -70,7 +71,7 @@ describe('the counting circle ledger', () => {
   }, 10000);
 
   it('offers the lesser healing cantrip when Cure is not ready', async () => {
-    const j = await meeting();
+    const j = await meeting(4); // OR-1396: Nella survives the nail, and Dori has the cantrip but not Cure.
     await j.play('Question Nella\'s entry in the book', 'To Nella\'s croft');
     expect(j.holds('lcNellaCut', 'party')).toBe(true);
     expect(j.offers('Have Dori cast Cure on Nella')).toBe(false);
