@@ -79,7 +79,7 @@ export interface PlayerSnapshot {
 }
 export interface ChronicleEntry { at: number; kind: 'player' | 'npc' | 'world' | 'observation' | 'discovery' | 'event'; text: string; detail: string[] }
 // What the company perceives of one world, kept with what it was worked out of (see PlayerView.observe).
-interface Observed { snapshot?: PlayerSnapshot; chronicle?: readonly ChronicleEntry[] }
+interface Observed { snapshot?: PlayerSnapshot }
 
 // Player-safe projection of an omniscient campaign. Kyr has no declared observability, so this applies one
 // conservative, documented locality policy: the player actor's own facts, its location, co-located entities,
@@ -235,10 +235,20 @@ export class PlayerView {
   static observe(campaign: Campaign): PlayerSnapshot {
     return this.kept(campaign).snapshot ??= Costs.time('observe', () => Frozen.deep(this.perceive(campaign)));
   }
+  // Kept by what it is read from (the world, the log, the installation, the creatures and who the company is), not by
+  // the revision, which asks for every act on offer: a journey's leg reads it for what it saw on the way, and builds no
+  // frame (OR-1361).
   static chronicle(campaign: Campaign): readonly ChronicleEntry[] {
-    const actor = this.actor(campaign);
-    return this.kept(campaign).chronicle ??= Frozen.deep(Chronicle.of(campaign, actor, this.labels(campaign)));
+    const actor = this.actor(campaign), log = campaign.history, { creatures } = campaign.tickState;
+    const key = [campaign.world, log.length, log.at(-1), campaign.installations.length, creatures, creatures.version,
+      actor];
+    const kept = PlayerRevision.keeping ? this.chronicled.get(campaign) : undefined;
+    if (kept && kept.key.every((x, i) => x === key[i])) { return kept.entries; }
+    const entries = Frozen.deep(Chronicle.of(campaign, actor, this.labels(campaign)));
+    this.chronicled.set(campaign, { key, entries });
+    return entries;
   }
+  private static readonly chronicled = new WeakMap<Campaign, { key: unknown[]; entries: readonly ChronicleEntry[] }>();
   // What the company perceives as a journey's leg is told by its receipt (OR-1361; LegTold): its rows only the ways
   // (as Travel reads them), and who is here not read (what they are about is a planner's reading), so that neither the
   // whole frame nor the revision it is kept by (PlayerRevision, which asks for every act on offer) is worked out for a
