@@ -2,10 +2,11 @@ import type { Read } from './country';
 import type { Walked } from './walks';
 import type { Delved } from './delver';
 import type { Trip } from './expeditions';
+import type { Led } from './leads';
 
 // What the quantity gate reads, over the worlds and the walks (scripts/quantity/quantity.ts gathers them).
 export interface Readings { golden?: Walked; gold: Walked[]; countries: Read[]; stranded?: Record<string, string[]>;
-  delved?: Delved[]; expeditions?: Trip[] }
+  delved?: Delved[]; expeditions?: Trip[]; leads?: Led[] }
 // A number as read: one for the measure, and where it is read per seed or walk, each (a band holds each).
 export interface Reading { value: number | null; each?: Record<string, number>; note: string }
 // band: held between a floor and a ceiling (either may be open); up, down: a ratchet that may only rise, or only
@@ -17,7 +18,7 @@ export interface Measure { id: string; label: string; kind: Kind; why: string; f
 export type Reckoned = 'fights' | 'places' | 'roads' | 'returned' | 'again' | 'bands' | 'fair' | 'economy' | 'treasure' | 'marks' | 'blank' | 'unwitnessed'
   | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit' | 'handed'
   | 'stranded' | 'bestiary' | 'delved' | 'renewed' | 'prepared' | 'routine' | 'answered' | 'kept'
-  | 'identity';
+  | 'identity' | 'mouth' | 'strayed' | 'colours' | 'connected' | 'aimless';
 
 // The measures, each with its kind and why it is held so (doc/architecture/quantity.md says them at length). A band's
 // floor and ceiling here are its first; baseline.json holds them after.
@@ -110,6 +111,24 @@ export class QuantityMeasures {
     { id: 'stranded', label: '10. Authored content no played world reaches', kind: 'down',
       why: 'an executable spell offered by an installed calling’s SpellSelection plan is reachable without an authored '
         + 'text mention; other content no world reaches is cost without return, so this may only fall', read: 'stranded' },
+    // Pointless wandering on the reference game (the owner's playtest of 27 November, OR-1500:
+    // scripts/quantity/leads.ts), over fifteen lives (warrior, mage and thief, each begun for each of the reference
+    // town's five reasons) on s0.
+    { id: 'mouth', label: '9. Moves from a new life to the first dungeon\'s mouth, by the page\'s leads (median)',
+      kind: 'report', why: 'the first dungeon is unmistakable from the first town: the page\'s gold leads to it within a '
+        + 'few acts of a new life (OR-1501); said, a ratchet down once it moves', read: 'mouth' },
+    { id: 'strayed', label: '9. Lives whose wanderer never comes to the first dungeon\'s mouth in the first hour',
+      kind: 'report', why: 'its mouth is a named, seen point of interest, never found by circling (OR-1501): a player '
+        + 'who never follows the gold still comes on it; said, a ratchet down once it moves', read: 'strayed' },
+    { id: 'colours', label: '5. Atlas colours met above ground in the first hour (median, of 5)', kind: 'report',
+      why: 'opportunities of each kind are where the company can find them, the town and the woods too (OR-1500); said, '
+        + 'a ratchet up once it moves', read: 'colours' },
+    { id: 'connected', label: '8. First-hour aims seen through that open something later play reads (%)',
+      kind: 'report', why: 'a job resolves into a person, a place, a fact or the next job (OR-1503), never a fetch that '
+        + 'ends where it ends; said, a ratchet up once it moves', read: 'connected' },
+    { id: 'aimless', label: '5. Moves with nothing worth going to in reach, first hour (median a life)', kind: 'report',
+      why: 'every place a company stands in shows what in reach is worth going to, and no stretch is blank (OR-1502); '
+        + 'said, a ratchet down once it moves', read: 'aimless' },
     { id: 'identity', label: 'Consequential people with a name (%)', kind: 'report',
       why: 'OR-304, OR-281: unbaselined at first', read: 'identity' }];
 }

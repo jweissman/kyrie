@@ -220,6 +220,36 @@ export class Reckon {
     return this.of(each, this.median(Object.values(each)), r.countries.map(c => `${c.seed} ${c.dungeon?.name ?? 'none'} `
       + `${c.dungeon ? f(c.dungeon) : '—'}`).join(', '));
   }
+  // The reference game's first hour, fifteen lives (QuantityLeads): each reading said by life.
+  static mouth(r: Readings): Reading {
+    if (!r.leads) { return { value: null, note: 'not read' }; }
+    const led = r.leads.map(l => l.mouth ?? Infinity);
+    return { value: this.median(led), note: r.leads.map(l => `${l.name} ${l.mouth ?? '—'}`).join(', ') };
+  }
+  static strayed(r: Readings): Reading {
+    if (!r.leads) { return { value: null, note: 'not read' }; }
+    return { value: r.leads.filter(l => l.wandered === null).length, note: `of ${r.leads.length}; wandered to it in `
+      + r.leads.map(l => `${l.name} ${l.wandered ?? '—'}`).join(', ') };
+  }
+  static colours(r: Readings): Reading {
+    if (!r.leads) { return { value: null, note: 'not read' }; }
+    return { value: this.median(r.leads.map(l => l.above.length)), note: r.leads.map(l => `${l.name} `
+      + `${l.above.join(' ') || 'none'}`).join(', ') };
+  }
+  static connected(r: Readings): Reading {
+    if (!r.leads) { return { value: null, note: 'not read' }; }
+    const jobs = [...new Map(r.leads.flatMap(l => l.jobs.map(j => [`${l.name}:${j.id}`, j]))).values()];
+    const open = jobs.filter(j => j.opens.length), shut = jobs.filter(j => !j.opens.length);
+    return { value: this.pct(open.length, jobs.length), note: `${open.length} of ${jobs.length}; opening nothing: `
+      + [...new Set(shut.map(j => j.id))].join(', ') };
+  }
+  static aimless(r: Readings): Reading {
+    if (!r.leads) { return { value: null, note: 'not read' }; }
+    const where: Record<string, number> = {};
+    for (const l of r.leads) { for (const [k, n] of Object.entries(l.blanks)) { where[k] = (where[k] ?? 0) + n; } }
+    return { value: this.median(r.leads.map(l => l.blank.led + l.blank.wandered)), note: Object.entries(where)
+      .sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, n]) => `${k.replace(/^region__/, '')} ${n}`).join(', ') };
+  }
   // Those who joined, and those an aim was about, with a name of their own (not "the boy", not "a drover").
   static named(name: string): boolean {
     const first = name.split(', ')[0]!.trim();
