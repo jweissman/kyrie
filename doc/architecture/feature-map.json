@@ -1091,7 +1091,9 @@
        "feature": "authoring",
        "default": true,
        "rows": [
-        "OR-700"
+        "OR-700",
+        "OR-1340",
+        "OR-1341"
        ]
       },
       {

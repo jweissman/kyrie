@@ -202,3 +202,47 @@ parity. A finding alone does not mend content or runtime behavior. **Slice 6** g
 ratcheting down the 849 string reads recorded by OR-744 and keeping negative typecheck tests. Neither follows
 automatically from a populated table. OR-542's language-entry cycle and its deep-import ratchet can be a separate
 small parser-boundary increment if it is needed to emit bindings; it is not permission to move unrelated layers.
+
+## Implementation probe (27 November)
+
+The first production-shaped increment is on `build-kyr-symbol-table-1127`. It records declaration sites as
+`ModuleMade` lowers the existing parse, and retains them on each parsed file's `Module`; the whole and declaration-
+chunked paths share that recorder. The kept-parse version is bumped so an older cached module cannot masquerade as
+one with sites. A joined or saved module drops the per-file record. `SymbolTable.of(context, installation)` requires
+an explicit `VocabularyContext`, takes shared files and installed units, and owns its indexes and reference cache;
+there is no process-wide table. It indexes entities, relations, measures, queries, kinds, acts (topics are typed acts)
+and rules. `SymbolReferences` walks selected lowered declarations and effects. KyrLint's twin-name check now queries
+that table; its existing finding shape and order are covered against the prior set-based implementation.
+
+The fragment spec `test/small/kyr-symbol-table.test.ts` proves cross-module binding, own-before-shared shadowing,
+unresolved binding with file/line/column provenance, installation isolation and exact twin-check parity on a Kyr
+fragment. `test/small/declaration-parses.test.ts` proves sites survive whole, chunked and cached parses, and the
+language-entry specs continue to guard load order and deep imports.
+
+**This is not yet a complete binding authority.** A reference currently inherits the span of its containing
+declaration (or initial fact), not the exact identifier token. `SymbolReferences` traverses lowered IR and covers
+common calls, arguments, action uses and type signatures, but it does not yet inventory every name-bearing field;
+imports are absent. Catalog and language names are represented as external binding statuses, not declaration
+identities with their own provenance. Places share the entity namespace, and topics share the act namespace. Generated
+values have generator/construct provenance but no authored line; declarations produced later by module-wide lowering
+are marked unplaced. Consequently OR-700 remains open. OR-1340 tracks exact reference spans; OR-1341 tracks the
+complete reference inventory and external/import identities. The remaining limitation is explicit rather than
+silently treated as a successful binding.
+
+### Measurements and checks
+
+On 27 November, a warm-process microbenchmark used the 18 Kyr files in `data/rules/` and the five authored
+`iscoed-*` situations (23 parsed modules, 1,389 indexed declarations). It first compared the existing twin lint with
+the prior set-based algorithm; the findings were identical (zero findings in this corpus). Across 15 measured runs,
+the old twin lookup had a 0.072 ms median and the table-backed query 1.194 ms; building the table alone took
+1.485 ms, and building it plus binding the five situations' references took 6.521 ms. These are warm microbenchmark
+medians, not end-to-end compile timings. They show a small absolute lint cost, not that compile time is unchanged.
+
+The generated reference world (`s0`) was not assembled for this measurement: this checkout has no `heavy.sh`, and
+the repository's machine rule reserves world walks for the guarded environment. Thus its table-build time and
+compile-time overhead of collecting sites versus the uninstrumented parser remain unmeasured. The fragment and
+whole/chunked parity specs pass, but corpus-wide reference parity, exact token spans, all reference forms, and actual
+reference-world behavior are not proved here. Keep the table off product execution paths until those gaps are closed.
+
+Lint-as-queries (slice 5), typed vocabulary (slice 6), regex-based shadow lowering and dependency-key migration are
+not part of this increment.

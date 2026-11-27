@@ -32,8 +32,8 @@ export class ModuleReads {
     declared: readonly Declared[]): Module {
     const match = parser.grammar.match(text);
     if (match.failed()) { throw new Error(`Invalid Kyr module: ${Grammars.why(text)}`); }
-    const made = parser.semantics(match).ast() as Parameters<typeof ModuleMade.of>[1];
-    return DeclaredValues.during(declared, () => ModuleMade.of(context, made,
+    const made = parser.semantics(match).ast() as Omit<Parameters<typeof ModuleMade.of>[1], 'text'>;
+    return DeclaredValues.during(declared, () => ModuleMade.of(context, { ...made, text },
       (i, run) => parser.locatedByStart(made.starts[i]!, text, run)));
   }
   static wholeSyntax(parser: typeof ModuleParser, text: string, declared: readonly Declared[] = []): Module {

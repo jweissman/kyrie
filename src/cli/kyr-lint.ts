@@ -4,6 +4,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { ModuleParser } from '../lang/module-parser';
+import { SymbolTable } from '../lang/index';
 import { CanonVocabulary } from '../canon/canon-vocabulary';
 import { PlaySession } from '../session/play-session';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
@@ -83,15 +84,28 @@ export class KyrLint {
   // ModuleShadow), so a shared name added later renames the module's own and changes what its saves and tests know it
   // by. An error, as a relation's twin is (the disputation's settled() beside the camp's settled(place), Mission 17).
   static twins(parsed: { file: string; module: Module }[]): Finding[] {
-    const rules = parsed.filter(p => p.file.startsWith('data/rules/')).map(p => p.module);
-    const queries = new Set(rules.flatMap(m => m.queries.map(q => q.name)));
-    const functions = new Set([...queries, ...rules.flatMap(m => [...m.relations, ...m.measures].map(r => r.name))]);
-    const actions = new Set(rules.flatMap(m => m.actions.map(a => a.id)));
-    return parsed.filter(p => !p.file.startsWith('data/rules/')).flatMap(({ file, module: m }) => [
-      ...m.queries.filter(q => functions.has(q.name)).map(q => `query ${q.name}`),
-      ...[...m.relations, ...m.measures].filter(r => queries.has(r.name)).map(r => r.name),
-      ...m.actions.filter(a => actions.has(a.id)).map(a => `action ${a.id}`)]
-      .map(name => ({ level: 'error' as const, check: 'redefinition', where: file, message: `redefines canonical ${name}` })));
+    const rules = parsed.filter(p => p.file.startsWith('data/rules/'));
+    const own = parsed.filter(p => !p.file.startsWith('data/rules/'));
+    const table = SymbolTable.of(CanonVocabulary.context(), {
+      shared: rules.map(p => ({ file: p.file, module: p.module })),
+      modules: own.map(p => ({ id: p.file, files: [{ file: p.file, module: p.module }] })),
+    });
+    const shared = table.declarations().filter(d => d.scope === 'shared');
+    const queryNames = new Set(shared.filter(d => d.namespace === 'query').map(d => d.name));
+    return own.flatMap(({ file }) => {
+      const declarations = table.declarations(file);
+      const queries = declarations.filter(d => d.namespace === 'query');
+      const functions = ['query', 'relation', 'measure'] as const;
+      const actions = declarations.filter(d => d.namespace === 'act');
+      const shadows = [
+        ...queries.filter(q => table.lookup(q.name, 'shared', functions).length).map(q => `query ${q.name}`),
+        ...declarations.filter(d => d.namespace === 'relation' || d.namespace === 'measure')
+          .filter(d => queryNames.has(d.name)).map(d => d.name),
+        ...actions.filter(a => table.lookup(a.name, 'shared', ['act']).length).map(a => `action ${a.name}`),
+      ];
+      return shadows.map(name => ({ level: 'error' as const, check: 'redefinition', where: file,
+        message: `redefines canonical ${name}` }));
+    });
   }
   // The concept inventory: every relation and measure name, how many files declare it and where.
   static inventory(): string[] {
