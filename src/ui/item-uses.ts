@@ -1,5 +1,5 @@
 import type { ItemCatalog } from '../item-catalog';
-import { ConditionSense } from '../canon/condition-sense';
+import { Conditions as ConditionSense } from '../ports/conditions';
 import type { Act } from './screen-types';
 
 // What a thing carried is kept for, when its use is not offered now: a salve when none of the company needs it, a

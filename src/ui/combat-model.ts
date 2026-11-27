@@ -2,9 +2,8 @@ import { Spellcasting } from '../rules/spellcasting';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { Narration } from '../presentation/narration';
 import { Effects } from '../effects';
-import { Canon } from '../canon/canon';
 import { Content } from '../content';
-import { ConditionSense } from '../canon/condition-sense';
+import { Conditions as ConditionSense } from '../ports/conditions';
 import type { Battle } from '../battle';
 import { Fighting } from '../rules/fighting';
 import { HitDicePool } from '../rules/hit-dice-pool';
@@ -74,7 +73,7 @@ export class CombatModel {
       order: (state.order ?? []).filter((id, i) => !i || state.combatants.some(f => f.id === id && f.hp > 0))
         .map(id => this.name(state, id)),
       laws: [...new Set(state.combatants.flatMap(f => f.statuses.map(s => s.id)).filter(id => ConditionSense.law(id)))]
-        .map(id => ({ name: ConditionSense.name(id), text: Canon.conditions[id]!.description })),
+        .map(id => ({ name: ConditionSense.name(id), text: ConditionSense.exact(id)!.description })),
       log: battle.events.map(e => this.line(e, state)).filter(line => !!line).slice(-40),
       round: battle.events.filter(e => e.type === 'initiative').length,
       exchanges: CombatTelling.exchanges(battle.events, state, said).map((t, n) => ({ n, ...t })),

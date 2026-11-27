@@ -1,8 +1,8 @@
 {
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
-  "runtime -> setting": 48,
-  "player -> setting": 34
+  "runtime -> setting": 47,
+  "player -> setting": 24
  },
  "edges": [
   "src/ability-use.ts -> src/canon/canon",
@@ -10,7 +10,6 @@
   "src/campaign/company-choices.ts -> src/canon/canon",
   "src/campaign/consequences.ts -> src/canon/canon",
   "src/campaign/creature-facts.ts -> src/canon/canon",
-  "src/campaign/creature-facts.ts -> src/canon/condition-sense",
   "src/campaign/field-resolver.ts -> src/canon/canon",
   "src/campaign/field-use.ts -> src/canon/canon",
   "src/campaign/herb-recipes.ts -> data/catalog/plants.json",
@@ -45,7 +44,6 @@
   "src/presentation/character-sheet.ts -> src/canon/canon",
   "src/presentation/company-preview.ts -> src/canon/canon",
   "src/presentation/danger-sense.ts -> src/canon/canon",
-  "src/presentation/danger-sense.ts -> src/canon/condition-sense",
   "src/presentation/mechanics-text.ts -> src/canon/canon",
   "src/presentation/perk-text.ts -> src/canon/canon",
   "src/presentation/prose-lint.ts -> data/editorial/prose-lint.json",
@@ -67,25 +65,16 @@
   "src/summoning.ts -> src/canon/canon",
   "src/tactics.ts -> src/canon/canon",
   "src/ui/chart-model.ts -> src/world/authored-land",
-  "src/ui/combat-model.ts -> src/canon/canon",
-  "src/ui/combat-model.ts -> src/canon/condition-sense",
-  "src/ui/combat-presenter.ts -> src/canon/canon",
-  "src/ui/combat-telling.ts -> src/canon/canon",
-  "src/ui/combat-telling.ts -> src/canon/condition-sense",
   "src/ui/defense-telling.ts -> src/canon/canon",
   "src/ui/encyclopedia-entry.ts -> src/canon/canon",
   "src/ui/headings.ts -> src/world/authored-land",
   "src/ui/headings.ts -> src/world/vantage",
-  "src/ui/illumination.ts -> src/canon/canon",
   "src/ui/item-stow.ts -> src/canon/canon",
-  "src/ui/item-uses.ts -> src/canon/condition-sense",
   "src/ui/overland.ts -> data/generation/scenes/tracts.json",
   "src/ui/quarters.ts -> data/generation/town/quarters.json",
   "src/ui/scene-kinds.ts -> data/paintings/scenery.json",
   "src/ui/scenery.ts -> data/paintings/scenery.json",
   "src/ui/screen-model.ts -> src/canon/canon",
-  "src/ui/screen-model.ts -> src/canon/condition-sense",
-  "src/ui/screen-model.ts -> src/world/seats",
-  "src/ui/unusable.ts -> src/canon/condition-sense"
+  "src/ui/screen-model.ts -> src/world/seats"
  ]
 }

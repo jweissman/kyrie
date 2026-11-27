@@ -5,7 +5,7 @@ import { Effects } from '../effects';
 import { Fighting } from '../rules/fighting';
 import { Spellcasting } from '../rules/spellcasting';
 import { DailyUses } from '../rules/daily-uses';
-import { ConditionSense } from '../canon/condition-sense';
+import { Conditions as ConditionSense } from '../ports/conditions';
 
 // What the one acting knows and cannot use now, and why (the completion plan's combat function, §2.4: an act that is
 // not there says nothing; a technique on cooldown, a spell with no slot left, a thing used up had simply vanished from

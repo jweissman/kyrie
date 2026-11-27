@@ -8,7 +8,7 @@ import { KnownNames } from './known-names'; import { Engaged } from '../presenta
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows'; import { SpellSchools } from '../presentation/spell-schools';
 import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed'; import { BackgroundCatalog } from '../rules/background-catalog';
-import { ConditionSense } from '../canon/condition-sense'; import { Advancement } from '../rules/advancement';
+import { Conditions as ConditionSense } from '../ports/conditions'; import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon'; import { Content } from '../content';
 import { Illumination } from './illumination'; import { Standing } from './standing'; import { Patience } from './patience';
 import type { ItemCatalog } from '../item-catalog'; import { ModuleWriter } from '../lang/module-writer';
@@ -426,13 +426,13 @@ export class ScreenModel {
       grants: all.filter(x => x.source === oid).map(x => x.kind === 'skill' ? `${campaign.module.entities.find(e => e.id === x.value)?.name ?? x.value} (skill)`
         : x.kind === 'gear' ? campaign.catalog.get(x.value).name : x.kind === 'gold' ? `+${x.value} coin` : x.value) }));
   }
-  private static condition(id: string): string { return Canon.conditions[Canon.resolve('conditions', id)]?.name ?? id; }
+  private static condition(id: string): string { return ConditionSense.name(id); }
   // A condition that helps (a lit torch, a blessing, a ward) is told apart from one that hurts.
   private static boon(id: string): boolean { return ConditionSense.helps(id); }
   // A thing whose use brings light: its effect applies a condition that grants it (a torch, a lantern).
   private static lights(use?: string): boolean {
     const status = use && /^Apply (\w+) to/.exec(use)?.[1];
-    return !!status && !!Canon.conditions[Canon.resolve('conditions', status)]?.grants?.includes('light');
+    return !!status && !!ConditionSense.of(status)?.grants?.includes('light');
   }
   private static items(campaign: Campaign, grouped: Grouped, entities: Map<string, Entity>): ItemRow[] {
     const state = campaign.readout;
