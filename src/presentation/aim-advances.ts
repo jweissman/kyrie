@@ -34,7 +34,10 @@ export class AimAdvances {
     // Never what someone has on or in hand: a debt is not paid by selling the weapon that is to be lived by (the owner,
     // 15 November: gold is a viable step, not any act that raises the purse).
     const worn = Carriers.worn(campaign);
-    const wanted = AimLeads.sellers(campaign, def).length ? AimLeads.wanted(campaign, def) : new Set<string>();
+    // Read only where a thing could be bought here: who sells it is what the company recalls, a whole perception (a
+    // journey's leg asks of its way alone, and builds none: OR-1361).
+    const wanted = rows.some(r => r.action.schema === 'buy_item') && AimLeads.sellers(campaign, def).length
+      ? AimLeads.wanted(campaign, def) : new Set<string>();
     // Save a thing bought that someone the aim waits on keeping wants (feverwort for the fevered child: PL-28).
     // Nor an order given to one who has joined (stay, come on): what it does to who travels is not the aim's step.
     return new Set(rows.filter(r => !r.action.movement && !/^(hold_here|call_on)$/.test(r.action.schema ?? '') && ((r.action.schema === 'buy_item'
