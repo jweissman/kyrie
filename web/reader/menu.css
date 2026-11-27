@@ -59,12 +59,14 @@
    conversation's questions, its leave and Trade, a fight's moves. Its one indicator at the left, its words in sentence
    case, whatever it says of itself beside them on the same line, its key at the right; one line, of one height, and the
    same ground, everywhere (the owner, 15 November: no jagged list where some rows have a subheader of details; a brief
-   main action and its details, all on one row). What does not fit is cut short, never wrapped. ---- */
+   main action and its details, all on one row). Its words are never cut short (the owner's play, 27 November, OR-1681:
+   "I can't tell what any of them actually are because they're cut off"): a row too narrow for them grows a line,
+   at a desk and on a phone alike; what it says of itself beside them gives way first, whole or not at all. ---- */
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row {
   all: unset; box-sizing: border-box; position: relative; display: flex; flex-wrap: nowrap; align-items: center;
-  column-gap: var(--s2); width: 100%; max-width: 100%; min-width: 0; height: var(--choice-h); margin: 0; overflow: hidden;
+  column-gap: var(--s2); width: 100%; max-width: 100%; min-width: 0; min-height: var(--choice-h); margin: 0; overflow: hidden;
   white-space: nowrap;
-  padding: 0 14px 0 22px;
+  padding: 7px 14px 7px 22px;
   font: var(--t-choice); letter-spacing: 0; text-transform: none; text-align: left; color: var(--ivory); cursor: pointer;
   background: transparent; border: 1px solid transparent; border-radius: var(--choice-radius);
   text-wrap: balance; -webkit-tap-highlight-color: transparent;
@@ -84,27 +86,26 @@
      as long as the opportunity does). */ }
 @media (prefers-reduced-motion: reduce) {
   :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-mark { animation: none; background-size: 100% 100%; } }
-/* A row never widens what holds it: its words are cut short instead. */
+/* A row never widens what holds it: its words take another line instead. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map) :is(li, .led-act):has(> .choice-row) { min-width: 0; max-width: 100%; }
 /* Asked already: its words lowered, still to be chosen. */
 :root .talk .replies .asked .choice-row.choice-row { color: var(--dim); }
-:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > :is(.row-label, .row-aside, .led-mark, .why,
-  .about, .grave-said, .mark-tag) { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > :is(.row-aside, .led-mark, .why,
+  .about, .grave-said, .mark-tag) { flex: 0 1000 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
   white-space: nowrap !important; display: block; margin: 0; }
-/* Its words keep their room first; what the act says of itself (why it is shut, what it risks, the question asked again
-   before it is done) gives way before them. */
-:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-label { flex-shrink: 0; max-width: 100%; }
+/* Its words keep their room first, wrapped where they must be and never cut; what the act says of itself (why it is
+   shut, what it risks, the question asked again before it is done) gives way before them. */
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-label { flex: 0 1 auto; min-width: 0;
+  max-width: 100%; display: block; margin: 0; white-space: normal !important; overflow-wrap: break-word; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > :is(.why, .about, .grave-said, .mark-tag) {
   font: var(--t-aside); color: var(--dim); }
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-label { font: inherit; }
 /* On a phone a way's whole name can be wider than the row ("Into the old stones above Broadholm by the path up the
-   hill"): every row of a list is a little taller there, room for its words on two lines, so that no name is cut
-   short and the list stays even (the owner, 15 November: one height, never a second line of details). */
+   hill"): every row of a list is a little taller there, room for its words on two lines, so that the list stays even
+   (the owner, 15 November: one height, never a second line of details); a name longer still takes a third. */
 @media (max-width: 600px) {
   :root { --choice-h: 56px; }
-  :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-label {
-    white-space: normal !important; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
-    line-height: 1.25; }
+  :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-label { line-height: 1.25; }
 }
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-aside { font: var(--t-aside); color: var(--dim); }
 /* An aside said whole or not at all: dropped where the row has no room for all of it (RowAside), never cut to a stub. */
