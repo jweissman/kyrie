@@ -1,0 +1,44 @@
+{
+ "arrive": [
+  "^To the yard"
+ ],
+ "toTurns": [
+  "^To the Seven Turns"
+ ],
+ "toCairn": [
+  "give Gnomon a ration",
+  "^To Lintern's cairn"
+ ],
+ "nesta": [
+  "Tell Nesta you saw her"
+ ],
+ "ring": [
+  "Ask Nesta what a hum does to glass"
+ ],
+ "lintern": [
+  "Ask Lintern about the Cut",
+  "Ask Lintern what the pipes were built for"
+ ],
+ "note": [
+  "Tell Lintern the glass rings like pipe"
+ ],
+ "stop": [
+  "Ask Lintern to stop the pipes",
+  "Drive Lintern's mallet"
+ ],
+ "wool": [
+  "Pay Marta 3 coin"
+ ],
+ "lathe": [
+  "Ask Lathe what he wants",
+  "Take his forty crowns"
+ ],
+ "latheNo": [
+  "Ask Lathe what he wants",
+  "Say the mirror will go over"
+ ],
+ "sun": [
+  "Take the fleeces off the crate",
+  "Wait on the Saddle"
+ ]
+}

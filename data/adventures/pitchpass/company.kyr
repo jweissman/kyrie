@@ -1,0 +1,5 @@
+Module pitchpass "The Pitch of the Glass" {
+  Company party "You" of 1 at road.
+  Initially Set quantity(party, gold) to 20. Initially Set quantity(party, rations) to 2.
+  Initially Set pitch(crate) to (1d4).
+}
