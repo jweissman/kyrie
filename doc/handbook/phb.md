@@ -103,8 +103,8 @@ Enduring: +2 hit points each level.
 *Faithful · not chosen by players* · `ancestry:gnoll`
 
 - STR +2 · DEX +1 · CON +1 · INT −2 · WIS −3 · CHA −1
-- Build: Seven feet when they stand up straight, which is seldom; lean and long-armed.
-- Ages: Grown at ten; old at fifty.
+- Build: Tall and strongly built, long-armed.
+- Ages: Grown in their late teens.
 - Callings: Warrior, Ranger, Thief, Commoner
 - Born with: Humanoid Traits, Enduring, Dread Fortitude
 
@@ -114,11 +114,11 @@ Enduring: +2 hit points each level.
 
 +10 against death, resists 10% of necrotic.
 
-> A tall, hyena-headed raider of the dry hills and the edges of the woods.
+> A hyena-featured person, strong and enduring; some join raiding packs along the dry hills and woods.
 
-> A spotted, sloping hide, a long jaw full of teeth, a stiff mane down the back, and a laugh that carries.
+> A spotted coat, long muzzle, rounded ears and a stiff mane, marked differently in every person.
 
-> Gnolls go in packs under the strongest, and live by what they take: herds, stores, travellers on the roads. A pack that finds old workings or a barrow near a town makes its den there and raids out of it until it is driven off.
+> Gnolls live in households and travelling bands. Some keep animals, work the roads or hire out their strength; others raid in packs under the strongest, taking herds, stores and travellers. A pack that finds old workings or a barrow near a town may make its den there until driven off.
 
 ### Glimmerkin
 
