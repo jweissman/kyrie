@@ -7,7 +7,7 @@ import { ModuleBundle, type BundleRequest } from './module-bundle'; import type 
 import { ModuleInstallations } from './module-installations'; import { CanonInstall } from './canon-install';
 import { CreatureFacts } from './creature-facts'; import { Progression } from './progression';
 import type { InstalledModule, CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
-import { ModuleWriter } from '../lang/module-writer'; import { ModuleCompiler } from '../lang';
+import { ModuleWriter } from '../lang/module-writer'; import { ModuleCompiler, WorldReads } from '../lang';
 import { CreatureStore } from '../creature-store'; import { HeldConditions } from './held-conditions';
 import { CommittedWorld } from './committed-world'; import { Endings } from '../lang/endings';
 import { Projection } from './projection'; import { CampaignGrounding } from './campaign-grounding';
@@ -193,8 +193,8 @@ export class Campaign implements WatchHost {
       ...(this.definition ? { outcomes: Progression.outcomes(this.world, this.definition),
         developments: Object.entries(this.observations).map(([id, elapsed]) => ({ id, elapsed })) } : {}) };
   }
-  // What presentation reads many times a turn, without the copies state makes. Never change it.
-  get readout() { return { ...this.current as Readonly<typeof this.current>, creatures: this.creatures.live }; }
+  // Access exposes mutable state outside World; enclosing world-read computations cannot be kept.
+  get readout() { WorldReads.all(); return { ...this.current, creatures: this.creatures.live }; }
   // The log, the action schemas and the company as it would fight, likewise without copies. Never change them.
   get history(): readonly CampaignEvent[] { return this.log; }
   get schemaList(): readonly Operator[] { return this.definition?.schemas ?? []; }

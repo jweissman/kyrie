@@ -4,6 +4,8 @@ import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
 import { Beside } from '../src/campaign/beside';
 import type { Campaign } from '../src/campaign/campaign';
+import { KeptReading } from '../src/lang';
+import { Guarded } from '../src/presentation/guarded';
 import { Gauntlet } from './support/gauntlet';
 import { AsMeant } from './support/as-meant';
 
@@ -18,6 +20,18 @@ const lines = readFileSync('doc/architecture/mission-22/golden/warrior-lines.txt
 const conger = 'gate__conger', trials = 200;
 const text = (s: Said) => s.scene.lines.join(' ');
 const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
+const keepers = (campaign: Campaign) => {
+  let kept = KeptReading.read(campaign.world, () => Guarded.keeper(campaign, 'gate__well')).kept;
+  const differences: { turn: number; held?: string; fresh?: string }[] = [];
+  return { differences, after(turn: number) {
+    if (!kept || !KeptReading.holds(campaign.world, kept)) {
+      kept = KeptReading.read(campaign.world, () => Guarded.keeper(campaign, 'gate__well')).kept;
+      return;
+    }
+    const fresh = Guarded.keeper(campaign, 'gate__well');
+    if (kept.value !== fresh) { differences.push({ turn, held: kept.value, fresh }); }
+  } };
+};
 class Odds {
   static won(c: Campaign, ours: string[]): number {
     const read = c.readout, foes = Beside.members(c.world, read.inhabitants, conger)
@@ -29,17 +43,21 @@ class Odds {
 describe('the conger in the gate-well, on the warrior\'s route', () => {
   let r: Runner, c: Campaign;
   const at: Said[] = [];
+  let keeperWalk: ReturnType<typeof keepers>;
   beforeAll(async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     r = new Runner(journey.session); c = journey.session.campaign;
-    for (const line of lines.slice(0, 43)) {
+    keeperWalk = keepers(c);
+    for (const [turn, line] of lines.slice(0, 43).entries()) {
       const s = await AsMeant.ask(r, line);
       at.push('error' in s ? at.at(-1)! : s);
+      if (!('error' in s)) { keeperWalk.after(turn); }
     }
     // Warned in the well, the company answers the conger, not the silt (OR-163: Engaged offers no search while a
     // threat stands): it stands its ground where the route searched, and the conger comes on.
     const stand = at.at(-1)!.offer.primary.concat(at.at(-1)!.offer.rest).find(o => o.label === 'Stand your ground')!;
     at.push(said(await r.ask(JSON.stringify({ act: stand.id }))));
+    keeperWalk.after(43);
   }, 120000);
   it('is heard from the gatehouse before anyone goes down, and warns in the well', () => {
     expect([at[39]!.at, text(at[39]!)]).toEqual(['gate__gatehouse', expect.stringContaining(
@@ -47,13 +65,18 @@ describe('the conger in the gate-well, on the warrior\'s route', () => {
     expect([at[41]!.at, at[41]!.moment]).toEqual(['gate__well', 'arrive']);
     expect(text(at[41]!)).toContain('A grey back as long as you are rolls past the chain');
   });
-  it('comes at whoever stays in the well, and the pawl is there under the silt once it is fought', async () => {
+  it('comes at whoever stays in the well, keeps the keeper equal to fresh, and leaves the pawl under the silt', async () => {
     const fight = at[43]!;
     expect([fight.moment, fight.scene.lines[0]]).toEqual(['fight',
       'The conger comes at you out of the silt, its jaws wide.']);
     expect(fight.offer.primary.map(o => o.id)).toContain('fight:melee:gate__conger_person');
+    expect(KeptReading.read(c.world, () => Guarded.keeper(c, 'gate__well')).kept).toBeUndefined();
     let s = fight;
-    for (let n = 0; s.moment === 'fight' && n < 40; n++) { s = said(await r.ask('{"act":"fight:auto"}')); }
+    for (let n = 0; s.moment === 'fight' && n < 40; n++) {
+      s = said(await r.ask('{"act":"fight:auto"}'));
+      keeperWalk.after(44 + n);
+    }
+    expect(keeperWalk.differences).toEqual([]);
     expect(text(s)).toContain('The fight is won.');
     // Its coming is told as the fight begins, never again after it is won (GR-05, S3-0's warrior step 43).
     expect(text(s)).not.toContain('comes at you out of the silt');
