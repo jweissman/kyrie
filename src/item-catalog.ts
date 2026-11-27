@@ -195,8 +195,10 @@ export class CatalogContext {
   // Kept by what it is read from, so that two campaigns' kinds of one name are read each as itself.
   private static readonly uses = new Map<string, ArenaAbility | undefined>();
   use(kind: string): ArenaAbility | undefined { return CatalogContext.using(kind, this.find(kind)); }
-  static using(kind: string, d: { name: string; use?: string; casterLevel?: number } | undefined): ArenaAbility | undefined {
-    const key = `${kind}\u0000${d?.name ?? ''}\u0000${d?.use ?? ''}\u0000${d?.casterLevel ?? ''}`, uses = CatalogContext.uses;
+  static using(kind: string, d: { name: string; use?: string; casterLevel?: number } | undefined):
+    ArenaAbility | undefined {
+    const key = `${kind}\u0000${d?.name ?? ''}\u0000${d?.use ?? ''}\u0000${d?.casterLevel ?? ''}`;
+    const uses = CatalogContext.uses;
     if (!uses.has(key)) { uses.set(key, this.parsed(kind, d)); }
     return uses.get(key);
   }
@@ -217,8 +219,8 @@ export class CatalogContext {
   static carried(ability: string): boolean { return ability.startsWith('item-'); }
   // What one in a fight uses a carried thing as, from what they carried into it (see CombatProjection.made): a fight
   // reads its fighters, never a campaign's catalog.
-  static fought(fighter: { abilitySources?: Record<string, { name: string; use?: string; casterLevel?: number }> }, ability: string):
-    ArenaAbility | undefined {
+  static fought(fighter: { abilitySources?: Record<string, { name: string; use?: string; casterLevel?: number }> },
+    ability: string): ArenaAbility | undefined {
     const source = this.carried(ability) ? fighter.abilitySources?.[ability] : undefined;
     return source?.use ? this.using(ability.slice(5), source) : undefined;
   }

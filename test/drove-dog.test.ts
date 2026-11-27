@@ -5,6 +5,7 @@ import { CombatProjection } from '../src/combat-projection';
 import { Content } from '../src/content';
 import { CreatureFidelity } from '../src/cli/srd-creature-fidelity';
 import { Effects } from '../src/effects';
+import { ItemCatalog } from '../src/item-catalog';
 import { PlayerView } from '../src/presentation/player-view';
 import { Fighting } from '../src/rules/fighting';
 import { Tiny } from './support/tiny';
@@ -15,8 +16,8 @@ const saves = ['fortitude', 'reflex', 'will'];
 describe("the drover's dog by the SRD dog's numbers", () => {
   it('keeps its body and bite at every rank', () => {
     for (const level of [1, 2, 5]) {
-      const dog = content.createCreature(`dog${level}`, { raceId: 'dog/drove', level });
-      const fighter = CombatProjection.fighter(dog, 'goblins');
+      const dog = content.createCreature(ItemCatalog.canon, `dog${level}`, { raceId: 'dog/drove', level });
+      const fighter = CombatProjection.fighter(ItemCatalog.canon, dog, 'goblins');
       const scores = Effects.scores(fighter) as Record<string, number>;
       const attacker = Effects.combatant(fighter);
       const target = { ...attacker, armorAc: 4, dexterity: 10, modifiers: {}, fixedToHit: undefined };

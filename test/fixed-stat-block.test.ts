@@ -45,11 +45,11 @@ describe('the SRD rat, a fixed stat block', () => {
     }
   });
   it('bites for 1d3-4 with the SRD minimum of one', () => {
-    const creature = content.createCreature('bite', { raceId: 'rat/cellar', level: 1 });
+    const creature = content.createCreature(ItemCatalog.canon, 'bite', { raceId: 'rat/cellar', level: 1 });
     const rat = Effects.combatant(fighter(creature));
     expect(rat.weapon.damageBonus).toBe(-4);
     expect([1, 2, 3].map(rolled => Fighting.weaponDamage(rat, rolled, false).amount)).toEqual([1, 1, 1]);
-    expect(CharacterSheets.fighting(creature).find(b => b.label === 'Strikes with')?.value)
+    expect(CharacterSheets.fighting(ItemCatalog.canon, creature).find(b => b.label === 'Strikes with')?.value)
       .toContain('1d3 - 4 piercing (minimum 1)');
   });
   it('comes back from a save as it went', () => {
