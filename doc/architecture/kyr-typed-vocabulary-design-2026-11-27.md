@@ -1,5 +1,8 @@
 # Typed vocabulary on Kyr's symbol table
 
+The commissioned design for review is [mission-22-beta/typed-vocabulary.md](mission-22-beta/typed-vocabulary.md);
+it supersedes this earlier outline where the migration order differs.
+
 **For review, not an implementation.** OR-744 asks for generated typed access to kinds, relations and measures;
 OR-1332 asks modules to supply verbs, their phrases and their lowerings. This proposes a narrow route from one to
 the other. The grammar supplies statement shapes; an installed domain supplies vocabulary, not kernel members.
