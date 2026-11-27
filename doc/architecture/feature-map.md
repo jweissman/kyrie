@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 219 pins (188 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 723 live rows, 233 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 223 pins (192 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 723 live rows, 233 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -101,7 +101,7 @@ page's colours and opportunities.)
 
 ### Conflict
 
-- **Engagements and warnings** · 8 pins · 5 defects · 5 asks
+- **Engagements and warnings** · 8 pins · 4 defects · 5 asks
   - ○ before a fight the company is told what is at risk, as it reckons it, in words
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same
@@ -198,7 +198,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 20 defects · 19 asks
+- **Aims and the gold thread** · 16 pins · 21 defects · 19 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -234,13 +234,15 @@ page's colours and opportunities.)
   - direction TS-03 P2: A party's end continues as a relative (the brother) in the same world, as it was, not a reload…
   - direction CR-01 P1: A hunter's career: royal posting → dragon venture → knighthood → royal game-warden → continuing…
   - direction CR-02 P2: Two cities of Seven Towers: Gosse's Company builds its own "Dun Rierdan"…
-- **Jobs, debts and payoffs** · 8 pins · 0 defects · 1 asks
+- **Jobs, debts and payoffs** · 10 pins · 0 defects · 1 asks
   - ✓ leads to each part in turn under the gold, focus held, the Notes saying which parts are done
   - ✓ recognises what the company did unprompted, offers the undertaking after, and rewards each part once
   - ✓ is led from the proof to the sale, paid, and on to the road west, by the gold alone
   - ✓ a1: what went into the river is for sale downstream, claimed, and carried home
   - ✓ ash: a load carried for the creditor's trade, and the purse brought back square
   - ✓ thorn: the salvage, sent to the inn to hear what is out in the country round
+  - ✓ turns the ${origin} life's find into the story of the crown and the aim to bring it up
+  - ✓ has the shrine-keeper read the brothers' copies for the jar of day
   - ✓ reveals the keep, the Walk and the career only after asking or searching
   - ✓ turns woundwort shown to the herb-wife into the burners' lamp and the answer the shrine-keeper asks
   - requirement OR-310 P1: The starting situations too alike and too dull: across runs similar errands and fetches, hours of…
@@ -382,7 +384,7 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 13 pins · 8 defects · 21 asks
+- **Dungeons and sites** · 14 pins · 8 defects · 21 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
@@ -391,6 +393,7 @@ page's colours and opportunities.)
   - ✓ trades with both traders, finds the way down in the old woods, descends, retreats, recovers, sells and descends again
   - ✓ leads a new life from the town to the shrine, the stones and down into resistance, and nowhere else
   - ✓ shows the stones from the ride, and the way down between them, to one who has asked nobody
+  - ✓ has a humming stone among them, whose cut door is the shrine-keeper's answer
   - ✓ leads the herb-wife's word straight to the stones and down, not round by the shrine
   - ✓ is made from below with a rope, stays made, and is offered from the way in straight down to that depth
   - ✓ in the mine is the cage, hooked to its chain with oil once the winding wheel above is free
