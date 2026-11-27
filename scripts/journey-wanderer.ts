@@ -16,10 +16,10 @@ export class Wanderer {
     return ((this.state >>> 8) % count + count) % count;
   }
   static destination(c: Offered): string | undefined { return /^go\([^,]+,([^)]+)\)$/.exec(c.choice.id)?.[1]; }
-  private static by(offered: Offered[], re: RegExp): Offered | undefined {
+  private static by(offered: readonly Offered[], re: RegExp): Offered | undefined {
     return offered.find(c => re.test(c.choice.id));
   }
-  pick(offered: Offered[]): Offered | undefined {
+  pick(offered: readonly Offered[]): Offered | undefined {
     this.n++;
     const bed = Wanderer.by(offered, /^take_lodging\(/), hour = Wanderer.by(offered, /^wait_hour$/);
     if (this.n % 40 === 0 && bed) { return bed; }

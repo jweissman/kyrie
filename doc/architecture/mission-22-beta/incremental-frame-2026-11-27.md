@@ -48,6 +48,18 @@ The quality-walk snapshot before changes was: median turn 333 ms, still-turn med
 
 These profiles ran under differing shared-machine load, so the reductions are directional, not a causal claim. The quality reading after this part was turn 221 ms, still-turn 202/443 ms and decision 65/172 ms (median/p95), versus the earlier loaded snapshot 333, 320/662 and 96/248. The turn and decision remain above their ratchets; the still-turn values are within slack. None fell below the checked-in baselines, so no `--update` was applied.
 
+## Second Part: Choice Rows
+
+`PlayerView.choices` now retains its output only with its `KeptReading` record and explicit campaign/module/actor/offer key. A read of `Campaign.readout` makes the result unkeepable across worlds; `PlayerFrame` then owns the fresh rows in its current `PlayerRevision`. Rows and their choice payloads are frozen once, and `PlayerFrame` shares that immutable array instead of cloning it again. The screen oracle passes after this change.
+
+| Part | Before p50/p95 ms | After p50/p95 ms | Calls/turns |
+|---|---:|---:|---:|
+| `PlayerView.choices` | 3.8 / 40.5 | 4.6 / 36.6 | 55 / 53 |
+| `PlayerFrame.of` | 4.1 / 45.1 | 5.0 / 37.3 | 400 / 58 |
+| `ScreenModel.built` | 52.0 / 141.3 | 51.4 / 179.4 | 56 / 55 |
+
+This profile does not establish a speed win: p50 is nearly flat or slightly higher, and p95 varies under shared load. Its proven result is safer cache invalidation and immutable row sharing. The quality reading after both parts was turn 202 ms, still-turn 188/427 ms, and decision 56/151 ms (median/p95). It was not lower than the committed baselines; no baseline is widened or updated.
+
 ## Scope Notes
 
-The profiler directly records itinerary building, fees, prices and NPC goal explanation so the other OR-1362 candidates are not guessed at. Their measured golden-walk costs are smaller here than the screen's aggregate. Next by broad cost are kept-part reads/validation and perception; the row-clone and fee opportunities remain separately measured. OR-1350 remains a separate fight-end concern; this golden walk's ordinary place-build timings do not replace the dedicated fight-engine measure.
+The profiler directly records itinerary building, fees, prices and NPC goal explanation so the other OR-1362 candidates are not guessed at. Their measured golden-walk costs are smaller here than the screen's aggregate. Next by broad cost are kept-part reads/validation and perception; the fee opportunity remains separately measured. OR-1350 remains a separate fight-end concern; this golden walk's ordinary place-build timings do not replace the dedicated fight-engine measure.
