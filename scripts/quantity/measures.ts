@@ -115,20 +115,20 @@ export class QuantityMeasures {
     // scripts/quantity/leads.ts), over fifteen lives (warrior, mage and thief, each begun for each of the reference
     // town's five reasons) on s0.
     { id: 'mouth', label: '9. Moves from a new life to the first dungeon\'s mouth, by the page\'s leads (median)',
-      kind: 'report', why: 'the first dungeon is unmistakable from the first town: the page\'s gold leads to it within a '
-        + 'few acts of a new life (OR-1501); said, a ratchet down once it moves', read: 'mouth' },
+      kind: 'down', why: 'the first dungeon is unmistakable from the first town: the page\'s gold leads to it within a '
+        + 'few acts of a new life (OR-1501); may only fall (27 November: from 22)', read: 'mouth' },
     { id: 'strayed', label: '9. Lives whose wanderer never comes to the first dungeon\'s mouth in the first hour',
-      kind: 'report', why: 'its mouth is a named, seen point of interest, never found by circling (OR-1501): a player '
-        + 'who never follows the gold still comes on it; said, a ratchet down once it moves', read: 'strayed' },
-    { id: 'colours', label: '5. Atlas colours met above ground in the first hour (median, of 5)', kind: 'report',
-      why: 'opportunities of each kind are where the company can find them, the town and the woods too (OR-1500); said, '
-        + 'a ratchet up once it moves', read: 'colours' },
+      kind: 'down', why: 'its mouth is a named, seen point of interest, never found by circling (OR-1501): a player '
+        + 'who never follows the gold still comes on it; may only fall (27 November: from 4)', read: 'strayed' },
+    { id: 'colours', label: '5. Atlas colours met above ground in the first hour (median, of 5)', kind: 'up',
+      why: 'opportunities of each kind are where the company can find them, the town and the woods too (OR-1500); '
+        + 'may only rise (27 November: from 2)', read: 'colours' },
     { id: 'connected', label: '8. First-hour aims seen through that open something later play reads (%)',
       kind: 'report', why: 'a job resolves into a person, a place, a fact or the next job (OR-1503), never a fetch that '
         + 'ends where it ends; said, a ratchet up once it moves', read: 'connected' },
-    { id: 'aimless', label: '5. Moves with nothing worth going to in reach, first hour (median a life)', kind: 'report',
+    { id: 'aimless', label: '5. Moves with nothing worth going to in reach, first hour (median a life)', kind: 'down',
       why: 'every place a company stands in shows what in reach is worth going to, and no stretch is blank (OR-1502); '
-        + 'said, a ratchet down once it moves', read: 'aimless' },
+        + 'may only fall (27 November: from 14)', read: 'aimless' },
     { id: 'identity', label: 'Consequential people with a name (%)', kind: 'report',
       why: 'OR-304, OR-281: unbaselined at first', read: 'identity' }];
 }
