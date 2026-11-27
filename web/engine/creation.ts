@@ -27,7 +27,7 @@ import type { Trait } from '../../src/rules/catalog-schema';
 import { ProtagonistNames } from '../../src/world/protagonist-names';
 import { FirstSpells } from '../../src/creation/first-spells';
 import { CardLines } from '../../src/creation/card-lines';
-import { CompanyChapters } from '../../src/handbook/phb-company';
+import { ReferenceCatalog } from './reference-catalog';
 
 
 // The engine's side of forming a company: what there is to choose from, what a campaign asks of the company, a
@@ -43,7 +43,8 @@ export class Creation {
         callings: (Content.playableClasses as string[])
           .filter(c => Canon.ancestries[id]?.classes.includes(c) ?? true),
         forbids: [...Canon.ancestries[id]?.forbiddenTraits ?? []],
-        qualities: { ...Canon.ancestries[id]?.attributes ?? {} } as Record<string, number>, gifts: this.gifts(id) })),
+        qualities: { ...Canon.ancestries[id]?.attributes ?? {} } as Record<string, number>, gifts: this.gifts(id),
+        entry: ReferenceCatalog.entry(`ancestry:${id}`) })),
       callings: (Content.playableClasses as string[]).map(id => this.calling(id)),
       qualities: CreatureSchema.attributes.map(id => ({ id, name: CharacterSheets.names[id],
         rests: CharacterSheets.rests[id] })),
@@ -59,9 +60,11 @@ export class Creation {
       // Each kind of background, and what the skill its people know is for.
       kinds: Object.entries(Canon.backgroundKinds).map(([id, k]) => ({ id, name: k.name,
         ...k.asks ? { asks: k.asks } : {}, ...k.life ? { life: k.life } : {},
-        does: (k.skills ?? []).map(s => `${Canon.skills[s]?.name ?? s}: ${Canon.skills[s]?.description ?? ''}`).join(' ') })),
+        does: (k.skills ?? []).map(s => `${Canon.skills[s]?.name ?? s}: ${Canon.skills[s]?.description ?? ''}`).join(' '),
+        entry: ReferenceCatalog.kind(id) })),
       presets: companies.map(c => ({ ...c, members: structuredClone(c.members) })),
-      signs: sky.signs.map(s => ({ ...structuredClone(s), gifts: s.gifts.map(g => Creation.skyGift(g)) })),
+      signs: sky.signs.map(s => ({ ...structuredClone(s), gifts: s.gifts.map(g => Creation.skyGift(g)),
+        entry: ReferenceCatalog.entry(`sign:${s.id}`) })),
       perks: CreationPerks.offered.map(([id, family]) => ({ id, name: Traits.of(id)?.name ?? id,
         line: Traits.of(id)?.description ?? '', family })),
       campaigns: [...Scenarios.list.map(s => ({ id: s.manifest, title: s.title, note: s.note, detail: s.detail,
@@ -81,7 +84,7 @@ export class Creation {
       skills: (c?.skills ?? []).map(k => Canon.skills[k]?.name ?? k),
       ...c?.spellcasting ? { casts: c.spellcasting.attribute } : {},
       ...c?.abilities.includes('set_spear') ? { braces: true } : {},
-      weapons: this.arms(id) };
+      entry: ReferenceCatalog.entry(`class:${id}`), weapons: this.arms(id) };
   }
   // A school, a god's domain or a way: a school by its name without "Specialist" and its specialist ("Abjurer"), a
   // domain by its own name ("Life", not "Vitalist", which is its clerics' title), a way by its name, with a sentence
@@ -98,14 +101,14 @@ export class Creation {
     const who = domain ? { title: named, who: `${callingName} of ${domain}` }
       : access ? { title: Creation.upper(id), who: id }
         : { who: `${callingName}, ${CardLines.manners[id] ?? named.toLowerCase()}` };
-    return { id, ...way, ...who, ...access ? { picks, spells: FirstSpells.shown(id, own, picks),
-      first: FirstSpells.first(id, own) } : {} };
+    return { id, ...way, ...who, entry: ReferenceCatalog.entry(`trait:${id}`),
+      ...access ? { picks, spells: FirstSpells.shown(id, own, picks), first: FirstSpells.first(id, own) } : {} };
   }
   // A gift of the sky as creation offers it: its name, its sentence, and its rule as the reference says it.
   private static skyGift(id: string): Catalog['signs'][number]['gifts'][number] {
     const t = Canon.traits[id];
     return { id, name: t?.name ?? id, text: t?.description ?? '',
-      does: CompanyChapters.gift(id).slice((t?.name ?? id).length + 2) };
+      does: ReferenceCatalog.gift(id).slice((t?.name ?? id).length + 2) };
   }
   private static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
   // The weapons a protagonist of a calling may set out with: its own, and every ordinary weapon of the kinds and

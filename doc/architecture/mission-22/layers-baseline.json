@@ -2,8 +2,7 @@
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
   "runtime -> setting": 49,
-  "player -> setting": 69,
-  "setting -> player": 13
+  "player -> setting": 65
  },
  "edges": [
   "src/ability-use.ts -> src/canon/canon",
@@ -29,9 +28,6 @@
   "src/content.ts -> src/canon/trait-grants",
   "src/content.ts -> src/generation-setting",
   "src/creation/creation-entries.ts -> src/canon/canon",
-  "src/creation/creation-entries.ts -> src/handbook/phb-company",
-  "src/creation/creation-entries.ts -> src/handbook/text",
-  "src/creation/creation-flow.ts -> src/handbook/phb-company",
   "src/creation/first-spells.ts -> src/canon/canon",
   "src/creature-variants.ts -> data/catalog/orsino/variants.json",
   "src/creature-variants.ts -> data/catalog/variations.json",
@@ -40,15 +36,6 @@
   "src/fantasy-rules.ts -> data/generation/scenes/folk.json",
   "src/fantasy-rules.ts -> src/world/family-names",
   "src/gathered-modifiers.ts -> src/canon/canon-runtime",
-  "src/handbook/encyclopedia-html.ts -> src/presentation/emblems",
-  "src/handbook/encyclopedia-html.ts -> src/presentation/identity",
-  "src/handbook/encyclopedia-html.ts -> src/presentation/spell-schools",
-  "src/handbook/phb-company.ts -> src/presentation/mechanics-text",
-  "src/handbook/phb-company.ts -> src/presentation/perk-text",
-  "src/handbook/phb-play.ts -> src/presentation/mechanics-text",
-  "src/handbook/render-html.ts -> src/presentation/identity",
-  "src/handbook/text.ts -> src/presentation/mechanics-text",
-  "src/handbook/text.ts -> src/presentation/perk-text",
   "src/item-catalog.ts -> src/canon/canon",
   "src/item-catalog.ts -> src/canon/canon-runtime",
   "src/kind-defenses.ts -> data/catalog/variations.json",
@@ -70,7 +57,6 @@
   "src/overlays.ts -> src/canon/canon",
   "src/presentation/action-feedback.ts -> src/canon/canon",
   "src/presentation/character-sheet.ts -> src/canon/canon",
-  "src/presentation/character-sheet.ts -> src/handbook/text",
   "src/presentation/company-preview.ts -> src/canon/canon",
   "src/presentation/danger-sense.ts -> src/canon/canon",
   "src/presentation/danger-sense.ts -> src/canon/condition-sense",
@@ -132,10 +118,6 @@
   "src/ui/screen-model.ts -> src/paintings/likeness",
   "src/ui/screen-model.ts -> src/world/seats",
   "src/ui/screen-types.ts -> src/paintings/company-portraits",
-  "src/ui/unusable.ts -> src/canon/condition-sense",
-  "src/world/community/community-writer.ts -> src/narrative/voice",
-  "src/world/drawn-world.ts -> src/session/play-session",
-  "src/world/region-news.ts -> src/narrative/voice",
-  "src/world/region-traffic.ts -> src/narrative/voice"
+  "src/ui/unusable.ts -> src/canon/condition-sense"
  ]
 }

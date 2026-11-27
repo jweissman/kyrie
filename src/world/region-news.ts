@@ -1,7 +1,7 @@
 import { Draw } from './land/draw';
 import { Foundings } from './founding';
 import { SettlementScenes } from './settlement-scenes';
-import { Voice } from '../narrative/voice';
+import { VoiceWords } from '../lang/index';
 import type { Region, Settlement } from './region-writer';
 import tables from '../../data/generation/scenes/traffic.json';
 
@@ -31,6 +31,6 @@ export class RegionNews {
     const told = tables.news.filter(t => !/this morning/.test(t)), words = this.of(region, near, who.key);
     const text = new Draw(`${who.key}:news`).pick(told).replace(/\{Name\}/g, who.name)
       .replace(/\{(from|life|gossip)\}/g, (m, k: string) => words[k] ?? m);
-    return Voice.render(text, { pronoun: who.pronoun });
+    return VoiceWords.render(text, { pronoun: who.pronoun });
   }
 }

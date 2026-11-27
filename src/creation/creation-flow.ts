@@ -3,12 +3,10 @@ import { CreationDefaults } from './creation-defaults';
 import { BackgroundCatalog } from '../rules/background-catalog';
 import { CreationRules } from './creation-rules';
 import { Words } from '../presentation/words';
-import { CompanyChapters } from '../handbook/phb-company';
 import type { Catalog, Member, Setting } from './protocol';
 import { CreationPerks } from './creation-perks';
 import { CreationSpells, type SpellStepId } from './creation-spells';
 import { CreationEntries } from './creation-entries';
-import { CatalogContext } from '../item-catalog';
 
 // One card of a step: what it is, in a few words and a sentence, the group it is shown under (a trade's kind), and why
 // it cannot be taken, where it cannot (a way an elf may not take).
@@ -189,7 +187,7 @@ export class CreationFlow {
       // All twelve at once, the whole zodiac beside them (FM-02: a fixed set's instrument, the four's exception).
       { id: 'sign', ask: 'Under which stars were you born?', present: 'sky', all: true, chosen: m.sign, cards: c.signs.map(x => ({
         id: x.id, name: x.name.replace(/^the /, 'The '), line: `${x.month}: ${x.line}`, emblem: x.id, aside: x.month,
-        say: x.line, ...CreationFlow.has(CreationEntries.reference(`sign:${x.id}`)) })) },
+        say: x.line, ...CreationFlow.has(x.entry) })) },
       { id: 'calling', ask: 'Choose your calling', present: 'cards', chosen: m.classId, cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
           text: x.text, emblem: x.id, ...CreationFlow.said(x), ...CreationFlow.has(CreationEntries.calling(x)) })) },
@@ -201,7 +199,7 @@ export class CreationFlow {
         chosen: open.find(b => b.id === m.backgroundId)?.kind,
         cards: c.kinds.filter(k => open.some(b => b.kind === k.id))
           .map(k => ({ id: k.id, name: k.name, line: k.does, emblem: `life_${k.id}`, ...k.life ? { say: k.life } : {},
-            entry: CompanyChapters.kind(k.id, CatalogContext.canon) })) },
+            entry: k.entry })) },
       ...this.trades(),
       // A perk, the last thing chosen of who one is (OR-153): one of each of the Atlas's five families (CreationPerks).
       ...c.perks?.length ? [{ id: 'perk' as const, ask: 'What sets you apart?', present: 'rows' as const, all: true as const,
@@ -235,8 +233,7 @@ export class CreationFlow {
   static readonly asks: Record<string, string> = { mage: 'Which art did you learn?', cleric: 'What does your god keep?' };
   // A way as the reference has it (the spells one who takes it sets out knowing listed under it: CreationSpells.shown).
   private static way(t: Catalog['callings'][number]['specializations'][number]): CreationEntry {
-    const found = CreationEntries.reference(`trait:${t.id}`) ?? { facts: [], rules: [] };
-    return { facts: found.facts, rules: t.rules?.length ? t.rules : found.rules };
+    return { facts: t.entry?.facts ?? [], rules: t.rules?.length ? t.rules : t.entry?.rules ?? [] };
   }
   // The trade within the kind of life chosen (once it is chosen), asked in the kind's own words ("What did you do on
   // the water?"), a hand of them at a time, the one best suited to the calling first (the calling's own, where it has

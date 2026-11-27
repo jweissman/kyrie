@@ -22,9 +22,12 @@ export class Layers {
   // Which unit a path is of, or none (a test, a script, a type stub).
   static of(path: string): Layer | undefined {
     if (path.startsWith('src/lang/')) { return 'lang'; }
+    // The handbooks are a client of the installed catalogs: static reference and audit pages, not setting data. A drawn
+    // world's assembly is likewise a composition helper: it owns the hand-off from a setting to a play session.
+    if (path.startsWith('src/handbook/') || path === 'src/world/drawn-world.ts') { return 'client'; }
     // The registry is the setting's too: the pipeline that makes Orsino's corpus into the setting's catalog, read by
     // the handbook, the world and the clients, the runtime reading only the files it writes (MT-16).
-    if (/^src\/(world|canon|paintings|handbook|registry)\//.test(path)
+    if (/^src\/(world|canon|paintings|registry)\//.test(path)
       || path.startsWith('data/') || path === 'src/generation-setting.ts') { return 'setting'; }
     if (/^src\/(campaign|rules)\//.test(path) || /^src\/[^/]+$/.test(path)) { return 'runtime'; }
     // The frame's menu and its marks, worked out once a frame for every client (src/frame, OR-1071), are the player's.
