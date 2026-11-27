@@ -1,1 +1,38 @@
-{"version":1,"source":["valley.kyr","abbey.kyr","dragon.kyr","endings.kyr","placed.kyr"],"rules":["world"],"globals":["party"],"canon":["imbar"],"imports":["party"],"roles":{"party":{"type":"group"}},"exports":{"party":"party","region":"summermark","road":"rose_road"}}
+{
+  "version": 1,
+  "source": [
+    "valley.kyr",
+    "abbey.kyr",
+    "dragon.kyr",
+    "endings.kyr",
+    "count.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
+  ],
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "party": "party",
+    "region": "summermark",
+    "road": "rose_road"
+  }
+}
