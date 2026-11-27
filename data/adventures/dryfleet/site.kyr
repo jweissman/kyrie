@@ -1,0 +1,59 @@
+Module dryfleet "The Sea Is Late" {
+  Description "Landfall, a harbour town nineteen years from the sea; the Dry Fleet, five ships stranded twelve miles out on the mud; and a pilot on a lighthouse floor who says the water is coming back on the third dusk.".
+
+  Place country "the Seaward Flat" is region within imbar.
+  Place landfall "Landfall" is settlement within country at 0, 0.
+  Place flat "the dry sea" is wilderness within country at 1, 0.
+  Place fleet_site "the Dry Fleet" is site within country at 2, 0.
+  Place rise_site "the Rise" is site within country at 3, 0.
+
+  Place road "the Landfall road" is room within landfall at 0, 0 outdoors.
+  Place wall "the harbour wall" is room within landfall at 1, 0 outdoors.
+  Place quay "the quay" is room within landfall at 1, 1 outdoors.
+  Place shed "Carrick's cutter-shed" is room within landfall at 0, 1.
+  Place slip "the foot of the slipway" is room within landfall at 2, 1 outdoors.
+  Place gardens "the clam gardens" is room within flat at 0, 0 outdoors.
+  Place landing "the Fleet's landing" is room within fleet_site at 0, 0 outdoors.
+  Place street "Hull Street" is room within fleet_site at 1, 0 outdoors.
+  Place wet_bar "the Wet Bar" is room within fleet_site at 2, 0.
+  Place keel_hold "the Cormorant's keel-hold" is room within fleet_site at 2, 1.
+  Place lace_hold "the Brightwork's hold" is room within fleet_site at 1, 1.
+  Place stage "the Pleasance's stage" is room within fleet_site at 3, 0.
+  Place light_foot "the foot of the Tern Light" is room within rise_site at 0, 0.
+  Place lamp_room "the lamp room" is room within rise_site at 1, 0.
+
+  Passage harbour_way "the road to the wall" is path between road and wall taking 10 minutes.
+  Passage quay_steps "the steps to the quay" is steps between wall and quay.
+  Passage shed_door "the cutter-shed's door" is doorway between quay and shed.
+  Passage slipway "the slipway" is path between quay and slip taking 10 minutes.
+  Passage shell_out "the Shell Road" is road between slip and gardens taking 2 hours.
+  Passage shell_in "the Shell Road" is road between gardens and landing taking 2 hours.
+  Passage planks "the plank street" is path between landing and street taking 10 minutes.
+  Passage gangway "the Cormorant's gangway" is steps between street and wet_bar.
+  Passage keel_hatch "the keel-hold hatch" is ladder between wet_bar and keel_hold.
+  Passage lace_gap "the gap in the Brightwork's side" is doorway between street and lace_hold.
+  Passage barge_plank "the Pleasance's gangplank" is steps between street and stage.
+  Passage causeway "the causeway to the Rise" is path between street and light_foot taking 1 hour.
+  Passage lamp_stair "the lamp stair" is steps between light_foot and lamp_room.
+
+  // ── What the places are ─────────────────────────────────────────────────────────────────────────────────────
+  Observe road_scene at road when true "The road comes down off the last hill, and the land stops. Where the sea should be, the world goes on grey and flat to the sky, with a harbour wall standing in front of it like a man at a window.".
+  Observe wall_scene at wall when true "A harbour wall of black stone, with a slate the size of a door leaning against its parapet. Beyond the parapet the harbour is thirty feet of cracked mud, a slipway running down into nothing, and the ribs of a pilot-boat.".
+  Observe wall_light at wall as sign when not returnOn() "Far out on the mud a single tower stands on a low rise, with a haze of white specks wheeling round its top." teaches gulls_known.
+  Observe wall_dark at wall as sign when hour(clock) >= 17 and not state(tern_lamp, lit) and not returnOn() "The tower out on the rise is dark. The harbour lamp on the wall behind you is lit, and has been every dusk for nineteen years.".
+  Observe quay_scene at quay when true "The quay's stones are worn to a shine along the edge, where nineteen years of boots have come to the drop and stopped. The cutter-shed leans on one side. A stair of wet-stained steps goes down the slipway.".
+  Observe shed_scene at shed when true "A long shed smelling of tar and tallow. In it, on three wheels as tall as a man, stands a boat with a mast and no sea.".
+  Observe shed_wind at shed as sign when windUp(party) and not returnOn() "The shed's flag is standing straight out from its pole.".
+  Observe slip_scene at slip when true "The slipway ends in grey mud. Past it a road of crushed oyster shell runs out across the flat in a white line, and is lost.".
+  Observe slip_weep at slip as sign when not returnOn() "At the very foot of the slip a dark stain lies on the mud, a hand wide, with a rim of salt around it. It is wetter than the mud beside it. When you press a finger to it, it comes up tasting of the sea." teaches weep_known.
+  Observe gardens_scene at gardens when true "The shell road crosses a field of grey mud scattered with white boulders. They are not boulders. Each is a shell the size of a barrel, half sunk, its lips shut, in rows that run away to both horizons.".
+  Observe gardens_ajar at gardens as sign when not returnOn() "Here and there a lip stands open the width of a finger. Inside it is wet.".
+  Observe landing_scene at landing when true "The shell road ends at a ramp of planks, and the ships begin. Five hulls stand on the mud at all angles, linked by walkways and washing lines, with smoke going up from a chimney in a deck.".
+  Observe street_scene at street when true "Hull Street is a boardwalk laid between the ships at the height of their rails, fenced with oars and hung with nets, lamps and wash. Doors have been cut in the planking. A cat looks down from a figurehead.".
+  Observe wet_bar_scene at wet_bar when true "The Cormorant's main deck is a taproom under a roof of sailcloth. Barrels on cradles, a bar made from a hatch-cover, a stove in the galley skylight. The floor has a slight, comfortable lean.".
+  Observe keel_scene at keel_hold when true "The brig's keel-hold is a wooden cave. Ribs the thickness of a man rise out of a keelson of one great timber, black with tar. The air is cold and tastes of old rope.".
+  Observe lace_scene at lace_hold when true "The Brightwork's hold has no floor but the mud. Her ribs stand round it like a drawn bow, and between them tarpaulins, tied down with rope, cover a mound the height of a house. A marble bath stands at the top, in the open, like a throne.".
+  Observe stage_scene at stage when true "The Pleasance's deck is a stage: a proscenium of painted boards, a sea of blue silk on poles, and in the wings a gilded sun on a pulley. The whole thing stands three storeys above a flat bottom. It sways when anyone coughs.".
+  Observe foot_scene at light_foot when true "The Tern Light's ground floor is a round stone room with a stove, a cot, and a copper bowl as wide as a hat sunk into the flags. From the door the flat goes out grey on every side, and the Fleet is a cluster of masts at the edge of it.".
+  Observe lamp_scene at lamp_room when true "The lamp room is a glass cage on the top of the tower. The great lens is wrapped in a sheet. From here the whole dry sea is one grey plate, and on its far side the town of Landfall is a line of black teeth.".
+}

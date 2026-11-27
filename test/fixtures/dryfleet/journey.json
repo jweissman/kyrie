@@ -1,0 +1,68 @@
+{
+ "arrive": [
+  "To the harbour wall"
+ ],
+ "join": [
+  "To the quay",
+  "Tell Tamsin you are going out",
+  "Ask Tamsin Lundy to join"
+ ],
+ "hesper": [
+  "To the foot of the slipway",
+  "To the quay",
+  "To the harbour wall",
+  "Tell Hesper the stain",
+  "Tell Hesper the gulls"
+ ],
+ "cross": [
+  "?To the quay",
+  "To the foot of the slipway",
+  "To the clam gardens",
+  "To the Fleet",
+  "To Hull Street"
+ ],
+ "rise": [
+  "Ask Sloe about the Cormorant",
+  "Into the Rise",
+  "Listen at it",
+  "Ask Ketil when it comes",
+  "Ask Ketil about the lamp",
+  "Into the Dry Fleet"
+ ],
+ "reunion": [
+  "To the Wet Bar",
+  "Bring Tamsin forward"
+ ],
+ "skellow": [
+  "?To Hull Street",
+  "To the Brightwork",
+  "Ask Skellow which ships",
+  "Tell Skellow you know",
+  "?To Hull Street"
+ ],
+ "philomel": [
+  "To the Pleasance",
+  "Ask Philomel about the masque",
+  "Ask Philomel how the masque ends",
+  "Say that people say 'You",
+  "Ask Philomel whether the Pleasance will float",
+  "Ask Philomel whether she would take",
+  "Tell Philomel the sea comes"
+ ],
+ "ballast": [
+  "?To Hull Street",
+  "To the Brightwork",
+  "Put it to Skellow",
+  "Buy a flask of lamp oil",
+  "Help the salvagers carry",
+  "To Hull Street"
+ ],
+ "light": [
+  "Into the Rise",
+  "To the lamp room",
+  "Light the Tern Light"
+ ],
+ "sea": [
+  "=until returnOn()"
+ ]
+}

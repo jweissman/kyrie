@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "The Sea Is Late",
+  "pitch": {
+    "heading": "The Sea Is Late",
+    "text": "What is asked, and why it matters."
+  },
+  "modules": [
+    {
+      "id": "dryfleet",
+      "bundle": "../adventures/dryfleet/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

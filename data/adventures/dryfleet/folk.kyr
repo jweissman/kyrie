@@ -1,0 +1,178 @@
+Module dryfleet "The Sea Is Late" {
+  Relation hesperBelieves(group). Relation samphireMoved(group). Relation samphireWarned(group). Relation philomelWarned(group).
+  Relation philomelOffers(group). Relation skellowOpen(group). Relation skellowCool(group). Relation skellowAgreed(group).
+  Relation pleasanceBallasted(group). Relation orloWarned(group). Relation recordRun(group). Relation windUp(group).
+  Relation returned(group). Relation pearled(group).
+  Measure proofTold(). Measure masqueLine().
+
+  Discovery weep_known "The harbour at Landfall has begun to weep: the mud at the foot of the slipway is wet with brine.".
+  Discovery gulls_known "Gulls have come back to the Tern Light, for the first time in nineteen years.".
+  Discovery clams_known "The clams of the dry sea are opening, a finger's width, in the sun.".
+  Discovery draw_known "Under the Tern Light something is drawing, long and low, like a breath taken a very long way off.".
+  Discovery timing_known "The sea comes back at the third dusk, at a gallop. Anyone on the flat then will be found in the spring.".
+  Discovery ring_known "Skellow has knocked on every hull on the flat. The Cormorant and the Pleasance are sound. The Brightwork is lace.".
+  Discovery ballast_known "The Pleasance is top-heavy as a wedding cake and will roll when she floats, unless she is given weight.".
+  Discovery plot_known "Grist Skellow means to take the Cormorant at the last hour, with his crew and his hoard, and has told no one.".
+  Discovery lightdark_known "The Tern Light has had no oil for eleven years, and nothing will steer by it unless it is lit.".
+
+  Kind sl_pearl "a clam-pearl" is treasure worth 14 weighing 1 described "A pearl the size of a quail's egg, grey as a pigeon, cold in the hand, and slightly damp. It does not dry.".
+
+  Chapter ch_late "The Sea Is Late" when within(party, country) "Landfall has chalked OUT on its slate for nineteen years. There is a stain at the foot of the slipway, and a pilot out on the Rise who says the sea is coming.".
+  Chapter ch_third "The Third Day" when day(clock) == 3 and within(party, country) "The air has changed. It smells of cold stone and rust, and nothing on the flat is quite still.".
+
+  // ── Hesper Aldous, harbourmistress ──────────────────────────────────────────────────────────────────────────────
+  Person hesper "Hesper Aldous" at wall {
+    Role "harbourmistress". Ancestry human. Level 3. Peaceable. Pronouns she. Manner stoic.
+    Likeness "navigator".
+    Greets "A woman in a pilot's coat stands on the harbour wall with a stub of chalk, looking at a slate the size of a door. It says OUT. 'Don't lean on that,' says Hesper Aldous. 'It is the only thing in Landfall that has never been wrong.'".
+    Greets again "'Still out,' says Hesper, or 'Still drawing,' as the slate has it.".
+    Farewell "'Mind the edge,' says Hesper. 'It is thirty feet, and it has been thirty feet for nineteen years.'".
+  }
+  Thing slate "the tide-slate" at wall {
+    State out "The slate leans on the parapet. It says OUT, in a hand worn very square.".
+    State drawing "The slate says DRAWING, in the same square hand, a little larger than OUT.".
+    State in "The slate says IN, and under it the date, and under that a smaller word that has been rubbed out and written again.".
+  }
+  Rule slate_turns when hesperBelieves(party) and state(slate, out) { Assert state(slate, drawing). }
+  Rule slate_in when returnOn() and not state(slate, in) { Assert state(slate, in). }
+
+  Topic hesper_slate with hesper "Ask Hesper about the slate" when true once {
+    Says "'Six thousand nine hundred and forty mornings,' says Hesper. 'I have not missed one. People ask what I am waiting for. I am not waiting. I am recording.' She taps the chalk on the stone. 'There is a difference, and it is nineteen years wide.'".
+  }
+  Topic hesper_sea with hesper "Ask Hesper where the sea went" when true once {
+    Says "'Out. Past the Tern Light, in a night, with every mooring in the harbour on its back.' She does not look at the mud. 'The Rì sent a man with brass instruments in the second year. He measured it, wrote unexplained, and went home. Up the coast at Tolt they say the sea knocks, and you answer. Here it did not knock.' A pause. 'I would call that rude, if it had ever come back to be told.'".
+  }
+  Topic hesper_lamp with hesper "Ask Hesper about the harbour lamp" when true once {
+    Says "'I trim it every dusk,' says Hesper. 'A light is not hope. A light is a habit.' She pauses. 'Hope would have stopped.'".
+  }
+  Topic hesper_weep with hesper "Tell Hesper the stain on the slipway tastes of salt" when knows(party, weep_known) once {
+    Says "'It rained in March,' says Hesper. 'It rains on mud.' She looks down the slip for a long time all the same. 'It is wider than it was. I will give you that, and nothing else.'".
+    On discuss { Increase proofTold() by 1. }
+  }
+  Topic hesper_gulls with hesper "Tell Hesper the gulls are back at the Tern Light" when knows(party, gulls_known) once {
+    Says "'Gulls go where there is rubbish,' says Hesper. She lowers the chalk. 'There was never any rubbish on the Rise. I will give you that, and nothing else either.'".
+    On discuss { Increase proofTold() by 1. }
+  }
+  Topic hesper_clams with hesper "Tell Hesper the clams in the gardens are opening" when knows(party, clams_known) once {
+    Says "'Ketil's clams,' says Hesper flatly. 'They have opened a finger's width every spring since the second year.' She does not say how many were open this time. She does not ask.".
+    On discuss { Increase proofTold() by 1. }
+  }
+  Topic hesper_draw with hesper "Tell Hesper you have heard the Draw yourself" when knows(party, draw_known) once {
+    Says "She says nothing for some time. 'Nineteen springs I have told him he was wrong,' says Hesper. It is not quite an answer.".
+    On discuss { Increase proofTold() by 1. }
+  }
+  Rule hesper_turns when at(party, wall) and proofTold() >= 2 and not hesperBelieves(party)
+    says "Hesper puts the chalk down on the parapet. 'Nineteen years I have written what was so,' she says. 'I will go on writing what is so.' She wipes the slate with her sleeve, taking a long time over the corners, and writes one word. DRAWING." {
+    Assert hesperBelieves(party).
+  }
+  Topic hesper_oil with hesper "Ask Hesper for lamp-oil for the Tern Light" when hesperBelieves(party) and knows(party, lightdark_known) once {
+    Says "She goes into the lamp-house behind the wall and comes out with a can, and holds it a moment before she hands it over. 'It has been in there eleven years for no reason,' she says. 'Do not spill it. I would like it to have had a reason.'".
+    On discuss { Give lamp_oil to actor. }
+  }
+
+  // ── Tamsin Lundy, who was born the night the sea left ─────────────────────────────────────────────────────────
+  Person tamsin "Tamsin Lundy" at quay {
+    Role "a girl born the night the sea left". Ancestry human. Calling ranger. Level 2. Peaceable. Pronouns she. Manner cheerful.
+    Likeness "beachcomber".
+    Greets "A girl of nineteen sits on the lip of the quay with her boots over thirty feet of nothing and a bucket beside her. She pours a cup of water over the edge and watches it go. 'It goes down,' she says, to nobody. 'Every time. Everyone says the sea goes down as well, only further.'".
+    Greets again "'Down,' says Tamsin, pouring. 'Still down.'".
+    Joins "Tamsin picks up the bucket, looks into it, and puts it down again, carefully, on the quay. 'It will be there when we come back,' she says. 'It will be the one thing that is.'".
+    Leaves "'I'll wait here,' says Tamsin. She sits down on the nearest thing and looks at the horizon like a person with an appointment.".
+  }
+  Topic tam_bucket with tamsin "Ask Tamsin about the bucket" when true once {
+    Says "'I've never seen water go anywhere that is not down,' says Tamsin. 'So I'm learning what it does. It goes into the mud and the mud takes it. It does not go out. I thought, if it did, I'd have a start.'".
+  }
+  Topic tam_gran with tamsin "Ask Tamsin about her grandmother" when true once {
+    Says "'Samphire Gannel keeps an alehouse on a ship,' says Tamsin. 'Out on the flat. She sent me ashore at six, to be brought up among people who still believed in tomorrow.' She turns the cup in her fingers. 'I have been to see her three times. She makes me stay for the soup.'".
+    On discuss { Assert knows(actor, tamsin_gran_known). }
+  }
+  Discovery tamsin_gran_known "Tamsin's grandmother, Samphire Gannel, keeps the alehouse in a ship at the Dry Fleet.".
+  Topic tam_sea with tamsin "Ask Tamsin what she thinks the sea is like" when true once {
+    Says "'Wet and salt, my grandmother says. It smells like the inside of a pocket. Everyone says it's bigger than they thought.' She grins. 'I would like to be disappointed by it properly. I've been getting ready for nineteen years.'".
+  }
+  Topic tam_stain with tamsin "Ask Tamsin about the stain on the slipway" when true once {
+    Says "'Taste it,' says Tamsin. 'I did. I tasted it, and I put my finger in my mouth, and I stood there with my whole mouth full of something I'd only been told about.' She wipes the finger on her coat, which seems to be all the coat is for. 'Hesper says rain. It hasn't rained *up*.'".
+  }
+  Topic tam_come with tamsin "Tell Tamsin you are going out to the Fleet" when true once {
+    Says "Tamsin is on her feet before you finish. 'I have been waiting nineteen years,' she says, 'for somebody to say that to me at an ordinary speed.' She looks at the bucket. 'I know the Shell Road. I know the soup. Take me.'".
+    On discuss { Assert willing(tamsin, actor). Set hire(tamsin) to 0. }
+  }
+  Rule tam_gardens when at(party, gardens) and travelsWith(tamsin, party) once
+    says "Tamsin has stopped in the middle of the Shell Road with her mouth a little open. Along both sides, as far as there is anything to see, the great shells are breathing. A lip lifts, a finger's width, and settles. 'They're asleep,' she says. 'No. They're *waking*. Don't anyone say anything, I'm going to have a feeling.'" {
+  }
+
+  // ── Orlo Carrick, who sails the marl ────────────────────────────────────────────────────────────────────────────
+  Person orlo "Orlo Carrick" at shed {
+    Role "master of the land-cutter Hare". Ancestry human. Level 2. Peaceable. Pronouns he. Manner jovial.
+    Likeness "captain".
+    Greets "A young man with salt in his hair, and no sea in the world to have got it from, is polishing a boom. 'Carrick,' he says. 'The Hare is mine. The marl is nobody's. Forty minutes to the Fleet when the wind is up and nobody says a word to me. Are you the wind, by any chance? No? Pity.'".
+    Greets again "'Wind?' says Orlo, hopefully. He holds up a wet finger to the shed door, and finds out for himself.".
+  }
+  Topic orlo_hare with orlo "Ask Orlo about the Hare" when true once {
+    Says "'Three wheels, one sail, one idea,' says Orlo. 'She does thirty miles an hour on the marl in a breeze and nobody has ever found out what she does in a gale, because they'd have to be me.' He pats the boom. 'You do not stop. That is the whole instruction. People ask for more. There isn't more.'".
+  }
+  Topic orlo_marl with orlo "Ask Orlo about the marl" when true once {
+    Says "'A skin of dry mud over a bog,' says Orlo. 'It holds a cutter at speed and nothing at all at rest. The Shell Road goes round it, which is why the Shell Road takes four hours and is dull.' He considers. 'Nineteen years of the same dull road. I'd have run mad by now. I have run mad. It's called the Hare.'".
+  }
+  Topic orlo_wind with orlo "Ask Orlo when the wind will come" when not windUp(party) {
+    Says "Orlo holds up a finger, and puts it in his mouth, and takes it out. 'Not yet,' he says. 'Sit down. It never comes if you stand.'".
+  }
+  Topic orlo_warn with orlo "Tell Orlo the sea comes back at the third dusk" when knows(party, timing_known) once {
+    Says "'Ah,' says Orlo, after some time. He looks at the Hare, which is a very beautiful thing, on three wheels, in a shed. 'She won't float, you know. She's the only boat in the world that won't.' He puts a hand flat on the mast. 'Third dusk. I'll have her on the Rise by noon. I'd like to see what it looks like from the *front*.'".
+    On discuss { Assert orloWarned(actor). }
+  }
+  Hazard marl_sink "The marl gives" means "Deal (2d6) physical damage to ally unless dexterity save against (12).".
+  Action ride_out(actor: group, site: place) "Ask Orlo to run you out to the Fleet on the Hare" {
+    Speaker orlo.
+    Description "Forty minutes across the marl, if the wind holds. If it does not, the marl holds nothing.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shed) and at(orlo, shed) and windUp(party) and not returnOn().
+    Time 4.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Assert at(actor, landing). Assert at(orlo, landing). Assert recordRun(actor). }
+    On failure { Assert at(actor, landing). Assert at(orlo, landing). Assert strikes(marl_sink, party). }
+    Result "The Hare goes out of the shed like a thought nobody had. The marl is a grey blur, then a grey line, then nothing; the whole sky goes by on its side. Orlo is singing. You are told to hold the rope and look at a fixed point, and you find the fixed point, a mast on the horizon, and keep it there. When you stop it is because you have arrived. 'Thirty-eight minutes,' says Orlo, to the sky. 'My best.'".
+    Otherwise "You pick the wrong fixed point. Halfway out the Hare yaws, and the marl takes a wheel to the hub with a sound like a boot in porridge. Orlo says something about the mud. The two of you drag her clear with a rope and a great deal of language, and the rest is slow, and sorry, and wet to the knee.".
+  }
+  Action ride_back(actor: group, site: place) "Ask Orlo to run you back to Landfall on the Hare" {
+    Speaker orlo.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, landing) and at(orlo, landing) and windUp(party) and not returnOn().
+    Time 4.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Assert at(actor, slip). Assert at(orlo, shed). }
+    On failure { Assert at(actor, slip). Assert at(orlo, shed). Assert strikes(marl_sink, party). }
+    Result "Orlo runs her home with the wind at her back, and does not stop singing. The slipway comes up out of the mud with its stain on it like a mouth.".
+    Otherwise "Halfway home she yaws, and the marl takes a wheel. By the time the two of you have got her out you are both the colour of the flat.".
+  }
+  Rule wind_rises when not windUp(party) and dice(clock) <= 32 { Assert windUp(party). }
+  Rule wind_falls when windUp(party) and dice(clock) >= 66 { Retract windUp(party). }
+
+  // ── Samphire Gannel, who runs the Wet Bar ───────────────────────────────────────────────────────────────────────
+  Person samphire "Samphire Gannel" at wet_bar {
+    Role "keeper of the Wet Bar". Ancestry human. Level 2. Peaceable. Pronouns she. Manner jovial.
+    Likeness "tavernkeeper".
+    Greets "A small woman with a ladle stands behind a bar made from a hatch-cover, and does not smile. 'Gannel,' she says. 'Samphire. It is called the Wet Bar. It is a joke. We have been telling it since the second year and it has matured.' She pulls a measure of something brown. 'Sit. You'll be wanting the soup. Everyone does, in the end.'".
+    Greets again "'Back,' says Samphire. 'Mind the lean. It's load-bearing.'".
+    Farewell "'Mind the planks,' says Samphire. 'The Fleet is held together by manners.'".
+    Sells rations for 2 coin from 6.
+  }
+  Topic sam_bar with samphire "Ask Samphire about the Wet Bar" when true once {
+    Says "'She was a Marchbank brig, the Cormorant, nine years in the Tolleth trade,' says Samphire. 'I cut the first door in her myself, with a saw I stole from a chandler. The second year we said it was a wet bar, because there was nothing wet about it. It got a laugh. We have never found another one.'".
+  }
+  Topic sam_sea with samphire "Ask Samphire about the sea" when true once {
+    Says "'It left,' says Samphire. 'In one night. I woke up and the window was a wall of mud.' She wipes a mug that is already clean. 'I was *furious*. I haven't had the chance to finish being furious. People keep saying get over it. It has not stayed long enough to be got over.'".
+  }
+  Topic sam_keel with samphire "Ask Samphire about the Cormorant's keel" when true once {
+    Says "'Knock on it,' says Samphire. 'You will not be the first. Every salvager on the flat has done it, and every one of them has gone away hoping I'd leave.' She nods at the hatch. 'One timber, tarred every spring. She is the only thing on the flat I would call sound.'".
+  }
+  Topic sam_warn with samphire "Warn Samphire the sea comes back at the third dusk" when knows(party, timing_known) once {
+    Says "'Warn me,' says Samphire. 'I have been warned of the sea by the sea.' She does not look up. 'I will not stand on a deck and wait for it to be sorry. If it is coming, it can find the Wet Bar. We'll be open.'".
+    On discuss { Assert samphireWarned(actor). }
+  }
+  Topic sam_reunion with samphire "Bring Tamsin forward" when travelsWith(tamsin, party) and at(party, wet_bar) once {
+    Says "Tamsin stands in the doorway of the Wet Bar with her bucket. Samphire Gannel puts down the ladle. For a time the only sound in the room is the stove. 'You've got taller,' says Samphire. 'I planned for that.' 'You planned for me to be six,' says Tamsin. 'I planned for you to be *gone*, which is different.' She comes round the bar. She does not hug her. She takes the bucket out of her hand and looks into it, and finds it full of fresh water, carried twelve miles, and understands who it was for. 'It's coming back,' says Tamsin. 'I tasted it.' 'Ah,' says Samphire, very quietly. 'Well. Then I had better be in the right mood.'".
+    On discuss { Assert samphireMoved(actor). }
+  }
+  Rule sam_lashes when samphireMoved(party) and at(party, wet_bar) and day(clock) == 3 and hour(clock) >= 12 and not returnOn() once
+    says "Samphire has lashed every cask on the Wet Bar's deck with her own hands, and is going from one to the next with a ladle, knocking on each, as if to see who was in. 'I am not going to be ready,' she says. 'I am going to be *dressed*.'" {
+  }
+}

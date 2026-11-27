@@ -1,0 +1,171 @@
+Module dryfleet "The Sea Is Late" {
+  Discovery keel_rings "The Cormorant's keel rings when struck, one long clean note.".
+  Discovery lace_dull "The Brightwork's ribs answer a mallet with a dull, wet knock. They are lace.".
+
+  // ── The gardens: the one wonder of the flat ────────────────────────────────────────────────────────────────────
+  Thing garden "the clam gardens" at gardens {
+    Wonder natural unique for aesthetic, scientific "Under the grey skin of the dry sea lie beds of shellfish the size of barrels, thousands of them, in rows laid out by nothing. They closed on the night the sea left and have not eaten, or moved, in nineteen years. In the sun, one at a time, a lip lifts the width of a finger. Inside is wet, and bright, and the colour of the inside of a pearl.".
+    State asleep "The shells lie in their rows with their lips shut, all but the few that are not.".
+    Tries listening.
+  }
+  Observe garden_heard near garden when tried(garden, listening) "You lay an ear against a shell. It is warm, as a flank is warm. Inside it, very far in, is a slow tick, like a clock in another house, and then a long silence, and then the tick again, from every shell in the row at once." teaches clams_known.
+  Hazard clam_snap "A clam shuts" means "Deal (2d4) physical damage to ally unless dexterity save against (12).".
+  Action wade_pearl(actor: group, site: place) "Wade out among the open shells for a pearl" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gardens) and not pearled(actor) and not returnOn().
+    Time 2.
+    Resolve check(actor, tumbling, dc_fair).
+    On success { Give sl_pearl to actor. Assert pearled(actor). }
+    On failure { Assert strikes(clam_snap, party). }
+    Result "You put a foot on the lip of an open shell, which is warm and does not object, and reach into a wet brightness that goes in up to your shoulder. Your hand closes on something small and cold. You take it out, and the shell, very slowly, with the air of someone who has decided not to make a fuss, closes.".
+    Otherwise "The shell closes on your sleeve. It is not a hard bite. It is simply a great deal of shell, and it takes a long time to explain that you did not mean it.".
+  }
+
+  // ── Hull Street: Sloe ─────────────────────────────────────────────────────────────────────────────────────────
+  Person sloe "Sloe" at street {
+    Role "a salvager's boy, with a bucket of crabs". Ancestry human. Level 1. Peaceable. Pronouns he. Manner cheerful.
+    Likeness "tinker".
+    Greets "A boy of eleven with a bucket of grey crabs looks you over, and decides. 'You'll want my da,' he says. 'He is in the Brightwork, sitting on the bath. I wasn't to tell you about the Cormorant.'".
+    Greets again "'I've not told you anything,' says Sloe, and moves the bucket to his other hand.".
+  }
+  Topic sloe_cormorant with sloe "Ask Sloe about the Cormorant" when true once {
+    Says "'My da says when the sea comes back we're all going aboard the Cormorant. All nine of us, and the hoard, and the bath. He says Mother Gannel doesn't know yet.' He looks at the crabs. 'He says she'll have to be told in a way she can't say no to. I think that means a rope.'".
+    On discuss { Assert knows(actor, plot_known). }
+  }
+  Topic sloe_bucket with sloe "Ask Sloe what the crabs are for" when true once {
+    Says "'Soup,' says Sloe. 'There's nothing else out here that moves. They live in the mud. They've been in there all this time and nobody told them.' He looks into the bucket. 'They have started coming up. All at once. Do you think they know?'".
+  }
+
+  // ── Grist Skellow and the Brightwork ───────────────────────────────────────────────────────────────────────────
+  Person skellow "Grist Skellow" at lace_hold {
+    Role "master of the Brightwork's salvagers". Ancestry human. Level 3. Peaceable. Pronouns he. Manner jovial.
+    Likeness "sailor".
+    Greets "A very large man sits on a marble bath at the top of a mound of tarpaulin, eating an apple off a clasp-knife. 'Skellow,' he says. 'Grist, to my mother. Take the bath if you like. Everyone offers to, in the end.' He looks at you with a very merry, very attentive eye. 'Nineteen years of wrecks. I know what everything on this flat weighs.'".
+    Greets again "'Skellow,' says Skellow, as if you might have forgotten. He offers you a slice of apple.".
+    Sells lamp_oil for 6 coin from 2.
+  }
+  Thing lace_rib "the Brightwork's ribs" at lace_hold {
+    State standing "The Brightwork's ribs stand round the hold like a drawn bow, grey, split along the grain, and wet in the creases.".
+    Tries listening.
+  }
+  Observe lace_knocked near lace_rib when tried(lace_rib, listening) "You tap a rib with the heel of your hand. It does not ring. It answers, a flat wet knock, like knocking on a loaf. Under your thumb the timber gives." teaches lace_dull.
+  Thing keelson "the Cormorant's keelson" at keel_hold {
+    State standing "The keelson runs the length of the hold, one black timber the thickness of a man.".
+    Tries listening.
+  }
+  Observe keel_knocked near keelson when tried(keelson, listening) "You strike the keelson with the flat of your hand. It rings, one long clean note, and goes on ringing a moment after your hand has left it, down the whole length of the ship." teaches keel_rings.
+  Topic gr_hoard with skellow "Ask Skellow about the hoard" when true once {
+    Says "'Forty wrecks,' says Skellow. 'Nails, brass, lead pigs, forty-one anchors, the bell off a church that went down on the Long Bar, and one bath.' He pats the bath. 'The bath was a mistake. I paid a man to bring it, and he sold it to me twice.'".
+  }
+  Topic gr_ships with skellow "Ask Skellow which ships on the flat are sound" when true once {
+    Says "'The Cormorant,' says Skellow, 'because nobody told her she was old. The Pleasance, because a barge will float in a puddle, but she won't stand up. The rest keep out the rain.' He scrapes at the apple. 'And this.' He raps the tarpaulin. 'I have knocked on every hull on this flat. You couldn't float a cork on the Brightwork. You couldn't float the *idea* of a cork.'".
+    On discuss { Assert knows(actor, ring_known). }
+  }
+  Topic gr_why with skellow "Ask Skellow why he has not told his crew the Brightwork is lace" when knows(party, ring_known) once {
+    Says "'They live in her,' says Skellow. 'They have curtains in her.' He looks up at the ribs. 'It is not a hard thing to know a house is dying. It is hard to be the one who says.'".
+  }
+  Topic gr_tell with skellow "Tell Skellow you know about the Cormorant" when knows(party, plot_known) once {
+    Says "He puts the apple down. For a while he looks at the boy's empty place on the plank. 'Sloe,' he says, without heat. 'Well. There are nine of us, and a bath, and I have spent a year looking for a way not to do it.' He wipes his hands, one finger at a time. 'I am not proud of it. I'm a salvager. I take what's left. It is not often I'm asked to take what's coming.'".
+    On discuss { Assert skellowOpen(actor). }
+  }
+  Action put_ballast_open(actor: group, site: place) "Put it to Skellow: the hoard as ballast for the Pleasance, and his crew aboard her" {
+    Speaker skellow.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lace_hold) and at(skellow, lace_hold) and knows(actor, ballast_known) and philomelOffers(actor) and skellowOpen(actor) and not skellowAgreed(actor).
+    On success { Assert skellowAgreed(actor). }
+    Result "Skellow listens to all of it, with his eyes on the bath. 'Sixty tons of lead and iron in the bottom of a stage,' he says. 'Nine of mine on the deck, under a roof, with a *fiddle*.' He begins to laugh, very quietly, the way a man laughs who has discovered a use for a thing he has hated carrying. 'The bath goes in the middle. For the trim.'".
+  }
+  Action put_ballast_hard(actor: group, site: place) "Argue the hoard as ballast for the Pleasance with Skellow" {
+    Speaker skellow.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lace_hold) and at(skellow, lace_hold) and knows(actor, ballast_known) and philomelOffers(actor) and not skellowOpen(actor) and not skellowCool(actor) and not skellowAgreed(actor).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert skellowAgreed(actor). }
+    On failure { Assert skellowCool(actor). }
+    Result "Skellow chews it as he chews everything, slowly and with great attention. 'Lead,' he says. 'Under a stage.' He lets out a breath. 'All right. I have never once in my life been talked into giving up a pound of anything. I find I'd like to see what it feels like.'".
+    Otherwise "'No,' says Skellow, pleasantly. 'I'm sorry. It is a pretty argument. I have been listening to pretty arguments for nineteen years, and I have the hoard.' He cuts a slice of apple and does not offer it.".
+  }
+  Action shift_hoard(actor: group, site: place) "Help the salvagers carry the hoard across the planks to the Pleasance" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lace_hold) and skellowAgreed(actor) and not pleasanceBallasted(actor) and not returnOn().
+    Time 3 hours.
+    On success { Assert pleasanceBallasted(actor). }
+    Result "Nine salvagers, a boy, and you, a mound of lead pigs and a marble bath, across fifty feet of plank and up a gangplank that was built for gentlefolk. The stage creaks at each load and settles lower. By the last pig the proscenium stands plumb for the first time in its life. Philomel Thistlewood watches the bath go by in a state of great happiness, and quite without words.".
+  }
+
+  // ── Philomel Thistlewood and the Pleasance ─────────────────────────────────────────────────────────────────────
+  Person philomel "Philomel Thistlewood" at stage {
+    Role "director of the Pleasance Players". Ancestry human. Level 2. Peaceable. Pronouns she. Manner jovial.
+    Likeness "actress".
+    Greets "A tall woman in a coat made from a curtain stands in a sea of blue silk with a prompt-book under her arm, conducting ten boys who are being waves. 'And the sea,' she says, 'returns!' The boys rise. 'Worse,' says Philomel Thistlewood. 'Again.'".
+    Greets again "'And the *sea*,' says Philomel, 'returns!' She does not look round. 'Don't help. Watch. If you think it's bad you are probably right.'".
+  }
+  Observe stage_sway at stage as sign when not pleasanceBallasted(party) and not returnOn() "A boy leans on the proscenium to scratch his neck, and the whole stage leans with him, and the silk sea sways to match." teaches ballast_known.
+  Topic ph_masque with philomel "Ask Philomel about the masque" when true once {
+    Says "'The Return of the Waters,' says Philomel. 'Nineteen hundred and forty couplets, a sea of silk, a sun on a pulley, and a Chorus of Fishwives who have been the same four fishwives since the third year.' She turns a page. 'We began it to keep from going mad. We went mad anyway. The masque got very good.'".
+  }
+  Topic ph_last with philomel "Ask Philomel how the masque ends" when true once {
+    Says "'The water comes back, and the Chorus sings, and then there is a page.' She holds it up: it is blank. 'I have written the Return nineteen times. I have never once written the morning after.' She lowers the page. 'What do people *say* afterwards? Honestly. You came from somewhere where it never went away.'".
+  }
+  Topic ph_thanks with philomel "Say that people say thank you" answering ph_last when true {
+    Says "'Thank you,' says Philomel, and writes it. She looks at it. 'It's very short.' 'It is a very short feeling,' you say. 'No,' says Philomel. 'It is a short *word*. They are not the same.' She keeps it.".
+    On discuss { Set masqueLine() to 1. }
+  }
+  Topic ph_sorry with philomel "Say that people say they are sorry it took so long" answering ph_last when true {
+    Says "Philomel's pencil stops. 'Sorry,' she says. 'To a sea.' She writes it. 'Sorry it took so long,' she says again, and for the first time since you came aboard the boys in the silk are still. 'That is not a thing I would have written. It is a thing I'd have been *afraid* to.'".
+    On discuss { Set masqueLine() to 2. }
+  }
+  Topic ph_late with philomel "Say that people say 'You're late'" answering ph_last when true {
+    Says "Philomel looks at you for a long moment. Then she throws back her head, and the laugh she has is enormous, a laugh with a whole stage in it, and it goes out over the mud and sets the gulls on the Rise lifting. 'You are *late*,' she says. 'Oh, that is what it is. That is exactly what it is.' She writes it in capitals. 'Marvellous. Awful. Keep it.'".
+    On discuss { Set masqueLine() to 3. }
+  }
+  Topic ph_silent with philomel "Say that people say nothing at all" answering ph_last when true {
+    Says "'Nothing,' says Philomel. 'Not a couplet.' She considers the blank page, and the sea on its poles, and ten boys with their hands in the air. 'A stage direction,' she says slowly. 'Exit Chorus. They would hate it. It would be the best thing we have ever done.' She writes it in the margin, small.".
+    On discuss { Set masqueLine() to 4. }
+  }
+  Topic ph_ballast with philomel "Ask Philomel whether the Pleasance will float upright" when knows(party, ballast_known) once {
+    Says "'She has never been wet,' says Philomel. 'She was a pleasure-barge. She went aground on the first night of the Ebb with the wine still in the glasses.' She looks at the proscenium, which is, you notice, leaning. 'I have been told she will roll. I've been told it by seven separate people, and I have asked each of them what to do, and each said ballast.' She spreads her hands. 'We have two hundred pounds of gilt and a Chorus of Fishwives. Neither is heavy.'".
+  }
+  Topic ph_crew with philomel "Ask Philomel whether she would take the Brightwork's crew aboard" when knows(party, ballast_known) and knows(party, ring_known) once {
+    Says "'Nine pairs of hands,' says Philomel. 'I have ten boys who cannot lift the sun.' She smooths the prompt-book. 'They would be the audience. They would sit in the pit and hold the lamps. We have never had a pit that stayed.' She puts out a hand, like a woman making a very large bet. 'Bring them. And whatever they are carrying, if it is heavy.'".
+    On discuss { Assert philomelOffers(actor). }
+  }
+  Topic ph_warn with philomel "Tell Philomel the sea comes at the third dusk" when knows(party, timing_known) once {
+    Says "Philomel does not move. The boys do not move. Then, quite slowly, she lays the prompt-book on the sun's pulley-rope. 'It has a date,' she says. 'A *date*. Nineteen years and it has a date.' She turns to the ten boys. 'Gentlemen. We are to open on the third dusk. Oh, my dears. It is a *premiere*.'".
+    On discuss { Assert philomelWarned(actor). }
+  }
+
+  // ── Ketil Auger on the Rise ─────────────────────────────────────────────────────────────────────────────────────
+  Person ketil "Ketil Auger" at light_foot {
+    Role "pilot of the Tern Light". Ancestry human. Level 2. Peaceable. Pronouns he. Manner stoic.
+    Likeness "hermit".
+    Greets "A thin man lies full length on the floor of a lighthouse with one ear against a copper bowl sunk in the flags. 'Don't speak,' says Ketil Auger. 'It's drawing.' He listens a while, then rolls onto his back and looks at you with the expression of a man who has been disappointed by his own prophecies. 'Nobody comes up here. You'll be here about the clams. Don't tell me you believe me. It would only upset the habit.'".
+    Greets again "'Still drawing,' says Ketil, from the floor.".
+  }
+  Thing bowl "the copper bowl" at light_foot {
+    State sunk "A copper bowl as wide as a hat is sunk into the flags, its rim level with the floor, polished by nineteen years of one cheek.".
+    Tries listening.
+  }
+  Observe bowl_heard near bowl when tried(bowl, listening) "You lie down on the cold flags and put your ear to the copper. At first there is only the sound of your own blood. Then, under it, a long slow breath, taken in, a very long way off, that has no beginning and never stops. You wait for it to be over. It is not over. It is not that kind of sound." teaches draw_known.
+  Topic ke_nineteen with ketil "Ask Ketil why he keeps saying it" when true once {
+    Says "'Nineteen springs I've told Landfall the sea was coming back,' says Ketil. 'I was a day early, or a month late, or it was a gull. I was wrong nineteen times. It means I'll be right the once, and it will be the once that matters.' He stares at the ceiling. 'It is a bad way to be right. You will not be thanked for it. Even by yourself.'".
+  }
+  Topic ke_when with ketil "Ask Ketil when it comes" when knows(party, draw_known) once {
+    Says "'You heard it,' says Ketil, and for a moment he is not a man who has been wrong. 'Then you know. The third dusk. It comes at a gallop, the front of it, a wall of white as high as a house on the flat and quick as a horse. There's no running from it on foot.' He sits up. 'If you are on the flat at the third dusk you will be found in the spring. Be on a ship that floats. Or here. This is the Rise. It has been an island before.'".
+    On discuss { Assert knows(actor, timing_known). }
+  }
+  Topic ke_ships with ketil "Ask Ketil which of the ships will float" when true once {
+    Says "'I listen to water,' says Ketil. 'Ask Skellow. He's knocked on every board on the flat. It is an unnatural thing in a man, to knock on things for nineteen years, and I find I'm grateful.'".
+  }
+  Topic ke_light with ketil "Ask Ketil about the lamp" when true once {
+    Says "'Eleven years since I had oil,' says Ketil. 'A pilot without oil is a man shouting in a hat. Anything coming in off the water at dusk, with no light on the Rise, goes on the Teeth, out past the point, and that is the end of anyone aboard.' He nods at the stair. 'The lamp's cleaned. The lens is under a sheet. It wants oil, and a hand to light it, and the sea.'".
+    On discuss { Assert knows(actor, lightdark_known). }
+  }
+  Topic ke_drum with ketil "Ask Ketil about the Rì's man with the drum" when true once {
+    Says "'Brass drum on a stick,' says Ketil. 'He came in the eighth year from Dun Rìerdan, and lay where you're lying with the drum on the flags for a week. He wrote down one word, periodic.' Ketil nearly smiles. 'I asked him how periodic. He said he would have to come back in nineteen years to say. He is, I believe, on the road.'".
+  }
+
+  // ── The Tern Light ─────────────────────────────────────────────────────────────────────────────────────────────
+  Thing tern_lamp "the Tern Light" at lamp_room {
+    State dark "The great lens stands under its sheet, and the lamp behind it has been cold for eleven years.".
+    State lit "The lamp burns behind the lens, and the whole glass cage throws a beam of gold out over the mud toward the Fleet, and a long way past it.".
+    Change light "Light the Tern Light" from dark to lit consuming lamp_oil.
+  }
+  Observe wall_lit at wall as sign when state(tern_lamp, lit) and hour(clock) >= 17 and not returnOn() "Far out on the mud the Tern Light is burning: a single yellow point, steady, with nothing between it and the wall.".
+}

@@ -1,0 +1,133 @@
+Module dryfleet "The Sea Is Late" {
+  // ── The clock: the sea comes back at dusk on the third day ─────────────────────────────────────────────────────
+  Query returnOn() means day(clock) >= 4 or (day(clock) == 3 and hour(clock) >= 18).
+  Query exposed() means at(party, gardens) or at(party, landing) or at(party, street) or at(party, lace_hold) or at(party, slip).
+  Query aboardBar() means at(party, wet_bar) or at(party, keel_hold).
+  Query atLight() means at(party, light_foot) or at(party, lamp_room).
+  Query inTown() means at(party, road) or at(party, wall) or at(party, quay) or at(party, shed).
+
+  Rule eve_comes when day(clock) == 3 and hour(clock) >= 15 and not returnOn() and within(party, country) once
+    says "In the west the sky is the wrong colour at its foot, a long pale band the width of a finger held out at arm's length. The air smells of rust and cold stone. Every gull on the Rise has gone up at once, and is not coming down." {
+  }
+
+  // ── Where you stand when it comes ───────────────────────────────────────────────────────────────────────────────
+  Rule ret_caught when returnOn() and not returned(party) and exposed()
+    says "At the edge of the world a line of white stands up. You have time to know what it is. The ground ticks under your feet, once, everywhere, and then the shells open about you in their thousands, white and wet, rank after rank, as if the whole flat were drawing breath. The sound is not surf. It is the sound a room makes when everyone stops talking at once." {
+    Assert returned(party).
+  }
+  Rule ret_stage_up when returnOn() and not returned(party) and at(party, stage) and pleasanceBallasted(party)
+    says "At dusk the Pleasance Players are in the wings in costume: ten boys in blue silk, four fishwives in plaster, nine salvagers in the pit with lamps. A marble bath stands in the middle of the stage, holding the trim. The shells tick. The mud goes white. 'Places,' says Philomel Thistlewood, very quietly. The sea reaches the barge as a wall that goes under her and keeps going, and the Pleasance goes up, level, a theatre lifted on a hand, with every lamp lit." {
+    Assert returned(party).
+  }
+  Rule ret_stage_over when returnOn() and not returned(party) and at(party, stage) and not pleasanceBallasted(party)
+    says "At dusk the shells tick, and the mud goes white, and the sea reaches the Pleasance. She lifts. The stage, with nothing in her to hold her down, goes over like a drunk onto the silk sea, the gilded sun, the proscenium, ten boys in blue and four fishwives in plaster. For a long minute it is painted boards and shouting, and the water coming in at the wings." {
+    Assert returned(party).
+  }
+  Rule ret_bar_moved when returnOn() and not returned(party) and aboardBar() and samphireMoved(party)
+    says "At dusk Samphire shuts the Wet Bar. She takes Tamsin's hand and the two of them go up on the taffrail, and for a long time there is only a line of white at the edge of the world that might be cloud. Then the shells. You hear them along the Shell Road first: a ticking that widens, from ten thousand at once. Samphire says, quite calmly, 'Here it comes, then. I haven't finished being angry.' 'Good,' says Tamsin. 'Be angry at it from here.' The sea reaches the Cormorant as a wall of white that goes under her and keeps going, and she lifts, with every board in her groaning, and sits, trembling, on water." {
+    Assert returned(party).
+  }
+  Rule ret_bar_alone when returnOn() and not returned(party) and aboardBar() and not samphireMoved(party)
+    says "At dusk the Wet Bar is open, and full, and Samphire is pouring, because she has not been told anything she believed. The shells tick. The whole room hears it, and nobody turns. Then the floor moves, a long slow roll like a cat stretching, and every cask in the room slides to the low wall at once, and Samphire says a word not heard in the Fleet since the second year." {
+    Assert returned(party).
+  }
+  Rule ret_light_lit when returnOn() and not returned(party) and atLight() and state(tern_lamp, lit)
+    says "From the lamp room you see all of it. The beam goes out gold across the mud, over the Fleet, as far as the black teeth of Landfall. At the edge of the world a line of white appears, widening. Under it the shells open in their thousands, a pale wave running toward you rank on rank, like applause. Then the sound, which is not surf. It is the sound a room makes when everyone stops talking at once." {
+    Assert returned(party).
+  }
+  Rule ret_light_dark when returnOn() and not returned(party) and atLight() and not state(tern_lamp, lit)
+    says "From the lamp room the Return is one white line walking in over the grey, and below it the dark, with the shells opening in it like windows. The great lens is under its sheet. There is nothing on the Rise to steer by. Ketil stands on the stair with the sheet in both hands, saying the word oil to himself, very quietly, over and over." {
+    Assert returned(party).
+  }
+  Rule ret_town_believed when returnOn() and not returned(party) and inTown() and hesperBelieves(party)
+    says "At the wall the whole of Landfall has turned out in its coats. Hesper Aldous stands at the parapet with the chalk, and the lamp lit behind her, and she does not say anything. At the edge of the world something pale stands up. Then the sea comes into the harbour from the seaward end, like a hand drawn across a table, and it fills it in eleven minutes. The slipway goes under. The ribs of the pilot-boat lift off the mud one by one, and stand." {
+    Assert returned(party).
+  }
+  Rule ret_town_unbelieved when returnOn() and not returned(party) and inTown() and not hesperBelieves(party)
+    says "At the wall there are twelve people, a dog and Hesper Aldous, who has come as she comes every dusk to light the lamp. She is lighting it when the sound begins. The sea comes into the harbour from the seaward end. She does not stop lighting the lamp. Her hands do not stop, and the harbour fills round the last of them." {
+    Assert returned(party).
+  }
+
+  // ── The Players give the Return ─────────────────────────────────────────────────────────────────────────────────
+  Rule line_none when returned(party) and not exposed() and pleasanceBallasted(party) and philomelWarned(party) and masqueLine() == 0 once
+    says "Across the water the Players give the Return, nineteen hundred couplets in four minutes, at the speed of the sea. Then they reach the blank page. A silence. Then, from the pit, someone starts applauding, and it spreads." {
+  }
+  Rule line_thanks when returned(party) and not exposed() and pleasanceBallasted(party) and philomelWarned(party) and masqueLine() == 1 once
+    says "Across the water the Players give the Return, nineteen hundred couplets in four minutes, at the speed of the sea. The last line comes out clean and small, in one voice, across the whole dark sea: 'Thank you.'" {
+  }
+  Rule line_sorry when returned(party) and not exposed() and pleasanceBallasted(party) and philomelWarned(party) and masqueLine() == 2 once
+    says "Across the water the Players give the Return, nineteen hundred couplets in four minutes, at the speed of the sea. The last line is only a murmur of ten boys and a Chorus of Fishwives: 'Sorry it took so long.' Nobody on the whole flat seems to be able to answer it." {
+  }
+  Rule line_late when returned(party) and not exposed() and pleasanceBallasted(party) and philomelWarned(party) and masqueLine() == 3 once
+    says "Across the water the Players give the Return, nineteen hundred couplets in four minutes, at the speed of the sea. The last line is shouted: ten boys, four fishwives and nine salvagers in the pit: 'YOU'RE LATE!' It carries the whole way to Landfall, and the sea, which has no sense of humour, goes on coming." {
+  }
+  Rule line_silent when returned(party) and not exposed() and pleasanceBallasted(party) and philomelWarned(party) and masqueLine() == 4 once
+    says "Across the water the Players give the Return, nineteen hundred couplets in four minutes, at the speed of the sea. At the last line the voices stop. One by one the Chorus goes quiet, and the boys put their hands down, and there is only the water, speaking for itself." {
+  }
+  Rule line_unwarned when returned(party) and not exposed() and pleasanceBallasted(party) and not philomelWarned(party) once
+    says "Across the water a barge goes up level, with her lamps unlit and her Players still at supper, and a boy's voice shouts 'It's the SEA' as if the ship were doing it on purpose." {
+  }
+  Rule line_over when returned(party) and not exposed() and not pleasanceBallasted(party) and not at(party, stage) once
+    says "Out on the water something painted goes over. There is a long wooden groan, and screaming, and a trumpet that sounds once, all wrong. The Cormorant puts out her boats. In the morning they find eleven of the fourteen." {
+  }
+
+  // ── What the Fleet did ──────────────────────────────────────────────────────────────────────────────────────────
+  Rule fate_brightwork_ballast when returned(party) and pleasanceBallasted(party) and not exposed() once
+    says "The Brightwork goes down by the stern, slowly, like a gentleman, her ribs standing out of the water like a hand. Nobody is aboard. Her nine salvagers are in the Pleasance's pit holding lamps. Grist Skellow stands at the rail with his hat off. 'I knew every nail,' he says. 'It is all right. They're in the bottom of the other one.'" {
+  }
+  Rule fate_brightwork_storm when returned(party) and not pleasanceBallasted(party) and not exposed() once
+    says "At the last hour Skellow and his nine come over the Cormorant's rail, with the bath on a sledge and the hoard on their backs, a very large man in a very polite manner. Samphire Gannel meets them with the ladle. It goes down the hatch. The Cormorant sits two feet lower than she meant to, and nobody in the Wet Bar looks at anybody for a year." {
+  }
+  Rule fate_light_lit when returned(party) and state(tern_lamp, lit) and not exposed() once
+    says "By the Tern Light the Fleet finds the channel, the Rise and the harbour mouth in order, like people finding their seats. Not one ship touches the Teeth." {
+  }
+  Rule fate_light_dark when returned(party) and not state(tern_lamp, lit) and not exposed() once
+    says "With no light on the Rise the sea has its way with the Fleet. The Cormorant goes onto the Teeth at the point with a long sound like a church being unbuilt, and sits there, holed, held up by nothing but the sea's goodwill. Everyone aboard is got off in the morning, in boats. The Wet Bar is never quite level again." {
+  }
+  Rule fate_ketil_lit when returned(party) and state(tern_lamp, lit) and not exposed() once
+    says "Ketil Auger is at the lamp-room glass with both hands on it. It is the first time in nineteen years anyone has seen him on his feet. 'The once,' he says. 'It was the once.'" {
+  }
+  Rule fate_ketil_dark when returned(party) and not state(tern_lamp, lit) and not exposed() once
+    says "Ketil Auger lies on the flags with his ear to the copper bowl, and hears the long breath let go, like a hand unclenching. He has been right, and nobody was in a position to be told." {
+  }
+  Rule fate_orlo_warned when returned(party) and orloWarned(party) and not exposed() once
+    says "Orlo Carrick sits on the rocks of the Rise with the Hare hauled up on rollers, and watches the sea come at her from the front, which is what he wanted. It is the only thing that has ever been faster than the cutter. He does not mind." {
+  }
+  Rule fate_orlo_unwarned when returned(party) and not orloWarned(party) and not exposed() once
+    says "Orlo Carrick is found three days later, delighted, on the Hare, on the roof of a cottage in Landfall with the mast through the chimney, saying it was thirty-one minutes." {
+  }
+  Rule fate_tamsin when returned(party) and travelsWith(tamsin, party) and not exposed() once
+    says "Tamsin looks at it for a long time. 'It's bigger than I thought,' she says. 'It is *exactly* bigger than I thought.' She puts a hand out toward it, though it is a mile off. 'I'm not disappointed,' she says, like someone reporting a fault. 'I'm furious. Nobody said it would be moving.'" {
+  }
+  Rule fate_slate_believed when returned(party) and hesperBelieves(party) and not exposed() once
+    says "In Landfall, that night, Hesper Aldous writes IN on the slate, and the hour, and her own name. There was a place ready for it on the slate. It had been ready for nineteen years." {
+  }
+  Rule fate_slate_not when returned(party) and not hesperBelieves(party) and not exposed() once
+    says "In Landfall, that night, Hesper Aldous writes IN on the slate, and then under it, smaller, Ketil Auger was right. She looks at it for a time. She does not rub it out." {
+  }
+
+  // ── What a company grows by ────────────────────────────────────────────────────────────────────────────────────
+  Milestone m_taste "tasted the sea in the slipway mud" worth 20 when knows(party, weep_known).
+  Milestone m_clams "watched the clam gardens breathe" worth 30 when knows(party, clams_known).
+  Milestone m_pearl "took a pearl from a shell that had not opened in nineteen years" worth 40 when pearled(party).
+  Milestone m_draw "heard the Draw under the Tern Light" worth 40 when knows(party, draw_known).
+  Milestone m_run "ran the marl on the Hare" worth 40 when recordRun(party).
+  Milestone m_hesper "turned Hesper's slate from OUT" worth 80 when hesperBelieves(party).
+  Milestone m_reunion "brought Tamsin to the Wet Bar" worth 100 when samphireMoved(party).
+  Milestone m_plot "learned what Skellow meant to do to the Cormorant" worth 40 when knows(party, plot_known).
+  Milestone m_bath "found a use for a marble bath" worth 120 when pleasanceBallasted(party).
+  Milestone m_couplet "gave the Players their last couplet" worth 60 when masqueLine() > 0.
+  Milestone m_lamp "lit the Tern Light" worth 120 when state(tern_lamp, lit).
+  Milestone m_sea "saw the sea come back" worth 200 when returned(party) and not exposed().
+
+  // ── Endings ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Ending caught "Found in the Spring" when returned(party) and exposed() "The sea comes over the flat at the pace of a galloping horse, white and quiet and as wide as the world, and does not look at what it is passing. The first thing it carries away is the sound of the shells. They are found in the spring, a long way from the Shell Road, with the tide-wrack in their hair. At Landfall, in the grey, Hesper Aldous writes IN on the slate in a hand that is not quite square. Nobody ever asks her to explain the other word she writes under it. It says, *sorry*.".
+  Ending stage_up "The Pleasance Opens" when returned(party) and at(party, stage) and pleasanceBallasted(party) "By morning the Pleasance rides at anchor off the Rise with every lamp still burning, level as a table, with a marble bath amidships and nine salvagers asleep in the pit. Philomel Thistlewood is on the stage with her prompt-book in her lap, writing. It is the first page of the morning after. She does not tell you what it says. She asks, instead, whether you think a sea can be given notes. The Players go out on the next tide with the Cormorant behind them and a trumpet on the bow, to a coast that has not heard a play in nineteen years and is, on the whole, ready.".
+  Ending stage_over "The Barge Goes Over" when returned(party) and at(party, stage) and not pleasanceBallasted(party) "The Pleasance lies on her side in the shallows off the Rise, and the Cormorant's boats find eleven of the fourteen. The silk sea is in the rigging of a ship that is not hers. Philomel Thistlewood sits on the beach with the prompt-book, wet through, and does not write. She says only that she knew the end. She has always known it. It was never the Return that she could not write. It was this.".
+  Ending bar_moved "A Short Distance Past Angry" when returned(party) and aboardBar() and samphireMoved(party) "By morning the Cormorant rides at the Fleet's old berth with the water slopping round her keel, and the Wet Bar is open, because Samphire Gannel does not close for anything. Tamsin is on the deck with a bucket that she is filling, over and over, from the sea. She is not drinking it. She is only filling it, and pouring it out again, and watching where it goes. 'It goes everywhere,' she tells her grandmother. 'It goes *out*.' Samphire says that she supposes it does. She is looking at the sea with an expression that has, for the first time in nineteen years, a distance in it.".
+  Ending bar_alone "The Wet Bar Floats" when returned(party) and aboardBar() and not samphireMoved(party) "By morning the Cormorant rides high on a flat grey sea with half her casks in the scuppers, and the Wet Bar is a mess, and open. Samphire Gannel pours the first measure into the water over the side. She says nothing. She has been angry for nineteen years, and it is the one thing she did not expect to be asked to put down. Somewhere in Landfall, you think, there is a girl with a bucket who would have liked to see that.".
+  Ending light_lit "The Once" when returned(party) and atLight() and state(tern_lamp, lit) "In the morning the Tern Light is an island again, and the Fleet rides all round it in the grey, afloat and swinging to their anchors, with the Pleasance coming up the channel under the beam. Ketil Auger sits on the steps in the sun with a very ordinary cup of tea, looking at the sea, which looks back. He says it is not what he had pictured. He says it is much wetter. Nobody has ever seen him laugh before, and it takes some time.".
+  Ending light_dark "The Dark Coast" when returned(party) and atLight() and not state(tern_lamp, lit) "In the morning the Rise is an island again and the Cormorant sits on the Teeth with her keel stove in and her people in boats alongside, in rows, with the Wet Bar's stove in a rowing boat, still alight. Ketil Auger stands on the steps with his hat in his hands. It was a lamp, he says. It wanted oil. It was eleven years since he had been able to say that and be right.".
+  Ending town_believed "IN" when returned(party) and inTown() and hesperBelieves(party) "By dawn Landfall's harbour is a harbour. The pilot-boat has been lifted off its ribs and is, with a good deal of surprise, afloat. Hesper Aldous wipes the slate with her sleeve, and writes it fresh in her own square hand: IN. Then she holds out the chalk to the nearest person, who happens to be you, and asks whether you would like to write the date.".
+  Ending town_unbelieved "IN, Smaller" when returned(party) and inTown() and not hesperBelieves(party) "By dawn Landfall's harbour is a harbour. Hesper Aldous stands on the wall with the chalk, looking at the water, which is brown and going out and coming in. She has not slept. She wipes the slate, and writes IN, and under it, small: Ketil Auger was right. When she turns, she is not quite looking at you, and she is not quite not. 'The lamp was lit,' she says. 'I would like it noted that the lamp was lit.'".
+}
