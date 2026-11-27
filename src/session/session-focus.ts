@@ -36,7 +36,7 @@ export class SessionFocus {
     const heard = this.now.focus.kind === 'talk' ? this.seen?.question.talk?.rows.flatMap(r => r.command ?? [])
       : undefined;
     const op = campaign.operator(id) ?? campaign.offered().find(o => o.id === id);
-    return { ...op ? { op } : {}, at: Focusing.where(campaign), elapsed: campaign.elapsed,
+    return { ...op ? { op } : {}, at: Focusing.where(campaign), elapsed: campaign.tickState.current.elapsed,
       ...heard ? { heard } : {} };
   }
   // After an act of the world: the focus its kind sets, and its words, for the lines. fought: whether a fight was
