@@ -7,6 +7,14 @@ expensive evidence the claims actually require; an unlisted file has not been as
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/silkholme.test.ts` | The authored Silkholme multi-module campaign plays feeding, burning, waiting, a combat setup and day/night observations. Keep the composed site and contrasting routes; the spider case constructs but does not play the fight. |
+| `test/singing-door.test.ts` | Generated kite plays the Gaudumport approach, checks where lore is sold and opens the notes door by listening and humming. Keep the generated route and before-listening negative. |
+| `test/sister-asked.test.ts` | Generated kahitude plays the lost-sister origin, asks the keeper and finds the pin, including experience gained. Keep the generated origin and actual route. |
+| `test/site-entry.test.ts` | Generated kite stages the company outside a site and checks its entry label and scope. Keep the generated site and rendering; placement is staged. |
+| `test/site-scale.test.ts` | Pure synthetic scale checks plus generated kite destinations and tower/mine transitions. Keep generated sites and positive before/after destination contrast; several locations and knowledge are staged. |
+| `test/sitting-out-the-night.test.ts` | Generated wren buys a lamp, stages a cleared mine and checks light use and rendered wait sheets, including an inn and an unaffordable bed. Keep the generated gear, waits and render boundaries; hostile groups and placements are staged. |
+| `test/skeel-browser.test.ts` | Opt-in built-site browser journey plays authored Skeel from the coast road to the tide-board and dog. Keep the rendered route and positive low-water witness. |
+| `test/skeel-company.test.ts` | Authored Skeel and a thief variant play ranger evidence and sensory contrasts. Keep the actual campaign, journeys and class variants. |
 | `test/silent-lord-alone.test.ts` | The authored Silent Lord situation runs with a small synthetic host and shared rules, not a generated country, for malice, warnings and unattended consequences. Keep the situation, timed contrasts and explicitly staged placements or facts. |
 | `test/silent-lord-malice.test.ts` | Generated keep supplies the wicket and rider tracks for thief and ranger cases. Keep the generated site; the company and knowledge are staged where noted. |
 | `test/silent-lord-turns-alone.test.ts` | The authored Silent Lord situation and a small host play feast, garrison and town consequences, including reload. Keep the situation and contrasts; several placements and facts are explicitly staged. |
