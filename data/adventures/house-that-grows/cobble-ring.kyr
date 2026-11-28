@@ -1,4 +1,10 @@
 Module hhg "The House That Grows" {
+  Entity seat_witness: fact "Kezu has heard the old royal lullaby inside the growing house; she will ask Seren at Dun Rì who taught it to the thing knocking.".
+  Topic seat_reflection with kezu "Ask Kezu what the house has taught the next king"
+    when knows(actor, kezu_dreams_house) and state(kezu, waking) once {
+    Says "Kezu holds her cup in both hands. 'They want a ruler who never closes an eye. We tried that. It grows behind your back anyway.' She hums three notes. 'The thing at the front door sings the old royal lullaby. Gets the last note wrong, as my husband did.' Her smile vanishes. 'Seren will know who else sang it. I shall go to Dun Rì if Hanu goes with me. No more people keeping watch alone.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Description "Cobble Ring, a crater-ring town of the Strewnfield, the morning after Kezu opened the door in Haddo's barley.".
 
   // The Strewnfield's own things, declared here rather than added to the shared catalog.

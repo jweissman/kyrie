@@ -1,4 +1,9 @@
 Module dorothea "The Dorothea" {
+  Entity seat_witness: fact "Captain Ingrith Bascom will bring the lamp-oil accounts to Dun Rì; she intends to answer for Rune's theft as well as her own debt.".
+  Topic seat_reflection with bascom "Ask Bascom whether Rune should take all the blame" when knows(actor, rune_sells) once {
+    Says "Bascom counts the casks once more. 'A light cannot burn on a captain's good name. Neither can a kingdom.' She takes a creditor's letter from inside her coat. 'Rune sold the oil for my debt. The court calls him a thief and calls me reliable.' She puts the letter beside the ledger. 'I shall sail to Dun Rì with both accounts. If they offer to forgive me alone, you will know what their mercy costs.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Description "Tolleth, a salt-and-herring port at the end of a long road; the ketch Dorothea at her quay; and her calls: Skerrow, a night and a morning out, where a lamp has burned since before the roads; Port Ness, the salt; the Antlers, a night away among the stacks. All of it is the paper of a counting-house in Orsett.".
 
   // The port, the ship and the island are three places with no way between them on foot. The ship is a thing that is

@@ -1,4 +1,9 @@
 Module eelbell "The Eel Bell" {
+  Entity seat_witness: fact "Perpetua Sount will bring her bell-metal tests to Dun Rì; the coronation bell contains the wrong alloy.".
+  Topic seat_reflection with sount "Ask Sount who should answer for a bad casting" when knows(actor, metal_known) once {
+    Says "Sount drops a sliver of the coronation bell into a cup. The note dies at once. 'They want my apprentice's name. He followed their recipe. The lead was their saving.' She holds out the cup. 'Hear him before you hear them.' Her mouth twitches. 'I shall mend it in Dun Rì. But the man who approved the metal can stand underneath while I test it.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Relation ringer(group). Relation dyceTold(group). Relation posyTrusts(group). Relation toldSount(group).
   Relation helpedWickens(group). Relation maudlinBetrayed(group). Relation rushbyBitter(group).
 

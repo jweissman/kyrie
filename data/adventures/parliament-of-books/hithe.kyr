@@ -1,4 +1,9 @@
 Module calamy "A Parliament of Books" {
+  Entity seat_witness: fact "Bet Kettering will take her fish-wrapper proofs to Dun Rì; a discarded royal proclamation names both princes king.".
+  Topic seat_reflection with bet "Ask Bet what the heron has taught the next king" when knows(actor, heron_seen) once {
+    Says "'You found a heron where I had found a conspiracy,' says Bet. 'Very educational. I reserve the right to find both next time.' She flattens a fish-wrapper: a printer's spoiled proclamation, two princes named king on the same line. 'They printed the victory before choosing the winner. I shall bring this to Dun Rì. Anyone asks why it smells, tell them I wrapped a herring in their constitution.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Description "The Hithe: the river port on the south bank, its quay and tavern, its rags and gulls, its ferry, and the garrets of Pudding Lane.".
 
   // ── The first sight of the city, from the saltings. ──

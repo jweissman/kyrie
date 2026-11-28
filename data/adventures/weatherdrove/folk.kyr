@@ -1,4 +1,9 @@
 Module weatherdrove "The Weather Drove" {
+  Entity seat_witness: fact "Hannibal Muckle will bring the water ledger to Dun Rì; his promised royal rain allotment was sold twice.".
+  Topic seat_reflection with muckle "Ask Muckle what the rain's price teaches a king" when knows(actor, salt_at_risk) once {
+    Says "'Water for the children, wages from the pans,' says Muckle. 'You have discovered why the council likes decisions made far from the cistern.' He holds up two royal promises for the same rain. 'One to us, one to the coast forts. My daughter noticed the matching number. I had admired the seal.' He shuts the ledger. 'We are taking both to Dun Rì. She will do the adding. I shall try not to admire anything.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── What the company has done, and what has been learned ─────────────────────────────────────────────────────────
 
   Relation dorcasWilling(group). Relation fidelisWilling(group). Relation warmWay(group). Relation walked(group). Relation called(group).

@@ -148,9 +148,12 @@ export class CompanyChapters {
       .map(([id, s]): Entry => this.skill(id, s, items));
     const means = Object.entries(Canon.skills).filter(([, s]) => s.means)
       .map(([id, s]): Entry => this.skill(id, s, items));
-    return { id: 'skills', title: 'Skills', intro: ['Kyr does not roll for a skill. A company either has someone who '
-      + 'brings it, and can do what needs it, or does not. The way that needs it says so. Searching is the exception: the '
-      + 'company\'s best searcher takes 10 on Orsino\'s check (Wisdom modifier and search bonuses, against 15).'], entries,
+    return { id: 'skills', title: 'Skills', intro: ['A way requiring a skill asks whether the company has someone who '
+      + 'brings it, without a roll. An action resolving a check instead uses its named difficulty. The company\'s best '
+      + 'searcher takes 10 on Orsino\'s search check (Wisdom modifier and search bonuses, against 15).',
+    'Mathematical checks roll against at least DC 30 when trained, or DC 35 without training; a natural twenty '
+      + 'succeeds. A Mathematician succeeds by proof '
+      + 'without rolling. Proof interprets encountered evidence, not unseen properties or safe operation.'], entries,
     sections: [{ id: 'means', title: 'Means held', intro: ['What a company has to hand, or has been given to say, opens a '
       + 'way as a skill does, but is not learned: carried, lit, or spoken while it is held.'], entries: means }] };
   }

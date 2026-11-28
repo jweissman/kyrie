@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
+import tower from '../../data/generation/works/great_watchtower.kyrt' with { type: 'text' };
 
 // Instruments of observation, earned and honest (the owner, 14 November: RI-04). The sky is read only in the open:
 // its moon by anyone at night, the sign rising this month (Imbar's sky, a sign a month) only by one who reads the
@@ -46,14 +47,15 @@ describe('the company\'s instruments', () => {
     await expect(born('sign_nowhere')).rejects.toThrow(/Unknown sign/);
   });  it('lets Astronomy earned in the world read the rising sign', async () => {
     const t = await Tiny.start(`${field}
-      Entity astronomy: capability "Astronomy".
-      Action study_orrery(actor: group) "Set the orrery's rings in motion" {
-        Requires able(actor) and company(actor).
-        On success { Assert granted(actor, astronomy). }
-        Result "The old mechanism turns, and the sky takes shape in its brass rings.".
-      }`, { party: [{ name: 'Wat', raceId: 'human', classId: 'warrior' }],
+      Initially Assert granted(party, lore).
+      Initially Set grantedUntil(party, lore) to 6.
+      ${tower.slice(tower.indexOf('  Thing {w}_rings'), tower.indexOf('  Person {w}_reckoner'))
+        .replaceAll('{w}_orrery', 'field').replaceAll('{w}', 'tower')}`,
+    { party: [{ name: 'Wat', raceId: 'human', classId: 'warrior' }],
       calendar: { year: 1312, month: 6, day: 5 } });
-    await t.play("Set the orrery's rings in motion", 'Wait until dark');
+    await t.play('Turn the orrery on to tonight, by the count', 'Wait until dark');
+    expect(t.journey.holds('granted', 'party', 'lore')).toBe(false);
+    expect(t.journey.holds('granted', 'party', 'astronomy')).toBe(true);
     const sky = t.leaf.instruments!.find(i => i.id === 'sky')!;
     expect(sky).toMatchObject({ emblem: 'sign_scythe', relevant: true });
   });  it('count the provisions exactly, and bring them forward as night comes on', async () => {

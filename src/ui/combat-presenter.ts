@@ -75,11 +75,13 @@ export class CombatPresenter {
     const terms = [`${event.stat} ${event.modifier}`, ...event.trained ? [`${event.skill} ${event.trained}`] : [],
       ...event.tool && event.using ? [`${(event.usingName ?? event.using.replace(/_/g, ' ')).toLowerCase()} ${event.tool}`] : []];
     if (event.unrolled) {
+      if (event.proof) { return `${actor} needs no luck for it (${event.skill}: by proof against ${event.difficulty}).`; }
       return `${actor} ${event.success ? 'needs no luck for it' : 'has no chance of it'} (${event.skill}: `
         + `${event.success ? 'at worst' : 'at best'} ${event.rolled} against ${event.difficulty}).`;
     }
     return `${actor} ${event.success ? 'makes' : 'fails'} the ${event.skill} check (${[`d20 ${event.die}`, ...terms]
-      .join(' + ')} = ${event.rolled} against ${event.difficulty}).`;
+      .join(' + ')} = ${event.rolled} against ${event.difficulty}${event.skill === 'mathematics' && event.die === 20
+        ? '; natural twenty resolves mathematics' : ''}).`;
   }
   // A caster's check against spell resistance (see SpellResistance): the spell turned, or got past it.
   private static resisted(event: Extract<CombatEvent, { type: 'resist' }>, actor: string, target: string,

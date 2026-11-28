@@ -41,6 +41,14 @@ Module longman "The Long Man" {
   Observe ox_clocks at taproom when true "Two clocks hang in the Ox: one over the hearth, which has one hand and agrees with nothing; and a slate by the door on which Martin Pask chalks, each noon, what the chapel bell has said, so that he can tell the hearth-clock how wrong it is.".
   Topic martin_clocks with martin "Ask Martin Pask about the two clocks" when true once {
     Says "'The chapel keeps a bell, and the Ox keeps a clock, and in the year of the big frost they fell out about which was the time,' says Pask, with enormous satisfaction. 'Every Lammas the parish votes to set the clock by the bell. Every Lammas it is found that the clock was set by the bell the Lammas before, and that the bell has been rung by Mother Ysolt's sexton's boy, who cannot tell the time, off the Ox's clock.' He taps the slate. 'Round and round. There is a wager on the beam. Four people in this room are owed money by a dead man.'".
+    On discuss { Assert knows(actor, clock_circle). }
+  }
+  Discovery clock_circle "The Ox's clock is set by the chapel bell, which is rung by the Ox's clock. Gammer Coller keeps an independent water measure.".
+  Item nell_rubbing "Gammer Coller's copy of the water-rod's intervals" is mathematical_rubbing at reeve_room owned by nell.
+  Topic nell_clock with nell "Ask Gammer Coller for a measure that does not depend on the Ox's clock" when
+    knows(actor, clock_circle) once {
+    Says "'Round and round,' she says. 'I measure the water, not the parish's agreement.' She copies the rod's intervals: eleven strokes and an empty space. 'If they ask you in Dun Rìerdan what an old machine counts, take a measure from outside it. A king is not his own witness either.'".
+    On discuss { Give nell_rubbing to actor. }
   }
 
   // ── Papers from elsewhere ───────────────────────────────────────────────────────────────────────────────────────

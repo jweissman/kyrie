@@ -1,4 +1,9 @@
 Module season "Hold One Season" {
+  Entity seat_witness: fact "Rusk will bring her felt debts to Dun Rì; the astronomer who ordered blankets for the frontier has stopped writing to her.".
+  Topic seat_reflection with rusk "Ask Rusk what the falling water has taught the next king" when knows(actor, water_falling) once {
+    Says "Rusk measures a strip of felt against her wrist. 'A patient thing can still be taking the ground out from under you. That is what I shall tell the advisors.' She ties the strip into a bow. 'Their astronomer ordered two hundred blankets. He used to send dreadful poems with the orders. Now only the orders come.' She looks up. 'I am going to collect the money, of course. And find out who has learned to imitate his signature.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Description "Quell, the Granaries of Tamaun and Ennick, late in Haying of the year 380: a cutter's uncle held eleven months in an open granary vault, and the people who want him, or his jars, brought up.".
 
   // The plateau, as far as this slice goes: Quell on the western margin, the heath and the Ramp to the gorge,

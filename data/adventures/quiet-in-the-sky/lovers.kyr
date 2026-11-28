@@ -133,6 +133,14 @@ Module larum "The Quiet in the Sky" {
     On discuss { Assert knows(actor, living_kills). }
   }
   Observe mab_lip_seen near mab as sign when mabScarred(mab) "Mab Treloar's lip is scabbed where you split it, and she keeps touching it with her tongue, the way you touch a tooth that has gone.".
+  Relation mabComforted(group).
+  Action tend_mab(actor: group, site: place) "Offer Mab a clean bandage and tend the split lip" {
+    Speaker mab.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mab, site) and able(mab) and mabScarred(mab) and knows(actor, living_kills) and holding(actor, bandages) and not mabComforted(mab) and beforeTesting().
+    Time 5.
+    On success { Spend bandages from actor. Assert mabComforted(mab). Increase mabTrust(mab) by 1. }
+    Result "You wet a clean strip with meltwater. Mab flinches before you touch her, then sits still. 'First time I've had to let anybody mend me,' she says. The scar stays. She folds the spare cloth into her sleeve. 'Don't tell the yard I was frightened.' After a moment: 'You can tell Ansel. He'd bow to the bandage.'".
+  }
   // She carries it to her Marshal that night.
   Rule mab_tells_hild when mabScarred(mab) and hour(clock) >= 20 and not hildKnows(hild) { Assert hildKnows(hild). }
   Topic mab_show with mab "Ask Mab Treloar to show her lip at the ring of spears, to all Halt" when mabScarred(mab) and knows(actor, living_kills) and not truthSpoken(field_country) and beforeTesting() once {

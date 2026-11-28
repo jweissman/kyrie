@@ -2,15 +2,17 @@ Module sallowfield "Three Nights at Sallowfield" {
   // ── The scout in the cellar, and the captain at the stone ──────────────────────────────────────────────────────
   Relation vollTried(group). Relation lowesKind(group). Relation lowesBristled(group). Relation lowesHard(group). Relation lowesCarries(group). Relation parleyOpen(group). Relation parleyRefused(group).
   Relation bluffed(group). Relation vollLooked(group). Relation fothergillBought(group).
+  Relation lowesAsked(group).
   Entity fothergill_known: fact "Lieutenant Fothergill wants the village burned for what the Margrave owes him personally, and Wyre keeps him on a rein.".
 
   // Kit Lowes, in the cellar of the Ploughshare, if he was taken.
   Topic lowes_ask with lowes "Ask the boy what he was doing in the reeds" when heldScout(lowes) once {
     Says "'Looking,' says Kit Lowes. He sits on the barrel with his boots between his knees. 'It's what I'm for. They send me because I'm small and I can count.' He swallows. 'What happens to me? I'll tell you anything. I'd just like to know.'".
+    On discuss { Assert lowesAsked(actor). }
   }
   Action question_kindly(actor: group, site: place) "Tell the boy he will be fed and sent home when it is over" {
     Speaker lowes.
-    Requires able(actor) and company(actor) and at(actor, site) and at(lowes, site) and heldScout(lowes) and not lowesKind(party) and not lowesHard(party) and not lowesBristled(party).
+    Requires able(actor) and company(actor) and at(actor, site) and at(lowes, site) and heldScout(lowes) and lowesAsked(actor) and not lowesKind(party) and not lowesHard(party) and not lowesBristled(party).
     Time 2.
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert lowesKind(party). Assert knows(actor, fothergill_known). }
@@ -20,7 +22,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Action question_hard(actor: group, site: place) "Frighten it out of the boy" {
     Speaker lowes.
-    Requires able(actor) and company(actor) and at(actor, site) and at(lowes, site) and heldScout(lowes) and not lowesKind(party) and not lowesHard(party).
+    Requires able(actor) and company(actor) and at(actor, site) and at(lowes, site) and heldScout(lowes) and lowesAsked(actor) and not lowesKind(party) and not lowesHard(party).
     Time 2.
     Resolve check(actor, intimidation, dc_fair).
     On success { Assert lowesHard(party). Assert knows(actor, fothergill_known). }

@@ -43,7 +43,7 @@ export class Effects {
   static lasting(s: { id: string; clock?: string }): boolean {
     return s.clock === 'world-time' || s.clock === 'until-removed' || Effects.status(s.id).lifetime === 'persistent';
   }
-  static skips(id: string): boolean { return Effects.status(id).modifiers.noActions === true; }
+  static skips(id: string): boolean { return Conditions.skips(id); }
   // Orsino's gatherEffects (see GatheredModifiers).
   static modifiers(fighter: Fighter): Modifiers { return GatheredModifiers.of(fighter); }
   static hooks(fighter: Fighter, key: HookKey): Effect[] {

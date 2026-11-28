@@ -1,4 +1,10 @@
 Module cleave "The Cradle Across the Cleave" {
+  Entity seat_witness: fact "Hesper Lunn will bring the birth register to Dun Rì; she once delivered a royal child whose father's name was left for the court to fill in.".
+  Topic seat_reflection with hesper "Ask Hesper whose name belongs in a birth register"
+    when birthHesper(actor) or birthTaught(actor) or birthLucky(actor) once {
+    Says "Hesper closes her bag. 'A child arrives before anybody decides what it is worth. We managed to remember that tonight.' She rests a hand on an old register. 'I delivered a royal one once. They left the father's line blank. Said the court would settle it. The child did not wait.' Her eyes find yours. 'At Dun Rì I shall name the mother before they begin naming kings. Bring a chair. They will need somewhere to sit down.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Kind pn_kit "a bag of linen and thread" is gear worth 0 weighing 2 described "A canvas bag with a brass clasp, packed by someone who has packed it fourteen hundred times: linen, a coil of waxed thread, scissors in a cloth, a small bottle, and a tin of lard.".
 
   Relation hesperAgreed(group). Relation hesperBasket(group). Relation linePaid(group). Relation cassiaYields(group).

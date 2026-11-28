@@ -66,7 +66,7 @@ describe('the intention lint', () => {
   });
   it('locates a declaration in its author\'s files', () => {
     const quittance = 'data/campaigns/quittance.campaign.json';
-    expect(LintSource.at(quittance, 'quittance__slip_the_stair', 'Action')).toBe('data/adventures/quittance/arch.kyr:103: ');
+    expect(LintSource.at(quittance, 'quittance__slip_the_stair', 'Action')).toBe('data/adventures/quittance/arch.kyr:108: ');
     expect(LintSource.at(quittance, 'arcology__turn_ring', 'Action')).toBe('data/situations/arcology/halls.kyr:105: ');
     expect(LintSource.at('tiny', 'arcology__turn_ring', 'Action')).toBe('');
   });

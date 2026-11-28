@@ -1,4 +1,9 @@
 Module hexworth "A Voice for Hexworth" {
+  Entity seat_witness: fact "Gundred Ludlam will bring Margery's iron key to Dun Rì; its stamp identifies a royal storehouse where the foundry kept bad metal.".
+  Topic seat_reflection with gundred "Ask Gundred what Margery's key teaches a king" when knows(actor, iron_known) once {
+    Says "'A bell remembers what you put in her,' says Gundred. 'A kingdom might try the same.' She turns the iron key over. A royal storehouse number is stamped on its bow. 'They ask me to certify the coronation metal. First they must tell me why their key was in Margery's heart.' Her voice almost fails. 'I shall go to Dun Rì. Say Edric's name if they start calling it an unfortunate defect.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── Who is in Hexworth ──────────────────────────────────────────────────────────────────────────────────────────
 
   Relation kettleGot(group). Relation hasketKit(group).

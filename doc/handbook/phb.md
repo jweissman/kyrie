@@ -1756,7 +1756,15 @@ Keen: +1 to hit.
 
 ## Skills
 
-Kyr does not roll for a skill. A company either has someone who brings it, and can do what needs it, or does not. The way that needs it says so. Searching is the exception: the company's best searcher takes 10 on Orsino's check (Wisdom modifier and search bonuses, against 15).
+A way requiring a skill asks whether the company has someone who brings it, without a roll. An action resolving a check instead uses its named difficulty. The company's best searcher takes 10 on Orsino's search check (Wisdom modifier and search bonuses, against 15).
+
+Mathematical checks roll against at least DC 30 when trained, or DC 35 without training; a natural twenty succeeds. A Mathematician succeeds by proof without rolling. Proof interprets encountered evidence, not unseen properties or safe operation.
+
+### Mathematics
+
+*Kyr* · `skill:mathematics`
+
+Discovering and understanding Mathematical patterns from encountered evidence. Trained attempts face at least DC 30; untrained attempts at least DC 35. A natural twenty is a breakthrough. Mathematician settles these checks by proof, not chance. An ordinary proof is not a wonder.
 
 ### Woodcraft
 
@@ -3184,6 +3192,14 @@ Used: You are lamplit for 6 hours.
 > A hand-drawn map of the local roads and landmarks.
 
 *Adapted: Starting gear of the explorer; absent from Orsino's gear catalog.*
+
+#### Mathematical rubbing
+
+*Kyr · gear* · `item:mathematical_rubbing`
+
+- Worth: 3
+
+> A portable copy of a repeating Mathematical remainder. A researcher can compare it with a working instrument's marks.
 
 #### Mirror
 

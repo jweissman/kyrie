@@ -13,6 +13,7 @@ import world from '../../data/generation/scenes/orsino-world.json';
 import met from '../../data/generation/scenes/wonders.json';
 import snares from '../../data/generation/scenes/snares.json';
 import { RegionKey } from './region-key';
+import { MathematicalTraces } from './mathematical-traces';
 
 interface Piece { name: string; text: string; effect?: string; omits?: Record<string, string>; source: string }
 export interface Trap extends Piece { mechanism: string; sign: string }
@@ -76,6 +77,7 @@ export class RegionMarvels {
     const within = new Draw(`${RegionKey.of(region)}:within`).shuffle(this.wonders.filter(([, w]) => w.where === 'within'));
     const wonder = beyond && draw.chance(0.5) ? within[index % within.length] : undefined;
     return [...this.trap(region, site, way),
+      ...MathematicalTraces.lines(`${RegionKey.of(region)}:${site.id}:mathematics`, beyond!, `${site.id}_remainder`),
       ...wonder ? this.wonder(wonder, beyond!, 'wonder',
         { fragment: this.fragmentOf(region, site.work?.art), near: ends[0] }) : []];
   }

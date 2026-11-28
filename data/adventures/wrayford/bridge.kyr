@@ -1,4 +1,9 @@
 Module wrayford "The Third Night" {
+  Entity seat_witness: fact "Amos Pinch will take his bridge tally to Dun Rì; an officer paid him in advance for people who had not yet died.".
+  Topic seat_reflection with pinch "Ask Pinch what the bridge has taught the next king" when knows(actor, dead_on_rail) once {
+    Says "'We charge the dead as goods,' says Pinch. 'A coronation ought to have a cheaper rate for the living.' He scratches one line off his tally. 'An officer paid in advance. Six crossings. Said there would be six bodies after the council.' His new coat seems to trouble him. 'I thought advance payment was prudent. Keep me talking when we meet in Dun Rì. I am very good at finding a reason not to speak.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── The Bridge End ────────────────────────────────────────────────────────────────────────────────────────────────
   // The lord's gatehouse spans the north end of the bridge. The toll is taken at a booth under its arch, where the
   // toll-house stood until four nights ago. Above, on the leads, the river rail; on the rail, the three.

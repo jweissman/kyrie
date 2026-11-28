@@ -1,0 +1,126 @@
+{
+  "seatDrama": {
+    "__no_id": true,
+    "name": "The Empty Seat",
+    "_kept": "=lookup(seatVisitors, 'kept')",
+    "_burned": "=lookup(seatVisitors, 'burned')",
+    "_thrust": "=1d2 + 3",
+    "_station": "=lookup(seatStations, 'record')",
+    "creatures": [],
+    "actors": { "order": [] },
+    "initial": "=concat(gen(seatThrust))",
+    "outcomes": [],
+    "labels": "=gen(seatDramaLabels)",
+    "casting": "=gen(seatDramaCast)",
+    "facts": "=concat(gen(seatKeptAid), gen(seatBurnedAid), gen(seatStationProfile))"
+  },
+  "seatDramaCast": {
+    "__no_id": true,
+    "kept_guest": "=gen(seatKeptGuest)",
+    "burned_guest": "=gen(seatBurnedGuest)",
+    "resident": "=gen(seatStationResident)"
+  },
+  "seatStationResident": {
+    "__no_id": true,
+    ">name": "=dig(#_station, 'name')"
+  },
+  "seatStationProfile": {
+    "__no_id": true,
+    ">name": "stationProfile",
+    "args": "=concat('record_room', dig(#_station, 'occupancy'))"
+  },
+  "seatKeptGuest": {
+    "__no_id": true,
+    ">name": "=dig(#_kept, 'name')"
+  },
+  "seatBurnedGuest": {
+    "__no_id": true,
+    ">name": "=dig(#_burned, 'name')"
+  },
+  "seatKeptAid": {
+    "__no_id": true,
+    ">name": "guestAid",
+    "args": "=concat('kept_guest', dig(#_kept, 'aid'))"
+  },
+  "seatBurnedAid": {
+    "__no_id": true,
+    ">name": "guestAid",
+    "args": "=concat('burned_guest', dig(#_burned, 'aid'))"
+  },
+  "seatThrust": {
+    "__no_id": true,
+    ">name": "assaultStrength",
+    "args": ["ward"],
+    "value": "=#_thrust"
+  },
+  "seatDramaLabels": {
+    "__no_id": true,
+    "kept_guest": "=dig(#_kept, 'name')",
+    "burned_guest": "=dig(#_burned, 'name')",
+    "kept_arrival": "=dig(#_kept, 'arrival')",
+    "burned_arrival": "=dig(#_burned, 'arrival')",
+    "kept_confidence": "=dig(#_kept, 'confidence')",
+    "burned_confidence": "=dig(#_burned, 'confidence')",
+    "pressure_report": "='The enemy has ' + #_thrust + ' companies at the north gate.'",
+    "supper_relief": "=lookup(seatSupper, 'relief')",
+    "resident": "=dig(#_station, 'name')",
+    "iv_resident": "=dig(#_station, 'arrival')",
+    "iv_limits": "=dig(#_station, 'limits')",
+    "iv_lull": "=lookup(seatExpedition, 'lull')",
+    "iv_lead": "=lookup(seatExpedition, 'lead')",
+    "iv_kept": "=lookup(seatExpedition, 'kept')",
+    "iv_survey": "=lookup(seatExpedition, 'survey')",
+    "iv_gallery": "=lookup(seatExpedition, 'gallery')",
+    "iv_test": "=lookup(seatExpedition, 'test')",
+    "iv_earth": "=lookup(seatExpedition, 'earth')",
+    "iv_vacant": "=lookup(seatExpedition, 'vacant')",
+    "iv_accounts": "=lookup(seatExpedition, 'accounts')",
+    "iv_return": "=lookup(seatExpedition, 'return')",
+    "iv_compare": "=lookup(seatExpedition, 'compare')",
+    "iv_caution": "=lookup(seatExpedition, 'caution')",
+    "iv_military": "=lookup(seatExpedition, 'military')",
+    "iv_crossing": "=lookup(seatExpedition, 'crossing')",
+    "iv_strike": "=lookup(seatExpedition, 'strike')",
+    "iv_closed": "=lookup(seatExpedition, 'closed')",
+    "iv_after": "=lookup(seatExpedition, 'after')",
+    "iv_cadi": "=lookup(seatExpedition, 'cadi')",
+    "iv_tarian": "=lookup(seatExpedition, 'tarian')",
+    "iv_nerys": "=lookup(seatExpedition, 'nerys')",
+    "iv_salt": "=lookup(seatExpedition, 'salt')",
+    "iv_clock_ask": "=lookup(seatExpedition, 'clock_ask')",
+    "iv_clock_open": "=lookup(seatExpedition, 'clock_open')",
+    "iv_clock_return": "=lookup(seatExpedition, 'clock_return')"
+  },
+  "seatNews": {
+    "__no_id": true,
+    "name": "Word from Dun Rì",
+    "creatures": [],
+    "actors": { "order": [] },
+    "initial": [{ "name": "deliveryDelay", "args": ["news_place"], "value": 3 }],
+    "outcomes": [],
+    "labels": "=gen(seatNewsLabels)"
+  },
+  "seatNewsLabels": {
+    "__no_id": true,
+    "vacancy_voice": "=lookup(seatNewsVoices, 'vacancy')",
+    "letters_voice": "=lookup(seatNewsVoices, 'letters')",
+    "ashes_voice": "=lookup(seatNewsVoices, 'ashes')",
+    "gathering_voice": "=lookup(seatNewsVoices, 'gathering')",
+    "siege_voice": "=lookup(seatNewsVoices, 'siege')",
+    "shelter_voice": "=lookup(seatNewsVoices, 'shelter')",
+    "barred_voice": "=lookup(seatNewsVoices, 'barred')",
+    "compact_voice": "=lookup(seatNewsVoices, 'compact')",
+    "crown_voice": "=lookup(seatNewsVoices, 'crown')",
+    "loss_voice": "=lookup(seatNewsVoices, 'loss')",
+    "vacancy_headline": "=lookup(seatHeadlines, 'vacancy')",
+    "letters_headline": "=lookup(seatHeadlines, 'letters')",
+    "ashes_headline": "=lookup(seatHeadlines, 'ashes')",
+    "gathering_headline": "=lookup(seatHeadlines, 'gathering')",
+    "siege_headline": "=lookup(seatHeadlines, 'siege')",
+    "shelter_headline": "=lookup(seatHeadlines, 'shelter')",
+    "barred_headline": "=lookup(seatHeadlines, 'barred')",
+    "compact_headline": "=lookup(seatHeadlines, 'compact')",
+    "crown_headline": "=lookup(seatHeadlines, 'crown')",
+    "loss_headline": "=lookup(seatHeadlines, 'loss')"
+  }
+}

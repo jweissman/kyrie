@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "source": ["house.kyr", "entry.kyr", "tiers.kyr", "halls.kyr", "deeps.kyr", "kept.kyr", "world.kyr", "rivals.kyr"],
+  "source": ["house.kyr", "entry.kyr", "tiers.kyr", "halls.kyr", "deeps.kyr", "kept.kyr", "senses.kyr", "world.kyr", "rivals.kyr"],
   "rules": ["world"],
   "globals": ["party"],
   "imports": ["party", "land", "outside", "gossip", "shrine", "keeper", "first_taproom", "first_keeper"],
