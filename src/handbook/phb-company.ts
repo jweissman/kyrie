@@ -1,4 +1,4 @@
-import type { Skill } from '../rules/catalog-schema';
+import type { Ancestry, Skill } from '../rules/catalog-schema';
 import { Canon } from '../canon/canon';
 import { PerkText } from '../presentation/perk-text';
 import { MechanicsText } from '../presentation/mechanics-text';
@@ -26,11 +26,16 @@ export class CompanyChapters {
         ...a.traits.length ? [['Born with', a.traits.map(t => Canon.traits[t]?.name ?? t).join(', ')] as [string, string]] : [],
         ...a.forbiddenTraits?.length ? [['May not take', a.forbiddenTraits.map(t => Canon.traits[t]?.name ?? t).join(', ')] as [string, string]] : []],
       rules: a.traits.flatMap(t => HandbookText.trait(t)),
-      text: [a.description, ...[a.appearance, a.society].filter((t): t is string => !!t)],
+      text: [a.description], parts: CompanyChapters.parts(a),
       notes: HandbookStatus.notes(a),
       refs: [...a.classes.filter(c => Canon.classes[c]?.playable).map(c => `class:${c}`), ...a.traits.map(t => `trait:${t}`)] }));
     return { id: 'ancestries', title: 'Ancestries', intro: ['A companion\'s ancestry adds to their qualities, decides which '
       + 'callings are open to them, and gives the traits they are born with.'], entries };
+  }
+  // A people's words after its description, each under its head, as the encyclopedia sets them (OR-1801).
+  static parts(a: Ancestry): [string, string][] {
+    const heads: [string, string | undefined][] = [['How they look', a.appearance], ['How they live', a.society]];
+    return heads.filter((h): h is [string, string] => !!h[1]);
   }
   // A calling's facts say no gold: Orsino's is paid to no one, and a life's coin is its origin's and its trade's
   // (OR-257, OR-270: the bard's "Gold 25" had stood here against a purse of 13 coin).

@@ -46,7 +46,11 @@ export interface FirstSpell {
   id: string; name: string; line: string; does: string; rules: string[]; level: number; kind: string; own?: boolean;
 }
 
-export interface CatalogEntry { facts: [string, string][]; rules: string[] }
+// A reference entry as creation is given it: its facts and rules, and for a people its words under their heads and the
+// encyclopedia's section it is a page of (see CreationEntry).
+export interface CatalogEntry {
+  facts: [string, string][]; rules: string[]; text?: { heading?: string; text: string }[]; book?: string;
+}
 
 // The choices a company is made from, read from the same catalogs the game runs on.
 export interface Catalog {

@@ -47,6 +47,8 @@ const allowed: Record<string, [string, Why][]> = {
     ['alone', 'before play'], ['start', 'before play'], ['campaigns', 'before play']],
   'web/reader/companion-card.tsx': [['change-companion', 'before play']],
   'web/reader/creation/composed-creation.tsx': [['creation-mark', 'before play']],
+  // An ancestry's card, which turns over to its page and chooses nothing (OR-1801).
+  'web/reader/creation/creation-cards.tsx': [['card', 'before play']],
   'web/reader/stage/wayfinder.tsx': [['way-row', 'unreached']],
 };
 // The rows of the one row that are no engine choice of their own, by kind (data.action, else the data's first key),
@@ -57,6 +59,8 @@ const rows: Record<string, string[]> = {
   'web/reader/begin-menu.tsx': ['action'],
   'web/reader/creation/composed-creation.tsx': ['whole-sky'],
   'web/reader/creation/composed-row.tsx': ['option'],
+  // The ancestry's page's way back to the cards (OR-1801).
+  'web/reader/creation/creation-cards.tsx': ['cards'],
   'web/reader/map-menu.tsx': ['go-on', 'enter', 'set-out', 'action', 'more-places', 'put-away-map'],
   'web/reader/notices.tsx': ['download'],
   // Options: the engine's page, every row by its own id (OpeningPages.options, OR-382).
@@ -123,9 +127,11 @@ describe('the page\'s own controls', () => {
   // 36 with the folded lenses' diamond (OR-1084, the owner's), a lens's instrument; 38 with the oracle's two (OR-1151),
   // a developer's, which no player's game draws; 39 with the company's own page kept within reach, the owner's ask
   // (OR-1685: "minimally we may always want the book available, even if tucked away"), the engine's Rail.keep.
-  it('count no more than they did: 70 in 28 files on 18 November, 53 on the 19th, 35 on the 25th, 39 now', async () => {
+  // 40 with the ancestry's card (the owner, 27 November: \"If anything is a card, it's this\"; OR-1801), an instrument
+  // that opens a page and chooses nothing.
+  it('count no more than they did: 70 in 28 files on 18 November, 53 on the 19th, 35 on the 25th, 40 now', async () => {
     const drawn = await Source.scan(src => Source.tags(src, '<button').map(t => Source.button(t)));
-    expect(Object.values(drawn).flat().length).toBe(39);
+    expect(Object.values(drawn).flat().length).toBe(40);
   });
   it('make rows of the one row of no kind not named', async () => {
     const drawn = await Source.scan(src => Source.tags(src, '<ChoiceRow.Button').map(t => Source.row(t)));

@@ -71,6 +71,7 @@ export class HandbookHtml {
       + facts
       + (e.rules ?? []).map(r => `<p class="rule">${HandbookHtml.esc(r)}</p>`).join('')
       + (e.text ?? []).map(t => `<p class="desc">${HandbookHtml.esc(t)}</p>`).join('')
+      + (e.parts ?? []).map(([h, t]) => `<p class="desc"><b>${HandbookHtml.esc(h)}.</b> ${HandbookHtml.esc(t)}</p>`).join('')
       + (e.notes ?? []).map(n => `<p class="note${/^Not playable|^No calling/.test(n) ? ' bad' : ''}">${HandbookHtml.esc(n)}</p>`).join('')
       + (refs.length ? `<p class="refs">See ${refs.map(r => this.link(r)).join(', ')}</p>` : '')
       + `<code class="eid">${HandbookHtml.esc(e.id)}</code></article>`;

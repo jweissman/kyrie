@@ -25,6 +25,7 @@
    "interface/play": "opening",
    "interface/title-four": "opening",
    "interface/creation-curtain": "creation",
+   "character/ancestry-cards": "creation",
    "interface/talk-focus": "talk",
    "interface/teaching-outcome": "atlas",
    "pleasure/a-letter-home": "scene",
@@ -1819,7 +1820,8 @@
   "OR-864": "architecture",
   "OR-791": "architecture",
   "OR-792": "architecture",
-  "OR-1800": "creation"
+  "OR-1800": "creation",
+  "OR-1801": "creation"
  },
  "aspects": [
   {

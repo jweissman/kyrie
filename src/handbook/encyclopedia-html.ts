@@ -90,6 +90,8 @@ export class EncyclopediaHtml {
         : '')
       + (e.kind ? `<p class="kind">${EncyclopediaHtml.esc(e.kind)}</p>` : '')
       + (e.text ?? []).map(p => `<p class="text">${EncyclopediaHtml.esc(p)}</p>`).join('')
+      + (e.parts ?? []).map(([h, p]) => `<p class="text part"><b class="run-in">${EncyclopediaHtml.esc(h)}.</b> ${
+        EncyclopediaHtml.esc(p)}</p>`).join('')
       + (StatBlock.html(e, EncyclopediaHtml.esc) ?? (e.facts?.length ? `<dl>${e.facts.map(([k, v]) => `<dt>${
         EncyclopediaHtml.esc(k)}</dt><dd>${EncyclopediaHtml.esc(v)}</dd>`).join('')}</dl>` : ''))
       + (e.rules?.length ? `<div class="rules"><p class="label">In play</p>${e.rules.map(r => `<p>${
@@ -178,7 +180,10 @@ h3 { font: 600 19px/1.3 var(--read); margin: 0 0 4px; } h4 { font: 500 13px/1.3 
 .emblem { width: 26px; height: 26px; flex: none; fill: none; stroke: var(--sepia); stroke-width: 1.4; stroke-linecap: round;
   stroke-linejoin: round; }
 ${StatBlock.css('var(--link)')}
-.entry .text { font-style: italic; margin: 8px 0; } .entry dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px;
+.entry .text { font-style: italic; margin: 8px 0; } .entry .text.part { font-style: normal; }
+/* A part's head run in to its paragraph, as an encyclopedia sets it (OR-1801). */
+.entry .run-in { font: 600 .74em/1 var(--do); letter-spacing: .12em; text-transform: uppercase; }
+.entry dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px;
   margin: 8px 0; font: 14px/1.5 var(--do); } .entry dt { color: var(--dim); } .entry dd { margin: 0; }
 /* Set as a book is set (the owner's second design opinion, 24 November): paragraphs indented, not gapped, ragged
    right; a drop cap where a chapter or an entry begins, nowhere else. */

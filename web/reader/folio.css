@@ -24,7 +24,8 @@
   flex-direction: column; padding: 0 max(8px, calc(var(--safe-r) - var(--folio-x))) clamp(12px, 3vh, 32px)
   max(8px, calc(var(--safe-l) - var(--folio-x))); scrollbar-width: thin; }
 /* The paper: one size on every page (it fills the leaf, and grows only with what is written), the Encyclopedia's. */
-:root [data-theme="folio"] .folio-sheet.folio-sheet { flex: 1 0 auto; box-sizing: border-box; width: 100%;
+/* The ancestry's page in creation's book is a leaf of the same paper (CreationCards.Book, OR-1801). */
+:root :is([data-theme="folio"], .creation-book) .folio-sheet.folio-sheet { flex: 1 0 auto; box-sizing: border-box; width: 100%;
   max-width: none; margin: 0; padding: clamp(22px, 3vw, 40px) var(--folio-x) 56px;
   --ivory: #2A2119; --ink: #2A2119; --grey: #4A3F31; --dim: #4A3F31; --faint: #51453A; --accent: #2A2119;
   --text-meta: #4A3F31; --row-neutral: rgba(42, 33, 25, .34);
@@ -42,7 +43,7 @@
     radial-gradient(110% 85% at 52% 42%, rgba(255, 246, 222, .14), rgba(255, 246, 222, 0) 58%),
     radial-gradient(150% 125% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(78, 54, 24, .26) 100%),
     repeating-linear-gradient(0deg, rgba(92, 66, 32, .025) 0 1px, rgba(0, 0, 0, 0) 1px 3px), #D3C5A6; }
-[data-theme="folio"] .folio-sheet :is(h1, h2, h3, p, li, span, b, dt, dd) { text-shadow: none; }
+:is([data-theme="folio"], .creation-book) .folio-sheet :is(h1, h2, h3, p, li, span, b, dt, dd) { text-shadow: none; }
 /* Set as a book is: ragged right. */
 [data-theme="folio"] .folio-sheet p { text-align: left; }
 /* A page's name on the paper as the Book's are (What you carry, Notes, The story so far). */
