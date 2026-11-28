@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/talkers.test.ts` | The single talkers probe contrasts a beast with only a spoken action against one with a topic. A fragment is a candidate if both actual offers remain and the negative is mutation-proved. |
+| `test/tallow.test.ts` | The authored Tallow Deep campaign is linted and played through two expeditions, clocks, dangers and people. Keep its long routes, real saves and distinct outcomes; a few facts are explicitly staged. |
+| `test/tap-browser.test.ts` | Opt-in built-site browser test plays a sustained act at desktop and touch sizes. Keep both input devices, actual page and positive action witness. |
+| `test/teaches-marked.test.ts` | Generated kahitude provides the merchant's real replies, then React renders marked and unmarked replies. Keep the actual teaching choices and page rendering contrast. |
+| `test/teaching-words.test.ts` | One synthetic module plays a rule that teaches, checking event narration and journal notes. A fragment is a candidate if the fact and rule are both present and the absent duplicate narration is proved. |
+| `test/tend-here.test.ts` | The march fixture and fellowship party stage a wound, then play and compare actual remedies. Keep the party's specific cures and before/after health. |
+| `test/terminal-again.test.ts` | Generated iscoed replays cold-play lines through a death and terminal restart. Keep the actual world, terminal input and restarted first day. |
+| `test/terminal-begin.test.ts` | EngineHost and terminal creation ask the real first question and start a generated life. Keep the engine-owned rows and generated transcript. |
 | `test/story-names.test.ts` | Ten seeded generated-world assemblies compare story casts, reserved authored names and settlement populations. Keep all seeds, actual placement and naming; empty duplicate lists are bounded to the selected populations. |
 | `test/strikes-member.test.ts` | Three seeds of one synthetic module play a lock hazard against a warrior and thief, comparing their actual damage. A fragment is a candidate if both party members and all seed outcomes remain. |
 | `test/studio-mark-browser.test.ts` | Opt-in built-site browser test delays styles and watches the actual mark play and skip behavior. Keep the browser timing and title interaction. |
