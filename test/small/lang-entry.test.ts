@@ -21,7 +21,9 @@ import { Glob } from 'bun';
 // 1242 → 1241 on 27 November: the screen's price readers (ScreenPrices) take theirs from Kyr's entry.
 // 1241 → 1239 on 27 November: the operators' and their kept groundings' types from Kyr's entry; what a schema asks
 // (SchemaAsks) reads the world's reads and what is computed directly, as the operators do.
-const kept = 1239;
+// 1239 → 1237 on 28 November: the country's writers take the values they declare their Kyr as (ModuleSource) and the
+// parser's types from one door of their own (src/world/kyr-values.ts), not each from the language (AX-04).
+const kept = 1237;
 class Deep {
   static count(): number {
     const roots = ['src/**/*.ts', 'web/**/*.{ts,tsx}', 'scripts/**/*.ts', 'test/**/*.ts', 'bin/**/*.ts'];

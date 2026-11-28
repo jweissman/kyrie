@@ -1,5 +1,4 @@
-import { ModuleSource } from '../lang/module-source';
-import type { Predicate } from '../lang/module';
+import { ModuleSource, type Predicate } from './kyr-values';
 import { GenerationSetting } from '../generation-setting';
 import { RegionGeography } from './region-geography';
 import { RegionFaith, type Cult } from './region-faith';

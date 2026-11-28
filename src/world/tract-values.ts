@@ -1,5 +1,4 @@
-import type { Predicate } from '../lang/module';
-import { ModuleSource } from '../lang/module-source';
+import { ModuleSource, type Predicate } from './kyr-values';
 
 // The country's stretches declared as values (ModuleSource; AX-04, generated-ir.md): a stretch's ways across country
 // and onto its road and what stands on it, and what is seen there, each the parser's field or element for its line
