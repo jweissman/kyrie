@@ -20,6 +20,8 @@ export interface Compiled {
 }
 export class CompiledModules {
   private static readonly kept = new Map<string, ReadAmong<Compiled>[]>();
+  // How many compiled modules are kept; fewer where many different worlds are started (test/support/lean-caches).
+  static keptMost = 64;
   private static readonly editions = new Map<string, string>();
   // The shared rules' edition: their texts, hashed once for each set of them.
   static edition(rules: readonly string[]): string {
@@ -56,7 +58,7 @@ export class CompiledModules {
   }
   private static remember(key: string, variants: ReadAmong<Compiled>[]) {
     this.kept.delete(key);
-    if (this.kept.size >= 64) { this.kept.delete(this.kept.keys().next().value!); }
+    if (this.kept.size >= CompiledModules.keptMost) { this.kept.delete(this.kept.keys().next().value!); }
     this.kept.set(key, variants);
   }
 }
