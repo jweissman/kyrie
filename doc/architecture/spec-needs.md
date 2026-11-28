@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/undertown-unasked.test.ts` | Generated kahitude stages dead rats and checks that no unasked job or payment is claimed. Keep the actual job context; the negative needs a positive counterexample before narrowing. |
+| `test/unknown-of-a-kind.test.ts` | A synthetic module rejects an unknown manner with named alternatives. A fragment is a candidate if the same validation and diagnostic remain. |
+| `test/unmarked.test.ts` | One unmarked-way probe plays discovery by reading and visiting, checking labels before and after. A fragment is a candidate if all discovery states remain. |
+| `test/unquiet-tower-talk.test.ts` | Generated kite plays the tower's talking resolution with movement and one fact staged. Keep the authored tower, generated shrine and sequence. |
+| `test/vantage.test.ts` | Generated larch, kite and pine play vantage views and a spyglass, alongside pure terrain cases. Keep actual world sightings and range contrasts. |
+| `test/vault-keeper.test.ts` | An iscoed autoplay walk is replayed to the vault to check danger, choice and guidance. Keep the real walk and both positions. |
+| `test/voice.test.ts` | Plays the household fixture and generated thorn and wren alongside voice-table and combat-bark checks. Keep all distinct voice contexts and world journeys. |
+| `test/walk-clock.test.ts` | Generated a1 runs the Walk of the Milestones clock to its riot without intervention. Keep generated town placement and elapsed sequence. |
 | `test/underground-journey.test.ts` | A single underground-way probe plays below and above ground, comparing narration. A fragment is a candidate if both environmental contrasts remain proved. |
 | `test/underground-light.test.ts` | Plays the authored Silkholme route twice, with and without a lit torch, and compares the descent. Keep both paths and their actual route. |
 | `test/undertakings.test.ts` | Generated a1 plays discovery and selection of a job, then releases it. Keep the actual competing aims and their following behavior. |
