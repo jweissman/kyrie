@@ -211,6 +211,11 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/features/interface/day-one-load.pin.test.ts` | The Iscoed golden walk through its first day, checking knowledge, aims and offered news at every turn. The static corpus label exceeds the single world used. |
 | `test/features/interface/fallen-pack.pin.test.ts` | One generated world with scenarios and towns disabled; a party member is fallen and their pack is used through runner and screen. Non-gear absences need mutation checks before narrowing. |
 | `test/features/interface/oracle.pin.test.ts` | A Tiny fragment, engine host, terminal and pure display checks; despite the static corpus label it starts no authored or generated world. Its full shared rules may be reducible to a horizon, subject to checking all claims. |
+| `test/features/pleasure/a-letter-home.pin.test.ts` | The Iscoed world with two character origins, the scrivener and a day of waiting. Distinct family replies, cost and timing are witnessed; early-answer absence needs a counterfactual before narrowing. |
+| `test/features/pleasure/evening-at-the-inn.pin.test.ts` | The Iscoed world and its authored Stone Horn evening through ordinary runner actions. The invitation, music, cost and later recognition form one played experience. |
+| `test/features/pleasure/pleasures-in-town.pin.test.ts` | The Iscoed world and three generated pleasures on Edderwick's green. Each is played and revisited; the no-payment and no-aim claims are separate. |
+| `test/features/pleasure/the-fiddle.pin.test.ts` | The Iscoed world and its first-town fiddle, played from taking it down to the tune heard outside. Coin and aim continuity accompany the prose witnesses. |
+| `test/features/pleasure/the-fox-earth.pin.test.ts` | The Iscoed world and the time-gated fox earth. It witnesses daytime absence, later availability, the attempted watch and the remembered path. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
