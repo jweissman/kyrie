@@ -255,6 +255,15 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/first-goal.test.ts` | The `kite` generated world for each of eight origins through the engine host, plus a played map-origin goal. Origin availability, reachable aims and actual completion are separate. |
 | `test/first-hour-beats.test.ts` | The Iscoed world and its drove-road opening through runner and narrator. First-frame economy and a later once-only hill event are distinct claims. |
 | `test/first-quarter.test.ts` | The Iscoed world and a gold-following first-quarter walk through the corn-store and vault. Its fights and conversation sequence witness the intended route. |
+| `test/first-questions.test.ts` | Three generated worlds and a census of first people's questions, plus Iscoed's before/after matter discussion. Both the limits and learned-question witness are required. |
+| `test/first-town-job.test.ts` | One `a1` world played through the first town's rat job, two fights and payment. The completed objective is checked after the positive job sequence. |
+| `test/first-town-notice.test.ts` | Two generated worlds, checking one neighbour notice in the first town and the remaining notices and questions elsewhere. |
+| `test/five-links.test.ts` | Four authored campaigns in ten item-reaction cases. Item handoff is asserted setup, not a played cross-campaign journey; without-item, with-item and once-only cases are contrasted. |
+| `test/flame.test.ts` | One `a1` world for a lit torch moved between surface and dungeon, plus pure flame rendering checks. Positive light and before/after absences are compared. |
+| `test/first-scene-browser.test.ts` | The built site and browser at desktop and phone sizes, including a resumed `a1` life. Frame-by-frame transitions and painting continuity are the claim. |
+| `test/flat-walk.test.ts` | The Iscoed golden walk, checking the scene and pack's actual rows at every turn; the row-count floor witnesses the absence of forbidden groups. |
+| `test/focus-kept.test.ts` | One `wren` generated world through engine host, checkpoints and replay, plus a recorded cold capture. Conversation persistence and old-capture immutability are separate claims. |
+| `test/focus-parity.test.ts` | The three-client shared checkpoint walk and focus-parity baseline. It compares all three clients at each step, not an isolated fragment. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
