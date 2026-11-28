@@ -23,7 +23,7 @@ proved, so the spec remains on the whole ruleset.
 | `test/world-starts.test.ts` | Starts generated cov2 for two origins and cov24 to check priest and prior regressions. Keep each generated configuration. |
 | `test/wrongboat-2.test.ts` | Plays numerous authored Wrong Boat branches, timing, companions and save behavior. Keep the actual scenario and all contrasting outcomes. |
 | `test/wrongboat.test.ts` | Lints and plays the authored Wrong Boat campaign through many pursuit, choice and ending paths. Keep every journey and outcome. |
-| `test/witnessed.test.ts` | A synthetic module plays two offscreen pursuits during travel and checks events exist but are not witnessed. A fragment is a candidate if both positive events and negatives remain. |
+| `test/witnessed.test.ts` | A synthetic module plays two offscreen pursuits during travel and checks events exist but are not witnessed. PR #88 proposes the kernel with both named pursuits retained and mutation proofs for both negatives. |
 | `test/word-leads.test.ts` | Generated wren checks several known-place itinerary cases, staging some knowledge and hearing another lead. Keep actual topology and knowledge contrasts. |
 | `test/work-stock.test.ts` | Generated wren stages a cache search and travels to a work twice to check discovery rewards. Keep actual work and both visits. |
 | `test/working-set.test.ts` | Synthetic scaling workloads compare startup, observation and action costs as unrelated facts grow. Keep both sizes, repetitions and ratio contracts. |
