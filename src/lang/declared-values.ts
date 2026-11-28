@@ -5,7 +5,7 @@ import type { VocabularyContext } from './vocabulary';
 
 type Into = Parameters<typeof ModuleDeclarations.declare>[3];
 // A value as the module's sites tell it (DeclarationSites): what it is, its name, where its line was and who made it.
-export interface Placed { kind: 'passage' | 'observation' | 'action'; name: string; at: number; generator: string }
+export interface Placed { kind: 'passage' | 'observation' | 'action' | 'initial'; name: string; at: number; generator: string }
 // What a generator declared for a text as values, declared as the parser comes to where each line was (ModuleSource;
 // AX-04, generated-ir.md): before the first of the text's declarations that begins after it, the rest after the last.
 // So a file's observations and actions are in the order its lines were written, with nothing of the values in the
@@ -40,14 +40,17 @@ export class DeclaredValues {
     const generator = `${d.provenance.generator}/${d.provenance.construct}`, at = d.at ?? 0;
     if ('passage' in d) { return { kind: 'passage', name: d.passage.id, at, generator }; }
     if ('observation' in d) { return { kind: 'observation', name: d.observation.id, at, generator }; }
+    // (An Initially names nothing of its own, as its line does not: DeclarationSites.named.)
+    if ('initial' in d) { return { kind: 'initial', name: '', at, generator }; }
     return { kind: 'action', name: d.action.id, at, generator };
   }
-  // A passage as its line's field is declared; an observation or a topic as the Module element its line makes; a
-  // copy each, the value being the generator's.
+  // A passage as its line's field is declared; an observation, a topic or an initial fact as the Module element its
+  // line makes; a copy each, the value being the generator's.
   private static place(context: VocabularyContext, module: Module, d: Declared, into: Into) {
     if ('passage' in d) { ModuleDeclarations.declare(context, module,
       { field: 'passage', value: structuredClone(d.passage) }, into); }
     else if ('observation' in d) { (module.observations ??= []).push(structuredClone(d.observation)); }
+    else if ('initial' in d) { module.initial.push(structuredClone(d.initial)); }
     else { module.actions.push(structuredClone(d.action)); }
   }
 }
