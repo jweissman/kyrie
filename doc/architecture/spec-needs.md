@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/town-return.test.ts` | Generated kite stages treasure, wealth and experience for trade and training, and plays a named-work lead. Keep the actual traders, lessons and aim with staged setup explicit. |
+| `test/traces.test.ts` | Replays every kept trace or transcript against its recorded place, time and narration. Keep all recorded campaigns and traces, not a representative substitute. |
+| `test/trade-short.test.ts` | Generated kahitude stages the dealer's coin and ownership of a treasure, comparing the counter before and after replenishment. Keep that real dealer and both states. |
+| `test/traffic.test.ts` | Generated thorn plays a traveller's two-day route, news and tracks, with company placement staged. Keep generated geography, timing and conditional trouble outcomes. |
+| `test/trap-answer.test.ts` | Plays the hidden-switch probe and two generated kite parties with different skills. Keep both worlds' actual traps and all risk, answer and no-answer contrasts. |
+| `test/trap-survived.test.ts` | Plays the sleep-rune probe through injury, refused travel, save and recovery. A one-module candidate must preserve the trap, checkpoint and positive recovery witnesses. |
+| `test/travel-conformance.test.ts` | Browser engine host and terminal resume one generated world and compare the engine question and a completed journey. Keep both clients and shared checkpoint. |
+| `test/travel-continuity.test.ts` | Plays generated a1 journeys and an iscoed road, including two documented failing contracts. Keep leg-by-leg observations, stops and the open failures. |
 | `test/told-newest-browser.test.ts` | Opt-in browser test builds the page and replays the cold-play lines in generated iscoed at desk and phone widths. Keep the actual long narration, replay and geometry. |
 | `test/told-way.test.ts` | Generated a1 stages knowledge of a named destination and its way, then plans each itinerary. Keep the actual country topology and both knowledge states. |
 | `test/toll-talk.test.ts` | Four generated countries play the toll talk and compare believed with refused outcomes. Keep their placements, outcomes and positive/negative choice witnesses. |
