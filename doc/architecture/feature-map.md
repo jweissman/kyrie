@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 74 capabilities; 253 pins (222 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 747 live rows, 248 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 74 capabilities; 253 pins (222 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 746 live rows, 248 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -279,12 +279,11 @@ page's colours and opportunities.)
   - ○ a level gained opens a way to talk, climb, decipher or slip past that was shut before
   - requirement OR-347 P2: Levels and growth: the capability as its pins hold it (a level gained opens a way to talk, climb,…
   - requirement OR-1246 P2: Perks of the Atlas's tones earn lenses (a perception perk the look lens, a trade perk a trade…
-- **Routine in one act** · 2 pins · 0 defects · 4 asks
+- **Routine in one act** · 2 pins · 0 defects · 3 asks
   - ✓ gathers up a pile of finds in one act, which leads the place and says who carries it
   - ✓ haggles with a trader once, over everything they sell, their trade no longer than their wares
   - requirement OR-1871 P2: A deep room's scattered coins are not gathered up with the rest of what lies there: they are a…
   - requirement OR-1872 P2: Replenishing is one buy at a time: the delver buys two torches, a ration and a firebomb in four…
-  - requirement OR-1873 P2: Who goes first is asked of every hazard on a way, one row for each of the company ("To the…
   - requirement OR-1874 P2: In the dark, a light is offered once for each kind each of the company carries ("Odile: light a…
 - **Belongings with a history** · 2 pins · 0 defects · 2 asks
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers

@@ -3679,12 +3679,6 @@
    "pri": "P2",
    "why": "28 Nov: the cold-play review's Wave 2 asks it (replenishing in one act); buying one at a time breaks no claimed contract"
   },
-  "OR-1873": {
-   "kind": "requirement",
-   "was": "defect",
-   "pri": "P2",
-   "why": "28 Nov: the cold-play review's Wave 2 asks it (the leader only where it matters); a row for each member is true, only long"
-  },
   "OR-1874": {
    "kind": "requirement",
    "was": "defect",
