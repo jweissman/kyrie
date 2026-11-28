@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/underground-journey.test.ts` | A single underground-way probe plays below and above ground, comparing narration. A fragment is a candidate if both environmental contrasts remain proved. |
+| `test/underground-light.test.ts` | Plays the authored Silkholme route twice, with and without a lit torch, and compares the descent. Keep both paths and their actual route. |
+| `test/undertakings.test.ts` | Generated a1 plays discovery and selection of a job, then releases it. Keep the actual competing aims and their following behavior. |
+| `test/undertown-callings.test.ts` | Generated a1 and kahitude play several callings' distinct answers, including shops and combat alternatives. Keep all party contrasts and journeys. |
+| `test/undertown-finds.test.ts` | Generated mere stages two pieces of knowledge and positions to check their respective townspeople's topics. Keep the generated people and both discoveries. |
+| `test/undertown-onward.test.ts` | Generated kahitude stages job completion, knowledge, positions and a defeated keeper to inspect successive aims. Keep actual progression and explicit staged setup. |
+| `test/undertown-orders.test.ts` | Generated a1 plays the rats job out of order and checks partial and final payment. Keep the complete sequence and exact rewards. |
+| `test/undertown.test.ts` | Generated mere, hawk and kite play and inspect multiple undertown paths, threats, connections and rewards, with selected facts staged. Keep all distinct cases. |
 | `test/travel-ways-oracle.test.ts` | Compares the optimized travel row projection with the full-frame oracle on the golden walk and three generated countries. Keep both paths and every seeded journey. |
 | `test/travel.test.ts` | Generated kite, wren and f1 exercise road destinations, Merrowdale, bridge narration and journey naming, plus a pure night check. Keep the actual worlds and navigation cases. |
 | `test/treasure.test.ts` | Generated a1 plays barrow treasure, merchant sale and replenishment, with location and merchant funds staged. Keep generated goods, economy and both paths. |
