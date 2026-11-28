@@ -30,7 +30,7 @@ const party = [{ name: 'Ilse', raceId: 'elf' as const, classId: 'mage' as const 
 const telling = (command?: string) => /tell\(/.test(command ?? '');
 describe('a try failed with nothing changed', () => {
   it('is led for one fresh try, and not a third time', async () => {
-    const t = await Tiny.start(ossuary, { party });
+    const t = await Tiny.start(ossuary, { party, horizon: ['inhabitants'] });
     t.journey.roll('fail');
     t.follow('dead');
     const mark = LedAgain.of(t.campaign).mark;
