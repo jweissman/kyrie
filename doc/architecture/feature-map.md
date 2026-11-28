@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 240 pins (209 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 734 live rows, 241 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 251 pins (220 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 737 live rows, 242 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -119,7 +119,7 @@ page's colours and opportunities.)
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
   - requirement OR-1447 P2: OR-1392 asks a territorial hazard of the first level, a maintained mechanism of the second and…
-- **Fights that cost** · 7 pins · 19 defects · 17 asks
+- **Fights that cost** · 7 pins · 18 defects · 18 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -136,6 +136,7 @@ page's colours and opportunities.)
   - requirement OA-07 P2: Review D1, the combat diagnostic: for each first-hour band against starting companies, win,…
   - requirement OA-08 P2: Review D2, every fight reconciled from events: the forecast, the log, the turning points and "what…
   - requirement PV-05 P2: **The Eye:** a mixed party (warrior, thief, mage) against a discerner or a dragon. **Pinned (15…
+  - requirement OR-1780 P2: A press on an enemy's card is no attack: the fight's cards carry no engine row, so a player who…
   - requirement OR-1434 P2: The fight's first frame says what was seen of the foe before, and offers the place's own means and…
   - direction OR-1207 P3: Spells that share DNA: abilities as effect sentences are made of clauses, and knowing a spell's…
   - direction OR-1077 P2: The lenses' rail carries into a fight (the owner: "we could retain some of our idioms into combat;…
@@ -205,7 +206,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 20 defects · 19 asks
+- **Aims and the gold thread** · 16 pins · 20 defects · 18 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -235,7 +236,6 @@ page's colours and opportunities.)
   - direction OR-469 P3: The First Aims' other horizons (the direction's §9: find Dun Rìerdan, explore the southern…
   - requirement OR-650 P2: A shut place with nothing found leads nowhere in its site: at Porthalen Hall's press-door (iscoed,…
   - requirement OR-1390 P1: The reference loop is not measured as a loop: no five-expedition transcript classes each command…
-  - requirement OR-1622 P2: The reference dungeon is spent by the fourth expedition: on s0 the fifth brings 24, so the second…
   - direction TS-01 P2: Philosophical schools that argue in good faith, teach by dialectic (for a fee, improving speech…
   - direction TS-02 P2: Persuading a crowd as a contested roll against the crowd; a disputation narrated as mass…
   - direction TS-03 P2: A party's end continues as a relative (the brother) in the same world, as it was, not a reload…
@@ -295,7 +295,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 2 defects · 12 asks
+- **Markets and prices** · 0 pins · 2 defects · 13 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
@@ -305,6 +305,7 @@ page's colours and opportunities.)
   - direction OR-1204 P2: Life structured around small exchanges of resources aligned with the Atlas's colours (meat and…
   - direction OR-1206 P2: Five resources in a regular tournament (each beats two and is beaten by two), aligned with the…
   - requirement OR-1440 P1: Five expeditions on the reference seed prepare and go about much the same way (the economy…
+  - requirement OR-1721 P2: The deep's wonders sell nowhere in the reference town: Trader 2 buys no thing worth more than…
   - requirement BO-12 P1: A verb gained by a lesson in the first hour: the mentor named in the first exchange, a pin over…
   - direction WD-04 P2: No price follows a country's want: a merchant's stock and prices are by trade, the same wherever…
   - requirement WD-07 P1: Expedition gains open no new way into the world: home ÷ spend 4–5 (sites/economy-now.md); after a…
@@ -389,12 +390,16 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 14 pins · 8 defects · 22 asks
+- **Dungeons and sites** · 18 pins · 9 defects · 23 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
+  - ✓ rolls what newcomers carry on Deem by their kind and depth, more deeper
+  - ✓ sends one band after another into the room emptied, each leaving what it carried where it fell
   - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
   - ✓ gone all three ways with care, grows to the second level, the dead's book opens the way past the keeper, and what 
+  - ✓ goes on one level below the grave, from the guard room, and leaves the levels above as they were
+  - ✓ holds its depth's dwellers and treasure, its den kept for its warden and the hoard under it
   - ✓ trades with both traders, finds the way down in the old woods, descends, retreats, recovers, sells and descends again
   - ✓ leads a new life from the town to the shrine, the stones and down into resistance, and nowhere else
   - ✓ shows the stones from the ride, and the way down between them, to one who has asked nobody
@@ -423,6 +428,7 @@ page's colours and opportunities.)
   - direction OR-85 P2: Variability as a direction, with deeper Kyr and Deem interactions (the owner, 18 November,…
   - requirement OR-1500 P2: Pointless wandering on the reference game was not measured: the owner's playtest of 27 November…
   - requirement OR-1640 P3: The Pitch of the Glass's thin parts (doc/adventures/pitchpass/friction.md): no beat reads the…
+  - requirement OR-1720 P3: The old dark below the reference dungeon is written with its site, not realised when first…
   - requirement ST-03 P1: The last sea-gate: the saboteur's interest acting inside the six-day window (obstruction, blame, a…
   - requirement ST-06 P2: The critique's rebuild set (fever on the green, the cold pans, the boundary stones, the stranger…
   - requirement ST-07 P3: The critique's hierarchy edits: the Bound Howe given one governing question; the Silent Lord's…
@@ -682,7 +688,14 @@ page's colours and opportunities.)
 
 ### Pictures
 
-- **Paintings and portraits** · 1 pins · 10 defects · 7 asks
+- **Paintings and portraits** · 8 pins · 11 defects · 7 asks
+  - ✓ paints one whose words name no work as one of the middling folk of their sex, of their years
+  - ✓ reads a preacher as the faith and a sexton as the church's servant
+  - ✓ paints a life's own cast first, then whoever words place, then whoever they do not, then over the march
+  - ✓ gives a kind whose paintings are all of a dry day to what it lies in, in rain, fog and storm
+  - ✓ gives a kind painted only by day to the town's night after dark
+  - ✓ paints the sky's own weather first: the rain in the rain, the fog in the fog
+  - ✓ opens the way in on the land, or the wild, where its own land has nothing for the sky
   - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
   - requirement CP-02 P3: Paintings the first hour lacks (toll-house hall and counting-house, a warehouse, a muck pit, cave…
   - direction OR-467 P3: A place's painting chosen by its kind is not held to its family (Scenery.of picks from the…
@@ -900,8 +913,8 @@ page's colours and opportunities.)
 
 Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
-- **TB-09** P1: Workflows are the engine's: the sequence of questions, legal selections, what a choice settles, and the progression between activities have one… · blocks 15 (10 P0/P1) over 8 capabilities
-  - AR-05 (Architecture and layers), TB-10 (Playing in the terminal), OR-149 (Rows, lenses and the frame), R10-01 (Fights that cost), OR-181 (Fights that cost), OR-71 (Narration), CO-20 (Wayfinding and bearings), TR-21 (Wayfinding and bearings), OR-515 (Wayfinding and bearings), OR-141 (Rows, lenses and the frame), GR-25 (Aims and the gold thread), OB-21 (The title and Play), AR-20 (Architecture and layers), OR-162 (Wayfinding and bearings), OR-747 (Playing in the terminal)
+- **TB-09** P1: Workflows are the engine's: the sequence of questions, legal selections, what a choice settles, and the progression between activities have one… · blocks 14 (9 P0/P1) over 8 capabilities
+  - AR-05 (Architecture and layers), TB-10 (Playing in the terminal), OR-149 (Rows, lenses and the frame), R10-01 (Fights that cost), OR-71 (Narration), CO-20 (Wayfinding and bearings), TR-21 (Wayfinding and bearings), OR-515 (Wayfinding and bearings), OR-141 (Rows, lenses and the frame), GR-25 (Aims and the gold thread), OB-21 (The title and Play), AR-20 (Architecture and layers), OR-162 (Wayfinding and bearings), OR-747 (Playing in the terminal)
 - **OR-743** P1: Told from facts, said vs held: told text and paintings assert what the world's facts deny (lanterns lit in a sealed room, "hundreds" of two bats, a door… · blocks 10 (2 P0/P1) over 6 capabilities
   - NP-19 (Narration), NP-18 (Narration), PL-29 (Companions and hirelings), T24-09 (Fights that cost), OR-195 (Fights that cost), GR-23 (Aims and the gold thread), CO-19 (Narration), CP-15 (The Atlas: marks and their witnesses), GR-21 (Aims and the gold thread), CL-50 (Dungeons and sites)
 - **AP-03** P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts with): an act whose effects give the company something to… · blocks 8 (6 P0/P1) over 8 capabilities
@@ -920,10 +933,10 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - OR-532 (Aims and the gold thread), TB-12 (Playing in the terminal), GR-09 (Aims and the gold thread), OR-219 (Architecture and layers)
 - **OR-451** P2: Canonical cities as stable anchors (gamma G2): Aline, Marith, Dun Rìerdan, Garzab, Ydgn, the Lizardfolk name, rendered Andayeen by Northerners (the owner, 24… · blocks 1 (0 P0/P1) over 1 capabilities
   - OR-452 (Passage arranged between cities)
-- **AR-13** P3: Five composition mechanisms; unfilled placeholders pass silently; .kyrt values unescaped · blocks 1 (1 P0/P1) over 1 capabilities
-  - OR-541 (Narration)
 - **OR-745** P2: The page cold play's driver spec red on the nightly of 25 Nov (run 45574847769, browser specs 3/3): test/page-walk-browser's walk out of the adit finds no row… · blocks 1 (0 P0/P1) over 1 capabilities
   - GR-24 (Aims and the gold thread)
+- **SP-02** P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB RSS): deterministic lazy materialization, proven against eager · blocks 1 (0 P0/P1) over 1 capabilities
+  - OR-1720 (Dungeons and sites)
 
 ### Capabilities neither built nor asked for (0)
 
@@ -942,7 +955,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **News and rumour** (Conversation): OR-365
 - **Passage arranged between cities** (Travel): OR-452
 - **First Aims, nested and optional** (Undertakings): OR-457
-- **Markets and prices** (Trade): CP-07, PV-01, OR-678, OR-1128, OR-1210, OR-1394, OR-1204, OR-1206, OR-1440, BO-12, WD-04, WD-07
+- **Markets and prices** (Trade): CP-07, PV-01, OR-678, OR-1128, OR-1210, OR-1394, OR-1204, OR-1206, OR-1440, OR-1721, BO-12, WD-04, WD-07
 - **Countries and regions** (The land): PV-03, OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, OR-640, OR-642, OR-1208, OR-1106, WD-01, WD-02, WD-03, WD-09, WD-16, SS-01, WB-01, WB-02, WB-03
 - **Weather, sky and season** (The land): OR-1393, IM-01
 - **The planes** (The land): GT-01, GT-03
