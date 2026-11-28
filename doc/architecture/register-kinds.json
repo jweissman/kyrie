@@ -1,6 +1,24 @@
 {
  "about": "What each live row of the register is, auditable (scripts/register-kinds.ts; the owner, 20 Nov: release-blocking defects, outstanding requirements and future directions kept apart, every reclassification shown with what it was and why, never changing a row's priority, evidence or acceptance). A row not named here is a defect; the families KX, SS, PG, SR, IM are directions by prefix. Each entry: kind, was (its kind before), pri (its priority when reclassified, which the register must still show), why. blockedBy: the architecture row a row waits on; a blocked defect is still a defect.",
  "rows": {
+  "OR-1741": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: memory a start keeps in the deem package, an improvement wanted, not a broken contract"
+  },
+  "OR-1742": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: memory the caches' keys keep, an improvement wanted, not a broken contract"
+  },
+  "OR-1744": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: clones a start spends time and peak on, an improvement wanted, not a broken contract"
+  },
   "OR-1463": {
    "kind": "requirement",
    "was": "defect",
