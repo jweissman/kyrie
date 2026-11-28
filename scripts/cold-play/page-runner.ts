@@ -22,10 +22,15 @@ export class PageRunner {
       (document.querySelector<HTMLElement>('.stage') ?? document.body).innerText);
     const lines = [...new Set(text.split('\n').map(l => l.trim()).filter(Boolean))].slice(0, 80);
     const choices: ChoiceShape[] = s.choices, led = new Set((s.glance?.acts ?? []).map(a => a.choice));
-    const primary = led.size ? choices.filter(c => led.has(c.id)) : choices.slice(0, 4);
-    const rest = choices.filter(c => !primary.includes(c));
+    // What it leads with is what the page draws in its menu, by the drawn row's own id and words: a find led with is
+    // drawn as its own act ("Listen at it"), not as its look, and the look had been offered to the player in its place,
+    // a row not on the page, so that every touch of it timed out (OR-1850: rounds A1 and B2).
+    const drawn = await this.drawn();
+    const primary = drawn.length ? drawn
+      : (led.size ? choices.filter(c => led.has(c.id)) : choices.slice(0, 4)).map(PageRunner.row);
+    const rest = choices.filter(c => !primary.some(p => p.id === c.id)).map(PageRunner.row);
     return { turn: this.turn, moment: s.mode, at: s.place?.name ?? s.place?.id, scene: { lines },
-      offer: { primary: primary.map(PageRunner.row), rest: rest.map(PageRunner.row) },
+      offer: { primary, rest },
       ...s.combat ? { fight: { yours: s.combat.ours, foes: s.combat.foes, outcome: s.combat.outcome } } : {},
       ...s.party ? { you: s.party.map(m => `${m.name} ${m.hp} HP`).join(', ') } : {},
       // The aims as the page's journal draws them (GR-24: "aims: []" on every turn had been the driver's).
@@ -34,6 +39,13 @@ export class PageRunner {
   }
   private static row(c: ChoiceShape): Row {
     return { id: c.id, label: c.label, ...c.disabled ? { aspects: [`shut: ${c.disabled}`] } : {} };
+  }
+  // The rows the page's menu draws and shows, but its turning to the next page (place:more, said among the rest).
+  private drawn(): Promise<Row[]> {
+    return this.page.locator('.intentions [data-action="choice"][data-choice]').evaluateAll(ns => ns
+      .filter(n => (n as HTMLElement).checkVisibility() && !n.getAttribute('data-choice')!.startsWith('place:'))
+      .map(n => ({ id: n.getAttribute('data-choice')!,
+        label: (n.querySelector('.row-label')?.textContent ?? (n as HTMLElement).innerText).trim() })));
   }
   private static none(): void { /* the page still busy: what it shows is said as it stands */ }
   async move(line: string): Promise<Record<string, unknown>> {

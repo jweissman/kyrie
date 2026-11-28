@@ -249,6 +249,10 @@ export class MonoDriver {
     if (id.startsWith('travel:') && !on && await this.journey(id)) { return 'map'; }
     const row = this.page.locator(`[data-choice="${id}"] >> visible=true`).first();
     if (id.startsWith('follow:') && !on && await row.count()) { await row.click(); await this.settle(); return 'page'; }
+    // A row the menu draws that is not among the choices as listed (a find led with, drawn as its own act: OR-1850) is
+    // touched where it is drawn.
+    const drawn = `.intentions [data-action="choice"][data-choice="${id}"] >> visible=true >> nth=0`;
+    if (!on && await this.page.locator(drawn).count()) { await this.click(drawn); return 'page'; }
     try { await this.pick(c => c.id === id, id); return 'page'; } catch (e) {
       const command = MonoDriver.command(state, id);
       if (!command) { throw e; }
