@@ -32,9 +32,16 @@ for i in $(seq 1 40); do
     bun scripts/spec-citers.ts origin/main | grep -v ': 0 rows cite' | sed 's/^/READ AGAIN: /'
     h=$(git rev-parse --short HEAD)
     git push -q origin HEAD:main || { echo "PUSH REFUSED"; continue; }
-    echo "PUSHED $h"; sleep 25
-    id=$(gh run list --branch main --limit 6 --json databaseId,headSha,name,event \
-      -q ".[] | select(.name==\"CI\" and .event==\"push\" and (.headSha|startswith(\"$h\"))) | .databaseId" | head -1)
+    echo "PUSHED $h"
+    # The push's run, waited for until it is listed: read 25 seconds after the push, it had not always been, and an
+    # empty id watched read as red (roundE, 28 November: a docs landing said "main is red" with its run still going).
+    id=""; for _ in $(seq 1 20); do
+      sleep 15
+      id=$(gh run list --branch main --limit 6 --json databaseId,headSha,name,event \
+        -q ".[] | select(.name==\"CI\" and .event==\"push\" and (.headSha|startswith(\"$h\"))) | .databaseId" | head -1)
+      [ -n "$id" ] && break
+    done
+    [ -n "$id" ] || { echo "CI RUN NOT FOUND $h"; exit 1; }
     green=0; gh run watch "$id" --interval 60 --exit-status > /dev/null 2>&1 && green=1
     [ "$green" = 1 ] && echo "CI GREEN $h" || echo "CI RED $h"
     # The owner's checkout is fast-forwarded only to a green main: a red one is mended or reverted first (25 November:
