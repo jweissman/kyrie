@@ -7,6 +7,7 @@ import { StockOpenings } from '../../src/world/stock-openings';
 import { FirstHourBands } from '../first-hour-bands';
 import { NoviceCountry, type Country } from '../novice-country';
 import { QuantityDungeon } from './dungeon';
+import { QuantityForebode, type Foreboded } from './forebode';
 import { QuantityPurse } from './purse';
 import { QuantityPlaces } from './places';
 import { EconomyMeasure } from '../economy-measure';
@@ -30,7 +31,9 @@ export interface Read {
     missing: string[]; outing?: string; haul?: number; job?: number };
   reach: { things: string[]; cells: number };
   dungeon?: { name: string; minutes: number; hexes: number; levels: number; companion: boolean; light: boolean;
-    provisions: boolean; at: { companion: boolean; light: boolean; provisions: boolean; gear: boolean } };
+    provisions: boolean; at: { companion: boolean; light: boolean; provisions: boolean; gear: boolean };
+    // Its bands that fall on whoever comes in, and those with a way to them showing fewer than two signs of them.
+    forebode?: Foreboded };
 }
 export class QuantityCountry {
   // A day's reach: six hours' going from the start, there and back in a waking day.
@@ -117,7 +120,7 @@ export class QuantityCountry {
     return { name: site.name, minutes: site.minutes, hexes: home && at ? this.hexes(c, home, at) : Infinity,
       levels: site.held, companion: !!country.hire && country.hire.fee <= country.hire.gold,
       light: wares.some(x => this.light.test(x.kind)), provisions: wares.some(x => this.provisions.test(x.kind)),
-      at: { companion: site.companion, ...site.found } };
+      at: { companion: site.companion, ...site.found }, forebode: QuantityForebode.read(c, site) };
   }
   static cell(c: Campaign, id: string): { land: string; cell: number } | undefined {
     const hex = HexBoundary.hex(c.module, id), m = hex && /^(.*):(\d+)$/.exec(hex);
