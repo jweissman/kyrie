@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 74 capabilities; 260 pins (229 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 763 live rows, 255 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 74 capabilities; 260 pins (229 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 762 live rows, 254 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
