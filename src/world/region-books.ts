@@ -5,7 +5,6 @@ import { RegionKey } from './region-key';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
 import { SettlementWriter } from './settlement-writer';
-import { ReferenceSettlement } from './reference-settlement';
 import type { Region, Site } from './region-writer';
 
 interface Volume { title: string; cover: string; index: string; proof: string }
@@ -15,7 +14,7 @@ export class RegionBooks {
   static lines(region: Region, taken: Record<string, string>): string[] {
     const sites = region.sites.filter(s => taken[s.id] === 'arcology'
       || (!taken[s.id] && (s.work?.deep || s.work?.great))).sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
-    if (!sites.length) { return []; }
+    if (!sites.length || RegionBooks.first(region)) { return []; }
     return this.shelved(region).flatMap(s => {
       const seed = `${RegionKey.of(region)}:${s.id}:antique-book`;
       const site = new Draw(`${seed}:destination`).pick(sites);
@@ -27,12 +26,14 @@ export class RegionBooks {
         where: RegionSites.where(seat, region), arcology: taken[site.id] === 'arcology' });
     });
   }
-  // The towns whose innkeeper keeps a book: those with an inn, but for the reference game's, which is thin so that
-  // what is found beyond it stands out (the owner, 26 November: the first town simple, its jobs uncovered).
+  // The towns whose innkeeper keeps a book: those with an inn.
   private static shelved(region: Region) {
-    return region.settlements
-      .filter(s => SettlementWriter.rooms(region, s).taproom && !ReferenceSettlement.is(region, s));
+    return region.settlements.filter(s => SettlementWriter.rooms(region, s).taproom);
   }
+  // The starting country holds none, nor any Mathematical trace (see RegionMarvels): its first town is thin, and an
+  // old name there is learned only where it is cut (the owner, 26 November: the starting world a first town and the
+  // big dungeon; test/old-names, test/first-questions). They are found a march off and beyond.
+  static first(region: Pick<Region, 'at'>): boolean { return region.at?.[0] === 0 && region.at[1] === 0; }
   private static profile(seed: string): Volume {
     const runtime = Template.bootstrapDeem({ seed: Draw.seed(seed) }, this.setting);
     const value = Generator.gen('antiqueBook', { __setting: this.setting, __deemRuntime: runtime });
