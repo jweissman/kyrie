@@ -153,6 +153,14 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/disrupt-undead.test.ts` | Pure combat and catalog cases plus one generated laboratory fixture, not a full country. The actual ghoul, multiple hit/miss seeds and both resistance outcomes are positive witnesses. |
 | `test/door-browser.test.ts` | A built site and browser with three named fixture campaigns for traps, a barred way and sleep. Its spent-trap ordering allows the spent text to be absent, so that part needs a witness before narrowing; gated by `KYRIE_BROWSER`. |
 | `test/dorothea-antlers.test.ts` | The authored Dorothea campaign and its actual voyage to the Antlers. The day-book, alternative ladder routes, forced check outcomes and cresset consequences are separate long authored-story claims. |
+| `test/dorothea-boarding.test.ts` | The authored Dorothea voyage and its actual Kestrel boarding. The bribe, casks, shame, payment and fight are distinct long story paths; alternative-option absences need mutation checks before narrowing. |
+| `test/dorothea-entries.test.ts` | The authored Dorothea campaign across Ashkeld, the Antlers, Ness and the Holm, with multiple errands and raid outcomes. The Holm route count asserted `>= 0` is tautological; do not treat it as a route witness. |
+| `test/dorothea-house.test.ts` | The authored Dorothea campaign across three ledger locations and the House's response. Reading, revealing, selling and withholding the copy are separate story paths; the optional no-show assertion needs a prior witness before narrowing. |
+| `test/dorothea-mangrow.test.ts` | The authored Dorothea voyage to Mangrow, with cached ashore checkpoints. Its sea time, fever, protection, strong-room alternatives and return are distinct long paths; preserve each when changing setup. |
+| `test/dorothea-ness.test.ts` | The authored Dorothea voyage to Port Ness and its House, bond, light and stranded return. Success and failed theft plus a later paid ledger are separate story witnesses. |
+| `test/dorothea-oil.test.ts` | The authored Dorothea campaign's tide-gated Holm and the Pharos oil carried between lights. Both tide phases and the two independently lit lamps are necessary witnesses. |
+| `test/dorothea-reach.test.ts` | The authored Dorothea campaign's sea chart and ship voyage. Individual station locations and the changing on-board map witness chart continuity. |
+| `test/dorothea-routes.test.ts` | The authored Dorothea campaign's different calls, fares, sea events, second voyage and restored save. Several before/after fare and station comparisons are positive witnesses; the full route matrix is intentional. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
