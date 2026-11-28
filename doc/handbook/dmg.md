@@ -2970,7 +2970,7 @@ Also kept, without comment: guild_member, guildHall, guildKeeper, guildRange, gu
 - Takes: 0 minutes
 - Costs: 1
 
-> Needs: able(actor); guildKeeper(keeper); able(keeper); together(actor, keeper); at(actor, site); guildHall(site); not (unseen(keeper, actor)); quantity(actor, gold) >= 3; not (guild_member(actor))
+> Needs: able(actor); guildKeeper(hallkeeper); able(hallkeeper); together(actor, hallkeeper); at(actor, site); guildHall(site); not (unseen(hallkeeper, actor)); quantity(actor, gold) >= 3; not (guild_member(actor))
 
 > Then: Decrease quantity(actor, gold) by 3. Assert guild_member(actor).
 
@@ -2978,23 +2978,23 @@ Also kept, without comment: guild_member, guildHall, guildKeeper, guildRange, gu
 
 *Kyr · action (group, group, place, item, fact, place)* · `rule:venturing.guild_survey`
 
-- Shown as: Ask {keeper} for a lead to {find}
+- Shown as: Ask {hallkeeper} for a lead to {find}
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); guild_member(actor); guildKeeper(keeper); able(keeper); together(actor, keeper); at(actor, site); not (unseen(keeper, actor)); guildLead(actor, site, find, report, destination)
+> Needs: able(actor); guild_member(actor); guildKeeper(hallkeeper); able(hallkeeper); together(actor, hallkeeper); at(actor, site); not (unseen(hallkeeper, actor)); guildLead(actor, site, find, report, destination)
 
-> Then: Assert knows(actor, report). Retract assumesFalse(actor, report). Assert toldBy(actor, keeper, report). Assert guildIssued(actor, find).
+> Then: Assert knows(actor, report). Retract assumesFalse(actor, report). Assert toldBy(actor, hallkeeper, report). Assert guildIssued(actor, find).
 
 #### guild no lead
 
 *Kyr · action (group, group, place)* · `rule:venturing.guild_no_lead`
 
-- Shown as: Ask {keeper} for another survey
+- Shown as: Ask {hallkeeper} for another survey
 - Takes: 0 minutes
 - Costs: 1
 
-> Needs: able(actor); guild_member(actor); guildKeeper(keeper); able(keeper); together(actor, keeper); at(actor, site); guildHall(site); not (unseen(keeper, actor)); not (guildLead(actor, site, ?find, ?report, ?destination))
+> Needs: able(actor); guild_member(actor); guildKeeper(hallkeeper); able(hallkeeper); together(actor, hallkeeper); at(actor, site); guildHall(site); not (unseen(hallkeeper, actor)); not (guildLead(actor, site, ?find, ?report, ?destination))
 
 > Then: nothing changes
 
