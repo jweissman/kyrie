@@ -139,9 +139,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the interior walk, in the browser',
     expect(await w.place()).toBe('region__s2_u_warren');
     expect(await w.inside()).toEqual({ compass: 1, map: 0, out: 1, marked: 1 });
     await w.shot('07-after-the-fight'); steps.push('after the fight');
-    // Out by the way out: walked, and the town again, where the map is back and no compass.
+    // Out by the way out: walked, and the town again, where the map is back (folded with the lenses, once earned) and
+    // the compass still, the character's own from the start (OR-1880).
     await d.click('.glance .choice-row:has-text("Out to") >> nth=0');
-    expect((await w.inside()).compass).toBe(0);
+    expect((await w.inside()).compass).toBe(1);
     expect(await w.count('.scene-rail [data-view="map"]')).toBe(1);
     await w.shot('08-out-in-the-town'); steps.push('out');
     console.log(`INTERIOR ${width}x${height}: ${steps.join(' | ')} (targets ${picked.join(', ')})`);

@@ -314,6 +314,7 @@ export class Terminal {
       all: offered.rest ? [...offered.first, ...offered.rest] : offered.all.filter(c => !folded.has(c.id)),
       ...offered.lens ? { lens: offered.lens.name } : {}, instruments: turn.current?.leaf.instruments,
       ...turn.current?.screen.surfaces ? { surfaces: turn.current.screen.surfaces } : {},
+      ...turn.current?.leaf.glance?.rail ? { rail: turn.current.leaf.glance.rail } : {},
       ...session.focus.kind === 'talk' ? { with: this.whom(turn.current?.screen, session.focus.with) } : {},
       ...turn.focus ? { focus: turn.focus } : {} }));
     if (!picked) { return null; }

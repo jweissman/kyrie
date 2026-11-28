@@ -3,7 +3,8 @@ import { Signs } from '../presentation/signs';
 import { Typography } from '../presentation/typography';
 import { TerminalColour } from './terminal-colour';
 import type { Instrument } from '../presentation/instruments';
-import type { Aspect, Lens } from '../presentation/glance-types';
+import type { Aspect, Lens, Rail, RailLens } from '../presentation/glance-types';
+import { Surfaces } from '../presentation/surfaces';
 import { Earned, type Surface } from '../lang/index';
 import type { ActType } from '../presentation/offer';
 import type { Menu, Row } from './terminal-picker';
@@ -20,9 +21,11 @@ export interface Listing { id: string; name: string; time: number; aspects?: Asp
 // instruments that bear on the moment, and the row the focus was on.
 // with: whom the company is speaking with, by name.
 // surfaces: what the company has earned (Screen.surfaces): a lens's key and the map's only once earned (OR-1241).
+// rail: the engine's rail (Glance.rail, OR-1880), where the scene has one: a lens's key where it stands on it, the
+// compass's (the places lens) from the start.
 export interface Scene {
   first: Listing[]; all: Listing[]; lens?: Lens; with?: string; instruments?: Instrument[]; focus?: string;
-  surfaces?: Surface[];
+  surfaces?: Surface[]; rail?: Rail;
 }
 
 // The human mode's menus (TP-01), made from what the terminal already lists: a scene's four and the rest of the legal
@@ -34,12 +37,14 @@ export class TerminalMenus {
   static readonly lenses: Record<string, Lens> = { t: 'people', g: 'places', l: 'things', w: 'time' };
   private static readonly earns: Record<Lens, Surface> = { people: 'lens_talk', places: 'lens_go', things: 'lens_look',
     time: 'lens_wait' };
+  private static readonly railed: Record<Lens, RailLens> = { people: 'talk', places: 'go', things: 'look', time: 'wait' };
   private static readonly lensSaid: Record<Lens, string> = { people: 'talk', places: 'go', things: 'look',
     time: 'wait' };
   static scene(s: Scene): Menu {
     const shown = new Set(s.first.map(c => c.id));
     const keys = Object.fromEntries(Object.entries(this.lenses)
-      .filter(([, lens]) => Earned.has(s.surfaces, this.earns[lens]))
+      .filter(([, lens]) => (s.rail ? Surfaces.lens(s.rail, this.railed[lens])
+        : Earned.has(s.surfaces, this.earns[lens])))
       .map(([k, lens]) => [k, { command: s.lens === lens ? 'here' : lens, said: this.lensSaid[lens] }]));
     const map: Record<string, { command: string; said: string }> = Earned.has(s.surfaces, 'the_map')
       ? { m: { command: 'map', said: 'map' } } : {};

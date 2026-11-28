@@ -194,18 +194,26 @@ export interface Glance {
   // The scene's four, and every other choice of it, for every client (see Offers).
   offer?: import('./offer').Offer;
   // How the scene's rail of lenses is drawn at rest (OR-1084, the owner, 26 November: "fade the lenses rail in the
-  // resting scene, or at least let it be folded into a single icon"): folded to one emblem, which unfolds to the
-  // lenses when taken up, by a pointer or the keys; the map and the book stay beside it. A render hint every client
-  // takes alike; the resting scene is the one place it folds. Only the lenses the company has earned stand in it
-  // (Screen.surfaces; compactification, the owner, 26 November: "I'm not even sure we should show the diamond/lenses
-  // at all until act II"): with none, neither the lenses nor their diamond is drawn (OR-1241).
+  // resting scene, or at least let it be folded into a single icon"): folded to one emblem, the diamond, always
+  // there (OR-1880), which unfolds to the lenses had when the engine says so or when taken up, by a pointer or the
+  // keys; the compass and the book stay beside it. A render hint every client takes alike (see Rail).
   rail?: Rail;
 }
 export type RailLens = 'talk' | 'go' | 'look' | 'wait' | 'search';
+// The rail as the owner set it (27 November, late, OR-1880), every client drawing it alike:
+// tools: what the character has from the start, beside the diamond and never folded: the compass (the ways out of a
+// structure and between the places within the hex: the places lens, Go's, is the compass's), and the book, unless the
+// character cannot read.
+// lenses: the lenses had (Surfaces), folded behind the diamond; the compass's Go is never among them.
+// diamond: always drawn; what the folded lenses hold, by their rows (Lensed.aspects), a coloured opportunity or someone
+// who might join, in the one precedence; none, and it is dim.
+// unfolded: whether the lenses stand open beside it: after act I, or while one of them holds something (the diamond
+// lit). A player may still fold or unfold them at the diamond.
 // keep: the company's own page, reachable from every resting scene whatever is earned (the owner's play, 27 November,
-// OR-1685: "minimally we may always want the book available, even if tucked away"): the one exception to surfaces
-// earned, the rail itself still earned. A client draws it quietly at the rail's place, and opens the page it names.
-export interface Rail { fold: 'folded'; lenses: RailLens[]; keep?: Keep }
+// OR-1685: "minimally we may always want the book available, even if tucked away"): what the book opens.
+export type RailTool = 'compass' | 'book';
+export interface Rail { fold: 'folded'; lenses: RailLens[]; keep?: Keep; tools: RailTool[]; diamond: Aspect[];
+  unfolded: boolean }
 export interface Keep { view: 'company'; label: string }
 // What pulls once an aim is seen through (PL-06): the deed's own consequence (the yoke, to be hung over the drover's
 // hearth: at, where) or a lead not followed (an aim held, to follow; or a place something known leads to). Its words

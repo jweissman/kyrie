@@ -109,8 +109,9 @@ export interface AppState {
   // Whether the likenesses of who is here are shown (the talk lens, see SceneRail.Talk): put away while Go or Look is
   // open, whose lenses stand where they do.
   talking?: boolean;
-  // The place where the folded lenses were taken up (Folded, OR-1084): they fold again at another.
-  rail?: string;
+  // The place where the folded lenses were taken up (Folded, OR-1084), or folded where the engine had them unfolded
+  // (OR-1880): the engine's word holds again at another.
+  rail?: string; folded?: string;
   fight?: FightMark;
   // A choice that cannot be undone, chosen once: its cost is said, and it is done if chosen again.
   confirming?: string;
