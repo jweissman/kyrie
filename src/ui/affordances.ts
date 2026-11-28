@@ -461,7 +461,8 @@ export class Affordances {
   // The other places of the town, walked to directly.
   private static around(screen: Screen, r: Reading): Candidate[] {
     const visited = new Set(screen.map.filter(p => p.visited).map(p => p.id));
-    return (screen.around ?? []).map(d => ({ choice: `travel:${d.id}`, command: `travel:${d.id}`, label: `To ${d.name}`,
+    return (screen.around ?? []).map(d => ({ choice: `travel:${d.id}`, command: `travel:${d.id}`,
+      label: `${d.descent ? 'Down to' : 'To'} ${d.name}`,
       kind: 'travel' as const, order: 0, marks: d.minutes > 10 && Marks.journey(screen.elapsed, d.minutes) ? [Marks.dusk] : [],
       minutes: d.minutes, visited: visited.has(d.id),
       pointed: r.pointed.has(d.id), whys: [...(r.named.has(d.id) && !r.idle?.has(d.id)) || this.shop(r, d.id)

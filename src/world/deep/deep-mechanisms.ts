@@ -42,7 +42,10 @@ export class DeepMechanisms {
       `    Change free ${q(w.free)} from seized to turning needing brawn or crowbar.`, '  }',
       `  Passage ${l.id} ${q(l.name)} is ${w.kind} between ${l.a} and ${l.b} taking ${l.minutes} minutes`
         + ` opening when state(${gear}, turning) ${q(w.shut)}.`,
-      `  Passage ${l.id}_chain ${q(w.climb)} is climb between ${l.a} and ${l.b} taking 10 minutes needing climbing or rope.`];
+      `  Passage ${l.id}_chain ${q(w.climb)} is climb between ${l.a} and ${l.b} taking 10 minutes needing climbing or rope.`,
+      // Set working, the gear secures the foot of its way: a staging point gone down to from above in one act
+      // (Descents), while it turns.
+      `  Initially Assert securedBy(${gear}, ${l.b}). Initially Assert secureWhen(${gear}, turning).`];
   }
   private static seal(l: DeepLink, words: Words, w: NonNullable<MechanismWords['seal']>): string[] {
     const q = this.q, wall = `${l.id}_wall`, cut = `${l.id}_cut`;

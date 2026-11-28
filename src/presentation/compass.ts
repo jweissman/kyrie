@@ -79,7 +79,8 @@ export class Compass {
     const hard = plan.legs.flatMap(l => (graph.get(l.from) ?? []).filter(w => w.passage === l.passage && w.to === l.to
       && w.status !== 'open')).find(w => w.reason);
     return { to, name: ObservationText.label(campaign.world, to), ways: plan.legs.map(l => l.way),
-      minutes: plan.minutes, command: `travel:${to}`, ...hard ? { barred: hard.reason! } : {} };
+      minutes: plan.minutes, command: `travel:${to}`, ...hard ? { barred: hard.reason! } : {},
+      ...Itineraries.secured(campaign, plan) ? { secured: true as const } : {} };
   }
   private static readonly aimed = ['advance', 'named', 'toward', 'about', 'bound', 'kin'];
   // The first way the glance's places lens leads with that goes further in (not back out), and where it comes to.

@@ -228,9 +228,12 @@ export class MenuModel {
   // The other places of the town further than a step, each walked to directly by the known way: "To the taproom of
   // the Fierce Goblet, by the landing".
   static around(screen: Frame['screen']): Choice[] {
-    return (screen.around ?? []).map(d => ({ id: `travel:${d.id}`, label: `To ${d.name.replace(/^The /, 'the ')}`,
+    return (screen.around ?? []).map(d => ({ id: `travel:${d.id}`,
+      label: `${d.descent ? 'Down to' : 'To'} ${d.name.replace(/^The /, 'the ')}`,
       tone: 'way' as const, command: `travel:${d.id}`, minutes: d.minutes,
-      note: `by ${d.legs.slice(0, -1).map(l => l.to.replace(/^The /, 'the ')).join(' and ')}` }));
+      // A way down the company made sure, by that way ("by the rope in the dead-shaft"), not every room above it.
+      note: d.descent ? `by ${d.legs.at(-1)?.way ?? ''}`
+        : `by ${d.legs.slice(0, -1).map(l => l.to.replace(/^The /, 'the ')).join(' and ')}` }));
   }
   // How many of the places further off are offered where the company stands; the map has them all.
   static readonly near = 3;

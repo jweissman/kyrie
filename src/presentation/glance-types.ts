@@ -129,7 +129,10 @@ export interface Lensed { promoted: Promoted[]; rest: LensAct[]; leaves?: Record
   subjects?: Record<string, { name: string; seen?: string[] }>; aspects: Aspect[]; kept?: Promoted[] }
 // A route the compass gives (see Compass): where it comes to, the ways in order, the time, the command that walks it
 // (travel:<place>, leg by leg; or the one way's own), and what bars it, if anything.
-export interface Route { to: string; name: string; ways: string[]; minutes: number; command?: string; barred?: string }
+// secured: a way out that sets out from a place below the company made sure, by rooms it has been in (Descents.up):
+// the climb back earned by what was done on the way in (OR-1862).
+export interface Route { to: string; name: string; ways: string[]; minutes: number; command?: string; barred?: string;
+  secured?: true }
 // Inside an enclosed place, the way out, the next known place worth going, and whether nothing known is left inside.
 export interface Compass { out?: Route; next?: Route; exhausted: boolean }
 // What a likeness here is to the company (see Likenesses): its aspects, or the undertaking alone where it is the

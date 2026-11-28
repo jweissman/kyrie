@@ -71,6 +71,17 @@ export class KnownCountry {
       ...w.relates('leadsVia') ? w.related('leadsVia').filter(r => this.knows(r.args[0]!)).map(r => r.args[1]!) : []];
   }
   // Whether it was told a passage's way (revealedBy a fact it knows).
+  // The places below this company has made sure and been in (secured, data/rules/passages.kyr: a rope left in a shaft,
+  // a winding-gear set working), which it may go down to in one act (Descents); whether it has been in a place; and
+  // where it is.
+  secured(): string[] {
+    const w = this.world;
+    if (!w.declares('secured')) { return []; }
+    return [...new Set(w.related('securedBy').map(r => r.args[1]!))]
+      .filter(p => w.test(ModuleWriter.call('secured', p)) && this.been(p));
+  }
+  been(place: string): boolean { return this.world.test(ModuleWriter.call('been', this.actor, place)); }
+  get here(): string | undefined { return this.world.one('at', this.actor); }
   toldOf(passage: string): boolean { return this.directions.includes(passage); }
   // The places it stands in a country's relation to (region__surveyed, x1y0__surveyedWell…), in every country: each its
   // own, named for its module (the owner, OWN-43).
