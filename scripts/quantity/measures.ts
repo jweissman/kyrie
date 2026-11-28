@@ -78,10 +78,10 @@ export class QuantityMeasures {
         + 'the deep\'s worst, tells it by two signs of its own kind (its sound, its spoor), the way in from outside '
         + 'among them; none, by the generator\'s own observations', read: 'forebode' },
     { id: 'swift', label: '1. Rounds of a fight with a swarm of beasts (three or more of a kind), delved (median)',
-      kind: 'down', why: 'small fights quick, so that big ones matter (OR-1855): a wary band of beasts loses heart at '
-        + 'the first of it to fall; a bear, a pack of two, the dead are no swarm. Three rounds or fewer is the aim, a '
-        + 'band once it holds; the deep\'s first bands, whose death the deep renewed waits on, still fight to the last '
-        + '(OR-1864); may only fall (28 November: from 6)', read: 'swift' },
+      kind: 'band', ceiling: 3, why: 'small fights quick, so that big ones matter (OR-1855): a wary band of beasts '
+        + 'loses heart at the first of it to fall; a bear, a pack of two, the dead are no swarm. Three rounds or fewer, '
+        + 'each delve\'s median: the deep renewed meets a band\'s rout as its death, so that its bands may lose heart '
+        + '(OR-1864: from 6, 7 / 4 / 6, to 2, 2 / 3 / 2)', read: 'swift' },
     { id: 'forced', label: '2. Expeditions of five forced back hurt, or lost (%)', kind: 'report',
       why: 'OSR-level difficulty with fair warning (the owner, 27 November): the deep should send a careful company '
         + 'home hurt some of the time, never kill it unwarned; said, a band once it has been read on CI', read: 'forced' },

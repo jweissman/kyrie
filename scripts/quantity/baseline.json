@@ -81,6 +81,9 @@
   },
   "forebode": {
    "ceiling": 0
+  },
+  "swift": {
+   "ceiling": 3
   }
  },
  "ratchets": {
@@ -99,7 +102,6 @@
   "mouth": 15,
   "strayed": 0,
   "colours": 3,
-  "aimless": 1,
-  "swift": 6
+  "aimless": 1
  }
 }
