@@ -102,7 +102,9 @@ describe('the painting corpus', () => {
   }, 120000);
   // Free play of M16 met Mother Ysolt as Valentin's young Samson, and an alehouse-keeper as a preacher: a role was
   // read from its last word (the Ford, not the priest), and whoever no word placed was given anyone of their sex.
-  it('paints someone by what their role says they are, and otherwise not at all', () => {
+  // And whoever no word places is painted as one of the middling folk of their sex, never left in type (the owner, 26
+  // November: a painting for nearly everyone met; OR-1761).
+  it('paints someone by what their role says they are, and otherwise as one of the middling folk of their sex', () => {
     const sitter = (at: Parameters<typeof Likeness.of>[0]) => Likeness.sitter(Likeness.of(at) ?? '');
     expect(sitter({ role: 'priest of the Chapel of the Ford', sex: 'man', key: 'a' })?.station).toBe('religious');
     expect(sitter({ role: 'foreman at the Hall', sex: 'man', key: 'b' })?.station).toBe('labouring');
@@ -112,7 +114,8 @@ describe('the painting corpus', () => {
     expect(mother === undefined || (mother.sex === 'woman' && mother.age !== 'young')).toBe(true);
     // "Master of the barge" is not a painter; nothing in "who keeps the books" says what they look like.
     expect(sitter({ role: 'master of the barge Heron', sex: 'woman', key: 'e' })?.station).toBe('labouring');
-    expect(Likeness.of({ role: 'who keeps the books of the Reodweard company', sex: 'man', key: 'f' })).toBeUndefined();
+    const books = sitter({ role: 'who keeps the books of the Reodweard company', sex: 'man', key: 'f' });
+    expect([books?.sex, books?.station]).toEqual(['man', 'middling']);
     // Someone known only by whose they are is painted at home, of the sex and the years the words say, not at a trade
     // (a sick child's mother had been the woman cutting a fish: play 9); one who mourns is a sitter dressed for grief
     // (the cold evaluation: a widow in black was the same smiling woman).
