@@ -16,9 +16,11 @@ const charnel = `
   Goal false.`;
 describe('coin come to the company', () => {
   it('is said as it comes, where a danger fills the arrival', async () => {
-    const t = await Tiny.start(charnel, { party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] });
+    const t = await Tiny.start(charnel, { party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }],
+      horizon: ['inhabitants', 'belongings'] });
     const r = new Runner(t.session); r.said();
-    await r.ask(JSON.stringify({ act: 'light_item(t__party_1__torch)' }));
+    const lit = await r.ask(JSON.stringify({ act: 'light_item(t__party_1__torch)' }));
+    if ('error' in lit) { throw new Error(lit.error); }
     const came = await r.ask(JSON.stringify({ act: 'go(t__arch,t__charnel)' }));
     if ('error' in came) { throw new Error(came.error); }
     expect(came.purse?.coin).toBe(6);
