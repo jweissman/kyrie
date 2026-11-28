@@ -50,6 +50,15 @@ jobs:
           restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: bun run lint
       - run: bun run typecheck
+      - id: horizon-orsino
+        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'copilot/spec-bands-1128' }}
+        run: echo "revision=$(jq -r .source.revision data/sources/orsino/registry.json)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        if: ${{ steps.horizon-orsino.outcome == 'success' }}
+        with: { repository: jweissman/orsino, ref: "${{ steps.horizon-orsino.outputs.revision }}", path: orsino }
+      - name: Verify the requested fast gate
+        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'copilot/spec-bands-1128' }}
+        run: bun run check:fast
   # The player's contracts, first and on their own, so that a broken one says so in minutes rather than at the end
   # of the suite (the reviews of 9 November): an aim's target, the map's journeys and the campaign's refusal of any
   # other way into the next hex, the choices on the page; and the opening played as a player who knows only the page.

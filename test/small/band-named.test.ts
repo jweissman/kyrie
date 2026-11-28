@@ -9,12 +9,13 @@ const yard = (name: string, role: string) => `
   Person sons "${name}" at yard { Role "${role}". Ancestry human. Calling warrior. Level 1. Numbers 3. Temperament territorial. }`;
 describe('a band of three', () => {
   it("named as someone's, is the first, the second and the third of them", async () => {
-    const t = await Tiny.start(yard("Skell's sons", "three of Skell's crew, not all of them his sons"));
+    const t = await Tiny.start(yard("Skell's sons", "three of Skell's crew, not all of them his sons"),
+      { horizon: ['inhabitants'] });
     const names = t.journey.campaign.readout.creatures.map(c => c.name).filter(n => /Skell/.test(n));
     expect(names).toEqual(["The first of Skell's sons", "The second of Skell's sons", "The third of Skell's sons"]);
   });
   it('named by its kind, is numbered by it', async () => {
-    const t = await Tiny.start(yard('the footpads', 'footpad'));
+    const t = await Tiny.start(yard('the footpads', 'footpad'), { horizon: ['inhabitants'] });
     const names = t.journey.campaign.readout.creatures.map(c => c.name).filter(n => /ootpad/.test(n));
     expect(names).toEqual(['Footpad 1', 'Footpad 2', 'Footpad 3']);
   });
