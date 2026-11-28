@@ -10,18 +10,17 @@ import { CompanySenses } from './company-senses';
 // company has never spoken with, and whose town the aim does not name, is said as who they are and where they are
 // found: "The dead in the tower are still. Kellen will want to know." had been all a company was told that broke the
 // bone lantern without ever coming to the shrine Kellen keeps, and the map said "Not yet on your map: Kellen may know
-// where" of the one it was looking for (the fresh playtest of 7 November). Now it reads "Kellen, priest of Belenus at
-// Ramrehes, will want to know", and the map finds Ramrehes (see Undertakings.places). One already met, known by a name
+// where" of the one it was looking for (the fresh playtest of 7 November). Now it reads "Kellen at Ramrehes will want
+// to know", and the map finds Ramrehes (see Undertakings.places). One already met, known by a name
 // of the company's own for them ("an old man by the stove"), or found where the aim says (Ask Beak about the rats in
 // the corn-store at Karir), is said by their name as before.
 export class AimWords {
-  static render(world: World, o: Objective): string {
+  // here: where the company is; one kept there is there to be seen, and is said by name alone (OR-1690).
+  static render(world: World, o: Objective, here?: string): string {
     let text = o.text;
-    for (const id of this.strangers(world, o)) {
+    for (const id of this.strangers(world, o).filter(x => !here || this.kept(world, x) !== here)) {
       const at = text.indexOf(`{${id}}`), after = text.slice(at + id.length + 2);
-      // Said between commas where the sentence goes on after them, and not where it ends with them.
-      const shut = /^\s+[\p{L}'‘]/u.test(after) ? ',' : '';
-      text = `${text.slice(0, at)}${this.introduced(world, id, o.text)}${shut}${after}`;
+      text = `${text.slice(0, at)}${this.introduced(world, id, o.text)}${after}`;
     }
     return ObservationText.render(text, world);
   }
@@ -55,14 +54,16 @@ export class AimWords {
     return at ? Spatial.ancestry(byId, at).filter(e => !['plane', 'region'].includes(e.space?.kind ?? ''))
       .map(e => e.id) : [];
   }
+  // By name and where they are found, never what they are (OR-1690: "Ask Finnan, woodwright at Oakhythe, who trades in
+  // what the woods give and hears what is seen in them at Finnan's house, about the old woods" had been one aim): the
+  // description is theirs, said where they are met, not the aim's.
   private static introduced(world: World, id: string, text: string): string {
-    const e = ObservationText.entity(world, id)!, [name, ...role] = e.name.split(', ');
+    const e = ObservationText.entity(world, id)!, [name] = e.name.split(', ');
     const byId = EntityIndex.of(world.module.entities).byId, town = this.town(world, byId, id);
     const said = ObservationText.render(text, world).toLowerCase(), room = town && this.room(world, byId, id, town);
     const place = town && said.includes(ObservationText.label(world, town).toLowerCase()) && room ? room : town;
     const where = place ? `at ${ObservationText.label(world, place).replace(/^The /, 'the ')}` : '';
-    const what = [role.join(', '), where].filter(Boolean).join(' ');
-    return what ? `${name}, ${what}` : name!;
+    return where ? `${name!} ${where}` : name!;
   }
   // The room someone keeps within their town, where it is not the town itself (a shrine, a forge, a counting-house).
   private static room(world: World, byId: Map<string, Entity>, id: string, town: string): string | undefined {

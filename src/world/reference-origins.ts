@@ -105,7 +105,12 @@ export class ReferenceOrigins {
   // Come over the hills: the work is heard of at the house of the one who buys what the woods give: it is the woods.
   private static wanderer(region: Region, s: Settlement, by: Arrive): OriginBound {
     const { start, approach } = by.arriving(region, s), keeper = `${s.id}_innkeeper`;
+    // Where work is heard of is known from the first, and the way to it from the landing (OR-1689: followed from the
+    // road, the aim had said nothing here bore on it, the house's door unknown until the landing).
     const incident = ['  Entity keeper: group "Whoever keeps the house". Entity stones: fact "Where the old stones are".',
+      '  Entity heard: fact "Work is heard of at {inn}". Entity indoor: passage "The way in".',
+      '  Initially Assert established(heard). Initially Assert knows(party, heard).',
+      '  Initially Assert leadsTo(heard, inn). Initially Assert leadsVia(heard, indoor).',
       '  Objective work when not been(party, inn) toward inn "Go to {inn} and ask after work: there is work'
       + ' in {home} for someone who will do what others will not.".',
     '  Relation workTold(group).',
@@ -114,8 +119,12 @@ export class ReferenceOrigins {
       + ' if you’ve the boots for it.’" { Assert workTold(party). }',
     '  Objective work_woods when been(party, inn) and not knows(party, stones) toward inn "Ask {keeper} about the'
       + ' old woods: whatever pays in {home} comes out of them.".'].join('\n');
-    return { values: { ...by.approach(region, s), incident }, start,
+    // The town has no inn: where work is heard of is said as the aim says it, the house the woods' trade comes in at,
+    // by its name (OR-1688: the opening had said the inn, and the aim Finnan's house).
+    const hear = ` ${s.name} has no inn. Work is heard of at {inn}, where what the woods give is bought.`;
+    return { values: { ...by.approach(region, s), incident, hear }, start,
       imports: { approach, inn: [`region.${s.id}_taproom`, 'place'], keeper: [`region.${keeper}`, 'group'],
+        indoor: [`region.${s.id}_inn_door`, 'passage'],
         stones: [`region.${s.id}_wood_stones_known`, 'fact'] } };
   }
 }

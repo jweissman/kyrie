@@ -109,7 +109,8 @@ describe('an aim\'s words of a stranger', () => {
       Objective tell when true "The dead are still. {kellen} will want to know.".
       Goal false.`);
     const tell = t.campaign.module.objectives!.find(o => o.id === 't__tell')!;
-    expect(AimWords.render(t.world, tell)).toContain('at Ramrehes');
+    // By name and where he is found, never what he is (OR-1690): the description is his own, not the aim's.
+    expect(AimWords.render(t.world, tell)).toBe('The dead are still. Kellen at Ramrehes will want to know.');
     t.campaign.commitWorld(t.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 't__kellen', 't__shrine') },
       { kind: 'assert', call: ModuleWriter.call('at', 't__kellen', 't__mill') }]));
     expect(t.where('t__kellen')).toBe('t__mill');

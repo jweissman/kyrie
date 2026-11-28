@@ -26,8 +26,10 @@ export class GlanceLines {
   static readonly words = 50;
   // changes: what the last act changed, by which whoever warned the company off just now is known, its warning told
   // as what happened (see here).
+  // apart: what an opening told just before (Telling.apart), said again in no line here; where it met someone on the
+  // road, what lies about them is its telling's, and no list of what is here follows it (OR-1687).
   static of(campaign: Campaign, screen: Screen, at: { arrival: Arrival; recall: CompanyRecall; kept: Line[];
-    changed: string[]; changes?: readonly string[] }): Lines {
+    changed: string[]; changes?: readonly string[]; apart?: { texts: ReadonlySet<string>; met: boolean } }): Lines {
     const defs = this.defs(campaign.module), present = this.present(screen);
     // The place's own; else, where no line is its own (an opening's, an origin's), one set at it about nothing.
     // At the opening, only the company's charge (see Charge): the rest of the place is the second turn's.
@@ -40,7 +42,8 @@ export class GlanceLines {
     // Staying, what was done leads: the place and its life are as they were.
     const lively = at.arrival === 'stay' ? undefined
       : this.life(screen, { defs, present, kept: at.kept, own, sight, arrival: at.arrival, recall: at.recall,
-        warned: new Set((at.changes ?? []).flatMap(c => /^\+ warned\(([^,]+),/.exec(c)?.[1] ?? [])) });
+        warned: new Set((at.changes ?? []).flatMap(c => /^\+ warned\(([^,]+),/.exec(c)?.[1] ?? [])),
+        told: at.apart?.texts });
     // Nor, at the opening, anyone's doings: the incident has just said who is at the company's elbow.
     const life = charge && own.length ? undefined : lively;
     const passing = new Set(screen.observed.filter(o => ['weather', 'ambience'].includes(this.def(defs, o.id)?.aspect ?? ''))
@@ -51,7 +54,7 @@ export class GlanceLines {
       .filter(t => t !== sight?.text && !passing.has(t) && t !== life?.text).slice(0, 2);
     // What the lines told now name, of someone here or of the place (the taproom a dog lies at the door of).
     const pointed = new Set(screen.observed.flatMap(l => this.named(this.def(defs, l.id)?.text ?? '')));
-    const contents = ['first', 'opening'].includes(at.arrival) && !screen.dark
+    const contents = ['first', 'opening'].includes(at.arrival) && !screen.dark && !at.apart?.met
       ? this.contents(campaign, screen, { defs, told: [sight?.id, life?.id, life?.subject], charge }) : undefined;
     return { ...sight ? { sight } : {}, ...life ? { life } : {}, ...contents ? { contents } : {}, changed, pointed };
   }
@@ -124,8 +127,8 @@ export class GlanceLines {
   // someone doing something; a line that is someone's; someone with something to be asked; and the first time only,
   // the place's passing life, or an animal's. Come back to, only what is new since.
   private static life(screen: Screen, at: { defs: Map<string, Observation>; present: Set<string>; kept: Line[];
-    own: Line[]; sight?: Glance['sight']; arrival: Arrival; recall: CompanyRecall; warned: ReadonlySet<string> }):
-    Glance['life'] {
+    own: Line[]; sight?: Glance['sight']; arrival: Arrival; recall: CompanyRecall; warned: ReadonlySet<string>;
+    told?: ReadonlySet<string> }): Glance['life'] {
     const people = screen.people.filter(p => !p.companion && !p.state), first = !['return', 'resume'].includes(at.arrival);
     const threat = people.find(p => p.reckoning);
     if (threat) {
@@ -134,7 +137,7 @@ export class GlanceLines {
     }
     const warner = screen.warned && people.find(p => p.id === screen.warned!.id);
     if (warner) { return { text: this.curl(warner.says?.[0] ?? this.here(warner)), subject: warner.id }; }
-    const fresh = this.fresh.bind(this, first, at.recall);
+    const fresh = this.unheard.bind(this, first, at.recall, at.told ?? new Set());
     // Something heard from the next room, which the way there is marked by: the barrow's whetstone had been held for a
     // look, the north recess marked heard and nothing heard in the prose (cold play 4, CL-48).
     const sound = at.kept.find(l => this.def(at.defs, l.id)?.aspect === 'sound' && fresh(l.text));
@@ -153,6 +156,10 @@ export class GlanceLines {
     if (passing) { return { id: passing.id, text: this.curl(FictionalTime.prose(passing.text)) }; }
     const animal = people.find(p => p.kind === 'animal' && p.says?.length);
     return animal ? { text: this.curl(animal.says![0]!), subject: animal.id } : undefined;
+  }
+  // Fresh, and not what the opening has just told (OR-1687).
+  private static unheard(first: boolean, recall: CompanyRecall, told: ReadonlySet<string>, text: string): boolean {
+    return !told.has(this.curl(text)) && this.fresh(first, recall, text);
   }
   // New since the company was last here: anything, the first time.
   private static fresh(first: boolean, recall: CompanyRecall, text: string): boolean {
