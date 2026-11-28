@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 366,
+    "kyr": 373,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 318,
+      "kyr": 325,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -14534,6 +14534,34 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.loose",
+   "title": "loose",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.take_pile",
+   "title": "take pile",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.gathered",
+   "title": "gathered",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.gathered_all",
+   "title": "gathered_all",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.take_out",
    "title": "take out",
    "status": "kyr",
@@ -15073,6 +15101,13 @@
    "section": "world-rules/rules-core"
   },
   {
+   "id": "rule:world_core.lair",
+   "title": "lair",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
    "id": "rule:world_core.assails",
    "title": "assails",
    "status": "kyr",
@@ -15507,8 +15542,8 @@
    "section": "world-rules/rules-inhabitants"
   },
   {
-   "id": "rule:inhabitants.lair",
-   "title": "lair, refuge",
+   "id": "rule:inhabitants.refuge",
+   "title": "refuge",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"
@@ -16431,29 +16466,43 @@
    "section": "world-rules/rules-services"
   },
   {
-   "id": "rule:world_services.haggled",
-   "title": "haggled",
+   "id": "rule:world_services.haggledWith",
+   "title": "haggledWith, haggledDown, haggledUp",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-services"
   },
   {
-   "id": "rule:world_services.haggle",
-   "title": "haggle",
+   "id": "rule:world_services.haggle_wares",
+   "title": "haggle wares",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-services"
   },
   {
-   "id": "rule:world_services.haggledItem",
-   "title": "haggledItem",
+   "id": "rule:world_services.haggled_down",
+   "title": "haggled_down",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-services"
   },
   {
-   "id": "rule:world_services.haggle_item",
-   "title": "haggle item",
+   "id": "rule:world_services.haggled_up",
+   "title": "haggled_up",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.haggled_goods_down",
+   "title": "haggled_goods_down",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.haggled_goods_up",
+   "title": "haggled_goods_up",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-services"
