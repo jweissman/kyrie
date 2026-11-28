@@ -56,7 +56,8 @@ export class MenuCensus {
       if (!self && !voids.test(tag!)) { stack.push(at); }
     }
     return { holders: [...holders].map(h => named.get(h) ?? '?'), menus: holders.size, rows, promoted, sources,
-      rail: /\sdata-rail="true"/.test(html) };
+      // The company's own page kept within reach (Rail.keep, OR-1685, the owner's one exception) is no rail earned.
+      rail: [...html.matchAll(/<[^>]*\sdata-rail="true"[^>]*>/g)].some(m => !/\bscene-rail kept\b/.test(m[0])) };
   }
   // What the lenses gave (each act of every lens: its four, its rest, and what is within its openers) that the place's
   // one menu does not reach (OR-1491: the lenses are not earned, so nothing they gave may be out of reach): an act is
