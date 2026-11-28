@@ -7,6 +7,13 @@ expensive evidence the claims actually require; an unlisted file has not been as
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/skeel-keeper.test.ts` | The authored Skeel campaign plays its keeper fixture through the cell, Parson and Court. Keep the actual route and the contrasting keeper outcomes. |
+| `test/skeel-placed.test.ts` | Generated wren enters Skeel as a province, plays its opening and waits for the chapter ending without ending the world. Keep the generated approach and installation boundary. |
+| `test/skeel.test.ts` | Lints and plays the authored Skeel campaign through tide, Court and multiple ending routes, with a thief variant. Keep the authored campaign, timed branches and explicit staged setup in the Ewan case. |
+| `test/skerrow-night.test.ts` | Authored Dorothea campaign plays the second night on Skerrow with several lamp and rescue outcomes. Keep the ship and island route; calm seas, money and some roll outcomes are staged. |
+| `test/skerrow.test.ts` | Lints and plays the authored Skerrow campaign through many timed threats, endings and a reload, including six unforced seeded routes. Keep the campaign and contrasting paths. |
+| `test/slay.test.ts` | Synthetic shared-rules overlay waits for an authored Slay and checks world, body and screen agree. A declared fragment horizon is a candidate if the living-before and non-struck-dead negatives remain proved. |
+| `test/sleep-warned.test.ts` | Generated kahitude stages the company in a barrow and plays a sleep trap through waking with a live warning. Keep the generated trap, actual waits and positive choice and warning witnesses. |
 | `test/silkholme.test.ts` | The authored Silkholme multi-module campaign plays feeding, burning, waiting, a combat setup and day/night observations. Keep the composed site and contrasting routes; the spider case constructs but does not play the fight. |
 | `test/singing-door.test.ts` | Generated kite plays the Gaudumport approach, checks where lore is sold and opens the notes door by listening and humming. Keep the generated route and before-listening negative. |
 | `test/sister-asked.test.ts` | Generated kahitude plays the lost-sister origin, asks the keeper and finds the pin, including experience gained. Keep the generated origin and actual route. |
