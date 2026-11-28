@@ -9,6 +9,11 @@ Separately, the rules-tier `test/small/commander.test.ts` passes on the kernel. 
 condition makes the remote-order negative fail, but the earlier unled-order negative has not been shown to fail when
 its promotion guard is removed. It remains on the whole ruleset until that claim has a non-vacuous witness.
 
+`test/small/feat-told.test.ts` passes with `probing`. Removing the company-membership filter makes the outsider-name
+negative fail, but forcing player attribution for a companion still passes the isolated `/you work|take/` negative
+for this seed. The positive companion-attribution assertions catch that regression; the negative is not independently
+proved, so the spec remains on the whole ruleset.
+
 | Spec | Need and decision |
 | --- | --- |
 | `test/world-drawn-once.test.ts` | Compares a cached drawing, fresh generated world and creation output, including isolated copies. Keep actual generated files and reports. |
