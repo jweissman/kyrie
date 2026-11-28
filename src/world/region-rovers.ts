@@ -1,3 +1,4 @@
+import { ModuleSource } from './kyr-values';
 import text from '../../data/generation/wild/roving.kyrt' with { type: 'text' };
 import { Draw } from './land/draw';
 import { Terrain, type Land } from './land/terrain';
@@ -47,7 +48,7 @@ export class RegionRovers {
       .sort((a, b) => Terrain.distance(land, a.cell!, home) - Terrain.distance(land, b.cell!, home))[0];
     const values = { r: `wr${home}r`, home: RegionTracts.id(home), folk: region.ancestry, town: town?.name ?? region.name };
     const ranges = road.filter(c => Terrain.distance(land, home, c) <= this.range);
-    return [...KyrTemplates.fill(section.lines, values), ...ranges.map(c => `  Initially Assert roams(${values.r}, ${RegionTracts.id(c)}).`)];
+    return [...KyrTemplates.fill(section.lines, values), ...ranges.map(c => this.roams(values.r, c))];
   }
   // One band besides that goes about by night (roving.kyrt's night group: a pack, or the hungry dead), over a stretch
   // of the country away from its towns, roads and all: met only in the dark, once (the owner, 26 November: danger at
@@ -62,7 +63,12 @@ export class RegionRovers {
     const values = { r: `wr${home}n`, home: RegionTracts.id(home) };
     const ranges = open.filter(c => Terrain.distance(land, home, c) <= this.range);
     return [...KyrTemplates.fill(section.lines, values),
-      ...ranges.map(c => `  Initially Assert roams(${values.r}, ${RegionTracts.id(c)}).`)];
+      ...ranges.map(c => this.roams(values.r, c))];
+  }
+  // Where a rover goes about, declared as a value (ModuleSource: AX-04), its Kyr beside.
+  private static roams(rover: string, c: number): string {
+    return ModuleSource.asserted({ generator: 'region-rovers', construct: 'Initially' }, 'roams', rover,
+      RegionTracts.id(c));
   }
   // Two stretches or more from any road or town (busy).
   private static away(land: Land, busy: number[], c: number): boolean {
@@ -87,6 +93,6 @@ export class RegionRovers {
         toward: Vantage.bearing(at % W - home % W, Math.floor(at / W) - Math.floor(home / W)) });
     }
     return [...KyrTemplates.fill(section.lines, values),
-      ...where.map(c => `  Initially Assert roams(${values.r}, ${RegionTracts.id(c)}).`)];
+      ...where.map(c => this.roams(`wr${home}`, c))];
   }
 }
