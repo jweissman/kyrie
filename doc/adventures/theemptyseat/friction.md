@@ -313,6 +313,47 @@ acceptance is claimed here. The
 [scoring rubric](review.md#final-scoring-rubric) is an editorial assessment
 with explicit limits, not an automated quality score.
 
+## ES-F16: a permanent sense is not yet an instrument portfolio
+
+**Kind:** unimplemented requirement/design direction. **Status:** open.
+
+The counting glass earns structural sense and the ordinary orrery earns
+Astronomy. A second counting glass does not supply a second distinct faculty.
+Recurrent arcologies are therefore ahead of the diversity of their instruments.
+They should not promise seven different permanent upgrades yet.
+
+The stellar data are twelve two-dimensional constellation drawings, not an
+orbital model. A genuine three-dimensional Mathematical Orrery and a prediction
+of the next eclipse cannot honestly be derived from them.
+
+**What was done:** kept those capabilities in the
+[instrument portfolio direction](../../../data/adventures/theemptyseat/MATHEMATICAL-WORLD.md),
+not as decorative widgets or invented forecasts. Actual earned senses have
+save/restore proofs; the larger portfolio remains designed, not implemented.
+
+**Needed:** one distinct second instrument with a real new perception and a
+reason to revisit an old place. Forecasting needs an appropriate world model
+before a display.
+
+## ES-F17: the chosen mathematician could lose the defining capability
+
+**Kind:** defect. **Status:** closed for the proved creation/check path.
+
+The chosen perk was dropped while constructing the campaign's character
+context. Provider selection also had to distinguish best bonus from best
+effective check: mathematical training changes the DC, a living Mathematician
+settles encountered evidence by proof, and a dead or stunned provider cannot
+supply that guarantee.
+
+**Repair:** retain the selected perk, reject invalid perk choices, select the
+appropriate enabled provider and report automatic proof as proof rather than
+an ordinary lucky roll. Trained and untrained attempts keep their different
+difficulties; unrelated skills do not acquire the mathematical breakthrough.
+
+**Proof:** [mathematical proof](../../../test/small/mathematical-proof.test.ts).
+This is a pipeline correction, not evidence that the wonder's unknown rooms
+have become known.
+
 ## What to do first
 
 1. Explain the unreproduced broader-suite cost reading and preserve the
