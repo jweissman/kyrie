@@ -5,6 +5,7 @@ import { RegionKey } from './region-key';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
 import { SettlementWriter } from './settlement-writer';
+import { ReferenceSettlement } from './reference-settlement';
 import type { Region, Site } from './region-writer';
 
 interface Volume { title: string; cover: string; index: string; proof: string }
@@ -15,7 +16,7 @@ export class RegionBooks {
     const sites = region.sites.filter(s => taken[s.id] === 'arcology'
       || (!taken[s.id] && (s.work?.deep || s.work?.great))).sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
     if (!sites.length) { return []; }
-    return region.settlements.filter(s => SettlementWriter.rooms(region, s).taproom).flatMap(s => {
+    return this.shelved(region).flatMap(s => {
       const seed = `${RegionKey.of(region)}:${s.id}:antique-book`;
       const site = new Draw(`${seed}:destination`).pick(sites);
       const room = SettlementWriter.standing(region, s, 'innkeeper');
@@ -25,6 +26,12 @@ export class RegionBooks {
         country: RegionKey.of(region),
         where: RegionSites.where(seat, region), arcology: taken[site.id] === 'arcology' });
     });
+  }
+  // The towns whose innkeeper keeps a book: those with an inn, but for the reference game's, which is thin so that
+  // what is found beyond it stands out (the owner, 26 November: the first town simple, its jobs uncovered).
+  private static shelved(region: Region) {
+    return region.settlements
+      .filter(s => SettlementWriter.rooms(region, s).taproom && !ReferenceSettlement.is(region, s));
   }
   private static profile(seed: string): Volume {
     const runtime = Template.bootstrapDeem({ seed: Draw.seed(seed) }, this.setting);
