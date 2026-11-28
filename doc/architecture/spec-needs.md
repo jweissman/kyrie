@@ -11,6 +11,12 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/the-long-man-charter.test.ts` | The authored Long Man campaign plays charter, bell and company routes using actual scene choices and timed events. Keep those different routes and consequences. |
+| `test/the-long-man-company.test.ts` | The authored Long Man campaign compares ranger and non-ranger approaches, company choices and conversations. Keep the actual party differences and played outcomes. |
+| `test/the-long-man-trimmer.test.ts` | The authored Long Man campaign plays the lamp-trimmer's two beats; the second case stages knowledge and location. Keep both conversations and mark the staged setup. |
+| `test/the-long-man.test.ts` | The authored Long Man campaign plays the keeper, storm, townsfolk and alternative outcomes over several days. Keep its actual timed routes and consequences. |
+| `test/the-lull-browser.test.ts` | Opt-in built-site browser journey plays the authored Lull from the march road to the green. Keep the rendered route and page narration. |
+| `test/the-lull-placed.test.ts` | Generated l127 enters the Lull as a province, plays its week and returns after its ending. Keep the generated integration, authored timing and return. |
 | `test/the-grand-tour-autoplay.test.ts` | Four seeded autoplay policies play and replay the authored Sennet campaign with per-turn invariants. Keep all policies, actual commands and replay. |
 | `test/the-grand-tour-builds.test.ts` | The authored Sennet campaign plays calling- and background-specific approaches. Keep the monk, bard and sailor contrasts and actual routes. |
 | `test/the-grand-tour-company.test.ts` | The authored Sennet campaign plays the bard's observations and song, contrasting a thief without the verse. Keep the party-specific routes and witnesses. |
