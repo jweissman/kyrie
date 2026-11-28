@@ -121,7 +121,9 @@ export class WorldAssembler {
     region.told = held.told;
     if (Object.keys(region.told).length) { this.write(region, { files, root, placements, company, vocabulary }); }
     if (options.memorial) { Memorials.remember(options.memorial, files, `${root}/region`); }
-    files[path] = JSON.stringify({ version: 1, name: region.name, modules: [...modules, ...kits], party,
+    // Its stories' people drawn apart from its own people's names (OR-418: see StoryCasts).
+    const names = StoryPeople.held(region, files, `${root}/region/`);
+    files[path] = JSON.stringify({ version: 1, name: region.name, modules: [...modules, ...kits], party, names,
       calendar: region.calendar,
       pitch: { heading: `A company in ${region.name}`, text: `${region.name} is ${RegionWriter.terrain(region.terrain)} `
         + `country, home to ${RegionWriter.peoples(region)}, who keep the faith of ${region.deity}. Nobody hires a `
@@ -140,7 +142,7 @@ export class WorldAssembler {
   // its authored countries lie: see Countries.plan.)
   static async beyond(seed: string, base: BundleSource, at: { x: number; y: number; calendar?: Region['calendar'];
     exclude: string[]; named?: Region['beyond']; taken?: string[]; held?: string[]; first: string }):
-    Promise<{ requests: BundleRequest[]; source: BundleSource; region: Region }> {
+    Promise<{ requests: BundleRequest[]; source: BundleSource; region: Region; names: string[] }> {
     const rid = WorldGrid.id(at.x, at.y);
     const region = this.region(seed, [at.x, at.y], undefined, { taken: at.taken, first: at.first });
     region.beyond = { ...region.beyond, ...at.named }; region.calendar = at.calendar; region.held = at.held;
@@ -158,7 +160,8 @@ export class WorldAssembler {
     this.spread(placements, { library: [...lib, ...own], base, region, contacts: [], context, files, root, modules });
     RegionWriter.write(files, root, region, { company: null, taken: this.taken(placements), beyond: true,
       vocabulary: Content.vocabulary() });
-    return { requests: modules, source: new OverlayBundleSource(base, files), region };
+    return { requests: modules, source: new OverlayBundleSource(base, files), region,
+      names: StoryPeople.held(region, files, `${root}/region/`) };
   }
   // A region where it lies in its world, from its own seed: drawn by Deem, laid on its land, named and peopled.
   static region(...a: Parameters<typeof WorldAssembler.drew>): Region { return Costs.time('region', () => this.drew(...a)); }
@@ -217,7 +220,7 @@ export class WorldAssembler {
       const entry = library.find(e => e.manifest.id === placement.scenario)!;
       const kin = at.family?.folk && placement.scenario === 'drover' && placement.rid === RegionWriter.id;
       modules.push(...this.requests(entry, placement, base, { context: { ...context, ...this.wild(placement, region),
-        ...this.folk(placement, region, kin ? at.family : { own: at.family?.own }) }, region }));
+        ...StoryPeople.folk(placement, region, kin ? at.family : { own: at.family?.own }) }, region }));
       const word = ScenarioWord.of(entry.manifest, placement, { region, contacts: at.contacts });
       if (word) {
         files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);
@@ -444,17 +447,6 @@ export class WorldAssembler {
       // Each a chapter of the book, as a country beyond a march is: an Ending of its own closes its story, not the
       // book (WPC-X06).
       context: { ...at.context, ...m.context }, chapter: true }));
-  }
-  // The people of the settlement a placement is set in, for its modules to name their own people by; and the names
-  // the country's people have already, which its people are drawn apart from (two Caelynns on one quay: PT-28).
-  // The protagonist's own family (kin) are of the protagonist's people; and no one of a story is called by the
-  // protagonist's own name (a dwarf's brother had been Harbek, as Harbek was, and a dwarf Rangrim met a Rangrim: the
-  // fresh playtests of 7 November).
-  static folk(placement: Placement, region: Region, kin?: { folk?: string; own?: string }): Record<string, DeemValue> {
-    const town = region.settlements.find(t => Object.values(placement.bindings).includes(t.id));
-    const taken = StoryPeople.country(region), own = kin?.own ? [kin.own] : [];
-    return { ...town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {}, taken: [...taken, ...own],
-      ...kin?.folk ? { folk: kin.folk, kin: true, ...kin.own ? { own: kin.own } : {} } : {} };
   }
   // What has made its den at a placement's first site, by the country it stands in (see RegionEcology): told to its
   // modules, which use it (a den does) or not.

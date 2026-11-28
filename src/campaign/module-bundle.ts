@@ -13,7 +13,7 @@ import { ModuleAssembly, type AdventureManifest } from './module-assembly';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { InstalledModule } from './definition';
 import type { BundleSource } from './bundle-source';
-import type { Entity, Module } from '../lang/module';
+import type { Module } from '../lang/module';
 import { Superseded } from '../lang/superseded';
 import { Bringing } from '../lang/bringing';
 import { ModuleShadow } from './module-shadow';
@@ -28,6 +28,7 @@ import { ModuleExports, type ExportEntry } from './module-exports';
 import { ModuleFiles } from './module-files';
 import { StandardRules } from './standard-rules';
 import { ModuleSymbols } from './module-symbols';
+import { StoryCasts } from './story-casts';
 // A file read ahead: its text, the kinds it was read among, and what was declared for it as values.
 interface Ahead { text: string; kinds: string; declared: FileSource['declared'] }
 
@@ -46,6 +47,9 @@ export interface CampaignManifest {
   version: 1; name: string; modules: BundleRequest[]; party?: import('../content').CreatureGenerationContext[];
   // What the company is being asked to do, shown when it is formed.
   pitch?: { heading: string; text: string };
+  // The names its country's own people have, as its world was drawn, which its stories' generated people are drawn
+  // apart from, as from those its stories drawn before them cast (see StoryCasts, OR-418).
+  names?: string[];
   // The date it begins on: a day of a month of a year of the Sun and Moon; and the hours of its night, when they are
   // not nine in the evening and six in the morning ("night": { "falls": 17, "lifts": 7 }).
   calendar?: import('./calendar').CalendarStart; night?: import('./fictional-time').Night | 'none';
@@ -109,22 +113,30 @@ export class ModuleBundle {
       ?? await Costs.timed('kits', () => Composition.expand(entries, { seed, source, vocabulary }));
     return { ...manifest, modules: composed.modules, composition: composed };
   }
-  // A story's context with the names of everyone already in the world among those its people are drawn apart from,
-  // where it draws them apart at all: by the context it is installed with, or its own (the hobs' captive, named for
-  // the world, had been Odo in ash, where a man of the country is: OR-304's draw).
-  private static apart(context: BundleRequest['context'], people?: readonly Entity[]): BundleRequest['context'] {
-    if (!context || !Array.isArray(context.taken) || !people?.length) { return context; }
-    const named = people.filter(e => e.type === 'group').map(e => (e.name ?? '').split(', ')[0]!).filter(Boolean);
-    return { ...context, taken: [...new Set([...context.taken as string[], ...named])] };
+  // The stream a module's draws are made by: the world's seed, the id its first file declares, and its random identity.
+  static seeded(seed: string, id: string, request: BundleRequest): string {
+    return RandomStreams.key(seed, 'module', id, request.randomIdentity ?? '');
   }
-  // What DEEM contributes to a bundle. A bundle that declares no generation is entirely authored.
-  private static generated(manifest: BundleManifest, [tables, templates]: [string, string], seed: string,
+  // What DEEM contributes to a bundle. A bundle that declares no generation is entirely authored. Each drawn kept by
+  // its seed, type, context and files, so that a story's cast read ahead of installing it (StoryCasts) is not drawn
+  // again as it is installed; each caller gets its own copy.
+  private static readonly drawn = new Map<string, AdventureManifest>();
+  static generated(manifest: BundleManifest, [tables, templates]: [string, string], seed: string,
     context: Record<string, DeemValue>): AdventureManifest {
     if (!manifest.generation) { return { name: '', creatures: [], actors: { order: [] }, initial: [], outcomes: [] }; }
-    const setting = Content.settingWith(JSON.parse(tables), JSON.parse(templates));
-    return new Content(`${seed}:situation`, setting).generate(manifest.generation.type,
-      { ...manifest.generation.context, ...context }) as unknown as AdventureManifest;
+    const key = JSON.stringify([seed, manifest.generation.type, context, tables, templates]);
+    let made = this.drawn.get(key);
+    if (!made) {
+      const setting = Content.settingWith(JSON.parse(tables), JSON.parse(templates));
+      made = new Content(`${seed}:situation`, setting).generate(manifest.generation.type, context) as unknown as
+        AdventureManifest;
+      if (this.drawn.size >= 256) { this.drawn.delete(this.drawn.keys().next().value!); }
+      this.drawn.set(key, made);
+    }
+    return structuredClone(made);
   }
+  // A country's requests drawn apart, in its order (see StoryCasts).
+  static drawApart(...a: Parameters<typeof StoryCasts.drawApart>) { return StoryCasts.drawApart(...a); }
   // One file, parsed, or the parser's complaint with the file's path and line.
   // Parsing is the dearest part of loading, and the same text (the world rules every module is written against, a
   // situation installed twice) is parsed again and again; each text is parsed once, and each caller gets its own copy.
@@ -352,14 +364,14 @@ export class ModuleBundle {
     Promise<(FileSource | undefined)[]> {
     return ModuleSource.sources(manifest, path, source);
   }
-  // people: who is in the world already, whose names a story's generated people are drawn apart from as the country's
-  // folk's are (two stories in b2 each gave one of their people Rurik). kinds: the campaign's own, any of which the
-  // module gives to something else being, in it, its installation's own (see ModuleNamespace.renamed).
+  // names: the names the world holds, which a module asking to be drawn apart, and given nothing to be drawn apart
+  // from, is drawn apart from (see StoryCasts: never who is installed already, OR-418). kinds: the campaign's own, any
+  // of which the module gives to something else being, in it, its installation's own (see ModuleNamespace.renamed).
   static load(...a: Parameters<typeof ModuleBundle.loading>): Promise<ModuleDraft> {
     return Costs.timed('install', () => ModuleBundle.loading(...a), { id: a[0].id });
   }
   private static async loading(request: BundleRequest, options: {
-    seed: string; installed?: InstalledModule[]; elapsed?: number; people?: readonly Entity[]; party?: number;
+    seed: string; installed?: InstalledModule[]; elapsed?: number; names?: readonly string[]; party?: number;
     canonless?: boolean; kinds?: Module['catalog'];
     vocabulary: VocabularyContext;
     // Read on its own, its imports unbound (what its exports are: ExportRoles), never to be played.
@@ -379,10 +391,9 @@ export class ModuleBundle {
     const ruleSources = rules.map(file => ({ file: file.path, module: this.parsed(options.vocabulary.fork(), file) }));
     const vocabulary = options.vocabulary.withRuleSources(ruleSources);
     const { key, kept, mine, sources, read } = await this.reading(vocabulary, own, rules, { manifest, path, source });
-    const seed = RandomStreams.key(options.seed, 'module', kept?.id ?? mine[0]!.id, request.randomIdentity ?? '');
+    const seed = this.seeded(options.seed, kept?.id ?? mine[0]!.id, request);
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
-      { ...ModuleBundle.apart({ ...manifest.generation?.context, ...request.context }, options.people),
-        now: options.elapsed ?? 0 }),
+      StoryCasts.context(manifest, request, { names: options.names, now: options.elapsed })),
     imports: manifest.imports ?? [] };
     const ruled = this.shared(vocabulary, rules), combined = ruled.value, reads = [...read, ...ruled.reads];
     // The one kept is shared: of it, only what is changed here is copied (its company, sized; its entities, given the

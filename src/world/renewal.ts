@@ -1,6 +1,7 @@
 import type { BundleRequest } from '../campaign/module-bundle';
 import { RegionWeather } from './region-weather';
 import type { BundleSource } from '../campaign/bundle-source';
+import { StoryPeople } from './story-people';
 import { OverlayBundleSource } from '../campaign/overlay-bundle-source';
 import { Expressions } from '../expressions';
 import { RandomStreams } from '../random-streams';
@@ -53,7 +54,7 @@ export class Renewal {
     if (!held) { return undefined; }
     const { entry, placement } = held, files: Record<string, string> = {}, root = `renewal-${placement.instance}`;
     const requests = WorldAssembler.requests(entry, placement, base, { context: { ...settled.context,
-      ...WorldAssembler.wild(placement, region), ...WorldAssembler.folk(placement, region) }, region });
+      ...WorldAssembler.wild(placement, region), ...StoryPeople.folk(placement, region) }, region });
     const word = ScenarioWord.of(entry.manifest, placement, { region, contacts: [] });
     if (word) {
       // Talked of where travellers are kept, until it is heard.

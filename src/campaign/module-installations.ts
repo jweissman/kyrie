@@ -159,7 +159,7 @@ export class ModuleInstallations {
     const conflicts = [...(prior?.conflicts ?? []), ...(addition.conflicts ?? [])];
     const shadows = [...(prior?.shadows ?? []), ...(addition.shadows ?? [])];
     const definition: CampaignDefinition = { schemas, ...(conflicts.length ? { conflicts } : {}),
-      ...(shadows.length ? { shadows } : {}),
+      ...(shadows.length ? { shadows } : {}), ...(prior?.names ? { names: prior.names } : {}),
       installations: [...(prior?.installations ?? []), ModuleNamespace.record(draft, elapsed)],
       actors: this.extended([...(prior?.actors ?? []), ...addition.actors], addition.extensions ?? []),
       creatures: [...(prior?.creatures ?? []), ...addition.creatures],

@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "name": "Lowmouth, after",
+ "modules": [
+  {
+   "id": "home",
+   "bundle": "home/module.json"
+  },
+  {
+   "id": "drover",
+   "bundle": "../../../data/goings-on/drover/module.json",
+   "imports": {
+    "party": "home.party",
+    "green": "home.green",
+    "taproom": "home.taproom",
+    "road": "home.road"
+   },
+   "context": {
+    "folk": "human",
+    "townName": "Lowmouth",
+    "taken": [
+     "Aud",
+     "Hamo"
+    ]
+   }
+  },
+  {
+   "id": "fever",
+   "bundle": "../../../data/goings-on/fever/module.json",
+   "imports": {
+    "party": "home.party",
+    "green": "home.green",
+    "road": "home.road"
+   },
+   "context": {
+    "folk": "human",
+    "townName": "Lowmouth",
+    "taken": [
+     "Aud",
+     "Hamo"
+    ]
+   }
+  }
+ ],
+ "party": [
+  {
+   "name": "Aud",
+   "raceId": "human",
+   "classId": "warrior"
+  }
+ ]
+}
