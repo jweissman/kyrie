@@ -5,7 +5,7 @@ Play as this kind of player, a disposition you start from and are free to depart
 If you are blocked or stop early, say where and why, and score what you met. Never make moves only to reach a count.
 
 You are a blind player: do NOT read any source code, data files, documents, tests, or git history anywhere on this machine. The only things you may use are these, in {DIR}/:
-- `python3 {DIR}/show.py < {DIR}/out.jsonl` shows every turn so far (add `full` as an argument to show.py to include routine rows it hides). Start with it to see turn 0.
+- `python3 {DIR}/show.py {DIR}/out.jsonl` shows every turn so far (add `full` after it to include routine rows it hides). Start with it to see turn 0.
 - `{DIR}/send.sh '<one JSON line>'` sends one move and prints what came of it (add a second argument `full` to see every row). A move is one of: `{"act":"<id>"}` with an id from the offered rows (lines starting P are what the game leads with, R the rest), `{"look":true}` to look about, `{"follow":"<aim id>"}` to follow one of your aims. One move per call; never run two at once.
 The game is already running; do not start or stop anything else.
 

@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 251 pins (220 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 737 live rows, 242 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 251 pins (220 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 743 live rows, 248 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -105,7 +105,7 @@ page's colours and opportunities.)
 
 ### Conflict
 
-- **Engagements and warnings** · 8 pins · 5 defects · 5 asks
+- **Engagements and warnings** · 8 pins · 7 defects · 5 asks
   - ○ before a fight the company is told what is at risk, as it reckons it, in words
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same
@@ -119,7 +119,7 @@ page's colours and opportunities.)
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
   - requirement OR-1447 P2: OR-1392 asks a territorial hazard of the first level, a maintained mechanism of the second and…
-- **Fights that cost** · 7 pins · 18 defects · 18 asks
+- **Fights that cost** · 7 pins · 19 defects · 18 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -167,7 +167,7 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 8 pins · 9 defects · 13 asks
+- **Journeys over known ways** · 8 pins · 10 defects · 13 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
@@ -295,7 +295,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 2 defects · 13 asks
+- **Markets and prices** · 0 pins · 3 defects · 13 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
@@ -872,7 +872,7 @@ page's colours and opportunities.)
   - requirement MT-16 P1: The layers as logical units, mechanically held (the owner, 19 November, night: "force logical…
   - requirement MT-28 P2: Shared structures mutable by convention, and identity in strings (Findings J, K): shared…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
-- **Testing instruments** · 0 pins · 6 defects · 22 asks
+- **Testing instruments** · 0 pins · 7 defects · 22 asks
   - requirement TC-03 P2: Test architecture: content-addressed fixtures, changed-test selection by recorded dependencies,…
   - requirement TC-04 P2: The safe-zone walk at five sizes in CI; atlas states tested as projected data
   - requirement TC-05 P2: The census proves structure, not play: no seven-stage report, no per-world invariants; no…

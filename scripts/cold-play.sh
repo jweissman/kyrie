@@ -64,12 +64,17 @@ case "$agent" in
   none)
     cat "$dir/prompt.md"; echo; echo "When it is done: $0 --stop $dir" ;;
   claude)
-    # Where the shell has no claude on its path (a session's own shell), the local install's.
-    cl=$(command -v claude || echo "$HOME/.claude/local/claude")
-    # A model named, an older install's own default being retired (COLD_MODEL to play another).
+    # CLAUDE_BIN, else the editor's current native binary, else claude on the path. Never ~/.claude/local's old
+    # install alone: a July 2025 CLI there waited silently for an hour and made no move (round A1, 28 November).
+    native=$(ls -d "$HOME"/.vscode-server/extensions/anthropic.claude-code-*/resources/native-binary/claude 2>/dev/null \
+      | sort -V | tail -1)
+    cl=${CLAUDE_BIN:-${native:-$(command -v claude)}}
+    [ -x "$cl" ] || { echo "no claude to play with (set CLAUDE_BIN)" >&2; "$0" --stop "$dir"; exit 2; }
+    # A model named, an older install's own default being retired (COLD_MODEL to play another). A file is allowed by
+    # an Edit rule, which covers writing it (a Write rule is not matched by file permission checks).
     "$cl" -p "$(cat "$dir/prompt.md")" --model "${COLD_MODEL:-claude-sonnet-5-5}" --output-format text \
       --allowedTools "Bash($dir/send.sh:*)" "Bash(python3 $dir/show.py:*)" \
-      "Write($dir/log.md)" "Edit($dir/log.md)" "Write($dir/report.md)" > "$dir/agent.txt" 2>&1 || true
+      "Edit($dir/log.md)" "Edit($dir/report.md)" < /dev/null > "$dir/agent.txt" 2>&1 || true
     "$0" --stop "$dir"; echo "report: $dir/report.md" ;;
   codex)
     ( cd "$dir" && codex exec "$(cat "$dir/prompt.md")" > "$dir/agent.txt" 2>&1 ) || true

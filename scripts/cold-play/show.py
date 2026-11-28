@@ -1,6 +1,9 @@
 import sys,json
-full = len(sys.argv)>1
-for l in sys.stdin:
+# show.py <out.jsonl> [full]: the turns so far (a path, since a sandbox may refuse a redirect); stdin without one.
+args=sys.argv[1:]
+path=next((a for a in args if a.endswith(".jsonl")),None)
+full="full" in args
+for l in (open(path) if path else sys.stdin):
   try: d=json.loads(l)
   except Exception: print("RAW",l[:2000]); continue
   print("== turn",d.get("turn"),d.get("moment"),"| at",d.get("at"),"|",d.get("you"),"| purse",d.get("purse"))

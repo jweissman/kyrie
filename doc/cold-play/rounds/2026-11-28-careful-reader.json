@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-28",
+  "sha": "59c209a1e7c206d2c9859cdfccda3d07ed153167",
+  "kind": "careful-reader",
+  "session": "cold-A1-2026-11-28T04:45Z",
+  "rubric": {
+    "id": "first-hour",
+    "version": "1"
+  },
+  "criteria": {
+    "beginning": {
+      "score": 4,
+      "max": 4
+    },
+    "agency": {
+      "score": 3,
+      "max": 4
+    },
+    "trust": {
+      "score": 2,
+      "max": 4
+    },
+    "discovery": {
+      "score": 3,
+      "max": 4
+    },
+    "continuation": {
+      "score": 3,
+      "max": 4
+    }
+  },
+  "total": 75,
+  "clarity": 7,
+  "wantingToGoOn": 7,
+  "moves": 73,
+  "fictionalTime": "the morning of 30 Haysel, day 1 (within one morning)",
+  "configuration": {
+    "agent": "claude -p (Claude Code 2.1.312 native binary)",
+    "model": "claude-sonnet-5-5",
+    "tools": [
+      "send.sh",
+      "show.py (denied in practice)"
+    ],
+    "prompt": "scripts/cold-play.sh at 975b4defd (regimen v1, --kind)"
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "audit": "The lead checked the citations against out.jsonl. Trust 2 stands. Its evidence is partly the game's: T59, the rats offered as 'Easily won' under a DANGER mark beside 'Together they could bring Odile down' (OR-1851). It is partly the runner's: the seven click timeouts on things' rows (OR-1850). A probe of the live page found those rows sound for a player, so 'loot visible but unreachable' is the instrument's failure, not the game's. No score is changed, because the game's part alone supports 2. Defect 4 ('Out to the market-place' four storeys down) is confirmed in the cross-chamber (OR-1853). Defect 3 (K'nar repeating the letter) is the conversation's kept history, not a repetition, and is not filed.",
+  "filed": [
+    "OR-1850",
+    "OR-1851",
+    "OR-1852",
+    "OR-1853",
+    "OR-1854",
+    "OR-1855"
+  ],
+  "evidence": [
+    "doc/cold-play/rounds/2026-11-28-careful-reader/out.jsonl",
+    "doc/cold-play/rounds/2026-11-28-careful-reader/lines.txt",
+    "doc/cold-play/rounds/2026-11-28-careful-reader/report.md"
+  ]
+}

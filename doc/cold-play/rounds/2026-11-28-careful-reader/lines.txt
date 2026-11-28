@@ -1,0 +1,84 @@
+{"look":true}
+{"act":"region__s1_priest#talk"}
+{"act":"region__s1_priest/0:Talk/0:Give K'nar the brothers' letter"}
+{"act":"region__s1_priest/0:Talk/0:Ask K'nar what the matter is in Millford"}
+{"act":"talk:trade"}
+{"act":"region__s1_priest#leave"}
+{"act":"exit:region__s1_green"}
+{"act":"region__s1_priest#leave"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__s1_shop"}
+{"act":"region__s1_merchant#talk"}
+{"act":"region__s1_merchant/0:Talk/0:Ask Soveliss what the matter is in Millford"}
+{"act":"talk:trade"}
+{"act":"talk:trade"}
+{"act":"talk:trade"}
+{"look":true}
+{"act":"region__s1_merchant/0:Buy/0:A torch — 1 coin"}
+{"act":"talk:back"}
+{"act":"region__s1_merchant/0:Talk/0:Ask Soveliss what is buried in the king-barrow"}
+{"act":"region__s1_merchant#leave"}
+{"act":"travel:region__s1_taproom"}
+{"look":true}
+{"act":"region__s1_traveller#talk"}
+{"act":"region__s1_traveller/0:Talk/0:Ask Reed whether he would come along"}
+{"act":"region__s1_traveller/0:Ask Reed to join the company — 6 coin"}
+{"act":"region__s1_traveller#leave"}
+{"act":"region__s1_innkeeper#talk"}
+{"act":"region__s1_innkeeper/0:Talk/0:Say you are going up to the old stones"}
+{"act":"region__s1_innkeeper#leave"}
+{"act":"travel:region__s1_wood_edge"}
+{"act":"exit:region__s1_wood_ride"}
+{"act":"exit:region__s1_wood_stones"}
+{"act":"region__s1_wood_doorstone#look"}
+{"look":true}
+{"act":"region__s1_wood_doorstone#look"}
+{"act":"exit:region__s1_ud"}
+{"act":"light:region__s1_merchant_torch_1"}
+{"act":"region__s1_ud_makers#look"}
+{"act":"region__s1_ud_waiting#talk"}
+{"act":"region__s1_ud_makers/0:Read the marks on the kerb-stones"}
+{"act":"region__s1_ud_makers#back"}
+{"act":"company/0:Copy the old writing into your book, stroke by stroke"}
+{"act":"region__s1_ud_waiting#talk"}
+{"act":"region__s1_ud_waiting/0:Talk/0:Ask Hawise whether she would come down with you"}
+{"act":"region__s1_ud_waiting#leave"}
+{"act":"light:region__party_1__torch"}
+{"act":"exit:region__s1_ud_barrow_mouth/0:Go"}
+{"act":"ability:cleave"}
+{"act":"ability:cleave/region__s1_ud_barrow_mouth_dwellers_person"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"look":true}
+{"act":"onward"}
+{"act":"region__s1_ud_barrow_mouth_find0#look"}
+{"look":true}
+{"act":"region__s1_ud_barrow_mouth_find0#look"}
+{"act":"exit:region__s1_ud_barrow_passage/0:Look at the enchanted object/0:Look closely"}
+{"look":true}
+{"act":"exit:region__s1_ud_barrow_passage/0:Knock it over with the pole, from well back"}
+{"act":"exit:region__s1_ud_barrow_passage"}
+{"act":"region__s1_ud_barrow_passage_after1_doc#look"}
+{"act":"company/0:Search here"}
+{"look":true}
+{"act":"exit:region__s1_ud_barrow_chamber"}
+{"act":"region__s1_ud_barrow_chamber_dwellers/0:Attack"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"onward"}
+{"act":"region__s1_ud_barrow_chamber_coins#look"}
+{"act":"exit:region__s1_ud_barrow_back_stone"}
+{"look":true}
+{"act":"region__s1_ud_barrow_back_stone_wonder_eternal_candle#look"}
+{"act":"exit:region__s1_ud_halls_stair_foot"}
