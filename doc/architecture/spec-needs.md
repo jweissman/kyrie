@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/way-back.test.ts` | Generated kahitude stages a key and shored roof, then travels the quarry to check the return and padlock. Keep the actual route and staged conditions. |
+| `test/way-end.test.ts` | Two synthetic modules and a toll-up probe play one-sided observations and barriers. Fragment candidates must keep each side and the before/after contrasts. |
+| `test/way-goes-first.test.ts` | Generated kite stages two people in the tower cistern and renders both risk choices and confirmation. Keep actual risk and both rendered rows. |
+| `test/way-in.test.ts` | Generated cov7 stages arrival at the brood approach and plays search to reveal the hidden path. Keep actual placement and before/after offers. |
+| `test/way-labels.test.ts` | A synthetic module renders several distinct way-label constructions. A fragment is a candidate if every label remains unchanged. |
+| `test/way-opening.test.ts` | The admitted probe plays the porter's rule and checks the immediately opened passage. A fragment is a candidate if rule ordering and both way states survive. |
+| `test/way-standing.test.ts` | A way-standing probe compares open commands and screen exits; a synthetic dark scene checks unseen people. Preserve both setups and non-vacuous negative checks. |
+| `test/ways-in-browser.test.ts` | Opt-in browser test builds the page and plays save, title, continue and refusal at two sizes. Keep real browser storage and page behavior. |
 | `test/walk-danger.test.ts` | Generated a1 plays several callings against the Walk's raid and alternatives. Keep each party and outcome; its cleric final assertion is tautological even on the full world. |
 | `test/walk-ends.test.ts` | Generated a1 forks one start and stages conditions for five distinct Walk endings. Keep all endings and their four-town consequences, with staged levers explicit. |
 | `test/walk-minutes.test.ts` | Generated kahitude compares a planned short town journey to elapsed time. Keep real town geography and the completed journey. |
