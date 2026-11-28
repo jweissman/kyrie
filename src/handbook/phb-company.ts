@@ -32,9 +32,11 @@ export class CompanyChapters {
     return { id: 'ancestries', title: 'Ancestries', intro: ['A companion\'s ancestry adds to their qualities, decides which '
       + 'callings are open to them, and gives the traits they are born with.'], entries };
   }
-  // A people's words after its description, each under its head, as the encyclopedia sets them (OR-1801).
+  // A people's words after its description, each under its head, as the encyclopedia sets them (OR-1801): how they
+  // look, where they live and how many, how they live together, how they are seen, and a life begun as one (OR-1802).
   static parts(a: Ancestry): [string, string][] {
-    const heads: [string, string | undefined][] = [['How they look', a.appearance], ['How they live', a.society]];
+    const heads: [string, string | undefined][] = [['How they look', a.appearance], ['Where they live', a.demography],
+      ['How they live', a.society], ['How they are seen', a.regard], ['A life begun as one', a.life]];
     return heads.filter((h): h is [string, string] => !!h[1]);
   }
   // A calling's facts say no gold: Orsino's is paid to no one, and a life's coin is its origin's and its trade's

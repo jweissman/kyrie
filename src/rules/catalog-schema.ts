@@ -114,8 +114,10 @@ export interface Ability {
 export interface Ancestry {
   name: string; description: string; nameGroup: string; classes: string[]; playable?: boolean;
   // How they look, how they live together, how they are built, and when they are grown and old, in words: the
-  // encyclopedia's (OR-83).
-  appearance?: string; society?: string; build?: string; ages?: string;
+  // encyclopedia's (OR-83). And where they live, how many and in what settlements (demography), how other peoples see
+  // them (regard), and what that means for a life begun as one (life): the owner, 27 November, OR-1802.
+  appearance?: string; society?: string; build?: string; ages?: string; demography?: string; regard?: string;
+  life?: string;
   attributes: Partial<Record<Attribute, number>>; traits: string[]; forbiddenTraits?: string[];
   techniques?: string[]; feature?: string; source: Source;
 }

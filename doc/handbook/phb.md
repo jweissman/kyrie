@@ -27,7 +27,13 @@ Jack of All Trades: +1 to searching.
 
 > **How they look.** Their skin runs from the pale of the north to the brown of the river country, their hair from flax to black. They age quickly beside elves and dwarves, and there are many of them.
 
+> **Where they live.** The most numerous of the peoples, and the greater part of most countries. Most humans live in villages of thirty to a hundred households, a day's walk from a market town; a town of two thousand souls is a great place.
+
 > **How they live.** Humans live in villages and market towns along the rivers and roads, under a lord or a reeve, a town council or a guild. A family holds land or a trade from one generation to the next. Most never go further than the next market; those who do are carters, soldiers and pilgrims. They marry young, quarrel over boundaries, and keep the old feasts.
+
+> **How they are seen.** Other peoples find them hasty and short-lived, always building and always moving the boundary stones. Their coin and their law are the ones most others deal in, so a human is seldom a stranger anywhere.
+
+> **A life begun as one.** Blood gives a human life nothing but a quickness to learn. No door is shut on the face, and the market's talk is a human's own tongue. What sets one apart is the trade and the calling, not the people.
 
 ### Elf
 
@@ -53,7 +59,13 @@ Keen Senses: +4 to searching.
 
 > **How they look.** Pale or nut-brown, with pointed ears, fine features and no beard. Their eyes are large, and often of a colour humans do not have: green-gold, violet, the grey of rain.
 
+> **Where they live.** Few, and fewer in the open country. A household is five to a dozen souls; an old wood may hold three or four households a morning's walk apart, and some keep reed-halls in the marshes. An elf child is born about once in a human generation.
+
 > **How they live.** Elves live in small households scattered through the old woods, kin by blood and by long friendship, with no lord but the eldest who will take the trouble. An elf may keep one craft for a century. They are slow to trust the short-lived, and slower to forget a wrong done to a tree.
+
+> **How they are seen.** Humans think them proud, and are half right: an elf has seen a town founded and seen it fail. They are welcome as guides and bowyers, less so as neighbours, for they remember every boundary as it once ran.
+
+> **A life begun as one.** An elf who leaves the woods young has still lived a hundred years. The eyes are keen, the step light, and spells take poorly on them. In a human town an elf is noticed and remembered, and seldom asked to stay.
 
 ### Dwarf
 
@@ -78,7 +90,13 @@ Enduring: +2 hit points each level.
 
 > **How they look.** Weathered skin, deep-set eyes, and beards that women as well as men may wear, braided long. Their hands are hard from stone.
 
+> **Where they live.** A hold is a clan of two or three hundred under one hill, with steadings in the valleys below it. Dwarves are the folk of the mountains, the frost country and the desert saltworks; elsewhere they come as smiths and traders, a few to a town.
+
 > **How they live.** Dwarves live in holds cut into the hills, by clans, each with its hall, its forge and its dead in the deep rooms. A clan is ruled by its elders and its debts: what a dwarf owes is remembered by the whole hold. They trade iron and stonework with the valleys and rarely sell anything they made themselves.
+
+> **How they are seen.** Valley folk trust a dwarf's weights and fear a dwarf's memory. A debt to a hold outlives the debtor: it passes to the children, and the hold sends a collector.
+
+> **A life begun as one.** A dwarf stands up to poison, sickness and hard knocks better than any other people, and hardens with every fight survived. Two callings only are open: arms and a god's service. A dwarf abroad is still of a hold, and its debts and grudges travel too.
 
 ### Goblin
 
@@ -95,6 +113,8 @@ Enduring: +2 hit points each level.
 > A small, sharp-featured person of the river warrens.
 
 > **How they look.** Grey-green or ochre skin, a sharp nose, wide ears that turn toward a sound, and small bright eyes.
+
+> **Where they live.** Goblins are counted by the burrow, not the head: a warren on a river bank may hold two hundred, and every village downriver of one knows it.
 
 > **How they live.** Goblins live in warrens along the river banks, many to a burrow, under whoever is loudest that season. They scavenge, trade and steal, and are paid to do the work nobody else will. Townsfolk keep them at the edge of things and blame them for what goes missing, often rightly.
 
@@ -118,6 +138,8 @@ Enduring: +2 hit points each level.
 
 > **How they look.** A spotted coat, long muzzle, rounded ears and a stiff mane, marked differently in every person.
 
+> **Where they live.** A household is a few families; a band on the move may be thirty. Gnolls range the dry hills and the edges of the woods, and a band that dens near a town is soon known to the whole country.
+
 > **How they live.** Gnolls live in households and travelling bands. Some keep animals, work the roads or hire out their strength; others raid in packs under the strongest, taking herds, stores and travellers. A pack that finds old workings or a barrow near a town may make its den there until driven off.
 
 ### Glimmerkin
@@ -135,6 +157,8 @@ Enduring: +2 hit points each level.
 > A small, soft-footed person of the deep caves, with eyes that shine like a cat's in lamplight and a trader's patience.
 
 > **How they look.** Pale from a life under the ground, with large dark eyes that catch a lamp's light and throw it back, and long careful fingers.
+
+> **Where they live.** A clan of glimmerkin is a few hundred in the deep caves, between the dwarf holds and the surface. Few come up into the light at once, and a town seldom has more than one.
 
 > **How they live.** Glimmerkin live in the deep caves, in clans that trade lamp-oil, crystal and news between the dwarf holds and the surface. A bargain is a sacred thing to them, and a guest under the ground is safe for three days. Few come up into the light, and those who do keep their eyes shaded.
 
@@ -158,6 +182,8 @@ Enduring: +2 hit points each level.
 
 > **How they look.** Curly brown hair, ruddy cheeks, and broad bare feet that seldom need boots. They dress well when they can, and eat often.
 
+> **Where they live.** Halflings live in villages of forty or fifty households in the pastoral country, and as a few families among the dykers, the field-folk and the well-towns. A halfling village is never more than a day from the next.
+
 > **How they live.** Halflings live in the pastoral country, in villages of low houses dug half into the hillside, with gardens, orchards and long tables. Their mayors are elected and change often. They are hospitable, curious about other folk's business, and wary of anything that might spoil a harvest.
 
 ### Gnome
@@ -179,6 +205,8 @@ Enduring: +2 hit points each level.
 
 > **How they look.** Brown or tan skin, a large nose and quick hands, and hair that goes white early and stands up as it likes.
 
+> **Where they live.** There is no gnome country. A workshop is one family and its apprentices, a dozen souls, in a human town or beside a dwarf hold; a large town may have three.
+
 > **How they live.** Gnomes live among others: in the corners of human towns, near the dwarf holds, wherever there is metal to work and a problem to solve. A gnome workshop is a family, and an apprentice is a child of the house. They love a clever trick, and tell the same jokes for a hundred years.
 
 ### Half-elf
@@ -199,6 +227,8 @@ Enduring: +2 hit points each level.
 > A person of human and elven blood, at home between the two peoples and a bridge between them.
 
 > **How they look.** Their elven parent's pointed ears, smaller, and their human parent's face: taken for either, by those who want to.
+
+> **Where they live.** Half-elves are few, born where elves and humans live close: on the edges of the old woods, by the springs and in the field-folk's villages. Most grow up one to a family.
 
 > **How they live.** Half-elves have no country of their own. They grow up in a human town or an elven wood, belonging to neither quite, and often leave both. Many become go-betweens: interpreters, traders, envoys. They make friends easily and keep them a long time, outliving the human ones.
 
@@ -223,6 +253,8 @@ Jack of All Trades: +1 to searching.
 
 > **How they look.** Grey-green skin, a heavy brow, and lower teeth that push forward like small tusks. Many carry scars, and not all of them from fighting.
 
+> **Where they live.** Half-orcs live a few to a place: in the drovers' towns, the frost steadings, the saltworks and the caravan camps, where strength is paid for and faces are not asked about.
+
 > **How they live.** Half-orcs live where they can: at the edges of human towns, in mining camps and soldiers' quarters, with a mother's or a father's people. They are hired for strength and doubted for their faces. A half-orc who has earned a town's trust has earned it twice.
 
 ### Lizardfolk
@@ -243,6 +275,8 @@ Jack of All Trades: +1 to searching.
 > A reptilian person of the swamps and the water's edge.
 
 > **How they look.** Scaled in greens and browns, with a blunt snout and a crest along the skull. They keep still a long time, and then are quick.
+
+> **Where they live.** A tribe is fifty to a hundred, on islands and causeways of the marsh. Lizardfolk live among the dykers and in the reed country, and are seldom seen a day from water.
 
 > **How they live.** Lizardfolk live in the swamps and along the water's edge, in tribes ruled by their oldest hunters. They waste nothing: a kill is food, tools and clothing. They trade with the dykers and the fishers and keep their bargains, but find warm-blooded grief strange.
 
@@ -266,7 +300,13 @@ Jack of All Trades: +1 to searching.
 
 > **How they look.** Short fur in the colours of a cat's coat, tufted ears, slit eyes, and a long tail that tells more of their mood than their face does.
 
+> **Where they live.** There are no catfolk towns. A band is two or three families, a dozen or twenty souls, ranging the forest edges and the caravan roads: in the woods they hunt beside elves, in the desert they travel with human caravans. Most towns see a band twice a year, at the fur markets.
+
 > **How they live.** Catfolk live in small roving bands that hunt the forest edges and the open country, and come into towns to trade furs and hire out as scouts. Each band follows whoever finds it the most food. They value a good story and a good kill alike, and are restless under a roof.
+
+> **How they are seen.** Townsfolk count the spoons when a band comes in, and hire its scouts anyway. A catfolk scout who keeps a promise is talked of for years, as if it were rare. It is not.
+
+> **A life begun as one.** Catfolk are the quickest of the peoples, hard to hit and lucky in a fall, and every calling is open to them. A catfolk life begun in a town is begun as an outsider: welcome for a story or a hunt, watched at the market.
 
 *Adapted: Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race and opens it to the thief, the ranger and the bard; Kyr makes it playable (Mission 19: the studio painted catfolk of every calling, assets/pcs/catfolk*.png) and opens it to every calling, as a human's. Its people also live in generated regions and may be met and recruited there.*
 
@@ -288,6 +328,8 @@ Jack of All Trades: +1 to searching.
 > An airy, elusive person of the winds and the high places.
 
 > **How they look.** Pale skin with a cast of blue or grey, hair that stirs when there is no wind, and a voice like breath over the mouth of a bottle.
+
+> **Where they live.** Sylphs are very few: two or three to a peak or a windy ridge of the frost country, and none in the lowlands unless they choose to be.
 
 > **How they live.** Sylphs live in the high places, a few to a peak or a windy ridge, and come down rarely. They have no rulers, only friendships. In the lowlands they are taken for spirits, and many let the mistake stand.
 
@@ -312,6 +354,8 @@ Keen Senses: +4 to searching.
 
 > **How they look.** Skin with a cast of blue or green and cool to the touch, hair the colour of deep water, and a damp look even in summer.
 
+> **Where they live.** Undines live a few to a spring or a shore, in the marsh country and by the sea, often within a fishing village that knows them by name.
+
 > **How they live.** Undines live near springs, lakes and the sea, a few to a shore, often among human fisherfolk. They keep the water's secrets and the old water-rites. They are calm until the water is fouled, and then they are not calm at all.
 
 ### Birdfolk
@@ -334,7 +378,13 @@ Keen Senses: +4 to searching.
 
 > **How they look.** A feathered head with a hooked beak and round keen eyes, and wings folded at the back, with hands at the joint of each wing.
 
+> **Where they live.** An eyrie is a few families on one crag, forty souls at most, and the next eyrie may be three days' flight off. Birdfolk keep to the mountains and the windward heights of the frost country, often above a dwarf hold or a herders' pasture they trade with.
+
 > **How they live.** Birdfolk live in eyries on the cliffs and high crags, in flocks of a few families. They range far for food and news, and know the lie of the land better than anyone. Ground-dwellers seem slow and heavy to them, and their towns airless.
+
+> **How they are seen.** Herders pay them for news of weather and wolves. Townsfolk find them strange to look at and stranger to house: a birdfolk guest will not sleep under a low roof.
+
+> **A life begun as one.** A birdfolk life is short and quick: grown at ten, old at forty. Weak in the arm and quick of wit, they see far and are hard to hit, and every calling is open to them. Few begin a life on the ground who were not curious about it.
 
 *Adapted: Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race and opens it to the warrior, the ranger and the mage; Kyr makes it playable (Mission 19: the studio painted birdfolk of every calling, assets/pcs/birdfolk*.png) and opens it to every calling, as a human's. Its people also live in generated regions and may be met and recruited there.*
 
@@ -360,6 +410,8 @@ Faerie Charm: what they cast lasts 1 turn longer.
 
 > **How they look.** Too fair, or too strange, to be taken for anyone else for long. Something about them is always the colour of the season.
 
+> **Where they live.** The fae have never been counted. Their courts keep the deepest of the old woods, and the ones met on the road are met one at a time.
+
 > **How they live.** The fae keep courts in the deep woods, where the seasons turn as they please. Their rule is old, strange and bound by promises. A fae who walks among mortals does so out of curiosity, exile or a bargain, and keeps the letter of every word given.
 
 ### Minotaur
@@ -381,6 +433,8 @@ Enduring: +2 hit points each level.
 > A bull-headed person, powerful and patient, a keeper of difficult ways.
 
 > **How they look.** A bull's head on a broad body taller than a door is made for, with horns that are mended, banded or carved, and never cut.
+
+> **Where they live.** A minotaur keeps one way, alone or with one other, and the next keeper may be a country away. They are fewer than any people a traveller is likely to meet.
 
 > **How they live.** Minotaurs live alone or in pairs, each keeping one difficult way: a maze, a ford or a mill-race. A keeper takes a toll and keeps the way open in return. They count debts carefully and do not forget them.
 

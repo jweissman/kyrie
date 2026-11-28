@@ -26,7 +26,7 @@ const fields = {
   weapon: ['damage', 'type', 'kind', 'weight', 'missile', 'intercept', 'natural', 'tags'],
   armor: ['ac', 'weight', 'type'],
   ancestry: ['name', 'description', 'nameGroup', 'classes', 'playable', 'attributes', 'traits', 'forbiddenTraits',
-    'techniques', 'feature', 'source', 'appearance', 'society', 'build', 'ages'],
+    'techniques', 'feature', 'source', 'appearance', 'society', 'build', 'ages', 'demography', 'regard', 'life'],
   class: ['name', 'description', 'life', 'hitDie', 'attributes', 'gold', 'abilities', 'playable', 'adventuring', 'skills',
     'learns', 'practice', 'specializations', 'weapons', 'armor', 'startingGear', 'features', 'proficiencies', 'slots',
     'spellcasting', 'rank', 'omits', 'source'],
