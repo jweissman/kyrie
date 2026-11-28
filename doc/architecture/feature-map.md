@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 74 capabilities; 256 pins (225 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 762 live rows, 255 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 255 pins (224 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 754 live rows, 251 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -105,7 +105,7 @@ page's colours and opportunities.)
 
 ### Conflict
 
-- **Engagements and warnings** · 8 pins · 8 defects · 5 asks
+- **Engagements and warnings** · 8 pins · 7 defects · 5 asks
   - ○ before a fight the company is told what is at risk, as it reckons it, in words
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same
@@ -119,7 +119,7 @@ page's colours and opportunities.)
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
   - requirement OR-1447 P2: OR-1392 asks a territorial hazard of the first level, a maintained mechanism of the second and…
-- **Fights that cost** · 9 pins · 19 defects · 18 asks
+- **Fights that cost** · 9 pins · 18 defects · 18 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -282,12 +282,6 @@ page's colours and opportunities.)
   - ○ a level gained opens a way to talk, climb, decipher or slip past that was shut before
   - requirement OR-347 P2: Levels and growth: the capability as its pins hold it (a level gained opens a way to talk, climb,…
   - requirement OR-1246 P2: Perks of the Atlas's tones earn lenses (a perception perk the look lens, a trade perk a trade…
-- **Routine in one act** · 2 pins · 0 defects · 3 asks
-  - ✓ gathers up a pile of finds in one act, which leads the place and says who carries it
-  - ✓ haggles with a trader once, over everything they sell, their trade no longer than their wares
-  - requirement OR-1871 P2: A deep room's scattered coins are not gathered up with the rest of what lies there: they are a…
-  - requirement OR-1872 P2: Replenishing is one buy at a time: the delver buys two torches, a ration and a firebomb in four…
-  - requirement OR-1874 P2: In the dark, a light is offered once for each kind each of the company carries ("Odile: light a…
 - **Belongings with a history** · 2 pins · 0 defects · 2 asks
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - ✓ is taken from in the pack, not the scene, for every client
@@ -304,7 +298,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 2 defects · 13 asks
+- **Markets and prices** · 0 pins · 3 defects · 13 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
@@ -399,10 +393,11 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 18 pins · 9 defects · 27 asks
+- **Dungeons and sites** · 19 pins · 9 defects · 27 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ rolls what newcomers carry on Deem by their kind and depth, more deeper
   - ✓ sends one band after another into the room emptied, each leaving what it carried where it fell
+  - ✓ moves in where the dwellers were put to flight, as where they died, and so lets them lose heart
   - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
@@ -620,7 +615,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 28 defects · 40 asks
+- **Rows, lenses and the frame** · 3 pins · 26 defects · 39 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -656,7 +651,6 @@ page's colours and opportunities.)
   - direction OR-1473 P2: The runner takes an act of the place asked for in a talk (its question offers only what is said to…
   - requirement OR-1247 P3: The Pack beside the company's one page: what is carried is used, worn and dropped there, so it…
   - requirement OR-125 P1: The action row, M22's central object, given the precision of a larger composition (the owner, 19…
-  - requirement OR-1831 P3: The handbooks (the player's handbook, the referee's guide, the bestiary) are still in their own…
   - direction PA-08 P2: World assembly and social structure: can Kyr and Deem generate people within households, lineages,…
   - direction PA-05 P2: Creation as an entry into the encyclopedia: considering an ancestry or calling brings forward an…
   - requirement PA-06 P2: Dual presentation and input: an option drawn as an instrument (a card, the observatory, a compass,…
@@ -890,7 +884,7 @@ page's colours and opportunities.)
   - requirement MT-16 P1: The layers as logical units, mechanically held (the owner, 19 November, night: "force logical…
   - requirement MT-28 P2: Shared structures mutable by convention, and identity in strings (Findings J, K): shared…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
-- **Testing instruments** · 0 pins · 8 defects · 22 asks
+- **Testing instruments** · 0 pins · 7 defects · 22 asks
   - requirement TC-03 P2: Test architecture: content-addressed fixtures, changed-test selection by recorded dependencies,…
   - requirement TC-04 P2: The safe-zone walk at five sizes in CI; atlas states tested as projected data
   - requirement TC-05 P2: The census proves structure, not play: no seven-stage report, no per-world invariants; no…
