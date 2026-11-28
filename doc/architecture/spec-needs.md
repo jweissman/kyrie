@@ -7,6 +7,13 @@ expensive evidence the claims actually require; an unlisted file has not been as
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/silent-lord-alone.test.ts` | The authored Silent Lord situation runs with a small synthetic host and shared rules, not a generated country, for malice, warnings and unattended consequences. Keep the situation, timed contrasts and explicitly staged placements or facts. |
+| `test/silent-lord-malice.test.ts` | Generated keep supplies the wicket and rider tracks for thief and ranger cases. Keep the generated site; the company and knowledge are staged where noted. |
+| `test/silent-lord-turns-alone.test.ts` | The authored Silent Lord situation and a small host play feast, garrison and town consequences, including reload. Keep the situation and contrasts; several placements and facts are explicitly staged. |
+| `test/silent-lord-turns.test.ts` | Generated keep checks the hunted gate's opening and cooling, and a clerk's rider on a real country journey. Keep generated placement and the journey; the hunt and some placement are staged. |
+| `test/silent-lord-ways-alone.test.ts` | The authored Silent Lord situation and small host play hound, houndsman and sentry routes. Keep the situation and timed behavior; selected placements and hound tolerance are staged. |
+| `test/silent-lord-ways.test.ts` | Generated keep supplies the gate and drain for night entry, bad air, combat and rescue. Keep generated site and real actions; party placement and a crowbar are staged. |
+| `test/silent-lord.test.ts` | Seven generated countries check keep placement, two check casting, and kahitude plays discovery, map travel and regency. Keep generation diversity and the played outcomes; the regency case stages arrival and money. |
 | `test/shared-item-effects.test.ts` | Canon-backed creature and item fixtures exercise effects, equipment, combat and ownership, plus one actual wolf-yard campaign transaction rollback. Keep the real catalog and rollback boundary; most cases need no world start but splitting alone does not remove that campaign. |
 | `test/shared-validity.test.ts` | Composes the full shared rules with two synthetic modules and also validates shared rules alone, proving both forms of context dependence. Keep the whole shared set and both diagnostics; a fragment would not prove this contract. |
 | `test/shops.test.ts` | Generated kite and mere play real purchases and unaffordable offers, alongside pure stock and shelf checks. Keep generated shops and the actual buy; shop placement and purse in the unaffordable case are staged. |
