@@ -5,6 +5,7 @@ import type { Region } from './region-writer';
 import type { BundleSource } from '../campaign/bundle-source';
 import type { Entry } from './world-assembler';
 import { StoryPeople } from './story-people';
+import { WorldShape } from './world-shape';
 
 // A country of the strategic atlas (data/imbar/atlas.json): what it is, as facts the lower generators read, in the
 // worlds the atlas is for. Westernesse's, not the kernel's: a country, a reeve and a salt-tax are this setting's words.
@@ -91,6 +92,12 @@ export class StrategicAtlas {
   // The country's own goings-on as the assembler places them (see WorldAssembler.beyond).
   static entries(base: BundleSource, region: Region): Promise<Entry[]> {
     return Promise.all(this.goings(region).map(s => StoryPeople.entry(base, base.resolve(s))));
+  }
+  // A country's own goings-on: the atlas's, where it is a country of the atlas, and those of a city of the canon it
+  // holds (WorldShape.goings: the Empty Seat over Dun Rìerdan).
+  static own(base: BundleSource, region: Region): Promise<Entry[]> {
+    return Promise.all([...this.goings(region), ...WorldShape.goings(region)]
+      .map(s => StoryPeople.entry(base, base.resolve(s))));
   }
   // The library's goings-on a country of the atlas does not hold: those its own would contradict (a second drover).
   static exclude(region: Region): string[] { return this.byId(region.country)?.exclude ?? []; }
