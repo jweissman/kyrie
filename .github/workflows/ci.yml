@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v4
         with: { path: before, ref: b7f3c2a1a0e1555a815d36886fc2ad9160f5d13f, sparse-checkout: "/*\n!/assets/", sparse-checkout-cone-mode: false }
       - uses: actions/checkout@v4
-        with: { path: after, ref: ec59784b, sparse-checkout: "/*\n!/assets/", sparse-checkout-cone-mode: false }
+        with: { path: after, ref: ec59784b121bd4bb21710cc734e9b85e66093691, sparse-checkout: "/*\n!/assets/", sparse-checkout-cone-mode: false }
       - id: tier-orsino
         working-directory: before
         run: echo "revision=$(jq -r .source.revision data/sources/orsino/registry.json)" >> "$GITHUB_OUTPUT"
