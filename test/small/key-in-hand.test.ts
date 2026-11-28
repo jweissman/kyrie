@@ -22,9 +22,9 @@ const labels = (t: Tiny) => [...t.screen.things, ...t.screen.exits].flatMap(r =>
   .flatMap(a => [a, ...a.children ?? []]).map(a => a.label);
 describe('a lock whose key is in hand', () => {
   it('is not offered to be forced', async () => {
-    const without = await Tiny.start(store(''), { party });
+    const without = await Tiny.start(store(''), { party, horizon: ['probing'] });
     expect(labels(without).some(l => /^Wrench the padlock/.test(l))).toBe(true);
-    const held = await Tiny.start(store('Initially Assert keyholder(party, lock).'), { party });
+    const held = await Tiny.start(store('Initially Assert keyholder(party, lock).'), { party, horizon: ['probing'] });
     expect(labels(held).some(l => /^Wrench the padlock/.test(l))).toBe(false);
     expect(labels(held).some(l => /^Knock on the corn-store door/.test(l))).toBe(true);
   });

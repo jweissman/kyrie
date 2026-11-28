@@ -17,7 +17,7 @@ const command = (t: Tiny, re: RegExp) => t.journey.choices().find(c => re.test(c
 
 describe('a thing carried, passed about', () => {
   it('goes from one of the company to the other and back, and to one who wants it', async () => {
-    const t = await Tiny.start(yard, { party: two });
+    const t = await Tiny.start(yard, { party: two, horizon: ['belongings'] });
     const [ama, bek] = ['t__member_party_1', 't__member_party_2'], torch = 't__party_1__torch';
     const others = () => JSON.stringify(t.world.related('ownedItem').filter(r => r.args[0] !== torch));
     const before = others();

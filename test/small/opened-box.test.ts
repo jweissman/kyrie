@@ -18,7 +18,7 @@ const told = (t: Tiny) => [...t.leaf.situation, ...t.leaf.presence].join(' ');
 
 describe('a box opened', () => {
   it('tells what is in it, only once it is open', async () => {
-    const t = await Tiny.start(ledge);
+    const t = await Tiny.start(ledge, { horizon: ['probing', 'belongings'] });
     expect(told(t)).not.toMatch(/chalice/);
     await t.play("Lift the chest's lid");
     expect(told(t.look())).toMatch(/In the chest on the ledge: a stolen chalice\./);
