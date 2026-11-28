@@ -16,7 +16,8 @@ describe('the last blow of a fight lost', () => {
   it('is told by the ending as the fight told it', async () => {
     let tried = 0;
     for (const seed of ['a', 'b', 'c', 'd', 'e', 'f']) {
-      const t = await Tiny.start(den, { seed, party: [{ name: 'Ama', raceId: 'human', classId: 'mage' }] });
+      const t = await Tiny.start(den,
+        { seed, party: [{ name: 'Ama', raceId: 'human', classId: 'mage' }], horizon: ['inhabitants'] });
       const r = new Runner(t.session); r.said();
       await r.ask(JSON.stringify({ act: 'attack(t__bear)' }));
       await r.ask(JSON.stringify({ act: 'fight:through' }));
