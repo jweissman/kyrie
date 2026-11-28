@@ -15,6 +15,8 @@ export interface Act {
   key: string; label: string; command?: string; minutes?: number; risk?: boolean; children?: Act[];
   // That the company's light will give out before it is done, in words (see LightLeft): no trap, nor any danger.
   gutters?: string;
+  // That those who go about where the company is may find it before it is done, in words (see Wandering).
+  roused?: string;
   // What it is called standing alone, out of the group it is under ("Push and pull at the padlock", not "… at it").
   alone?: string;
   // One question standing for many it folds (NewsFold: someone's news), drawn by its own words, never the act's it
@@ -351,6 +353,9 @@ export interface CombatScreen {
   theme?: 'parchment';
   // The round the fight is in: each begins with everyone's order drawn again.
   round: number;
+  // That the company's blows barely bite its foes, by the third round, in words (see FightTurn): the way out offered
+  // beside the blow.
+  grind?: string;
   // Why a fight pressed on was handed back to the player before this turn (see PressOn): "Wenna could fall to the
   // hobgoblin's next blow."
   halted?: string;

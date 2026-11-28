@@ -20,6 +20,7 @@ export * from './ending-order';
 export * from './endings';
 export * from './engine-owned';
 export * from './entity-index';
+export * from './goers';
 export * from './grammars';
 export * from './guards';
 export * from './item-names';
