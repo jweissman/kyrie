@@ -10,7 +10,7 @@ describe('a creature present', () => {
     const t = await Tiny.start(`${Atlas.ground}
       Person keeper "the keeper of the vault" at green { Role "the last of whoever built the undercroft". Species ghoul.
         Variant barrow. Numbers 1. Level 2. Temperament territorial. Lair green. }`,
-    { party: [{ name: 'Aud', raceId: 'human', classId: 'warrior' }] });
+    { horizon: ['probing', 'inhabitants'], party: [{ name: 'Aud', raceId: 'human', classId: 'warrior' }] });
     expect(t.look().glance.life?.text).toBe('The keeper of the vault is here: a barrow ghoul. A gaunt grey thing that '
       + 'was a man, long-nailed and hollow-cheeked, crouched over bones.');
   });
@@ -20,7 +20,7 @@ describe('a creature present', () => {
     const t = await Tiny.start(`${Atlas.ground}
       Person pack "the wolves" at green { Role "a pair of wolves that have made the green their den". Species wolf.
         Numbers 2. Level 1. Temperament territorial. Lair green. }`,
-    { party: [{ name: 'Aud', raceId: 'human', classId: 'warrior' }] });
+    { horizon: ['probing', 'inhabitants'], party: [{ name: 'Aud', raceId: 'human', classId: 'warrior' }] });
     const said = t.look().glance.life?.text ?? '';
     expect(said).toStartWith('The wolves are here, each ');
     expect(said).not.toContain('wolfs');
