@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/ties-forms.test.ts` | Three tie forms play on a synthetic host and one kin form in generated thorn, with some placement staged. Keep all forms, the generated integration and timing contrasts. |
+| `test/ties.test.ts` | Generated kahitude checks five settlement ties and plays a tie and a thread, with locations staged. Keep the actual generated town/site relationships. |
+| `test/time-value.test.ts` | A synthetic module is parsed, written and played to check computed action durations and invalid measures. A fragment is a candidate if parser, runtime and rejection cases remain. |
+| `test/tinker-sells.test.ts` | Generated kite checks the actual tinker's wares and every generated shop's description. Keep the generated people and all shop witnesses. |
+| `test/title-geometry-browser.test.ts` | Opt-in built-site browser test measures the title at four viewports before and after a saved generated game. Keep the real browser and saved-state geometry. |
+| `test/to-nothing.test.ts` | The single pains probe plays a capped decrease beside an unaffordable action; pure parsing and writing are also checked. A fragment is a candidate if the offered/refused contrast remains proved. |
+| `test/told-again.test.ts` | Two authored probes play repeated rule narration and a repertoire; pure parser/writer round trips also run. Keep both real probe sequences and before/after narration. |
+| `test/told-as-witnessed.test.ts` | The witness probe plays moving rule anchors and a falling company, comparing heard and unheard narration. A fragment is a candidate if all anchors and negative hearing are proved. |
 | `test/the-third-night-wander.test.ts` | Three parties and two seeds wander the authored Third Night with per-turn invariants and a conditional verdict. Keep the actual campaign, seeded choices and party variants. |
 | `test/the-third-night.test.ts` | The authored Third Night campaign is linted and played through many timed routes, parties and verdicts, including generated-world integration. Keep the real story and outcomes. |
 | `test/thing-described.test.ts` | The local-kind probe renders two things, contrasting a described jar with an undescribed ox. A fragment is a candidate if both local kinds and the negative contrast remain. |
