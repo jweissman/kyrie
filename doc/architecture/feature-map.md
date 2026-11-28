@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 74 capabilities; 256 pins (225 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 763 live rows, 256 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 74 capabilities; 258 pins (227 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 763 live rows, 255 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -105,7 +105,7 @@ page's colours and opportunities.)
 
 ### Conflict
 
-- **Engagements and warnings** · 8 pins · 10 defects · 5 asks
+- **Engagements and warnings** · 8 pins · 9 defects · 5 asks
   - ○ before a fight the company is told what is at risk, as it reckons it, in words
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same
@@ -119,7 +119,7 @@ page's colours and opportunities.)
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
   - requirement OR-1447 P2: OR-1392 asks a territorial hazard of the first level, a maintained mechanism of the second and…
-- **Fights that cost** · 9 pins · 19 defects · 18 asks
+- **Fights that cost** · 9 pins · 18 defects · 18 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -169,13 +169,14 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 8 pins · 10 defects · 14 asks
+- **Journeys over known ways** · 9 pins · 10 defects · 14 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
   - ○ revealing a hex earns experience
   - ○ a Cartographers' guild pays for and honours what the company has mapped
   - ✓ is on the map alone, its aim leading there in gold, and the map sets out on it
+  - ✓ takes a second expedition down to where the first made sure, in one act, by the same legs
   - ✓ tells the frontier from the retreat underground, and sees an aim through
   - ✓ never draws a way back as worth a look for another aim, and says which aim
   - requirement NM-01 P1: No road junctions: a road out goes into a town and back out (16–23 ways a seed, at most 2 hexes);…
@@ -186,7 +187,7 @@ page's colours and opportunities.)
   - direction NM-16 P3: Transport services (carter, ferry, paid passage)
   - direction AB-06 P2: People and bands that move on a clock (Route/Pursuit on a person)
   - requirement T24-25 P2: Three of cold review B's fixes unpinned: the hare said to go into the pack as food…
-  - direction OR-1862 P3: A way out of a dungeon the company has secured (a rope left on the stair, a door wedged, a way…
+  - direction OR-1912 P3: In play only the barrow's counterweight makes a place below sure. The ropes (the dead-shaft, the…
   - requirement OR-344 P2: Journeys over known ways: the capability as its pins hold it (the land is revealed as a journey…
   - requirement OR-1540 P3: What is left blank in the reference game's first level, after the way on was marked (OR-1502):…
   - direction OB-19 P3: The middle scale inside a hex (the owner, 15 November): a gallery of existing hexes at local scale…
@@ -209,7 +210,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 21 defects · 18 asks
+- **Aims and the gold thread** · 16 pins · 22 defects · 18 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -399,10 +400,11 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 18 pins · 9 defects · 27 asks
+- **Dungeons and sites** · 19 pins · 9 defects · 27 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ rolls what newcomers carry on Deem by their kind and depth, more deeper
   - ✓ sends one band after another into the room emptied, each leaving what it carried where it fell
+  - ✓ moves in where the dwellers were put to flight, as where they died, and so lets them lose heart
   - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
@@ -890,7 +892,7 @@ page's colours and opportunities.)
   - requirement MT-16 P1: The layers as logical units, mechanically held (the owner, 19 November, night: "force logical…
   - requirement MT-28 P2: Shared structures mutable by convention, and identity in strings (Findings J, K): shared…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
-- **Testing instruments** · 0 pins · 8 defects · 22 asks
+- **Testing instruments** · 0 pins · 8 defects · 23 asks
   - requirement TC-03 P2: Test architecture: content-addressed fixtures, changed-test selection by recorded dependencies,…
   - requirement TC-04 P2: The safe-zone walk at five sizes in CI; atlas states tested as projected data
   - requirement TC-05 P2: The census proves structure, not play: no seven-stage report, no per-world invariants; no…
@@ -901,6 +903,7 @@ page's colours and opportunities.)
   - requirement TC-11 P3: Long-horizon verification with trace minimisation; boredom and pull measured
   - requirement TC-13 P2: Timing budgets on CI's runners (20 November: three reds in a week were a budget, not a fault: the…
   - requirement TC-14 P2: Creation's page specs each carried their own walk to a step (naming-browser's Naming.on,…
+  - requirement OR-1911 P2: The routine share is still 73% on s0 after the way down made sure (OR-1910). Of the 105 traversal…
   - direction OR-456 P2: Civilization assembled, censused and traversed (gamma G7): Deem assembling anchors, pins and the…
   - requirement OR-384 P3: The ending's menu placed by the frame's tokens (book.css: .ending-col) but measured by no spec: no…
   - requirement OR-389 P3: The runner begins in a world past the title (bin/kyrie run --world …), so its agents never meet…
@@ -993,7 +996,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Authoring forms and their lint** (Kyr and Deem): AU-01, AU-03, AU-07, AU-12, AU-13, AU-14, OB-07, OR-164, OR-224, OR-230, OR-522, OR-1112, OR-1113, OR-1116, OR-1212, OR-1213, OR-1215, OR-1216, OR-1841, OR-1339, OR-1340, OR-1341, OR-1342, OR-1105, OR-700, OR-1370, OR-1371, ST-05, ST-08, WB-07, AU-23, AU-24, AU-25, AU-29, AU-30, AU-31, AU-33, AU-39, AU-41, AU-42, AU-44, AU-45, AU-53, AU-57
 - **Generation and tables** (Kyr and Deem): AU-04, AU-10, AU-11, AB-12, OR-150, OR-405, OR-421, OR-671, OR-673, OR-781, OR-1111, OR-1115, OR-1641, KX-02, KX-04, AU-34, AU-51, AU-58, AU-60
 - **Architecture and layers** (The engine): AR-01, AR-03, AR-06, AR-07, AR-08, AR-09, AR-10, AR-12, AR-16, AR-18, AR-19, AX-04, AX-07, AX-08, OR-66, BX-01, OR-1580, OR-1581, OR-1250, OR-545, OR-1840, OR-1334, OR-1335, OR-1336, OR-1202, OR-742, OR-744, OR-1071, OR-1097, OR-634, MT-07, MT-16, MT-28, MT-31
-- **Testing instruments** (The engine): TC-03, TC-04, TC-05, TC-07, TC-08, TC-09, TC-10, TC-11, TC-13, TC-14, OR-456, OR-384, OR-389, OR-465, OR-508, OR-1151, OR-1080, OR-761, OR-1442, OR-1446, OR-1461, MT-29
+- **Testing instruments** (The engine): TC-03, TC-04, TC-05, TC-07, TC-08, TC-09, TC-10, TC-11, TC-13, TC-14, OR-1911, OR-456, OR-384, OR-389, OR-465, OR-508, OR-1151, OR-1080, OR-761, OR-1442, OR-1446, OR-1461, MT-29
 - **Documentation and the register** (The engine): DC-03, DC-05, DC-06, DC-07, DC-08, OB-03, OB-04
 
 ### Pins not yet met (31)
