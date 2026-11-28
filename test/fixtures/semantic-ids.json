@@ -24,5 +24,8 @@
  "data/adventures/the-grand-tour/module.json promise:keep_secret: unmade, standing, kept, broken",
  "data/adventures/the-lull/module.json promise:stay_promise: unmade, standing, kept, broken",
  "data/goings-on/circus/module.json promise:lads_promise: unmade, standing, kept, broken",
- "data/goings-on/circus/module.json promise:first_look: unmade, standing, kept, broken"
+ "data/goings-on/circus/module.json promise:first_look: unmade, standing, kept, broken",
+ "data/goings-on/theemptyseat/module.json promise:shelter_promise: unmade, standing, kept, broken",
+ "data/goings-on/theemptyseat/module.json occasion:supper: waiting, welcome, confidences, between, over",
+ "data/goings-on/theemptyseat/module.json occasion:council: waiting, shelter, war_command, between, over"
 ]
