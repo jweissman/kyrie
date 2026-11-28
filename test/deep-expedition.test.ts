@@ -13,9 +13,9 @@ import type { Region } from '../src/world/region-writer';
 // inn, walked to by the way that was told, gone into by torchlight; the clock kept to the minute; its dwellers met
 // with words as well as blows, at odds the page tells beforehand; and only the tries that suit a thing offered on it.
 class Delve {
-  static async start(cls: string) {
+  static async start(cls: string, level?: number) {
     const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
-      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: cls }] });
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: cls, ...level ? { level } : {} }] });
     return { s: await PlaySession.start(w.path, 'wren', w.source), region: w.report.region as Region };
   }
   // A band taken out of wherever it is, by its name.
@@ -102,7 +102,10 @@ describe('a deep site, from the inn', () => {
     expect(test('tolerates', goblins, 'party') || test('warned', goblins, 'party')).toBe(true);
   }, 90000);
   it('fills again while the company is away: something moves into a room it cleared, and the room shows it', async () => {
-    const { s } = await Delve.start('warrior');
+    // A warrior of the second rank: the crossing's goblins, put to flight as their dead would be (OR-1864), now try
+    // their morale, and a warrior of the first, alone against three, fell to the dice it drew after; this is the
+    // renewal's case, not the fight's.
+    const { s } = await Delve.start('warrior', 2);
     // A second torch from the smith, for the second day.
     await Delve.walk(s, [...Delve.inn, /^Ask Fargrim about the old workings$/, /^Take the door of the Wooden Wolf/,
       /^Take Ulfgar's door/, /^Buy a torch for Wenna/, /^Take Ulfgar's door/, ...Delve.road.slice(1), /^Light a torch$/,

@@ -270,6 +270,8 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Query stirs(p: place, c: group) means at(?g, p) and able(?g) and not tolerates(?g, c) and not company(?g).
   // Since when a deep band has been where it is (its day), and one that has made a place its own (DeepTime, DeepLoosed).
   Measure deepMoved(group). Relation dugIn(group).
+  // The room a band of the deep's newcomers moved into, held by it until it dies or is put to flight (DeepTime).
+  Relation deepHeld(group, place).
   Query armed(w: passage) means on(?t, w) and state(?t, ?s) and harmsWhen(?t, ?s).
   // A proud creature's price, paid: it lets the company be.
   // Said without a pronoun, which a band and one alike agree with ("Give the footpads what it asks": Hessel friction 8).
