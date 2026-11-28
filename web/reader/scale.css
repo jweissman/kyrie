@@ -24,6 +24,9 @@
   :root .scene-rail[data-fold="folded"] .rail-mark.lenses-mark .glint { inset: 9px; }
   .shell.scene-full .world-page.scale-scene.lenses-up .world-body > .focus {
     padding-bottom: calc(var(--safe-b) + 64px + 60px); }
+  /* Unfolded by the engine at rest (OR-1880), the telling gives way, scrolled to its newest, rather than the strip
+     standing over the menu's last row. */
+  .shell.scene-full .world-page.scale-scene.lenses-up .focus > .glance > .told-col { min-height: 0; }
 }
 
 @media (max-width: 899px), (orientation: portrait) {

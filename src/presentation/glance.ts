@@ -89,14 +89,14 @@ export class Glance {
       after = told && this.after(campaign, told, { screen, acts, scene });
     // The first page says the company's own errand as its first goal, once, followed or not (round 13, PL-30).
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.own)?.text : undefined;
-    LedAgain.led(campaign, acts, cands);
+    LedAgain.led(campaign, acts, cands); const lenses = Promotion.lenses(cands, scene, s, acts);
     return { arrival, ...asks.length ? { asks } : {}, ...GlanceLines.said(lines), acts, ways,
       offer: Offers.scene(acts, ways, cands, { campaign, out, screen }),
       ...this.aimed(campaign, screen, reading, continuance), ...Threshold.leads(campaign, screen, reading.named),
-      ...recall.back(screen, Itineraries.enclosed(campaign, here)), lenses: Promotion.lenses(cands, scene, s, acts),
+      ...recall.back(screen, Itineraries.enclosed(campaign, here)), lenses,
       ...reading.idle?.size ? { idle: [...reading.idle] } : {}, ...sensed.length ? { sensed } : {},
       ...said ? { aim } : {}, ...goal ? { goal } : {}, ...need.length ? { need } : {}, ...after ? { after } : {},
-      rail: Surfaces.rail(screen) };
+      rail: Surfaces.rail(screen, lenses) };
   }
   // What came of the act just done, and what it made relevant (REV-05; see DecisionFrame).
   private static after(campaign: Campaign, told: Told, at: { screen: Screen; acts: Promoted[]; scene: Scene }) {

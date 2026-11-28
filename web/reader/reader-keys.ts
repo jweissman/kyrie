@@ -144,10 +144,11 @@ export class ReaderKeys {
   private letter(key: string): boolean {
     const app = this.app;
     if (key === 't' && app.state.frame?.combat) { app.auto(); return true; }
-    // Inside an enclosed place, M is the compass, as its mark is (see SceneRail.Books).
-    // Nothing, where no way on is open (its mark shut: OR-211), never an empty lens.
-    if (key === 'm' && CompassStage.of(app) && Stage.mode(app) === 'explore') {
-      if (!Surfaces.has(app.state.frame?.screen, 'lens_go')) { return true; }
+    // M is the compass, as its mark is (SceneRail.Compass, OR-1880), inside an enclosed place or before the world map
+    // is earned; else the map. Nothing, where no way on is open (its mark shut: OR-211), never an empty lens.
+    const screen = app.state.frame?.screen;
+    if (key === 'm' && app.state.frame?.leaf.glance && Stage.mode(app) === 'explore'
+      && (CompassStage.of(app) || !Surfaces.has(screen, 'the_map'))) {
       if (!SceneRail.noWayOn(app)) { Explorer.open(app, app.state.exploring === 'go' ? undefined : 'go'); }
       return true;
     }
@@ -160,7 +161,7 @@ export class ReaderKeys {
       return true;
     }
     // F: the folded lenses taken up, or folded again (Folded, OR-1084).
-    if (key === 'f' && !!rail?.lenses.length && !app.state.outdoors
+    if (key === 'f' && Folded.holds(app) && !app.state.outdoors
       && Stage.mode(app) === 'explore') { Folded.toggle(app); return true; }
     if (key === '?') { app.setState({ help: !app.state.help }); return true; }
     return false;

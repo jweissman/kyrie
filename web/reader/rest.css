@@ -363,10 +363,6 @@
 .rail-mark { all: unset; box-sizing: border-box; position: relative; display: inline-grid; place-items: center; width: 40px;
   height: 40px; border-radius: 50%; cursor: pointer; color: rgba(236, 230, 217, .82);
   transition: color var(--quick), background var(--quick), opacity var(--quick); }
-/* The company's own page kept within reach (Rail.keep, OR-1685): tucked away, faint until the hand or the keys come to
-   it, still to be found by a finger, which has no hover. */
-.rail-mark.keep-mark { opacity: .5; }
-.rail-mark.keep-mark:is(:hover, :focus-visible) { opacity: 1; }
 .rail-mark .rail-glyph { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5;
   stroke-linecap: round; stroke-linejoin: round; }
 .rail-mark:hover, .rail-mark:focus-visible { color: var(--ivory); background: rgba(236, 230, 217, .05);
