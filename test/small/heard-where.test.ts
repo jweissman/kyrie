@@ -27,7 +27,7 @@ const town = (at: string) => `
   Rule judged when state(bell, rung) and at(drummer, street) says "The drummer is judged the best in Hythe." { }
   Goal false.`;
 const heard = async (at: string) => {
-  const t = await Tiny.start(town(at));
+  const t = await Tiny.start(town(at), { horizon: ['probing', 'inhabitants'] });
   await t.perform('change_thing(t__bell_ring)');
   const said = JSON.stringify(t.leaf);
   return { t, heard: ['parade goes', 'long roll', 'mill-wheel', 'judged'].filter(w => said.includes(w)) };
