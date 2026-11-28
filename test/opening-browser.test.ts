@@ -145,7 +145,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     expect(after.filter(w => w.marked).map(w => w.way)).toEqual(['options']);
     expect([after.filter(w => w.gold), before.filter(w => /new tab/i.test(w.said))]).toEqual([[], []]);
     expect(after.map(w => w.box)).toEqual(before.map(w => w.box));
-    expect([sky.running, sky.embers.length, await Stage.sky(page)]).toEqual([0, TitlePage.motes, sky]);
+    // Each ember its own rise, and the wind it is carried in (OR-1803).
+    expect([sky.running, sky.embers.filter(e => e.startsWith('mote ')).length, await Stage.sky(page)])
+      .toEqual([0, TitlePage.motes, sky]);
     expect(errors).toEqual([]);
     await page.close();
   }, 120000);

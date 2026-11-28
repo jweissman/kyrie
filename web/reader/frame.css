@@ -118,7 +118,15 @@ html, body { overflow: hidden; }
 :is(.title-page, .sky-page) { --deep-top: #07080b; --deep-low: #141016; }
 .motes { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 /* Tilted cool, toward the observatory's blue-white (OR-530): still within grey's own range, sparks and not a hue. */
-.motes i { position: absolute; left: var(--x); bottom: -12px; width: var(--s); height: var(--s); border-radius: 50%;
+/* Each spark carried in the wind (Embers.gust, OR-1803: the owner, 27 November, "maybe the embers could blow in the
+   wind?"): a point at the foot of the dark that the wind moves across and back, a breath, a gust and a lull in each cycle,
+   the spark rising from it by its own drift. Only where it stands moves; nothing in it is a colour. */
+.motes .gust { position: absolute; left: var(--x); bottom: -12px; width: 0; height: 0;
+  animation: gust 13s ease-in-out var(--wind-at) infinite; }
+@keyframes gust { 0%, 100% { transform: translateX(0); } 18% { transform: translateX(calc(var(--wind) * .2)); }
+  36% { transform: translateX(calc(var(--wind) * 1)); } 48% { transform: translateX(calc(var(--wind) * .65)); }
+  64% { transform: translateX(calc(var(--wind) * 1.4)); } 82% { transform: translateX(calc(var(--wind) * .35)); } }
+.motes i { position: absolute; left: 0; bottom: 0; width: var(--s); height: var(--s); border-radius: 50%;
   background: rgb(212, 224, 248); box-shadow: 0 0 8px rgba(200, 214, 238, .5); opacity: 0;
   animation: mote var(--t) linear var(--d) infinite; }
 /* Creation's curtain (the owner, 27 November: "black curtain and embers"; OR-1800), the frame's backdrop for every
