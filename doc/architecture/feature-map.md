@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 74 capabilities; 256 pins (225 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 760 live rows, 253 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 74 capabilities; 256 pins (225 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 762 live rows, 255 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -620,7 +620,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 26 defects · 40 asks
+- **Rows, lenses and the frame** · 3 pins · 28 defects · 40 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
