@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 229 pins (198 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 730 live rows, 240 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 236 pins (205 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 731 live rows, 241 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -671,7 +671,14 @@ page's colours and opportunities.)
 
 ### Pictures
 
-- **Paintings and portraits** · 1 pins · 10 defects · 7 asks
+- **Paintings and portraits** · 8 pins · 11 defects · 7 asks
+  - ✓ paints one whose words name no work as one of the middling folk of their sex, of their years
+  - ✓ reads a preacher as the faith and a sexton as the church's servant
+  - ✓ paints a life's own cast first, then whoever words place, then whoever they do not, then over the march
+  - ✓ gives a kind whose paintings are all of a dry day to what it lies in, in rain, fog and storm
+  - ✓ gives a kind painted only by day to the town's night after dark
+  - ✓ paints the sky's own weather first: the rain in the rain, the fog in the fog
+  - ✓ opens the way in on the land, or the wild, where its own land has nothing for the sky
   - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
   - requirement CP-02 P3: Paintings the first hour lacks (toll-house hall and counting-house, a warehouse, a muck pit, cave…
   - direction OR-467 P3: A place's painting chosen by its kind is not held to its family (Scenery.of picks from the…

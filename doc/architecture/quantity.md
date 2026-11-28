@@ -30,6 +30,8 @@ It also reads the warrior's golden walk once. A full run takes about two minutes
 bun run quantity                      # read, compare, exit 1 if anything does not hold
 bun run quantity -- --only countries  # walks | countries | stranded
 bun run quantity -- --seeds iscoed,ash
+bun run quantity -- --only paintings  # the hundred lives' first steps (about 12 to 20 minutes)
+bun run quantity -- --only paintings --lives 20   # a quick look, not the gate's reading
 bun run quantity -- --update          # write a ratchet that moved the right way
 bun run quantity -- --rebase          # write every ratchet as read (say why in the commit)
 ```
@@ -123,6 +125,35 @@ the combat place (measure 1's), and an aim taken up there by coming on what it i
 there. Measure 8's first-town aims are now those taken up in the town above it. With thorn's bear job asked after
 only by one who has read the notice or seen the gate: 60% (3 of 5), the ratchet written at 60.
 
+## Measure 11, painting misses in a new life's first steps (27 November, OR-1760 to OR-1764)
+
+"No more than 2% paintings unresolved in the first 5 steps of 100 random worlds" (the owner, 27 November). The
+paintings group (scripts/quantity/painted.ts) begins a life in each of a hundred named worlds, pw01 to pw100, the
+callings in turn (warrior, mage, cleric, thief, ranger), as a player begins it (the country's own opening, where it has
+one), and plays its first five steps by the page's leads (HonestPlayer). It reads what the page paints, as the page
+asks for it: the way in (Scenery.approach), the first scene and the scene after each step (Scenery.seen; nothing in
+the dark, which is the dark, not a miss), and before a step that speaks with someone, the conversation's page. A frame
+is unresolved where there is no painting, where its painting is against the sky or the hour (PaintedSky), or where
+the one talked with has no portrait. The note says each miss by its cause: the kind of place under its sky, or the
+person talked with.
+
+The seeds are fixed and named, so the reading is deterministic. A life costs 6 to 12 seconds here (world assembly is
+nearly all of it), so the hundred take 12 to 20 minutes: too long beside the other groups, so the nightly runs them in
+a job of their own, and `--lives` reads fewer for a quick look. The share over the first 20, 50 and 100 lives (before
+the fixes; after them):
+
+| Lives | Before | After |
+|---|---|---|
+| 20 | 12.1% (20 of 165) | 0% (0 of 165) |
+| 50 | 17.8% (75 of 421) | 0.7% (3 of 421) |
+| 100 | 20.5% (171 of 834) | 0.5% (4 of 834) |
+
+Twenty is not a stable sample (the weather of a few worlds moves it by half), and fifty is near a hundred only once
+the misses are rare, so the gate reads the hundred the owner named. Before: the road in rain, fog and storm (83), the
+market-place in storm, rain and fog (28), the way in over a fen causeway on a dry day (15) or in rain and storm (10),
+the inn's garden in rain and fog (8), and a talk in type (25). After: a talk in type with a half-elf
+woodwright or a sylph innkeeper (4: OR-1763), a ruling to make on which peoples the old masters stand for.
+
 ## Bands and ratchets
 
 Each measure is one of three kinds:
@@ -179,6 +210,7 @@ Each measure is one of three kinds:
 | 3 | Expeditions to afford the first rung (its first ware) | ratchet down | The first return of the five expeditions on s0 whose purse holds the rung's first ware, its dearest beside it; past the fifth return, the purse's mean gain carried on. OR-1124's aim is one to two, and a band once the take meets it (OR-1520). 27 November: 3 (greatsword 30 and banded 60, both after 3; the purse 12, then 9, 0, 77, 75 and 75); with the ladder, 3 (the wand of magic missile, 250, after 19). |
 | 3 | Expeditions to afford the second rung (its first ware) | ratchet down | As the first rung's; 99 for a rung with no ware or a purse that does not grow. OR-1124's aim is three to six (OR-1520). 27 November: 99, no ware; with the ladder, 23 (the ring of protection, 300; the ring of spell turning, 1,200, after 95). |
 | 3 | One expedition's best take against a rung's whole shelf (%, the most) | band ≤ 100 | No rung bought out by one expedition (OR-1124). 27 November: 31 (a best take of 77 against the first rung's 250); with the ladder, 9 (against 890; the second rung 2,800, the long haul 2,500). |
+| 11 | Frames of a new life's first five steps unresolved (%) | band ≤ 2 | A hundred lives on the named worlds pw01 to pw100, five steps each by the page's leads: no painting, one against the sky or the hour, or a talk with no portrait (the owner, 27 November; OR-1762). Nightly in its own job. Before OR-1760, OR-1761 and OR-1764: 20.5%; after: 0.5%. |
 | — | Consequential people with a name (%) | report | Those who joined the company, and those an aim was about (OR-304, OR-281). |
 
 ## Today's reading (24 November, after OR-326)

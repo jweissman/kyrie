@@ -1071,7 +1071,9 @@
        "title": "Paintings and portraits",
        "feature": "art",
        "pins": [
-        "the painting a scene shows"
+        "the painting a scene shows",
+        "a place painted for the sky it is under",
+        "a portrait for anyone met"
        ],
        "default": true,
        "rows": [
