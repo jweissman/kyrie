@@ -47,7 +47,9 @@ export class Frontier {
   }
   // After each command: the country beyond the march-stone the company stands at, if it is not there yet, and the
   // road to it. The region newly drawn, if one was.
+  // And first, what the world held back that the company now stands near (see PendingPlacements).
   async expand(campaign: Campaign): Promise<{ region?: Region; rid: string } | undefined> {
+    await ModuleBundle.pending.nearing(campaign, this.base);
     await this.renew(campaign);
     const gate = new RegExp(`^${RegionWriter.id}__${Provinces.room('(\\w+)')}$`).exec(campaign.world.one('at', 'party') ?? '');
     if (gate) { await this.province(campaign, gate[1]!); return undefined; }
@@ -71,9 +73,11 @@ export class Frontier {
       } else {
         // Each of its modules is checked as it is compiled; the joined whole is checked once, with the road in, as a
         // campaign is assembled (Campaign.assemble). Everyone's creature facts are projected with each, as before: the
-        // order they come to be held in is the order rules read them in.
+        // order they come to be held in is the order rules read them in. What it reads of the first country that the
+        // world holds back is taken up first (see PendingPlacements).
         const beyond = await this.drawn(campaign, x, y);
         for (const request of await this.apart(campaign, beyond, [...beyond.names, ...campaign.names])) {
+          await ModuleBundle.pending.before(campaign, request, this.base);
           await campaign.install(request, beyond.source, false, true);
         }
         region = beyond.region;
@@ -118,6 +122,7 @@ export class Frontier {
       const held = await Renewal.draw(this.seed, this.base, { ...this.made, ...name ? { name } : {} }, n);
       if (!held) { this.none.add(n); }
       for (const request of await this.apart(campaign, held, campaign.names)) {
+        await ModuleBundle.pending.before(campaign, request, this.base);
         await campaign.install(request, held!.source, false, true);
       }
     }
@@ -125,7 +130,9 @@ export class Frontier {
   // The countries beyond the march-stones a step from where the company stands, drawn and parsed ahead of its getting
   // to one (drawing one takes seconds), while the player reads; drawing it then finds it so. Nothing is installed: a
   // country the company never goes to is never in its world, nor are its kinds in the catalogs (ModuleBundle.prepare).
+  // And what the world holds back within reach of the company, likewise (see PendingPlacements).
   async prepare(campaign: Campaign): Promise<void> {
+    await ModuleBundle.pending.prepare(campaign, this.base);
     const world = campaign.world, here = world.one('at', 'party'), installed = new Set(campaign.installed);
     for (const way of here ? world.relatedTo('connects', here) : []) {
       const at = /^(.+)__edge_(north|east|south|west)$/.exec(way.args[2] ?? ''), from = at && WorldGrid.at(at[1]!);
@@ -186,6 +193,7 @@ export class Frontier {
     const path = this.base.resolve(`data/scenarios/${country.herald.scenario}`);
     const manifest = JSON.parse(await this.base.read(path)) as { modules: { id: string }[] };
     const id = manifest.modules[0]!.id.replace(/[^A-Za-z0-9]/g, '');
+    await ModuleBundle.pending.needed(campaign, [id], this.base);
     if (!campaign.installed.includes(id)) { return {}; }
     return Object.fromEntries(country.herald.exports.map(name => [name, `${id}.${name}`]));
   }
@@ -231,8 +239,10 @@ export class Frontier {
     return library.filter(e => e.manifest.modules.some(m => own.has(m.id.replace(/[^A-Za-z0-9]/g, ''))))
       .map(e => e.manifest.id);
   }
-  // What the world holds by its drawing: its installations.
-  static held(campaign: Campaign): string[] { return campaign.installed; }
+  // What the world holds by its drawing: its installations, and what it holds back until it is neared.
+  static held(campaign: Campaign): string[] {
+    return [...campaign.installed, ...ModuleBundle.pending.held(campaign).flatMap(p => p.requests.map(r => r.id))];
+  }
   // What the works already drawn anywhere in the world are called (b2's eastern country had a second Caelumspir).
   private works(campaign: Campaign): string[] {
     return campaign.module.entities.filter(e => /__w\d+$/.test(e.id)).map(e => e.name);

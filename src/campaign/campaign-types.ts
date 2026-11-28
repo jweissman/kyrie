@@ -37,6 +37,9 @@ export interface CampaignState {
   modules?: ModuleStatus[];
   outcomes?: Record<string, boolean>; developments?: { id: string; elapsed: number }[];
   pending?: Record<string, PendingAction>;
+  // The placements its world holds back until the company nears them, in the world's order, and each taken up since,
+  // with the watch it was taken up at (see PendingPlacements): kept with the game, as its world is.
+  held?: import('./pending-placements').PendingPlacement[]; neared?: { id: string; at: number }[];
   // Who found no way to a goal after a long look, and the watch they try again at (see Agency.plan).
   waiting?: Record<string, number>;
   // The aim the player follows, by its id, and whether they chose it; and the aims they set aside for it, the latest

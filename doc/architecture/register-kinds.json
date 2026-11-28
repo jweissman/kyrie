@@ -13,6 +13,12 @@
    "pri": "P2",
    "why": "27 Nov: memory the caches' keys keep, an improvement wanted, not a broken contract"
   },
+  "OR-1822": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: the remainder of a slice (more stories held back, reveal as a trigger, the page's starts), an improvement wanted, not a broken contract"
+  },
   "OR-1746": {
    "kind": "requirement",
    "was": "defect",

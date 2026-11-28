@@ -18,5 +18,6 @@
   ],
   "hooks": [
     { "fact": "disputation.dispute", "topic": "the philosophers on the green at {town}", "channels": ["tavern", "market"], "opens": false }
-  ]
+  ],
+  "lazy": true
 }

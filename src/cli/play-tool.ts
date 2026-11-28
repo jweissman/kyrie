@@ -88,7 +88,7 @@ export class PlayTool {
     // A life made by creation begins in its country's opening; one scripted --as, only in one asked for by name.
     const opening = made || o.opening ? StockOpenings.chosen(o.world, o.opening) : undefined;
     const drawn = { party: [made ?? one], origin: o.origin ?? await PlayTool.given(o.world, made ?? one),
-      ...o.chain ? { chain: o.chain } : {}, ...opening ? { opening } : {} };
+      ...o.chain ? { chain: o.chain } : {}, ...opening ? { opening } : {}, ...PlayTool.lazy() ? { lazy: true } : {} };
     const { session, world } = await DrawnWorld.drawn(o.world, drawn, NodeBundleSource.shared, watch);
     // An origin whose premise this world has not placed is not offered (creation leaves its card out: Origins.choices),
     // nor begun by name: --as herbs on a1 had set out with "No aim is held".
@@ -97,6 +97,9 @@ export class PlayTool {
     }
     return { journey: Journey.of(session), lead: [], source: world.source, report: world.report };
   }
+  // Whether a life drawn here holds its far placements back until it nears them (KYRIE_LAZY_PLACEMENTS=1, off by
+  // default: see PendingPlacements), read as the life is begun; kept in its transcript, so a replay draws it so again.
+  static lazy(): boolean { return process.env.KYRIE_LAZY_PLACEMENTS === '1'; }
   // Where the world gives a life to begin, by the engine's own creation flow: the country drawn as the page draws it,
   // the past named in --as chosen as its kind, and the circumstance it asks for (see CreationFlow.circumstance).
   static async given(seed: string, member: CreatureGenerationContext): Promise<string | undefined> {

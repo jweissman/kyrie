@@ -25,7 +25,8 @@ export class DrawnWorld {
     const world = await Stopwatch.in(watch, 'Drawing the country', () =>
       WorldAssembler.assemble(seed, source, this.options(drawn)));
     const session = await Stopwatch.in(watch, 'Composing the world', () =>
-      PlaySession.start(world.path, seed, world.source, drawn.origin ? undefined : drawn.party));
+      PlaySession.start(world.path, seed, world.source,
+        { ...drawn.origin ? {} : { party: drawn.party }, ...drawn.lazy ? { lazy: true } : {} }));
     return { world, session: await Stopwatch.in(watch, 'Readying the borders', () =>
       session.drawnFor(drawn).extend(new Frontier(seed, source, this.options(drawn)))) };
   }

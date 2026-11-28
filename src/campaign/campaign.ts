@@ -91,7 +91,7 @@ export class Campaign implements WatchHost {
   static load(...a: Parameters<typeof Campaign.loaded>) { return Costs.timed('campaign', () => this.loaded(...a)); }
   static loaded(path: string, seed: string, source: BundleSource, party?: CreatureGenerationContext[] | Assembly) {
     const at: Assembly = Array.isArray(party) ? { party } : party ?? {};
-    return this.loads.take(source, { key: JSON.stringify([path, seed, at.party ?? null, Installed.current().id]),
+    return this.loads.take(source, { key: JSON.stringify([path, seed, at.party, Installed.current().id, at.lazy]),
       installation: Installed.current().id }, () => CampaignAssembly.assemble({ path, seed, source,
         at: { ...at, party: at.party && structuredClone(at.party) }, vocabulary: Content.vocabulary() }),
       l => l.fork());
@@ -122,14 +122,14 @@ export class Campaign implements WatchHost {
       if (!this.definition?.installations) { throw new Error('Install modules into a bundle-based campaign'); }
       await CanonInstall.before(this, request, source); const startedAt = this.current.elapsed;
       const { seed, elapsed, canonless } = this.current, vocabulary = this.vocabulary.fork();
-      const draft = await ModuleBundle.load(request, { seed, elapsed,
+      const draft = await ModuleBundle.load(request, { seed, elapsed: request.begun ?? elapsed,
         installed: this.definition.installations, names: this.definition.names, canonless,
         kinds: this.compiled.catalog, vocabulary }, source);
       this.vocabulary = vocabulary; this.installBoundary();
       if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
       EngineDeclarations.declare(draft, CreatureStore.catalogAmong(this.module.catalog, draft.instance.module.catalog));
       const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world, live: this.world,
-        budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed, checked);
+        budget: this.current.deadline, campaign: this.definition }, draft, request.begun ?? elapsed, checked);
       const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current);
       this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
       this.commit(world); this.current.deadline = next.budget;

@@ -27,13 +27,15 @@ import { ModuleExports, type ExportEntry } from './module-exports';
 import { ModuleFiles } from './module-files';
 import { StandardRules } from './standard-rules';
 import { ModuleSymbols } from './module-symbols';
-import { StoryCasts } from './story-casts';
+import { StoryCasts } from './story-casts'; import { PendingPlacements } from './pending-placements';
 // A file read ahead: its text, the kinds it was read among, and what was declared for it as values.
 interface Ahead { text: string; kinds: string; declared: FileSource['declared'] }
 
 export interface BundleRequest {
   id: string; bundle: string; imports?: Record<string, string>; context?: Record<string, DeemValue>;
-  randomIdentity?: string;
+  // begun: the watch its own time counts from, where not the watch it is installed at (a placement held back is taken
+  // up as at the world's start: see PendingPlacements).
+  randomIdentity?: string; begun?: number;
   // Installed into a world already under way, which goes on after it (a country beyond a march): reaching one of its
   // endings closes its chapter, and the world goes on.
   chapter?: boolean;
@@ -55,8 +57,9 @@ export interface CampaignManifest {
   // A campaign of a setting of its own, without the canon (data/imbar): see CanonInstall (BX-01); and the word for its
   // money, where it is not coin.
   canon?: false; currency?: string;
-  // How the campaign's kits were composed into it, when it asks for any.
-  composition?: Composed;
+  // How the campaign's kits were composed into it, when it asks for any; what it may hold back until the company nears
+  // it (see PendingPlacements).
+  composition?: Composed; lazy?: import('./pending-placements').LazyUnit[];
 }
 // A module manifest: the Kyr source files it consists of, the rule modules it is written against, what it imports
 // and exports, and optional DEEM generation. Every region, site, situation and institution is such a module.
@@ -134,8 +137,10 @@ export class ModuleBundle {
     }
     return structuredClone(made);
   }
-  // A country's requests drawn apart, in its order (see StoryCasts).
+  // A country's requests drawn apart, in its order (see StoryCasts); and what a world holds back until it is neared
+  // (see PendingPlacements), for the frontier, which takes it up.
   static drawApart(...a: Parameters<typeof StoryCasts.drawApart>) { return StoryCasts.drawApart(...a); }
+  static get pending(): typeof PendingPlacements { return PendingPlacements; }
   // One file, parsed, or the parser's complaint with the file's path and line.
   // Parsing is the dearest part of loading, and the same text (the world rules every module is written against, a
   // situation installed twice) is parsed again and again; each text is parsed once, and each caller gets its own copy.
@@ -186,9 +191,7 @@ export class ModuleBundle {
     return `${text}${declared.length ? `\u0000${JSON.stringify(declared)}` : ''}`;
   }
   private static catalogs(contexts: VocabularyContext[], catalogs: readonly Module['catalog'][]): void {
-    for (const context of contexts) {
-      for (const catalog of catalogs) { context.install(catalog); }
-    }
+    for (const context of contexts) { for (const catalog of catalogs) { context.install(catalog); } }
   }
   // A module's own files, each read among every kind its files declare, as one file's are read among its own wherever
   // in it they are written: a felter in one file selling a cloak declared in another sold a trade good of that name,

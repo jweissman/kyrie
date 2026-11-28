@@ -363,6 +363,7 @@
     "test/lantern.test.ts": 43658,
     "test/later-works.test.ts": 23025,
     "test/layers.test.ts": 24,
+    "test/lazy-placements-s0.test.ts": 16360,
     "test/leads.test.ts": 1118,
     "test/learned-at-once.test.ts": 1040,
     "test/learned-said.test.ts": 172,

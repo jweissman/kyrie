@@ -17,5 +17,6 @@
   ],
   "hooks": [
     { "fact": "players.on_green", "topic": "the players stuck at {town}", "channels": ["tavern", "market", "road"], "opens": false }
-  ]
+  ],
+  "lazy": true
 }

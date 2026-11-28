@@ -11,7 +11,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
 import { LocalObservations } from './local-observations';
 import { World } from '../lang/world';
-import { ComputedRelations, Reads } from '../lang/index';
+import { ComputedRelations, Reads, Stamps } from '../lang/index';
 import { EndingOrder } from '../lang/ending-order';
 import { Journey } from './journey';
 import { Consequences } from './consequences';
@@ -139,6 +139,27 @@ export class CampaignTick {
     this.pass(host, rules, false, { happenings, began });
     this.pass(host, rules, true, { happenings, began });
     CampaignTick.ruled?.(host.world);
+  }
+  // A placement taken up late (see PendingPlacements) caught up: its own rules run through every watch it was held back
+  // for, the clock read as at each, as the world would have run them had it been there from the first, what they say
+  // said to no one who was not there; and in the last, the shared rules with them (shared: the kernel's, which take up
+  // what the placement brings, a lock's lockwork found), as the world installed whole ran them in its first. Its clock
+  // is then as it was. A fever that took its child at the second dawn has taken it when the company first comes to its
+  // green on the third day, as it had in the world installed whole.
+  static caughtUp(host: TickHost, rules: readonly WorldRule[], now: Parameters<typeof CampaignTick.clock>[1],
+    shared: readonly WorldRule[] = []) {
+    for (let elapsed = 1; elapsed <= now.elapsed; elapsed++) {
+      host.commitWorld(host.world.apply(this.clock(host.world, { ...now, elapsed })));
+      const began = host.world, these = elapsed < now.elapsed ? rules : shared;
+      this.pass(host, these, false, { happenings: [], began });
+      this.pass(host, these, true, { happenings: [], began });
+    }
+  }
+  // Whether a rule waits on the company itself (what it knows, carries or is with, where it is), and so cannot fire
+  // where the company is not: its words said anywhere are said to the company that did what they answer.
+  private static readonly company = new Set(['memberOf', 'travelsWith', 'holding', 'carries', 'carried']);
+  static waitsOnCompany(module: Module, rule: WorldRule): boolean {
+    return Reads.keyed(module, rule.when).some(k => k.endsWith(`${Stamps.mark}party`) || this.company.has(k));
   }
   // A spec's look at the world as each watch's rules leave it (test/rule-wakes-watches: the oracle, every rule asked
   // afresh, against the rules a write wakes).
