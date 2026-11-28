@@ -1,16 +1,15 @@
 import { describe, expect, it } from 'bun:test';
-import { PlaySession } from '../src/session/play-session';
-import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Glanced } from './support/glanced';
 import { TalkLines } from '../src/frame/talk-lines';
+import { Tiny } from './support/tiny';
 
 // A discovery an author marks as deserving the page to itself (`as revelation`) is told as one, set apart from the run
 // of what happened (NAR-14: a body found, a betrayal, a revelation had been told in the ordinary register). The probe's
 // mirror shows who drowned the miller, a revelation; its drawer's unpaid bills, ordinary, are not.
 describe('a revelation', () => {
   it('is told apart from the run of what happened, and an ordinary discovery is not', async () => {
-    const g = Glanced.of(await PlaySession.start('test/fixtures/probes/revelation/probe.campaign.json', 'r',
-      NodeBundleSource.shared));
+    const kyr = await Bun.file('test/fixtures/probes/revelation/site.kyr').text();
+    const g = Glanced.of((await Tiny.start(kyr, { seed: 'r', horizon: ['probing'] })).session);
     await g.choose(/mirror_wiped/);
     const lines = g.leaf.exchange!.lines;
     expect(lines.filter(l => l.kind === 'revelation').map(l => l.text)).toEqual([expect.stringMatching(
