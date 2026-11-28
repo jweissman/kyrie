@@ -37,6 +37,16 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/action-hours.test.ts` | Parser fragments and one `the-hour` fixture campaign. The timed actions and narration in the campaign are required witnesses. |
 | `test/aim-inside-site.test.ts` | A generated `kite` world with its actual tower and site placement. Its specific in-site aim and exit must both be present in any cheaper reproduction. |
 | `test/aim-now.test.ts` | One Silkholme fixture campaign spanning the brood's related modules. The original and revised aim across both encounters are the claim. |
+| `test/adventure-library.test.ts` | The authored adventure corpus and a generated world, with a province entered. Corpus-wide placement and name uniqueness are explicit claims; a fragment cannot replace them. |
+| `test/all-in-one-world.test.ts` | A generated world and sequential installation of its placed provinces. This is intentionally a long, `KYRIE_LONG`-gated integration claim and must retain the multi-province sequence. |
+| `test/activation-census.test.ts` | Calling plans, the ability catalog and a cross-tree source scan, without a running world. Its negative assertion has no positive witness that the named abilities exist; keep the scan and establish witnesses before narrowing. |
+| `test/adventure-names.test.ts` | The adventure corpus's files and index, synthetic conflicting names and a named lint fixture; it does not start a world. Corpus-wide uniqueness is part of the claim. |
+| `test/aim-on-map.test.ts` | A generated `kite` world with the kin origin and its actual bridge. The named bridge and its heard map mark are required witnesses. |
+| `test/aim-strangers.test.ts` | A generated `a1` world with its tower, priest, shrine and town. Its before-and-after acquaintance and location claims span those generated modules. |
+| `test/aim-targets.test.ts` | Every recommended campaign, loaded one by one for the corpus-wide lint. Its static world label understates that scope; `test/small/aim-target-lint` already proves the lint on a fragment. |
+| `test/aims.test.ts` | A generated `kite` world with the order origin, the tower aim and its feedback, plus a pure place-id case. Both the actual aim transition and the pure case must remain. |
+| `test/alias-names.test.ts` | One inline module and party. Retained as-is: several negative prose assertions need positive witnesses that the corresponding tellings were present before narrowing. |
+| `test/alone-told.test.ts` | Generated `kite` worlds for two origins, including the actual first-town inn and traveller. The before-and-after talk and narration are required witnesses. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
