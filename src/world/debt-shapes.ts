@@ -48,8 +48,8 @@ export class DebtShapes {
   Relation carrying(group).
   Entity bale_given: fact "{creditor} gave you {carried} for the merchant at {othertown}.".
   Entity purse_given: fact "The merchant at {othertown} paid what was owed to {creditor}.".
-  Kind bale_kind "{carried}" is gear worth 0 weighing 2 described "Tied and sealed with {creditor}'s mark.".
-  Kind purse_kind "a purse for {creditor}" is gear worth 0 weighing 1 described "Heavy, and sewn shut.".
+  Kind bale_kind "a sealed bale" is gear worth 0 weighing 2 described "Tied and sealed with {creditor}'s mark.".
+  Kind purse_kind "a sewn purse" is gear worth 0 weighing 1 described "Heavy, and sewn shut.".
   Item bale "{carried}" is bale_kind at shop hidden until bale_given.
   Item purse "a purse for {creditor}" is purse_kind at otherplace hidden until purse_given.
   Topic carry_ask with creditor "Ask {creditor} to take the debt in work" when owed(loan) > 0 and not called(actor) and not carrying(actor) once {

@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 229 pins (198 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 734 live rows, 241 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 229 pins (198 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 733 live rows, 240 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -644,7 +644,7 @@ page's colours and opportunities.)
 
 ### Words
 
-- **Narration** · 3 pins · 17 defects · 17 asks
+- **Narration** · 3 pins · 16 defects · 17 asks
   - ○ the narration of an hour in a1 holds to "you", in the present, by a census of its sentences
   - ○ a place's first telling gives more than sight (sound, smell, touch or weather), within budget
   - ○ the words never contradict the state (a door told shut is shut, the weather told is so)
@@ -885,7 +885,7 @@ page's colours and opportunities.)
 
 ## Negative space
 
-### Common blockers (12)
+### Common blockers (11)
 
 Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
@@ -909,8 +909,6 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - OR-532 (Aims and the gold thread), TB-12 (Playing in the terminal), GR-09 (Aims and the gold thread), OR-219 (Architecture and layers)
 - **OR-451** P2: Canonical cities as stable anchors (gamma G2): Aline, Marith, Dun Rìerdan, Garzab, Ydgn, the Lizardfolk name, rendered Andayeen by Northerners (the owner, 24… · blocks 1 (0 P0/P1) over 1 capabilities
   - OR-452 (Passage arranged between cities)
-- **AR-13** P3: Five composition mechanisms; unfilled placeholders pass silently; .kyrt values unescaped · blocks 1 (1 P0/P1) over 1 capabilities
-  - OR-541 (Narration)
 - **OR-745** P2: The page cold play's driver spec red on the nightly of 25 Nov (run 45574847769, browser specs 3/3): test/page-walk-browser's walk out of the adit finds no row… · blocks 1 (0 P0/P1) over 1 capabilities
   - GR-24 (Aims and the gold thread)
 
