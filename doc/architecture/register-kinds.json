@@ -3690,6 +3690,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "27 Nov: an instrument the owner asked for (painting misses in a new life's first steps measured and held), not a failure of a claimed contract"
+  },
+  "OR-1862": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "28 Nov: a way of playing wanted beside OR-1853's contract (the way out by its next leg), not an observed failure"
   }
  },
  "blockedBy": {

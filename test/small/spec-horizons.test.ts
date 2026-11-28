@@ -17,7 +17,8 @@ import { SpecHorizons } from '../../scripts/spec-horizons';
 // 85 → 86 over the stack: the deep renewed on its horizon (inhabitants, probing).
 // 86 → 95: Copilot's further narrowings of 28 November (PRs #71 to #88), batched; 179 → 176 on the whole rules.
 // 95 → 97: If in consequences, its spec and pin on the kernel.
-const kept = { horizon: 97, rules: 176 };
+// 97 → 98: foreboding on its horizon (inhabitants, canon), the OSR builder's.
+const kept = { horizon: 98, rules: 176 };
 describe('the specs by horizon', () => {
   const now = SpecHorizons.census();
   it('moves no spec off its horizon, and starts no new tiny world on the whole of the shared rules', () => {
