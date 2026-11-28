@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/ways-incremental.test.ts` | Compares cached known-way trees with fresh searches on all continuity census walks. Keep the actual replays and every observed search. |
+| `test/weary-fights.test.ts` | Checks isolated combat and condition release, then plays two fights, checkpoint and replay in generated wren. Keep both isolated and world-level claims. |
+| `test/weary-told.test.ts` | Generated kite stages near-weariness and plays a tower climb to check narration order. Keep the real action and timing setup. |
+| `test/weatherdrove-placed.test.ts` | Generated kite checks Weather Drove's province placement and walks through frontier expansion into it. Keep placement and cross-module integration. |
+| `test/weatherdrove.test.ts` | Lints and plays the authored Weather Drove campaign through many distinct routes and endings. Keep the full scenario and all contrasts. |
+| `test/weir-errand.test.ts` | Generated iscoed plays the weir life's own errand from trap through sale, checking aim transitions. Keep the real route and aims. |
+| `test/weir-hire.test.ts` | Generated iscoed plays recruitment and checks price, party and danger before and after. Keep the actual town, recruit and encounter. |
+| `test/weir-mage-bands.test.ts` | Simulates all reachable first-hour bands in generated iscoed, alone and with the recruit. Keep all seeded fights and fairness comparisons. |
 | `test/way-back.test.ts` | Generated kahitude stages a key and shored roof, then travels the quarry to check the return and padlock. Keep the actual route and staged conditions. |
 | `test/way-end.test.ts` | Two synthetic modules and a toll-up probe play one-sided observations and barriers. Fragment candidates must keep each side and the before/after contrasts. |
 | `test/way-goes-first.test.ts` | Generated kite stages two people in the tower cistern and renders both risk choices and confirmation. Keep actual risk and both rendered rows. |
