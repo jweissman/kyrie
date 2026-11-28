@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "The Still Hours",
+  "pitch": {
+    "heading": "The Still Hours",
+    "text": "What is asked, and why it matters."
+  },
+  "modules": [
+    {
+      "id": "haywad",
+      "bundle": "../adventures/haywad/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

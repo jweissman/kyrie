@@ -1,0 +1,61 @@
+Module haywad "The Still Hours" {
+  Description "Haywad: sixty-three people on the road of a forest that gets up every thirty-one years, on the one night it does, and the three doors on its Way that someone must stand in.".
+
+  Place sellow "the Sellow country" is region within imbar.
+  Place approach "the Stile road" is wilderness within sellow at 0, 0.
+  Place haywad "Haywad" is settlement within sellow at 0, 1.
+  Place bare_land "the Bare" is wilderness within sellow at 1, 0.
+  Place maugh "the Maugh Mere" is wilderness within sellow at 2, 1.
+
+  Place stile "the Stile" is building within haywad.
+  Place lamp_shop "Selve's lamp-shop" is building within haywad.
+  Place bakehouse "Fender's bakehouse" is building within haywad.
+  Place hollow "the Hollow" is building within haywad.
+
+  Place road "the Stile road" is room within approach at 0, 0 outdoors.
+  Place green "the green" is room within haywad at 1, 0 outdoors.
+  Place notler_step "Notler's step" is room within haywad at 0, 2 outdoors.
+  Place fender_step "the bakehouse step" is room within haywad at 1, 2 outdoors.
+  Place hollow_step "the Hollow's step" is room within haywad at 2, 2 outdoors.
+  Place taproom "the Stile's taproom" is room within stile at 0, 0.
+  Place rafters "the Stile's rafters" is room within stile at 0, 1.
+  Place lamps "the lamp-shop" is room within lamp_shop at 0, 0.
+  Place oven "the bakehouse" is room within bakehouse at 0, 0.
+  Place stump "the Hollow's kitchen" is room within hollow at 0, 0.
+  Place bare "the Bare" is room within bare_land at 0, 0 outdoors.
+  Place shore "the Maugh shore" is room within maugh at 0, 0 outdoors.
+
+  Passage gate "the last of the Stile road" is road between road and green taking 10 minutes.
+  Passage stile_door "the Stile's door" is door between green and taproom.
+  Passage rafter_ladder "the ladder to the rafters" is ladder between taproom and rafters.
+  Passage lamp_door "the lamp-shop door" is door between green and lamps.
+  Passage notler_lane "the lane down to Notler's" is path between green and notler_step taking 5 minutes.
+  Passage fender_lane "the lane down to the bakehouse" is path between green and fender_step taking 5 minutes.
+  Passage hollow_lane "the lane down to the Hollow" is path between green and hollow_step taking 5 minutes.
+  Passage bake_door "the bakehouse door" is door between fender_step and oven.
+  Passage hollow_door "the Hollow's door" is doorway between hollow_step and stump.
+  Passage bare_path "the cleared Way going west" is path between notler_step and bare hidden until way_open taking 30 minutes.
+  Passage mere_road "the trampled Way going east" is road between hollow_step and shore hidden until way_open taking 3 hours.
+
+  Discovery way_open "The Sellow has gone by. Its Way lies east and west of Haywad, trampled flat and a mile wide, and walkable.".
+
+  Observe road_scene at road when true "The road comes out of the trees and runs between two rows of stones painted white at the top. Each stone has a number chalked on it, up to forty-one. Beyond them is a village with its shutters open.".
+  Observe road_stones at road as feature when true "A signboard hangs from a post, mended with different woods: HAYWAD. THE WAY IS NOT A ROAD. KEEP TO THE LANES AFTER DARK.".
+
+  Observe green_scene at green when true "A grass green with a well on it and a rope of pewter mugs strung between two posts to dry. Lanes go down to the south, where the Way crosses the village; north of the green, the Sellow stands like a wall.".
+  Observe green_wood at green as feature when true "The Sellow Wood fills the west from the ground to the clouds. At the top the crowns lean east and have been leaning since the village was built.".
+  Observe green_mugs at green as ambience when true "Every pewter mug on the line has begun to hum, very low, all in one note.".
+
+  Observe taproom_scene at taproom when true "A low room with the shutters back and a fire not yet lit. The beams are scratched with tally-marks, thirty-one to a beam.".
+  Observe rafters_scene at rafters when true "A loft under the thatch, hung with brass instruments, bells on strings, and a drum. Through a gap in the thatch there is a long view of the wood.".
+  Observe lamps_scene at lamps when true "Forty lamps hang in the window, glass and tin, none lit. The smell of oil. A slate on a string.".
+  Observe oven_scene at oven when true "A hot room, floured, with a great oven and a rack of loaves cooling. The loaves are the size of hats.".
+  Observe stump_scene at stump when true "A round kitchen with no corners. The walls are tree: grain, and rings, as thick as an arm, rising to a roof of lathe. A kettle hums on the hob in unison with the wall.".
+
+  Observe notler_scene at notler_step when true "A doorstep in a row of doorsteps, each with a number chalked on the flags, and the first before the wood. Chalk marks run out into the yard. A stool, set in the doorway, faces west.".
+  Observe fender_scene at fender_step when true "The bakehouse step is warm. A stool in the doorway; a bucket of sand. Someone has chalked FINDING in a boy's hand on the sill, crossed it out and written STANDING.".
+  Observe hollow_scene at hollow_step when true "The last door on the Way: a round house grown into a huge stump, whose cut top is roofed with turf. The stump's flanks are chalked with years. A doorstep, scrubbed white.".
+
+  Observe bare_scene at bare when true "A hole a mile deep in the world where the Sellow stood, thirty-one years of leaf-fall dried to a grey crust. Things lie in it where the roots lifted: a cart, a bell, a flat-bottomed boat, a stone with a name.".
+  Observe shore_scene at shore when true "A grey mere, flat as a plate. Where the water begins, trees lie down in it in rows, like cattle, roots in the air. The mud between them is green.".
+}

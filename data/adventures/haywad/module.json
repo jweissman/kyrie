@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "source": [
+    "site.kyr",
+    "people.kyr",
+    "night.kyr",
+    "mere.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "sellow",
+    "road": "road"
+  }
+}

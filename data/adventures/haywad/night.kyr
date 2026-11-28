@@ -1,0 +1,197 @@
+Module haywad "The Still Hours" {
+  Relation stepOf(place). Relation fated(place).
+  Relation eddaTaught(group). Relation eddaPlea(group). Relation eddaShaken(group). Relation eddaAsked(group).
+  Relation eddaGoing(group). Relation eddaGone(group). Relation eddaThere(group). Relation eddaWent(group). Relation eddaLate(group).
+  Relation sorelAllows(group). Relation pipetStands(group). Relation pipetOut(group). Relation pipetSafe(group). Relation pipetHurt(group).
+  Relation tibylMeans(group). Relation heartCame(group). Relation tibylStays(group). Relation tibylGoes(group).
+  Relation tibylWaits(group). Relation tibylGone(group). Relation tibylKnowsOrrin(group). Relation resolved(group).
+  Relation paid(group). Relation tibylAsked(group). Relation seedlingGiven(group).
+  Measure held(place). Measure flinched(place). Measure starts(place). Measure residentHold(place).
+  Measure owed(group). Measure eddaArrives().
+
+  Initially Assert stepOf(notler_step). Initially Assert stepOf(fender_step). Initially Assert stepOf(hollow_step).
+  Initially Set starts(notler_step) to 78. Initially Set starts(fender_step) to 84. Initially Set starts(hollow_step) to 96.
+  Initially Set residentHold(notler_step) to 3. Initially Set residentHold(fender_step) to 3. Initially Set residentHold(hollow_step) to 3.
+
+  Observe heart_arrives at hollow_step as sign when heartCame(party) and not resolved(party) "Something white and very tall has stopped in the Way, level with the step." teaches heart_seen.
+  Query risingOn() means watch(clock) >= 78.
+  Query walkDone() means watch(clock) >= 132.
+  Query standsAt(s: place) means held(s) + residentHold(s) >= 3.
+  Query scarredAt(s: place) means held(s) + residentHold(s) >= 1 and held(s) + residentHold(s) <= 2.
+  Query lostAt(s: place) means held(s) + residentHold(s) <= 0.
+
+  Entity stillness: difficulty "the stillness".
+  Rule still_bare when not holding(party, lantern) and not eddaTaught(party) { Set toBeat(stillness) to 16. }
+  Rule still_lamp when holding(party, lantern) and not eddaTaught(party) { Set toBeat(stillness) to 13. }
+  Rule still_breath when not holding(party, lantern) and eddaTaught(party) { Set toBeat(stillness) to 13. }
+  Rule still_both when holding(party, lantern) and eddaTaught(party) { Set toBeat(stillness) to 10. }
+
+  Hazard bough "A bough across the doorway" means "Deal (1d6) physical damage to ally unless dexterity save against (11).".
+
+  Chapter ch_day "The Day of the Rising" when watch(clock) >= 0 and within(party, haywad) "It is the morning of the thirty-first year. In Haywad the shutters are back and the chalk is out, and nobody has said the word, though everyone has been saying it since Tuesday.".
+  Chapter ch_rising "Nine o'Clock" when watch(clock) >= 78 and within(party, haywad) "At nine the pewter on every shelf in Haywad begins to hum, and the ground ticks like a cooling stove. At the west end of the Way the tops of the trees lean east and do not come back.".
+  Chapter ch_heart "The Heart" when heartCame(party) and within(party, haywad) "After one in the morning the trunks thin, and the oldest of the Sellow walks down the Way alone.".
+  Chapter ch_dawn "Morning" when walkDone() and within(party, haywad) "The last of the trees go over the rise at six, with their roots held up behind them like skirts. The light comes in level down the whole length of the Way, and it is the first time in thirty-one years that anyone has seen the end of it.".
+
+  Rule tibyl_to_step heard within haywad when watch(clock) >= 70 and at(tibyl, stump) once says "Tibyl Sellow comes out of the Hollow with a bundle on her shoulder and sits on the step, which she has scrubbed, with her face to the wood." { Retract at(tibyl, stump). Assert at(tibyl, hollow_step). }
+
+  Observe way_ambience at green as sign when risingOn() and not walkDone() "Down the lanes, the Way is a hillside going by, trunk after trunk, the length of the village.".
+  Observe notler_wait at notler_step as ambience when watch(clock) >= 0 and watch(clock) < 78 "Dusk is some hours off. Edda has laid out a stool and a bucket of sand, and the chalk marks stop at the step as if they had been told.".
+
+  Action hold(actor: group, site: place) "Hold still in the doorway" {
+    Requires able(actor) and company(actor) and at(actor, site) and stepOf(site) and risingOn() and watch(clock) >= starts(site)
+      and watch(clock) < starts(site) + 20 and held(site) + flinched(site) < 3.
+    Time 6.
+    Resolve check(actor, stealth, stillness).
+    On success { Increase held(site) by 1. Increase owed(actor) by 3. }
+    On failure { Increase flinched(site) by 1. Assert strikes(bough, party). }
+    Result "The first trunk comes out of the dark at the end of the Way and does not hurry. It lifts one root as thick as a ship's cable, trailing its hem of earth, and sets it down beyond Edda's chalk; the next root follows. The bark goes by at the height of your face, grey, ridged, glowing a cold green at the knee. You look at the stone with the number on it. The tree goes round the step the way a man goes round a sleeping dog." when at(actor, notler_step) and held(site) + flinched(site) == 1.
+    Result "The Sellow is all round you now, a hillside walking. Trunk after trunk, so near that the doorframe ticks where the bark brushes it, and dust shakes out of the lintel. The air is leaf-mould and cold iron and rain. Somewhere in the crowns a long creak like a ship at anchor; a heron rides a bough at the height of the eaves with its eyes shut, and goes by." when at(actor, notler_step) and held(site) + flinched(site) == 2.
+    Result "The roots come up and go down. You have stopped counting them. A sapling with a child's wooden horse in its fork goes by at a trot, and you do not turn your head; you are a post, and posts are not interested in horses. The stone with the number on it is warm, and, for the first time, a little bit yours." when at(actor, notler_step).
+    Result "The bakehouse step is warm at your back, and it is the oven they are curious about. A trunk leans in at the doorway and hangs its whole weight a hand's breadth off your face, as if smelling the bread. Then it goes on. A rain of dry red leaves falls on the step with no sound at all, each leaf the shape of the one before." when at(actor, fender_step) and held(site) + flinched(site) == 1.
+    Result "Inside, the loaves on the rack have begun, very gently, to rise a second time. The wood goes by in the dark with a long wet sound of roots, like a crowd of people eating soup, and a sapling trots past carrying in its lowest fork a child's wooden horse it has been given and has not put down." when at(actor, fender_step) and held(site) + flinched(site) == 2.
+    Result "Behind you, Sorel is singing something low and unmusical to the dough. A boy is breathing in the doorway as if he were being very good. You count trunks until you find you are not counting them, and then there are fewer." when at(actor, fender_step).
+    Result "The Hollow hums, and the trees come slowly here, and slower, and hold their branches up and out as a man holds his arms in a crowded room. They are not going round you. They are making room." when at(actor, hollow_step) and held(site) + flinched(site) == 1.
+    Result "Between the trunks there is light that comes from nowhere: the knee-glow, joined up, a low green floor of it. Things go by in it, in the roots and the forks, that the Sellow has taken up in thirty-one years and means to set down at the Mere: a bell, a wheel, a child's boot, a lantern still burning." when at(actor, hollow_step) and held(site) + flinched(site) == 2.
+    Result "A heron settles on the Hollow's turf roof and puts its head under its wing. The kettle inside has stopped humming its own note and taken up the wood's. You stand in the doorway of the one house in Haywad that has never been in any danger, and find it is not the easier post." when at(actor, hollow_step).
+    Otherwise "You flinch. It is a hand's breadth, a step back into the doorway, and the whole near side of the wood turns toward it. A bough comes across the step like an arm across a table, and the stool goes with it. You are on your back in the doorway with no breath. The trunk goes by. It was not interested in you. That was the whole of the danger.".
+  }
+
+  Action edda_go(actor: group, site: place) "Tell Edda to go" {
+    Speaker edda.
+    Requires able(actor) and at(actor, site) and at(edda, site) and eddaGoing(actor) and not eddaGone(actor) and held(notler_step) >= 1 and watch(clock) < 112.
+    Time 1.
+    On success { Retract at(edda, notler_step). Assert eddaGone(actor). Set residentHold(notler_step) to 0. Set eddaArrives() to watch(clock) + 14. }
+    Result "'Go on,' you say. At the end of the lane Edda Notler turns up her collar and steps out into the Way on the far side of a trunk, going east, at the pace of the trees, with her hands in her pockets. The Sellow goes round her like water round a woman wading the same way. She does not look back. You are glad of it, because you are holding her door, and could not have, if she had.".
+  }
+
+  Observe notler_stood at notler_step when fated(notler_step) and standsAt(notler_step) "Notler's door stands, with a long scrape down the lintel at the height of a trunk, and every flagstone on the step chalked and sound.".
+  Observe notler_scarred at notler_step when fated(notler_step) and scarredAt(notler_step) "Notler's door stands, and the roof does not: a bough has had the slates off in a long stripe, and the stool is kindling.".
+  Observe notler_lost at notler_step when fated(notler_step) and lostAt(notler_step) "There is no door. There is a step, and a rectangle of broken stone where the house was, trodden to the cellar. Somebody has chalked a number on the flags anyway.".
+  Observe fender_stood at fender_step when fated(fender_step) and standsAt(fender_step) "The bakehouse stands with its door on and its oven warm. The sand-bucket has been kicked over in the night. Somebody has crossed out STANDING on the sill, and written it again.".
+  Observe fender_scarred at fender_step when fated(fender_step) and scarredAt(fender_step) "The bakehouse stands, with the chimney gone sideways and loaves on the step in the leaf-fall.".
+  Observe fender_lost at fender_step when fated(fender_step) and lostAt(fender_step) "The bakehouse is a heap of hot brick, and the oven is open to the sky. The loaves are all over the Way, quite whole, as if somebody had been throwing them.".
+  Observe hollow_stood at hollow_step when fated(hollow_step) and standsAt(hollow_step) "The Hollow is unmarked, and warm, and humming a little flat.".
+  Rule fate_notler when watch(clock) >= 98 and not fated(notler_step) { Assert fated(notler_step). }
+  Rule fate_fender when watch(clock) >= 104 and not fated(fender_step) { Assert fated(fender_step). }
+  Rule fate_hollow when watch(clock) >= 116 and not fated(hollow_step) { Assert fated(hollow_step). }
+
+  Rule pipet_freezes heard within haywad when watch(clock) >= 92 and pipetStands(party) and not pipetSafe(party) and not pipetOut(party) once
+    says "A boy is thirty paces out among the trees, arms spread, laughing. Sorel says one word, quite quietly, the word she had off him this afternoon. 'Stand.' He freezes in mid-laugh with one foot up, and the Sellow divides around him like a river round a post; for the length of a trunk his teeth are the whitest thing in the dark. Then he walks back along the cleared line, very slowly, as along a rope." { Assert pipetSafe(party). }
+  Rule pipet_bolts heard within haywad when watch(clock) >= 92 and not pipetStands(party) and not pipetSafe(party) and not pipetOut(party) and not pipetHurt(party) once
+    says "Pipet is not on the step. He is thirty paces into the Way with his arms spread, laughing, among legs of trees the width of carts. His mother is calling him, and he cannot hear her, because he has never heard anything so loud." { Assert pipetOut(party). Retract at(pipet, fender_step). }
+  Rule pipet_trodden heard within haywad when watch(clock) >= 100 and pipetOut(party)
+    says "Sorel Fender goes out after her son. Neither of them is stood in the door. The wood goes through them, the way it goes through anything that moves, with no malice at all. She brings him back by the collar, broken in the arm and talking. The bakehouse door is open on nobody." { Retract pipetOut(party). Assert pipetHurt(party). Assert at(pipet, oven). Set residentHold(fender_step) to 0. }
+  Action fetch_pipet(actor: group, site: place) "Go out among the trees and hold Pipet still" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fender_step) and pipetOut(actor).
+    Time 1.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Retract pipetOut(actor). Assert pipetSafe(actor). Assert at(pipet, fender_step). }
+    On failure { Retract pipetOut(actor). Assert pipetHurt(actor). Assert at(pipet, oven). Set residentHold(fender_step) to 0. Assert strikes(bough, party). }
+    Result "You go out among them. It is the opposite of every instinct you have. A trunk goes by on your left and another on your right, and you do not look at either; you look at the back of a boy's head, and you walk, very slowly, the way the trees walk, to where he is, and put both hands on his shoulders. 'Stand,' you say. He stands. You stand. The Sellow divides round the two of you with the sound of a great cloth being torn, and you walk him back along the line.".
+    Otherwise "You go out among them, and you are too quick. It is a step, no more. The wood notices. When you can see again you are on the bakehouse step with a boy's weight across your knees and his arm bent the wrong way, and the trunk that did it is already thirty yards on, indifferent, going east.".
+  }
+
+  Rule edda_arrives_in_time heard at hollow_step when eddaGone(party) and not eddaThere(party) and not eddaLate(party) and watch(clock) >= eddaArrives() and (not resolved(party) or tibylStays(party)) once
+    says "A second figure comes out of the trees at the Hollow's step, grey with leaf-dust and out of breath, with a chalk behind her ear. Tibyl has been standing very straight for an hour. She goes down like a dropped sheet." { Assert at(edda, hollow_step). Assert eddaThere(party). }
+  Rule edda_arrives_late heard at hollow_step when eddaGone(party) and not eddaThere(party) and not eddaLate(party) and watch(clock) >= eddaArrives() and resolved(party) and tibylGone(party) once
+    says "Edda Notler comes out of the trees to an empty step and a flattened place in the leaf-fall where something very large has been standing. She looks at it for some time. Then she sits on the step, with her back to the Hollow, and her face to the east." { Assert at(edda, hollow_step). Assert eddaLate(party). }
+  Rule edda_arrives_unseen when eddaGone(party) and not eddaThere(party) and not eddaLate(party) and watch(clock) >= eddaArrives() and (not resolved(party) or tibylStays(party)) { Assert at(edda, hollow_step). Assert eddaThere(party). }
+  Rule edda_late_unseen when eddaGone(party) and not eddaThere(party) and not eddaLate(party) and watch(clock) >= eddaArrives() and resolved(party) and tibylGone(party) { Assert at(edda, hollow_step). Assert eddaLate(party). }
+
+  Discovery heart_seen "The Leaner, eldest of the Sellow, stops at the Hollow and lays down a branch.".
+  Thing leaner "the Leaner" at hollow_step hidden until heart_seen {
+    Wonder natural unique for aesthetic, spiritual "It is the height of a church tower and as slow as one. The bark is white with lichen, and the crown leans east, and always has. Halfway up, a branch as thick as a bridge has come down level with the doorstep, and lies there with its leaves quite still. It is a gangway.".
+    State waiting "The Leaner waits in the Way, with all the patience of the largest thing you have ever stood next to.".
+    State touched "The Leaner stands in the Way with its branch on the Hollow's step. Where you laid your palm the bark is warm, and has begun, very slowly, to hum.".
+    State gone "The Leaner has gone. Where it stood is a hollow in the ground, filled with white lichen and a little water.".
+    Tries listening.
+    Change greet "Lay your palm on the Leaner's branch" from waiting to touched at hollow_step.
+  }
+  Observe leaner_listen near leaner when tried(leaner, listening) "You put your ear to the branch. It is not silent. It is like listening to a very large animal not saying something.".
+  Observe leaner_touched near leaner as sign when state(leaner, touched) "The hum in the bark has the same pitch as the kettle in the Hollow, and as the note Tibyl has been keeping all week, and settles on it, with a sound like a sigh.".
+  Rule heart_comes heard within haywad when watch(clock) >= 104 and not heartCame(party) once
+    says "The knee-glow thickens. At the far end of the Way a tree comes out of the dark that is not like the others: white-barked, the height of a tower, leaning to the east like a man into a wind. The others make room for it. It does not hurry, and it does not go round the houses, because the houses are standing. It comes down the Way at a stroll and stops at the Hollow, and lays a branch the size of a bridge on the step, level, and is still." { Assert heartCame(party). }
+
+  Topic tibyl_puts with tibyl "Ask Tibyl what she means to do" when heartCame(party) and not resolved(party) once {
+    Says "'Everyone has told me what they think,' says Tibyl. She is standing very straight, with the bundle, and the branch lies on the step beside her like a gangway. 'You have been all along the Way. Which way is it? Not what you would like. What would you do?'".
+    On discuss { Assert tibylAsked(actor). }
+  }
+  Topic tibyl_go with tibyl "Tell her to go" answering tibyl_puts when true {
+    Says "'Go,' you say. Tibyl nods slowly, as though you had confirmed a time of departure. 'Yes,' she says. 'I thought somebody ought to say it out loud.'".
+    On discuss { Assert tibylGoes(actor). }
+  }
+  Topic tibyl_wait with tibyl "Tell her Edda is coming along the Way" answering tibyl_puts when eddaGone(party) and not eddaThere(party) {
+    Says "She stares. 'Edda,' she says, 'is walking? In the Way?' Then she laughs, a whole-body laugh like a sneeze, and sits down on the step with the bundle in her lap. 'Then I shall be very late for something,' says Tibyl. 'Good.'".
+    On discuss { Assert tibylWaits(actor). }
+  }
+  Topic tibyl_told with tibyl "Tell her Orrin was carried, not trodden" answering tibyl_puts when knows(party, walks_known) {
+    Says "'Carried,' says Tibyl. She sits with that. 'Then there is a hut up there, and a stove, I hope; and a very long letter he has not been able to post.' She picks the bundle up again. 'You have made it much easier to go,' she says, 'and much harder to leave her. I hope you know that.'".
+    On discuss { Assert tibylGoes(actor). Assert tibylKnowsOrrin(actor). }
+  }
+  Action tibyl_stay(actor: group, site: place) "Ask Tibyl to stay" {
+    Speaker tibyl.
+    Requires able(actor) and at(actor, site) and at(tibyl, site) and tibylAsked(actor) and not resolved(actor).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert tibylStays(actor). }
+    On failure { Assert tibylGoes(actor). }
+    Result "'Stay,' you say, and nothing else, because there is nothing else. Tibyl looks at the branch, and at the lane, and at the far end of the Way where, a mile off, one lamp burns over a door. 'Why?' You tell her. It is not a very good reason. It is a true one. She nods. 'All right,' she says, and unslings the bundle, and sets it on the step like a thing she has finished carrying.".
+    Otherwise "'Stay,' you say. 'That is not a reason,' says Tibyl, gently. 'That is a noise people make.' She settles the bundle on her shoulder.".
+  }
+  Action tibyl_stay_edda(actor: group, site: place) "Give Tibyl Edda's words" {
+    Speaker tibyl.
+    Requires able(actor) and at(actor, site) and at(tibyl, site) and tibylAsked(actor) and eddaPlea(actor) and not resolved(actor).
+    Resolve check(actor, insight, dc_easy).
+    On success { Assert tibylStays(actor). }
+    On failure { Assert tibylGoes(actor). }
+    Result "'The door is hers,' you say, 'and the chair. And she is a fool who says the weather.' Tibyl does not move for so long that the Leaner shifts its leaves. 'She said that,' says Tibyl. 'With her mouth.' Then she puts the bundle down on the step, and sits on it, and puts her face in her hands.".
+    Otherwise "You say it badly, all in the wrong order, and she hears the words, and not the woman who said them.".
+  }
+
+  Rule tibyl_stays_final heard at hollow_step when watch(clock) >= 124 and heartCame(party) and tibylStays(party) and not resolved(party) once
+    says "The Leaner waits an hour, and then another, as if it had all the time that has ever been, and then it lifts its branch off the step, a hand's breadth at a time, so as not to startle anyone. It goes on down the Way. The leaves it leaves behind are the first any person in Haywad has ever been given and not had to give back." { Assert resolved(party). Assert state(leaner, gone). }
+  Rule tibyl_both_final heard at hollow_step when watch(clock) >= 124 and heartCame(party) and eddaThere(party) and not tibylStays(party) and not resolved(party) once
+    says "At a quarter to five the Leaner shifts its leaves. Tibyl Sellow stands, and settles the bundle, and holds out her hand without looking round, and Edda Notler, who has not held a hand since Orrin, takes it. They walk up the branch together, rather slowly, the way you walk up a gangway when you are afraid of falling off. The branch lifts. The Leaner goes on down the Way with two women in its crown, and one of them is still holding the chalk." { Assert resolved(party). Assert tibylGone(party). Assert eddaWent(party). Assert state(leaner, gone). Retract at(tibyl, hollow_step). Retract at(edda, hollow_step). }
+  Rule tibyl_alone_final heard at hollow_step when watch(clock) >= 124 and heartCame(party) and not eddaThere(party) and not tibylStays(party) and not resolved(party) once
+    says "At a quarter to five the Leaner shifts its leaves. Tibyl Sellow stands, and settles the bundle. She looks up the lane, at the green, at the one lit window; she gives the doorstep a last look, as one looks at a thing one has scrubbed. Then she walks up the branch with her chin up, humming, and does not look round, and the Leaner takes her away down the Way at the pace of a stroll." { Assert resolved(party). Assert tibylGone(party). Assert state(leaner, gone). Retract at(tibyl, hollow_step). }
+
+  Observe dawn_way at green as sign when walkDone() "The wood is gone. The Way runs out of the village at both ends, a mile wide, trampled flat and smoking faintly in the sun, and it is walkable." teaches way_open.
+  Observe dawn_way_n at notler_step as sign when walkDone() "The wood is gone. West of the step the Way runs on, flat and wide and steaming, where the Sellow stood." teaches way_open.
+  Observe dawn_way_h at hollow_step as sign when walkDone() "The wood is gone. East of the step the Way runs on as far as the eye can see, a mile wide, trodden flat, toward the Mere." teaches way_open.
+  Observe porridge at hollow_step as sign when walkDone() and tibylGone(party) and not eddaWent(party) "A bowl of porridge stands on the Hollow's step, steaming a little, with a spoon in it. Nobody says who it is for.".
+  Observe chalk_left at notler_step as sign when walkDone() and eddaWent(party) "The chalk is on the step, on the flag with 1 on it. Next to it, on the sill, a note: THREE DOORS. THE FIRST IS YOURS NOW. E.N.".
+  Observe edda_home at notler_step as sign when walkDone() and not eddaGone(party) "Edda Notler is on her stool in the doorway, grey in the face, with the chalk in her fist. She is still holding it, as if it might go off.".
+
+  Topic haber_fund with haber "Ask Haber about the Way-fund" when walkDone() and owed(party) > 0 and not paid(party) once {
+    Says "'Edda left it with me,' says Haber, and counts it out, 'in case she was not about.' He looks at the coins. 'She says it is for the ones who held.'".
+    On discuss { Increase quantity(actor, gold) by owed(actor). Assert paid(actor). }
+  }
+
+  Action walk_to_fender(actor: group, site: place) "Walk east with the wood, to the bakehouse step" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, notler_step) and knows(actor, walks_known) and risingOn() and watch(clock) < 120.
+    Time 6.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Retract at(actor, notler_step). Assert at(actor, fender_step). }
+    On failure { Retract at(actor, notler_step). Assert at(actor, fender_step). Assert strikes(bough, party). }
+    Grave "Out in the Way you may not stop, or turn back, or hurry. You will go east at the wood's own pace until you come to the next step.".
+    Result "You step off the doorstep on the far side of a trunk, and put your hands in your pockets, and walk. It is the hardest thing you have ever done slowly. The trunks go round you like water round a person wading the same way. After an hour a lit doorway comes up on the left, and you step out of the Way on to the warm flags of a bakehouse.".
+    Otherwise "You hurry, once, at the third trunk. Every trunk within reach leans in. A bough finds you, and lets go, and you are on the bakehouse step on your hands and knees, with an hour gone, and no idea how.".
+  }
+  Action walk_to_hollow(actor: group, site: place) "Walk east with the wood, to the Hollow's step" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fender_step) and knows(actor, walks_known) and risingOn() and watch(clock) < 120.
+    Time 8.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Retract at(actor, fender_step). Assert at(actor, hollow_step). }
+    On failure { Retract at(actor, fender_step). Assert at(actor, hollow_step). Assert strikes(bough, party). }
+    Grave "Out in the Way you may not stop, or turn back, or hurry. You will go east at the wood's own pace until you come to the next step.".
+    Result "The Way east of the bakehouse is darker and the trunks are older. You walk at the pace of the Sellow, with your hands in your pockets, for rather more than an hour. Somewhere ahead, quite small, is a scrubbed white doorstep.".
+    Otherwise "You hurry, once, at a root, and a bough finds you and lets go. You come out at the Hollow's step on your hands and knees.".
+  }
+
+  Milestone ms_stood "stood a door in the Rising" worth 120 when held(notler_step) >= 3 or held(fender_step) >= 3 or held(hollow_step) >= 3.
+  Milestone ms_pipet "taught Pipet to stand" worth 60 when pipetSafe(party).
+  Milestone ms_rogot "learned the truth about the lamps" worth 30 when knows(party, lamp_truth).
+  Milestone ms_walks "learned that the wood does not tread what walks with it" worth 100 when knows(party, walks_known).
+  Milestone ms_heart "stood in the Hollow's doorway at the Heart" worth 150 when heartCame(party) and at(party, hollow_step).
+  Milestone ms_edda "freed Edda to walk with the wood" worth 150 when eddaGone(party).
+}

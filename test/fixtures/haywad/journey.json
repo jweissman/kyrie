@@ -1,0 +1,79 @@
+{
+  "arrive": [
+    "To the green"
+  ],
+  "learn": [
+    "Into the Stile",
+    "Ask Haber about the last Rising",
+    "To the Stile's rafters",
+    "Ask Grik when it comes",
+    "To the Stile's taproom",
+    "Out to the green",
+    "Into Selve's lamp-shop",
+    "Write to Rogot: do the lamps keep the wood off?",
+    "Write to Rogot: did Orrin Notler run?",
+    "Out to the green",
+    "Into the Stile",
+    "To the Stile's rafters",
+    "Ask Grik whether anything walks with the wood",
+    "To the Stile's taproom",
+    "Out to the green"
+  ],
+  "edda": [
+    "To Notler's step",
+    "Ask Edda how she stands it",
+    "Tell Edda what Rogot Selve saw the night Orrin went",
+    "Tell Edda that something warm rides in the Sellow's crowns",
+    "Say you will stand her door"
+  ],
+  "holdAndRelease": [
+    "=day 1 21:00",
+    "Hold still in the doorway",
+    "Tell Edda to go",
+    "Hold still in the doorway",
+    "Hold still in the doorway"
+  ],
+  "walkEast": [
+    "Walk east with the wood, to the bakehouse step",
+    "Walk east with the wood, to the Hollow's step"
+  ],
+  "bothEnd": [
+    "Lay your palm on the Leaner's branch",
+    "Ask Tibyl what she means to do",
+    "Tell her Orrin was carried, not trodden"
+  ],
+  "statues": [
+    "To the bakehouse step",
+    "Into Fender's bakehouse",
+    "Ask Sorel about Pipet",
+    "Say you could teach Pipet to stand still",
+    "Out to the bakehouse step",
+    "Play statues with Pipet"
+  ],
+  "heldDay": [
+    "To Notler's step",
+    "Ask Edda about Tibyl",
+    "Press Edda for a word to send Tibyl",
+    "To the green",
+    "To the Hollow's step",
+    "Into the Hollow",
+    "Ask Tibyl why she hums",
+    "Ask Tibyl about the bundle by the door",
+    "Out to the Hollow's step"
+  ],
+  "heldNight": [
+    "=day 2 01:30",
+    "Ask Tibyl what she means to do",
+    "Give Tibyl Edda's words"
+  ],
+  "mere": [
+    "=day 2 07:00",
+    "To the Maugh shore",
+    "Ask Orrin what he does here",
+    "Ask Orrin for something to take to Edda",
+    "To the Hollow's step",
+    "To the green",
+    "To Notler's step",
+    "Give Edda Orrin's seedling"
+  ]
+}

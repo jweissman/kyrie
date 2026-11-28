@@ -1,0 +1,63 @@
+Module haywad "The Still Hours" {
+  Kind seedling_kind "a Sellow seedling in a bread-crock" is gear worth 0 weighing 1 described "A seedling no longer than a spoon, in a ball of grey mere-mud, in a bread-crock. It has four leaves, and they are all facing the same way.".
+
+  Person orrin "Orrin Sellow" at shore {
+    Role "keeper of the Sellow's young". Ancestry human. Pronouns he. Manner stoic. Peaceable.
+    Greets "An old man with a beard like moss sits on a root as thick as a road, with his boots in the mere. He is greatly surprised. 'Post,' says Orrin Sellow. 'There is no post. How did you come?'".
+    Greets again "'Still here,' says Orrin. 'It is where the work is.'".
+    Farewell "'Tell her I am well,' says Orrin. 'Tell her I did not mind.'".
+  }
+  Topic orrin_work with orrin "Ask Orrin what he does here" when true once {
+    Says "'Teach,' says Orrin. 'There are forty-one of us in the crowns. A seedling does not know how to stand until somebody shows it, and it does not know to go round a person in a doorway until it has been taught that a person in a doorway is worth going round. That is the whole of the Sellow. It is not a wood that goes round people. It is a wood that has been taught.' He rubs his beard. 'It comes to Haywad each time to ask if it is still welcome. Every door with someone in it says yes.'".
+  }
+  Topic orrin_trodden with orrin "Ask Orrin about the doors that fell" when knows(party, orrin_ran) once {
+    Says "'It does not understand that,' says Orrin, after a long time. 'A door with nobody in it. A man who runs. It is a wood. It has been taught a good many things and not what people are afraid of.' He looks at his boots. 'I used to think that was the wood's failing.'".
+  }
+  Topic orrin_edda with orrin "Ask Orrin about Edda" when not eddaWent(party) once {
+    Says "'Did she stand?' says Orrin. He does not wait. 'She stood. I knew she would. I walked as slowly as I could, down the Way. I thought she might.' He laughs, and is quiet. 'You cannot ask. It has to be the one thing a person does by themselves.'".
+  }
+  Topic orrin_seedling with orrin "Ask Orrin for something to take to Edda" when not eddaWent(party) and not seedlingGiven(party) once {
+    Says "He reaches behind him and breaks from the Leaner's lowest limb a seedling no longer than a spoon, with a ball of mere-mud on its roots, and puts it in a bread-crock. 'Tell her it is the only way I know to be on the step,' says Orrin. 'It will go round her, if she stands still. It will learn her.'".
+    On discuss { Give seedling_kind to actor. Assert seedlingGiven(actor). }
+  }
+  Topic orrin_tibyl with orrin "Ask Orrin about the girl the wood left" when tibylGone(party) and tibylKnowsOrrin(party) once {
+    Says "'Tibyl,' says Orrin. He looks across the shallows at a woman with a bundle, who is standing in the mere to her knees, humming. 'She hums at the pitch they hum. I did too. I thought it was only me.'".
+  }
+  Topic orrin_wait with orrin "Ask Orrin whether Edda could have been told" when eddaShaken(party) and eddaAsked(party) once {
+    Says "'Told,' says Orrin. 'Yes. If someone had walked the whole way with a thing like that, I would have kissed them.' He considers. 'But not to her face, I think. She would have gone for the chalk.'".
+  }
+
+  Topic edda_plant with edda "Give Edda Orrin's seedling" when holding(party, seedling_kind) and walkDone() once {
+    Says "Edda looks at the crock for as long as it takes the kettle to boil, though there is no kettle. 'Four leaves,' she says. 'All facing the same way.' She does not take it. She makes a place on the step, between the first and second flag, with the chalk, and then she takes it, and sets it there in the sun. 'It will want a stool,' says Edda. 'Someone has to sit with it.'".
+    On discuss { Spend seedling_kind from actor. Assert seedlingPlanted(actor). }
+  }
+  Kind cat_bell_kind "a small brass bell on a cracked collar" is gear worth 0 weighing 0 described "A brass bell no bigger than a thimble, on a collar gone to leather-dust. Engraved on the bell, very small: D.F.".
+  Discovery bell_found "In the grey crust of the Bare, thirty-one years deep, a collar-bell lies where the roots lifted. The initials on it are Dunn Fender's." { Found by searching bare. }
+  Item cat_bell "a small brass bell on a cracked collar" is cat_bell_kind at bare hidden until bell_found.
+  Observe bare_hint at bare as sign when walkDone() and knows(party, orrin_ran) "Dunn Fender went after a cat the last time. The cat came back; the man did not. Whatever the cat was wearing is somewhere under this.".
+  Relation sorelBell(group).
+  Topic sorel_bell with sorel "Give Sorel the bell from the Bare" when holding(party, cat_bell_kind) once {
+    Says "Sorel puts down the dough. She turns the bell over in a floury hand until she finds the letters. 'He bought it on the Fair day,' she says. 'The cat never rang. It was a dreadful bell.' She sits on a flour sack, quite suddenly. 'Thirty-one years I have been telling myself it was the cat he went after. It was the bell.' She laughs, and wipes her eyes with her wrist, and leaves flour on her cheek. 'Take what you like off the rack. All of it, if you like. No: three loaves. I am not a fool.'".
+    On discuss { Spend cat_bell_kind from actor. Assert sorelBell(actor). Give 3 rations to actor. }
+  }
+  Observe cat_bell_oven at oven as ambience when sorelBell(party) "A very old cat on the flour sacks wears a brass bell, with the air of a creature wronged. It rings when he moves, and Sorel stops what she is doing every time.".
+  Milestone ms_bell "found Dunn Fender's bell in the Bare" worth 80 when sorelBell(party).
+  Relation seedlingPlanted(group).
+  Observe seedling_step at notler_step as sign when seedlingPlanted(party) "A bread-crock sits on the first flag, with a seedling in it the length of a spoon. All four leaves face east, and there is a second stool.".
+
+  Rule dawn_tibyl when walkDone() and tibylGone(party) and not at(tibyl, shore) { Assert at(tibyl, shore). }
+  Rule dawn_edda when walkDone() and eddaWent(party) and not at(edda, shore) { Assert at(edda, shore). }
+  Rule shore_reunion heard at shore when walkDone() and eddaWent(party) and at(party, shore) once
+    says "Orrin Sellow stands up off his root, which takes some time. Edda Notler is standing in the shallows with a chalk in her hand. Neither speaks. He is ninety-three. She is sixty-six. 'You walk very slowly,' says Edda at last. 'I was trying to be caught,' says Orrin. Tibyl, beside them, looks at the sky very carefully, and hums." { }
+
+  Ending both "The Chalk on the Step" when watch(clock) >= 204 and eddaWent(party) and tibylGone(party)
+    "In Haywad that evening the first door on the Way has a new stander, who is a stranger from the Stile, who has not stood still in her life, and holds anyway. Rogot Selve lights a lamp in his window for nobody and swears at it. At the Mere the Sellow has lain down in rows, and in the crown of the oldest tree three people share one stove. Edda Notler has found it, at last, quite easy to be still. It is the other thing she is bad at, and she is learning it from a man of ninety-three.".
+  Ending late "The Step That Was Empty" when watch(clock) >= 204 and eddaLate(party) and tibylGone(party)
+    "Edda Notler comes home to Haywad on the evening cart, with chalk on her sleeve and nothing in her hands. She stands her own door the next time, thirty-one years on, at ninety-seven, and nobody is sure she will be there. At the Mere Tibyl Sellow hums to a seedling in the shallows, and has been told a good many things by a very old man, and writes, on the second day, her first letter, and is told there is still no post.".
+  Ending carried "Porridge" when watch(clock) >= 204 and tibylGone(party)
+    "At dawn Edda Notler walks the length of the Way, which takes her an hour, on the bad knee, to the Hollow. She sets a bowl of porridge on the step, as for a lodger, with a spoon in it, and sits down beside it for the whole of the morning. The Sellow lies down at the Mere. In the crown of the Leaner a woman of thirty-one hangs up a comb, and a man of ninety-three, who has been practising a sentence for thirty-one years, says it.".
+  Ending longway "The Long Way Home" when watch(clock) >= 204 and tibylStays(party) and eddaThere(party)
+    "They walk back up the Way at sunrise, the two of them, a mile of flattened leaf-fall, not saying the weather. Edda has left her door standing. It has stood, with one stranger in it, and the knee. At the Hollow's step Tibyl stops, and says what she has not said for thirty-one years, and Edda says it back at once, quite crossly, as if it were a form. The Leaner has gone to the Mere with nobody in its crown but the old teachers, and, in a bread-crock on the step, someone has left a four-leaved seedling.".
+  Ending held "Held" when watch(clock) >= 204 and tibylStays(party)
+    "The wood passes, and Haywad is whole. Tibyl Sellow stays, the first of her kind to be asked and say no, and the Leaner waits an hour at the Hollow and lifts its branch, and goes. By evening she and Edda have said the weather four times, and the fourth time it was about something. Haywad has more trees in its leaf-fall than it has had in thirty-one years, and, in the spring, a good many of them take root on the Way, and stand, and are let alone.".
+}

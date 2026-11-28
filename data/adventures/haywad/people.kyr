@@ -1,0 +1,169 @@
+Module haywad "The Still Hours" {
+  Discovery rule_known "The Sellow walks round whatever stands still and through whatever moves: a bell hung quiet is passed, a bell swung is not.".
+  Discovery timing_known "The Sellow reaches Notler's step at nine, the bakehouse at ten and the Hollow at midnight; the Leaner, last and eldest, comes after one and stops at the Hollow.".
+  Discovery walkborn_known "Haywad calls Sellows the children the wood leaves on doorsteps in the night of a Rising. Tibyl, at the Hollow, is thirty-one tonight, and was left on Edda Notler's step.".
+  Discovery orrin_ran "Orrin Notler, Edda's husband, a Sellow, ran in the last Rising and was trodden, they say in Haywad.".
+  Discovery lamp_truth "A lamp does nothing for the wood. It is for the hands of whoever stands.".
+  Discovery walks_known "The Sellow does not tread what walks with it. At the last Rising Orrin Notler strolled into the Way with his hands in his pockets, and the trees went round him like water round a man wading the same way.".
+  Discovery crowns_known "A few dozen warm bodies ride in the Sellow's crowns every Rising, all the way to the Mere. Grik took them for herons. Herons do not light fires.".
+
+  Person edda "Edda Notler" at notler_step {
+    Role "Marshal of the Way". Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Greets "A tall woman with a chalk behind her ear is numbering flagstones, on a bad knee, in a good temper. 'Marshal of the Way,' says Edda Notler. 'You are the hands. Do you stand still?'".
+    Greets again "'Still here,' says Edda.".
+    Farewell "'Eat before nine,' says Edda. 'Not after.'".
+  }
+  Topic edda_work with edda "Ask Edda what the work is" when true once {
+    Says "'Hold still,' says Edda. 'That is all of it. At nine the Sellow gets up and walks east through Haywad. It goes round whatever stands still and through whatever moves. A door with a person in it is a rock in a river. A door with nobody in it is a stump.' She chalks a number. 'The last strangers I hired, one sneezed and one prayed. The prayer was worse.'".
+    On discuss { Assert knows(actor, rule_known). }
+  }
+  Topic edda_pay with edda "Ask Edda what is paid" when true once {
+    Says "'Eight crowns a door, from the Way-fund, at dawn,' says Edda. 'To those who held it and are alive to be paid.'".
+  }
+  Topic edda_breath with edda "Ask Edda how she stands it" when true once {
+    Says "'You do not stand it. You become a post.' She taps the stool with the chalk. 'Breathe out for longer than you breathe in. Look at one thing, and not the trees: the stone with the number on it. When a trunk comes, do not watch the trunk. It will go by. It always goes by. It is always the next one you are afraid of.'".
+    On discuss { Assert eddaTaught(actor). }
+  }
+  Topic edda_tibyl with edda "Ask Edda about Tibyl" when true once {
+    Says "'My daughter,' says Edda, 'by the wood's reckoning.' She does not look up from the chalk. 'It left her on this step thirty-one years ago tonight, in a nest of leaves, in the middle of the Rising. I took her for a cabbage. She is thirty-one at nine. She keeps the Hollow, which is the far end of the Way, and which I do not think is an accident.'".
+    On discuss { Assert knows(actor, walkborn_known). }
+  }
+  Topic edda_orrin with edda "Ask Edda about her husband" when knows(party, orrin_ran) once {
+    Says "The chalk stops. 'Orrin ran,' says Edda. It is said the way a thing is said that has been said many times, so as to be said. 'The wood goes through what runs. We did not find enough to bury, and I buried what there was.'".
+  }
+  Action edda_word(actor: group, site: place) "Press Edda for a word to send Tibyl" {
+    Speaker edda.
+    Requires able(actor) and at(actor, site) and at(edda, site) and knows(actor, walkborn_known) and not eddaPlea(actor) and not heartCame(actor).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert eddaPlea(actor). }
+    Result "Edda writes nothing, for a long moment, on a flagstone. 'Tell her the door is hers,' she says. 'And the chair. And that I am a fool who says the weather.'".
+    Otherwise "'I do not send messages,' says Edda. 'I deliver them in person, late.'".
+  }
+  Topic edda_truth with edda "Tell Edda what Rogot Selve saw the night Orrin went" when knows(party, walks_known) and not eddaShaken(party) once {
+    Says "She stands very still for rather a long time. When she speaks it is not to you. 'Hands in his pockets,' says Edda. 'I told myself it was the dark.' She takes the chalk from behind her ear and puts it back. 'I was a post for thirty-one years, and it was not even the wood that wanted me to be one.'".
+    On discuss { Assert eddaShaken(actor). }
+  }
+  Topic edda_alive with edda "Tell Edda that something warm rides in the Sellow's crowns" when eddaShaken(party) and knows(party, crowns_known) once {
+    Says "'Alive,' says Edda. Not a question. She sits down on the stool, which faces the wood. 'Three doors, and I have stood this one for thirty-one years against a man who is up a tree.' She laughs, which is a bad noise. Then she is the Marshal again. 'If I go, who stands my door? It is the first at the Front. If it falls, the bakehouse falls after it. I did a thing like that once. I stood still.' She looks at you. 'Would you? The first hour, and I will watch you do it. If you hold, I go.'".
+    On discuss { Assert eddaAsked(actor). }
+  }
+  Topic edda_yes with edda "Say you will stand her door" answering edda_alive when true {
+    Says "'Then stand the first of it,' says Edda. 'I will be at the end of the lane, where I can see.' She presses the chalk into your hand. It is warm.".
+    On discuss { Assert eddaGoing(actor). }
+  }
+  Topic edda_no with edda "Say you cannot" answering edda_alive when true {
+    Says "'No,' says Edda, after a while. 'It is not a thing to ask a stranger.' She does not raise it again.".
+  }
+
+  Person tibyl "Tibyl Sellow" at stump {
+    Role "keeper of the Hollow". Ancestry human. Pronouns she. Manner cheerful. Peaceable.
+    Greets "A woman of about thirty is sitting on the kitchen floor with her back to the wall, which is a tree, humming what the kettle is humming. 'Hello,' says Tibyl Sellow, not getting up. 'You are the hands. I am the other thing.'".
+    Greets again "'Hello again,' says Tibyl, and hums.".
+    Farewell "'Mind the doorstep,' says Tibyl. 'It is very clean.'".
+  }
+  Topic tibyl_hollow with tibyl "Ask Tibyl about the Hollow" when true once {
+    Says "'A tree that was late,' says Tibyl. 'Seventy years ago one of them could not get its roots out in time. It stood in the road while the rest went by, and died of embarrassment, and somebody put a roof on it.' She pats the wall. 'It is the warmest house in Haywad. It hums when the others do. It is trying.'".
+  }
+  Topic tibyl_hum with tibyl "Ask Tibyl why she hums" when true once {
+    Says "'Since Tuesday,' says Tibyl. 'It is in my back teeth. It is the tune they are doing over there, and I do not think I am doing it. I think I am being used as a tuning fork.' She stops, and listens, and starts again a little lower.".
+  }
+  Topic tibyl_sellow with tibyl "Ask Tibyl what a Sellow is" when knows(party, walkborn_known) once {
+    Says "'What Haywad calls a child the wood leaves on a step,' says Tibyl. 'Three that anyone has written down. Orrin, who ran. Me. And before Orrin a girl in the parish book who must have been carried off by wolves.' She smiles. 'We are not asked to the dances, but we get a surname.'".
+    On discuss { Assert knows(actor, orrin_ran). }
+  }
+  Topic tibyl_bundle with tibyl "Ask Tibyl about the bundle by the door" when knows(party, walkborn_known) once {
+    Says "She looks at it as if it had been left there. 'Bread. A comb. Two clean shirts.' A pause. 'A letter I have not written. It is the heavy part.' She does not say where she is going, and you do not ask her, and the kettle hums.".
+    On discuss { Assert tibylMeans(actor). }
+  }
+  Topic tibyl_edda with tibyl "Ask Tibyl what she and Edda say to each other" when tibylMeans(party) once {
+    Says "'We say good morning,' says Tibyl. 'We say the weather. We have said the weather every day for thirty-one years, and it has never once been about the weather.' She smiles at the wall. 'If one of us said the other thing, we would have to do something about it.'".
+  }
+  Topic tibyl_orrin with tibyl "Ask Tibyl whether she believes Orrin ran" when knows(party, orrin_ran) once {
+    Says "'No,' says Tibyl. 'It is not that I know. It is that the night he went was the night I came, and that is not a coincidence, it is an arrangement. And arrangements do not end in a man being trodden on in the dark. They end in somebody going somewhere.' She looks at the bundle. 'I am not saying where.'".
+  }
+
+  Person rogot "Rogot Selve" at lamps {
+    Role "lampwright". Ancestry human. Pronouns he. Manner jovial. Peaceable.
+    Sells lantern for 11 coin from 4.
+    Greets "A man of eighty with an ear-trumpet he does not use is dusting forty lamps. He reads your mouth, wrongly. 'ELEVEN CROWNS,' says Rogot Selve. 'FOR A LAMP. DO NOT ARGUE. I CANNOT HEAR YOU.'".
+    Greets again "'EH?' says Rogot.".
+    Farewell "'MIND THE WICK,' says Rogot.".
+  }
+  Topic rogot_lamps with rogot "Write to Rogot: do the lamps keep the wood off?" when true once {
+    Says "'THE LAMP HOLDS THE WOOD OFF,' says Rogot, and then, because you have the sort of face that does not believe it: 'NO IT DOES NOT.' He lowers his voice, which means he shouts a little less. 'THE WOOD CANNOT SEE A LAMP. IT IS FOR YOUR HANDS. A PERSON STANDING STILL WANTS A THING TO HOLD, OR THEY SCRATCH.' He looks at his prices. 'ELEVEN CROWNS. HANDS ARE DEAR.'".
+    On discuss { Assert knows(actor, lamp_truth). }
+  }
+  Topic rogot_last with rogot "Write to Rogot: did Orrin Notler run?" when knows(party, orrin_ran) once {
+    Says "He looks at the slate for long enough that you think he has lost the thread. 'RAN?' says Rogot. 'WHO SAYS RAN?' He puts the lamp down. 'I FOUND HIM. ON THE STEP OF THIS SHOP, IN LEAVES, SIXTY-TWO YEARS AGO. I WAS EIGHTEEN. I KEPT HIM A YEAR UNTIL A WIDOW TOOK HIM OFF ME. THE LAST RISING I LIT HIS LAMP AT HIS DOOR AND HE DID NOT TAKE IT. HE WENT OUT INTO THE WAY WITH HIS HANDS IN HIS POCKETS AND THE TREES WENT ROUND HIM THE WAY WATER GOES ROUND A MAN WADING THE SAME WAY.' He wipes a thumb across the glass. 'I HAVE TOLD NOBODY. I WAS TOLD NOBODY WOULD LISTEN, AND THAT WAS BEFORE I WENT DEAF.' He puts a lantern in your hand. 'HE IS NOT HERE TO TAKE IT. YOU TAKE IT.'".
+    On discuss { Assert knows(actor, walks_known). Give lantern to actor. }
+  }
+  Topic rogot_edda with rogot "Write to Rogot: why did he never tell Edda?" when knows(party, walks_known) once {
+    Says "'TELL HER WHAT?' says Rogot, and then, less loud: 'SHE WAS IN HER DOOR WHEN HE WENT. SHE SAW IT BETTER THAN I DID. I THOUGHT SHE KNEW.' He turns a lamp in his hands. 'IT IS A THING I DO, THINKING PEOPLE KNOW.'".
+  }
+
+  Person sorel "Sorel Fender" at oven {
+    Role "baker". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
+    Sells rations for 2 coin from 8.
+    Greets "A broad woman, floured to the elbow, is slapping dough with the force of a rebuke. 'Fender,' says Sorel Fender. 'Bread is two. Information is free, but you will want the bread.'".
+    Greets again "'Two,' says Sorel, not turning.".
+    Farewell "'Keep your feet in,' says Sorel.".
+  }
+  Topic sorel_way with sorel "Ask Sorel about the Way" when true once {
+    Says "'My man Dunn ran,' says Sorel. She slaps the dough. 'Last time. Not from the wood, you understand. Toward it, because a cat had gone out. I have the cat. He is very old and has no sense.' The dough takes a long beating. 'So we stand. And my boy thinks it does not apply to him, because he is twelve.'".
+  }
+  Topic sorel_pipet with sorel "Ask Sorel about Pipet" when true once {
+    Says "'He has decided the Rising is a thing that happens to other people's children,' says Sorel. 'I said the cellar. He said the cellar has no windows. I said that is the point of a cellar.' She hits the dough. 'If you know a way to make a boy stand still I will give you every loaf in this room.'".
+  }
+  Topic sorel_allow with sorel "Say you could teach Pipet to stand still" when true once {
+    Says "Sorel stops. 'How?' You tell her: a game, and one word. 'Statues,' says Sorel slowly. 'Dunn and I played statues at the Fair. He cheated.' She wipes her hands. 'On the step, where I can see. Not in the Way. If he so much as looks west I will bake you.'".
+    On discuss { Assert sorelAllows(actor). }
+  }
+
+  Person pipet "Pipet Fender" at fender_step {
+    Role "the baker's son". Ancestry human. Pronouns he. Manner jovial. Peaceable.
+    Greets "A boy of twelve is on the step, throwing stones at a chalk mark with great accuracy. 'You are standing for the Way,' says Pipet. 'Have you seen the inside? Not the Rising. The inside. Nobody has ever seen the inside.'".
+    Greets again "'Is it nine yet?' says Pipet.".
+    Farewell "'I will be in the cellar,' says Pipet, with great sincerity.".
+  }
+  Topic pipet_inside with pipet "Ask Pipet what he wants from the inside" when true once {
+    Says "'What is in it,' says Pipet. 'Grik says nothing has a face. Grik says birds have no faces and I have seen a bird.' He aims a stone. 'It goes round if you stand still. I want to see it go round me.'".
+  }
+  Action statues(actor: group, site: place) "Play statues with Pipet" {
+    Speaker pipet.
+    Requires able(actor) and at(actor, site) and at(pipet, site) and sorelAllows(actor) and not pipetStands(actor).
+    Time 3.
+    On success { Assert pipetStands(actor). }
+    Result "You play statues on the step. He is good: too good. He holds a pose on one foot for a count of sixty with a mug on his head. You teach him one word, and when you say it he stops like a clock. 'Stand,' says Pipet, delighted. 'It is a spell.' 'It is a word,' you tell him. 'It is for the one thing.' He nods very gravely, and you are not at all sure.".
+  }
+
+  Person grik "Grik Toller" at rafters {
+    Role "surveyor". Ancestry birdfolk. Pronouns she. Manner acerbic. Peaceable.
+    Greets "A birdfolk woman is lying on her front in the rafters with one round eye to a brass tube. She does not look round. 'Do not step on the drum,' says Grik Toller. 'Or the bell, or the second bell, or me. Twenty-two days.'".
+    Greets again "'The drum,' says Grik.".
+    Farewell "'Do not touch the bell,' says Grik.".
+  }
+  Topic grik_pull with grik "Ask Grik what she is measuring" when true once {
+    Says "'The Pull,' says Grik. 'Every tree in the Sellow has leaned a degree east for each of twenty-two days. At ninety they stand up. Nobody has measured it. They only get out of its way, which is the cheap method.' She taps a bell on a string. 'I hung this at the edge of the wood. Still bell: it goes round. Swung bell: through. I have the splinters.'".
+    On discuss { Assert knows(actor, rule_known). }
+  }
+  Topic grik_time with grik "Ask Grik when it comes" when true once {
+    Says "'Nine tonight at Notler's, plus or minus a minute. The bakehouse at ten. The Hollow at midnight, because the Way bends,' says Grik. 'The Leaner is last. It is the eldest and it takes its time, and after one it will stop at the Hollow. The records say it stops, and holds out a limb.' She frowns at the tube. 'I have never believed that part.'".
+    On discuss { Assert knows(actor, timing_known). }
+  }
+  Topic grik_crowns with grik "Ask Grik whether anything walks with the wood" when knows(party, walks_known) once {
+    Says "'Funny you should ask.' She turns the tube round and shows you a smear of numbers. 'There is a residual. Every Rising, a few dozen warm bodies in the crowns, moving with the Sellow all the way to the Mere. Heat, motion, no pattern. I put them down as roosting herons. Herons do not light fires.' She fixes you with a flat orange eye. 'Are you telling me there are people up there?'".
+    On discuss { Assert knows(actor, crowns_known). }
+  }
+
+  Person haber "Haber Undery" at taproom {
+    Role "innkeeper". Ancestry human. Pronouns he. Manner stoic. Profession innkeeper. Peaceable.
+    Sells rations for 2 coin from 6.
+  }
+  Topic haber_rising with haber "Ask Haber about the Rising" when true once {
+    Says "'Sixty-three of us,' says Haber Undery, drying a mug that has not been wet. 'Three doors on the Way: Notler's, the bakehouse, the Hollow. Edda stands hers. Sorel stands hers. Nobody stands the Hollow, and it is not that nobody wants to. The Hollow is for the Sellows, and a Sellow has always been somewhere else on the night.'".
+  }
+  Topic haber_last with haber "Ask Haber about the last Rising" when true once {
+    Says "'Two doors lost and two men,' says Haber. 'Dunn Fender went after a cat. Orrin Notler ran. I was nine. I counted.' He puts down the mug. 'That is why the beams are tallied. So you can see you are not the only one counting.'".
+    On discuss { Assert knows(actor, orrin_ran). }
+  }
+}

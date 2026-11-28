@@ -1,0 +1,4 @@
+Module haywad "The Still Hours" {
+  Company party "You" of 1 at road.
+  Initially Set quantity(party, gold) to 14. Initially Set quantity(party, rations) to 2.
+}
