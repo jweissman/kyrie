@@ -33,10 +33,14 @@ broader-suite cost reading is therefore unreproduced, not explained or
 silently waived. The whole small suite was not rerun after this port.
 
 Typechecks, lint and the browser build pass; regenerated handbooks contain
-3,242 entries and still report four problems. Canonical-city placement remains
-a landing blocker. This material is for a **review branch**, not a main landing.
-The code and these reports are published on
+3,242 entries and still report four problems. The code and these reports were
+published on
 [`copilot/empty-seat-saga`](https://github.com/jweissman/kyrie/tree/copilot/empty-seat-saga).
+
+**Integration (27 November):** the chapter is now laid over the canon's city
+in every world, one march north of the first country (friction ES-F01,
+register OR-1782), and the cost reading was measured rather than waived
+(ES-F14). That settles placement, not the literary limits below.
 
 ## What the language did well
 
@@ -48,7 +52,7 @@ present, freely confiding witness necessary. Rescuing a detained visitor costs
 an escort that cannot also muster at the wall. These are good dramatic causes:
 the later difficulty is intelligibly the earlier choice coming back.
 
-[The court gathering](../../../data/adventures/theemptyseat/gathering.kyr)
+[The court gathering](../../../data/goings-on/theemptyseat/gathering.kyr)
 expresses this with facts, locations, resources and an Occasion. The
 [pressure proofs](../../../test/small/theemptyseat-pressure.test.ts) exercise
 the different paths. No client needs a separate act machine.
@@ -83,7 +87,7 @@ can measure, withdraw and return without a mathematical perk.
 
 The military use removes one support before a deadline. It does not erase the
 enemy army. This restraint gives a wonder more force than an all-purpose
-solution would. See the [Act IV storyboard](../../../data/adventures/theemptyseat/ACT-IV.md)
+solution would. See the [Act IV storyboard](../../../data/goings-on/theemptyseat/ACT-IV.md)
 and [expedition proofs](../../../test/small/theemptyseat-expedition.test.ts).
 
 ### Deem can vary a situation coherently
@@ -208,7 +212,7 @@ The material has real dramaturgy and humanity. It is **not yet a finished
 kingdom saga**, and a passing native proof is not evidence that someone will
 willingly play its fifth expedition.
 
-Further evidence: [current implementation notes](../../../data/adventures/theemptyseat/NOTES.md),
-[High City design](../../../data/adventures/theemptyseat/HIGH-CITY.md),
+Further evidence: [current implementation notes](../../../data/goings-on/theemptyseat/NOTES.md),
+[High City design](../../../data/goings-on/theemptyseat/HIGH-CITY.md),
 [conversation programme](../../architecture/open-register.md),
 and [the detailed friction log](friction.md).

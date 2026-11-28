@@ -1,6 +1,6 @@
 Module theemptyseat "The Empty Seat" {
   Place travellers_room "the travellers' waiting room" is room within guild_house at 0, 0.
-  Place north_gate "the north gate" is room within ward at 0, 0 outdoors.
+  Place north_gate "the north gate" is room within ward at 6, 8 outdoors.
   Passage gate_lane "the gate lane" is path between square and north_gate.
   Entity kept_arrival: fact "A visitor arrives with the letters.".
   Entity burned_arrival: fact "A visitor arrives without written proof.".

@@ -4,8 +4,7 @@
     "site.kyr",
     "gathering.kyr",
     "siege.kyr",
-    "expedition.kyr",
-    "company.kyr"
+    "expedition.kyr"
   ],
   "rules": [
     "world",
@@ -14,6 +13,22 @@
   "globals": [
     "party"
   ],
+  "imports": [
+    "party",
+    "ward",
+    "square"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "ward": {
+      "type": "place"
+    },
+    "square": {
+      "type": "place"
+    }
+  },
   "canon": [
     "imbar",
     "inner_earth",
@@ -44,8 +59,6 @@
     "tables": "tables.json"
   },
   "exports": {
-    "party": "party",
-    "region": "city",
     "ward": "ward",
     "guild_hall": "guild_hall",
     "herald": "herald",

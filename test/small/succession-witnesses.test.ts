@@ -29,7 +29,7 @@ const witness = (id: string) => {
 const yard = `Place yard "the yard" is room at 0, 0 outdoors. Company party "You" of 1 at yard.`;
 const reflection = (t: Tiny) => PlayerFrame.of(t.campaign).rows
   .find(row => row.action.schema === 't__seat_reflection');
-const sketch = readFileSync('data/adventures/theemptyseat/NOTES.md', 'utf8').split('## Act III sketch:')[1]!;
+const sketch = readFileSync('data/goings-on/theemptyseat/NOTES.md', 'utf8').split('## Act III sketch:')[1]!;
 
 describe('the returning succession witnesses', () => {
   it('gives every area an evidence-gated local voice, a durable twist and a role in the siege', () => {
@@ -59,7 +59,7 @@ describe('the returning succession witnesses', () => {
     const t = await Tiny.start(`${yard}
       Person maelin "Maelin Vale" at yard { Role "the bell keeper". Peaceable. }
       Relation bellReturned(group). Relation bookRead(group).
-      ${w.fragment} Goal false.`);
+      ${w.fragment} Goal false.`, { horizon: [] });
     expect(reflection(t)).toBeUndefined();
     t.journey.assert('bellReturned', 'party');
     t.campaign.refreshProjection(); t.look();
@@ -81,7 +81,7 @@ describe('the returning succession witnesses', () => {
       Entity kezu_dreams_house: fact "Kezu dreams the growing house.".
       Initially Assert established(kezu_dreams_house).
       Initially Assert knows(party, kezu_dreams_house).
-      ${w.fragment} Goal false.`);
+      ${w.fragment} Goal false.`, { horizon: [] });
     expect(reflection(t)).toBeUndefined();
     t.journey.assert('state', 'kezu', 'waking');
     t.campaign.refreshProjection(); t.look();
@@ -97,7 +97,7 @@ describe('the returning succession witnesses', () => {
       Relation gone(group). Entity josiah_line: fact "Josiah's canal survey.".
       Initially Assert established(josiah_line).
       Initially Assert knows(party, josiah_line). Initially Assert gone(cherrett).
-      ${w.fragment} Goal false.`);
+      ${w.fragment} Goal false.`, { horizon: [] });
     expect(reflection(t)).toBeUndefined();
     expect(t.journey.holds('knows', 'party', 'seat_witness')).toBe(false);
   });
@@ -106,7 +106,7 @@ describe('the returning succession witnesses', () => {
     const w = witness('pitchpass');
     const t = await Tiny.start(`${yard}
       Person marta "Marta Vellacott" at yard { Role "the muleteer". Peaceable. }
-      Relation answered(group). ${w.fragment} Goal false.`);
+      Relation answered(group). ${w.fragment} Goal false.`, { horizon: [] });
     expect(reflection(t)).toBeUndefined();
     t.journey.assert('answered', 'party');
     t.campaign.refreshProjection(); t.look();

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "source": "city.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "canon": ["imbar", "dun_ri"],
+  "exports": {
+    "party": "party",
+    "region": "city",
+    "ward": "ward",
+    "square": "square"
+  }
+}

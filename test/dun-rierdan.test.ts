@@ -67,10 +67,18 @@ describe('Dun Rìerdan, the City of Seven Towers', () => {
       expect(s.campaign.module.entities.find(e => e.id === 'x0ym1__s1')?.name).toBe(City.name);
       expect(Seats.pointed(world(), 'dun_rierdan_waystone'))
         .toEqual({ identity: 'dun_ri', name: City.name, place: 'x0ym1__s1', cell: [0, -1] });
-      // Its towers are the city's, and found there; so is the College, seated in the Tower of Doors.
+      // Its towers are the city's, and found there, in the buildings The Empty Seat builds for them inside it; so is
+      // the College, seated in the Tower of Doors.
       for (const tower of ['tower_of_the_ri', 'tower_of_the_harp', 'tower_of_the_teulu', 'mages_college', 'the_llys']) {
-        expect([tower, Seats.place(world(), tower)]).toEqual([tower, 'x0ym1__s1']);
+        const place = Seats.place(world(), tower)!;
+        expect([tower, world().test(ModuleWriter.call('within', place, 'x0ym1__s1'))]).toEqual([tower, true]);
       }
+      // The Empty Seat is laid over the city, not a city of its own: its herald in the city's heart, its towers the
+      // canon's, built inside it, and the city still the one place dun_ri is seated (ES-F01).
+      expect(s.campaign.installed).toEqual(expect.arrayContaining(['x0ym1theemptyseat', 'x0ym1citynews', 'x0ym1guildnews']));
+      expect(world().one('at', 'x0ym1theemptyseat__herald')).toBe('x0ym1__s1_green');
+      expect(world().related('seatOf', 'tower_of_the_ri').map(r => r.args[1])).toEqual(['x0ym1theemptyseat__ri_tower']);
+      expect(world().test(ModuleWriter.call('within', 'x0ym1theemptyseat__oath_hall', 'x0ym1__s1'))).toBe(true);
       // In the city's country it points to the city; in the city it is still.
       expect(Seats.line(world(), 'dun_rierdan_waystone', 'x0ym1__edge_south'))
         .toBe(`It points toward ${City.name}, in this country.`);

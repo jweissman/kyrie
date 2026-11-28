@@ -15,6 +15,7 @@ import { RegionGeography } from './region-geography';
 import { RegionRecruits } from './region-recruits';
 import { Countries } from './countries';
 import { StoryPeople } from './story-people';
+import { WorldShape } from './world-shape';
 import { RegionWriter, type Carrier, type Company, type Contact, type Region, type Site } from './region-writer';
 import { SettlementWriter } from './settlement-writer';
 import { ScenarioTowns } from './scenario-towns';
@@ -150,7 +151,10 @@ export class WorldAssembler {
     const region = this.region(seed, [at.x, at.y], undefined, { taken: at.taken, first: at.first });
     region.beyond = { ...region.beyond, ...at.named }; region.calendar = at.calendar; region.held = at.held;
     region.further = Countries.further(region, seed, at.first);
-    const lib = await this.library(base, 'data/scenarios/library.json'), own = await StrategicAtlas.entries(base, region);
+    const lib = await this.library(base, 'data/scenarios/library.json');
+    // Its own goings-on: the atlas's, where it is a country of the atlas, and those of a city of the canon it holds.
+    const own = [...await StrategicAtlas.entries(base, region),
+      ...await Promise.all(WorldShape.goings(region).map(s => StoryPeople.entry(base, base.resolve(s))))];
     const recurrent = await this.library(base, this.recurrent);
     const { context, placements } = this.settle(region, lib, { seed: WorldGrid.seed(seed, at.x, at.y), rid,
       rounds: [3, 2], exclude: at.exclude, heralds: own, standing: recurrent });

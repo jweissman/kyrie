@@ -44,8 +44,8 @@ describe("The Empty Seat", () => {
   });
   it('makes the earlier Guild expedition provide a costly alternative to the missing escorts', async () => {
     const j = await Journey.start(campaign, 'pressure', { strict: true });
-    const ward = 'theemptyseat__ward';
-    await j.play(...steps.guild, '>theemptyseat__square',
+    const ward = 'seatcity__ward';
+    await j.play(...steps.guild, '>seatcity__square',
       ...steps.succession.filter(step => step !== "Tell Hest about Tarian's bargain"), ...steps.keepEvidence,
       '>theemptyseat__guild_hall', "Ask Tarian to carry the Queen's summons", '=until matterOpen(welcome)',
       'Send a wall escort to bring the detained visitor in',

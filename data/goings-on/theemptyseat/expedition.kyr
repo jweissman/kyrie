@@ -1,5 +1,5 @@
 Module theemptyseat "The Empty Seat" {
-  Entity mathematical_rubbing: itemkind "a Mathematical rubbing".
+  Entity mathematical_rubbing: itemkind "Mathematical rubbing".
   Entity station_offstage: place "the unvisited station wing".
   Place stillhouse "the Stillhouse" is level within doors_tower.
   Place instrument_landing "the instrument landing" is room within stillhouse at 0, 0 indoors.

@@ -16,7 +16,9 @@ describe('every folk table casts only ancestries that may take the calling it is
     for (const m of modules) {
       const tables = JSON.parse(readFileSync(`${dir}/${m}/tables.json`, 'utf8')) as Record<string, { discriminator: string; groups: Record<string, Entry[]> }>;
       for (const [name, t] of Object.entries(tables)) {
-        if (t.discriminator === 'folk') { continue; }
+        // A table that casts an ancestry is named for whom it casts (factorFolk, scholarFolk); a calling is drawn by
+        // folk; a story's other tables (The Empty Seat's visitors, deliveries and headlines) cast no one.
+        if (t.discriminator === 'folk' || !name.endsWith('Folk')) { continue; }
         for (const [terrain, group] of Object.entries(t.groups)) {
           for (const e of group) {
             expect([m, name, terrain, value(e), !!classes(value(e))]).toEqual([m, name, terrain, value(e), true]);

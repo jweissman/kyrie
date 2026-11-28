@@ -7,24 +7,33 @@
   },
   "modules": [
     {
+      "id": "seatcity",
+      "bundle": "../goings-on/theemptyseat/proof/module.json"
+    },
+    {
       "id": "theemptyseat",
       "chapter": true,
-      "bundle": "../adventures/theemptyseat/module.json"
+      "bundle": "../goings-on/theemptyseat/module.json",
+      "imports": {
+        "party": "seatcity.party",
+        "ward": "seatcity.ward",
+        "square": "seatcity.square"
+      }
     },
     {
       "id": "city-news",
-      "bundle": "../adventures/theemptyseat/news.module.json",
+      "bundle": "../goings-on/theemptyseat/news.module.json",
       "imports": {
-        "party": "theemptyseat.party",
+        "party": "seatcity.party",
         "news_place": "theemptyseat.entry",
         "news_carrier": "theemptyseat.herald"
       }
     },
     {
       "id": "guild-news",
-      "bundle": "../adventures/theemptyseat/news.module.json",
+      "bundle": "../goings-on/theemptyseat/news.module.json",
       "imports": {
-        "party": "theemptyseat.party",
+        "party": "seatcity.party",
         "news_place": "theemptyseat.guild_hall",
         "news_carrier": "theemptyseat.guildkeeper"
       }
