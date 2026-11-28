@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'bun:test';
+import { readFileSync } from 'node:fs';
 import { Journey } from '../../src/session/journey';
+import { Tiny } from '../support/tiny';
 
 // Haggling (the owner, 15 November: a skill check and a discount): the price of a ware on a shelf is argued once;
 // a good argument takes a coin off it, a poor one adds a coin and ends the matter for that ware. In the trade probe a
@@ -7,7 +9,10 @@ import { Journey } from '../../src/session/journey';
 // the trader's, beside what they sell ("Haggle for a torch"), not the ware's own row (the owner's playtest, 25 Nov).
 describe('haggling over a price', () => {
   it('is offered once for each ware, and the ware is then bought, at what the argument left it', async () => {
-    const j = await Journey.start('test/fixtures/probes/trade/probe.campaign.json');
+    const t = await Tiny.start(readFileSync('test/fixtures/probes/trade/site.kyr', 'utf8'),
+      { horizon: ['services'], seed: 'journey',
+        party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] });
+    const j = Journey.of(t.session);
     const haggles = () => j.choices().filter(c => /^Haggle (with Teodor Halm )?for a torch/.test(c.label));
     expect(haggles().length).toBeGreaterThan(0);
     const first = haggles()[0]!;
