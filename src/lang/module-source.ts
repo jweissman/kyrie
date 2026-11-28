@@ -10,12 +10,16 @@ import { TemplatedPredicates } from './templated-predicates';
 // town's keeper asked of a province or a country over the march: a fifth of a drawn country's Kyr).
 // A generator still writes lines (the country's other declarations): a declaration made here is a line marked as
 // such, carrying its value and the Kyr it stands for (written apart, for inspection), never parsed; then, of its
-// RegionTracts, each stretch's Passage and Observe (the next by bytes, an eighth of a country between them).
+// RegionTracts, each stretch's Passage and Observe (the next by bytes, an eighth of a country between them). Then, by
+// the declarations the grammar still matched on a fresh world (scripts/performance/fresh-start.ts --shapes: Initially
+// Assert 1 683, Observe 1 126 on s0), the facts a country begins with (Initially, the design's second construct).
 // provenance: which generator made it, of which construct (diagnostics name it where no source line does).
 export interface Provenance { generator: string; construct: string }
 // at: where its line was in the file's text, by the character (see parted); a passage is the parser's own field for
 // it, declared as the line would be, an observation and a topic the Module elements their lines make.
-export type Declared = ({ observation: Observation } | { action: Operator } | { passage: PassageSpec })
+// An initial, the Change its Initially line makes.
+export type Declared = ({ observation: Observation } | { action: Operator } | { passage: PassageSpec }
+  | { initial: Change })
   & { kyr: string; provenance: Provenance; at?: number };
 // One file's declarations made here. Each keeps its place among the file's own by where its line was (at): a file's
 // observations and actions are made by many of its declarations (a thing's states, a discovery's finds, a thing's
@@ -37,6 +41,15 @@ export class ModuleSource {
   // A line standing for a Passage made as a value: the parser's field for its line.
   static passage(passage: PassageSpec, kyr: string, provenance: Provenance): string {
     return ModuleSource.asText ? kyr : ModuleSource.line({ passage, kyr, provenance });
+  }
+  // A line standing for an Initially made as a value: the Change its line makes.
+  static initially(initial: Change, kyr: string, provenance: Provenance): string {
+    return ModuleSource.asText ? kyr : ModuleSource.line({ initial, kyr, provenance });
+  }
+  // `Initially Assert <name>(<args>).`, made as the fact its line asserts.
+  static asserted(provenance: Provenance, name: string, ...args: string[]): string {
+    return ModuleSource.initially(ModuleSource.assert(name, ...args), `  Initially Assert ${name}(${args.join(', ')}).`,
+      provenance);
   }
   // The lines standing for a Topic made as a value: its condition is the generator's few words, read as the parser
   // reads a predicate, once for each text (each keeper of the country asked of one land beyond has the same: fifteen

@@ -5,6 +5,7 @@ import { Geology } from './land/geology';
 import { RegionGeography } from './region-geography';
 import { RegionZones } from './region-zones';
 import { RegionRoads } from './region-roads';
+import { ModuleSource } from './kyr-values';
 import type { Region } from './region-writer';
 import type { Plant } from '../rules/catalog-schema';
 
@@ -85,6 +86,9 @@ export class RegionGrowth {
         .filter(([, o]) => o.abundance).slice(0, this.gardens) };
     });
   }
+  // Each stand's facts (it grows; each crop is of it) declared as values (ModuleSource: AX-04, by declarations the
+  // country's most numerous writer of Initially), their Kyr beside them.
+  private static readonly provenance = { generator: 'region-growth', construct: 'Initially' };
   static lines(region: Region): string[] {
     const q = JSON.stringify, lines: string[] = [];
     const roads = new Set(RegionGeography.roads(region).map(r => r.way)), greens = new Set<string>();
@@ -101,16 +105,16 @@ export class RegionGrowth {
           : greens.has(place.id) ? o.stand!.replace(/ here\b/, ' in the gardens about the green') : o.stand!;
         lines.push(`  Thing ${stand} ${q(`the ${o.name.toLowerCase()}`)} at ${place.id} is scenery {`,
           `    State growing ${q(said)}.`, '  }',
-          `  Initially Assert grows(${stand}).`,
+          ModuleSource.asserted(this.provenance, 'grows', stand),
           `  Discovery ${stand}_hid ${q(`What grows at ${place.id} is gathered, not found.`)}.`);
         for (let n = 1; n <= (o.count ?? 1); n++) {
           lines.push(`  Item ${stand}_${n} ${q(o.gathered!)} is ${o.yields} in ${stand} hidden until ${stand}_hid.`,
-            `  Initially Assert crop(${stand}_${n}, ${stand}).`);
+            ModuleSource.asserted(this.provenance, 'crop', `${stand}_${n}`, stand));
         }
         // What else is cut from it: a pole from the willows (a barrow's switch wants one; no shop near may sell it).
         for (let n = 1; o.cut && n <= (o.cut.count ?? 1); n++) {
           lines.push(`  Item ${stand}_cut${n} ${q(o.cut.gathered)} is ${o.cut.yields} in ${stand} hidden until ${stand}_hid.`,
-            `  Initially Assert crop(${stand}_cut${n}, ${stand}).`);
+            ModuleSource.asserted(this.provenance, 'crop', `${stand}_cut${n}`, stand));
         }
       }
     }
