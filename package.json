@@ -19,7 +19,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "deem": "git+https://github.com:443/jweissman/deem.git#cc2f3b66f6fe0ef79db9827002ccb2ccc83a3ac9",
+    "deem": "git+https://github.com:443/jweissman/deem.git#0327e1111e8db782a2857b27e3852e3f70f5ad51",
     "eslint": "^10.13.0",
     "languages": "git+https://github.com:443/jweissman/languages.git#b6e78c30e7024072c5f378e730d7f7b3121e30f2",
     "ohm-js": "^17.5.0",
