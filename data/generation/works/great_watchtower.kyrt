@@ -30,8 +30,13 @@
   }
   Thing {w}_rings "the orrery" at {w}_orrery {
     State still "The orrery stands still, set to a night a thousand years gone.".
-    State turned "The orrery has been turned on to tonight, and its rings show this year's sky as the Star-Readers counted it.".
-    Change turn "Turn the orrery on to tonight, by the count" from still to turned needing lore.
+    State reckoned "The orrery has been turned on to tonight, and its rings show this year's sky as the Star-Readers counted it.".
+    Change turn "Turn the orrery on to tonight, by the count" from still to reckoned needing lore.
+  }
+  Entity astronomy: capability "Astronomy".
+  Rule {w}_sky_learned when state({w}_rings, reckoned) and not capable(party, astronomy)
+    says "The rings give you a count you can keep without them: the twelve signs, their order, the month's sky. This mechanism teaches astronomy; it does not predict eclipses or reveal another plane." {
+    Assert granted(party, astronomy).
   }
   Person {w}_reckoner "the last reckoner" at {w}_count {
     Role "the last of the Star-Readers, still at the count, who has not noticed that he is dead". Species spirit. Level 5. Temperament territorial. Lair {w}_count.
@@ -45,11 +50,11 @@
   Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_orrery) "Climb to the top of {{w}}, where {epithet} counted the stars: something there is counting still.".
 --- end war 1 if fatea
   Observe {w}_burnt at {w}_count when true "Half the racks have been burned, and the tablets in them split by the heat. On the other half, the count goes on alone for a year, and then stops: a tablet is cut with two marks for one night, and scored through.".
-  Observe {w}_end_war at {w}_orrery when state({w}_rings, turned) "Turned on to tonight the orrery shows it plainly, what no one at the other towers could see: the count was a day out, and it was this tower's count. This tower was wrong. Someone has scratched that, very small, on the bronze: WE WERE WRONG." teaches {w}_end.
+  Observe {w}_end_war at {w}_orrery when state({w}_rings, reckoned) "Turned on to tonight the orrery shows it plainly, what no one at the other towers could see: the count was a day out, and it was this tower's count. This tower was wrong. Someone has scratched that, very small, on the bronze: WE WERE WRONG." teaches {w}_end.
   Discovery {w}_end "The war of the reckonings began over a day: the first tower's count and the others' were a day apart. At the top of the first tower the orrery shows it was the first tower that was wrong.".
 --- end dark 1 if fateb
   Observe {w}_cold at {w}_beacon when state({w}_fire, out) "Round the rim of the basin, cut in the old script, the names of towers, from the coast inland, each struck through, the last not struck through but not finished either.".
-  Observe {w}_end_dark at {w}_orrery when state({w}_rings, turned) "Turned on to tonight the orrery shows the sky as it was the winter the fires went out, and you see why: a wandering light that is not on any other ring, coming in from the sea, closer every night. It is on the rings now. It has been coming ever since." teaches {w}_end.
+  Observe {w}_end_dark at {w}_orrery when state({w}_rings, reckoned) "Turned on to tonight the orrery shows the sky as it was the winter the fires went out, and you see why: a wandering light that is not on any other ring, coming in from the sea, closer every night. It is on the rings now. It has been coming ever since." teaches {w}_end.
   Discovery {w}_end "The winter the Star-Readers' fires went out, a wandering light was coming in from the sea that is on no other count. The orrery at the top of the first tower still follows it. It is still coming.".
 --- sight far 1 if sight
   Observe {w}_far at {w}_orrery when true "From the top of the first tower you can see the whole country: far off to the {sightside}, {sightseen}." teaches {sight}_found.

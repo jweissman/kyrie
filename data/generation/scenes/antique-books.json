@@ -1,0 +1,26 @@
+{
+  "tables": {
+    "antiqueBooks": {
+      "discriminator": "part",
+      "groups": {
+        "volume": [
+          {"title": "A Widow's Reckoning", "cover": "A small calf-bound book. The sums of a household run between survey bearings; a child has drawn boots on every triangle.", "index": "The widow copied a traveller's bearings into her accounts.", "proof": "Her repeated subtraction encodes an older place-name. The household sums remain household sums; there is no miracle in the page."},
+          {"title": "The Surveyor Who Would Not Come Home", "cover": "A rain-swollen folio of bearings, letters and increasingly furious corrections in another hand.", "index": "A letter gives the surveyor's last reliable itinerary.", "proof": "The corrections agree on one invariant. It restores the designation beneath the surveyor's mistaken spelling, not a command for operating what lies there."},
+          {"title": "Tables for an Unfinished Stair", "cover": "Antique load tables, a plan of lodgings and a recipe for onion soup. Several pages were once used to pack a lens.", "index": "A maintenance itinerary survives beside the soup recipe.", "proof": "The loads were recorded in paired measures. Translating the ratio restores the name in the maintenance register."},
+          {"title": "Instructions for a Funeral That Did Not Happen", "cover": "A stitched book of mourning customs. Its endpapers are recycled survey sheets, stamped and annotated in a much older hand.", "index": "The recycled sheet preserves a route to the survey's source.", "proof": "The endpaper's coordinate transformation preserves orientation. It identifies the source's older name. The funeral instructions have nothing to say about other planes."},
+          {"title": "The Little Book of Bad Instruments", "cover": "An old apprentice drew dividers, water-clocks and broken sighting arms here. The masters blamed the weather for every crooked line.", "index": "One master's journey is recorded between calibration failures.", "proof": "A correction shared by the surviving instruments restores the place-name in their service record. It is calibration, not sorcery."}
+        ]
+      }
+    }
+  },
+  "templates": {
+    "antiqueBook": {
+      "__no_id": true,
+      "_volume": "=lookup(antiqueBooks, 'volume')",
+      "title": "=dig(#_volume, 'title')",
+      "cover": "=dig(#_volume, 'cover')",
+      "index": "=dig(#_volume, 'index')",
+      "proof": "=dig(#_volume, 'proof')"
+    }
+  }
+}

@@ -1,0 +1,117 @@
+Module theemptyseat "The Empty Seat" {
+  Place travellers_room "the travellers' waiting room" is room within guild_house at 0, 0.
+  Place north_gate "the north gate" is room within ward at 0, 0 outdoors.
+  Passage gate_lane "the gate lane" is path between square and north_gate.
+  Entity kept_arrival: fact "A visitor arrives with the letters.".
+  Entity burned_arrival: fact "A visitor arrives without written proof.".
+  Entity kept_confidence: fact "The visitor has something to say about the succession.".
+  Entity burned_confidence: fact "The visitor will stand beside Nerys, but cannot replace the burned letters.".
+  Entity supper_relief: fact "For a moment the coronation supper is only a meal.".
+  Entity escort: fact "help carrying people through the gate".
+  Entity food: fact "provisions for the ward".
+  Person kept_guest "a visitor with the letters" at travellers_room { Role "a returning witness". Ancestry human. Calling commoner. Level 2. Peaceable. }
+  Person burned_guest "a visitor without the letters" at travellers_room { Role "a returning witness". Ancestry human. Calling commoner. Level 2. Peaceable. }
+  Relation visitor(group). Relation guestAid(group, fact). Relation aidAccepted(group).
+  Relation welcomed(group). Relation guestConfided(group). Relation detained(group).
+  Relation visitorArrived(group). Relation royalGuest(group). Relation royalsGathered(group).
+  Relation invitationsSent(group). Relation councilScheduled(group). Relation guardCompromised(group).
+  Measure invitationAt(group). Measure councilAt(group).
+  Measure escortReserve(place). Measure stores(place).
+  Initially Assert visitor(kept_guest). Initially Assert visitor(burned_guest).
+  Initially Assert royalGuest(queen). Initially Assert royalGuest(gareth).
+  Initially Assert royalGuest(aled). Initially Assert royalGuest(seren).
+  Initially Set escortReserve(ward) to 2. Initially Set stores(ward) to 3.
+
+  Rule invitations when (befell(ri_evidence_kept) or befell(ri_evidence_sacrificed)) and not invitationsSent(party) {
+    Assert invitationsSent(party). Set invitationAt(party) to watch(clock) + 3.
+  }
+  Rule compromised_watch when befell(ri_court_betrayed) and not guardCompromised(party) {
+    Assert guardCompromised(party). Decrease escortReserve(ward) by 1 or to nothing.
+  }
+  Rule letters_guest when invitationsSent(party) and watch(clock) >= invitationAt(party) and befell(ri_evidence_kept)
+    and not visitorArrived(kept_guest) and at(kept_guest, travellers_room)
+    and (not befell(ri_court_betrayed) or arrivalRerouted(party)) {
+    Assert visitorArrived(kept_guest). Retract at(kept_guest, travellers_room).
+    Assert at(kept_guest, guild_hall). Assert befell(ri_witnesses_gathered).
+  }
+  Rule letters_guest_detained when invitationsSent(party) and watch(clock) >= invitationAt(party) and befell(ri_evidence_kept)
+    and not visitorArrived(kept_guest) and at(kept_guest, travellers_room)
+    and befell(ri_court_betrayed) and not arrivalRerouted(party) {
+    Assert visitorArrived(kept_guest). Retract at(kept_guest, travellers_room).
+    Assert at(kept_guest, north_gate). Assert detained(kept_guest).
+  }
+  Rule ashes_guest when invitationsSent(party) and watch(clock) >= invitationAt(party) and befell(ri_evidence_sacrificed)
+    and not visitorArrived(burned_guest) and at(burned_guest, travellers_room) {
+    Assert visitorArrived(burned_guest). Retract at(burned_guest, travellers_room).
+    Assert at(burned_guest, guild_hall). Assert befell(ri_witnesses_gathered).
+  }
+  Observe detained_word near guildkeeper when detained(kept_guest)
+    "Hest has a note from the north gate. The visitor carrying the Queen's letters has been detained on the route Tarian sold. An escort can bring them in, but that escort will miss the wall muster.".
+  Action escort_guest(actor: group, site: place) "Send a wall escort to bring the detained visitor in" {
+    Speaker guildkeeper.
+    Requires able(actor) and at(actor, site) and at(actor, guild_hall) and detained(kept_guest)
+      and escortReserve(ward) >= 1 and not befell(ri_siege_begun).
+    Time 20 minutes.
+    On success { Decrease escortReserve(ward) by 1. Retract detained(kept_guest).
+      Retract at(kept_guest, north_gate). Assert at(kept_guest, guild_hall). Assert befell(ri_witnesses_gathered). }
+    Result "The escort returns with {kept_guest}. Their captain puts the missed muster slip beside the supper plates. Nobody can be in two places.".
+  }
+
+  Occasion supper "the coronation supper without a coronation" at guild_hall when invitationsSent(party)
+    and watch(clock) >= invitationAt(party) {
+    Matter welcome "Hest puts out the coronation plates. There is no king to sit at the head. An extra place has been laid halfway down the table." for 40 minutes until welcomed(kept_guest) or welcomed(burned_guest).
+    Matter confidences "The plates are being cleared. The visitor stays behind. Things that could not be said across the table may be said now." for 20 minutes until guestConfided(kept_guest) or guestConfided(burned_guest).
+    Closes "Hest folds the unused seating plan. Outside, the first wagons from the north have stopped under the wall.".
+  }
+  Rule royals_to_supper when occasionBegun(supper) and not royalsGathered(party) {
+    Assert royalsGathered(party).
+    Retract at(queen, oath_hall). Assert at(queen, guild_hall).
+    Retract at(gareth, oath_hall). Assert at(gareth, guild_hall).
+    Retract at(aled, song_hall). Assert at(aled, guild_hall).
+    Retract at(seren, song_hall). Assert at(seren, guild_hall).
+  }
+  Observe kept_guest_arrival near kept_guest when at(kept_guest, guild_hall) and not welcomed(kept_guest)
+    "{kept_arrival}".
+  Observe burned_guest_arrival near burned_guest when at(burned_guest, guild_hall) and not welcomed(burned_guest)
+    "{burned_arrival}".
+  Action share_supper(actor: group, guest: group, site: place) "Make room for {guest} at supper" {
+    Requires able(actor) and at(actor, site) and at(actor, guild_hall) and visitor(guest) and at(guest, site)
+      and matterOpen(welcome) and quantity(actor, rations) >= 1 and not welcomed(guest).
+    Time 10 minutes.
+    On success { Decrease quantity(actor, rations) by 1. Assert welcomed(guest). }
+    Result "{supper_relief}".
+  }
+  Topic hest_bread with guildkeeper "Ask Hest for bread to share" when matterOpen(welcome)
+    and quantity(actor, rations) < 1 and stores(ward) >= 1 once {
+    Says "Hest cuts the emergency loaf. 'It was for the wall. A table is also a place to begin.'".
+    On discuss { Decrease stores(ward) by 1. Increase quantity(actor, rations) by 1. }
+  }
+  Topic kept_guest_confides with kept_guest "Stay to hear {kept_guest} after supper" when matterOpen(confidences)
+    and welcomed(kept_guest) once {
+    Says "{kept_confidence}".
+    On discuss { Assert guestConfided(kept_guest). Assert knows(actor, kept_confidence). }
+  }
+  Topic burned_guest_confides with burned_guest "Stay to hear {burned_guest} after supper" when matterOpen(confidences)
+    and welcomed(burned_guest) once {
+    Says "{burned_confidence}".
+    On discuss { Assert guestConfided(burned_guest). Assert knows(actor, burned_confidence). }
+  }
+  Rule guest_escort when visitor(?g) and welcomed(?g) and guestAid(?g, escort) and not aidAccepted(?g) {
+    Assert aidAccepted(?g). Increase escortReserve(ward) by 1.
+  }
+  Rule guest_food when visitor(?g) and welcomed(?g) and guestAid(?g, food) and not aidAccepted(?g) {
+    Assert aidAccepted(?g). Increase stores(ward) by 1.
+  }
+  Rule witness_to_council when visitor(?g) and guestConfided(?g) and occasionOver(supper) and at(?g, guild_hall) {
+    Retract at(?g, guild_hall). Assert at(?g, oath_hall).
+  }
+  Rule royals_to_council when royalGuest(?g) and occasionOver(supper) and at(?g, guild_hall) {
+    Retract at(?g, guild_hall). Assert at(?g, oath_hall).
+  }
+  Rule unwelcomed_departure when visitor(?g) and occasionOver(supper) and at(?g, guild_hall) and not guestConfided(?g) {
+    Retract at(?g, guild_hall). Assert at(?g, travellers_room).
+  }
+  Rule council_clock when occasionOver(supper) and not councilScheduled(party) {
+    Assert councilScheduled(party). Set councilAt(party) to watch(clock) + 3.
+  }
+}

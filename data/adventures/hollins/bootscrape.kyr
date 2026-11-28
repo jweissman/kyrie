@@ -1,4 +1,9 @@
 Module hollins "Behind the Wainscot" {
+  Entity seat_witness: fact "Jory Mudge will bring a model house to Dun Rì; the Palace's siege plan labels occupied rooms as empty wall.".
+  Topic seat_reflection with jory "Ask Jory what the people in the walls teach a king" when knows(actor, wainscot_told) once {
+    Says "Jory brushes flour off a little wooden house. 'Six hundred people, and the plan calls it empty wall. Makes a siege very easy to calculate.' He opens the model; each room has a name. 'My daughter made this. The royal engineer offered to buy it, then asked her to leave the names off.' He closes it carefully. 'We are taking the named version to Dun Rì. If he sits on it, I shall bill him for six hundred chairs.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── Bootscrape ────────────────────────────────────────────────────────────────────────────────────────────────────
   // A village of salvagers and carters built under the iron boot-scraper on the doorstep of Hollins. It lives by what
   // comes out of the letterbox: a pin is a spear-shaft of good steel, a button a millstone of horn, a dropped nail a

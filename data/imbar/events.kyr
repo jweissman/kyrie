@@ -73,4 +73,18 @@ Module canon "Imbar and the planes" {
   Entity councillor_served: fact "Alderman Wystan Pellow has carried the Wool Council at Pellam for the Ash's terms.".
   Entity spymaster_broken: fact "The Blue Cords' house at Sennet is shut, and their couriers on every road are known.".
   Entity spymaster_served: fact "The Blue Cords' house at Sennet reads every letter that leaves the port for the Ash.".
+
+  // The Rì's succession, begun in The Empty Seat and read by the rest of the kingdom.
+  Entity ri_succession_open: fact "The Rì's kingship stands vacant, and the seven towers have been called to choose a successor.".
+  Entity ri_heir_revealed: fact "Queen Nerys has privately acknowledged Aled, the dead Rì's son by the singer Seren, and promised to name him before the seven towers.".
+  Entity ri_evidence_kept: fact "The Queen's letters proving Aled's parentage have been kept for the seven towers.".
+  Entity ri_evidence_sacrificed: fact "Queen Nerys burned the letters that proved Aled's parentage, to keep them from the Ferryman.".
+  Entity ri_court_betrayed: fact "A trusted courier sold the seven towers' meeting place to the Ferryman.".
+  Entity ri_witnesses_gathered: fact "Witnesses from the provinces have reached the Venturing Guild's supper in Dun Rì.".
+  Entity ri_siege_begun: fact "The Ash's armies stand at Dun Rì's north gate, and the war council has been called.".
+  Entity ri_refugees_admitted: fact "Dun Rì admitted the last refugee carts and opened its coronation stores to them.".
+  Entity ri_refugees_barred: fact "Dun Rì sealed its north gate before the last refugee carts could enter.".
+  Entity ri_emergency_compact: fact "Gareth holds Dun Rì's defence command until the siege ends; the kingship remains unsettled.".
+  Entity ri_succession_united: fact "The seven towers swore to Aled as the next Rì, and the Ferryman's agents were driven from Dun Rì.".
+  Entity ri_succession_fractured: fact "The seven towers failed to unite, and the Ash's banners entered a divided Dun Rì.".
 }

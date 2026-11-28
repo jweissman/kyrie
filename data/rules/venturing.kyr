@@ -1,0 +1,56 @@
+Module venturing "The Venturing Guild's surveys" {
+  Relation guild_member(group).
+  Relation guildHall(place).
+  Relation guildKeeper(group).
+  Relation guildRange(place, place).
+  Relation guildIssued(group, item).
+  Relation guildSurvey(fact, item, place).
+  Query guildFind(i: item) means wonder(i, ?f) or (itemKind(i, ?k) and valuable(?k)).
+  Query guildLocated(i: item, p: place) means at(i, p) or (inside(i, ?box) and at(?box, p)).
+  Query guildLead(a: group, h: place, i: item, f: fact, p: place) means
+    guildHall(h) and guildRange(h, ?area) and guildLocated(i, p) and within(p, ?area)
+    and distinct(h, p) and guildFind(i) and not recovered(i) and not forSale(i)
+    and guildSurvey(f, i, p) and leadsTo(f, p) and established(f) and not stale(f)
+    and not knows(a, f).
+
+  Action guild_enrol(actor: group, keeper: group, site: place) "Pay three coin to join the Venturing Guild" {
+    Requires able(actor) and guildKeeper(keeper) and able(keeper) and together(actor, keeper)
+      and at(actor, site) and guildHall(site) and not unseen(keeper, actor)
+      and quantity(actor, gold) >= 3 and not guild_member(actor).
+    Time 0.
+    On success { Decrease quantity(actor, gold) by 3. Assert guild_member(actor). }
+    Result "{keeper} opens the fee book. 'Three coin. Safe beds when we have them, honest leads, and no promise that the road is kind.'".
+  }
+
+  Action guild_survey(actor: group, keeper: group, site: place, find: item, report: fact, destination: place)
+    "Ask {keeper} for a lead to {find}" {
+    Requires able(actor) and guild_member(actor) and guildKeeper(keeper) and able(keeper)
+      and together(actor, keeper) and at(actor, site) and not unseen(keeper, actor)
+      and guildLead(actor, site, find, report, destination).
+    Time 5 minutes.
+    On success {
+      Assert knows(actor, report). Retract assumesFalse(actor, report).
+      Assert toldBy(actor, keeper, report). Assert guildIssued(actor, find).
+    }
+    Result "{keeper} lays out the survey. '{report} Look for {find} at {destination}. The report is a lead, not a promise of safe passage.'".
+  }
+
+  Action guild_no_lead(actor: group, keeper: group, site: place) "Ask {keeper} for another survey" {
+    Requires able(actor) and guild_member(actor) and guildKeeper(keeper) and able(keeper)
+      and together(actor, keeper) and at(actor, site) and guildHall(site) and not unseen(keeper, actor)
+      and not guildLead(actor, site, ?find, ?report, ?destination).
+    Time 0.
+    Result "'No fresh local find in the survey,' {keeper} says. 'Bring us news; we will check again. I will not sell you the same rumour twice.'".
+  }
+  Rule guild_survey_outdated when guildSurvey(?report, ?find, ?place) and not guildLocated(?find, ?place)
+    and not recovered(?find) and not stale(?report) {
+    Assert stale(?report).
+  }
+  Rule guild_survey_warns when guildIssued(?company, ?find) and guildSurvey(?report, ?find, ?place) and stale(?report)
+    and not guildWarned(?company, ?report)
+    says "The Guild's survey is out of date: {?report} The find is no longer there." {
+    Assert guildWarned(?company, ?report).
+  }
+  Relation guildWarned(group, fact).
+  Goal false.
+}

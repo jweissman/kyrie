@@ -5,6 +5,8 @@ import { Canon } from '../canon/canon';
 import type { ItemCatalog } from '../item-catalog';
 import type { Attribute, Creature } from '../creature';
 import type { CombatEvent } from '../model';
+import { Traits } from '../ports/traits';
+import { Conditions } from '../ports/conditions';
 
 export type Check = Extract<CombatEvent, { type: 'check' }>;
 export type Odds = 'sure' | 'likely' | 'even' | 'unlikely' | 'beyond';
@@ -62,11 +64,27 @@ export class Checks {
     const tool = b.using ? { tool: b.tool, using: b.using, usingName: b.usingName } : {};
     return { stat: b.stat, modifier: b.modifier, trained: b.trained, ...tool };
   }
-  // Who makes it: of those standing, the one who adds most.
-  static maker(catalog: ItemCatalog, creatures: Creature[], skill: string, rests?: Attribute): Creature | undefined {
-    const able = creatures.filter(c => c.state.hp > 0);
+  // Training can change the difficulty as well as the bonus.
+  static maker(catalog: ItemCatalog, creatures: readonly Creature[], skill: string,
+    at?: Attribute | { rests?: Attribute; difficulty?: number })
+    : Creature | undefined {
+    const able = creatures.filter(c => c.state.hp > 0 && !c.state.conditions.some(s => Conditions.skips(s.id)));
+    const proof = able.find(c => this.automatic(c, skill));
+    if (proof) { return proof; }
+    const basis = typeof at === 'string' ? { rests: at, difficulty: 30 } : { difficulty: 30, ...at };
     return able.reduce<Creature | undefined>((best, c) => !best
-      || this.total(catalog, c, skill, rests) > this.total(catalog, best, skill, rests) ? c : best, undefined);
+      || this.rank(catalog, c, skill, basis) > this.rank(catalog, best, skill, basis) ? c : best, undefined);
+  }
+  private static rank(catalog: ItemCatalog, c: Creature, skill: string,
+    { rests, difficulty }: { rests?: Attribute; difficulty: number }): number {
+    const b = this.bonus(catalog, c, skill, rests);
+    return this.added(b) - this.threshold(skill, difficulty, b.trained > 0);
+  }
+  private static automatic(c: Creature, skill: string): boolean {
+    return (c.traits ?? []).some(t => Traits.of(t)?.automaticChecks?.includes(skill));
+  }
+  private static threshold(skill: string, difficulty: number, trained: boolean): number {
+    return skill === 'mathematics' ? Math.max(trained ? 30 : 35, difficulty) : difficulty;
   }
   static total(catalog: ItemCatalog, c: Creature, skill: string, rests?: Attribute): number {
     return this.added(this.bonus(catalog, c, skill, rests));
@@ -78,12 +96,15 @@ export class Checks {
     return world.relates('restsOn') ? world.one('restsOn', capability) as Attribute | undefined : undefined;
   }
   // How it looks before it is tried, to the one who would try it.
-  static odds(catalog: ItemCatalog, creatures: Creature[], skill: string,
+  static odds(catalog: ItemCatalog, creatures: readonly Creature[], skill: string,
     { difficulty, rests }: { difficulty: number; rests?: Attribute }): Odds {
-    const c = this.maker(catalog, creatures, skill, rests);
+    const c = this.maker(catalog, creatures, skill, { rests, difficulty });
     if (!c) { return 'beyond'; }
-    const add = this.total(catalog, c, skill, rests);
+    if (this.automatic(c, skill)) { return 'sure'; }
+    const b = this.bonus(catalog, c, skill, rests), add = this.added(b);
+    difficulty = this.threshold(skill, difficulty, b.trained > 0);
     if (1 + add >= difficulty) { return 'sure'; }
+    if (skill === 'mathematics' && 20 + add < difficulty) { return 'unlikely'; }
     if (20 + add < difficulty) { return 'beyond'; }
     const chance = (21 + add - difficulty) / 20;
     return chance >= 0.65 ? 'likely' : chance >= 0.4 ? 'even' : 'unlikely';
@@ -91,11 +112,13 @@ export class Checks {
   // The roll turns on who makes it and on what is tried (asking the goblins is not asking their chief). A test may
   // have it come out as it asks (forced: a natural twenty, or a one), whatever the odds: a test of a failed check had
   // been a search over seeds, pinned to the steps before it (Quittance's friction 7, QTC-07).
-  static make(catalog: ItemCatalog, creatures: Creature[],
+  static make(catalog: ItemCatalog, creatures: readonly Creature[],
     at: { skill: string; difficulty: string | number; seed: string; about?: string;
     forced?: 'pass' | 'fail'; rests?: Attribute }): CombatEvent[] {
-    const skill = this.skill(at.skill), c = this.maker(catalog, creatures, skill, at.rests);
-    const difficulty = typeof at.difficulty === 'number' ? at.difficulty : this.difficulty(at.difficulty);
+    const skill = this.skill(at.skill);
+    const raw = typeof at.difficulty === 'number' ? at.difficulty : this.difficulty(at.difficulty);
+    const c = this.maker(catalog, creatures, skill, { rests: at.rests, difficulty: raw });
+    const difficulty = this.threshold(skill, raw, !!c && PartyCapabilities.skilled(catalog, skill, c));
     if (!c) { return [{ type: 'check', turn: 0, actor: '', skill, rolled: 0, difficulty, success: false }]; }
     const b = this.bonus(catalog, c, skill, at.rests), add = this.added(b), parts = this.parts(b);
     if (at.forced) {
@@ -103,14 +126,18 @@ export class Checks {
       return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: die + add, die, difficulty,
         success: at.forced === 'pass', ...parts }];
     }
+    if (this.automatic(c, skill)) {
+      return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: 20 + add, die: 20, difficulty,
+        success: true, unrolled: true, proof: true, ...parts }];
+    }
     const sure = 1 + add >= difficulty, beyond = 20 + add < difficulty;
-    if (sure || beyond) {
+    if (skill !== 'mathematics' && (sure || beyond)) {
       return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: sure ? 1 + add : 20 + add, difficulty,
         success: sure, unrolled: true, ...parts }];
     }
     const die = new Expressions(RandomStreams.key(at.seed, 'check', skill, c.id, at.about ?? '')).number('1d20');
     return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: die + add, die, difficulty,
-      success: die + add >= difficulty, ...parts }];
+      success: die + add >= difficulty || (skill === 'mathematics' && die === 20), ...parts }];
   }
   // Whether a command that turns on a check came through it.
   static passed(events: CombatEvent[]): boolean {

@@ -1,0 +1,26 @@
+{
+  "tables": {
+    "remainders": {
+      "discriminator": "part",
+      "groups": {
+        "trace": [
+          {"name": "a repeating line beneath the plaster", "seen": "A cut line returns to its beginning without joining it.", "read": "The unfinished join is a remainder, not damage. A rubbing preserves the interval."},
+          {"name": "a measuring spiral on a lintel", "seen": "A small spiral changes its spacing at each turn.", "read": "The spacing describes an exchange of supported loads. A rubbing preserves the difference, not an operating command."},
+          {"name": "a wheel of marks inside the old masonry", "seen": "A wheel has eleven marks where there is room for twelve.", "read": "The missing mark is a deliberate limit. You copy it without filling it in."},
+          {"name": "a fixed surveying circle", "seen": "A brass circle is bolted to the wall. Its sighting arm still turns; its scale counts intervals rather than degrees.", "read": "The scale measures the difference between two supported loads. You copy its calibration. The circle itself neither opens a plane nor changes what you can perceive."},
+          {"name": "a mason's hinged sector", "seen": "Two bronze rulers share a hinge fixed to the workbench. Matching scales run down their inner edges.", "read": "The paired scales transfer a proportion without calculating it afresh. You preserve the maker's correction in a rubbing; the instrument is useful, not miraculous."}
+        ]
+      }
+    }
+  },
+  "templates": {
+    "mathematicalTrace": {
+      "__no_id": true,
+      "_trace": "=lookup(remainders, 'trace')",
+      "chance": "=1d20",
+      "name": "=dig(#_trace, 'name')",
+      "seen": "=dig(#_trace, 'seen')",
+      "read": "=dig(#_trace, 'read')"
+    }
+  }
+}

@@ -167,7 +167,19 @@
     "councillor_broken",
     "councillor_served",
     "spymaster_broken",
-    "spymaster_served"
+    "spymaster_served",
+    "ri_succession_open",
+    "ri_heir_revealed",
+    "ri_evidence_kept",
+    "ri_evidence_sacrificed",
+    "ri_court_betrayed",
+    "ri_witnesses_gathered",
+    "ri_siege_begun",
+    "ri_refugees_admitted",
+    "ri_refugees_barred",
+    "ri_emergency_compact",
+    "ri_succession_united",
+    "ri_succession_fractured"
   ],
   "exports": {
     "imbar": "imbar",
@@ -325,6 +337,18 @@
     "councillor_broken": "councillor_broken",
     "councillor_served": "councillor_served",
     "spymaster_broken": "spymaster_broken",
-    "spymaster_served": "spymaster_served"
+    "spymaster_served": "spymaster_served",
+    "ri_succession_open": "ri_succession_open",
+    "ri_heir_revealed": "ri_heir_revealed",
+    "ri_evidence_kept": "ri_evidence_kept",
+    "ri_evidence_sacrificed": "ri_evidence_sacrificed",
+    "ri_court_betrayed": "ri_court_betrayed",
+    "ri_witnesses_gathered": "ri_witnesses_gathered",
+    "ri_siege_begun": "ri_siege_begun",
+    "ri_refugees_admitted": "ri_refugees_admitted",
+    "ri_refugees_barred": "ri_refugees_barred",
+    "ri_emergency_compact": "ri_emergency_compact",
+    "ri_succession_united": "ri_succession_united",
+    "ri_succession_fractured": "ri_succession_fractured"
   }
 }

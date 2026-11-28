@@ -1,4 +1,9 @@
 Module skerrow "The Light on Scarth Holm" {
+  Entity seat_witness: fact "Edmund Seddon will send Dun Rì a tide warning signed with Hettie; the court must not mistake keeping a light for abandoning a person.".
+  Topic seat_reflection with orrin "Ask Seddon what the light teaches a king" when hettieSecret(actor) once {
+    Says "Seddon looks at the tide-table. 'They will say keep the light, as if that settles who stands beside it.' He lays a warning for Dun Rì under his tea. Two places for signatures. 'I used to send these alone. Thought that made me dependable.' He leaves the pen beside the second place. 'Hettie gets to decide what her name is doing there. If I come to the council, remind me. I forget things I know very well.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── Seven people and a dog on a rock ───────────────────────────────────────────────────────────────────────────
   // Each has a want, a secret and a way of talking. Seddon: short, no adjectives. Hettie: food and the dead, in the
   // same breath. Gaff: loud, friendly, never finishes a sentence he is laughing at. Piers: qualifies everything.

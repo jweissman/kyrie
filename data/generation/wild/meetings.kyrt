@@ -143,6 +143,26 @@
   Item {m}_stand_1 "a handful of yarrow" is herbs in {m}_stand hidden until {m}_stand_hid.
   Item {m}_stand_2 "a handful of yarrow" is herbs in {m}_stand hidden until {m}_stand_hid.
   Initially Assert crop({m}_stand_1, {m}_stand). Initially Assert crop({m}_stand_2, {m}_stand).
+--- heath kite 2
+  Person {m}_maker "the kite-maker" at {tract} {
+    Role "a kite-maker kneeling on a coat among the heather". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner cheerful. Seen when hour(clock) >= 6 and hour(clock) < 20.
+    Greets "'My daughter's coming on Sunday. Bringing her little one. She'll want the old kite to fly.'".
+  }
+  Thing {m}_kite "the patched kite" at {tract} {
+    State torn "A kite lies across a coat weighted with stones. A child's name is stitched into one corner. Its crosspiece has come loose; the tail is made from old wedding ribbons.".
+    State flying "The patched kite pulls steadily above the heather. Its wedding ribbons flutter without tangling.".
+  }
+  Action {m}_hold(actor: group, site: place) "Hold the kite's crosspiece while the maker ties it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {tract}) and at({m}_maker, site) and able({m}_maker) and hour(clock) >= 6 and hour(clock) < 20 and state({m}_kite, torn).
+    Time 2.
+    On success { Assert state({m}_kite, flying). }
+    Result "The knot holds. The maker lets the kite climb, paying out the string between both hands. 'She used to hold that end,' the maker says. 'Before she grew up.'".
+  }
+  Topic {m}_maker_way with {m}_maker "Ask what the kite showed beyond the heath" when state({m}_kite, flying) and not knows(actor, {site}_found) once {
+    Says "'There!' The maker points {toward}. 'The tail caught on {seen} last spring. I went after it. Steps below the ground, cold air coming up. I left the ribbon.' The maker shows you where to leave the track. 'She won't notice the missing one. She notices everything else.'".
+    On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). }
+  }
+>> lead
 --- fen eeler 3
   // An eel-catcher at the traps, who knows which tussocks bear a foot and which do not: asked, tells of the place
   // nobody poles to, and the way; a trap jammed in the deep channel is something to lend a hand with.

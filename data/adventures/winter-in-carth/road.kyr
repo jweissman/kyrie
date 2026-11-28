@@ -1,4 +1,10 @@
 Module gaunt "A Winter in Carth" {
+  Entity seat_witness: fact "Ninian Hern has written a question for the council at Dun Rì: whether an advisor will bear the sentence his advice earns.".
+  Topic seat_reflection with hern "Ask Hern what a borrowed sentence teaches a king"
+    when knows(actor, sentence_borne) and not hernGaoled(hern) once {
+    Says "Hern rubs his bare feet together. 'Everybody offers to carry the kingdom. Ask one to carry another man's sentence and see the room empty.' He holds out a scrap, addressed to the council at Dun Rì. 'My sister copied it. She has not spoken to me in twenty years. Wrote under it: do wear socks.' For a moment he is almost smiling. 'I have sent the question ahead. They can begin being uncomfortable without me.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── Ninian Hern ───────────────────────────────────────────────────────────────────────────────────────────────────
   // Sixty. For thirty years the most sought-after proxy in Gaunt: he has fasted, knelt, walked and kept vigil for half
   // the Guildhall. Last winter he was offered the Cold Vigil, forty nights of no fire, for a blood-fault, and refused it;

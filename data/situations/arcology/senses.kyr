@@ -1,0 +1,31 @@
+Module arcology "The Numbered House" {
+  Thing counting_glass "the counting glass" at quiet {
+    Marvel.
+    State waiting "A lens of black glass hangs in an empty brass frame. Looking through it, you see every door twice: once as wood, once as the weight the lintel carries. The second door continues when you close your eyes.".
+    State attended "The glass holds the House's weight in a network of quiet lines. Your eyes no longer need the lens to find them.".
+  }
+  Discovery glass_principle "The counting glass compares a structure with its supported loads. It teaches perception, not a command over gravity.".
+  Topic host_glass with steward "Ask the Host why the glass shows two doors" when true once {
+    Says "'One is the door,' says the Host. 'The other is what holds it up. We expected the distinction to be useful to tenants.' It straightens its apron. 'We did not expect tenants to spend eleven centuries asking whether the frame was worth stealing.'".
+    On discuss { Assert knows(actor, glass_principle). }
+  }
+  Entity glass_dc: difficulty "the counting glass's invariant".
+  Initially Set toBeat(glass_dc) to 30.
+  Relation counting_glass_target(thing).
+  Initially Assert counting_glass_target(counting_glass).
+  Action attend_glass(actor: group, target: thing) "Follow the second door through the counting glass" {
+    Requires able(actor) and at(actor, quiet) and at(target, quiet) and counting_glass_target(target)
+      and not benighted(actor) and not capable(actor, structural_sense)
+      and (capable(actor, mathematics) or knows(actor, glass_principle) or tried(counting_glass, looking)).
+    Time 10 minutes. Resolve check(actor, mathematics, glass_dc).
+    On success {
+      Assert granted(actor, structural_sense). Retract state(target, waiting). Assert state(target, attended).
+      Increase hum(house) by 1. Set humAt(house) to watch(clock).
+    }
+    On failure { Increase hum(house) by 1. Set humAt(house) to watch(clock). }
+    Result "The lens does not give you another eye. It teaches the eyes you have. Close them: the weight of the lintel remains. Turn away: you can distinguish a bearing wall from a skin of stone. The glass can stay here.".
+    Otherwise "The two doors will not agree. The House answers your attempt with another note in its hum. The frame is not broken; your reading is unfinished.".
+  }
+  Observe sensed_slab at cliff as sign when capable(party, structural_sense)
+    "The pale slab carries no weight from the walls. Under it, the strain runs along a narrower passage: a maintenance branch, not a foundation. There is a way beneath." teaches slab_known.
+}

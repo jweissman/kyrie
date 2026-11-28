@@ -1,4 +1,9 @@
 Module tallow "Tallow Deep" {
+  Entity seat_witness: fact "Lowen Pook will bring the Breakthrough ledger to Dun Rì; her missing brother's wages are still being claimed by a royal contractor.".
+  Topic seat_reflection with hester "Ask Lowen what the Breakthrough teaches a king" when knows(actor, breakthrough_known) once {
+    Says "Lowen stops drying the pot. 'Fourteen men under the water, and the accounts have not missed a payday. A very punctual tragedy.' She shows you a wage claim in her brother's name, made last month by a royal contractor. 'If Abner lives, he owes me an explanation. If he does not, somebody owes me considerably more.' She puts the pot down. 'At Dun Rì I mean to ask for the man before I ask for the money.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ---------------------------------------------------------------------------------------------------------------
   // Swallet: the village that keeps its back to the hill.
   Person hester "Lowen Pook" at taproom {

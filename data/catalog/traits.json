@@ -623,10 +623,12 @@
     "mathematician": {
       "name": "Mathematician",
       "category": "perk",
-      "description": "Thinks a thing through to its proof, a puzzle of number or pattern worked rather than guessed: +1 intelligence, Lockwork.",
+      "description": "Thinks number and pattern through to proof: +1 intelligence, Lockwork and Mathematics. Mathematical checks succeed by proof; unseen properties and safe operation still require evidence.",
       "skills": [
-        "lockwork"
+        "lockwork",
+        "mathematics"
       ],
+      "automaticChecks": ["mathematics"],
       "modifiers": {
         "attributes": {
           "intelligence": 1

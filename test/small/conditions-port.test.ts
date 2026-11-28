@@ -31,4 +31,18 @@ describe('the conditions port', () => {
   it('says so of an installation that brings no conditions', () => {
     expect(() => Installed.within({ id: 'bare' }, () => Conditions.of('poisoned'))).toThrow(/bare installs no conditions/);
   });
+  it('reads lost actions from the installed conditions and rejects unavailable statuses', () => {
+    const statuses: Record<string, Condition> = {
+      sleep: { ...drain, modifiers: { noActions: true } },
+      unavailable: { ...drain, unsupported: { mechanic: 'Not implemented.' } },
+    };
+    const domain: InstalledDomain = { id: 'sleeping', conditions: {
+      condition: id => statuses[id], exact: id => statuses[id] } };
+    Installed.within(domain, () => {
+      expect(Conditions.skips('sleep')).toBe(true);
+      expect(() => Conditions.skips('missing')).toThrow('Unknown status missing');
+      expect(() => Conditions.skips('unavailable')).toThrow('Unknown status unavailable');
+    });
+    expect(Installed.within(grey, () => Conditions.skips('grey'))).toBe(false);
+  });
 });

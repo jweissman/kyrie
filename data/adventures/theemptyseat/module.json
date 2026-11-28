@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "source": [
+    "site.kyr",
+    "gathering.kyr",
+    "siege.kyr",
+    "expedition.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world",
+    "venturing"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar",
+    "inner_earth",
+    "dun_ri",
+    "tower_of_the_ri",
+    "tower_of_doors",
+    "tower_of_the_cauldron",
+    "tower_of_judges",
+    "tower_of_the_harp",
+    "tower_of_the_scales",
+    "tower_of_the_teulu",
+    "ri_succession_open",
+    "ri_heir_revealed",
+    "ri_evidence_kept",
+    "ri_evidence_sacrificed",
+    "ri_court_betrayed",
+    "ri_witnesses_gathered",
+    "ri_siege_begun",
+    "ri_refugees_admitted",
+    "ri_refugees_barred",
+    "ri_emergency_compact",
+    "ri_succession_united",
+    "ri_succession_fractured"
+  ],
+  "generation": {
+    "type": "seatDrama",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  },
+  "exports": {
+    "party": "party",
+    "region": "city",
+    "ward": "ward",
+    "guild_hall": "guild_hall",
+    "herald": "herald",
+    "guildkeeper": "guildkeeper",
+    "entry": "square"
+  }
+}

@@ -36,17 +36,17 @@ export class Consequence {
   private static again(id: string, ids: Set<string>): boolean {
     return id.endsWith('_again') && ids.has(id.slice(0, -'_again'.length));
   }
-  // What it writes, but for the latch the language keeps for a topic asked once or a try spent (said_, tried_): that
-  // it was done is not what it does.
-  private static written(a: Operator): Call[] {
+  // A latch alone is not a consequence, but one that opens an answer or changes a later act is.
+  private static written(a: Operator, census?: Census): Call[] {
     const cut = a.id.indexOf('__') + 2, ns = a.id.slice(0, cut), bare = a.id.slice(cut);
     const latches = new Set([`${ns}said_${bare}`, `${ns}tried_${bare}`]);
-    return [...a.success, ...a.failure].map(c => c.call).filter(c => !latches.has(c.name));
+    return [...a.success, ...a.failure].map(c => c.call).filter(c => !latches.has(c.name)
+      || census && this.readers(census, c).some(r => r.origin !== a.id));
   }
   private static inertia(a: Operator, census: Census): Inertia | undefined {
     // Moving, searching, or resolved by the rules (endow, acquire, drop…, any but a bare check) is a change.
     if (a.movement || a.searchPlace || (a.resolve && a.resolve.name !== 'check')) { return undefined; }
-    const calls = this.written(a);
+    const calls = this.written(a, census);
     if (!calls.length) { return 'words'; }
     if (calls.some(c => !this.mine(c.name, census.scope) || this.readers(census, c).some(r => r.origin !== a.id))) {
       return undefined;

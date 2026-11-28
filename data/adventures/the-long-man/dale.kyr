@@ -1,4 +1,9 @@
 Module longman "The Long Man" {
+  Entity seat_witness: fact "Aldous Venn will take the dale's accounts to Dun Rì; the royal water survey bears his missing wife's handwriting.".
+  Topic seat_reflection with venn "Ask Venn what the dale has taught the next king" when knows(actor, ledger_known) once {
+    Says "Venn puts the smiling face away. 'Twelve teeth out of a wall to pay a debt. A king could do the same with a kingdom and call it economy.' He takes out a royal water survey. 'My wife wrote this. She left me seven years ago. Yesterday the Palace sent it back as the work of a dead man.' His thumb stays on her name. 'At Dun Rì I mean to ask which of us they buried.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Description "Merrowdale: a dry dale under a long straight ridge the village calls the Long Man, a lake behind it, and three days before the autumn storm.".
 
   // The dale, north to south: Hollow Water, the Long Man across the dale's throat, the low fields, Merrow.

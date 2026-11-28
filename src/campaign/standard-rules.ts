@@ -8,7 +8,7 @@ import { RulePackages } from './rule-packages';
 export class StandardRules {
   static readonly world = ['core', 'passages', 'people', 'needs', 'services', 'discovery', 'care', 'belongings',
     'dominion', 'probing', 'inhabitants', 'growing', 'making', 'belief', 'ambitions', 'canon', 'fantasy'];
-  static readonly names = [...StandardRules.world, 'elements', 'devotion'];
+  static readonly names = [...StandardRules.world, 'elements', 'devotion', 'venturing'];
   // Its own sources and the shared rules it names, with what they read: "world" as it is listed.
   static async paths(manifest: BundleManifest, path: string, source: BundleSource, canonless = false) {
     const rules = typeof manifest.rules === 'string' ? [manifest.rules] : manifest.rules;

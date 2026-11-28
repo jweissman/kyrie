@@ -29,5 +29,38 @@ Not always the licensed investigator. Positions in the anthology: delvers with n
 ## Voices
 The corpus's dry, exact, self-aware register stays for some. Add, on purpose: the boisterous (Harrow's net-men, the Tallymen's cardsharps, a bargeman); the provincial and inarticulate (Nib, the goatherds, a deserter who can say only three things); the sentimental (Honoria, Hester at the pinned page); the foolish and vain (Fipps, Fenwick, Corin Fallow in a hat); the taciturn (Mumchance, Sib, Usk); the impulsive (Pip); the unreflective (the Colonel with a trumpet). **Rule:** no character explains the philosophical significance of what has happened to them unless it is a joke.
 
+### Corpus-review pass, 27 November
+
+Three bounded enrichments answer the November review without making a universal
+meta-campaign. The Wrong Boat's stolen wedding gift now carries a private song,
+with a public performance that protects the box but forfeits its privacy; quiet
+work can earn the cook's shelter. The Quiet in the Sky lets material care earn
+Mab's existing confidence without erasing her wound.
+
+The heath's own meeting group now has a second option beside yarrow: a parent
+repairing a kite for a daughter's visit. Holding its crosspiece changes the
+physical scene; only then does the maker show the actual buried stair where a
+wedding ribbon was lost. Native template selection supplies variation, and the
+existing generation binds the lead to a real site. This is a small repair-and-
+discovery situation, not yet the Eel Bell's full two-quality craft-trial kit.
+
+The cheap proof is [corpus-aftercare.test.ts](../../../test/small/corpus-aftercare.test.ts).
+The large decompositions, Scarth Holm's reusable isolation template, fuller
+dungeon ecology and Eel Bell placement remain separate work. AU-60 still needs
+its golden-walk migration; this pass does not silently place the Eel Bell or
+prune an adventure's unwritten tiers.
+
+The focused pass has eight tests and 40 assertions, including fifty replayed
+template draws and twelve native regional placement cases. Both changed
+campaigns assemble and lint without hard errors. Root/browser typechecks,
+targeted TypeScript lint and the browser build pass. These are headless proofs,
+not a fresh full-corpus conversation census, a world canary or visual acceptance.
+The changes are carried on the `copilot/empty-seat-saga` review branch.
+
+The final editorial pass gives Tom a four-line wedding verse rather than a
+summary of one. A child's question, and Hoby naming Bess, carry the cost of
+publication without an explanatory verdict. The public performance also retires
+the surrender option: an ended threat must not remain an offered bargain.
+
 ## Endings (a table to keep us honest)
 Tallow: stranded by the sluice and walking out by the road; home with a dagger; home with a friend; home with nothing. Muster: turned back at the Viaduct; the Cohort reached and left; reached with one fewer; a boy follows you south. Sarn: home with nothing; home with a loss; a comic fiasco at the quay; the Colonel stays behind. King's Players: a fiasco; a grave; a theft that cannot be proved; everyone saved and the playwright furious. The Wrong Boat: clean escape; caught; escaped with the thing and without a friend. **No two end in a civic settlement.**

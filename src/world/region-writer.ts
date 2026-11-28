@@ -28,6 +28,7 @@ import type { After } from './countries';
 import type { Great } from './world-shape';
 import type { History } from './history/histories';
 import { RegionWorks } from './region-works';
+import { RegionBooks } from './region-books';
 import { RegionFellows } from './region-fellows';
 import type { CalendarStart } from '../campaign/calendar';
 import { RegionGrowth } from './region-growth';
@@ -229,7 +230,8 @@ export class RegionWriter {
       ...RegionMarvels.lines(region),
       ...RegionBorders.lines(region), ...RegionGates.lines(region),
       ...RegionSites.lines(region, taken), ...RegionRumours.lines(region),
-      ...RegionWorks.lines(region, taken, vocabulary), ...RegionFellows.lines(region), ...RegionTraffic.lines(region),
+      ...RegionWorks.lines(region, taken, vocabulary), ...RegionBooks.lines(region, taken),
+      ...RegionFellows.lines(region), ...RegionTraffic.lines(region),
       // Finding a place is its own reward, once: a makers' work more than a cave (the owner, 1 November: hex
       // crawling encouraged, exploration rewarded).
       ...region.sites.map(w => `  Milestone ${w.id}_reached ${JSON.stringify(`found ${w.name}`)} worth ${w.work ? 20 : 10}`

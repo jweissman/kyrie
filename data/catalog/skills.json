@@ -1,6 +1,12 @@
 {
   "about": "Skills: capabilities a company can bring to bear. A skill is granted by a background, a class or an equipped item; who grants it is declared on the granting entry, never here.",
   "skills": {
+    "mathematics": {
+      "name": "Mathematics",
+      "rests": "intelligence",
+      "description": "Discovering and understanding Mathematical patterns from encountered evidence. Trained attempts face at least DC 30; untrained attempts at least DC 35. A natural twenty is a breakthrough. Mathematician settles these checks by proof, not chance. An ordinary proof is not a wonder.",
+      "source": { "kyr": true }
+    },
     "woodcraft": {
       "name": "Woodcraft",
       "rests": "wisdom",
