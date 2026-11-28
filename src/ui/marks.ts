@@ -57,7 +57,7 @@ export class Marks {
     if (c.note?.split(' · ').includes(ChoiceList.unexamined)) {
       marks.push({ kind: 'unlooked', said: 'Not looked at closely yet.' });
     }
-    if (exit && c.command && this.heard(exit)) { marks.push({ kind: 'heard', said: 'Something is in there.' }); }
+    if (exit && c.command && this.heard(exit)) { marks.push({ kind: 'heard', said: Marks.sound }); }
     if (exit && c.command && exit.lurks) { marks.push({ kind: 'lurks', said: 'Something lies in wait in there.' }); }
     const warned = this.warned(c, s, here);
     if (warned) { marks.push(warned); }
@@ -84,6 +84,10 @@ export class Marks {
   }
   // A danger here: someone the company could fight who is not with it, nor down (as SceneModel.threat has it).
   static threat(this: void, row: TargetRow): boolean { return !!row.reckoning && !row.companion && !row.state; }
+  // What is heard in there, said on the way in: a band that can be drawn out is one that fights, and may be met on
+  // the threshold (OR-1854: the forecourt's dead had come at a company as it went in, the way in saying only
+  // "Something is in there"). Said by what the way's acts are, as every mark is, never by what the world holds.
+  static readonly sound = 'What is in there may come at you as you go in.';
   // Something to be drawn out of the way in is something heard there (see ChoiceGrouping's draw_out).
   private static heard(exit: ExitRow): boolean {
     return this.leaves(exit.acts).some(a => a.command?.startsWith('draw_out('));
