@@ -3673,6 +3673,30 @@
    "pri": "P2",
    "why": "27 Nov: the remainder of OR-1520, wanted (the flagship's fifth expedition), not an observed failure of a claimed contract"
   },
+  "OR-1871": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "28 Nov: a remainder of the cold-play review's compression of administration (Wave 2), wanted, not a broken contract"
+  },
+  "OR-1872": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "28 Nov: the cold-play review's Wave 2 asks it (replenishing in one act); buying one at a time breaks no claimed contract"
+  },
+  "OR-1873": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "28 Nov: the cold-play review's Wave 2 asks it (the leader only where it matters); a row for each member is true, only long"
+  },
+  "OR-1874": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "28 Nov: the cold-play review's Wave 2 asks it (light only when it matters), whose gating holds already; the remainder is wanted, not broken"
+  },
   "OR-1780": {
    "kind": "requirement",
    "was": "defect",
