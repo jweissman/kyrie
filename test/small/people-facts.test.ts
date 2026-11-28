@@ -19,8 +19,8 @@ describe('the encyclopedia\'s peoples and callings', () => {
       expect([e.id, facts.has('Folk of') || facts.has('Lives among others in') || e.id === 'ancestry:goblin'
         || e.id === 'ancestry:glimmerkin' || e.id === 'ancestry:gnoll'
         || e.id === 'ancestry:minotaur']).toEqual([e.id, true]);
-      // Its description, how it looks, and how it lives together.
-      expect(e.text?.length).toBe(3);
+      // Its description, and under their heads how it looks and how it lives together (OR-1801).
+      expect([e.id, e.text?.length, e.parts?.map(([h]) => h)]).toEqual([e.id, 1, ['How they look', 'How they live']]);
     }
     const human = new Map(entries.find(e => e.id === 'ancestry:human')!.facts);
     expect(human.get('Tongue')).toMatch(/^Common/);

@@ -24,8 +24,11 @@ export interface CreationCard {
 // CreationEntries), set under its name.
 // groups: things listed under the entry, a heading over each, each by its emblem, its name and a line (the spells a
 // school sets out knowing, at will and at first level); after: a line under them (those known now, cast later).
+// text: its words as the encyclopedia has them, each under its head where it has one (a people's description, then
+// how they look and live), and book: the encyclopedia's section it is a page of (Ancestries), for a client that sets
+// it as that page (OR-1801).
 export interface CreationEntry {
-  facts: [string, string][]; rules: string[]; play?: string;
+  facts: [string, string][]; rules: string[]; play?: string; text?: { heading?: string; text: string }[]; book?: string;
   groups?: { heading: string; rows: { id: string; name: string; line: string; emblem?: string }[] }[]; after?: string;
 }
 // How a step is best drawn, a hint every client may take or leave (the owner, 17 November: the engine says the
@@ -208,7 +211,10 @@ export class CreationFlow {
       { id: 'sign', ask: 'Under which stars were you born?', present: 'sky', all: true, ...this.mine('sign', m.sign), cards: c.signs.map(x => ({
         id: x.id, name: x.name.replace(/^the /, 'The '), line: `${x.month}: ${x.line}`, emblem: x.id, aside: x.month,
         say: x.line, ...CreationFlow.has(x.entry) })) },
-      { id: 'calling', ask: 'Choose your calling', present: 'cards', ...this.mine('calling', m.classId), cards: c.callings
+      // The calling as rows, each by its emblem: the cards are the ancestry's alone (the owner, 27 November: "use the
+      // card very sparingly"; OR-1801).
+      { id: 'calling', ask: 'Choose your calling', present: 'rows', emblems: true, ...this.mine('calling', m.classId),
+        cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
           text: x.text, emblem: x.id, ...CreationFlow.said(x), ...CreationFlow.has(CreationEntries.calling(x)) })) },
       ...this.specialty(), ...this.spells(),

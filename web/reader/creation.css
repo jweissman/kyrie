@@ -216,3 +216,89 @@
 @media (max-width: 760px) {
   .composed .step-place { position: relative; inset: auto; padding: 0 var(--safe-r) 6px var(--safe-l); }
 }
+
+/* ---- The ancestry's cards (CreationCards, OR-1801): the step's own cards beside the menu, in the room the entry had,
+   one to each of the menu's rows. A card is a dark leaf with a fine double rule, its people's emblem in ink, its name
+   and its line; the one considered is lit in ink as its row is, nothing moving or growing to show it. Pressed, it turns
+   over to its page in the book. ---- */
+.composed .creation-cards { position: absolute; left: 10%; top: calc(max(72px, 9vh) + 84px); z-index: 1;
+  width: min(40vw, 500px); margin: 0; padding: 0; list-style: none; display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; perspective: 1200px; }
+.creation-cards .card { all: unset; box-sizing: border-box; width: 100%; aspect-ratio: 5 / 7; cursor: pointer;
+  display: grid; grid-template-rows: minmax(0, 1fr) auto auto; justify-items: center; align-items: center;
+  padding: 16px 10px 18px; border: 1px solid rgba(236, 230, 217, .18); border-radius: 6px; color: var(--dim);
+  background: linear-gradient(180deg, rgba(24, 25, 30, .96), rgba(13, 14, 18, .97));
+  box-shadow: inset 0 0 0 5px rgba(8, 9, 12, .7), inset 0 0 0 6px rgba(236, 230, 217, .08), 0 12px 32px rgba(0, 0, 0, .5);
+  transition: color var(--quick), border-color var(--quick), box-shadow var(--quick); }
+.creation-cards .card .card-glyph { width: 46%; height: auto; max-height: 100%; fill: none; stroke: currentColor;
+  stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.creation-cards .card b { margin-top: 10px; font: 500 12px/1.3 var(--do); letter-spacing: var(--track-label);
+  text-transform: uppercase; color: var(--ivory); text-align: center; }
+.creation-cards .card span { margin-top: 5px; font: italic 400 13.5px/1.35 var(--told); text-align: center; color: var(--dim); }
+.creation-cards .card:is([data-considered], :focus-visible) { color: var(--ivory); border-color: rgba(236, 230, 217, .5);
+  box-shadow: inset 0 0 0 5px rgba(8, 9, 12, .7), inset 0 0 0 6px rgba(236, 230, 217, .2), 0 12px 32px rgba(0, 0, 0, .5); }
+/* Turned over: the card goes edge-on, and its page comes up from the edge (a cut for one who asks for less motion). */
+.creation-cards .card.turning { animation: card-turn 200ms ease-in both; }
+@keyframes card-turn { to { transform: rotateY(90deg); } }
+.composed .creation-book { animation: page-turn 260ms var(--ease) both; transform-origin: 0 50%; }
+@keyframes page-turn { from { transform: perspective(1200px) rotateY(-80deg); opacity: .2; } }
+@media (prefers-reduced-motion: reduce) { .creation-cards .card.turning, .composed .creation-book { animation: none; } }
+
+/* ---- The card's page in the book (CreationCards.Book): a page of the Encyclopedia of Imbar on the backstage's own
+   parchment (folio.css, the paper and its inks shared), in the room the cards had, scrolling within itself; its running
+   head, its name, its words under run-in heads, its facts, what it is born with; at its foot the menu's own row for
+   it and the way back to the cards. Set as a book is: a serif text, ragged right, a drop at its first letter. ---- */
+.composed .creation-book { position: absolute; left: 10%; top: calc(max(72px, 9vh) + 76px); z-index: 1;
+  width: min(40vw, 500px); bottom: calc(var(--safe-b) + 64px); display: flex; flex-direction: column; min-height: 0; }
+:root .composed .creation-book .book-page.book-page { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+  padding: 0; border-radius: 2px; }
+.creation-book .book-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  padding: 18px clamp(20px, 2.6vw, 36px) 14px; scrollbar-width: thin; }
+.creation-book .book-running { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 6px;
+  margin-bottom: 14px; border-bottom: 1px solid var(--hair); font: 500 10.5px/1.4 var(--do); letter-spacing: .2em;
+  text-transform: uppercase; color: var(--dim); }
+.creation-book .book-title { margin: 0 0 4px; font: 400 32px/1.1 var(--told); color: var(--ink); }
+.creation-book .book-play { margin: 0 0 12px; font: 500 12px/1.5 var(--do); letter-spacing: .06em; color: var(--dim); }
+.creation-book :is(.book-lede, .book-para) { margin: 0 0 9px; font: 400 15.5px/1.5 var(--told); color: var(--ink);
+  text-wrap: pretty; hyphens: auto; }
+.creation-book .book-lede { font-style: italic; }
+.creation-book .book-lede::first-letter { float: left; margin: 2px 6px 0 0; font: 400 46px/.8 var(--told); font-style: normal; }
+.creation-book .run-in { font: 600 11.5px/1 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
+.creation-book .book-facts { margin: 14px 0 6px; padding: 10px 0 0; border-top: 1px solid var(--hair); display: grid; gap: 4px; }
+.creation-book .book-facts > div { display: grid; grid-template-columns: 7.5em 1fr; gap: 10px; }
+.creation-book .book-facts dt { font: 500 11.5px/1.6 var(--do); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+.creation-book .book-facts dd { margin: 0; font: 400 14px/1.5 var(--told); color: var(--ink); }
+.creation-book .book-group h3 { margin: 12px 0 4px; font: 500 11.5px/1.6 var(--do); letter-spacing: .08em;
+  text-transform: uppercase; color: var(--dim); }
+.creation-book .book-group ul { margin: 0; padding: 0; list-style: none; font: 400 14px/1.5 var(--told); color: var(--ink); }
+.creation-book .book-group b { font-weight: 600; }
+.creation-book .book-foot { flex: none; display: grid; gap: var(--row-gap); padding: 10px clamp(12px, 1.6vw, 20px) 12px;
+  border-top: 1px solid var(--hair); }
+/* Its rows in the parchment's ink, lit in ink as the Book's are, never white on the paper. */
+:root .composed .creation-book .book-foot .choice-row.choice-row { --row-tone: rgb(42, 33, 25); color: var(--ink); }
+:root .composed .creation-book .book-foot .choice-row.choice-row:is(.sel, :focus-visible, [data-considered], :active,
+  [data-taken]) { color: var(--ink); }
+
+/* An upright screen: the cards in a line under the question, small, their emblems and names; the page in the
+   question's flow above the menu, scrolling within itself, the telling over the rows let go while it is open (the page
+   says it). On a phone the cards are the menu's width; on a tablet they stand at the foot of the page. */
+@media (orientation: portrait), (max-width: 899px) {
+  .composed .creation-cards { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .creation-cards .card { aspect-ratio: 3 / 4; padding: 10px 4px 10px; }
+  .creation-cards .card span { display: none; }
+  .creation-cards .card b { margin-top: 6px; font-size: 9.5px; letter-spacing: .05em; }
+}
+@media (orientation: portrait) and (min-width: 761px) {
+  .composed .creation-cards { top: auto; left: var(--safe-l); right: var(--safe-r); width: auto; bottom: calc(var(--safe-b) + 96px); }
+  /* Under the menu's column (its question's telling, five rows' height and how a choice is made), never over it. */
+  .composed .creation-book { top: calc(max(72px, 9vh) + 64px + var(--choice-h) * 5 + 200px); left: var(--safe-l);
+    right: var(--safe-r); width: auto; bottom: calc(var(--safe-b) + 72px); }
+}
+@media (max-width: 760px) {
+  .composed .creation-cards { position: relative; inset: auto; width: auto; margin: 0 var(--safe-r) 16px var(--safe-l); }
+  .composed .creation-book { position: relative; inset: auto; width: auto; height: max(320px, calc(100dvh - 380px));
+    margin: 0 var(--safe-r) 14px var(--safe-l); }
+  .creation-book .book-running { font-size: 9.5px; letter-spacing: .14em; }
+  .creation-book .book-running > span { white-space: nowrap; }
+  .composed:has(.creation-book) .consider { display: none; }
+}

@@ -38,6 +38,7 @@ export class CreationEntries {
       if (!found) { return undefined; }
       return { play: CreationEntries.stats(a.qualities), rules: [],
         facts: found.facts.filter(([k]) => k !== 'Names' && k !== 'Born with'),
+        ...found.text?.length ? { text: found.text } : {}, ...found.book ? { book: found.book } : {},
         ...traits.length ? { groups: [{ heading: 'Born with', rows: traits.map(t => CreationEntries.trait(t)) }] } : {} };
     });
   }

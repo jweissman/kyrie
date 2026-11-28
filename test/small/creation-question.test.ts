@@ -16,8 +16,10 @@ describe('creation as the engine asks it', () => {
     const steps = new CreationFlow(setting, Creation.catalog()).steps();
     const of = (id: string) => steps.find(x => x.id === id)!;
     expect(steps.map(x => [x.id, x.present])).toEqual([['you', 'cards'], ['presenting', 'rows'], ['sign', 'sky'],
-      ['calling', 'cards'], ['before', 'list'], ['perk', 'rows'], ['name', 'list']]);
+      ['calling', 'rows'], ['before', 'list'], ['perk', 'rows'], ['name', 'list']]);
     expect(of('presenting').cards.map(c => c.aside)).toEqual(['she, her', 'he, him', 'they, them']);
+    // The cards are the ancestry's alone (OR-1801); the calling's rows keep their emblems.
+    expect([of('calling').emblems, of('calling').cards.every(c => c.emblem)]).toEqual([true, true]);
     expect(of('sign').cards.every(c => c.aside && c.say && /^[A-Z]/.test(c.name))).toBe(true);
     expect(of('you').cards.every(c => c.say && !/[.!?].+[.!?]$/.test(c.say))).toBe(true);
     expect([of('name').write, of('name').roll, of('name').all]).toEqual(['Or write your own',

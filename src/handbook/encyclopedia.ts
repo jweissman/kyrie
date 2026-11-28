@@ -121,7 +121,8 @@ export class Encyclopedia {
     return { id: e.id, title: e.title, status: e.status, ...e.kind ? { kind: e.kind } : {},
       ...e.facts?.length ? { facts: e.facts } : {}, ...e.abilities ? { abilities: e.abilities } : {},
       ...rules.length ? { rules } : {},
-      ...e.text?.length ? { text: e.text.filter(p => !this.making.test(p)) } : {}, ...e.refs ? { refs: e.refs } : {},
+      ...e.text?.length ? { text: e.text.filter(p => !this.making.test(p)) } : {}, ...e.parts ? { parts: e.parts } : {},
+      ...e.refs ? { refs: e.refs } : {},
       ...e.painting ? { painting: e.painting } : {} };
   }
   private static tongues(tongues: Tongue[]): Section {

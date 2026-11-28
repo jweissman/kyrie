@@ -24,6 +24,7 @@ export class HandbookMarkdown {
       ...StatBlock.line(e) ? [`- ${StatBlock.line(e)}`] : [],
       ...e.facts?.length ? [...e.facts.map(([k, v]) => `- ${k}: ${v}`), ''] : [],
       ...(e.rules ?? []).flatMap(r => [r, '']), ...(e.text ?? []).flatMap(t => [`> ${t}`, '']),
+      ...(e.parts ?? []).flatMap(([h, t]) => [`> **${h}.** ${t}`, '']),
       ...(e.notes ?? []).flatMap(n => [`*${n}*`, ''])];
   }
   static coverage(c: Coverage): string {

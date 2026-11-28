@@ -25,6 +25,9 @@ export interface Entry {
   rules?: string[];
   // Its description: what it is like, not what it does.
   text?: string[];
+  // What more it is like, each under its own head, as an encyclopedia sets it after its description (a people's look,
+  // its ways: OR-1801).
+  parts?: [string, string][];
   // Why it is adapted, unsupported or unreachable.
   notes?: string[];
   // Ids of other entries this one names, for cross-references.

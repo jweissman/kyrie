@@ -14,6 +14,7 @@ type Frame = Pick<PageParts, 'className' | 'attrs' | 'rail' | 'over' | 'backdrop
 import { ComposedOptions, type Offer } from './composed-options';
 import { Observatory } from './observatory';
 import { Signature } from './signature';
+import { CreationCards } from './creation-cards';
 
 // Creation as one composition in the game's own grammar (the owner, 15 November): every step
 // is the engine's (CreationFlow: its question, its options in its order, which is chosen), and every step is answered
@@ -67,7 +68,7 @@ export class ComposedCreation {
   private static escape(back: () => boolean) {
     const key = (e: KeyboardEvent) => {
       // A sign drawn up in the sky is let go first (see useZoom).
-      if (e.key !== 'Escape' || document.querySelector('[aria-modal="true"], .observatory.zoomed')) { return; }
+      if (e.key !== 'Escape' || document.querySelector('[aria-modal="true"], .observatory.zoomed, .creation-book')) { return; }
       if (back()) { e.preventDefault(); e.stopImmediatePropagation(); }
     };
     window.addEventListener('keydown', key, true);
@@ -98,6 +99,7 @@ export class ComposedCreation {
     };
     const look = (id: string) => { if (ComposedRow.moved()) { consider(id); } };
     const sky = step?.hints?.instrument === 'stars', [zoom, row, out] = ComposedCreation.useZoom(sky && !!step?.all, consider);
+    const book = CreationCards.useBook(step?.id, consider);
     if (shown !== step?.id) { show(step?.id); consider(first); flared(undefined); leaving.current = false; out(); }
     if (!step) { return ComposedCreation.go(app, frame); }
     // Over the sky the entry stands under the rows, the wheel having the room beside the question (OR-89).
@@ -110,7 +112,9 @@ export class ComposedCreation {
           plain="neutral" onClick={out} />}</>}
       header={<>{step.place && <p className="step-place" data-region="step-place">
         Step {step.place.at} of {step.place.of}</p>}
-        <h1 className="ask">{Typography.curl(step.ask)}</h1>{!sky && entry}</>}
+        <h1 className="ask">{Typography.curl(step.ask)}</h1>{step.present === 'cards'
+          ? <CreationCards.Beside step={step} offer={offer} lit={lit} book={book} look={look} choose={choose} />
+          : !sky && entry}</>}
       narrative={<p className="consider" aria-live="polite">{Typography.curl(offer.say(lit))}</p>}
       menu={<ComposedCreation.Options committed={app.state.waiting} offer={offer} more={more} unfold={unfold} chosen={step.chosen} lit={lit}
         {...step.many ? { picked: step.picked ?? [], learn: step.cards.at(-1)?.id } : {}}

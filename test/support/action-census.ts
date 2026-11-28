@@ -22,6 +22,12 @@ export class ActionCensus {
     ['.fight .status .quiet-word', 'the fight so far, a disclosure (ruling 1)'],
     ['.sky-out', "the sky's way back to the twelve from a sign drawn up, shown only while one is (OR-89, the owner's: a "
       + 'gesture of the instrument, as Escape and a touch on the open sky are; page-controls names it)'],
+    ['.creation-cards [data-card]', "an ancestry's card, the instrument drawn from the menu's own rows: a press turns it "
+      + 'over to its page, never chooses (the owner, 27 November; OR-1801)'],
+    ['.creation-book [data-option]', "the menu's own row for the ancestry at the foot of its page, choosing as the "
+      + "menu's does (OR-1801)"],
+    ['.creation-book [data-action="cards"]', "the page's way back to the cards, a gesture of the instrument, as Escape is "
+      + '(OR-1801)'],
   ];
   // Every pressable thing in view on the page as it is now, outside the menu, the rail and what is allowed.
   static stray(page: Page, surface: string): Promise<Pressable[]> {
