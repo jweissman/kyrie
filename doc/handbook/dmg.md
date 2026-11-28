@@ -88,11 +88,11 @@ What one person hears is carried to another (the Liberty of the Ice's 5: a lie t
 
 ### What the company carries
 
-Also kept, without comment: wearing, forSale, soldBy, wearable, consumable, canTrain, teaches, proficient, wants, valuable, recovered, weighed, objection, pays, price.
+Also kept, without comment: wearing, forSale, soldBy, wearable, consumable, canTrain, teaches, proficient, wants, valuable, recovered, weighed, objection, pileGathered, pays, price.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 31 | 12 | 2 | 9 | 23 |
+| 1 | 32 | 12 | 7 | 11 | 24 |
 
 #### relieves
 
@@ -277,6 +277,40 @@ How many of a kind a seller has out for sale. What is used up (a torch, a flask 
 > Needs: able(actor); at(actor, site); at(find, site); not (forSale(find)); not (benighted(actor)); itemKind(find, form); memberOf(recipient, actor); awake(recipient); noticed(find, actor)
 
 > Then: Retract at(find, site). Assert recovered(find).
+
+#### loose
+
+*Kyr · query(find: item, actor: group, site: place)* · `rule:belongings.loose`
+
+A pile in one act (OR-1870, the cold-play review's Wave 2: "collect an unambiguous pile in one act and say who carries it"): what lies about a place plainly the company's to take up (seen, no one's, not for sale, and light to see it by), two things or more, taken up at once by the one who leads the company (or, where they cannot, by whoever can), who carries it all. Each find had been an act of its own, a back-stone's six finds six presses, and pickup two thirds of the delver's administration (cold round A1; scripts/quantity/expeditions.ts). Not what lies where one able and unfriendly makes its home: the king's crown, lifted from his grave, had brought him out of his refuge (scripts/quantity/expeditions.ts), a take that is a choice of its own.
+
+#### take pile
+
+*Kyr · action (group, member, place)* · `rule:belongings.take_pile`
+
+- Shown as: Gather up what lies here, for {recipient}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); not (benighted(actor)); pile(actor, site); memberOf(recipient, actor); awake(recipient); not (companion(recipient))) or (not (leadAwake(actor))
+
+> Then: Assert pileGathered(actor, site).
+
+#### gathered
+
+*Kyr · rule* · `rule:belongings.gathered`
+
+> When: pileGathered(?a, ?s); loose(?f, ?a, ?s)
+
+> Then: Retract at(?f, ?s). Assert recovered(?f).
+
+#### gathered_all
+
+*Kyr · rule* · `rule:belongings.gathered_all`
+
+> When: pileGathered(?a, ?s); not (lying(?a, ?s))
+
+> Then: Retract pileGathered(?a, ?s).
 
 #### take out
 
@@ -868,7 +902,7 @@ Also kept, without comment: memberOf, awake, slain, itemKind, ownedItem, knows, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 29 | 62 | 20 | 5 | 5 | 9 |
+| 29 | 63 | 20 | 5 | 5 | 9 |
 
 #### member, item, itemkind, fact
 
@@ -1037,6 +1071,12 @@ A place where light dies: only sunlight shows anything there.
 *Kyr · relation(group, group)* · `rule:world_core.tolerates`
 
 One who lets another be: does not bar its way or fall on it (a toll paid, a bribe taken, recruits believed).
+
+#### lair
+
+*Kyr · relation(group, place)* · `rule:world_core.lair`
+
+Where one makes its home (inhabitants: a defensive band fights only for it), read by the kernel's other packages too: what lies there is not gathered up with the rest (belongings' pile, OR-1870).
 
 #### assails
 
@@ -1612,7 +1652,7 @@ Also kept, without comment: arrival, plea, greeting, greeted, petted, warned, yi
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 31 | 3 | 3 | 23 | 6 |
+| 1 | 30 | 3 | 3 | 23 | 6 |
 
 #### temperament
 
@@ -1626,9 +1666,9 @@ A creature's temperament says how it meets a company that comes where it lives. 
 
 A tame creature (a dog, a horse, a cat about a house) knows people: it comes to see who you are, and lets you make much of it.
 
-#### lair, refuge
+#### refuge
 
-*Kyr · relation(group, place); relation(group, place)* · `rule:inhabitants.lair`
+*Kyr · relation(group, place)* · `rule:inhabitants.refuge`
 
 Where it lives and what it defends; where it goes when beaten or frightened off.
 
@@ -2734,11 +2774,11 @@ Listening wants no light: an ear to a door in the dark is the oldest way to know
 
 ### Lodging, goods and camping
 
-Also kept, without comment: offers, serviceOf, sells, thanksPricedItem, fee, goodsPrice.
+Also kept, without comment: offers, serviceOf, sells, haggledItem, haggled, thanksPricedItem, fee, goodsPrice.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 10 | 3 | 0 | 2 | 12 |
+| 2 | 13 | 3 | 1 | 6 | 11 |
 
 #### onTheHouse
 
@@ -2874,45 +2914,57 @@ An hour's prayer at the shrine, and the price of it. Every level the dead took c
 
 > Then: Decrease quantity(actor, gold) by goodsPrice(seller, goods). Increase quantity(seller, gold) by goodsPrice(seller, goods). Decrease quantity(seller, goods) by 1. Increase quantity(actor, goods) by 1.
 
-#### haggled
+#### haggledWith, haggledDown, haggledUp
 
-*Kyr · relation(group, good)* · `rule:world_services.haggled`
+*Kyr · relation(group, group); relation(group); relation(group)* · `rule:world_services.haggledWith`
 
-Haggling (the owner, 15 November: a skill check for a better price). A company may try the price of one ware of one seller once: a good argument takes a coin off it; a poor one, and the seller asks a coin more and will hear no more of it. Never below one coin, and never of a ware the seller has not (the price is the seller's own, as thanks is).
+Haggling (the owner, 15 November: a skill check for a better price): one argument with a trader over everything they sell, once, things on a shelf (an item for sale, which is how most of what is sold is sold) and goods by the one alike. A good one, and they ask a coin less for each of their wares, never below one; a poor one, and a coin more, and they will hear no more of it. A haggle for each ware had made a store's trade twenty-one rows longer than its wares, each "Haggle with Soveliss for a lantern" (OR-1852, cold round A1).
 
-#### haggle
+#### haggle wares
 
-*Kyr · action (group, group, good, place)* · `rule:world_services.haggle`
+*Kyr · action (group, group, place)* · `rule:world_services.haggle_wares`
 
-- Shown as: Haggle with {seller} for {goods}
+- Shown as: Haggle with {merchant}
 - Takes: 10 minutes
 - Costs: 1
 
-Argue for a better price, and be heard or not.
+Argue for a better price on everything they sell, and be heard or not.
 
-> Needs: able(actor); able(seller); distinct(actor, seller); at(actor, site); at(seller, site); not (refusesService(seller, actor)); sells(seller, goods); quantity(seller, goods) >= 1; goodsPrice(seller, goods) > 1; not (haggled(seller, goods))
+> Needs: able(actor); at(actor, site); able(merchant); at(merchant, site); distinct(actor, merchant); not (refusesService(merchant, actor)); haggleable(merchant, site); not (haggledWith(merchant, actor))
 
-> Then: Decrease goodsPrice(seller, goods) by 1. Assert haggled(seller, goods).
+> Then: Assert haggledWith(merchant, actor). Assert haggledDown(merchant).
 
-#### haggledItem
+#### haggled_down
 
-*Kyr · relation(item)* · `rule:world_services.haggledItem`
+*Kyr · rule* · `rule:world_services.haggled_down`
 
-The same for a ware that is a thing on a shelf (an item for sale), which is how most of what is sold is sold.
+> When: haggledDown(?m); soldBy(?w, ?m); forSale(?w); price(?w) > 1; not (haggledItem(?w))
 
-#### haggle item
+> Then: Decrease price(?w) by 1. Assert haggledItem(?w).
 
-*Kyr · action (group, item, group, place)* · `rule:world_services.haggle_item`
+#### haggled_up
 
-- Shown as: Haggle with {merchant} for {find}
-- Takes: 10 minutes
-- Costs: 1
+*Kyr · rule* · `rule:world_services.haggled_up`
 
-Argue for a better price, and be heard or not.
+> When: haggledUp(?m); soldBy(?w, ?m); forSale(?w); not (haggledItem(?w))
 
-> Needs: able(actor); at(actor, site); at(find, site); forSale(find); soldBy(find, merchant); able(merchant); not (refusesService(merchant, actor)); at(merchant, site); distinct(actor, merchant); price(find) > 1; not (haggledItem(find))
+> Then: Increase price(?w) by 1. Assert haggledItem(?w).
 
-> Then: Decrease price(find) by 1. Assert haggledItem(find).
+#### haggled_goods_down
+
+*Kyr · rule* · `rule:world_services.haggled_goods_down`
+
+> When: haggledDown(?m); sells(?m, ?g); goodsPrice(?m, ?g) > 1; not (haggled(?m, ?g))
+
+> Then: Decrease goodsPrice(?m, ?g) by 1. Assert haggled(?m, ?g).
+
+#### haggled_goods_up
+
+*Kyr · rule* · `rule:world_services.haggled_goods_up`
+
+> When: haggledUp(?m); sells(?m, ?g); not (haggled(?m, ?g))
+
+> Then: Increase goodsPrice(?m, ?g) by 1. Assert haggled(?m, ?g).
 
 #### thanksPriced
 
