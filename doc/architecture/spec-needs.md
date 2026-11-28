@@ -7,6 +7,13 @@ expensive evidence the claims actually require; an unlisted file has not been as
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/small/bearing-signs.test.ts` | The authored laboratory journey reaches the cellar and compares page and terminal bearings for two actual ways. Keep the fixture and both positive bearings; a narrower module horizon is a candidate if both clients retain their evidence. |
+| `test/small/callings-differ.test.ts` | Three laboratory lives walk forty turns apiece and compare distinct opportunity sets. Keep the same authored place, three callings and twenty-act pairwise floor; a fragment would not prove the walks. |
+| `test/small/company-pursuit.test.ts` | Parses selected authored Wrong Boat place and pursuit declarations and compares them with the sixty hand-written expansions. No world is started; keep the corpus files and exact pursuit identity comparison. |
+| `test/small/creation-flow.test.ts` | Synthetic creation setting and canonical catalog exercise the flow and terminal/EngineHost interaction. The terminal case may prepare a generated start; preserve the real engine boundary and all choice contrasts. |
+| `test/small/creation-four.test.ts` | Synthetic creation flow and EngineHost terminal checks ordering, four promoted cards and sign selection; also reads a source import boundary. Keep the terminal and import checks; `host.idle()` waits for its prepared start. |
+| `test/small/journey-reader.test.ts` | Synthetic SingleModule yard on shared rules captures and replays journeys, alongside pure provenance and notes checks. A narrower fragment is a candidate if capture/replay choices and all retained prose still match. |
+| `test/small/kind-definition-keys.test.ts` | Synthetic modules compile against alternating canonical vocabulary contexts and parse-store caches, without starting a world. Keep actual ModuleBundle compilation, cache reset and both local-kind values. |
 | `test/skeel-keeper.test.ts` | The authored Skeel campaign plays its keeper fixture through the cell, Parson and Court. Keep the actual route and the contrasting keeper outcomes. |
 | `test/skeel-placed.test.ts` | Generated wren enters Skeel as a province, plays its opening and waits for the chapter ending without ending the world. Keep the generated approach and installation boundary. |
 | `test/skeel.test.ts` | Lints and plays the authored Skeel campaign through tide, Court and multiple ending routes, with a thief variant. Keep the authored campaign, timed branches and explicit staged setup in the Ewan case. |
