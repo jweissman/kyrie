@@ -20,7 +20,8 @@ class Drop {
 
 describe('a one-way drop', () => {
   it('is looked down first, telling what moves below, and only once', async () => {
-    const t = await Tiny.start(pit(`Person rats "the rats" at pit { Role "rats as big as cats". Species rat. Numbers 3. }`));
+    const t = await Tiny.start(pit(`Person rats "the rats" at pit { Role "rats as big as cats". Species rat. Numbers 3. }`),
+      { horizon: ['probing'] });
     expect(Drop.offered(t, look)).toBe(true);
     expect(Drop.offered(t, /^Look down the stair/)).toBe(false);
     await t.play('Look down the chute first');
@@ -28,12 +29,12 @@ describe('a one-way drop', () => {
     expect(Drop.offered(t, look)).toBe(false);
   });
   it('says nothing moves where nothing does', async () => {
-    const t = await Tiny.start(pit(''));
+    const t = await Tiny.start(pit(''), { horizon: ['probing'] });
     await t.play('Look down the chute first');
     expect(t.journey.latest).toContain('the bottom of the shaft below, and nothing moving');
   });
   it('is not looked down in the dark', async () => {
-    const t = await Tiny.start(pit('Initially Assert unlit(top).'));
+    const t = await Tiny.start(pit('Initially Assert unlit(top).'), { horizon: ['probing'] });
     expect(Drop.offered(t, look)).toBe(false);
   });
 });
