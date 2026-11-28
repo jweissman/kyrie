@@ -12,5 +12,12 @@
   "quality": "=lookup(gemQuality, any)",
   "cut": "=lookup(gemCut, any)",
   "size": "=lookup(gemSize, any)"
+ },
+ "carried": {
+  "__no_id": true,
+  "things": "=lookup(carriedThings, #kind)",
+  "purse": "=lookup(carriedPurse, #kind)",
+  "tier": "=lookup(carriedTier, #deep)",
+  "coin": "=#purse * (1 + #depth)"
  }
 }

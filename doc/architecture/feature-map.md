@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 229 pins (198 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 734 live rows, 240 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 228 pins (197 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 729 live rows, 239 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -63,7 +63,7 @@ page's colours and opportunities.)
 
 ### Conversation
 
-- **Conversation held to its focus** · 11 pins · 3 defects · 6 asks
+- **Conversation held to its focus** · 11 pins · 4 defects · 6 asks
   - ✓ draws her topics alone, every one within reach over its pages, and her leave-taking on each
   - ✓ shows a short list whole, with nothing folded
   - ✓ shows three, folds the rest, and sets trading apart
@@ -96,10 +96,6 @@ page's colours and opportunities.)
   - direction OR-854 P3: The put question and the spoken answer are readings of existing forms (a question's condition…
   - direction OR-855 P3: Knowledge checks in talk use Kyrie's own skills (woodcraft for what the SRD calls Nature, lore for…
   - requirement BO-07 P1: Talking to someone teaches nothing: 138 talk_to acts in the census, one taught anything; each a…
-- **Questions asked on grounds** · 3 pins · 1 defects · 0 asks
-  - ✓ offers the mill only once it is heard of, and says who told it
-  - ✓ writes the reference game's questions with their grounds in their conditions
-  - ✓ says where what was known from the first came from
 - **News and rumour** · 0 pins · 1 defects · 1 asks
   - direction OR-365 P3: News and rumour: people tell what they have heard of places and people far off, and the company…
 
@@ -119,7 +115,7 @@ page's colours and opportunities.)
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
   - requirement OR-1447 P2: OR-1392 asks a territorial hazard of the first level, a maintained mechanism of the second and…
-- **Fights that cost** · 7 pins · 18 defects · 18 asks
+- **Fights that cost** · 7 pins · 19 defects · 17 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -136,7 +132,6 @@ page's colours and opportunities.)
   - requirement OA-07 P2: Review D1, the combat diagnostic: for each first-hour band against starting companies, win,…
   - requirement OA-08 P2: Review D2, every fight reconciled from events: the forecast, the log, the turning points and "what…
   - requirement PV-05 P2: **The Eye:** a mixed party (warrior, thief, mage) against a discerner or a dragon. **Pinned (15…
-  - requirement OR-1780 P2: A press on an enemy's card is no attack: the fight's cards carry no engine row, so a player who…
   - requirement OR-1434 P2: The fight's first frame says what was seen of the foe before, and offers the place's own means and…
   - direction OR-1207 P3: Spells that share DNA: abilities as effect sentences are made of clauses, and knowing a spell's…
   - direction OR-1077 P2: The lenses' rail carries into a fight (the owner: "we could retain some of our idioms into combat;…
@@ -390,8 +385,10 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 14 pins · 8 defects · 22 asks
+- **Dungeons and sites** · 16 pins · 8 defects · 22 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
+  - ✓ rolls what newcomers carry on Deem by their kind and depth, more deeper
+  - ✓ sends one band after another into the room emptied, each leaving what it carried where it fell
   - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
@@ -517,13 +514,13 @@ page's colours and opportunities.)
   - ✓ gives the title its rows and hints: the ways in, Options and Quit, over the embers, its name heading
   - ✓ is drawn by the page as the engine gives it, no row of the page's own
   - ✓ is asked in the terminal by the same rows, Options said to be the page's
-  - ✓ offers New Game alone with nothing kept; New Game and Continue over a kept game
+  - ✓ offers New Game alone with nothing kept; Continue and New Game over a kept game
   - ✓ then asks one thing: create a character, or a new life at once, never which map (OR-1271)
   - ✓ pauses a game with two ways: back to it, or Return to title
   - ✓ knows the terminal's kept game, and refuses one it cannot open
   - ✓ holds nothing on the title, how a game begins, creation's rows or the opening's Continue
   - ✓ takes every press at once, a quick second tap on the page just drawn among them
-  - ✓ offers New Game, Continue, Options and Quit, in that order, Continue only with a life to continue
+  - ✓ offers Continue, New Game, Options and Quit, in that order, Continue only with a life to continue
   - ✓ is drawn as those rows and nothing else to press
   - ✓ takes Quit honestly: the game put away, kept, and a way back to the title
   - requirement FH-01 P2: No person has accepted the first hour: PD-14's five cold players have never been run
@@ -589,7 +586,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 26 defects · 39 asks
+- **Rows, lenses and the frame** · 3 pins · 25 defects · 39 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -778,7 +775,7 @@ page's colours and opportunities.)
   - requirement R10-05 P2: Acceptance defect B6 (11 November): one combined replay through the headless projection and the…
   - requirement OR-525 P1: Restoration, carried as a beta commitment at alpha's close (trust-contracts.md: "to do") and never…
   - requirement MT-27 P2: Saves carry the compiled module rather than chiefly state (Finding F: a 2.8 MB checkpoint, 1.6 MB…
-- **Start-up and loading** · 1 pins · 8 defects · 14 asks
+- **Start-up and loading** · 1 pins · 7 defects · 11 asks
   - ✓ keeps the game once, however many legs it goes
   - direction SP-02 P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB…
   - requirement SP-03 P2: Reuse compiled module and operator definitions across sessions; cache one player frame per response
@@ -791,9 +788,6 @@ page's colours and opportunities.)
   - requirement OR-144 P1: Set out now is still slow (the owner's playtest, 20 November: "We should be able to set out now…
   - requirement OR-137 P1: The start itself to about a second, and kept: restored across loads rather than drawn again (9-17…
   - requirement OR-126 P1: The first fifteen seconds as four clicks in about 4 s: new game, accept the world, generate a…
-  - requirement OR-1741 P2: Deem keeps every expression it has parsed as its whole ohm MatchResult, the matcher's memo table…
-  - requirement OR-1742 P2: The caches of what was parsed and compiled are keyed by whole texts: CompiledModules' key joins…
-  - requirement OR-1746 P2: Kept parses and compiled modules are still copied where they are kept and where a module's own…
 
 ### The engine
 
@@ -886,12 +880,12 @@ page's colours and opportunities.)
 
 ## Negative space
 
-### Common blockers (11)
+### Common blockers (12)
 
 Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
-- **TB-09** P1: Workflows are the engine's: the sequence of questions, legal selections, what a choice settles, and the progression between activities have one… · blocks 14 (9 P0/P1) over 8 capabilities
-  - AR-05 (Architecture and layers), TB-10 (Playing in the terminal), OR-149 (Rows, lenses and the frame), R10-01 (Fights that cost), OR-71 (Narration), CO-20 (Wayfinding and bearings), TR-21 (Wayfinding and bearings), OR-515 (Wayfinding and bearings), OR-141 (Rows, lenses and the frame), GR-25 (Aims and the gold thread), OB-21 (The title and Play), AR-20 (Architecture and layers), OR-162 (Wayfinding and bearings), OR-747 (Playing in the terminal)
+- **TB-09** P1: Workflows are the engine's: the sequence of questions, legal selections, what a choice settles, and the progression between activities have one… · blocks 15 (10 P0/P1) over 8 capabilities
+  - AR-05 (Architecture and layers), TB-10 (Playing in the terminal), OR-149 (Rows, lenses and the frame), R10-01 (Fights that cost), OR-181 (Fights that cost), OR-71 (Narration), CO-20 (Wayfinding and bearings), TR-21 (Wayfinding and bearings), OR-515 (Wayfinding and bearings), OR-141 (Rows, lenses and the frame), GR-25 (Aims and the gold thread), OB-21 (The title and Play), AR-20 (Architecture and layers), OR-162 (Wayfinding and bearings), OR-747 (Playing in the terminal)
 - **OR-743** P1: Told from facts, said vs held: told text and paintings assert what the world's facts deny (lanterns lit in a sealed room, "hundreds" of two bats, a door… · blocks 10 (2 P0/P1) over 6 capabilities
   - NP-19 (Narration), NP-18 (Narration), PL-29 (Companions and hirelings), T24-09 (Fights that cost), OR-195 (Fights that cost), GR-23 (Aims and the gold thread), CO-19 (Narration), CP-15 (The Atlas: marks and their witnesses), GR-21 (Aims and the gold thread), CL-50 (Dungeons and sites)
 - **AP-03** P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts with): an act whose effects give the company something to… · blocks 8 (6 P0/P1) over 8 capabilities
@@ -910,6 +904,8 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - OR-532 (Aims and the gold thread), TB-12 (Playing in the terminal), GR-09 (Aims and the gold thread), OR-219 (Architecture and layers)
 - **OR-451** P2: Canonical cities as stable anchors (gamma G2): Aline, Marith, Dun Rìerdan, Garzab, Ydgn, the Lizardfolk name, rendered Andayeen by Northerners (the owner, 24… · blocks 1 (0 P0/P1) over 1 capabilities
   - OR-452 (Passage arranged between cities)
+- **AR-13** P3: Five composition mechanisms; unfilled placeholders pass silently; .kyrt values unescaped · blocks 1 (1 P0/P1) over 1 capabilities
+  - OR-541 (Narration)
 - **OR-745** P2: The page cold play's driver spec red on the nightly of 25 Nov (run 45574847769, browser specs 3/3): test/page-walk-browser's walk out of the adit finds no row… · blocks 1 (0 P0/P1) over 1 capabilities
   - GR-24 (Aims and the gold thread)
 

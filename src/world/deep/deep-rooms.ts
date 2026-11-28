@@ -99,9 +99,10 @@ export class DeepRooms {
   // How the coin left in a room lies there, each room its own way (one purse rotted through in nearly every room
   // of one barrow: the play-structure investigation's PT-15): the author's, in data/generation/deep/hoards.json.
   static readonly hoards = table.hoards as [string, string][];
-  private static coins(room: string, coin: number): string[] {
-    const [lying, gathered] = new Draw(`${room}:coins`).pick(this.hoards);
-    return this.section('coins', { id: `${room}_coins`, room, lying, gathered, coin: String(coin),
+  // Or a band's, with its own ways of lying (DeepCarried), drawn by its own key.
+  static coins(room: string, coin: number, own?: { id: string; key: string; pairs: [string, string][] }): string[] {
+    const [lying, gathered] = new Draw(own ? `${own.key}:coins` : `${room}:coins`).pick(own?.pairs ?? this.hoards);
+    return this.section('coins', { id: own?.id ?? `${room}_coins`, room, lying, gathered, coin: String(coin),
       count: String(Counted.words[coin] ?? coin) });
   }
   // What the earlier party left at their camp, of what a company carries against the worst (hoards.json#left).

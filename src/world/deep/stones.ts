@@ -26,6 +26,10 @@ export class Stones {
     try { return (new Content(`${key}:loot`).generate('loot', { tier }) as { key: string }).key; }
     catch (error) { if (/No matching options/.test(String(error))) { return undefined; } throw error; }
   }
+  // What a band carries (Deem's `carried` template, by its kind and depth: DeepCarried).
+  static carried(key: string, context: { kind: string; depth: number; deep: string }): Record<string, unknown> {
+    return new Content(`${key}:carried`).generate('carried', context) as Record<string, unknown>;
+  }
   // A stone of a kind, or of whatever kind Orsino's gemstone draws.
   static drawn(key: string, kind?: string): DeepStone {
     const g = new Content(`${key}:stone`).generate('gemstone', kind ? { type: kind } : {}) as
