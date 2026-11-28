@@ -37,9 +37,13 @@ export class SceneRail {
     // beside it; the map and the book beside it either way. Folded, the strip cannot be pressed: the diamond alone is.
     // Only the lenses earned stand in it (Surfaces, OR-1241): with none, neither they nor their diamond.
     const rail = app.state.frame?.leaf.glance?.rail, any = !rail || rail.lenses.length > 0;
-    // No rail at all until something on it is earned by a find (the owner's playtest of 27 November, OR-1491): a map,
-    // the journal, a lens. The company's own page is a row of the place's one menu (PlaceQuestion.yourself).
-    if (!any && !SceneRail.earned(app)) { return null; }
+    // No rail until something on it is earned by a find (the owner's playtest of 27 November, OR-1491): a map, the
+    // journal, a lens. But the company's own page is kept within reach, tucked at the rail's place (the engine's
+    // Rail.keep, OR-1685), as well as a row of the place's one menu (PlaceQuestion.yourself).
+    if (!any && !SceneRail.earned(app)) {
+      return rail?.keep ? <nav {...PageFrame.slot('rail')} className="scene-rail kept" aria-label={rail.keep.label}>
+        <SceneRail.Keep app={app} /></nav> : null;
+    }
     const folded = !!rail && any, open = folded && Folded.open(app);
     const lenses = <>
         {Surfaces.lens(rail, 'talk') && <SceneRail.Talk app={app} />}
@@ -103,12 +107,21 @@ export class SceneRail {
     if (!onMap && !SceneRail.earned(app)) { return null; }
     const marks = <>
       <SceneRail.MapMark app={app} onMap={onMap} />
-      {Surfaces.has(app.state.frame?.screen, 'the_journal') && <button type="button" className="rail-mark"
+      {Surfaces.has(app.state.frame?.screen, 'the_journal') ? <button type="button" className="rail-mark"
         data-action="book" aria-label="Your book" onClick={() => app.show(SceneRail.book(app))}>
-        <Glyphs.View id="the_book" className="rail-glyph" /><News.Pip app={app} /></button>}
+        <Glyphs.View id="the_book" className="rail-glyph" /><News.Pip app={app} /></button> : <SceneRail.Keep app={app} />}
     </>;
     return alone ? <nav {...PageFrame.slot('rail')} className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
       : marks;
+  }
+  // The company's own page, kept within reach whatever is earned (Rail.keep, OR-1685: "minimally we may always want
+  // the book available, even if tucked away"): a quiet mark, faint until the hand or the keys come to it, which opens
+  // the page the engine names, in its words. Where the journal is earned the book's own mark stands in its place.
+  static Keep({ app }: { app: ReaderApp }) {
+    const keep = app.state.frame?.leaf.glance?.rail?.keep;
+    return keep ? <button type="button" className="rail-mark keep-mark" data-action="keep" data-view={keep.view}
+      aria-label={keep.label} onClick={() => app.show(keep.view)}>
+      <Glyphs.View id="the_book" className="rail-glyph" /></button> : null;
   }
   // The map's one mark, as it stands: on the map, pressed, back to where the company is; inside an enclosed place, the
   // compass (the places lens, the way out at its foot); else the map, lit where a journey is the aim's next step.

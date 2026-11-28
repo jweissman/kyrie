@@ -202,7 +202,11 @@ export interface Glance {
   rail?: Rail;
 }
 export type RailLens = 'talk' | 'go' | 'look' | 'wait' | 'search';
-export interface Rail { fold: 'folded'; lenses: RailLens[] }
+// keep: the company's own page, reachable from every resting scene whatever is earned (the owner's play, 27 November,
+// OR-1685: "minimally we may always want the book available, even if tucked away"): the one exception to surfaces
+// earned, the rail itself still earned. A client draws it quietly at the rail's place, and opens the page it names.
+export interface Rail { fold: 'folded'; lenses: RailLens[]; keep?: Keep }
+export interface Keep { view: 'company'; label: string }
 // What pulls once an aim is seen through (PL-06): the deed's own consequence (the yoke, to be hung over the drover's
 // hearth: at, where) or a lead not followed (an aim held, to follow; or a place something known leads to). Its words
 // are the act's, the aim's or the fact's, one sentence at most; the choice is the command or the aim's following.
