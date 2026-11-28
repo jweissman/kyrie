@@ -409,7 +409,8 @@ export class ModuleBundle {
     // lowers into a module of its own: AX-04, test/small/frozen-modules).
     const made = kept ?? this.compiled({ context: vocabulary, key, own, mine, combined,
       valued: sources.some(Boolean), reads });
-    const composed = kept ? ModuleBundle.owned(made.module) : made.module, told = made.told;
+    const composed = kept ? ModuleBundle.owned(CompiledModules.filed(kept, own.map(f => f.path))) : made.module;
+    const told = made.told;
     ModuleBundle.sized(composed, options.party);
     // What it names of the canon is given it, and bound as the world's own (see ModuleCanon).
     const given = ModuleCanon.give(composed, manifest.canon ?? [], canon, path);
@@ -461,7 +462,7 @@ export class ModuleBundle {
           this.parsed(local, { ...f, text: ModuleShadow.text(f.text, shadowed) }), f.path)));
       }
       module = ModuleShadow.apart(module, shadowed);
-      return { module, id: mine[0]!.id, told: ModuleShadow.told(shadowed) };
+      return { module, id: mine[0]!.id, told: ModuleShadow.told(shadowed), files: own.map(f => f.path) };
     });
     const dependencies = context.apart([...at.reads, ...made.reads], made.value.module.catalog);
     const reads = [...new Map([...dependencies].reverse())];
