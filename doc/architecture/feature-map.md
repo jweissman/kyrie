@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 74 capabilities; 258 pins (227 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 765 live rows, 257 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 74 capabilities; 261 pins (230 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 764 live rows, 256 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -169,7 +169,7 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 9 pins · 11 defects · 14 asks
+- **Journeys over known ways** · 9 pins · 10 defects · 14 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
@@ -193,8 +193,9 @@ page's colours and opportunities.)
   - direction OB-19 P3: The middle scale inside a hex (the owner, 15 November): a gallery of existing hexes at local scale…
   - direction OB-20 P2: Wander (the owner, 15 November): a deterministic, authoritative exploration policy over known…
   - direction TR-03 P2: Travel cost (F): a six-to-eight-hex journey differs from one hex only in time
-- **Wayfinding and bearings** · 4 pins · 10 defects · 7 asks
+- **Wayfinding and bearings** · 5 pins · 10 defects · 7 asks
   - ○ a strategic map of countries above the hex map, and a hex view of the places within a hex
+  - ✓ goes down from the stones, up from its head, and out only from the adit mouth
   - ✓ marks the way from the shrine that leads on to the woods not yet seen, the woods' edge walked
   - ✓ marks the way back out of a dead-end recess, toward the gallery not yet entered
   - ✓ is said alike by the terminal and the page, by the way's own command
@@ -210,7 +211,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 22 defects · 18 asks
+- **Aims and the gold thread** · 18 pins · 21 defects · 18 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -218,6 +219,8 @@ page's colours and opportunities.)
   - ✓ waits for the day where only the night stands in its way
   - ✓ goes down by the wheel on the gold alone, never twice in one place under one lead
   - ✓ leads back to the room the way down was seen from, not into a recess not yet seen
+  - ✓ is copied at the stair where it is read, and not offered further in
+  - ✓ says of what the makers feared below that it is found on the way down, after the way in
   - ✓ at the gate-well, the pawl found: taking it (cold play 5's 6)
   - ✓ at the windlass with Gesk hired, the wind gold among the four (its 10); and after a try that did not come off,
   - ✓ turned to Ianto at the staithe: poling his boat among what is had of him, first
@@ -324,7 +327,7 @@ page's colours and opportunities.)
 
 ### The land
 
-- **Countries and regions** · 0 pins · 8 defects · 22 asks
+- **Countries and regions** · 0 pins · 9 defects · 22 asks
   - requirement PV-03 P2: **The Landholder:** acquire a parcel, commission a change, leave, return, find it part of the…
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
