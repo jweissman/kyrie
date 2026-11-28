@@ -3696,6 +3696,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "27 Nov: an instrument the owner asked for (painting misses in a new life's first steps measured and held), not a failure of a claimed contract"
+  },
+  "OR-1900": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "28 Nov: filed as a requirement: AX-04's next lever (a beta performance target, measured), not a violated contract"
   }
  },
  "blockedBy": {
