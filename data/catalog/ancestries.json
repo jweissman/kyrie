@@ -37,7 +37,10 @@
         "orsino": "ancestry:human",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry."
-      }
+      },
+      "demography": "The most numerous of the peoples, and the greater part of most countries. Most humans live in villages of thirty to a hundred households, a day's walk from a market town; a town of two thousand souls is a great place.",
+      "regard": "Other peoples find them hasty and short-lived, always building and always moving the boundary stones. Their coin and their law are the ones most others deal in, so a human is seldom a stranger anywhere.",
+      "life": "Blood gives a human life nothing but a quickness to learn. No door is shut on the face, and the market's talk is a human's own tongue. What sets one apart is the trade and the calling, not the people."
     },
     "elf": {
       "name": "Elf",
@@ -76,7 +79,10 @@
         "orsino": "ancestry:elf",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry."
-      }
+      },
+      "demography": "Few, and fewer in the open country. A household is five to a dozen souls; an old wood may hold three or four households a morning's walk apart, and some keep reed-halls in the marshes. An elf child is born about once in a human generation.",
+      "regard": "Humans think them proud, and are half right: an elf has seen a town founded and seen it fail. They are welcome as guides and bowyers, less so as neighbours, for they remember every boundary as it once ran.",
+      "life": "An elf who leaves the woods young has still lived a hundred years. The eyes are keen, the step light, and spells take poorly on them. In a human town an elf is noticed and remembered, and seldom asked to stay."
     },
     "dwarf": {
       "name": "Dwarf",
@@ -109,7 +115,10 @@
         "orsino": "ancestry:dwarf",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry."
-      }
+      },
+      "demography": "A hold is a clan of two or three hundred under one hill, with steadings in the valleys below it. Dwarves are the folk of the mountains, the frost country and the desert saltworks; elsewhere they come as smiths and traders, a few to a town.",
+      "regard": "Valley folk trust a dwarf's weights and fear a dwarf's memory. A debt to a hold outlives the debtor: it passes to the children, and the hold sends a collector.",
+      "life": "A dwarf stands up to poison, sickness and hard knocks better than any other people, and hardens with every fight survived. Two callings only are open: arms and a god's service. A dwarf abroad is still of a hold, and its debts and grudges travel too."
     },
     "goblin": {
       "name": "Goblin",
@@ -139,7 +148,8 @@
         "orsino": "ancestry:goblin",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino marks goblins evil and not a player race."
-      }
+      },
+      "demography": "Goblins are counted by the burrow, not the head: a warren on a river bank may hold two hundred, and every village downriver of one knows it."
     },
     "gnoll": {
       "name": "Gnoll",
@@ -172,7 +182,8 @@
         "orsino": "ancestry:gnoll",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and racial traits (tough, resilient); humanoid is given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Gnolls are people with varied lives; some raiding packs move into a first dungeon's way in once its first dwellers are dealt with (OR-1236)."
-      }
+      },
+      "demography": "A household is a few families; a band on the move may be thirty. Gnolls range the dry hills and the edges of the woods, and a band that dens near a town is soon known to the whole country."
     },
     "glimmerkin": {
       "name": "Glimmerkin",
@@ -202,7 +213,8 @@
       "source": {
         "kyr": true,
         "notes": "Kyr's cave traders of the Varrow, who keep and sell bottled light. Not a player ancestry."
-      }
+      },
+      "demography": "A clan of glimmerkin is a few hundred in the deep caves, between the dwarf holds and the surface. Few come up into the light at once, and a town seldom has more than one."
     },
     "halfling": {
       "name": "Halfling",
@@ -235,7 +247,8 @@
         "orsino": "ancestry:halfling",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
-      }
+      },
+      "demography": "Halflings live in villages of forty or fifty households in the pastoral country, and as a few families among the dykers, the field-folk and the well-towns. A halfling village is never more than a day from the next."
     },
     "gnome": {
       "name": "Gnome",
@@ -276,7 +289,8 @@
         "orsino": "ancestry:gnome",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
-      }
+      },
+      "demography": "There is no gnome country. A workshop is one family and its apprentices, a dozen souls, in a human town or beside a dwarf hold; a large town may have three."
     },
     "half_elf": {
       "name": "Half-elf",
@@ -313,7 +327,8 @@
         "orsino": "ancestry:half_elf",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
-      }
+      },
+      "demography": "Half-elves are few, born where elves and humans live close: on the edges of the old woods, by the springs and in the field-folk's villages. Most grow up one to a family."
     },
     "half_orc": {
       "name": "Half-orc",
@@ -346,7 +361,8 @@
         "orsino": "ancestry:half_orc",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
-      }
+      },
+      "demography": "Half-orcs live a few to a place: in the drovers' towns, the frost steadings, the saltworks and the caravan camps, where strength is paid for and faces are not asked about."
     },
     "lizardfolk": {
       "name": "Lizardfolk",
@@ -379,7 +395,8 @@
         "orsino": "ancestry:lizardfolk",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
-      }
+      },
+      "demography": "A tribe is fifty to a hundred, on islands and causeways of the marsh. Lizardfolk live among the dykers and in the reed country, and are seldom seen a day from water."
     },
     "catfolk": {
       "name": "Catfolk",
@@ -417,7 +434,10 @@
         "orsino": "ancestry:catfolk",
         "fidelity": "adapted",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race and opens it to the thief, the ranger and the bard; Kyr makes it playable (Mission 19: the studio painted catfolk of every calling, assets/pcs/catfolk*.png) and opens it to every calling, as a human's. Its people also live in generated regions and may be met and recruited there."
-      }
+      },
+      "demography": "There are no catfolk towns. A band is two or three families, a dozen or twenty souls, ranging the forest edges and the caravan roads: in the woods they hunt beside elves, in the desert they travel with human caravans. Most towns see a band twice a year, at the fur markets.",
+      "regard": "Townsfolk count the spoons when a band comes in, and hire its scouts anyway. A catfolk scout who keeps a promise is talked of for years, as if it were rare. It is not.",
+      "life": "Catfolk are the quickest of the peoples, hard to hit and lucky in a fall, and every calling is open to them. A catfolk life begun in a town is begun as an outsider: welcome for a story or a hunt, watched at the market."
     },
     "sylph": {
       "name": "Sylph",
@@ -449,7 +469,8 @@
         "orsino": "ancestry:sylph",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
-      }
+      },
+      "demography": "Sylphs are very few: two or three to a peak or a windy ridge of the frost country, and none in the lowlands unless they choose to be."
     },
     "undine": {
       "name": "Undine",
@@ -481,7 +502,8 @@
         "orsino": "ancestry:undine",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
-      }
+      },
+      "demography": "Undines live a few to a spring or a shore, in the marsh country and by the sea, often within a fishing village that knows them by name."
     },
     "birdfolk": {
       "name": "Birdfolk",
@@ -519,7 +541,10 @@
         "orsino": "ancestry:birdfolk",
         "fidelity": "adapted",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race and opens it to the warrior, the ranger and the mage; Kyr makes it playable (Mission 19: the studio painted birdfolk of every calling, assets/pcs/birdfolk*.png) and opens it to every calling, as a human's. Its people also live in generated regions and may be met and recruited there."
-      }
+      },
+      "demography": "An eyrie is a few families on one crag, forty souls at most, and the next eyrie may be three days' flight off. Birdfolk keep to the mountains and the windward heights of the frost country, often above a dwarf hold or a herders' pasture they trade with.",
+      "regard": "Herders pay them for news of weather and wolves. Townsfolk find them strange to look at and stranger to house: a birdfolk guest will not sleep under a low roof.",
+      "life": "A birdfolk life is short and quick: grown at ten, old at forty. Weak in the arm and quick of wit, they see far and are hard to hit, and every calling is open to them. Few begin a life on the ground who were not curious about it."
     },
     "fae": {
       "name": "Fae",
@@ -562,7 +587,8 @@
         "orsino": "ancestry:fae",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
-      }
+      },
+      "demography": "The fae have never been counted. Their courts keep the deepest of the old woods, and the ones met on the road are met one at a time."
     },
     "minotaur": {
       "name": "Minotaur",
@@ -595,7 +621,8 @@
         "fidelity": "adapted",
         "conversion": "srd35-westernesse-v1",
         "notes": "Kyr's keepers of difficult ways, met in the long campaign's hall of angles. The SRD minotaur's +8 Strength, +4 Constitution, -4 Intelligence and -2 Charisma, halved to this scale; its charge is the warrior's. A people rather than a catalogued monster until a minotaur is painted (every monster is painted by its own picture). Not a player ancestry."
-      }
+      },
+      "demography": "A minotaur keeps one way, alone or with one other, and the next keeper may be a country away. They are fewer than any people a traveller is likely to meet."
     }
   }
 }

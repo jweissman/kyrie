@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 231 pins (200 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 734 live rows, 241 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 236 pins (205 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 734 live rows, 241 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -536,9 +536,14 @@ page's colours and opportunities.)
   - requirement OB-17 P1: M22's first phase is done only when several cold-play reports in a row are positive (the owner, 17…
   - direction WD-14 P3: A module cannot begin the company in a place of its own: the company is declared in the region's…
   - requirement AT-08 P2: The first choices present in the first quarter hour (the owner's thought, 19 November): help…
-- **Character creation** · 5 pins · 4 defects · 9 asks
+- **Character creation** · 10 pins · 4 defects · 9 asks
+  - ✓ hints cards for the ancestry alone, one card to each of its rows, none of them a choice
+  - ✓ opens to the encyclopedia's page, the menu's own row at its foot and the way back to the cards
   - ✓ makes a mage with a school and spells, and a warrior with neither, from the same flow
   - ○ a calling, a people and a past each open a way through one problem the others do not
+  - ✓ says of every people where it lives and how many, and of each a life may begin as how it is seen and what that means
+  - ✓ says it tersely, in plain words
+  - ✓ is the page creation turns a card over to
   - ✓ hints the curtain for every page of the making, and the stars where the sky is asked
   - ✓ is drawn by the frame, the embers before it, and no painting behind it
   - ✓ each see acts the others do not
