@@ -50,15 +50,6 @@ jobs:
           restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: bun run lint
       - run: bun run typecheck
-      - id: horizon-orsino
-        if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'copilot/spec-inventory-1128' }}
-        run: echo "revision=$(jq -r .source.revision data/sources/orsino/registry.json)" >> "$GITHUB_OUTPUT"
-      - uses: actions/checkout@v4
-        if: ${{ steps.horizon-orsino.outcome == 'success' }}
-        with: { repository: jweissman/orsino, ref: "${{ steps.horizon-orsino.outputs.revision }}", path: orsino }
-      - name: Verify the requested fast gate
-        if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'copilot/spec-inventory-1128' }}
-        run: bun run check:fast
   # The player's contracts, first and on their own, so that a broken one says so in minutes rather than at the end
   # of the suite (the reviews of 9 November): an aim's target, the map's journeys and the campaign's refusal of any
   # other way into the next hex, the choices on the page; and the opening played as a player who knows only the page.
@@ -95,7 +86,6 @@ jobs:
   # assets/. Every other job, and a builder's worktree (tools/worktree.sh), is without it (the owner, 25 November).
   images:
     name: the images
-    if: ${{ github.event_name != 'workflow_dispatch' || github.ref_name != 'copilot/spec-inventory-1128' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -151,7 +141,6 @@ jobs:
   # had brought each run back to twenty and thirty minutes; the 267 slow files, nine tenths of the suite's time, go to
   # the night, and the night is kept green). Sixteen shards, balanced by the files' kept times.
   suite:
-    if: ${{ github.event_name != 'workflow_dispatch' || github.ref_name != 'copilot/spec-inventory-1128' }}
     name: suite ${{ matrix.shard }}/${{ github.event_name == 'push' && 8 || 16 }}
     runs-on: ubuntu-latest
     # Forty-five while the Book of Faces' specs are balanced by estimates, not kept timings (a shard ran past thirty).
