@@ -7,6 +7,13 @@ expensive evidence the claims actually require; an unlisted file has not been as
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/shared-item-effects.test.ts` | Canon-backed creature and item fixtures exercise effects, equipment, combat and ownership, plus one actual wolf-yard campaign transaction rollback. Keep the real catalog and rollback boundary; most cases need no world start but splitting alone does not remove that campaign. |
+| `test/shared-validity.test.ts` | Composes the full shared rules with two synthetic modules and also validates shared rules alone, proving both forms of context dependence. Keep the whole shared set and both diagnostics; a fragment would not prove this contract. |
+| `test/shops.test.ts` | Generated kite and mere play real purchases and unaffordable offers, alongside pure stock and shelf checks. Keep generated shops and the actual buy; shop placement and purse in the unaffordable case are staged. |
+| `test/shown-once.test.ts` | Authored shown-once probe travels to a teaching observation, leaves and returns, checking first narration and subsequent absence. A declared fixture horizon is a candidate only with a non-vacuity proof of the second visit. |
+| `test/shut-told-once.test.ts` | Synthetic shared-rules overlay crosses a gate twice, checking shut explanation once and its retained exit text. A declared fragment horizon is a candidate if first and second crossings and the once-only negative remain witnessed. |
+| `test/sign-zoom-browser.test.ts` | Opt-in built-site browser test reaches creation's sign page and checks hover, idle, Escape and touch zoom at desktop and phone sizes. Keep real pointer and rendered geometry. |
+| `test/signal-inside.test.ts` | Generated kahitude walks around the first town from debt and kin origins and checks portrait signals against their content. Keep both origins, actual travel and positive signal and place floors. |
 | `test/seized.test.ts` | Authored seized probe plays both staying and leaving after the warning, checking capture, relocation and no combat. A declared fixture horizon is a candidate if the warning, both paths and their negative outcomes remain proved. |
 | `test/sell-worn.test.ts` | Generated kahitude stages the company at a merchant to check the grave sale prompt and that worn gear is not led for a followed debt. Keep generated merchandise and debt, plus the positive worn-gear floor; placement is staged. |
 | `test/semantic-tracing.test.ts` | Plays three semantic declarations in the authored Quittance campaign and separately compares semantic IDs for the entire shipped corpus. Keep both the played phase histories and the corpus-wide compatibility snapshot. |
