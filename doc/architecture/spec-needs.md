@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/story-names.test.ts` | Ten seeded generated-world assemblies compare story casts, reserved authored names and settlement populations. Keep all seeds, actual placement and naming; empty duplicate lists are bounded to the selected populations. |
+| `test/strikes-member.test.ts` | Three seeds of one synthetic module play a lock hazard against a warrior and thief, comparing their actual damage. A fragment is a candidate if both party members and all seed outcomes remain. |
+| `test/studio-mark-browser.test.ts` | Opt-in built-site browser test delays styles and watches the actual mark play and skip behavior. Keep the browser timing and title interaction. |
+| `test/tailrace-placed.test.ts` | Generated kite checks Tail-Race province placement and plays map travel into its installed road. Keep generated placement, actual map entry and installed Mabet. |
+| `test/tailrace.test.ts` | The authored Tail-Race campaign is linted and played through many timed, trust and ending branches. Keep its actual campaign and all contrasting routes; some dice and equipment are staged. |
+| `test/talk-composed-browser.test.ts` | Opt-in built-site browser journey compares painted and unpainted conversations at three viewport widths. Keep both speakers and the actual rendered composition. |
+| `test/talk-digit-browser.test.ts` | Opt-in built-site browser journey instruments worker messages and rendered numbered replies while they change. Keep the actual browser timing and before/after command evidence. |
+| `test/talk-reached-browser.test.ts` | Opt-in built-site browser journey checks talk reached by rail, portrait, menu, number and keys at desktop and phone sizes. Keep both viewports and all interaction paths. |
 | `test/standing-modules-found.test.ts` | Seven generated countries play three days and map journeys to all three standing modules. Keep all seeded placements, timing and actual map arrivals; some locations are staged. |
 | `test/standing-modules-gates.test.ts` | Generated kahitude starts a fresh game for each of at least 20 placed province gates and expands its frontier. Keep every installed province and the real load boundary. |
 | `test/state-note.test.ts` | The single state-note probe compares screen observations before and after the sluice change. A fragment is a candidate if the real observations and absent identifier notes remain proved. |
