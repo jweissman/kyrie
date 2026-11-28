@@ -22,7 +22,7 @@ class Kept {
         kept when at(party, hall) and at(pip, hall) "Pip looks about the hall." { }
         broken when at(pip, hall) and at(party, lane) "Pip went without you." { }.`;
   static async host() {
-    const t = await Tiny.start(Kept.kyr), posted: Extract<Message, { kind: 'saved' }>[] = [];
+    const t = await Tiny.start(Kept.kyr, { horizon: [] }), posted: Extract<Message, { kind: 'saved' }>[] = [];
     const host = new EngineHost(m => { if (m.kind === 'saved') { posted.push(m); } });
     (host as unknown as { session: PlaySession }).session = t.session;
     return { t, host, posted };
@@ -36,7 +36,8 @@ class Kept {
 }
 describe('the world a game is played in', () => {
   it('is the same world across a save\'s fresh copy of its module, and another once a part of it is', async () => {
-    const t = await Tiny.start(Kept.kyr), checkpoint = t.session.checkpoint(true), world = KeptGame.keyed(checkpoint);
+    const t = await Tiny.start(Kept.kyr, { horizon: [] });
+    const checkpoint = t.session.checkpoint(true), world = KeptGame.keyed(checkpoint);
     const copy = (module: typeof checkpoint.save.module) => ({ ...checkpoint, save: { ...checkpoint.save, module } });
     expect(KeptGame.still(world, copy({ ...checkpoint.save.module }))).toBe(true);
     expect(KeptGame.still(world, copy({ ...checkpoint.save.module, semantic: [] }))).toBe(true);
