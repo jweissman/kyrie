@@ -1,7 +1,8 @@
 import { Journey } from '../../src/session/journey';
 import { DangerSense } from '../../src/presentation/danger-sense';
 import type { PlaySession } from '../../src/session/play-session';
-import type { Fighter } from '../../src/model';
+import type { CombatEvent, Fighter } from '../../src/model';
+import { FightTurn } from '../../src/ui/fight-turn';
 
 // The careful company of the five expeditions (OR-1860): what a player who reads the page does with what it says of a
 // danger, by the same reckoning the page shows (DangerSense, the fight's mark), never by what the world holds unseen.
@@ -58,16 +59,38 @@ export class QuantityCaution {
   }
   // A way into a room where something is heard (the page offers to draw it out, and wait for it here): what is there
   // drawn out to the threshold first, once, and met ready; any other act as it is.
-  static ahead(ids: string[], tried: Set<string>, act: string | undefined): string | undefined {
+  // Hurt (anyone below three quarters), what is heard is not drawn out at all, nor gone in on: the trip ends there
+  // (OR-1890: on s7's fifth, with Devlin at 5 of 8, the embalmers' mummy drawn out unseen felled both in two rounds).
+  static ahead(ids: string[], tried: Set<string>, act: string | undefined, whole = true): string | undefined {
     const to = act?.startsWith('go(') ? /,([^,)]+)\)$/.exec(act)?.[1] : undefined, draw = `draw_out(${to})`;
+    if (to && ids.includes(draw) && !whole) { return undefined; }
     return to && ids.includes(draw) && !tried.has(draw) ? draw : act;
+  }
+  // Whether everyone of the company standing is at three quarters or more.
+  static whole(s: PlaySession): boolean {
+    const c = s.campaign;
+    return c.readout.creatures.filter(k => c.readout.partyIds.includes(k.id) && k.state.hp > 0)
+      .every(k => k.state.hp >= k.base.maxHp * 0.75);
   }
   // Whether a fight is broken off: anyone of the company down to a third; or down to half, the foes still more than
   // half their strength.
-  static flees(fighters: readonly Pick<Fighter, 'team' | 'hp' | 'maxHp'>[]): boolean {
+  // And a fight the page says the company's blows barely bite (FightTurn, OR-1858), once it is costing the company
+  // (anyone below three quarters): the way out it offers beside the blow, taken.
+  static flees(fighters: readonly Pick<Fighter, 'team' | 'hp' | 'maxHp'>[], events?: readonly CombatEvent[]): boolean {
     const ours = fighters.filter(f => f.team === 'fighters' && f.hp > 0), foes = fighters.filter(f => f.team !== 'fighters');
     const strength = foes.reduce((t, f) => t + Math.max(0, f.hp), 0), whole = foes.reduce((t, f) => t + f.maxHp, 0);
-    return ours.some(f => f.hp < f.maxHp / 3) || (ours.some(f => f.hp <= f.maxHp / 2) && strength > whole / 2);
+    return ours.some(f => f.hp < f.maxHp / 3) || (ours.some(f => f.hp <= f.maxHp / 2) && strength > whole / 2)
+      || (!!events && ours.some(f => f.hp < f.maxHp * 0.75) && !!FightTurn.grind(events, fighters as Fighter[]));
+  }
+  // Hurt below, the company tends itself with what it has before it turns back, as a player reading the page's "Tend
+  // the company" does (OR-1890): the cure its cleric has ready, on whoever is worst hurt. The careful company had come
+  // home from every fight below at three fifths with Cure Light Wounds unspent (s0's third: Thea at 13 of 22).
+  static tend(s: PlaySession): string | undefined {
+    const c = s.campaign, worst = c.readout.creatures.filter(k => c.readout.partyIds.includes(k.id) && k.state.hp > 0)
+      .sort((a, b) => a.state.hp / a.base.maxHp - b.state.hp / b.base.maxHp)[0];
+    const member = worst && worst.id.replace(/^(region|origin)__/, '');
+    return Journey.of(s).choices().map(x => x.command)
+      .find(id => id.startsWith('field_spell(') && !!member && id.endsWith(`member_${member})`));
   }
   // Whoever of the company stands now, by id.
   static standing(s: PlaySession): Set<string> {
