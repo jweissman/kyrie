@@ -3660,6 +3660,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "27 Nov: the remainder of OR-1622's economy (the long haul's wares bought with the deep's things), not an observed failure of a claimed contract"
+  },
+  "OR-1762": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: an instrument the owner asked for (painting misses in a new life's first steps measured and held), not a failure of a claimed contract"
   }
  },
  "blockedBy": {

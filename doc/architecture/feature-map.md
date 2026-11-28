@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 230 pins (199 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 731 live rows, 240 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 236 pins (205 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 731 live rows, 241 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -63,7 +63,7 @@ page's colours and opportunities.)
 
 ### Conversation
 
-- **Conversation held to its focus** · 11 pins · 4 defects · 6 asks
+- **Conversation held to its focus** · 11 pins · 3 defects · 6 asks
   - ✓ draws her topics alone, every one within reach over its pages, and her leave-taking on each
   - ✓ shows a short list whole, with nothing folded
   - ✓ shows three, folds the rest, and sets trading apart
@@ -96,6 +96,10 @@ page's colours and opportunities.)
   - direction OR-854 P3: The put question and the spoken answer are readings of existing forms (a question's condition…
   - direction OR-855 P3: Knowledge checks in talk use Kyrie's own skills (woodcraft for what the SRD calls Nature, lore for…
   - requirement BO-07 P1: Talking to someone teaches nothing: 138 talk_to acts in the census, one taught anything; each a…
+- **Questions asked on grounds** · 3 pins · 1 defects · 0 asks
+  - ✓ offers the mill only once it is heard of, and says who told it
+  - ✓ writes the reference game's questions with their grounds in their conditions
+  - ✓ says where what was known from the first came from
 - **News and rumour** · 0 pins · 1 defects · 1 asks
   - direction OR-365 P3: News and rumour: people tell what they have heard of places and people far off, and the company…
 
@@ -201,7 +205,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 20 defects · 18 asks
+- **Aims and the gold thread** · 16 pins · 20 defects · 19 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -231,6 +235,7 @@ page's colours and opportunities.)
   - direction OR-469 P3: The First Aims' other horizons (the direction's §9: find Dun Rìerdan, explore the southern…
   - requirement OR-650 P2: A shut place with nothing found leads nowhere in its site: at Porthalen Hall's press-door (iscoed,…
   - requirement OR-1390 P1: The reference loop is not measured as a loop: no five-expedition transcript classes each command…
+  - requirement OR-1622 P2: The reference dungeon is spent by the fourth expedition: on s0 the fifth brings 24, so the second…
   - direction TS-01 P2: Philosophical schools that argue in good faith, teach by dialectic (for a fee, improving speech…
   - direction TS-02 P2: Persuading a crowd as a contested roll against the crowd; a disputation narrated as mass…
   - direction TS-03 P2: A party's end continues as a relative (the brother) in the same world, as it was, not a reload…
@@ -290,7 +295,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 2 defects · 13 asks
+- **Markets and prices** · 0 pins · 2 defects · 12 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
@@ -300,7 +305,6 @@ page's colours and opportunities.)
   - direction OR-1204 P2: Life structured around small exchanges of resources aligned with the Atlas's colours (meat and…
   - direction OR-1206 P2: Five resources in a regular tournament (each beats two and is beaten by two), aligned with the…
   - requirement OR-1440 P1: Five expeditions on the reference seed prepare and go about much the same way (the economy…
-  - requirement OR-1721 P2: The deep's wonders sell nowhere in the reference town: Trader 2 buys no thing worth more than…
   - requirement BO-12 P1: A verb gained by a lesson in the first hour: the mentor named in the first exchange, a pin over…
   - direction WD-04 P2: No price follows a country's want: a merchant's stock and prices are by trade, the same wherever…
   - requirement WD-07 P1: Expedition gains open no new way into the world: home ÷ spend 4–5 (sites/economy-now.md); after a…
@@ -385,16 +389,12 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 18 pins · 9 defects · 23 asks
+- **Dungeons and sites** · 14 pins · 8 defects · 22 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
-  - ✓ rolls what newcomers carry on Deem by their kind and depth, more deeper
-  - ✓ sends one band after another into the room emptied, each leaving what it carried where it fell
   - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
   - ✓ gone all three ways with care, grows to the second level, the dead's book opens the way past the keeper, and what 
-  - ✓ goes on one level below the grave, from the guard room, and leaves the levels above as they were
-  - ✓ holds its depth's dwellers and treasure, its den kept for its warden and the hoard under it
   - ✓ trades with both traders, finds the way down in the old woods, descends, retreats, recovers, sells and descends again
   - ✓ leads a new life from the town to the shrine, the stones and down into resistance, and nowhere else
   - ✓ shows the stones from the ride, and the way down between them, to one who has asked nobody
@@ -423,7 +423,6 @@ page's colours and opportunities.)
   - direction OR-85 P2: Variability as a direction, with deeper Kyr and Deem interactions (the owner, 18 November,…
   - requirement OR-1500 P2: Pointless wandering on the reference game was not measured: the owner's playtest of 27 November…
   - requirement OR-1640 P3: The Pitch of the Glass's thin parts (doc/adventures/pitchpass/friction.md): no beat reads the…
-  - requirement OR-1720 P3: The old dark below the reference dungeon is written with its site, not realised when first…
   - requirement ST-03 P1: The last sea-gate: the saboteur's interest acting inside the six-day window (obstruction, blame, a…
   - requirement ST-06 P2: The critique's rebuild set (fever on the green, the cold pans, the boundary stones, the stranger…
   - requirement ST-07 P3: The critique's hierarchy edits: the Bound Howe given one governing question; the Silent Lord's…
@@ -517,13 +516,13 @@ page's colours and opportunities.)
   - ✓ gives the title its rows and hints: the ways in, Options and Quit, over the embers, its name heading
   - ✓ is drawn by the page as the engine gives it, no row of the page's own
   - ✓ is asked in the terminal by the same rows, Options said to be the page's
-  - ✓ offers New Game alone with nothing kept; Continue and New Game over a kept game
+  - ✓ offers New Game alone with nothing kept; New Game and Continue over a kept game
   - ✓ then asks one thing: create a character, or a new life at once, never which map (OR-1271)
   - ✓ pauses a game with two ways: back to it, or Return to title
   - ✓ knows the terminal's kept game, and refuses one it cannot open
   - ✓ holds nothing on the title, how a game begins, creation's rows or the opening's Continue
   - ✓ takes every press at once, a quick second tap on the page just drawn among them
-  - ✓ offers Continue, New Game, Options and Quit, in that order, Continue only with a life to continue
+  - ✓ offers New Game, Continue, Options and Quit, in that order, Continue only with a life to continue
   - ✓ is drawn as those rows and nothing else to press
   - ✓ takes Quit honestly: the game put away, kept, and a way back to the title
   - requirement FH-01 P2: No person has accepted the first hour: PD-14's five cold players have never been run
@@ -589,7 +588,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 25 defects · 39 asks
+- **Rows, lenses and the frame** · 3 pins · 26 defects · 39 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -672,7 +671,14 @@ page's colours and opportunities.)
 
 ### Pictures
 
-- **Paintings and portraits** · 1 pins · 10 defects · 7 asks
+- **Paintings and portraits** · 8 pins · 11 defects · 7 asks
+  - ✓ paints one whose words name no work as one of the middling folk of their sex, of their years
+  - ✓ reads a preacher as the faith and a sexton as the church's servant
+  - ✓ paints a life's own cast first, then whoever words place, then whoever they do not, then over the march
+  - ✓ gives a kind whose paintings are all of a dry day to what it lies in, in rain, fog and storm
+  - ✓ gives a kind painted only by day to the town's night after dark
+  - ✓ paints the sky's own weather first: the rain in the rain, the fog in the fog
+  - ✓ opens the way in on the land, or the wild, where its own land has nothing for the sky
   - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
   - requirement CP-02 P3: Paintings the first hour lacks (toll-house hall and counting-house, a warehouse, a muck pit, cave…
   - direction OR-467 P3: A place's painting chosen by its kind is not held to its family (Scenery.of picks from the…
@@ -883,7 +889,7 @@ page's colours and opportunities.)
 
 ## Negative space
 
-### Common blockers (13)
+### Common blockers (12)
 
 Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
@@ -911,8 +917,6 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - OR-541 (Narration)
 - **OR-745** P2: The page cold play's driver spec red on the nightly of 25 Nov (run 45574847769, browser specs 3/3): test/page-walk-browser's walk out of the adit finds no row… · blocks 1 (0 P0/P1) over 1 capabilities
   - GR-24 (Aims and the gold thread)
-- **SP-02** P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB RSS): deterministic lazy materialization, proven against eager · blocks 1 (0 P0/P1) over 1 capabilities
-  - OR-1720 (Dungeons and sites)
 
 ### Capabilities neither built nor asked for (0)
 
@@ -931,7 +935,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **News and rumour** (Conversation): OR-365
 - **Passage arranged between cities** (Travel): OR-452
 - **First Aims, nested and optional** (Undertakings): OR-457
-- **Markets and prices** (Trade): CP-07, PV-01, OR-678, OR-1128, OR-1210, OR-1394, OR-1204, OR-1206, OR-1440, OR-1721, BO-12, WD-04, WD-07
+- **Markets and prices** (Trade): CP-07, PV-01, OR-678, OR-1128, OR-1210, OR-1394, OR-1204, OR-1206, OR-1440, BO-12, WD-04, WD-07
 - **Countries and regions** (The land): PV-03, OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, OR-640, OR-642, OR-1208, OR-1106, WD-01, WD-02, WD-03, WD-09, WD-16, SS-01, WB-01, WB-02, WB-03
 - **Weather, sky and season** (The land): OR-1393, IM-01
 - **The planes** (The land): GT-01, GT-03

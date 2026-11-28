@@ -53,6 +53,31 @@ words until they are filed (`temperate` is what no word sorts). Written by `bin/
 | woodland | 41 (19 filed) | 9 | 5 | 1 | 1 | 23 | 2 | — |
 <!-- /by-terrain -->
 
+## A new life's first steps (the quantity gate, 27 November)
+
+The world gate now holds the paintings a new life meets (`bun run quantity -- --only paintings`,
+scripts/quantity/painted.ts; doc/architecture/quantity.md, measure 11): a life begun in each of a hundred named worlds,
+played five steps by the page's leads, every frame judged as the page draws it. At most 2% may be unresolved: no
+painting, one against the sky, or a talk with no portrait. Before 27 November one frame in five was (20.5%), nearly
+all the road, the market-place and the inn's garden in rain, fog or storm, and the way in over a fen causeway by
+day. A rule answered them, not a commission: where none of a place's own paintings fits the sky it is under, it is
+painted by what it lies in (the town's back lane in rain, the valley's great oak in fog), the sky's own weather
+first. These are what that stands in for, and would be truer painted for themselves:
+
+- `scene-market-rain` (and fog): the market-place under dripping awnings. The market is the first town's heart in
+  most worlds, and its three paintings are all of a sunlit day.
+- `scene-road-rain` (and fog): the road down into a town in rain, the town's roofs ahead. The road's one painting is
+  a clear day's; the held-back road paintings (below) have none in rain either.
+- `scene-approach-fen` by day: a causeway over a fen to a town, for a marsh country's way in. A marsh has only the
+  bog at dusk in fog, so a fen life opened on the valley.
+- `scene-garden-rain`: a walled garden in rain, for the inn's back garden and every garden kind.
+- A thatched village in rain, and in fog, outside spring: the village from above in rain is in blossom, so it
+  stands only in spring.
+
+**Portraits.** Two kinds of talk still open in type in the first steps: someone of a people the paintings are not
+held to look like (a half-elf woodwright, a sylph innkeeper: OR-1763), which is a ruling to make, not a painting to
+ask for.
+
 ## Scenes still needed
 
 Measured, not kept by hand: each kind of place blank under some sky in Iscoed and a1, by the scene census, and for
