@@ -29,7 +29,23 @@ describe('a drawn country\'s declarations made as values', () => {
     for (const seed of seeds) {
       const text = await begun(seed, true), ir = await begun(seed, false);
       const [a, b] = [text.campaign.module, ir.campaign.module];
-      if (JSON.stringify(a) !== JSON.stringify(b)) { differ.push(`${seed}: module`); }
+      if (JSON.stringify(a) !== JSON.stringify(b)) {
+        differ.push(`${seed}: module`);
+        const x = a as unknown as Record<string, unknown>, y = b as unknown as Record<string, unknown>;
+        for (const k of Object.keys({ ...x, ...y })) {
+          if (JSON.stringify(x[k]) === JSON.stringify(y[k])) { continue; }
+          const xs = x[k] as unknown[], ys = y[k] as unknown[];
+          console.log('DIAG', seed, k, Array.isArray(xs) ? `${xs.length} vs ${ys?.length}` : JSON.stringify(x[k])?.slice(0, 300), Array.isArray(xs) ? '' : JSON.stringify(y[k])?.slice(0, 300));
+          if (Array.isArray(xs)) {
+            const i = xs.findIndex((e, j) => JSON.stringify(e) !== JSON.stringify(ys[j]));
+            console.log('DIAG at', i, JSON.stringify(xs[i])?.slice(0, 1500));
+            console.log('DIAG vs', JSON.stringify(ys[i])?.slice(0, 1500));
+            const sx = new Set(xs.map(e => JSON.stringify(e))), sy = new Set(ys.map(e => JSON.stringify(e)));
+            console.log('DIAG only text', [...sx].filter(e => !sy.has(e)).slice(0, 4).map(e => e.slice(0, 600)));
+            console.log('DIAG only ir', [...sy].filter(e => !sx.has(e)).slice(0, 4).map(e => e.slice(0, 600)));
+          }
+        }
+      }
       if (Bun.hash(text.canonical()) !== Bun.hash(ir.canonical())) { differ.push(`${seed}: game`); }
       const own = /_(day|night|tap|life|shop_scene|shrine_view_seen)$/, tract = /^region__(tw|tl_|tr)\d*/;
       moved += (b.observations ?? []).filter(o => own.test(o.id)).length;
