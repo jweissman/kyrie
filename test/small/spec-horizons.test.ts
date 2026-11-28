@@ -11,7 +11,8 @@ import { SpecHorizons } from '../../scripts/spec-horizons';
 // 14 → 16 on rebasing onto main: the way on (the kernel) and rest within reach (probing) put on their horizons.
 // 16 → 20: the gamma probes, each file on the kernel and the packages its probes read.
 // 20 → 21: the chart kept without where the company stands, on the kernel.
-const kept = { horizon: 21, rules: 234 };
+// 21 → 23: the grounded questions and the character within reach, on the kernel.
+const kept = { horizon: 23, rules: 234 };
 describe('the specs by horizon', () => {
   const now = SpecHorizons.census();
   it('moves no spec off its horizon, and starts no new tiny world on the whole of the shared rules', () => {
