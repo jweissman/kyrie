@@ -3399,7 +3399,7 @@ The worlds that ship with the game.
 
 *Kyr* · `campaign:theemptyseat`
 
-- Regions and sites: theemptyseat, city-news, guild-news
+- Regions and sites: seatcity, theemptyseat, city-news, guild-news
 - Kits placed: —
 
 > A king is dead. Two sons have claims. A courier is selling the summons route; before the armies reach the gate, the towers must find someone whose orders they will obey.

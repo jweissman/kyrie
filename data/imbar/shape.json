@@ -70,6 +70,9 @@
     {
       "identity": "dun_ri",
       "name": "Dun Rìerdan",
+      "goings": [
+        "empty-seat"
+      ],
       "where": {
         "north": [
           1,

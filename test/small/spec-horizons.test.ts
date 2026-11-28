@@ -14,7 +14,10 @@ import { SpecHorizons } from '../../scripts/spec-horizons';
 // 21 → 23: the grounded questions and the character within reach, on the kernel.
 // 23 → 24, 234 → 233: the knowledge indicator's wagoner on the kernel (PR #25), over main.
 // Four new Empty Seat fragment files declare their horizons instead of growing the whole-rule count.
-const kept = { horizon: 28, rules: 233 };
+// 28 → 30: The Empty Seat moved to data/goings-on (laid over the canon's city), and two of its specs, no longer read as
+// corpus by the path they named, put their fragments on a horizon (the witnesses the kernel's; the expedition canon,
+// fantasy and probing), so the whole-rule count holds at 233.
+const kept = { horizon: 30, rules: 233 };
 describe('the specs by horizon', () => {
   const now = SpecHorizons.census();
   it('moves no spec off its horizon, and starts no new tiny world on the whole of the shared rules', () => {

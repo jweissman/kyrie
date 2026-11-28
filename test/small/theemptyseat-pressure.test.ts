@@ -8,7 +8,7 @@ import { ScreenModel } from '../../src/ui/screen-model';
 import steps from '../fixtures/theemptyseat/journey.json';
 
 const campaign = 'data/campaigns/theemptyseat.campaign.json';
-const ward = 'theemptyseat__ward';
+const ward = 'seatcity__ward';
 const firstAct = async (proof: 'keep' | 'burn', courier: 'stop' | 'sell' = 'stop') => {
   const j = await Journey.start(campaign, 'pressure', { strict: true });
   const beginning = steps.succession.filter(step => step !== "Tell Hest about Tarian's bargain");
@@ -110,7 +110,7 @@ describe('the Empty Seat carries causes across acts', () => {
 
   it('lets pressure advance offstage and makes unanswered business materially worse than a chosen order', async () => {
     const j = await Journey.start(campaign, 'pressure', { strict: true });
-    await j.play('>theemptyseat__square', '=until siegeSettled(party)');
+    await j.play('>seatcity__square', '=until siegeSettled(party)');
     expect(j.holds('publiclyProclaimed', 'party')).toBe(true);
     expect(j.holds('knows', 'party', 'ri_succession_open')).toBe(false);
     expect(j.holds('occasionOver', 'supper')).toBe(true);

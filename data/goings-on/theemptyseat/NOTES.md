@@ -547,7 +547,7 @@ The author's path (doc/authoring/checklist.md), in this order:
   bin/kyrie play data/campaigns/theemptyseat.campaign.json --choices   does it play as you meant, by hand?
   bin/kyrie inspect --why fact data/campaigns/theemptyseat.campaign.json "<fact>"   why is something so, or not?
   bin/kyrie reach data/campaigns/theemptyseat.campaign.json --detail   what does a curious player never reach?
-  bin/kyrie voice repeats data/adventures/theemptyseat   which of your phrases come again and again?
+  bin/kyrie voice repeats data/goings-on/theemptyseat   which of your phrases come again and again?
   bun test test/theemptyseat.test.ts   do its journeys play as written?
   bin/kyrie verify theemptyseat [--played "who, when, how far"]   all of it at once, before you hand it in
 People or scenes in files of their own, if you like: bin/kyrie new character <id> --in theemptyseat [--major|--companion|…], bin/kyrie new scene <id> --in theemptyseat.

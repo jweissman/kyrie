@@ -19,6 +19,8 @@ import { PlaySession } from '../src/session/play-session';
 import { SceneKinds } from '../src/ui/scene-kinds';
 import { SpellSelection } from '../src/rules/spell-selection';
 import { WorldAssembler } from '../src/world/world-assembler';
+import { WorldShape } from '../src/world/world-shape';
+import { StrategicAtlas } from '../src/world/strategic-atlas';
 import type { Trait } from '../src/rules/catalog-schema';
 import type { PlaceRef } from '../src/ui/screen-types';
 import countries from '../data/adventures/countries.json';
@@ -174,8 +176,13 @@ export class ActivationCensus {
     const files = this.list('data/scenarios').filter(f => f.endsWith('.scenario.json'));
     const heralds = (countries.countries as Country[]).flatMap(c => c.herald ? [c.herald.scenario] : []);
     const cities = this.read('data/scenarios/cities.json'), listed = new Set([...library.scenarios, ...standing.scenarios]);
-    return files.filter(f => !listed.has(f) && !heralds.includes(f) && !cities.includes(f))
+    return files.filter(f => !listed.has(f) && !heralds.includes(f) && !cities.includes(f) && !this.owned().has(f))
       .map(f => f.replace(/\.scenario\.json$/, ''));
+  }
+  // What a country of the atlas or a city of the canon holds of its own, in every world it is drawn in.
+  private static owned(): Set<string> {
+    return new Set([...StrategicAtlas.countries.flatMap(c => c.goings ?? []),
+      ...WorldShape.seats.flatMap(s => s.goings ?? [])].map(g => `${g}.scenario.json`));
   }
   static homeless(): string[] {
     const bundles = countries.countries as Country[];
@@ -246,7 +253,8 @@ export class ActivationCensus {
     const rows = files.map(f => {
       const id = f.replace(/\.scenario\.json$/, '');
       const how = listed.has(f) ? 'library/standing' : heralds.includes(f) ? 'herald of a country'
-        : cities.includes(f) ? 'city-bound (cities.json)' : '**unlisted**';
+        : cities.includes(f) ? 'city-bound (cities.json)' : this.owned().has(f) ? 'a country\'s or a seat\'s own'
+          : '**unlisted**';
       return `| ${id} | ${how} | ${worlds.filter(w => w.fits.includes(id)).length} | `
         + `${worlds.filter(w => w.placed.includes(id)).length} |`;
     });

@@ -1,10 +1,13 @@
 Module theemptyseat "The Empty Seat" {
   Description "A king is dead, two sons have claims, and the Ferryman is already buying the city one secret at a time.".
 
-  Place city "Dun Rìerdan" is region within imbar.
-  Place ward "the seven-tower ward" is settlement within city at 0, 0.
-  Place cottages "the carriers' cottages outside the wall" is settlement within city at 0, 0.
-  Place square "the bell square" is room within ward at 0, 0 outdoors.
+  // Laid over the canon's city (data/imbar/dun-rierdan.kyr: an adventure set there names the city and its towers, and
+  // makes no city of its own): the world binds `ward` to the settlement it seats dun_ri in and `square` to its heart
+  // (data/scenarios/empty-seat.scenario.json, set in the seat in every world: data/imbar/shape.json); the standalone
+  // proof binds them to a stand-in (proof/city.kyr).
+  Entity party: group "Your company".
+  Place ward "the seven-tower ward" is settlement.
+  Place square "the bell square" is room.
 
   Place ri_tower "the Rì's Tower" is building within ward.
   Place doors_tower "the Tower of Doors" is building within ward.
@@ -16,11 +19,10 @@ Module theemptyseat "The Empty Seat" {
   Place oath_hall "the oath hall" is room within ri_tower at 0, 0.
   Place palace_kitchen "the palace kitchen" is room within ri_tower at 0, 0.
   Place song_hall "the song hall" is room within harp_tower at 0, 0.
-  Place guild_house "the Venturing Guild safehouse" is building within cottages.
+  Place guild_house "the Venturing Guild safehouse by the north wall" is building within ward.
   Place guild_hall "the safehouse hall" is room within guild_house at 0, 0.
   Place counting_room "the sealed counting room" is room within scales_tower at 0, 0.
 
-  Initially Assert seatOf(dun_ri, city).
   Initially Assert seatOf(tower_of_the_ri, ri_tower).
   Initially Assert seatOf(tower_of_doors, doors_tower).
   Initially Assert seatOf(tower_of_the_cauldron, cauldron_tower).
