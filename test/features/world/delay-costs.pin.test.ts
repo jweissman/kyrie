@@ -53,7 +53,9 @@ describe('World › What goes on below, seen and costly', () => {
   it('sees newcomers at the way onto the level, and finds them dug in a dawn later', async () => {
     const t = await Tiny.start(kyr, { seed: 'd0', party });
     await t.perform('attack(t__rats)');
-    expect(t.world.test({ kind: 'call', name: 'dead', args: ['t__rats'] })).toBe(true);
+    // Killed or put to flight, the room is theirs to move into (OR-1864): two wary rats may lose heart at the first
+    // of them to fall.
+    expect(['dead', 'routed'].some(name => t.world.test({ kind: 'call', name, args: ['t__rats'] }))).toBe(true);
     await t.perform('go(t__mouth_hall,t__mouth)');
     await t.perform('go(t__out,t__outside)');
     await dawn(t);
