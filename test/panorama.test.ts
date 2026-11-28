@@ -32,15 +32,16 @@ describe('a panorama', () => {
       way: 'The way: to the edge of Beorquudu, and on to the old bank, where the track to it starts.' });
   });
   // Told once, in words (the owner, 26 November, OR-1253): no row for each place seen, none to set out or to look at
-  // the map; a place known for what it is said by its name and its look.
+  // the map; a place known for what it is said by its name and its look; and as a plain line of the telling (OR-1883).
   it('tells the view once, in words, with no row for any place seen', () => {
     const { sights } = Moments.of(lines);
     const going = [{ id: 'region__w3', name: 'Paliduslac', journey: { id: 'travel:region__w3', tone: 'way' as const,
       label: 'Set out toward Paliduslac', command: 'travel:region__w3' } }];
     const html = renderToStaticMarkup(createElement(Panorama.View, { sights, going, choose: () => undefined }));
-    expect(html).toContain('What can be seen from here');
-    expect(html).not.toMatch(/<button|<li|data-action/);
-    expect(html.match(/<p class="view">/g)).toHaveLength(1);
+    // A line of the telling like any other, with no heading or rule of its own (OR-1883).
+    expect(html).not.toContain('What can be seen from here');
+    expect(html).not.toMatch(/<button|<li|<div|data-action|kicker/);
+    expect(html.match(/<p /g)).toHaveLength(1);
     expect(html).toContain('Paliduslac (a square doorway in a hillside in Beorquudu)');
   });
   it('leaves out of the margin what it says itself', () => {
