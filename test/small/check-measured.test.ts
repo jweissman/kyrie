@@ -28,7 +28,8 @@ const plea = (t: Tiny) => PlayerView.choices(t.campaign).map(r => r.choice.name)
 
 describe('a check as hard as the world says', () => {
   it('is offered and rolled at the number the module\'s rules set', async () => {
-    const small = await Tiny.start(yard(1), { party }), great = await Tiny.start(yard(30), { party });
+    const small = await Tiny.start(yard(1), { party, horizon: [] });
+    const great = await Tiny.start(yard(30), { party, horizon: [] });
     for (const t of [small, great]) { await t.play('Tally what is owed'); }
     // Three to beat is all but sure; thirty-two cannot be made.
     expect(plea(small)).toMatch(/^Plead with Wat to forgive the debt · (sure|likely)$/);
@@ -38,7 +39,7 @@ describe('a check as hard as the world says', () => {
     expect([rolled(small).difficulty, rolled(great).difficulty]).toEqual([3, 32]);
   });
   it('is refused where nothing has set it', async () => {
-    const t = await Tiny.start(yard(1, false), { party });
+    const t = await Tiny.start(yard(1, false), { party, horizon: [] });
     await t.play('Tally what is owed');
     expect(plea(t)).toBe('Plead with Wat to forgive the debt');
     await expect(t.play('Plead with Wat')).rejects.toThrow(/no toBeat set/);
