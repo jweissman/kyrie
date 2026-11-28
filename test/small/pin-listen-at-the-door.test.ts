@@ -29,7 +29,7 @@ const passage = (goblins: boolean) => `
 describe('listening at a door', () => {
   it('in the dark, through the shut door, hears who is behind it, and silence where no one is', async () => {
     const heard = async (goblins: boolean) => {
-      const t = await Tiny.start(passage(goblins));
+      const t = await Tiny.start(passage(goblins), { horizon: ['probing', 'inhabitants'] });
       expect(t.journey.campaign.world.one('state', 't__door')).toBe('t__shut');
       expect(t.journey.holds('benighted', 'party')).toBe(true);
       await t.journey.play('Listen at it');
@@ -39,7 +39,7 @@ describe('listening at a door', () => {
     expect(await heard(false)).toMatch(/nothing: not a breath/);
   });
   it('may be done again on coming back, and hears the room as it is now', async () => {
-    const t = await Tiny.start(passage(true));
+    const t = await Tiny.start(passage(true), { horizon: ['probing', 'inhabitants'] });
     await t.journey.play('Listen at it');
     expect(ScreenModel.build(t.campaign).observed.map(o => o.text).join(' ')).toMatch(/low voices/);
     await t.journey.play('To the stair');
