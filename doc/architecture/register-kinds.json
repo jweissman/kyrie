@@ -3648,6 +3648,30 @@
    "was": "defect",
    "pri": "P2",
    "why": "a wanted affordance split from OR-181, whose broken contract (alignment) is closed; no contract is broken by its absence"
+  },
+  "OR-1783": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: a reunion with the actual instance is a capability wanted (ES-F02), not a broken contract: the appearances are called seeded standalone ones"
+  },
+  "OR-1788": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "27 Nov: halls and commissions beyond the one safehouse are wanted (ES-F11); what is built states its exhaustion honestly"
+  },
+  "OR-1789": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "27 Nov: structural Deem variation is an experiment to try (ES-F12), not a claimed contract"
+  },
+  "OR-1790": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "27 Nov: a second instrument is wanted (ES-F16); nothing promises one"
   }
  },
  "blockedBy": {
@@ -3721,7 +3745,8 @@
   "OR-747": "TB-09",
   "GR-24": "OR-745",
   "OR-881": "OR-741",
-  "OR-920": "OR-741"
+  "OR-920": "OR-741",
+  "OR-1784": "WM-06"
  },
  "OR-1490": {
   "kind": "defect",
