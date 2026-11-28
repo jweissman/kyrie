@@ -7,6 +7,14 @@ expensive evidence the claims actually require; an unlisted file has not been as
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/seized.test.ts` | Authored seized probe plays both staying and leaving after the warning, checking capture, relocation and no combat. A declared fixture horizon is a candidate if the warning, both paths and their negative outcomes remain proved. |
+| `test/sell-worn.test.ts` | Generated kahitude stages the company at a merchant to check the grave sale prompt and that worn gear is not led for a followed debt. Keep generated merchandise and debt, plus the positive worn-gear floor; placement is staged. |
+| `test/semantic-tracing.test.ts` | Plays three semantic declarations in the authored Quittance campaign and separately compares semantic IDs for the entire shipped corpus. Keep both the played phase histories and the corpus-wide compatibility snapshot. |
+| `test/serewater-march.test.ts` | Plays Serewater March and Skellfold authored multi-module campaigns, checking installation, the lantern and vault route, shared salvage and service consequences. Keep both compositions and the played paths. |
+| `test/set-out-now-browser.test.ts` | Opt-in built-site browser test checks title and beginning controls, warmed start latency, and first-tap creation at phone size. Keep rendered timing and real taps, separate from the headless budget. |
+| `test/set-out-now.test.ts` | EngineHost draws a generated start ahead and compares its timing, start count, digest and full checkpoint with a cold start of the same seed. Keep both generated paths and the actual preparation boundary. |
+| `test/set-out-page.test.ts` | Generated kite through EngineHost checks first-town destinations and held journey legs, plus pure leg wording. Keep the generated frame and positive route floors; bound destinations are partly staged. |
+| `test/set-out-ready.test.ts` | EngineHost compares prepared and cold generated starts across creation changes, checkpoints and weapon selection. Keep the real starts, interrupted preparation and creation choices. |
 | `test/scenes-browser.test.ts` | Opt-in built-site browser journey through generated a1 compares settled layout at desktop and tablet sizes across scene, conversation, pack and fight; encyclopedia chapter is conditional. Keep rendered geometry and interactions. |
 | `test/screen-names-local.test.ts` | Synthetic SingleModule cellar with 20 versus 2,000 other rooms measures name calls, grounding candidates and shelter lookup time. Keep both scale sizes and the actual local action; a narrowed shared-rules horizon is a candidate only if the generated entities and action remain. |
 | `test/screen-oracle.test.ts` | The golden walk and a generated a1 journey compare kept screen and narration with fresh readings at each applicable stop. Keep the actual walks and positive turn/stop floors; `same` skips an active noncombat command. |
