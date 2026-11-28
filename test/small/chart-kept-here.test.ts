@@ -4,6 +4,9 @@ import { ChartModel } from '../../src/ui/chart-model';
 import { KeptParts } from '../../src/ui/kept-parts';
 import { ScreenModel } from '../../src/ui/screen-model';
 
+// Each probe on the kernel and the packages it reads (OR-407).
+const start: typeof Tiny.start = (kyr, options = {}) => Tiny.start(kyr, { horizon: [], ...options });
+
 // Where the company stands, marked on a chart kept without it (OR-1601): a step between rooms the company has been to
 // draws no plan again, only the place marked as here; the chart so marked is the one drawn afresh; and the same plan
 // marked at the same place is the same chart, so that what is kept by it is kept still. A hold off the moor, its door
@@ -28,7 +31,7 @@ const here = (t: Tiny) => t.screen.chart?.places.filter(p => p.here).map(p => p.
 
 describe('the chart kept without where the company stands', () => {
   it('draws no plan again for a step between rooms been to, and marks where the company stands', async () => {
-    const t = await Tiny.start(hold);
+    const t = await start(hold);
     await t.play('To the hall');
     await t.play('To the door of the hold');
     const drawn = plans.n;
@@ -39,7 +42,7 @@ describe('the chart kept without where the company stands', () => {
     expect(plans.n).toBe(drawn);
   });
   it('is the chart drawn afresh, wherever the company stands', async () => {
-    const t = await Tiny.start(hold);
+    const t = await start(hold);
     for (const step of ['To the hall', 'To the door of the hold', 'To the hall', 'To a spy-crack', 'To the hall']) {
       await t.play(step);
       const kept = ScreenModel.build(t.campaign);
@@ -52,7 +55,7 @@ describe('the chart kept without where the company stands', () => {
     }
   });
   it('is the same chart where the same plan is marked at the same place', async () => {
-    const t = await Tiny.start(hold);
+    const t = await start(hold);
     await t.play('To the hall');
     await t.play('To the door of the hold');
     const atDoor = t.screen.chart;
