@@ -6,11 +6,14 @@ export class WayNames {
     const of = / of (?:the )?([^,]+)$/.exec(way);
     return of && scope && this.tail(of[1]!) === this.tail(scope) ? way.slice(0, of.index) : way;
   }
-  // A way that already says where it goes ("the path up into the old woods", into the old woods above Oakhythe) adds
-  // nothing said after it (the lead's play of the reference opening, 27 November).
+  // A way whose name ends where the row says it goes adds nothing said after it: "the path up into the old woods", into
+  // the old woods above Oakhythe (the lead's play of the reference opening, 27 November). One that says more ("the
+  // ladder to the boiling-house loft", into the boiling-house) or names what it belongs to ("the steeple door") stays.
   static named(way: string, destination: string): boolean {
     const head = destination.split(/ (?:above|below|beside|near|at|of|by|under|over|in|on) /)[0]!.toLowerCase();
-    return head.split(' ').length > 1 && way.toLowerCase().includes(head);
+    return head.split(' ').length > 1 && new RegExp(`\\b(?:into|to|toward|towards) ${WayNames.escape(head)}$`)
+      .test(way.toLowerCase());
   }
+  private static escape(s: string): string { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
   private static tail(name: string): string { return name.split(' ').pop()!.toLowerCase(); }
 }

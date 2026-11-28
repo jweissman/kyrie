@@ -43,7 +43,7 @@ describe('the meeting on the road in', () => {
   it('is answered differently by walking on, which the company knows of itself too', async () => {
     const { host, f } = await Road.begin('mere');
     const walk = f.leaf.prologue!.meeting!.choices.at(-1)!;
-    expect(walk.label).toMatch(/walk on/i);
+    expect(walk.label).toMatch(/^Leave /);
     const after = await host.handle({ kind: 'perform', command: walk.command }) as Frame;
     expect(Road.knows(after).join(' ')).toContain('kept to the far side of the road');
     expect(Road.held(after)).toBe(Road.held(f));
