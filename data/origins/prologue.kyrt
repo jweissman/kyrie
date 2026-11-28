@@ -82,7 +82,7 @@
       Assert knows(actor, cart_bargained). Increase quantity(actor, gold) by 1. Give rations to actor. }
     Result "'A share?' says the wagoner. 'A sack of meal and a coin, then. Be quick.' You push the wheel with him while the horse pulls, and the cart comes up out of the ditch. He gives you the sack and the coin, and says nothing more.".
   }
-  Topic carter_leave with carter "Walk on" when state(cart, ditched) and not wayIn(cart_left) once {
+  Topic carter_leave with carter "Leave him to it" when state(cart, ditched) and not wayIn(cart_left) once {
     Says "The wagoner says nothing. He turns back to his wheel.".
     On discuss { Assert wayIn(cart_left). Assert answered(actor). Assert knows(actor, cart_left). }
   }
@@ -132,7 +132,7 @@
     Says "He looks at the coin, and at the road. He puts the hare in your hands and the coin in his mouth. He is gone into the bracken before the whistle comes again. It is a fat hare, and a day's eating: it goes into the pack with the rest of the food.".
     On discuss { Assert answered(actor). Assert wayIn(hare_bought). Assert knows(actor, hare_bought). Decrease quantity(actor, gold) by 1. Give rations to actor. }
   }
-  Topic poacher_leave with poacher "Walk on" when not answered(actor) once {
+  Topic poacher_leave with poacher "Leave the boy to it" when not answered(actor) once {
     Says "Some way behind you, a dog gives tongue. Somebody yells.".
     On discuss { Assert answered(actor). Assert wayIn(hare_left). Assert knows(actor, hare_left). }
   }
@@ -201,7 +201,7 @@
     Says "'Now there's a sensible face,' says the one with the lantern, and lets you have it. You go on into {home} with it. Behind you the pedlar watches you go, and says nothing.".
     On discuss { Assert answered(actor). Assert wayIn(pack_shared). Assert knows(actor, pack_shared). Give lantern to actor. }
   }
-  Topic pedlar_leave with pedlar "Walk on" when not answered(actor) once {
+  Topic pedlar_leave with pedlar "Leave the pedlar to them" when not answered(actor) once {
     Says "Nobody stops you, and you walk on past.".
     On discuss { Assert answered(actor). Assert wayIn(pack_left). Assert knows(actor, pack_left). }
   }

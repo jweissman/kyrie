@@ -18,4 +18,12 @@ describe('the reference opening, alone', () => {
     const woods = labels.filter(l => /old woods/.test(l));
     expect(woods).toEqual(['Into the old woods above Oakhythe']);
   }, 30000);
+  it('says what walking on from the wagoner is: leaving him to it, not only leaving', async () => {
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 's0', '--as', 'human/warrior/Wenna']));
+    const r = new Runner(journey.session);
+    const talk = said(await r.ask(JSON.stringify({ act: 'origin__carter#talk' })));
+    const labels = [...talk.offer.primary, ...talk.offer.rest].map(o => o.label);
+    expect(labels).toContain('Leave him to it');
+    expect(labels).not.toContain('Walk on');
+  }, 30000);
 });
