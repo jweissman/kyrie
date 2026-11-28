@@ -14,7 +14,8 @@ describe('an act asked for by its id', () => {
   afterEach(() => { CampaignGrounding.checking = false; });
   it('is done where offered and refused where not, as the whole list has it', async () => {
     // Its id read off another game's list: a list worked out for this world would be read instead.
-    const go = (await Tiny.start(yard)).campaign.offered().find(a => a.id.startsWith('go('))!, t = await Tiny.start(yard);
+    const go = (await Tiny.start(yard, { horizon: [] })).campaign.offered().find(a => a.id.startsWith('go('))!;
+    const t = await Tiny.start(yard, { horizon: [] });
     CampaignGrounding.checking = true;
     CampaignGrounding.checked.asked = 0; CampaignGrounding.checked.differ.length = 0;
     expect(() => t.campaign.execute('go(party,t__nowhere)')).toThrow();
