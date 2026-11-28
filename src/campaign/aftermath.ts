@@ -42,7 +42,25 @@ export class Aftermath {
       ? [...world.solve(ModuleWriter.call('state', opponent, '?s'), {})].map(b => b['?s']!)
         .filter(s => world.test(ModuleWriter.call('blocksWhen', opponent, s))) : [];
     return world.apply([{ kind: 'assert', call: ModuleWriter.call('routed', opponent) },
-      ...stances.map(s => ({ kind: 'retract' as const, call: ModuleWriter.call('state', opponent, s) }))]);
+      ...stances.map(s => ({ kind: 'retract' as const, call: ModuleWriter.call('state', opponent, s) })),
+      ...this.scattered(world, opponent, end.reason !== 'yielded' && Aftermath.disheartened(events))]);
+  }
+  // A band put to flight with nowhere further to fall back to (no refuge, or its refuge where the fight was) and
+  // nothing to plead goes off, to its holes: it is no longer where the fight was. Two rats that got away had stood on
+  // in their den, a hard fight still, after the fight was won (OR-1855: beasts lose heart at the first of them to
+  // fall). One with a refuge elsewhere falls back to it, and may rally there (inhabitants.kyr). Not a bout's loser,
+  // nor one that slipped off by a flight of its own.
+  // Whether some of the band lost heart in the fight (Morale): broken, not slipped off by a flight of its own (a
+  // hound that runs from a blow stands routed where it ran, the way it held given up).
+  private static disheartened(events: CombatEvent[]): boolean {
+    return events.some(e => e.type === 'save' && e.kind === 'morale' && !e.success);
+  }
+  private static scattered(world: World, opponent: string, fled: boolean) {
+    const at = fled ? world.one('at', opponent) : undefined;
+    const refuge = world.relates('refuge') ? world.one('refuge', opponent) : undefined;
+    const pleads = world.relates('plea') && world.related('plea').some(x => x.args[0] === opponent);
+    return at && !pleads && (!refuge || refuge === at)
+      ? [{ kind: 'retract' as const, call: ModuleWriter.call('at', opponent, at) }] : [];
   }
   private static yielded(world: World, company: string | undefined, opponent: string): World {
     if (!company || !world.relates('yielded')) { return world; }

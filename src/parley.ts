@@ -33,6 +33,18 @@ export class Parley {
     return Effects.scores(f).intelligence >= 6 && !['animal', 'device'].includes(kind?.kind ?? '')
       && !['undead', 'construct', 'ooze', 'elemental', 'plant'].includes(kind?.type ?? '');
   }
+  // What heart a band has to lose (see Morale.due): a skittish band of beasts (animals of flesh, not things the dead
+  // or a maker drive; wary ones) loses it as beasts do, at the first of it to fall; a thinking band, once half of it is
+  // down; any other (the dead, the made, a band of both, beasts that hold) has none.
+  static heart(catalog: ItemCatalog, band: readonly Fighter[], skittish: boolean): 'beasts' | 'thinking' | undefined {
+    if (!band.length) { return undefined; }
+    if (band.every(f => this.beast(catalog, f))) { return skittish ? 'beasts' : undefined; }
+    return band.every(f => this.thinking(catalog, f)) ? 'thinking' : undefined;
+  }
+  private static beast(catalog: ItemCatalog, f: Fighter): boolean {
+    const kind = Content.race(catalog, f.raceId) as { kind?: string; type?: string } | undefined;
+    return kind?.kind === 'animal' && !['undead', 'construct', 'ooze', 'elemental', 'plant'].includes(kind.type ?? '');
+  }
   // What it is made against, and with.
   static difficulty(fighters: readonly Fighter[], refused: number): number {
     const foes = fighters.filter(f => f.team !== 'fighters' && f.hp > 0 && !f.summoner);
