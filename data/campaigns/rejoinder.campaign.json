@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "Rejoinder",
+  "pitch": {
+    "heading": "Rejoinder",
+    "text": "Rejoinder stands on the lip of the Reply, a canyon that gives back whatever is shouted into it after a year. Tonight is Return Night: the year's voices come back in the order they were shouted, each to the cairn it left from. A widow wants wool for hers. A Caller has sent a proposal to the wrong cairn. A farmer's son has come home to hear whether he was ever called. Nobody in Rejoinder may tell anybody anything, and you are strangers."
+  },
+  "modules": [
+    {
+      "id": "rejoinder",
+      "bundle": "../adventures/rejoinder/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

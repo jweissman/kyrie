@@ -1,0 +1,112 @@
+{
+  "arrive": [
+    "To the square"
+  ],
+  "gossip": [
+    "Ask Thessaly what she is waiting for",
+    "Into the Last Word",
+    "Ask Jessamy about the thin man",
+    "Ask Jessamy about the Caller",
+    "Buy Tobe a small beer",
+    "Ask the sleeper what he does",
+    "Ask Tobe to show you his cord",
+    "Put it to Tobe",
+    "Tell Tobe you will tell Thessaly yourselves",
+    "Tell Wat you know whose son",
+    "Offer to walk Wat",
+    "Out to the square"
+  ],
+  "courtship": [
+    "Tell Thessaly that something for her",
+    "Ask Thessaly if she would stand with Dacey",
+    "To the Whitlow ploughland",
+    "Tell Dacey that his message",
+    "Ask Dacey to stand at cairn fourteen",
+    "To the square"
+  ],
+  "orla": [
+    "Into the Pendles' house",
+    "Ask Orla what she wants with a stranger",
+    "Ask Orla what she means to keep",
+    "Ask Orla if you may stand",
+    "Out to the square"
+  ],
+  "amos": [
+    "Into the Hallet dairy",
+    "Tell Amos that a thin man",
+    "Out to the square"
+  ],
+  "gate": [
+    "To the Rim gate",
+    "Take cairn twenty from Ines",
+    "Ask Ines what the Reply has for cairn three"
+  ],
+  "walkWat": [
+    "To cairn three",
+    "To cairn nine",
+    "To cairn fourteen",
+    "Leave Wat in the dark"
+  ],
+  "toThree": [
+    "To cairn nine",
+    "To cairn three",
+    "=87"
+  ],
+  "hold": [
+    "Put your hand over Orla's"
+  ],
+  "toFourteen": [
+    "=89",
+    "To cairn nine",
+    "To cairn fourteen",
+    "=97"
+  ],
+  "toForty": [
+    "To cairn twenty",
+    "To cairn forty",
+    "=120"
+  ],
+  "dawn": [
+    "=day 2 05:30",
+    "Ask Ines why she is not shouting",
+    "Offer to shout the word for her",
+    "Shout Ines's word"
+  ],
+  "own": [
+    "To cairn twenty",
+    "Shout a promise"
+  ],
+  "orlaWool": [
+    "Into the Pendles' house",
+    "Ask Orla what she wants with a stranger",
+    "Tell Orla you will fetch her the wool",
+    "Out to the square",
+    "Into the Last Word",
+    "Buy › A twist of grey wool",
+    "Out to the square",
+    "To the Rim gate",
+    "To cairn three",
+    "=80",
+    "Give Orla the twist of wool"
+  ],
+  "wait3": [
+    "To the Rim gate",
+    "To cairn three",
+    "=88"
+  ],
+  "floor": [
+    "To the Rim gate",
+    "Into the Reply"
+  ],
+  "thessLost": [
+    "Ask Thessaly what she is waiting for",
+    "To the Rim gate",
+    "To cairn three",
+    "To cairn nine"
+  ],
+  "lateTell": [
+    "=94",
+    "Out of the Reply",
+    "To cairn forty"
+  ]
+}

@@ -1,0 +1,26 @@
+Module rejoinder "Rejoinder" {
+  Measure stray(). Measure voiceA(). Measure voiceB(). Measure voiceC(). Measure renter().
+  Relation woolPromised(group). Relation woolHung(group). Relation orlaTrust(group). Relation orlaStays(group). Relation orlaGone(group).
+  Relation orlaHeard(group). Relation orlaMuffled(group). Relation orlaToldLate(group). Relation orlaGaveHorn(group). Relation orlaVoice1(group).
+  Relation jorySpoken(group). Relation forestalled(group).
+  Relation tobeConfessed(group). Relation tobeTells(group). Relation tobeSpared(group). Relation thessTold(group). Relation thessAsked(group).
+  Relation daceyKnows(group). Relation daceyComing(group). Relation proposalLanded(group). Relation thessHeard(group). Relation answeredAloud(group).
+  Relation proposalLost(group). Relation metAfter(group).
+  Relation amosTold(group). Relation watKnown(group). Relation watPlaced(group). Relation watTurns(group). Relation listLanded(group).
+  Relation reunited(group). Relation watGone(group).
+  Relation inesAsked(group). Relation inesSent(group). Relation sentOwn(group). Relation ownKind(group, entity).
+  Relation fatedOrla(group). Relation fatedHallet(group). Relation fatedThess(group). Relation fatedTobe(group). Relation fatedInes(group).
+  Relation fatedOwn(group). Relation fatedAsh(group). Relation fated(group). Relation ashTurned(group).
+  Entity pr_promise: fact "a promise". Entity pr_thanks: fact "thanks". Entity pr_warning: fact "a warning". Entity pr_joke: fact "a joke".
+  Discovery orla_wants_wool "Orla Pendle wants one twist of wool for cairn three, and wants nobody to know.".
+  Discovery orla_story "Orla Pendle and her husband quarrelled at cairn three a year ago and each shouted. She shouted: then go. He died in Sowing.".
+  Discovery two_voices "Ines says there are two voices for cairn three tonight, not one.".
+  Discovery orla_held "Orla stayed at the cairn for the breath after her own voice.".
+  Discovery jory_words "Jory Pendle's answer, which Orla walked away from: he would not leave the cairn if she asked, and she should mind the wet step.".
+  Discovery wat_known "The thin man in the sea-coat is Wat Hallet, Amos Hallet's son, home after four years.".
+  Discovery wat_hopes "Wat Hallet hopes his father has shouted for him, and will not be seen if he hasn't.".
+  Discovery amos_denies "Amos Hallet says his son has been dead to him four years.".
+  Discovery amos_list "Amos Hallet's Sending, every year: the farm's news, flat, ending that the east field wants a man and the cap is on the nail.".
+  Discovery ines_word "Ines Larkin's voice, last year, from cairn forty: one word, Yes.".
+  Discovery forty_asked "Cairn forty belongs to nobody, and Ines Larkin washes it.".
+}

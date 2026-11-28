@@ -1,0 +1,79 @@
+Module rejoinder "Rejoinder" {
+  // ── Orla Pendle, and cairn three ───────────────────────────────────────────────────────────────────────────────
+  // A year ago, at the Sending, she and her husband quarrelled at cairn three and each shouted. She shouted: then go.
+  // She was on the second step down when he answered, and did not hear. He died in Sowing. At half past ten her own
+  // voice returns, and then, a breath after, his. She asks the company for a twist of wool. What she needs is somebody
+  // to be there for the breath between.
+
+  Kind jory_horn "Jory Pendle's horn" is treasure worth 2 weighing 1 described "A tin horn on a string, the mouthpiece bitten with years of use. A man called cows with it, and tells you, through it, to come in.".
+
+  Person orla "Orla Pendle" at kitchen {
+    Role "a widow of the orchard end". Ancestry human. Pronouns she. Manner stoic. Peaceable. Uses go. Plans 14 steps.
+    Greets "The door is opened by a woman on a stick, with flour to the elbow and nothing in the kitchen to use it on. 'If you are collecting for the Return supper,' she says, 'I have given.' She looks at you properly. 'No. Strangers. Come in, then. I have wanted a stranger since March.'".
+    Greets again "'You,' says Orla. 'Sit. You make the room smaller. It is an improvement.'".
+    Farewell "'Half past ten,' says Orla. 'Don't be late for it. It isn't a thing that waits.'".
+  }
+  Route orla_round for orla priority 5 when not orlaGone(party) {
+    home "at home" at kitchen from watch 0.
+    cairn "going down to cairn three" at c3 from watch 72.
+  }
+
+  Topic orla_why with orla "Ask Orla what she wants with a stranger" when true once {
+    Says "'A stranger can be seen buying wool,' says Orla, 'and it is only a stranger. If I go to the Last Word, Jessamy Dole will sell it to me with a face on, and by the soup it will be the whole village's.' She turns the stick over in her hands. 'I want one twist, for my cairn. I will do the hanging myself; it has to be me. I would be obliged if you said nothing.'".
+    On discuss { Assert knows(actor, orla_wants_wool). }
+  }
+  Topic orla_story with orla "Ask Orla what she means to keep out of her ears" when knows(actor, orla_wants_wool) once {
+    Says "'You are strangers, so it is not forestalling, it is weather.' She sits, which takes a moment. 'This time last year Jory sold the lower orchard behind my back. For the surgeon.' She touches her hip. 'He did not ask, because I would have said no. I found out at the Sending, at the cairn, with the whole Rim listening, and I said what I said, and I said it into the Reply, which is the one place a person can say it and not have to look at it afterwards. Then go. Go, and good riddance. I turned my back and went down the steps.' She looks at the cup that is washed. 'In Sowing he caught a cough. And tonight I shall hear myself.'".
+    On discuss { Assert knows(actor, orla_story). }
+  }
+  Topic orla_jory with orla "Ask Orla about Jory" when knows(actor, orla_story) once {
+    Says "'He called the cows with that,' says Orla, and does not look at the horn. 'He was a man who said things in the wrong order. He would tell you the roof leaked after he had mended it. He would say the barn was on fire when it was out.' She very nearly smiles. 'He sold the orchard, and told me the pear-trees were old.'".
+  }
+  Topic orla_wool with orla "Tell Orla you will fetch her the wool" when knows(actor, orla_wants_wool) and not woolPromised(actor) once {
+    Says "'Two coin,' says Orla, and counts it onto the table like a woman who has counted it before. 'One twist. Not a word at the Last Word. If you can't manage that, say it is for a hat.'".
+    On discuss { Assert woolPromised(actor). Increase quantity(actor, gold) by 2. }
+  }
+  Topic orla_stand with orla "Ask Orla if you may stand at cairn three with her" when knows(actor, orla_wants_wool) and not orlaTrust(actor) once {
+    Says "She looks at you for a while. 'People don't,' she says. 'There are two hollows, a yard apart, and one of them has been empty since Sowing.' She nods at the door. 'It is a kindness. I will not call it more. Half past ten, if you are coming.'".
+    On discuss { Assert orlaTrust(actor). }
+  }
+  Topic orla_brace with orla "Tell Orla that Ines says there are two voices for cairn three" when knows(actor, two_voices) and not orlaStays(party) once {
+    Says "Orla is quite still. 'Two,' she says. 'Mine, and.' Her hand finds the stick. 'I was on the second step down. I was already on the second step.' She looks at the washed cup for some time. 'It was a long wait, to be told. I do not know that I can stand it.' Then, to the cup: 'I'll stand.'".
+    On discuss { Assert orlaStays(actor). Assert orlaTrust(actor). Assert forestalled(actor). }
+  }
+  Topic orla_late with orla "Tell Orla what Jory said" when knows(actor, jory_words) and jorySpoken(party) and not orlaHeard(party) once {
+    Says "She hears it out with her eyes shut. At the end she says, 'Mind the step,' but not to you, and not to anyone. After a while she gets up, and fills the kettle, and stands with her back to the room and her hand flat on the dresser beside the horn. 'It was wet,' she says. 'It's always wet.'".
+    On discuss { Assert orlaHeard(actor). Assert orlaToldLate(actor). Assert forestalled(actor). }
+  }
+  Topic orla_horn with orla "Ask Orla about the horn" when orlaHeard(party) and not orlaGaveHorn(party) once {
+    Says "'Take it,' says Orla, and takes it off the dresser before you can say anything. 'He would want it used, and I would sooner it was used badly by somebody than well by nobody. If it's cows you're calling, it's the second note.'".
+    On discuss { Assert orlaGaveHorn(actor). Give jory_horn to actor. }
+  }
+
+  Topic orla_give_wool with orla "Give Orla the twist of wool for cairn three" when at(orla, c3) and holding(actor, rj_wool) and woolPromised(actor) and not woolHung(party) once {
+    Says "Orla takes it without looking at it, and ties it to the cairn's top in a single hitch, the way you tie a dog you do not mean to leave. 'There,' she says. Her voice is steady. 'That's a refusal, and it's mine.'".
+    On discuss { Spend rj_wool from actor. Assert woolHung(actor). }
+  }
+
+  // At the cairn, after her own voice, before his.
+  Action orla_stay_hand(actor: group) "Put your hand over Orla's on the cairn, and say nothing" {
+    Requires able(actor) and company(actor) and at(actor, c3) and at(orla, c3) and orlaTrust(actor) and orlaVoice1(party) and not orlaStays(party) and not orlaMuffled(party) and not jorySpoken(party).
+    Time 0.
+    On success { Assert orlaStays(actor). Assert knows(actor, orla_held). }
+    Result "Her hand is cold and dry. She has turned half toward the steps; at your hand she stops, as one stops at a name. She does not look at you. She stays.".
+  }
+  Action orla_stay_ask(actor: group) "Ask Orla to stay for one breath more" {
+    Requires able(actor) and company(actor) and at(actor, c3) and at(orla, c3) and not orlaTrust(actor) and orlaVoice1(party) and not orlaStays(party) and not orlaMuffled(party) and not jorySpoken(party).
+    Time 0.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert orlaStays(actor). Assert knows(actor, orla_held). }
+    Result "'One breath,' you say. 'You were on the second step last time.' She stops with her stick in the air, and then she puts it down.".
+    Otherwise "'You are very kind,' says Orla, in the voice of a closing door, and takes her stick, and goes.".
+  }
+  Action orla_stay_rite(actor: group) "Say the blessing for the dead over cairn three, for Jory Pendle" {
+    Requires able(actor) and company(actor) and at(actor, c3) and at(orla, c3) and capable(actor, rites) and orlaVoice1(party) and not orlaStays(party) and not orlaMuffled(party) and not jorySpoken(party).
+    Time 0.
+    On success { Assert orlaStays(actor). Assert knows(actor, orla_held). Assert orlaTrust(actor). }
+    Result "It is the short blessing, said low. At the name she turns her head; at the end of it she has put her stick against the cairn, like a person who has decided to be present.".
+  }
+}

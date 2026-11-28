@@ -1,0 +1,58 @@
+Module rejoinder "Rejoinder" {
+  // ── The Sending, and Ines's word ───────────────────────────────────────────────────────────────────────────────
+  // At first light the Rim stands at its cairns and shouts the year ahead. The company, if it holds a cairn, may
+  // shout too. Ines's voice went in Frost; she has one word, and nobody to say it for her.
+
+  Discovery ines_voiceless "Ines Larkin's voice has gone. The Reply keeps a shout and not a whisper, so she cannot send what she means to.".
+  Discovery ines_story_known "Sixty-one years ago a man asked Ines Larkin a question from her own cairn, and went down the river in spring. She has answered Yes at cairn forty every year since, to a doorstep nobody stands at.".
+
+  Rule sending_roar heard within rim when sendingOpen() once says "All along the Rim, at once, the village shouts. It is not a sound: it is a weather. Forty cairns, three hundred mouths, a year of things nobody would say in a kitchen, thrown out over a mile of red air; and the Reply takes them, one by one, as a hand takes coins, and is quiet." { }
+
+  Topic ines_voice with ines "Ask Ines why she is not shouting" when sendingOpen() and at(ines, c40) once {
+    Says "'It has gone,' says Ines, in a voice like paper. 'Left in Frost, in the middle of a sentence, like a tenant. What you heard at four was the last of it.' She tilts her face toward the red light she cannot see. 'The Reply wants a shout. It does not keep a whisper. I have a word, and I am a Caller without a voice.'".
+    On discuss { Assert knows(actor, ines_voiceless). }
+  }
+  Topic ines_tell with ines "Ask Ines what the word is" when knows(actor, ines_voiceless) and not knows(actor, ines_word) once {
+    Says "'You did not hear it. No.' She is quiet. 'I have never forestalled anything in my life. I am eighty-one and I shall do it once, for a stranger, at dawn.' She folds her hands. 'Yes. It is only Yes.'".
+    On discuss { Assert knows(actor, ines_word). Assert forestalled(actor). }
+  }
+  Topic ines_story_ask with ines "Ask Ines who the word is for" when knows(actor, ines_word) and at(ines, c40) and not knows(actor, ines_story_known) once {
+    Says "'A man named Corin Ashe, in the Dry Year. I was nineteen.' It is the longest she has said anything. 'He asked me from my own cairn, because he thought I would not hear a question shouted at his. It is how it is done. The question came back to me a year after, in his voice, and by then he had gone down the river in the spring. I answered. It came back to me, in mine, a year later. Cairn forty is where I stood. It is where an answer comes to; it is not where he is.' She turns her face to the wall of air. 'Sixty-one years. I answer every year, in case he is a man who stands at his cairn. I have never once been anywhere he would hear it. I wash it. A doorstep should be clean.'".
+    On discuss { Assert knows(actor, ines_story_known). }
+  }
+  Topic ines_offer with ines "Offer to shout the word for her" when knows(actor, ines_voiceless) and knows(actor, ines_word) and not inesAsked(party) once {
+    Says "'You would,' says Ines. It is not a question. 'It comes back to forty, you understand. In a year. I shall not be here to hear it.' She puts her hand flat on the cairn's clean top. 'Somebody will. It is a doorstep. It will not matter who. Go on, then: from forty, not twenty, and loud, and not like a person asking.'".
+    On discuss { Assert inesAsked(actor). }
+  }
+  Action send_ines(actor: group) "Shout Ines's word into the Reply, from cairn forty" {
+    Requires able(actor) and company(actor) and at(actor, c40) and at(ines, c40) and inesAsked(party) and sendingOpen() and not inesSent(party).
+    Time 5 minutes.
+    On success { Assert inesSent(actor). }
+    Result "You lean out over a mile of red air, and say it as loud as you can, and not like a question. YES. It goes out and down, and the Reply takes it as it has taken all the rest, without remark. Behind you Ines Larkin has not moved. 'Sent,' she says. After a moment she sits down on the bench at the end of the Rim, and for the first time in sixty-one years is not waiting for anything.".
+  }
+
+  Action send_promise(actor: group) "Shout a promise into the Reply, from cairn twenty" {
+    Requires able(actor) and company(actor) and at(actor, c20) and holdsCairn(party) and sendingOpen() and not sentOwn(party).
+    Time 5 minutes.
+    On success { Assert sentOwn(actor). Assert ownKind(actor, pr_promise). }
+    Result "You say what you mean to do, aloud, to a canyon, and it goes out over the red air and is kept. It is surprisingly hard to say a thing that someone will hold you to in a year.".
+  }
+  Action send_thanks(actor: group) "Shout your thanks into the Reply, from cairn twenty" {
+    Requires able(actor) and company(actor) and at(actor, c20) and holdsCairn(party) and sendingOpen() and not sentOwn(party).
+    Time 5 minutes.
+    On success { Assert sentOwn(actor). Assert ownKind(actor, pr_thanks). }
+    Result "You thank a village for a night. It goes out over the red air and down, and you feel foolish for exactly as long as it takes it to go.".
+  }
+  Action send_warning(actor: group) "Shout a warning into the Reply, from cairn twenty" {
+    Requires able(actor) and company(actor) and at(actor, c20) and holdsCairn(party) and sendingOpen() and not sentOwn(party).
+    Time 5 minutes.
+    On success { Assert sentOwn(actor). Assert ownKind(actor, pr_warning). }
+    Result "You tell the next year something it will need. It goes out over the red air in your own voice, flat, as if reading itself a note.".
+  }
+  Action send_joke(actor: group) "Shout a joke into the Reply, from cairn twenty" {
+    Requires able(actor) and company(actor) and at(actor, c20) and holdsCairn(party) and sendingOpen() and not sentOwn(party).
+    Time 5 minutes.
+    On success { Assert sentOwn(actor). Assert ownKind(actor, pr_joke). }
+    Result "The joke goes out over the red air, and on the Rim someone laughs a year early. You will have to hope it holds up.".
+  }
+}

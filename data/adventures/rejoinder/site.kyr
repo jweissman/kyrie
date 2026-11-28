@@ -1,0 +1,103 @@
+Module rejoinder "Rejoinder" {
+  Description "Rejoinder, a village on the lip of the Reply, a canyon that gives back whatever is shouted into it after a year; on the day of Return Night, with a night of voices to come.".
+
+  // The village, the Rim and the floor of the Reply. The Rim is one path along the lip: the gate, then the cairns that
+  // matter tonight (three, nine, fourteen, twenty, forty), then the Brink. Watch 0 is eight in the morning; the Return
+  // begins at watch 84 (ten at night), the last voice lands at watch 120 (four), and the Sending is at first light.
+  Place country "the Reply country" is region within imbar.
+  Place approach "the Reply road" is wilderness within country at 0, 0.
+  Place town "Rejoinder" is settlement within country at 1, 0.
+  Place rim "the Rim" is site within country at 2, 0.
+  Place gorge "the Reply" is site within country at 2, 1.
+
+  Place inn "the Last Word" is building within town.
+  Place pendles "the Pendles' house" is building within town.
+  Place dairy "the Hallet dairy" is building within town.
+
+  Place road "the road above Rejoinder" is room within approach at 0, 0.
+  Place square "the square" is room within town at 1, 1 outdoors.
+  Place taproom "the taproom of the Last Word" is room within inn at 0, 0.
+  Place kitchen "the Pendles' kitchen" is room within pendles at 0, 0.
+  Place dairy_room "the Hallet dairy" is room within dairy at 0, 0.
+  Place fields "the Whitlow ploughland" is room within town at 2, 2 outdoors.
+
+  Place gate "the Rim gate" is room within rim at 0, 0.
+  Place c3 "cairn three" is room within rim at 1, 0.
+  Place c9 "cairn nine" is room within rim at 2, 0.
+  Place c14 "cairn fourteen" is room within rim at 3, 0.
+  Place c20 "cairn twenty" is room within rim at 4, 0.
+  Place c40 "cairn forty" is room within rim at 5, 0.
+  Place brink "the Brink" is room within rim at 6, 0.
+  Place floor "the floor of the Reply" is room within gorge at 0, 0 outdoors.
+
+  Passage lane "the Reply road" is road between road and square taking 10 minutes.
+  Passage inn_door "the door of the Last Word" is door between taproom and square.
+  Passage pendle_door "the Pendles' door" is door between kitchen and square.
+  Passage dairy_door "the dairy door" is door between dairy_room and square.
+  Passage field_path "the ploughland path" is path between square and fields taking 10 minutes.
+  Passage rim_road "the Rim road" is path between square and gate taking 10 minutes.
+  Passage rim_a "the Rim path" is path between gate and c3 taking 5 minutes.
+  Passage rim_b "the Rim path" is path between c3 and c9 taking 5 minutes.
+  Passage rim_c "the Rim path" is path between c9 and c14 taking 5 minutes.
+  Passage rim_d "the Rim path" is path between c14 and c20 taking 5 minutes.
+  Passage rim_e "the Rim path" is path between c20 and c40 taking 5 minutes.
+  Passage rim_f "the Rim path" is path between c40 and brink taking 5 minutes.
+  Passage wool_stair "the Wool Stair" is steps between gate and floor taking 30 minutes.
+
+  // ── The way in ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Observe road_scene at road when true "The road comes round the last shoulder of the hill and the ground stops. Beyond a fence of lashed poles the Reply opens: a red cliff, a mile of air, a floor too far down to have weather. Rejoinder sits along its lip like something that came to look and stayed.".
+  Observe road_board at road as sign when true "A board is nailed to the fence-post: RETURN NIGHT. THE RIM IS OPEN TO ALL AT DUSK. WOOL AT THE LAST WORD. NO SHOUTING ON THE RIM TILL THE SENDING. Under it, in another hand: NOR AFTER.".
+  Observe road_wind at road as ambience when true "Every latch in the village has a twist of grey wool hung on it, and not one has a sound to keep out.".
+
+  Observe square_scene at square when true "A square of beaten earth with a well, a long bench and a great many people being polite to one another. It is the day of Return Night, when everyone has something to hear and nobody will say what.".
+  Observe square_wool at square as feature when true "A twist of grey wool hangs on every latch and every gatepost, and a few on people's hats.".
+  Observe square_quiet at square as ambience when true "Two neighbours who have not spoken since Lammas nod, with great care, as if each were carrying the other's eggs.".
+
+  Observe taproom_scene at taproom when true "The Last Word: a low room, a long table, a fire laid and not lit. On the shelf by the door, grey wool in baskets under a card that says ONE PENNY, crossed out and written over twice.".
+  Observe taproom_man at taproom as feature when not knows(party, tobe_seen) "A man lies along the bench by the window with a hat over his face and a cord of many knots looped round his wrist.".
+  Observe taproom_cord at taproom as feature when knows(party, tobe_seen) "Tobe Merriweather's knotted cord hangs from his wrist, a different knot for every errand he has been trusted with.".
+
+  Observe kitchen_scene at kitchen when true "A kitchen with the shutters closed in the afternoon. A man's coat hangs on the back of the door, brushed. On the dresser a tin horn on a string. On the table, a cup and a cup, one washed.".
+  Observe kitchen_horn at kitchen as feature when true "The tin horn has a bite worn in its mouthpiece. It is the shape of a man who called cows.".
+
+  Observe dairy_scene at dairy_room when true "A cold slate room that smells of whey and iron. Cheeses in rows on slatted shelves, each with a date in chalk, the dates in one square hand running back and back. By the churn, high on a nail where the wet won't reach it, a boy's cap.".
+  Observe dairy_cap at dairy_room as feature when true "The cap is too small for anyone in the house now, and has been dusted.".
+
+  Observe fields_scene at fields when true "A long field ploughed to the fence on the Reply, the furrows so straight they look ruled. At the headland a plough stands with the horse out of it, asleep on its feet, and a big man sits on the shaft with his hands between his knees looking at the cliff.".
+  Observe fields_line at fields as feature when true "The last furrow of every year runs along the Calloways' boundary fence, where the Calloways' blue washing hangs, and stops exactly at the corner.".
+
+  // ── The Rim ───────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Observe gate_scene at gate when true "A hut of grey stone built into the fence where the Rim path starts, with a bench outside it and a bell-rope nobody pulls. The path goes along the lip between posts and cairns, a whitewashed number on each, and out of sight round the bend. The air that comes up from the Reply smells of stone, and faintly of last year.".
+  Observe gate_stair at gate as feature when true "Beside the hut a stair goes down into the cliff, worn in the middle, with a basket of wool at its head and a sign: THE WOOL STAIR. FOR THOSE WHO WOULD RATHER HEAR IT ALL.".
+
+  Observe c3_scene at c3 when true "Cairn three: a waist-high pile of red stones with a flat top worn smooth by two hands. In the ground to either side of it a boot has made a hollow, and the hollows are a yard apart.".
+  Observe c9_scene at c9 when true "Cairn nine, the Calloways': whitewashed that morning, the neatest on the Rim. A folding stool beside it, and on its top a flask, set down by someone who has set it down there every night this week.".
+  Observe c14_scene at c14 when true "Cairn fourteen: broad and low and lichened to the colour of old cheese. Beside it a flat stone has been laid for one person to sit on, and one person has sat on it, and nobody else.".
+  Observe c20_scene at c20 when true "Cairn twenty: neither neat nor old, a rental, with a rope handle set in one stone for people who lean out too far. It has had a great many strangers, and has the look of having liked most of them.".
+  Observe c40_scene at c40 when true "Cairn forty, at the end where the fence turns: a cairn no household holds. Its top is as clean as a plate. Somebody washes it. Nobody has been seen to.".
+  Observe brink_scene at brink when true "The path ends in a ledge as wide as a table, and the Reply opens in front of you: red cliff on three sides, a mile of air, a floor of pale stone with nothing on it. The ledge is worn into two hollows for boots. This is where the Callers stand.".
+  Observe floor_scene at floor when true "The floor of the Reply is flat as a threshing-floor and scoured smooth, the cliffs going up on three sides to a strip of sky. Nothing grows. Under each cairn a mile above lies a pale patch the shape of a doorstep, where whatever is shouted comes down.".
+  Observe floor_cold at floor as feature when true "It is very still. Sound has been laid down here so often that the air has a grain.".
+
+  // The Reply itself: a wonder, there whether or not any errand leads to it. Listened to by day it leaks a stray word.
+  Thing reply "the Reply" at brink {
+    Wonder unknown unique for aesthetic, cultural, spiritual "A canyon that keeps what it is given. Whatever is shouted over its lip goes down into the red, and is held, and is given back after a year to the night, in the order it was given, to the doorstep it left from. Nobody has ever found the place where it is kept.".
+    State keeping "The Reply lies open below the ledge, a mile of air, and holds still the way a person does who is about to be told something.".
+    Tries listening.
+  }
+  Initially Set stray() to (1d6).
+  Observe reply_listen near reply when tried(reply, listening) and stray() == 1 "You lean out and listen. For a long while there is the sound a very large room makes. Then, quite distinctly, from a long way down: 'Not the blue one. The other blue.'" teaches reply_known.
+  Observe reply_listen_2 near reply when tried(reply, listening) and stray() == 2 "You lean out and listen. There is the sound a very large room makes, and then, from a long way down, a woman's voice, patient as a spoon: 'And that is why we do not keep geese.'" teaches reply_known.
+  Observe reply_listen_3 near reply when tried(reply, listening) and stray() == 3 "You lean out and listen. There is the sound a very large room makes, and then a boy's voice, fierce and cracked, from far down: 'I'm NOT scared. I'm only saying it loud.'" teaches reply_known.
+  Observe reply_listen_4 near reply when tried(reply, listening) and stray() == 4 "You lean out and listen. There is the sound a very large room makes, and then, from a long way down, somebody singing, with great confidence, a song that has no tune at all.".
+  Observe reply_listen_5 near reply when tried(reply, listening) and stray() == 5 "You lean out and listen. There is the sound a very large room makes, and then, from a long way down, an old man saying, as if to a dog: 'Well, that's that, then. That's that.'" teaches reply_known.
+  Observe reply_listen_6 near reply when tried(reply, listening) and stray() == 6 "You lean out and listen. There is the sound a very large room makes, and then, from a long way down, a single bark of laughter that goes up and down the cliffs twice, and a voice says: 'No, but did you see his face.'" teaches reply_known.
+  Discovery reply_known "By day the Reply leaks: a stray word from the year before, no more, from a long way down. At night, it is said, it is not so sparing.".
+
+  Discovery how_reply "The Reply gives back what is shouted into it after a year, on Return Night, in the order it was given, to the cairn it was shouted from, like a letter to its address.".
+  Discovery forestall_known "To say aloud what you shouted into the Reply, or what you heard another shout, is forestalling. It is not unlawful. In Rejoinder it is thought to rob the Reply.".
+  Discovery wool_known "A twist of grey wool hung on a cairn is a refusal: the voice that comes to that cairn is lost in it. Only the holder of the cairn hangs it.".
+  Discovery tobe_seen "Tobe Merriweather is the Caller: he shouts for people, from the cairn of whoever they mean the words for, and keeps his errands on a knotted cord.".
+}

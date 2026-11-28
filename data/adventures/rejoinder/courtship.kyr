@@ -1,0 +1,122 @@
+Module rejoinder "Rejoinder" {
+  // ── Tobe, Thessaly and Dacey: a proposal sent to the wrong cairn ───────────────────────────────────────────────
+  // Last Frost Dacey Whitlow paid Tobe to shout a proposal of marriage from cairn nine, for Thessaly Calloway. Tobe,
+  // drunk at eleven in the morning in a fog, kept it on his cord one place too far along, and shouted it from cairn
+  // fourteen. At ten past midnight it lands at the Hallets', in Tobe's best voice, in front of anyone who is there.
+
+  Kind caller_bell "the Callers' bell" is treasure worth 1 weighing 1 described "A small brass bell with a wooden grip, rubbed to gold at the handle. A Caller rings it to say that what follows is a message and not a man's own mind.".
+
+  Person tobe "Tobe Merriweather" at taproom {
+    Role "the Caller". Ancestry human. Pronouns he. Manner jovial. Peaceable. Uses go. Plans 14 steps.
+    Known as "a man asleep under a hat" when not acquainted(tobe, party).
+    Greets "The hat lifts an inch. 'If it is a message,' says the man under it, 'it is a shilling the word, and I do not shout until the sun is behind the Brink, and I would be grateful if you would lower your voice, which I have never in my life asked of anybody.'".
+    Greets again "'You again,' says Tobe, without moving the hat. 'You have a carrying walk.'".
+    Farewell "'Don't shout,' says Tobe. 'It is such a waste, on a day like this.'".
+  }
+  Route tobe_round for tobe priority 5 {
+    bench "sleeping it off" at taproom from watch 0.
+    brink "going to the Brink" at brink from watch 78.
+  }
+
+  Topic tobe_trade with tobe "Ask the sleeper what he does" when true once {
+    Says "'Merriweather. Tobe. The Caller.' He pushes the hat back; the face under it is the colour of cold porridge. 'You tell me what you want said and whose cairn you want it sent to. I stand on that cairn and give it to the Reply, and in a year it arrives at their door in my voice, and nobody minds, because nobody minds a voice that is only the postman. Best voice on the Rim. That is not a boast. It is the one thing the Reply and I agree on.'".
+    On discuss { Assert knows(actor, tobe_seen). }
+  }
+  Topic tobe_silence with tobe "Ask Tobe what a Caller never says" when true once {
+    Says "'What he shouted.' He sits up, which costs him. 'Not to the sender, not to the cairn, not to the Warden, not to his mother. A person who forestalls is rude. A Caller who forestalls is finished: the bell goes on the Warden's bench and the trade goes with it.' He looks at the bell on the nail as at a child. 'Thirty years.'".
+    On discuss { Assert knows(actor, caller_silence). }
+  }
+  Topic tobe_cord_no with tobe "Ask Tobe to show you his cord" when not tobeFed(party) once {
+    Says "'The cord is not seen,' says Tobe, from under the hat, with the dignity of a man who has not yet had a beer. 'It is the one rule we have. I have kept it thirty years. I should like to keep it till dinner.'".
+  }
+  Topic tobe_cord with tobe "Ask Tobe to show you his cord" when tobeFed(party) and not knows(actor, cord_seen) once {
+    Says "'Nobody sees it. It is a rule.' He studies the beer. 'But a rule is only what a man will do for nothing.' He lays the cord along the bench, a yard and a half of knotted wool the colour of tea. 'A hand-span for each cairn on the Rim. A loop is a message of love, a thumb-knot a debt, a clove-hitch a quarrel; and tied in the knot, a sprig of the sender's, so I don't confuse my clients. That heather is old Greaves. That feather is the Wynn girl. That barley is Whitlow's, God help him: nobody else on the Rim grows it.' His finger goes along the cord. At the fourteenth span a loop holds a sprig of barley. At the ninth hangs a loop of blue thread, tied to nothing, as if a hand had meant to knot it and been called away.".
+    On discuss { Assert knows(actor, cord_seen). Assert knows(actor, tobe_seen). }
+  }
+  Topic tobe_confront with tobe "Put it to Tobe that Whitlow's barley is at fourteen and the Calloways' blue hangs at nine" when knows(actor, proposal_astray) and not tobeConfessed(party) once {
+    Says "Tobe looks at the cord for what feels like a long time. 'Fog,' he says. 'It was a fog morning.' He tries the word again, and it does not hold. 'I read it by the lamp at the gate, with Greaves's heather in my other hand, and the numbers were wet.' He puts his hand over his mouth. 'Fourteen. I stood on fourteen, in front of Amos Hallet's flat stone, and I gave the Reply the best thing I have ever been paid for. And I thought: it is a good one. I thought, they will like that.' He takes his hand away. 'It lands at ten past twelve.'".
+    On discuss { Assert tobeConfessed(actor). }
+  }
+  Topic tobe_let with tobe "Let Tobe go and tell Thessaly himself" when tobeConfessed(party) and not thessTold(party) and not tobeSpared(party) once {
+    Grave "A Caller who tells what he shouted is finished: the bell goes on the Warden's bench, and the trade with it.".
+    Says "'I would sooner,' says Tobe. He gets up, and takes the bell from the nail, and sets it, quite gently, on the bench where he had been lying. He is quite steady. 'I have been a very good Caller,' he says, to the room. 'I should like to be a very bad one for about a quarter of an hour.' He goes out into the square, and you hear, through the door, in the best voice on the Rim, a name said plainly in front of everybody.".
+    On discuss { Assert tobeTells(actor). Assert thessTold(actor). }
+  }
+  Topic tobe_spare with tobe "Tell Tobe you will tell Thessaly yourselves" when tobeConfessed(party) and not thessTold(party) and not tobeTells(party) once {
+    Says "'You would?' He is silent. 'I would have done it,' he says. 'I want you to know I would.' 'We know.' 'Don't be kind about it,' says Tobe. 'It makes it worse.' He lies down again, and puts the hat over his face, and says from under it, quite muffled: 'Fourteen is a bad cairn. The Hallets never smile on it.'".
+    On discuss { Assert tobeSpared(actor). }
+  }
+
+  // ── Thessaly Calloway ──────────────────────────────────────────────────────────────────────────────────────────
+  Person thess "Thessaly Calloway" at square {
+    Role "a dyer's daughter". Ancestry human. Pronouns she. Manner stoic. Peaceable. Uses go. Plans 14 steps.
+    Greets "A young woman sits on the well's edge with her blue hands round a flask. She has the look of someone who has been polite for a year and is nearly out of it. 'If you are going to tell me to be patient,' she says, 'I have a cousin who does it better.'".
+    Greets again "'Still here,' says Thessaly. 'So is the sun. They are both being very slow about it.'".
+    Farewell "'Nine,' says Thessaly. 'If you need me. I am always at nine.'".
+  }
+  Route thess_round for thess priority 5 when not thessTold(party) {
+    well "sitting at the well" at square from watch 0.
+    nine "going down to cairn nine" at c9 from watch 66.
+  }
+  Route thess_fourteen for thess priority 8 when thessTold(party) and not proposalLanded(party) {
+    fourteen "going to cairn fourteen" at c14 from watch 60.
+  }
+
+  Topic thess_wait with thess "Ask Thessaly what she is waiting for" when true once {
+    Says "'Dacey Whitlow. Ploughman. Straight furrows, crooked everything else.' She turns the flask. 'He said, last Frost, that he was going to shout for me. He would not say what, because that is forestalling, and he is a man who would sooner be dead than rude to a canyon. He went red to the ears. He said: cairn nine, Thess, hear it at nine.' She drinks. 'That was the last whole sentence he has said to me. I have been at nine every night this week, in case the Reply was early.'".
+    On discuss { Assert knows(actor, thess_waits). Assert knows(actor, dacey_paid). }
+  }
+  Topic thess_yes with thess "Ask Thessaly whether she will say yes" when knows(actor, thess_waits) once {
+    Says "'I should like to know what the question is. I notice that about a question.' She turns the flask the other way. 'And if he is a man who can shout a thing across a canyon, he is a man who could have said it in a kitchen. I have told him that. He went red. He went and ploughed.'".
+  }
+  Topic thess_tell with thess "Tell Thessaly that something for her went out from cairn fourteen, not nine" when knows(actor, proposal_astray) and not thessTold(party) once {
+    Grave "Saying that a message was sent, and from where, is forestalling. It may not be forgiven by the Rim; it will be forgiven by her.".
+    Says "'Fourteen,' says Thessaly. She puts the flask down on the well with great care. 'The Hallets'.' She is quiet. 'Between nine and fourteen there are four cairns. I have counted them every night this week.' She stands. 'Tobe Merriweather,' she says, to the sky above the Last Word, 'I shall see you in the next world, and we shall have words.' She picks up the flask. 'I shall be at fourteen. With the Hallets, who will be delighted.'".
+    On discuss { Assert thessTold(actor). Assert forestalled(actor). }
+  }
+  Topic thess_dacey_bring with thess "Ask Thessaly if she would stand with Dacey, if he came" when thessTold(party) and not thessAsked(party) once {
+    Says "'If he can bear a cairn,' says Thessaly. 'He is a ploughman. He can bear a bit of rock.' She is looking at the road to the Rim. 'I will not say anything. It would be forestalling. And I don't know what I would say.'".
+    On discuss { Assert thessAsked(actor). }
+  }
+
+  // ── Dacey Whitlow ──────────────────────────────────────────────────────────────────────────────────────────────
+  Person dacey "Dacey Whitlow" at fields {
+    Role "a ploughman". Ancestry human. Pronouns he. Manner stoic. Peaceable. Uses go. Plans 14 steps.
+    Greets "The big man on the plough-shaft looks up like a horse hearing its name. 'Whitlow,' he says. 'Dacey. Sorry. Is it the headland? I will move.' He does not move.".
+    Greets again "'I'm ploughing,' says Dacey Whitlow, who is not.".
+    Farewell "'Mind the furrow,' says Dacey. 'It's straight. You can't miss it.'".
+  }
+  Route dacey_round for dacey priority 5 when not daceyComing(party) and not proposalLanded(party) {
+    plough "sitting on the plough" at fields from watch 0.
+    gate "hiding at the Rim gate" at gate from watch 78.
+  }
+  Route dacey_fourteen for dacey priority 8 when daceyComing(party) and not proposalLanded(party) {
+    fourteen "going to cairn fourteen" at c14 from watch 60.
+  }
+
+  Topic dacey_wait with dacey "Ask Dacey what he is waiting for" when true once {
+    Says "'To hear it back,' says Dacey. 'And not to.' He looks at his hands. 'It's not mine to say what I shouted. It's forestalling. I'll say I wrote it out first. Four days. I'll say I meant it, every word, to the ploughshare.'".
+    On discuss { Assert knows(actor, dacey_meant). }
+  }
+  Topic dacey_say with dacey "Ask Dacey to say it to her face" when knows(actor, dacey_meant) once {
+    Says "He goes the colour of the horse's blanket. 'That is not what it is for. It is for sending. If I said it, she would be looking at me.' He gives the plough a look, as if it might help. 'I would sooner plough the Reply.'".
+  }
+  Topic dacey_astray with dacey "Tell Dacey that his message went out from cairn fourteen" when knows(actor, proposal_astray) and not daceyKnows(party) once {
+    Says "'Fourteen,' says Dacey. He says it again, the way you say the name of a place you have been told has burned down. 'The Hallets'. Where Amos Hallet sits on his stone and tells the Reply the price of hay.' He sits down, though he was already sitting, a second time, inwardly. 'And not Thess.' 'No.' 'Four days it took me to write.' He looks at the straight furrow at the headland, a long while. 'Is it a good one?' he asks. 'I thought it was a good one.'".
+    On discuss { Assert daceyKnows(actor). Assert forestalled(actor). }
+  }
+  Topic dacey_bring with dacey "Ask Dacey to stand at cairn fourteen tonight" when daceyKnows(party) and thessTold(party) and not daceyComing(party) once {
+    Says "'She will be there?' says Dacey. 'At the Hallets'?' He is quiet. 'I shall not say anything,' he says. 'I will stand. I have stood a good many things.' He stands, and for the first time since you saw him he does not look like a man waiting to be asked to move. 'I will have to wash.'".
+    On discuss { Assert daceyComing(actor). }
+  }
+
+  // The knot on the cord and the thread at nine, put together.
+  Rule astray_put_together when knows(party, cord_seen) and knows(party, thess_waits) and not knows(party, proposal_astray)
+    says "The barley at fourteen. The blue at nine, tied to nothing. She has been waiting at nine all week for a thing that has been sent to fourteen." teaches proposal_astray { }
+  Discovery proposal_astray "Dacey Whitlow's message for Thessaly Calloway, meant for cairn nine, was shouted from cairn fourteen: the Hallets'. It lands at ten past midnight.".
+  Discovery cord_seen "Tobe's cord: Whitlow's barley is knotted at the fourteenth hand-span; the Calloways' blue thread hangs, tied to nothing, at the ninth.".
+  Discovery thess_waits "Thessaly Calloway waits every night at cairn nine for a message Dacey Whitlow shouted for her, and does not know what it says.".
+  Discovery dacey_paid "Dacey Whitlow paid the Caller a day's wages last Frost, in advance, for a message he would not name.".
+  Discovery dacey_meant "Dacey Whitlow wrote out what he shouted, and took four days over it, and meant every word.".
+  Discovery caller_silence "A Caller who tells what he shouted is finished: the bell goes on the Warden's bench, and the trade goes with it.".
+}

@@ -1,0 +1,87 @@
+Module rejoinder "Rejoinder" {
+  // ── Ines Larkin, the Warden of the Rim ─────────────────────────────────────────────────────────────────────────
+  // Eighty-one and blind, and she has heard every Return since before the road was laid. She keeps the gate, lets the
+  // cairns, and has never forestalled anything in her life. Her cairn is forty: nobody's. Her voice is nearly gone.
+
+  Relation holdsCairn(group). Relation woolBought(group). Relation tobeFed(group).
+  Kind rj_wool "a twist of grey wool" is treasure worth 0 weighing 1 described "A twist of grey wool, carded and tied, the size of a fist. It is not for the ears.".
+
+  Person ines "Ines Larkin" at gate {
+    Role "the Warden of the Rim". Ancestry human. Pronouns she. Manner stoic. Peaceable. Uses go. Plans 14 steps.
+    Greets "The old woman on the bench has her face turned to the Reply and her hands in her lap, and says before you speak: 'More than one, fewer than a crowd, none of you from here. Good morning. A coin a night for a cairn, wool is at the Last Word, and I will thank you not to shout.'".
+    Greets again "'Ah,' says Ines Larkin. 'Still here, and still not shouting. You are doing very well.'".
+    Farewell "'Mind the edge,' says Ines. 'It has never once minded you.'".
+  }
+  Route ines_round for ines priority 4 when not inesSent(party) {
+    hut "keeping the gate" at gate from watch 0.
+    forty "going down the Rim to cairn forty" at c40 from watch 78.
+  }
+
+  Topic ines_how with ines "Ask Ines how the Reply works" when true once {
+    Says "'It keeps what you give it,' says Ines. 'A year to the night, in the order it was given, to the cairn it went out from. Not before. Not twice.' She turns her face a little toward the canyon, as one turns toward a stove. 'People ask me whether it lies. It is a hole in a hill. It has no need.'".
+    On discuss { Assert knows(actor, how_reply). }
+  }
+  Topic ines_forestall with ines "Ask Ines what forestalling is" when true once {
+    Says "'Telling what you shouted. Or what you heard another person shout, which is worse, and is called conversation.' She taps the bench with a finger like a root. 'It is no crime. I have simply never met a woman who did it and was glad.'".
+    On discuss { Assert knows(actor, forestall_known). }
+  }
+  Topic ines_wool with ines "Ask Ines about the wool" when true once {
+    Says "'A refusal,' says Ines. 'Hung on a cairn by the one who holds it, and no one else. The voice goes into the wool and is spent.' A pause. 'It has never been forbidden. I have never sold any. You may take that as an opinion.'".
+    On discuss { Assert knows(actor, wool_known). }
+  }
+  Topic ines_cairn with ines "Ask Ines about taking a cairn for the night" when true once {
+    Says "'Twenty is free. A coin, and it is yours till the Sending. You may stand at it, and shout from it at dawn, and what you shout will be waiting for you here a year from now, or for whoever has the cairn then, which is not the same thing, and which you had better think about.'".
+  }
+  Topic ines_three with ines "Ask Ines what the Reply has for cairn three" when knows(actor, orla_story) once {
+    Says "'No,' says Ines, pleasantly, as one says no to a third helping. Then, after a while: 'I have been Warden fifty-one years and forestalled nothing, and I shall not begin with strangers.' She folds her hands the other way. 'I will say what is not a forestalling but an arithmetic. There are two voices for cairn three tonight. Not one.'".
+    On discuss { Assert knows(actor, two_voices). }
+  }
+  Topic ines_sorry with ines "Ask Ines whether anyone has been sorry to hear their year" when true once {
+    Says "'Oh, a great many,' says Ines. 'It is not the same as being sorry they heard it.' She considers. 'I have never in my life known anyone to hang wool and be better for it by Lammas. I have known two or three who did, and said they were, and were rather loud about it.'".
+  }
+  Topic ines_forty with ines "Ask Ines whose cairn forty is" when true once {
+    Says "'Nobody's,' says Ines. 'It is at the end. It is where the wind turns.' Her face does not move. 'I wash it.'".
+    On discuss { Assert knows(actor, forty_asked). }
+  }
+  Topic ines_forty_more with ines "Ask Ines why she washes a cairn nobody holds" when knows(actor, forty_asked) once {
+    Says "'Because a doorstep should be clean,' says Ines. 'Even if no one is coming.' And then, more dryly, to the Reply: 'You see how it is, with a stranger. They ask, and one answers.'".
+  }
+
+  Action rent_cairn(actor: group) "Take cairn twenty from Ines for the night, for a coin" {
+    Requires able(actor) and company(actor) and at(actor, gate) and at(ines, gate) and quantity(actor, gold) >= 1 and not holdsCairn(actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 1. Assert holdsCairn(actor). }
+    Result "Ines holds out her hand without turning her head, and the coin goes into it as into a pocket she has not checked in thirty years. 'Twenty,' she says. 'Past the Hallets', before the end. Mind the rope.'".
+  }
+
+  // ── Jessamy Dole, who keeps the Last Word ──────────────────────────────────────────────────────────────────────
+
+  Person jessamy "Jessamy Dole" at taproom {
+    Role "the keeper of the Last Word". Ancestry human. Pronouns she. Manner jovial. Peaceable.
+    Sells rations for 2 coin from 8.
+    Sells rj_wool for 1 coin from 20.
+    Offers lodging "a bed and a bowl, to be got through before ten" for 3 coin.
+    Greets "A woman with her sleeves rolled to the shoulder is wiping the same piece of table. 'Wool's a penny,' she says, 'beds are three, and the soup is what it is. Whatever you are here to hear, dear, don't tell me. I have been told nine things since breakfast and I am full.'".
+    Greets again "'Still not telling me,' says Jessamy. 'Good. Soup?'".
+  }
+  Topic jessamy_wool with jessamy "Ask Jessamy who is buying wool" when true once {
+    Says "'Everyone, dear. It is like umbrellas. Nobody hangs it, and everybody has a twist about them in case.' She wipes. 'Except, you will notice, those that need it. They don't buy it here. They send somebody.'".
+  }
+  Topic jessamy_wat with jessamy "Ask Jessamy about the thin man in the sea-coat" when true once {
+    Says "'Hm.' Jessamy looks at the back of his head with a professional's tenderness. 'That's Wat Hallet, which he doesn't know I know. I'd know that back at a mile; I put a poultice on it when it was nine.' She lowers her voice by exactly one-third. 'Four years. He came in at six this morning, and had a small beer, and has been having it since. I'd not put a hand on the shoulder if I were you. I would put the soup near.'".
+    On discuss { Assert knows(actor, wat_known). }
+  }
+  Topic jessamy_dacey with jessamy "Ask Jessamy about Dacey Whitlow" when true once {
+    Says "'The ploughman? Sweet as a loaf. He has ploughed along the Calloways' fence every spring for six years, to the inch, and the Calloways have noticed, and so has the horse.' Jessamy lowers her voice. 'He paid Tobe a day's wages last Frost, in advance, and Tobe took it, and what for I don't know, dear, because it is forestalling to say and I'd have to be told. But I'd put money on the Calloways' girl.'".
+    On discuss { Assert knows(actor, dacey_paid). }
+  }
+  Topic jessamy_tobe with jessamy "Ask Jessamy about the Caller asleep on the bench" when true once {
+    Says "'Tobe Merriweather. Best voice on the Rim, and a good man by half-past twelve.' She sighs. 'He has had the Callers' bell for thirty years, and the shakes for four. If you want his help, buy him a small beer and don't let him see you buying it for that reason.'".
+  }
+  Action feed_tobe(actor: group) "Buy Tobe a small beer, and one for the table" {
+    Requires able(actor) and company(actor) and at(actor, taproom) and at(tobe, taproom) and quantity(actor, gold) >= 1 and not tobeFed(actor).
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 1. Assert tobeFed(actor). }
+    Result "Jessamy draws it without being asked twice, and sets it on the bench by the sleeper's elbow with a small noise. The hat lifts an inch. A hand comes out from under it, finds the beer without looking, and takes it back under, like a tortoise with a gift.".
+  }
+}

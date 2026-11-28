@@ -1,0 +1,60 @@
+Module rejoinder "Rejoinder" {
+  // ── What became of them, told when the Sending is over ─────────────────────────────────────────────────────────
+
+  Rule fo_wool when sendingOver() and not fatedOrla(party) and woolHung(party)
+    says "Orla Pendle hung her wool and sat at cairn three till the small hours with her stick across her knees, and heard nothing, which was what she had come for. She sleeps till noon. She will never know there was a second voice, and you will, and it is hers to know or not." { Assert fatedOrla(party). }
+  Rule fo_late when sendingOver() and not fatedOrla(party) and orlaToldLate(party)
+    says "Orla Pendle heard it at seven in the morning, in her kitchen, second-hand, from a stranger. It is not the same as hearing it on the cairn. It is a great deal." { Assert fatedOrla(party). }
+  Rule fo_heard when sendingOver() and not fatedOrla(party) and orlaHeard(party)
+    says "Orla Pendle heard her own year, and the breath after it. She walked home at one, with the hip bad on the steps, and said aloud to nobody on the second one down: mind the step. The horn is back on the dresser, where it has a place." { Assert fatedOrla(party). }
+  Rule fo_gone when sendingOver() and not fatedOrla(party)
+    says "Orla Pendle went home at a quarter to eleven, by the way she went down last year, and did not sleep. The Reply does not give twice. Somewhere in the red there is a man's voice that said what it came to say to an empty cairn, and Ines Larkin heard it, and will not say." { Assert fatedOrla(party). }
+
+  Rule fh_met when sendingOver() and fatedOrla(party) and not fatedHallet(party) and reunited(party)
+    says "Amos Hallet's dairy opened at six as it always does, and a thin man in a sea-coat was in it, turning cheeses wrong. The cap is off the nail. Nobody has said anything at all, and the east field is being ploughed." { Assert fatedHallet(party). }
+  Rule fh_gone when sendingOver() and fatedOrla(party) and not fatedHallet(party) and not reunited(party)
+    says "Wat Hallet took the carter's cart at dawn with the list in his head. He did not go to the dairy. Amos Hallet sat on his stone at fourteen until the Sending, and shouted the farm's news into the Reply, flat, the same as every year, and added a word at the end that nobody on the Rim could make out." { Assert fatedHallet(party). Assert watGone(party). }
+
+  Rule ft_answered when sendingOver() and fatedHallet(party) and not fatedThess(party) and answeredAloud(party)
+    says "Thessaly Calloway said yes out loud, in front of the Rim, a year early, which is not done. Ines Larkin, asked, said that it was not done and that it was the first sensible thing she had heard at fourteen in a decade. Dacey Whitlow has begun ploughing the Calloways' field as well as his own. He ploughs it crooked, and has not stopped smiling." { Assert fatedThess(party). }
+  Rule ft_met when sendingOver() and fatedHallet(party) and not fatedThess(party) and metAfter(party)
+    says "Thessaly Calloway found Dacey Whitlow at the Rim gate at half past midnight, and said yes in a kitchen of a sort, which is to say a hut doorway. It is two years early. Nobody in Rejoinder is quite sure what that does to the calendar." { Assert fatedThess(party). }
+  Rule ft_heard when sendingOver() and fatedHallet(party) and not fatedThess(party) and thessHeard(party)
+    says "Thessaly Calloway heard the proposal at fourteen, and ran. Whether she found him before dawn is a thing the Rim has its own account of, and none of them agrees." { Assert fatedThess(party). }
+  Rule ft_lost when sendingOver() and fatedHallet(party) and not fatedThess(party)
+    says "Thessaly Calloway sat at nine till dawn and heard only the wind. By seven the whole Rim knew what Dacey Whitlow had shouted, and she was the last to be told, by the Hallets' girl, with a pie. She has not said a word to Tobe Merriweather, or to Dacey, and has been seen standing in the Whitlows' lower field looking at a very straight furrow." { Assert fatedThess(party). }
+
+  Rule fb_tells when sendingOver() and fatedThess(party) and not fatedTobe(party) and tobeTells(party)
+    says "Tobe Merriweather did not shout at the Sending. The bell is on the Warden's bench. He sells wool at the Last Word now, and is said to be good at it; he tells the customers, whether they ask or not, where wool is best worn." { Assert fatedTobe(party). }
+  Rule fb_spared when sendingOver() and fatedThess(party) and not fatedTobe(party) and tobeSpared(party)
+    says "Tobe Merriweather shouted at the Sending in the best voice on the Rim, and it was observed that he did not once look at cairn fourteen. He reads his numbers now by daylight, with a boy to check them." { Assert fatedTobe(party). }
+  Rule fb_plain when sendingOver() and fatedThess(party) and not fatedTobe(party)
+    says "Tobe Merriweather slept through the Sending in the Last Word and was woken for it by his own reputation." { Assert fatedTobe(party). }
+
+  Rule fi_sent when sendingOver() and fatedTobe(party) and not fatedInes(party) and inesSent(party)
+    says "A year from tonight, to the night, at cairn forty, a voice will say Yes to whoever is standing there. It will be a stranger's voice and the oldest answer on the Rim. Ines Larkin washes the cairn on the way home, for the last time, and does not look back." { Assert fatedInes(party). }
+  Rule fi_not when sendingOver() and fatedTobe(party) and not fatedInes(party)
+    says "Ines Larkin stood at forty through the Sending with her hand on the clean stone, and her mouth moved. Nothing carried. The Reply keeps a shout and not a whisper." { Assert fatedInes(party). }
+
+  Rule fw_promise when sendingOver() and fatedInes(party) and not fatedOwn(party) and ownKind(party, pr_promise)
+    says "A year from now, at cairn twenty, a voice that is yours will say what you meant to do. Whoever is standing there will hear it, and you may not be there to be shamed." { Assert fatedOwn(party). }
+  Rule fw_thanks when sendingOver() and fatedInes(party) and not fatedOwn(party) and ownKind(party, pr_thanks)
+    says "A year from now at cairn twenty a stranger will be thanked, warmly and by name, in a voice that is not theirs, for a night that was not theirs. They will take it very well." { Assert fatedOwn(party). }
+  Rule fw_warning when sendingOver() and fatedInes(party) and not fatedOwn(party) and ownKind(party, pr_warning)
+    says "A year from now at cairn twenty a flat voice will tell a stranger something they will need. They will not know who to blame, or to thank." { Assert fatedOwn(party). }
+  Rule fw_joke when sendingOver() and fatedInes(party) and not fatedOwn(party) and ownKind(party, pr_joke)
+    says "A year from now at cairn twenty the Reply will give someone a joke they did not ask for. By then it will be very old, and nobody will remember which of you was meant to be funny." { Assert fatedOwn(party). }
+  Rule fw_none when sendingOver() and fatedInes(party) and not fatedOwn(party)
+    says "You shouted nothing, and the Reply kept it, with the other nothings of the night. It is the most polite thing anyone did on the Rim." { Assert fatedOwn(party). }
+  Rule fate_all when sendingOver() and fatedAsh(party) and not fated(party) { Assert fated(party). }
+
+  Ending sixty_one "Sixty-One Years" over all_heard when fated(party) and inesSent(party) "The Reply has taken a word it will keep a year. Along the Rim the lamps are being lit again, the wool taken down, and everyone is talking at once.".
+  Ending all_heard "Everything Returned" when fated(party) and orlaHeard(party) and reunited(party) and thessHeard(party) "By seven Rejoinder is talking, loudly, at every door, about what it has heard, and nobody is forestalling anybody, and the Warden is letting it go.".
+  Ending wool_night "Wool" when fated(party) and woolHung(party) "By seven the wool is down from the latches and in the baskets at the Last Word, to be sold again next year, a penny.".
+  Ending the_sending "The Sending" when fated(party) "The Reply has the year ahead, and keeps it. Somewhere in the red, in order, to the doorsteps they were meant for, a great many people's voices are waiting.".
+
+  Milestone ms_orla "Cairn three is heard out, or kept" worth 30 when orlaHeard(party) or woolHung(party).
+  Milestone ms_hallets "A father and a son at fourteen" worth 40 when reunited(party).
+  Milestone ms_thess "The proposal finds its door" worth 40 when thessHeard(party).
+  Milestone ms_ines "The Warden's word is sent" worth 40 when inesSent(party).
+}

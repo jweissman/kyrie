@@ -1,0 +1,71 @@
+Module rejoinder "Rejoinder" {
+  // ── Amos and Wat Hallet, and cairn fourteen ────────────────────────────────────────────────────────────────────
+  // Four years ago Wat left over the dairy, and Amos has said before the village that the boy is dead to him. Every
+  // Sending since, at fourteen, he has shouted the farm's news flat, as a farmer writes a letter. Tonight Wat has come
+  // home to stand in the dark and hear whether his father ever called. The list returns at twenty past eleven. If Wat
+  // is not there, he will take it for all he is going to get.
+
+  Person amos "Amos Hallet" at dairy_room {
+    Role "the dairyman". Ancestry human. Pronouns he. Manner grim. Peaceable. Uses go. Plans 14 steps.
+    Sells rations for 2 coin from 6.
+    Greets "A broad man in a leather apron, turning a cheese, does not turn round. 'Dairy's shut to strangers on Return Night,' he says, to the cheese. 'Cheese is two coin the wedge. Don't ask about the weather. It will do what it does.'".
+    Greets again "'Cheese,' says Amos Hallet, 'is two coin.'".
+    Farewell "'Mind the door,' says Amos. 'It sticks in the wet. It has been sticking four years.'".
+  }
+  Route amos_round for amos priority 5 {
+    dairy "turning cheeses" at dairy_room from watch 0.
+    fourteen "going down to cairn fourteen" at c14 from watch 66.
+  }
+
+  Topic amos_cap with amos "Ask Amos about the cap on the nail" when true once {
+    Says "'Not yours.' The cheese is turned. 'It is kept dry, that's all. It's a good cap. It would be a waste.'".
+  }
+  Topic amos_wat with amos "Ask Amos about his son" when true once {
+    Says "'I had a son.' He turns another cheese. 'He has been dead to me four years, and I will not have it brought up by a stranger on Return Night, when it is a time for people to mind their own.'".
+    On discuss { Assert knows(actor, amos_denies). }
+  }
+  Topic amos_told with amos "Tell Amos that a thin man in a sea-coat is at the Last Word" when knows(actor, wat_known) and not amosTold(party) once {
+    Says "The cheese stops. 'Tall,' says Amos, to the cheese. 'Thin. Hands like a gate.' He does not turn. He turns the cheese, and the next, and the next; you count eleven before he stops. Then he takes the boy's cap down from its nail, and looks at it, and hangs it back, a finger's breadth to the left of where it was. 'I shall be at fourteen,' he says. 'I am always at fourteen. It is a free Rim.'".
+    On discuss { Assert amosTold(actor). }
+  }
+
+  Person wat "Wat Hallet" at taproom {
+    Role "a sailor home from the sea". Ancestry human. Pronouns he. Manner stoic. Peaceable. Uses go. Plans 14 steps.
+    Known as "a thin man in a sea-coat" when not knows(party, wat_known).
+    Greets "The thin man has a small beer in front of him that has gone flat enough to be a puddle. 'Passing through,' he says, before you ask. 'For the Return. Like anybody.' He has a farmer's hands and a sailor's face and, in the way he sits, a boy's back.".
+    Greets again "'Still passing,' says Wat Hallet, and moves the beer a little, as if it were a small chess-piece.".
+    Farewell "'Don't mind me,' says Wat. 'I'm not here.'".
+  }
+  Route wat_round for wat priority 5 when not watPlaced(party) and not listLanded(party) {
+    taproom "nursing a beer" at taproom from watch 0.
+    gate "standing at the Rim gate in the dark" at gate from watch 72.
+  }
+  Route wat_goes for wat priority 7 when listLanded(party) and not reunited(party) and not watTurns(party) and not watPlaced(party) {
+    road "walking out to the road" at road from watch 0.
+  }
+  Route wat_back for wat priority 8 when watTurns(party) and not reunited(party) {
+    fourteen "going down to cairn fourteen" at c14 from watch 0.
+  }
+
+  Topic wat_why with wat "Ask the thin man what brings him to the Return" when not knows(party, wat_known) once {
+    Says "'A cairn I know,' he says. 'I thought I'd listen.' He drinks nothing from the beer. 'Whose it is, I couldn't say.'".
+  }
+  Topic wat_know with wat "Tell Wat you know whose son he is" when knows(actor, wat_known) and not watKnown(party) once {
+    Says "'Jessamy,' says Wat, wearily, 'has a mouth like a drain.' He looks at the beer. 'Don't tell him. If he's called, he's called, and I shall hear it from behind the dark at fourteen. If he hasn't, I would sooner not have been seen.' He turns the glass. 'When I went, he said: go, then. He said it at the dairy door with his back to me. I thought he might have shouted since. He is a man who would shout a list.'".
+    On discuss { Assert watKnown(actor). Assert knows(actor, wat_hopes). }
+  }
+  Topic wat_walk with wat "Offer to walk Wat down to cairn fourteen" when watKnown(party) and not following(wat, actor) and not watPlaced(party) once {
+    Says "'Behind the cairn,' says Wat. 'In the dark. Not beside it.' He stands, with the air of a man standing on a deck. 'I'll come as far as the dark.'".
+    On discuss { Assert following(wat, actor). }
+  }
+  Action place_wat(actor: group) "Leave Wat in the dark behind cairn fourteen" {
+    Requires able(actor) and company(actor) and at(actor, c14) and following(wat, actor) and not watPlaced(party).
+    Time 5 minutes.
+    On success { Retract following(wat, actor). Assert at(wat, c14). Assert watPlaced(actor). }
+    Result "There is a place behind the lichened stone where the lantern does not reach. Wat steps into it and becomes a shape. 'Go on, then,' he says, quietly. 'Don't look.'".
+  }
+  Topic wat_turn with wat "Tell Wat what the list meant" when knows(actor, amos_list) and listLanded(party) and not reunited(party) and not watTurns(party) once {
+    Says "'The roan has foaled,' you say. 'The east field wants a man. The cap is on the nail. That is not news, Wat. That is a man in a leather apron shouting your name for four years in the only words he has.' Wat has stopped looking at the road. 'The cap,' he says. 'He kept the cap.' He is a long time. Then he turns, and does not say anything, and begins to walk back the way he came.".
+    On discuss { Assert watTurns(actor). }
+  }
+}

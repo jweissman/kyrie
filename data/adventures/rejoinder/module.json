@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "source": [
+    "facts.kyr",
+    "site.kyr",
+    "folk.kyr",
+    "orla.kyr",
+    "courtship.kyr",
+    "hallets.kyr",
+    "night.kyr",
+    "sending.kyr",
+    "count.kyr",
+    "endings.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar",
+    "ash_count_begun",
+    "ash_broken",
+    "ash_triumphs"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "country",
+    "road": "road"
+  }
+}

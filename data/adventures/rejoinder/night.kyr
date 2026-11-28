@@ -1,0 +1,92 @@
+Module rejoinder "Rejoinder" {
+  // ── The Return ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Watch 84 is ten at night. Cairn three at 87 and 89, cairn fourteen at 92 and 97, the last voice at cairn forty at
+  // 120. The Rim hears the small voices; a cairn hears its own.
+
+  Chapter c_day "Return Night" when watch(clock) >= 0 "It is the last day of summer, and by tonight the Reply will give back the year. Rejoinder is being very quiet about it.".
+  Chapter c_dusk "Dusk" when hour(clock) >= 19 and day(clock) == 1 "The lamps go out along the Rim, one by one, so that people can hear. The villagers come down in ones and twos, each to a number, as to a pew.".
+  Chapter c_return "The Return" when watch(clock) >= 84 "At ten the Reply clears its throat. It is the only way to say it: a mile of canyon takes breath, and the first voice of the year comes up out of the dark.".
+  Chapter c_last "The Last Voice" when watch(clock) >= 120 "The Rim has been quiet for an hour. People sit on their stones with their hands in their laps, as after a meal.".
+  Chapter c_sending "The Sending" when sendingOpen() "Light comes up red along the east lip. All down the Rim, people stand.".
+
+  Query sendingOpen() means day(clock) >= 2 and hour(clock) >= 5 and hour(clock) < 8.
+  Query sendingOver() means day(clock) >= 2 and hour(clock) >= 7.
+
+  Initially Set voiceA() to (1d6). Initially Set voiceB() to (1d6). Initially Set voiceC() to (1d6). Initially Set renter() to (1d6).
+
+  // Small voices of the year, heard anywhere on the Rim; what each night draws is its own.
+  Rule va1 heard within rim when watch(clock) >= 84 and voiceA() == 1 once says "'Gerrard!' says a woman's voice, off the east wall. 'The brown cow is NOT yours.' A pause, and a second voice, further down: 'It is a bit mine.'" { }
+  Rule va2 heard within rim when watch(clock) >= 84 and voiceA() == 2 once says "A man sings, flat, the second verse of something about a miller, and stops to say, with great dignity: 'I've lost the third.'" { }
+  Rule va3 heard within rim when watch(clock) >= 84 and voiceA() == 3 once says "'To whom it may concern,' says a woman's voice, crisp as a rehearsed thing, 'the pie was not stolen. It was eaten. By me.'" { }
+  Rule va4 heard within rim when watch(clock) >= 84 and voiceA() == 4 once says "'Seven,' says a girl, counting. 'Eight. Nine.' She counts to forty and says: 'I am going to count till the Reply says stop.' Nobody, a year ago, did." { }
+  Rule va5 heard within rim when watch(clock) >= 84 and voiceA() == 5 once says "'Mother, I am sorry about the hen,' says a young man's voice, hoarse. A hundred yards along the Rim a woman says 'I knew it' to nobody." { }
+  Rule va6 heard within rim when watch(clock) >= 84 and voiceA() == 6 once says "A very small voice says: 'Hello?' A pause. 'Hello? Is anyone there?' Another pause, a year long. 'Good.'" { }
+  Rule vb1 heard within rim when watch(clock) >= 100 and voiceB() == 1 once says "A big wet laugh goes round the Reply twice before it dies, and a hundred people along the Rim pretend they did not hear it." { }
+  Rule vb2 heard within rim when watch(clock) >= 100 and voiceB() == 2 once says "'Not the blue one,' says a child, quite distinct, off the cliff. 'The other blue.'" { }
+  Rule vb3 heard within rim when watch(clock) >= 100 and voiceB() == 3 once says "An old man says to the dark, as to a dog: 'Well, that's that. That's that, then.' Somebody along the Rim blows their nose." { }
+  Rule vb4 heard within rim when watch(clock) >= 100 and voiceB() == 4 once says "'I am not scared,' says a boy, fierce and cracked. 'I am only saying it loud.' Several people along the Rim, who are not boys, nod." { }
+  Rule vb5 heard within rim when watch(clock) >= 100 and voiceB() == 5 once says "'And that,' says a woman, patient as a spoon, 'is why we do not keep geese.'" { }
+  Rule vb6 heard within rim when watch(clock) >= 100 and voiceB() == 6 once says "Somebody sings with great confidence a song that has no tune. It goes on for some time. At the end, a year late, somebody applauds." { }
+  Rule vc1 heard within rim when watch(clock) >= 112 and voiceC() == 1 once says "'No, but did you see his face,' says a voice, and a bark of laughter goes up and down the cliffs twice." { }
+  Rule vc2 heard within rim when watch(clock) >= 112 and voiceC() == 2 once says "A girl's voice, very fast: 'I-will-never-forgive-you-ever.' A pause. 'Come-home.'" { }
+  Rule vc3 heard within rim when watch(clock) >= 112 and voiceC() == 3 once says "A man says, with immense authority: 'Seventeen sheep. I counted twice.' It is clear he wishes this known." { }
+  Rule vc4 heard within rim when watch(clock) >= 112 and voiceC() == 4 once says "A woman's voice, low, into the dark: 'I would like it to be known that I was happy this summer.' Nothing follows. It seems to be enough." { }
+  Rule vc5 heard within rim when watch(clock) >= 112 and voiceC() == 5 once says "'Dear Mother. I am well. The sea is bigger than described.' A pause. 'I will write properly when I am settled,' says the voice, and then, to itself: 'which I will not.'" { }
+  Rule vc6 heard within rim when watch(clock) >= 112 and voiceC() == 6 once says "'Whoever you are,' says a man's voice, quite near, 'it gets better.' A pause. 'I am told.'" { }
+
+  // The company's own cairn: whoever rented it last, a year ago.
+  Rule r_c20_1 at c20 when watch(clock) >= 100 and renter() == 1 once says "A stranger's voice comes down onto the cairn, a woman's, tired and kind. 'To whoever has this cairn next: the view is worth the coin. Do not lean out. I leaned out.'" { }
+  Rule r_c20_2 at c20 when watch(clock) >= 100 and renter() == 2 once says "A pilgrim's voice, a man's, brisk: 'Blessings on the next one. And a word on the rope handle: it is not as strong as it looks.'" { }
+  Rule r_c20_3 at c20 when watch(clock) >= 100 and renter() == 3 once says "A child's voice, high, in one breath: 'I'm-sorry-about-the-window-I-didn't-mean-it-it-was-the-ball.'" { }
+  Rule r_c20_4 at c20 when watch(clock) >= 100 and renter() == 4 once says "A long helpless laugh, a woman's, which goes on past the point where it is funny and out the other side. It ends: 'Oh, dear.'" { }
+  Rule r_c20_5 at c20 when watch(clock) >= 100 and renter() == 5 once says "A man's voice says, very formally: 'I wish it recorded that I was here, that it was cold, and that I was not as afraid as I am going to say.'" { }
+  Rule r_c20_6 at c20 when watch(clock) >= 100 and renter() == 6 once says "'It is a good cairn,' says a stranger's voice, warmly, to the next stranger. 'It has never once told anybody anything. Try it.'" { }
+
+  // ── Cairn three, 22:30 ─────────────────────────────────────────────────────────────────────────────────────────
+  Rule o_wool at c3 when watch(clock) >= 87 and not orlaVoice1(party) and woolHung(party) and at(orla, c3)
+    says "A voice leaves the Reply and comes across the dark toward cairn three, and arrives at a twist of grey wool, and is not. Then another. Orla Pendle has her hand flat on the stone beside the wool and her eyes on the middle distance. Neither voice arrives. She stands a while, as one stands after a train has not come." { Assert orlaVoice1(party). Assert orlaMuffled(party). Assert jorySpoken(party). }
+  Rule o_hers at c3 when watch(clock) >= 87 and not orlaVoice1(party) and at(orla, c3)
+    says "'Then GO!' It comes back off the red wall and across the dark like a thrown plate, a woman's voice, a year younger. 'Go, then! And good riddance to you and your orchard!' Orla Pendle does not flinch. She has the stick hooked over her arm and both hands on the cairn. The echo goes down the Reply and does not come up again. In the quiet there is the sound of a boot turning on gravel." { Assert orlaVoice1(party). }
+  Rule o_empty when watch(clock) >= 87 and not orlaVoice1(party) and not at(orla, c3) { Assert orlaVoice1(party). }
+  Rule o_goes at c3 when watch(clock) >= 88 and orlaVoice1(party) and not orlaMuffled(party) and not orlaStays(party) and not jorySpoken(party) and at(orla, c3)
+    says "Orla takes her stick off her arm. She says nothing at all. She goes down toward the village by the way she went last year, a step at a time, not looking back, and the cairn is empty." { Assert orlaGone(party). Assert at(orla, kitchen). }
+  Rule j_heard at c3 when watch(clock) >= 89 and orlaVoice1(party) and not jorySpoken(party) and at(orla, c3)
+    says "'Orla.' It is a man's voice, hoarse, quiet: he is speaking to a woman's back and has all the time there is. 'Orla. I'd not leave this cairn if you asked me to. I am not going anywhere you aren't.' A small cough. 'Mind the step on the way down. It's wet.' Orla Pendle puts her stick against the stone, and sits on the other hollow, and puts both hands over her face. Nobody hurries her." teaches jory_words { Assert jorySpoken(party). Assert orlaHeard(party). }
+  Rule j_lost when watch(clock) >= 89 and orlaVoice1(party) and not jorySpoken(party) and not at(orla, c3) { Assert jorySpoken(party). }
+  Rule j_lost_told at c3 when watch(clock) >= 89 and orlaVoice1(party) and not jorySpoken(party) and not at(orla, c3) says "A second voice comes across the dark, a man's, quiet, and arrives at an empty cairn, and says something unhurried to nobody." { }
+
+  // ── Cairn fourteen, 23:20 and 00:10 ────────────────────────────────────────────────────────────────────────────
+  Rule list_told at c14 when watch(clock) >= 92 and not listLanded(party) and at(amos, c14) and at(wat, c14) and amosTold(party)
+    says "'The roan has foaled,' says a man's flat voice, close, as at your shoulder. 'Colt. Bay. A white sock. Your mother's grave is kept. The east field wants a man.' A breath. 'The cap is on the nail.' Another. 'That's the news.' Amos Hallet has not moved. From behind the cairn a thin man steps into the lantern's light, and Amos says, without turning his head, in exactly the voice of the Reply: 'You are late.' Then he lifts his hand off the flat stone, and does not seem to know where to put it." teaches amos_list { Assert listLanded(party). Assert reunited(party). }
+  Rule list_together at c14 when watch(clock) >= 92 and not listLanded(party) and at(amos, c14) and at(wat, c14)
+    says "'The roan has foaled,' says a man's flat voice, close, as at your shoulder. 'Colt. Bay. A white sock. Your mother's grave is kept. The east field wants a man. The cap is on the nail. That's the news.' Amos Hallet sits quite still on his stone. From behind the cairn a thin man steps into the light. Amos looks up. 'Wat,' he says, like a man reading a name off a gate. It is all he has, and for a while he does not seem to need more." teaches amos_list { Assert listLanded(party). Assert reunited(party). }
+  Rule list_alone at c14 when watch(clock) >= 92 and not listLanded(party) and at(amos, c14)
+    says "'The roan has foaled,' says a man's flat voice, close, as at your shoulder. 'Colt. Bay. A white sock. Your mother's grave is kept. The east field wants a man. The cap is on the nail. That's the news.' Amos Hallet hears himself out, on his stone, with his hands on his knees. When it is done he says, to the dark: 'Well.' It is a long time before he gets up, and he does not go home." teaches amos_list { Assert listLanded(party). }
+  Rule list_gate at gate when watch(clock) >= 92 and not listLanded(party) and at(wat, gate)
+    says "Along the Rim, small and far, a man's flat voice comes up out of the dark. You cannot make out the words. Wat Hallet can. He stands quite still at the gate with his fists in his sleeves, and does not move toward it." { }
+  Rule list_empty when watch(clock) >= 92 and not listLanded(party) { Assert listLanded(party). }
+
+  Rule p_both at c14 when watch(clock) >= 97 and not proposalLanded(party) and at(thess, c14) and at(dacey, c14)
+    says "Out of the Reply comes a big, carrying, well-oiled voice, a voice you would trust with your coffin. The Callers' bell rings once. 'Thessaly Calloway. Dacey Whitlow of the lower ploughland sends his compliments, and this. I am not much of a one for words. I have ploughed a line along your father's fence every spring for six years because it is the straightest I can do, and it is the only way I have of looking at you. I should like to look at you across a table. I should like to do it for fifty years. If you have a mind to, you have a year to think of the way to say it, and I will take it however it comes.' A pause. The voice drops, becomes less a Caller's and more a man's, as if reading a hand. 'He says I am to add: he has never been so afraid of anything, and he would be obliged if you ignored the part about the fence.' Nobody on cairn fourteen breathes. Dacey Whitlow has gone the colour of his horse's blanket. Thessaly Calloway looks at him for a long time. 'I have not got a year,' she says. 'I have not got the patience. Yes.' She says it quite loud, to his face, in front of the Hallets and the Reply and the whole of the Rim, which is not done, and nobody says so." { Assert proposalLanded(party). Assert thessHeard(party). Assert answeredAloud(party). }
+  Rule p_thess at c14 when watch(clock) >= 97 and not proposalLanded(party) and at(thess, c14)
+    says "Out of the Reply comes a big, carrying, well-oiled voice, a voice you would trust with your coffin. The Callers' bell rings once. 'Thessaly Calloway. Dacey Whitlow of the lower ploughland sends his compliments, and this. I am not much of a one for words. I have ploughed a line along your father's fence every spring for six years because it is the straightest I can do, and it is the only way I have of looking at you. I should like to look at you across a table. I should like to do it for fifty years. If you have a mind to, you have a year to think of the way to say it.' A pause. 'He says I am to add: he has never been so afraid of anything, and he would be obliged if you ignored the part about the fence.' Thessaly Calloway stands with her flask in both hands. 'The fence,' she says, to nobody, quite softly. Then she is gone up the Rim at a walk that is nearly a run, toward wherever a ploughman might hide." { Assert proposalLanded(party). Assert thessHeard(party). }
+  Rule p_crowd at c14 when watch(clock) >= 97 and not proposalLanded(party)
+    says "Out of the Reply comes a big, carrying, well-oiled voice. The Callers' bell rings once. 'Thessaly Calloway. Dacey Whitlow of the lower ploughland sends his compliments, and this. I should like to look at you across a table. I should like to do it for fifty years.' It goes on. Cairn fourteen listens with great politeness. Somewhere along the Rim, four cairns away, a woman who is standing at the wrong cairn hears only the wind." { Assert proposalLanded(party). Assert proposalLost(party). }
+  Rule p_empty when watch(clock) >= 97 and not proposalLanded(party) { Assert proposalLanded(party). Assert proposalLost(party). }
+  Rule thess_after when proposalLanded(party) and thessHeard(party) and not answeredAloud(party) and at(thess, ?p) and at(dacey, ?p) and not metAfter(party)
+    says "Thessaly Calloway has found him. For a moment they stand a yard apart, saying nothing, with the whole of the night between them. 'You could have said it in a kitchen,' says Thessaly. 'I wrote it out,' says Dacey. 'I know. I heard.' She takes his sleeve. 'Yes,' she says. 'Obviously.'" { Assert metAfter(party). }
+  Route thess_seek for thess priority 9 when thessHeard(party) and not answeredAloud(party) and not metAfter(party) {
+    gate "going to look for him" at gate from watch 0.
+  }
+
+  // ── Cairn forty, 04:00 ─────────────────────────────────────────────────────────────────────────────────────────
+  Rule ines_yes at c40 when watch(clock) >= 120 and watch(clock) < 130 and not knows(party, ines_word)
+    says "'Yes,' says a woman's voice, strong and young, a year younger at eighty; it comes down onto the clean cairn like a coin into a dish. Then nothing. Ines Larkin stands with one hand flat on the stone. 'That was a good one,' she says, to the Reply. 'That will have been the last of it.'" teaches ines_word { }
+
+  // ── The floor: all of it at once, and none of it in reach ──────────────────────────────────────────────────────
+  Rule f_orla at floor when watch(clock) >= 89 and not knows(party, jory_words)
+    says "Far overhead a woman shouts at a man, and comes down as a stone comes down, and under it, a breath after, quieter, a man's voice answers her. You hear every word. Neither of them is in reach." teaches jory_words { }
+  Rule f_list at floor when watch(clock) >= 92 and not knows(party, amos_list)
+    says "A flat voice lands on the pale patch under cairn fourteen like a man setting down a sack: the roan, a colt, a grave kept, a field that wants a man, a cap on a nail." teaches amos_list { }
+  Observe f_wonder at floor as sign when watch(clock) >= 84 and watch(clock) < 125 "Voices come down all round you, each onto its own pale doorstep, and lie there a moment before they go. From the floor the Reply is not a canyon but a post-office.".
+}

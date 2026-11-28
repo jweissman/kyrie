@@ -1,0 +1,35 @@
+Module rejoinder "Rejoinder" {
+  // ── The Ash's count, where it has begun ────────────────────────────────────────────────────────────────────────
+  // If the Ash has begun to count the marches, a tally-sergeant comes to the Rim gate with a grey board to list who
+  // stands at which cairn, and what comes back to them. The Rim has a custom for a thing it does not wish to be
+  // counted by: wool.
+
+  Thing board "the Ash's tally-board" nowhere {
+    State standing "A grey tally-board stands against the gate-hut wall on two legs, ruled in columns: CAIRN, HOUSEHOLD, HEARD.".
+    State refused "A grey tally-board stands against the gate-hut wall with a twist of grey wool hung from its top rail. Nobody has written anything on it since.".
+    Change refuse "Hang a twist of grey wool on the tally-board" from standing to refused consuming rj_wool.
+  }
+  Observe ash_road at road as sign when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) "Under the village board someone has pinned a grey notice: THE COUNT WILL BE TAKEN AT THE RIM ON RETURN NIGHT. Under it, in a child's hand: it is not a thing you can count.".
+  Person edric "Edric Pole" nowhere {
+    Role "a tally-sergeant of the Ash". Ancestry human. Pronouns he. Manner grim. Peaceable.
+    Arrives at gate when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and watch(clock) >= 48.
+    Arrives "A tall man in grey comes up the Rim road with a board on his back and two clerks behind him carrying stools. He sets the board against the gate-hut wall as if it were a thing he has done in a great many villages, and opens a book.".
+    Greets "'Pole,' says the tally-sergeant. 'Edric. For the count. I am told the Reply gives each cairn back what it was given, and I should like to know, before it does, who is standing at which cairn, and after it does, what they heard.' He looks at the canyon. 'I am not a man who understands canyons.'".
+    Greets again "'Pole,' says Edric Pole, without looking up. 'Still counting.'".
+  }
+  Topic pole_why with edric "Ask Pole what the count is for" when true once {
+    Says "'What a village says about the Ash,' says Pole. 'In a year, where it thought no one was listening. I am told it all comes back.' He taps the book. 'The Ash will wish to know whether the Rim is for it or against.' A clerk coughs. 'I should say that I think the Rim is for itself.'".
+  }
+  Topic pole_ines with edric "Ask Pole whether he has asked the Warden's leave" when true once {
+    Says "'I asked,' says Pole. 'She said the cairns are lent and not listed. I wrote it down. It is not a rule I have a column for.'".
+  }
+  Rule board_up when at(edric, gate) and not at(board, gate) and not state(board, refused) { Assert at(board, gate). }
+  Rule board_refused at gate when state(board, refused) and at(edric, gate) and not ashTurned(party)
+    says "Edric Pole looks at the wool for some time. 'A refusal,' he says. 'By your custom.' He consults the book, and the book does not help. 'A refused board is not a board.' He closes it very gently, as if it might go off. 'I shall say that the Rim is not countable.' The clerks fold their stools, and the three of them go down the Rim road in the dusk, one behind the other, like a sentence being struck out." { Assert ashTurned(party). Retract at(edric, gate). }
+
+  Rule fa_turned when sendingOver() and fatedOwn(party) and not fatedAsh(party) and ashTurned(party)
+    says "Edric Pole's report from Rejoinder is said to be one line: the Rim is not countable. His superiors are consulting a lawyer about wool." { Assert fatedAsh(party). }
+  Rule fa_counted when sendingOver() and fatedOwn(party) and not fatedAsh(party) and befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    says "Edric Pole's board lists the households at cairns three, nine and fourteen, and what each was heard to say. The Rim has been counted, and knows it; by Lammas there will be wool on every latch in the vale." { Assert fatedAsh(party). }
+  Rule fa_none when sendingOver() and fatedOwn(party) and not fatedAsh(party) { Assert fatedAsh(party). }
+}

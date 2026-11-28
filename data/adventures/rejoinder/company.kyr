@@ -1,0 +1,4 @@
+Module rejoinder "Rejoinder" {
+  Company party "You" of 1 at road.
+  Initially Set quantity(party, gold) to 10. Initially Set quantity(party, rations) to 2.
+}
