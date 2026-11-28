@@ -9,6 +9,7 @@ import { Tactics } from '../../src/tactics';
 import { QuantityLadder, type Ladder } from './ladder';
 import { QuantityDungeon } from './dungeon';
 import { QuantityCaution } from './caution';
+import { QuantityDescents, type Delver } from './descending';
 
 // Five expeditions on the reference seed (OR-1390, the economy review's Priority 0: doc/reviews/conflict-economy-
 // boredom-stimulation.md §8, §9): a rung-3 player with an explicit policy, not a search.
@@ -43,8 +44,10 @@ export interface Trip {
   // rooms below the company has been in by its return (OR-1395: routine compressed without a fall in world time or in
   // the sense of where it is).
   routine: { below: number; above: number }; watches: number; rooms: number;
-  moves: Record<Kind, number>; coin: number; items: string[]; fell: boolean;
-  changed: { options: number; world: number; learned: number; risk: number; memory: number };
+  // moves: the world's events, a journey's every leg one; presses: what was pressed, a journey one (the cold play's
+  // count: the review's Wave 2, "record total presses"), and whether it went down by a way made sure (Descents).
+  moves: Record<Kind, number>; presses: Record<Kind, number>; descended: boolean; coin: number; items: string[];
+  fell: boolean; changed: { options: number; world: number; learned: number; risk: number; memory: number };
 }
 export class QuantityExpeditions {
   static readonly seed = 's0';
@@ -107,21 +110,23 @@ export class QuantityExpeditions {
   // One expedition, from the town and back to it.
   private static async trip(s: PlaySession, n: number, seen: Map<string, Set<string>>): Promise<Trip> {
     const from = s.campaign.history.length, before = this.items(s), trip: Trip = { n, prepared: [], approach:
-      { attacks: 0, traps: 0, risked: 0, avoided: 0, deepest: 0, turned: '' }, answers: [], routine: { below: 0, above: 0 }, watches: 0, rooms: 0, moves: this.zero(), coin: 0, items: [], fell: false,
+      { attacks: 0, traps: 0, risked: 0, avoided: 0, deepest: 0, turned: '' }, answers: [], routine: { below: 0, above: 0 }, watches: 0, rooms: 0, moves: this.zero(), presses: this.zero(), descended: false, coin: 0, items: [], fell: false,
       changed: { options: 0, world: 0, learned: 0, risk: 0, memory: 0 } };
     let options = 0;
     const began = this.watch(s);
-    this.tally = trip.routine;
+    this.tally = trip.routine; this.pressed = trip.presses;
     if (n === 1) {
-      const h = new HonestPlayer(s);
+      const h = new HonestPlayer(s), at = s.campaign.history.length;
       for (let i = 0; i < 80 && s.campaign.running && this.here(s) !== 'region__s1_ud'; i++) {
         if (!await h.step().catch(() => false)) { break; }
       }
+      for (const e of s.campaign.history.slice(at)) { trip.presses[this.kind(e.action)]++; }
     } else {
       options += this.offered(s, seen, 'region__s1_green');
       await this.prepare(s);
       options += this.offered(s, seen, 'region__s1_shop');
-      await this.walk(s, 'region__s1_ud');
+      trip.descended = await QuantityDescents.descend(s, n - 1, this as unknown as Delver);
+      if (!this.here(s).startsWith('region__s1_ud')) { await this.walk(s, 'region__s1_ud'); }
     }
     options += this.offered(s, seen, 'region__s1_ud');
     trip.prepared = this.items(s).filter(k => !before.includes(k));
@@ -339,9 +344,12 @@ export class QuantityExpeditions {
       if (!sell || !await this.act(s, sell)) { return; }
     }
   }
-  private static async walk(s: PlaySession, to: string) {
+  // Way by way; but from a place below the company made sure, the way out in one act, and on from where it comes.
+  private static async walk(s: PlaySession, to: string): Promise<void> {
     for (const [passage, room] of Journey.way(s.campaign.world, this.here(s), to)) {
       if (!s.campaign.running || !this.standing(s)) { return; }
+      const out = QuantityDescents.out(s);
+      if (out && await QuantityDescents.journey(s, out, this as unknown as Delver)) { return this.walk(s, to); }
       if (!await this.act(s, `go(${passage},${room})`)) { return; }
       if (this.here(s) !== room) { return; }
     }
@@ -351,6 +359,7 @@ export class QuantityExpeditions {
     try {
       const below = this.here(s).startsWith('region__s1_ud'), from = s.campaign.history.length;
       const event = await s.leg(id, b => Promise.resolve(this.fight(b)));
+      this.pressed[this.kind(id)]++;
       for (const e of s.campaign.history.slice(from)) {
         if (['traversal', 'administration'].includes(this.kind(e.action))) { this.tally[below ? 'below' : 'above']++; }
       }
@@ -409,7 +418,7 @@ export class QuantityExpeditions {
   // The rows the page offers, as the page's journey reads them from its screen (never asked for outside the frame).
   private static ids(s: PlaySession): string[] { return Journey.of(s).choices().map(c => c.command); }
   private static here(s: PlaySession): string { return s.campaign.world.one('at', 'party') ?? ''; }
-  static tally = { below: 0, above: 0 };
+  static tally = { below: 0, above: 0 }; static pressed: Record<Kind, number> = this.zero();
   private static watch(s: PlaySession): number {
     return s.campaign.world.number({ kind: 'call', name: 'watch', args: ['clock'] });
   }

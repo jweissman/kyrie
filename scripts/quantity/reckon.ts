@@ -192,11 +192,14 @@ export class Reckon {
     return this.lived(r, l => { const x = this.moved(l); return this.pct(x.routine, x.all); },
       `${first.routine} of ${first.all} moves, ${first.below} of them below`);
   }
+  // By what was pressed, a journey one press (its legs are the world's moves, the same leg by leg or in one act: the
+  // way down made sure, Descents), as the cold plays count; by the moves where a trip has no presses.
   private static moved(l: Trip[]): { all: number; routine: number; below: number } {
-    const ts = l.slice(1), all = ts.reduce((n, t) => n + Object.values(t.moves).reduce((a, b) => a + b, 0), 0);
-    return { all, routine: ts.reduce((n, t) => n + t.moves.traversal + t.moves.administration, 0),
+    const ts = l.slice(1), all = ts.reduce((n, t) => n + Object.values(this.pressed(t)).reduce((a, b) => a + b, 0), 0);
+    return { all, routine: ts.reduce((n, t) => n + this.pressed(t).traversal + this.pressed(t).administration, 0),
       below: ts.reduce((n, t) => n + (t.routine?.below ?? 0), 0) };
   }
+  private static pressed(t: Trip): Trip['moves'] { return (t as Partial<Trip>).presses ?? t.moves; }
   private static lived(r: Readings, value: (trips: Trip[]) => number, note: string): Reading {
     if (!r.lives) { return { value: value(r.expeditions!), note }; }
     const each = Object.fromEntries(Object.entries(r.lives).map(([seed, l]) => [seed, value(l)]));
