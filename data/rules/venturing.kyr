@@ -13,34 +13,34 @@ Module venturing "The Venturing Guild's surveys" {
     and guildSurvey(f, i, p) and leadsTo(f, p) and established(f) and not stale(f)
     and not knows(a, f).
 
-  Action guild_enrol(actor: group, keeper: group, site: place) "Pay three coin to join the Venturing Guild" {
-    Requires able(actor) and guildKeeper(keeper) and able(keeper) and together(actor, keeper)
-      and at(actor, site) and guildHall(site) and not unseen(keeper, actor)
+  Action guild_enrol(actor: group, hallkeeper: group, site: place) "Pay three coin to join the Venturing Guild" {
+    Requires able(actor) and guildKeeper(hallkeeper) and able(hallkeeper) and together(actor, hallkeeper)
+      and at(actor, site) and guildHall(site) and not unseen(hallkeeper, actor)
       and quantity(actor, gold) >= 3 and not guild_member(actor).
     Time 0.
     On success { Decrease quantity(actor, gold) by 3. Assert guild_member(actor). }
-    Result "{keeper} opens the fee book. 'Three coin. Safe beds when we have them, honest leads, and no promise that the road is kind.'".
+    Result "{hallkeeper} opens the fee book. 'Three coin. Safe beds when we have them, honest leads, and no promise that the road is kind.'".
   }
 
-  Action guild_survey(actor: group, keeper: group, site: place, find: item, report: fact, destination: place)
-    "Ask {keeper} for a lead to {find}" {
-    Requires able(actor) and guild_member(actor) and guildKeeper(keeper) and able(keeper)
-      and together(actor, keeper) and at(actor, site) and not unseen(keeper, actor)
+  Action guild_survey(actor: group, hallkeeper: group, site: place, find: item, report: fact, destination: place)
+    "Ask {hallkeeper} for a lead to {find}" {
+    Requires able(actor) and guild_member(actor) and guildKeeper(hallkeeper) and able(hallkeeper)
+      and together(actor, hallkeeper) and at(actor, site) and not unseen(hallkeeper, actor)
       and guildLead(actor, site, find, report, destination).
     Time 5 minutes.
     On success {
       Assert knows(actor, report). Retract assumesFalse(actor, report).
-      Assert toldBy(actor, keeper, report). Assert guildIssued(actor, find).
+      Assert toldBy(actor, hallkeeper, report). Assert guildIssued(actor, find).
     }
-    Result "{keeper} lays out the survey. '{report} Look for {find} at {destination}. The report is a lead, not a promise of safe passage.'".
+    Result "{hallkeeper} lays out the survey. '{report} Look for {find} at {destination}. The report is a lead, not a promise of safe passage.'".
   }
 
-  Action guild_no_lead(actor: group, keeper: group, site: place) "Ask {keeper} for another survey" {
-    Requires able(actor) and guild_member(actor) and guildKeeper(keeper) and able(keeper)
-      and together(actor, keeper) and at(actor, site) and guildHall(site) and not unseen(keeper, actor)
+  Action guild_no_lead(actor: group, hallkeeper: group, site: place) "Ask {hallkeeper} for another survey" {
+    Requires able(actor) and guild_member(actor) and guildKeeper(hallkeeper) and able(hallkeeper)
+      and together(actor, hallkeeper) and at(actor, site) and guildHall(site) and not unseen(hallkeeper, actor)
       and not guildLead(actor, site, ?find, ?report, ?destination).
     Time 0.
-    Result "'No fresh local find in the survey,' {keeper} says. 'Bring us news; we will check again. I will not sell you the same rumour twice.'".
+    Result "'No fresh local find in the survey,' {hallkeeper} says. 'Bring us news; we will check again. I will not sell you the same rumour twice.'".
   }
   Rule guild_survey_outdated when guildSurvey(?report, ?find, ?place) and not guildLocated(?find, ?place)
     and not recovered(?find) and not stale(?report) {
