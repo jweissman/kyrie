@@ -11,6 +11,13 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/terraces.test.ts` | The single terraces probe plays the quay and stair and checks outdoor settled state. A fragment is a candidate if actual way labels and the indoor negative survive with a witness. |
+| `test/text-bound.test.ts` | One synthetic module plays bound text and ending interpolation and separately rejects an unbound variable. A fragment is a candidate if both real compiler and played text cases remain. |
+| `test/the-book-of-faces-placed.test.ts` | Generated kite places Ombra and plays its news, frontier entry and delta road. Keep the actual province placement and installed journey. |
+| `test/the-book-of-faces-revision.test.ts` | The four-person Book of Faces fixture plays multiple Collegium and Counterpoise routes, conflicts, combat and vigil. Keep the real authored module and contrasting party-specific outcomes. |
+| `test/the-book-of-faces-shipped.test.ts` | The shipped Book of Faces campaign plays the lone warrior's route and consequences. Keep the actual shipped party and authored route. |
+| `test/the-dead.test.ts` | Generated a1 stages the toll-reeve's death or hostility after opening conversation, then checks the real session ends it. Keep the generated reeve and positive leave-before witness. |
+| `test/the-dorothea.test.ts` | The authored Dorothea campaign plays timed voyages, companions, island outcomes and reloads; one case also enters it through generated thorn. Keep the campaign and generated integration, noting weather is staged quiet. |
 | `test/talkers.test.ts` | The single talkers probe contrasts a beast with only a spoken action against one with a topic. A fragment is a candidate if both actual offers remain and the negative is mutation-proved. |
 | `test/tallow.test.ts` | The authored Tallow Deep campaign is linted and played through two expeditions, clocks, dangers and people. Keep its long routes, real saves and distinct outcomes; a few facts are explicitly staged. |
 | `test/tap-browser.test.ts` | Opt-in built-site browser test plays a sustained act at desktop and touch sizes. Keep both input devices, actual page and positive action witness. |
