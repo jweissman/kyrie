@@ -240,6 +240,21 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/features/world/the-start-is-the-dungeon.pin.test.ts` | The `s0` reference world and honest-player route to its first fight. Visited-place boundaries, hire and combat are all witnessed. |
 | `test/features/world/the-town-frame.pin.test.ts` | Two generated worlds with different churchyard and quarry causes, plus the Iscoed atlas fix and template choices. Their alternate played solutions and generated variation are distinct claims. |
 | `test/features/world/threads-tied.pin.test.ts` | The Iscoed world with the raiders' word, hold, hobs and bell. Spatial ancestry and the connection to the named place are the claim. |
+| `test/features/world/town-afoot.pin.test.ts` | The Iscoed world and two towns revisited over several days. The unassisted barn and the wall affected by the company are independent time-progress witnesses. |
+| `test/features/world/under-the-fall.pin.test.ts` | The Iscoed world with its stock adit opening and multiple origins. Lit and unlit paths, companion, combat and origin handoffs are distinct journeys. |
+| `test/features/world/under-the-town.pin.test.ts` | The Iscoed world with a level-four autoplay company, following the town's dungeon to the hall. It checks the actual route, resistance and once-only narration. |
+| `test/fed.test.ts` | The ford-road fixture campaign for a real screen, plus a modified screen for the hungry case. It does not need a generated world. |
+| `test/fellows.test.ts` | Two generated worlds with their specific travellers, plus an isolated parsed topic. Recruitment, news, repeated nights, home and guidance are separate claims. |
+| `test/fellowship.test.ts` | Fellowship generation tables, six assembled worlds for placement, and an `m13` world played through the tally story. It needs real generation and cross-town bindings. |
+| `test/fever-nursing.test.ts` | One `kahitude` drawn world with the fever origin, followed to the mother and the feverwort given. It compares the resulting led action against another gift. |
+| `test/fight-geometry-browser.test.ts` | The built site, browser and `a1` world at two viewport sizes, walked to a real fight. The geometry is compared across targeting and combat states. |
+| `test/fight-held.test.ts` | One drawn `a1` world through the engine host, with checkpoint-modified hit points and location. Win, loss, last blow and held page are separate combat-frame claims. |
+| `test/fight-outcome.test.ts` | The household fixture campaign and a synthetic fight event for narrator ordering; no generated world is needed. |
+| `test/fight-told-once.test.ts` | Isolated synthetic combat exchanges plus a `kahitude` drawn world with an actual rat fight. Both formatting and real post-fight marking must remain. |
+| `test/first-goal-said-browser.test.ts` | A built site and `b2` world in the browser, comparing opening read-through and skip on screen. Both paths witness once-only goal presentation. |
+| `test/first-goal.test.ts` | The `kite` generated world for each of eight origins through the engine host, plus a played map-origin goal. Origin availability, reachable aims and actual completion are separate. |
+| `test/first-hour-beats.test.ts` | The Iscoed world and its drove-road opening through runner and narrator. First-frame economy and a later once-only hill event are distinct claims. |
+| `test/first-quarter.test.ts` | The Iscoed world and a gold-following first-quarter walk through the corn-store and vault. Its fights and conversation sequence witness the intended route. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
