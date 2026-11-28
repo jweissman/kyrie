@@ -5,6 +5,9 @@ import { EntityIndex } from '../lang/entity-index';
 import { KeptReading, type Kept } from '../lang/kept-reading';
 import { EffectShadows } from '../ports/effects';
 
+// What an act would teach, carried to a later world of its line (see Outcome.carried).
+type Carried = Kept<readonly string[]> & { sight: string; shape: string };
+
 // What the company would know after an act that it does not know now (OR-206; BRIEF §5A: one Outcome per drawn row,
 // the first slice of it, knowledge): read once from the act itself, by the cheap step (outcome-cost-study.md), never
 // by trying it. Its success's effects applied to the world as it stands (World.apply: the world is immutable, so
@@ -57,22 +60,25 @@ export class Outcome {
   // and the company sees and has been where it saw and had been (sight): about fifty acts a turn were read again for
   // every world, though an act writes what few of them read (OR-864). The last `lately` are kept, a turn's acts and
   // more (each holds what of the world it picked: 512 had kept some 48 KB a turn more on the golden walk).
+  // Kept by the module carried in, and let go with it: one map of the process, keyed by the act's text alone, had held
+  // the last life's module and the facts it picked past that life's letting go (OR-1740: 50 MB of a world framed once).
   static carrying = true;
   static readonly lately = 64;
-  private static readonly carriedBy = new Map<string, Kept<readonly string[]> & { sight: string; shape: string;
-    module: Module; }>();
+  private static readonly carriedBy = new WeakMap<Module, Map<string, Carried>>();
   private static carried(world: World, key: string, sight: string, read: () => readonly string[]): readonly string[] {
     const m = world.module, shape = `${m.entities.length}.${m.rules?.length ?? 0}.${m.observations?.length ?? 0}`;
-    const was = this.carriedBy.get(key);
-    this.carriedBy.delete(key);
-    if (was && was.sight === sight && was.shape === shape && was.module === m && KeptReading.holds(world, was)) {
-      this.carriedBy.set(key, was);
+    const carried = this.carriedBy.get(m) ?? new Map<string, Carried>();
+    this.carriedBy.set(m, carried);
+    const was = carried.get(key);
+    carried.delete(key);
+    if (was && was.sight === sight && was.shape === shape && KeptReading.holds(world, was)) {
+      carried.set(key, was);
       return was.value;
     }
     const now = KeptReading.read(world, read);
     if (now.kept) {
-      this.carriedBy.set(key, { ...now.kept, sight, shape, module: m });
-      if (this.carriedBy.size > this.lately) { this.carriedBy.delete(this.carriedBy.keys().next().value!); }
+      carried.set(key, { ...now.kept, sight, shape });
+      if (carried.size > this.lately) { carried.delete(carried.keys().next().value!); }
     }
     return now.value;
   }
