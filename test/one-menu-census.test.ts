@@ -14,7 +14,8 @@ import { ContinuityCensus } from '../scripts/continuity-census';
 // walks (the warrior's golden walk, which is the first hour, the cold mage's, eighty steps of the gold-follower), on a
 // life that has earned nothing, the page drawn whole (MenuCensus) holds exactly one menu, every row in it is the
 // engine's (its four, or the place's question: its pages and Something else…), none of the page's own, and at most four
-// of them promoted. And no rail where nothing is earned (OR-1491: the mage, a scholar, has the journal), and every
+// of them promoted. And nothing earned on the rail where nothing is earned (OR-1491; the diamond, the compass and the
+// book are the character's own from the start, OR-1880; the mage, a scholar, has the journal), and every
 // act the lenses would have given within reach of the one menu (MenuCensus.unreached). The census is printed,
 // for the commit to quote.
 describe('every resting page of the census walks', () => {
