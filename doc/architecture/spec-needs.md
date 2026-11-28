@@ -145,6 +145,14 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/descent.test.ts` | Four generated worlds played to their actual deep-site hearts using recorded choices. Each outcome and party is a distinct long expedition; gated by `KYRIE_LONG`. |
 | `test/desert-country.test.ts` | Three pure desert terrain drawings and one generated desert world played into. The terrain proportions and real settlement discovery are separate claims. |
 | `test/destinations-once.test.ts` | One generated `kite` world with a real ruin's lead and interior visit. The one named destination after return witnesses the deduplication claim. |
+| `test/devices.test.ts` | Device catalog and seeded battles plus three generated countries. The nonempty generated devices, their authored syntax and their distinct powers are separate claims. |
+| `test/devotion.test.ts` | One generated `thorn` country and its actual shrines, cults and offerings. Offering availability before and after the daily wait witnesses the once-a-day absence. |
+| `test/digest.test.ts` | One wolf-yard fixture campaign with a three-step transcript. Tampering, replay and trusted/untrusted restoration exercise the actual session boundary; no generated world is started. |
+| `test/discovery-names.test.ts` | One generated `thorn` country, its named site and people who know it, plus parser round-trip. The stranger alias before and actual name after the hook witness the before/after comparison. |
+| `test/disputation.test.ts` | Generated `b2` worlds with the placed philosophers, actual country history and different callings. A roll-dependent branch returns before the later persistence checks when it fails; keep the generated scenario and establish the success witness before narrowing that path. |
+| `test/disrupt-undead.test.ts` | Pure combat and catalog cases plus one generated laboratory fixture, not a full country. The actual ghoul, multiple hit/miss seeds and both resistance outcomes are positive witnesses. |
+| `test/door-browser.test.ts` | A built site and browser with three named fixture campaigns for traps, a barred way and sleep. Its spent-trap ordering allows the spent text to be absent, so that part needs a witness before narrowing; gated by `KYRIE_BROWSER`. |
+| `test/dorothea-antlers.test.ts` | The authored Dorothea campaign and its actual voyage to the Antlers. The day-book, alternative ladder routes, forced check outcomes and cresset consequences are separate long authored-story claims. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
