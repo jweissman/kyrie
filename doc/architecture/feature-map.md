@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 252 pins (221 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 751 live rows, 251 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 74 capabilities; 258 pins (227 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 766 live rows, 257 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -105,7 +105,7 @@ page's colours and opportunities.)
 
 ### Conflict
 
-- **Engagements and warnings** · 8 pins · 7 defects · 5 asks
+- **Engagements and warnings** · 8 pins · 9 defects · 5 asks
   - ○ before a fight the company is told what is at risk, as it reckons it, in words
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same
@@ -119,13 +119,15 @@ page's colours and opportunities.)
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
   - requirement OR-1447 P2: OR-1392 asks a territorial hazard of the first level, a maintained mechanism of the second and…
-- **Fights that cost** · 7 pins · 19 defects · 18 asks
+- **Fights that cost** · 9 pins · 18 defects · 18 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
   - ✓ can kill where the company's reckoning says grave or deadly, and is won where it says fair or slight
   - ✓ keeps a boss on its feet past the first round
   - ✓ says a fight a first-level ${as.split('/')[1]} cannot win is grave before it starts, and never says less
+  - ✓ does not tell five rats as able to bring down a warrior they cannot bite through
+  - ✓ has a band of rats lose heart, and is over sooner for it
   - ✓ offers words to the bands that would hear them, each at a turn it gives, and none to a band that comes at once
   - direction CB-20 P2: Balance instruments: an arena, ability "pawn" tournaments, party gauntlets, combat from a few…
   - requirement CB-23 P2: OSR mechanics beyond breath and saves (regeneration, monster spells); spell resistance; hit dice…
@@ -167,13 +169,14 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 8 pins · 10 defects · 13 asks
+- **Journeys over known ways** · 9 pins · 11 defects · 14 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
   - ○ revealing a hex earns experience
   - ○ a Cartographers' guild pays for and honours what the company has mapped
   - ✓ is on the map alone, its aim leading there in gold, and the map sets out on it
+  - ✓ takes a second expedition down to where the first made sure, in one act, by the same legs
   - ✓ tells the frontier from the retreat underground, and sees an aim through
   - ✓ never draws a way back as worth a look for another aim, and says which aim
   - requirement NM-01 P1: No road junctions: a road out goes into a town and back out (16–23 ways a seed, at most 2 hexes);…
@@ -184,6 +187,7 @@ page's colours and opportunities.)
   - direction NM-16 P3: Transport services (carter, ferry, paid passage)
   - direction AB-06 P2: People and bands that move on a clock (Route/Pursuit on a person)
   - requirement T24-25 P2: Three of cold review B's fixes unpinned: the hare said to go into the pack as food…
+  - direction OR-1912 P3: In play only the barrow's counterweight makes a place below sure. The ropes (the dead-shaft, the…
   - requirement OR-344 P2: Journeys over known ways: the capability as its pins hold it (the land is revealed as a journey…
   - requirement OR-1540 P3: What is left blank in the reference game's first level, after the way on was marked (OR-1502):…
   - direction OB-19 P3: The middle scale inside a hex (the owner, 15 November): a gallery of existing hexes at local scale…
@@ -206,7 +210,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 21 defects · 18 asks
+- **Aims and the gold thread** · 16 pins · 22 defects · 18 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -279,6 +283,12 @@ page's colours and opportunities.)
   - ○ a level gained opens a way to talk, climb, decipher or slip past that was shut before
   - requirement OR-347 P2: Levels and growth: the capability as its pins hold it (a level gained opens a way to talk, climb,…
   - requirement OR-1246 P2: Perks of the Atlas's tones earn lenses (a perception perk the look lens, a trade perk a trade…
+- **Routine in one act** · 2 pins · 0 defects · 3 asks
+  - ✓ gathers up a pile of finds in one act, which leads the place and says who carries it
+  - ✓ haggles with a trader once, over everything they sell, their trade no longer than their wares
+  - requirement OR-1871 P2: A deep room's scattered coins are not gathered up with the rest of what lies there: they are a…
+  - requirement OR-1872 P2: Replenishing is one buy at a time: the delver buys two torches, a ration and a firebomb in four…
+  - requirement OR-1874 P2: In the dark, a light is offered once for each kind each of the company carries ("Odile: light a…
 - **Belongings with a history** · 2 pins · 0 defects · 2 asks
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - ✓ is taken from in the pack, not the scene, for every client
@@ -295,7 +305,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 3 defects · 13 asks
+- **Markets and prices** · 0 pins · 2 defects · 13 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
@@ -314,7 +324,7 @@ page's colours and opportunities.)
 
 ### The land
 
-- **Countries and regions** · 0 pins · 7 defects · 22 asks
+- **Countries and regions** · 0 pins · 8 defects · 22 asks
   - requirement PV-03 P2: **The Landholder:** acquire a parcel, commission a change, leave, return, find it part of the…
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
@@ -390,10 +400,11 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 18 pins · 9 defects · 24 asks
+- **Dungeons and sites** · 19 pins · 9 defects · 27 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ rolls what newcomers carry on Deem by their kind and depth, more deeper
   - ✓ sends one band after another into the room emptied, each leaving what it carried where it fell
+  - ✓ moves in where the dwellers were put to flight, as where they died, and so lets them lose heart
   - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
@@ -430,10 +441,13 @@ page's colours and opportunities.)
   - requirement OR-1500 P2: Pointless wandering on the reference game was not measured: the owner's playtest of 27 November…
   - requirement OR-1640 P3: The Pitch of the Glass's thin parts (doc/adventures/pitchpass/friction.md): no beat reads the…
   - requirement OR-1720 P3: The old dark below the reference dungeon is written with its site, not realised when first…
+  - requirement OR-1788 P3: The Venturing Guild is one safehouse with a finite survey (ES-F11): reports of actual finds,…
+  - direction OR-1789 P3: Generated prose is not generated plot (ES-F12): Act IV's 33 of 38 deliveries are drawn, but…
+  - requirement OR-1790 P3: One permanent sense is not an instrument portfolio (ES-F16): the counting glass earns structural…
   - requirement ST-03 P1: The last sea-gate: the saboteur's interest acting inside the six-day window (obstruction, blame, a…
   - requirement ST-06 P2: The critique's rebuild set (fever on the green, the cold pans, the boundary stones, the stranger…
   - requirement ST-07 P3: The critique's hierarchy edits: the Bound Howe given one governing question; the Silent Lord's…
-- **Adventures and their endings** · 4 pins · 1 defects · 8 asks
+- **Adventures and their endings** · 4 pins · 1 defects · 9 asks
   - ○ an adventure reaches different endings by different deeds, each told as its own
   - ✓ lints clean
   - ✓ is carried up for Oyelle, filled behind the falls with Tobi, and poured with her, and the rain comes
@@ -445,6 +459,7 @@ page's colours and opportunities.)
   - requirement OR-780 P3: The Calf in the Tail-Race's thin parts (doc/adventures/tailrace/friction.md): the Dam is a sound…
   - requirement OR-1110 P3: Wet Drusilla's thin parts (doc/adventures/wetdrusilla/friction.md): the cleric and performance…
   - requirement OR-1114 P3: Over Exall's thin parts (doc/adventures/over-exall/friction.md): its rolls (arguing Saley, spiking…
+  - requirement OR-1783 P2: A returning name is not a returning person (ES-F02): the Empty Seat's Gosse, Tallis, Bet or Agnes…
   - direction WB-06 P3: The report's premise laboratories and its six-work portfolio (a city, a romance, a wilderness…
 - **Wonders and traps** · 9 pins · 0 defects · 0 asks
   - ✓ is the thing, whence it comes, how rare and what for, each a fact of its own
@@ -607,7 +622,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 26 defects · 40 asks
+- **Rows, lenses and the frame** · 3 pins · 28 defects · 40 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -878,7 +893,7 @@ page's colours and opportunities.)
   - requirement MT-16 P1: The layers as logical units, mechanically held (the owner, 19 November, night: "force logical…
   - requirement MT-28 P2: Shared structures mutable by convention, and identity in strings (Findings J, K): shared…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
-- **Testing instruments** · 0 pins · 7 defects · 22 asks
+- **Testing instruments** · 0 pins · 8 defects · 23 asks
   - requirement TC-03 P2: Test architecture: content-addressed fixtures, changed-test selection by recorded dependencies,…
   - requirement TC-04 P2: The safe-zone walk at five sizes in CI; atlas states tested as projected data
   - requirement TC-05 P2: The census proves structure, not play: no seven-stage report, no per-world invariants; no…
@@ -889,6 +904,7 @@ page's colours and opportunities.)
   - requirement TC-11 P3: Long-horizon verification with trace minimisation; boredom and pull measured
   - requirement TC-13 P2: Timing budgets on CI's runners (20 November: three reds in a week were a budget, not a fault: the…
   - requirement TC-14 P2: Creation's page specs each carried their own walk to a step (naming-browser's Naming.on,…
+  - requirement OR-1911 P2: The routine share is still 73% on s0 after the way down made sure (OR-1910). Of the 105 traversal…
   - direction OR-456 P2: Civilization assembled, censused and traversed (gamma G7): Deem assembling anchors, pins and the…
   - requirement OR-384 P3: The ending's menu placed by the frame's tokens (book.css: .ending-col) but measured by no spec: no…
   - requirement OR-389 P3: The runner begins in a world past the title (bin/kyrie run --world …), so its agents never meet…
@@ -915,7 +931,7 @@ page's colours and opportunities.)
 
 ## Negative space
 
-### Common blockers (12)
+### Common blockers (13)
 
 Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
@@ -943,6 +959,8 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - GR-24 (Aims and the gold thread)
 - **SP-02** P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB RSS): deterministic lazy materialization, proven against eager · blocks 1 (0 P0/P1) over 1 capabilities
   - OR-1720 (Dungeons and sites)
+- **WM-06** P2: One metropolis many adventures add to: Dun Rìerdan only an identity; the King's Players builds its own; several adventures interleaved in one region;… · blocks 1 (0 P0/P1) over 1 capabilities
+  - OR-1784 (Countries and regions)
 
 ### Capabilities neither built nor asked for (0)
 
@@ -979,7 +997,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Authoring forms and their lint** (Kyr and Deem): AU-01, AU-03, AU-07, AU-12, AU-13, AU-14, OB-07, OR-164, OR-224, OR-230, OR-522, OR-1112, OR-1113, OR-1116, OR-1212, OR-1213, OR-1215, OR-1216, OR-1841, OR-1339, OR-1340, OR-1341, OR-1342, OR-1105, OR-700, OR-1370, OR-1371, ST-05, ST-08, WB-07, AU-23, AU-24, AU-25, AU-29, AU-30, AU-31, AU-33, AU-39, AU-41, AU-42, AU-44, AU-45, AU-53, AU-57
 - **Generation and tables** (Kyr and Deem): AU-04, AU-10, AU-11, AB-12, OR-150, OR-405, OR-421, OR-671, OR-673, OR-781, OR-1111, OR-1115, OR-1641, KX-02, KX-04, AU-34, AU-51, AU-58, AU-60
 - **Architecture and layers** (The engine): AR-01, AR-03, AR-06, AR-07, AR-08, AR-09, AR-10, AR-12, AR-16, AR-18, AR-19, AX-04, AX-07, AX-08, OR-66, BX-01, OR-1580, OR-1581, OR-1250, OR-545, OR-1840, OR-1334, OR-1335, OR-1336, OR-1202, OR-742, OR-744, OR-1071, OR-1097, OR-634, MT-07, MT-16, MT-28, MT-31
-- **Testing instruments** (The engine): TC-03, TC-04, TC-05, TC-07, TC-08, TC-09, TC-10, TC-11, TC-13, TC-14, OR-456, OR-384, OR-389, OR-465, OR-508, OR-1151, OR-1080, OR-761, OR-1442, OR-1446, OR-1461, MT-29
+- **Testing instruments** (The engine): TC-03, TC-04, TC-05, TC-07, TC-08, TC-09, TC-10, TC-11, TC-13, TC-14, OR-1911, OR-456, OR-384, OR-389, OR-465, OR-508, OR-1151, OR-1080, OR-761, OR-1442, OR-1446, OR-1461, MT-29
 - **Documentation and the register** (The engine): DC-03, DC-05, DC-06, DC-07, DC-08, OB-03, OB-04
 
 ### Pins not yet met (31)
