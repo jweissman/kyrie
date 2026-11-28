@@ -1,5 +1,6 @@
 import { Battle } from './battle';
 import { Effects } from './effects';
+import { Peril } from './peril';
 import type { BattleState, Fighter } from './model';
 import { Tactics } from './tactics';
 
@@ -48,11 +49,22 @@ export class PressOn {
       ...(state.departed ?? []).map(f => [`fled:${f.id}`, `${name(f)} breaks and runs.`] as [string, string]),
       ...state.combatants.filter(f => f.team !== 'fighters' && f.hp > 0)
         .map(f => [`come:${f.id}`, `${name(f)} joins the fight.`] as [string, string]),
-      ...ours.filter(f => f.hp > 0 && (threat.get(f.id)?.harm ?? 0) >= f.hp).map(f => {
-        const by = state.combatants.find(x => x.id === threat.get(f.id)!.by)!;
-        return [`threat:${f.id}`, `${name(f)} could fall to ${name(by)}'s next blow.`] as [string, string];
-      }),
+      ...ours.filter(f => f.hp > 0 && (threat.get(f.id)?.harm ?? 0) >= f.hp)
+        .map(f => [`threat:${f.id}`, PressOn.peril(battle, f, { threat: threat.get(f.id)!, name })] as [string, string]),
     ];
+  }
+  // How a killing blow possible is said: by its striker where one blow could do it and the chance is worth weighing
+  // (Peril); by the blows coming where it would take them together; and, where it would take every blow landing hard,
+  // as the long chance it is (five rats at their worst had read "Odile could fall to the first rat's next blow" of a
+  // bite that does two or three: cold round A1, OR-1851). The halt is the same in each: what is possible is asked.
+  private static peril(battle: Battle, f: Readonly<Fighter>,
+    at: { threat: { heaviest: number; by: string }; name: (f: { id: string; name: string }) => string }): string {
+    const by = battle.view.combatants.find(x => x.id === at.threat.by)!, who = at.name(f);
+    if (!Peril.material(battle, f, Peril.aimed(battle, f))) {
+      return `${who} would fall only if every blow coming landed hard.`;
+    }
+    return at.threat.heaviest >= f.hp ? `${who} could fall to ${at.name(by)}'s next blow.`
+      : `${who} could fall to the blows coming.`;
   }
   private static name(called: ReadonlyMap<string, string> | undefined, f: { id: string; name: string }): string {
     return called?.get(f.id) ?? f.name;
