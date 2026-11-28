@@ -397,6 +397,9 @@ export class Narrator {
     if (!role) { return name!; }
     // A role that names them again is said as it is ("Lady Wenlock, a Lady Wenlock": Hessel friction 10).
     if (role.toLowerCase().includes(name!.toLowerCase())) { return role; }
+    // One known by what they are says it once ("the wagoner, a wagoner hauling meal into Oakhythe": the lead's play).
+    const what = name!.match(/^(?:the|a|an) (.+)$/i)?.[1]?.toLowerCase();
+    if (what && role.toLowerCase().includes(what)) { return name!; }
     // A role that already says who they are ("the smith", "who speaks for Harrehes", "Master Harker's clerk") takes no
     // article ("a Master Harker's clerk": Liberty of the Ice friction 11). Nor does one of many ("hounds of knitted
     // bone"), nor one that begins where they are from or what they are in ("an of the Old Shift": the Lull's 6).

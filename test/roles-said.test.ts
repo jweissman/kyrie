@@ -14,6 +14,7 @@ describe('a role said after a name', () => {
     expect(Narrator.who({ name: "Silas Kemble, Master Harker's clerk, thin and ink-stained" }))
       .toBe("Silas Kemble, Master Harker's clerk, thin and ink-stained");
     expect(Narrator.who({ name: 'Wenlock, Lady Wenlock' })).toBe('Lady Wenlock');
+    expect(Narrator.who({ name: 'the wagoner, a wagoner hauling meal into Oakhythe' })).toBe('the wagoner');
     expect(Narrator.who({ name: 'Ghost, the inn’s dog' })).toBe('Ghost, the inn’s dog');
   });
 });
