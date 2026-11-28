@@ -1,7 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { PlaySession } from '../src/session/play-session';
-import { NodeBundleSource } from '../src/campaign/node-bundle-source';
-import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
+import { Tiny } from './support/tiny';
 import { PlayerView } from '../src/presentation/player-view';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 
@@ -32,17 +30,12 @@ describe('what the company witnesses', () => {
   Pursuit spite for hermit "cursing {camp}" priority 10 when true seeks cursed(camp) using curse.
   Goal false.
 }`;
-    const source = new OverlayBundleSource(NodeBundleSource.shared, {
-      'probe/witness/campaign.json': JSON.stringify({ version: 1, name: 'Witness probe',
-        modules: [{ id: 'm', bundle: 'module.json' }], party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }),
-      'probe/witness/module.json': JSON.stringify({ version: 1, source: 'm.kyr', rules: ['world'], globals: ['party'],
-        exports: { party: 'party' } }),
-      'probe/witness/m.kyr': kyr });
-    const s = await PlaySession.start(source.resolve('probe/witness/campaign.json'), 'witness', source), c = s.campaign;
+    const t = await Tiny.start(kyr, { seed: 'witness', horizon: [] }), s = t.session, c = s.campaign;
     const go = PlayerView.choices(c).find(r => r.action.schema === 'go')!, before = PlayerView.observe(c);
     const e = await s.leg(go.choice.id);
     // Both were done, as the road began; the company saw neither.
     expect((e.npc ?? []).length).toBe(2);
+    expect((e.npc ?? []).map(n => [n.actor, n.goal])).toEqual([['m__bede', 'tidy'], ['m__hermit', 'spite']]);
     expect(ActionFeedbackView.read(c, e, before).immediate.filter(t => t.startsWith('You witness'))).toEqual([]);
     expect(PlayerView.chronicle(c).filter(x => x.kind === 'npc')).toEqual([]);
   }, 60000);
