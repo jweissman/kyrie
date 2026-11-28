@@ -38,7 +38,7 @@ const kyr = [`  Place mouth "the mouth" is room at 0, 0.`, `  Place hall "the ha
   `  Company party "You" of 1 at hall.`,
   `  Person rats "the rats" at hall { Role "rats". Species rat. Level 1. Numbers 2. Temperament wary. }`,
   `  Person men "the king's men" at guards { Role "guards". Species zombie. Level 2. Numbers 2. Temperament wary. }`,
-  ...DeepTime.lines(purpose as unknown as DeepPurpose, layout, content.slice(0, 1), 'delay'),
+  ...DeepTime.lines(purpose as unknown as DeepPurpose, layout, content.slice(0, 1), { key: 'delay' }),
   ...DeepLoosed.lines(layout, content, { loosed: { role: 'guard_room', scene: 'The king\'s men are at the door.',
     sign: 'The dead are walking.' } } as never)].join('\n');
 const party = [{ name: 'Aud', raceId: 'human', classId: 'warrior' }];
