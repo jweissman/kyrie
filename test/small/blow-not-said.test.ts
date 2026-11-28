@@ -16,7 +16,7 @@ const rows = (t: Tiny) => Doable.flat(Doable.of(t.glance as never, t.screen))
   .filter(r => /gobs/.test(`${r.id} ${r.does ?? ''}`)).map(r => `${r.id} | ${r.label} | ${r.does ?? ''}`);
 describe('one with nothing to be said to them but a blow', () => {
   it('is not talked to: the blow stands at the place, once', async () => {
-    const t = await Tiny.start(yard);
+    const t = await Tiny.start(yard, { horizon: ['inhabitants'] });
     await t.perform('talk_to(t__gobs)');
     const said = rows(t);
     expect(said.filter(r => /#talk/.test(r))).toEqual([]);
@@ -37,7 +37,8 @@ const crossing = `
   Goal false.`;
 describe('one the company is held from by a threat', () => {
   it('is held, not broken', async () => {
-    const t = await Tiny.start(crossing, { party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] });
+    const t = await Tiny.start(crossing, { horizon: ['inhabitants', 'belongings'],
+      party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] });
     await t.perform('light_item(t__party_1__torch)');
     await t.perform('go(t__gallery,t__crossing)');
     expect(t.screen.warned?.id).toBe('t__charge');

@@ -22,7 +22,7 @@ const talks = (t: Tiny) => !!Attending.place(SceneModel.build(t.screen)).subject
 
 describe('someone dangerous to talk to', () => {
   it('is talked to only when there is something to be said now', async () => {
-    const t = await Tiny.start(ledge);
+    const t = await Tiny.start(ledge, { horizon: ['inhabitants'] });
     expect(talks(t)).toBe(false);
     const c = t.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commitWorld(w: unknown): void };
     c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('tolerates', 't__gaffer', 'party') }]));

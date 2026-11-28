@@ -27,7 +27,7 @@ const pleas = (t: Tiny) => offered(t).map(n => n.split(' · ')[0]!).sort();
 
 describe('a check tried once', () => {
   it('is not offered again once failed, of that keeper, and is still offered of another', async () => {
-    const t = await Tiny.start(yard(true), { party });
+    const t = await Tiny.start(yard(true), { party, horizon: [] });
     expect(pleas(t)).toEqual(['Plead with Hild to open the gate', 'Plead with Wat to open the gate']);
     // And said to be a single try where it is offered.
     expect(offered(t).every(n => / · one try$/.test(n))).toBe(true);
@@ -42,11 +42,11 @@ describe('a check tried once', () => {
     expect(kept.campaign.world.test(tried)).toBe(true);
   });
   it('is spent by a success too, and without once a failure may be tried again', async () => {
-    const t = await Tiny.start(yard(true), { party });
+    const t = await Tiny.start(yard(true), { party, horizon: [] });
     t.journey.roll('pass');
     await t.play('Plead with Hild');
     expect(pleas(t)).toEqual(['Plead with Wat to open the gate']);
-    const free = await Tiny.start(yard(false), { party });
+    const free = await Tiny.start(yard(false), { party, horizon: [] });
     free.journey.roll('fail');
     await free.play('Plead with Wat');
     expect(pleas(free)).toContain('Plead with Wat to open the gate');

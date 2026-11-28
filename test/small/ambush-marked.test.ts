@@ -21,7 +21,8 @@ const world = (lit: boolean) => `
 ${lines}
   Goal false.`;
 const way = async (lit: boolean) => {
-  const t = await Tiny.start(world(lit), { party: [{ name: 'Wynn', raceId: 'human', classId: 'warrior' }] });
+  const t = await Tiny.start(world(lit), { horizon: ['inhabitants', 'canon'],
+    party: [{ name: 'Wynn', raceId: 'human', classId: 'warrior' }] });
   const said = new Runner(t.session).said();
   return [...said.offer.primary, ...said.offer.rest].find(o => o.id.includes('t__lair'));
 };

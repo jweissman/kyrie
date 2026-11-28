@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { Journey } from '../src/session/journey';
+import { readFileSync } from 'node:fs';
+import { Tiny } from './support/tiny';
 import { ModuleParser } from '../src/lang/module-parser';
 import { FictionalTime } from '../src/campaign/fictional-time';
 
@@ -23,7 +24,8 @@ describe('an action by the clock', () => {
   });
 
   it('waits until seven, then three hours more, and its Result is told for the hour', async () => {
-    const j = await Journey.start('test/fixtures/probes/the-hour/probe.campaign.json', 'h');
+    const j = (await Tiny.start(readFileSync('test/fixtures/probes/the-hour/site.kyr', 'utf8'),
+      { horizon: [], seed: 'h' })).journey;
     expect(await j.play('Ride the basket up')).toMatch(/middle of a fine afternoon/);
     await j.play('Wait for the show at seven');
     expect(FictionalTime.hour(j.watch())).toBe(19);

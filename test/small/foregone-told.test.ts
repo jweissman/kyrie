@@ -17,7 +17,8 @@ const cellar = `
 
 describe('a foregone fight, in the page', () => {
   it('is told over the place, how it ended among it; one held on its own page is not told again', async () => {
-    const t = await Tiny.start(cellar, { party: [{ name: 'Wat', raceId: 'human', classId: 'warrior', level: 10 }] });
+    const t = await Tiny.start(cellar,
+      { party: [{ name: 'Wat', raceId: 'human', classId: 'warrior', level: 10 }], horizon: ['inhabitants'] });
     await t.perform(PlayerView.choices(t.campaign).find(r => r.action.schema === 'attack')!.choice.id);
     const exchange = t.leaf.exchange!;
     expect(exchange.tone).toBe('fight');

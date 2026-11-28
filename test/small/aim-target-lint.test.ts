@@ -22,7 +22,7 @@ const village = `
 
 describe('an aim the page can lead by', () => {
   it('is advised where it is about a fact alone, and not where it names someone or somewhere', async () => {
-    const t = await Tiny.start(village);
+    const t = await Tiny.start(village, { horizon: [] });
     const lint = new CampaignLint('tiny', t.session);
     lint.targets();
     const said = lint.findings.map(f => f.message);

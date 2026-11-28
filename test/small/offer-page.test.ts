@@ -35,7 +35,8 @@ const yard = `
 
 describe('the page\'s four', () => {
   it('are the engine\'s offer, the terminal\'s four, drawn as the numbered rows', async () => {
-    const t = await Tiny.start(yard), frame = MenuTree.framed({ screen: t.screen, leaf: t.leaf } as unknown as Frame);
+    const t = await Tiny.start(yard, { horizon: ['probing'] });
+    const frame = MenuTree.framed({ screen: t.screen, leaf: t.leaf } as unknown as Frame);
     const menu = MenuModel.build(frame, 'here', []);
     const app = { state: { frame, open: [], keyed: false, cursor: 0 }, menu, props: { query: new URLSearchParams() },
       choose: () => undefined } as unknown as ReaderApp;

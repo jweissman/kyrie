@@ -13,7 +13,7 @@ const country = `
   Objective tower when not knows(party, hoard_found) toward far "Find what is hidden in the far tower.".`;
 describe('the aim followed', () => {
   it('is not said again on coming to a place it has nothing to do with, and is said at the place it names', async () => {
-    const t = (await Tiny.start(country)).follow('tower');
+    const t = (await Tiny.start(country, { horizon: ['inhabitants'] })).follow('tower');
     const go = (to: RegExp) => t.perform(t.journey.choices().find(c => to.test(c.full))!.command);
     await go(/To the track/);
     expect(t.glance.arrival).toBe('first');

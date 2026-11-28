@@ -17,7 +17,7 @@ const hp = (s: PlaySession) => s.campaign.readout.creatures.filter(c => s.campai
 
 describe('after a fight', () => {
   it('the fallen lie dead and offer nothing, the wounds stay, and both are kept', async () => {
-    const t = await Tiny.start(gallery), full = hp(t.session);
+    const t = await Tiny.start(gallery, { horizon: ['inhabitants'] }), full = hp(t.session);
     const attack = t.journey.choices().find(c => /^attack\(/.test(c.command))!.command;
     const fought = await t.session.leg(attack);
     expect(fought.combat.some(e => e.type === 'end')).toBe(true);

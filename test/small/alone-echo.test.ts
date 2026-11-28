@@ -18,9 +18,9 @@ class Took {
 }
 describe('a thing taken by one alone', () => {
   it('is echoed as taken, not as taken for them', async () => {
-    const t = await Tiny.start(vault(1), { party: [{ name: 'Hild', raceId: 'human', classId: 'warrior' }] });
+    const t = await Tiny.start(vault(1), { horizon: ['belongings'], party: [{ name: 'Hild', raceId: 'human', classId: 'warrior' }] });
     expect(await Took.garnet(t)).toBe('Collect a jewelled box');
-    const two = await Tiny.start(vault(2), { party: [{ name: 'Hild', raceId: 'human', classId: 'warrior' },
+    const two = await Tiny.start(vault(2), { horizon: ['belongings'], party: [{ name: 'Hild', raceId: 'human', classId: 'warrior' },
       { name: 'Baern', raceId: 'dwarf', classId: 'cleric' }] });
     expect(await Took.garnet(two)).toMatch(/^Collect a jewelled box for (Hild|Baern)$/);
   });

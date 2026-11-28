@@ -21,7 +21,7 @@ describe('a thing named for its owner', () => {
       .toEqual(["a climber's harness", "tinker's tools", "a fisherman's net"]);
   });
   it('is carried in the pack by that name', async () => {
-    const t = await Tiny.start(weir);
+    const t = await Tiny.start(weir, { horizon: ['belongings'] });
     await t.play("Tegwen's lease: Take");
     expect(JSON.stringify(ScreenModel.build(t.campaign).items.map(i => i.name))).toContain("Tegwen's lease");
     expect(JSON.stringify(ScreenModel.build(t.campaign).items.map(i => i.name))).not.toMatch(/a tegwen/i);

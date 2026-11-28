@@ -11,7 +11,7 @@ const hall = (lit: boolean) => `
   Person rat "a rat" at hall { Role "a rat in the straw". Species rat. Numbers 1. Level 1. }
   Goal false.`;
 const look = async (lit: boolean) => {
-  const t = await Tiny.start(hall(lit));
+  const t = await Tiny.start(hall(lit), { horizon: ['inhabitants'] });
   return ScreenModel.build(t.campaign).people.find(p => /rat/.test(p.name))?.look;
 };
 describe('the dark', () => {

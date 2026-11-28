@@ -23,7 +23,7 @@ const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw 
 
 describe('a company fallen', () => {
   it('is told its ending by the runner, and given no time by those who killed it', async () => {
-    const t = await Tiny.start(hall, { party }), r = new Runner(t.session);
+    const t = await Tiny.start(hall, { party, horizon: ['inhabitants'] }), r = new Runner(t.session);
     // Not led (OR-412: the page never leads into a fight that can end the life of the one who plays), but there.
     const offer = r.said().offer, attack = RunnerOffer.flat([...offer.primary, ...offer.rest]).find(o => o.type === 'fight')!;
     expect(offer.primary.some(o => o.type === 'fight')).toBe(false);
@@ -38,7 +38,7 @@ describe('a company fallen', () => {
     expect(turn.scene.lines.join(' ')).not.toMatch(/will give you|will be on you/);
   });
   it('is told its ending by the terminal', async () => {
-    const t = await Tiny.start(hall, { party });
+    const t = await Tiny.start(hall, { party, horizon: ['inhabitants'] });
     const walked = await noColor(() => TerminalWalk.run(t.session,
       WalkStyle.scripted(['Attack the barrow-king', 'Press on to the end'])));
     const text = walked.transcript.join('\n');

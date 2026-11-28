@@ -18,7 +18,7 @@ const flat = (os: Offered[]): Offered[] => os.flatMap(o => [o, ...flat(o.opens ?
 
 describe('what is bought', () => {
   it('goes with what it is for, and every row that buys says who takes it', async () => {
-    const t = await Tiny.start(shop, { party: two });
+    const t = await Tiny.start(shop, { party: two, horizon: ['services'] });
     t.journey.coin(20); t.look();
     const owner = (kind: string) => t.world.related('ownedItem')
       .find(r => t.world.one('itemKind', r.args[0]!) === kind)?.args[1];

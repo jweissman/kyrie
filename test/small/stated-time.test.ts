@@ -22,12 +22,12 @@ const leaves = (cs: Choice[]): Choice[] => cs.flatMap(c => c.children?.length ? 
 
 describe('an act, and the time it says it takes', () => {
   it('takes what the page and the terminal say', async () => {
-    const t = await Tiny.start(crypt), wrong: string[] = [];
+    const t = await Tiny.start(crypt, { horizon: [] }), wrong: string[] = [];
     const told = new Map(PlayerView.choices(t.campaign).map(r => [r.choice.id, ActionTime.minutes(r.action, t.world)]));
     const acts = ChoiceList.explore(t.screen).flatMap(s => leaves(s.choices)).filter(c => c.command && c.minutes);
     expect(acts.map(c => c.label)).toContain('Search here');
     for (const c of acts) {
-      const u = await Tiny.start(crypt), before = u.journey.minutes();
+      const u = await Tiny.start(crypt, { horizon: [] }), before = u.journey.minutes();
       await u.perform(c.command!);
       const took = u.journey.minutes() - before;
       if (took !== c.minutes || (told.has(c.command!) && told.get(c.command!) !== took)) {

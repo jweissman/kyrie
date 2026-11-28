@@ -16,7 +16,7 @@ const bonded = (t: Tiny) => t.world.related('petted').some(r => r.args[0] === 't
 
 describe('a befriender', () => {
   it('makes much of a horse, travels with it, parts, and finds the bond and the horse where they were left', async () => {
-    const t = await Tiny.start(country, { party: [{ name: 'Wren', raceId: 'human', classId: 'ranger' }] });
+    const t = await Tiny.start(country, { horizon: ['inhabitants'], party: [{ name: 'Wren', raceId: 'human', classId: 'ranger' }] });
     expect(bonded(t)).toBe(false);
     await t.play('Make much of (Bran|him)');
     expect(bonded(t)).toBe(true);

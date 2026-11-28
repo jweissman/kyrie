@@ -29,7 +29,7 @@ class Fen {
       Result "In.". }
     Goal false.`;
   static start() {
-    return Tiny.start(this.land, { chart: { width: 2, height: 1, cover: '..', rivers: [], roads: {}, parts: {},
+    return Tiny.start(this.land, { horizon: [], chart: { width: 2, height: 1, cover: '..', rivers: [], roads: {}, parts: {},
       places: { t0: 0, t1: 1 } } });
   }
   static offered(t: Tiny): string[] { return PlayerView.choices(t.campaign).map(r => r.action.schema ?? r.action.id); }
