@@ -138,6 +138,7 @@ export class SymbolReferences {
   private change(c: Change, within: SymbolWithin, own: ReadonlySet<string>) {
     this.call(c.call, 'write', within, own);
     if ('value' in c) { this.value(c.value, within, own); }
+    if (c.when) { this.predicate(c.when, within, own); }
   }
   private predicate(p: Predicate, within: SymbolWithin, own: ReadonlySet<string>): void {
     switch (p.kind) {

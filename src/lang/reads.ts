@@ -70,9 +70,13 @@ export class Reads {
       case 'and': case 'or': case 'compare': case 'arith':
         this.visit(part.left, queries, names); this.visit(part.right, queries, names); return;
       case 'count': this.visit(part.of, queries, names); return;
-      case 'assert': case 'retract': this.visit(part.call, queries, names); return;
+      // A change reads what its guard does (Change.when), as well as writing what it names.
+      case 'assert': case 'retract':
+        this.visit(part.call, queries, names); if (part.when) { this.visit(part.when, queries, names); } return;
       case 'set': case 'increase': case 'decrease':
-        this.visit(part.call, queries, names); this.visit(part.value, queries, names); return;
+        this.visit(part.call, queries, names); this.visit(part.value, queries, names);
+        if (part.when) { this.visit(part.when, queries, names); }
+        return;
       default: return;
     }
   }

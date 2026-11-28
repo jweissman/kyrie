@@ -10,6 +10,8 @@ import { Arithmetic } from './arithmetic';
 import { CheckedActions } from './checked-actions';
 import type { SiteSpan } from './declaration-sites';
 import { ModulePositions } from './module-positions';
+import { Guards } from './guards';
+import { Settling } from './settling';
 import { ModuleDiagnosticText } from './module-diagnostic-text';
 import { VerbDeclarations } from './verb-declarations';
 
@@ -189,6 +191,7 @@ export class ModuleCompiler {
     if (action.interrupt) { this.predicate(module, action.interrupt, bindings); }
     for (const call of action.meanwhile ?? []) { this.predicate(module, call, bindings); }
     [...action.success, ...action.failure].forEach(change => this.change(module, change, bindings));
+    Guards.asked(module, action, this.positions);
     // What it writes is what its requirement binds, as a rule's is (ARV-A9: `Assert stale(?nobody)` had loaded).
     ModuleCompiler.writes(`Action ${action.id}`, action.requires, [...action.success, ...action.failure]);
     if (action.speaker && this.type(module, action.speaker) !== 'group') {
@@ -210,15 +213,15 @@ export class ModuleCompiler {
   // 0.21 s of a new world's install). goals: predicates checked over it in the same pass (see validate).
   instantiate(definition: Module, seed: string, goals: readonly Predicate[] = []): Instance {
     this.validate(definition, goals);
-    const expressions = this.dice?.(`${seed}:module`), when = this.resolved.bind(this, expressions);
-    const change = ModuleCompiler.change.bind(null, expressions);
-    const module: Module = { ...definition, budget: ModuleCompiler.resolve(expressions, definition.budget),
+    const expressions = this.dice?.(`${seed}:module`), when = Settling.predicate.bind(Settling, expressions);
+    const change = Settling.change.bind(Settling, expressions);
+    const module: Module = { ...definition, budget: Settling.number(expressions, definition.budget),
       initial: definition.initial.map(change), goal: when(definition.goal),
       queries: definition.queries.map(q => ({ ...q, body: when(q.body) })),
       actions: definition.actions.map(a => ({ ...a, requires: when(a.requires), success: a.success.map(change),
         failure: a.failure.map(change), ...a.interrupt ? { interrupt: when(a.interrupt) } : {},
         ...a.told ? { told: a.told.map(t => ({ ...t, when: when(t.when) })) } : {},
-        ...a.duration ? { duration: ModuleCompiler.settle(expressions, a.duration) } : {} })),
+        ...a.duration ? { duration: Settling.value(expressions, a.duration) } : {} })),
       ...definition.rules ? { rules: definition.rules.map(r => ({ ...r, when: when(r.when),
         effects: r.effects.map(change) })) } : {},
       ...definition.pursuits ? { pursuits: definition.pursuits.map(p => ({ ...p, when: when(p.when),
@@ -228,37 +231,6 @@ export class ModuleCompiler {
       ...definition.objectives ? { objectives: definition.objectives.map(o => ({ ...o, when: when(o.when) })) } : {} };
     const world = new World(module).apply(module.initial);
     return { module, world: world.snapshot, budget: World.literal(module.budget) };
-  }
-  private resolved(expressions: Dice | undefined, p: Predicate): Predicate {
-    return this.resolvePredicate(p, expressions);
-  }
-  // A change with its value settled (its dice rolled), as a new change; one with no value as it is.
-  private static change<C extends Module['initial'][number]>(expressions: Dice | undefined, c: C): C {
-    return 'value' in c ? { ...c, value: ModuleCompiler.settle(expressions, c.value) } : c;
-  }
-  private static settle(expressions: Dice | undefined, value: Value): Value {
-    if (value.kind === 'call' || value.kind === 'count') { return value; }
-    if (value.kind === 'arith') { return { ...value, left: this.settle(expressions, value.left),
-      right: this.settle(expressions, value.right) }; }
-    return this.resolve(expressions, value);
-  }
-  private static resolve(expressions: Dice | undefined, value: NumberValue): NumberValue {
-    if (value.kind !== 'deem') { return { kind: 'number', value: value.value }; }
-    if (!expressions) {
-      throw new Error(`The module rolls (${value.expression}), and no dice were given to instantiate it`);
-    }
-    return { kind: 'number', value: expressions.number(value.expression) };
-  }
-  private resolvePredicate(predicate: Predicate, expressions: Dice | undefined): Predicate {
-    switch (predicate.kind) {
-      case 'compare': return { ...predicate,
-        left: ModuleCompiler.settle(expressions, predicate.left),
-        right: ModuleCompiler.settle(expressions, predicate.right) };
-      case 'and': case 'or': return { ...predicate, left: this.resolvePredicate(predicate.left, expressions),
-        right: this.resolvePredicate(predicate.right, expressions) };
-      case 'not': return { ...predicate, value: this.resolvePredicate(predicate.value, expressions) };
-      default: return predicate;
-    }
   }
   private subject(id: string, anchor: string | undefined, variable: string, when: Predicate) {
     const seen = { bound: new Set<string>(), compared: new Set<string>() };
@@ -358,6 +330,7 @@ export class ModuleCompiler {
       this.call(module, change.call, module.measures, bindings);
       this.value(module, change.value, bindings);
     }
+    if (change.when) { this.predicate(module, change.when, bindings); }
   }
   // A condition that compares ?variables nothing in it binds is never true: the comparison reads nothing. Alone,
   // "purse(?m) > quantity(?m, gold)" is false for every dealer; "buysValuables(?m) and purse(?m) > …" binds them.
@@ -377,9 +350,10 @@ export class ModuleCompiler {
       if (!bound.has(v)) { throw new Error(`${id} writes ${v}, which its condition does not bind`); }
     }
   }
-  // What a count names is its own to find (count(…)), and not written: read past, as JSON is written.
-  private static uncounted(this: void, _key: string, value: unknown): unknown {
-    return (value as { kind?: string } | null)?.kind === 'count' ? 0 : value;
+  // What a count names is its own to find (count(…)), and not written: read past, as JSON is written; so too a
+  // change's guard (Change.when), which is read, not written.
+  private static uncounted(this: void, key: string, value: unknown): unknown {
+    return key === 'when' || (value as { kind?: string } | null)?.kind === 'count' ? 0 : value;
   }
   // The variables a condition binds wherever it holds: of an `or`, only those both sides bind.
   private static binds(p: Predicate): Set<string> {

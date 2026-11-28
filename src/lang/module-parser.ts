@@ -8,6 +8,7 @@ import { VocabularyContext } from './vocabulary'; import { type Parts } from './
 import { ObjectiveParser } from './objective-parser';
 import { TemplatedPredicates } from './templated-predicates'; import { ModuleReads } from './module-reads';
 import { ReferenceSpans } from './reference-spans';
+import { Guards } from './guards';
 
 type Node = ohm.Node; type AstNode = ohm.Node & { ast(): unknown }; type Field = { field: string; value: unknown };
 interface UnmadeModule { id: string; name: string; fields: Field[]; starts: number[] }
@@ -358,6 +359,8 @@ export class ModuleParser {
       // A resolve tried once (`… once.`) is latched on its action: WorldConstructs.tried.
       Object.assign(action, { [field]: value }, once ? { tried: true } : {});
     }
+    const bound = new Set((action.parameters ?? []).map(p => p.name));
+    for (const c of [action.success, action.failure]) { Guards.read(`Action ${action.id}`, c, bound); }
     return { field: 'action', value: action };
   }
   static Success(_on: Node, _success: Node, _open: Node, changes: Node, _close: Node): Field {

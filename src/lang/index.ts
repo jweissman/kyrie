@@ -21,6 +21,7 @@ export * from './endings';
 export * from './engine-owned';
 export * from './entity-index';
 export * from './grammars';
+export * from './guards';
 export * from './item-names';
 export * from './kept-parses';
 export * from './kept-predicates';

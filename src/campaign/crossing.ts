@@ -107,7 +107,7 @@ export class Crossing {
     if (!actor || Crossing.whither(action)) { return undefined; }
     const from = at.world.one('at', actor);
     if (!from) { return undefined; }
-    for (const c of [...action.success, ...action.failure]) {
+    for (const c of at.world.due([...action.success, ...action.failure])) {
       const to = c.kind === 'assert' && c.call.name === 'at' && c.call.args[0] === actor ? c.call.args[1] : undefined;
       if (to && HexBoundary.crosses(at.module, from, to)) { return { from, to }; }
     }

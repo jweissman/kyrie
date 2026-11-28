@@ -40,6 +40,10 @@ export class StatementParser {
     return { field: 'meanwhile', value: calls.asIteration().children.map(c => ModuleParser.ast(c)) };
   }
   static ChangeStatement(change: Node, _dot: Node) { return ModuleParser.ast(change); }
+  // "If lit(lamp), Assert seen(actor, door).": the change with its guard (see Change.when).
+  static Guarded(_if: Node, when: Node, _comma: Node, change: Node) {
+    return { ...ModuleParser.ast(change) as object, when: ModuleParser.ast(when) };
+  }
   static Assert(_assert: Node, call: Node) { return { kind: 'assert', call: ModuleParser.ast(call) }; }
   static Retract(_retract: Node, call: Node) { return { kind: 'retract', call: ModuleParser.ast(call) }; }
   // "Give coat to party.": a thing put in the company's hands, by whoever has it, and "Spend weight_stone from actor.":

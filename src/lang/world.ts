@@ -258,18 +258,25 @@ export class World {
     }
   }
   // A world is never changed once made, so no changes at all give this world itself.
-  apply(changes: Change[]): World {
-    if (!changes.length) { return this; }
+  apply(changes: readonly Change[]): World {
+    const due = this.due(changes); if (!due.length) { return this; }
     const next = World.fork(this), counts = new Counts(), displaced = new Displaced();
-    for (const change of changes) { next.change(change, counts, displaced); }
+    for (const change of due) { next.change(change, counts, displaced); }
     return next;
+  }
+  // What of a consequence is made in this world: each guarded change only where its guard holds here, before any of
+  // them is made (they are one moment: a guard is never read over what its fellows write), and then as a change with
+  // no guard, so that what is due is not asked again of a later world (a journey's effects, made as it arrives).
+  due(changes: readonly Change[]): Change[] {
+    if (!changes.some(c => c.when)) { return changes as Change[]; }
+    return changes.flatMap(({ when, ...change }) => !when || this.test(when) ? [change as Change] : []);
   }
   // Whether `apply(changes)` would succeed, without building the next world, and keep every count it changes at or
   // above nothing, in all (see Counts): an action that would take one past nothing is not offered. Its values are read
   // as apply reads them, a die as a die (one was read as a count of nothing: the architecture review's A18).
-  admits(changes: Change[]): boolean {
+  admits(changes: readonly Change[]): boolean {
     const signatures = World.index(this.module), counts = new Counts();
-    for (const change of changes) {
+    for (const change of this.due(changes)) {
       if (change.kind === 'assert' || change.kind === 'retract') {
         if (!signatures.relations.has(change.call.name)) { return false; }
         continue;

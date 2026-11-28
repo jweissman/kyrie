@@ -85,6 +85,7 @@ export class ModuleNamespace {
   private change(change: Change, bound: string[] = []): Change {
     const next = { ...change, call: this.call(change.call, bound) };
     if ('value' in next) { next.value = this.value(next.value, bound); }
+    if (next.when) { next.when = this.predicate(next.when, bound); }
     return next;
   }
   private verb(v: NonNullable<Module['verbs']>[number]): NonNullable<Module['verbs']>[number] {

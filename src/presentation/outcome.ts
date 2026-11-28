@@ -79,7 +79,8 @@ export class Outcome {
   private static told(world: World, action: Operator, at: { actor: string; company: Foreseeing;
     byId: ReadonlyMap<string, { name?: string }> }): readonly string[] {
     // A spell's world changes, given ahead by the rules domain's lowering, as its success's are (OR-1101).
-    const success = [...action.success ?? [], ...this.lowered(world, action)];
+    // What of it is due as the world stands, each guarded change by its guard (World.due).
+    const success = world.due([...action.success ?? [], ...this.lowered(world, action)]);
     return this.teaching(world, success, at.actor, at.company).filter(f => !!at.byId.get(f)?.name);
   }
   private static teaching(world: World, success: readonly Change[], actor: string, company: Foreseeing):

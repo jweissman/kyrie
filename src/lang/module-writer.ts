@@ -22,7 +22,12 @@ export class ModuleWriter {
       case 'compare': return `${ModuleWriter.value(predicate.left)} ${predicate.operator} ${ModuleWriter.value(predicate.right)}`;
     }
   }
+  // A guarded one as it is written, its guard before it (`If lit(lamp), Assert seen(actor, door).`: Change.when).
   static change(change: Change): string {
+    return change.when ? `If ${ModuleWriter.predicate(change.when)}, ${ModuleWriter.unguarded(change)}`
+      : ModuleWriter.unguarded(change);
+  }
+  private static unguarded(change: Change): string {
     const call = World.format(change.call);
     switch (change.kind) {
       case 'assert': return `Assert ${call}.`;

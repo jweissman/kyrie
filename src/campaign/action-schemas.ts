@@ -198,6 +198,8 @@ export class ActionSchemas {
   private static change(change: Change, bindings: Record<string, string>): Change {
     const next = { ...change, call: this.call(change.call, bindings) };
     if ('value' in next) { next.value = this.value(next.value, bindings) as typeof next.value; }
+    // Its guard bound as the change is (Change.when).
+    if (next.when) { next.when = this.predicate(next.when, bindings); }
     return next;
   }
 }

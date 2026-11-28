@@ -10,11 +10,14 @@ export type Predicate = Call | { kind: 'boolean'; value: boolean }
   | { kind: 'not'; value: Predicate }
   | { kind: 'and' | 'or'; left: Predicate; right: Predicate }
   | { kind: 'compare'; operator: '>=' | '<=' | '>' | '<' | '==' | '!='; left: Value; right: Value };
-export type Change = { kind: 'assert'; call: Call } | { kind: 'retract'; call: Call }
+// when: a change made only where its guard holds (`If lit(lamp), Assert seen(actor, door).`: OR-1333, AU-57), read
+// against the world as it was before any of its consequence's changes, which are one moment (World.due). A guarded
+// change is still one the act may make, so whatever reads what an act may write reads it as it reads any other.
+export type Change = ({ kind: 'assert'; call: Call } | { kind: 'retract'; call: Call }
   | { kind: 'set'; call: Call; value: Value }
   | { kind: 'increase'; call: Call; value: Value }
   // toNothing: by so much, or to nothing if there is less (a debt of one pain paid with six: A Winter in Carth's 2).
-  | { kind: 'decrease'; call: Call; value: Value; toNothing?: boolean };
+  | { kind: 'decrease'; call: Call; value: Value; toNothing?: boolean }) & { when?: Predicate };
 export type PlaceKind = 'plane' | 'region' | 'settlement' | 'wilderness' | 'site' | 'building' | 'level' | 'room';
 export type MovementMode = 'walk' | 'enter' | 'leave' | 'ascend' | 'descend' | 'travel' | 'cross_plane';
 // Whether a place is under the sky, under a roof or under the ground: what can be seen and felt there of the weather
