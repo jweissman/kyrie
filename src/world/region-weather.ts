@@ -7,6 +7,7 @@ import { SettlementWriter } from './settlement-writer';
 import { CampaignTick } from '../campaign/campaign-tick';
 import type { Region } from './region-writer';
 import { RegionKey } from './region-key';
+import { ModuleSource, ModuleWriter, type Observation, type Predicate } from './kyr-values';
 
 interface Tables {
   regionClimate: { groups: Record<string, string[]> }; climateWeather: { groups: Record<string, string[]> };
@@ -91,11 +92,26 @@ export class RegionWeather {
         .map(s => [`${s.id}_taproom`, 'roof'] as [string, 'roof']),
       ...RegionGeography.roads(region).map(r => [r.way, 'road'] as [string, 'road']),
       ...RegionGeography.atlas(region).zones.flatMap(z => RegionZones.rooms(region, z).map(r => [r, 'wild'] as [string, 'wild']))];
-    return [...places.flatMap(([room, kind]) => kinds.filter(k => at[k]?.[kind]).map(k =>
-      `  Observe ${room}_sky_${k} at ${room} as weather when state(sky, weather_${k})${kind === 'roof' ? '' : ' and not dark()'} ${q(at[k]![kind])}.`)),
+    return [...places.flatMap(([room, kind]) => kinds.filter(k => at[k]?.[kind]).map(k => {
+      const sky = ModuleWriter.call('state', 'sky', `weather_${k}`), text = at[k]![kind];
+      return this.observe({ id: `${room}_sky_${k}`, place: room, when: kind === 'roof' ? sky
+        : ModuleSource.all(sky, this.light), text, aspect: 'weather' },
+      `  Observe ${room}_sky_${k} at ${room} as weather when state(sky, weather_${k})${kind === 'roof' ? '' : ' and not dark()'} ${q(text)}.`);
+    })),
     ...region.settlements.flatMap(s => CampaignTick.seasons.flatMap((season, i) => {
       const line = this.tables.seasonLine.groups[season]?.[0];
-      return line ? [`  Observe ${s.id}_season_${season} at ${s.id}_green as weather when not dark() and season(clock) == ${i + 1} ${q(line)}.`] : [];
+      const now: Predicate = { kind: 'compare', left: ModuleWriter.call('season', 'clock'),
+        right: ModuleWriter.number(i + 1), operator: '==' };
+      return line ? [this.observe({ id: `${s.id}_season_${season}`, place: `${s.id}_green`,
+        when: ModuleSource.all(this.light, now), text: line, aspect: 'weather' },
+      `  Observe ${s.id}_season_${season} at ${s.id}_green as weather when not dark() and season(clock) == ${i + 1} ${q(line)}.`)] : [];
     }))];
   }
+  // What is seen of the weather declared as values (ModuleSource: AX-04, the country's most numerous Observe after its
+  // stretches'), each with its line beside it.
+  private static observe(o: Observation, kyr: string): string {
+    return ModuleSource.observe(o, kyr, { generator: 'region-weather', construct: 'Observe' });
+  }
+  // not dark(), as the parser makes it (made as the class is, so of nothing imported).
+  private static readonly light: Predicate = { kind: 'not', value: { kind: 'call', name: 'dark', args: [] } };
 }
