@@ -8,6 +8,7 @@ import { RegionGeography } from '../../src/world/region-geography';
 import { RegionTracts } from '../../src/world/region-tracts';
 import { RegionZones } from '../../src/world/region-zones';
 import { RegionSites } from '../../src/world/region-sites';
+import { ModuleSource } from '../../src/lang';
 
 // The map draws the character's knowledge, not the world's truth (OR-741's first slice, ways and destinations; the
 // owner's playtest, 25 November: "The world map is still quite chaotic; things were unfolding that were nowhere near
@@ -129,8 +130,9 @@ describe('wild country named for a town', () => {
     let named = 0;
     for (const seed of ['iscoed', 'a1']) {
       const region = WorldAssembler.region(seed, [0, 0]), towns = region.settlements;
-      const places = [...RegionTracts.lines(region), ...RegionZones.lines(region),
-        ...RegionSites.lines(region)].join('\n').split('\n')
+      // (Read as Kyr: the stretches' places are declared as values, AX-04.)
+      const places = ModuleSource.text([...RegionTracts.lines(region), ...RegionZones.lines(region),
+        ...RegionSites.lines(region)]).join('\n').split('\n')
         .map(l => Wild.place.exec(l))
         .filter((m): m is RegExpExecArray => !!m);
       for (const [, id, name, seen = '', until] of places) {
