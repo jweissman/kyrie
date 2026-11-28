@@ -51,7 +51,8 @@ export class QuantityMeasures {
       read: 'answered' },
     { id: 'routine', label: '1. Traversal and administration after the first expedition (%)', kind: 'down',
       why: 'the review\'s first threshold, at most a fifth of post-first moves (§9.3, OR-1440, OR-1395): a deep level\'s '
-        + 'known, unchanged ground crossed in one act (OR-1448); may only fall, and only beside kept, which says the '
+        + 'known, unchanged ground crossed in one act (OR-1448), the way down made sure (Descents); read by presses, a '
+        + 'journey one, its legs the same moves as walked; may only fall, and only beside kept, which says the '
         + 'world time and the ground known did not fall with it',
       read: 'routine' },
     { id: 'kept', label: '1. Watches spent below and above after the first expedition', kind: 'report',
