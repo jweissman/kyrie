@@ -216,6 +216,11 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/features/pleasure/pleasures-in-town.pin.test.ts` | The Iscoed world and three generated pleasures on Edderwick's green. Each is played and revisited; the no-payment and no-aim claims are separate. |
 | `test/features/pleasure/the-fiddle.pin.test.ts` | The Iscoed world and its first-town fiddle, played from taking it down to the tune heard outside. Coin and aim continuity accompany the prose witnesses. |
 | `test/features/pleasure/the-fox-earth.pin.test.ts` | The Iscoed world and the time-gated fox earth. It witnesses daytime absence, later availability, the attempted watch and the remembered path. |
+| `test/features/pleasure/the-old-womans-riddle.pin.test.ts` | The Iscoed world and its riddle engagement through runner and page menu, including refusal by leaving. Each restricted-row absence needs a counterfactual before narrowing. |
+| `test/features/pleasure/the-point-and-the-seal.pin.test.ts` | The Iscoed world and the authored shore at morning and night, including a seal that remembers the first visit. |
+| `test/features/pleasure/the-rain-gourd.pin.test.ts` | The authored Rain-gourd campaign, its lint, two routes to fill the gourd and their distinct endings. Scenery follows the played weather. |
+| `test/features/pleasure/the-window-table.pin.test.ts` | The Iscoed world and the card-hand engagement, played through, laid down, left and cheated. Focus and no-repeat negatives need counterfactual proof before narrowing. |
+| `test/features/pleasure/tinker-kit.pin.test.ts` | The Iscoed world and five distinct generated or resident tinker occasions, with success, failure and time-dependent departures. These are separate kit-composition and play witnesses. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
