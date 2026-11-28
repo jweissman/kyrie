@@ -147,8 +147,8 @@ export class Frontier {
   // drawing, and does not draw it again beside it (the architecture review's A24).
   private readonly ahead = new Map<string, ReturnType<typeof WorldAssembler.beyond>>();
   private async drawn(campaign: Campaign, x: number, y: number, keep = false) {
-    const installed = new Set(campaign.installed);
-    const at = { x, y, calendar: campaign.readout.calendar, exclude: await this.placed(installed),
+    const installed = new Set(campaign.installed), exclude = await Frontier.placed(this.base, Frontier.held(campaign));
+    const at = { x, y, calendar: campaign.readout.calendar, exclude,
       named: this.named(campaign, [x, y]), taken: this.works(campaign), held: Sittings.held(campaign),
       first: this.first(campaign) };
     const key = JSON.stringify(at);
@@ -220,13 +220,19 @@ export class Frontier {
       imports: ['here', 'there'], roles: { here: { type: 'place' }, there: { type: 'place' } } }),
     [`${id}/link.kyr`]: source.join('\n') };
   }
-  // The scenarios placed anywhere in the world already, which a new region does not repeat.
-  private async placed(installed: Set<string>): Promise<string[]> {
-    const library = await WorldAssembler.library(this.base, 'data/scenarios/library.json');
-    const bare = new Set([...installed].map(id => id.replace(/^x(m?\d+)y(m?\d+)/, '').replace(/\d+$/, '')));
-    return library.filter(e => e.manifest.modules.some(m => bare.has(m.id.replace(/[^A-Za-z0-9]/g, ''))))
+  // The scenarios the world's first country places, which a country beyond does not repeat: decided as the world was
+  // drawn, never by which countries beyond the company came to first (OR-1745: a country beyond had left out what the
+  // countries installed before it held, so two lives of one seed that crossed the marches in another order found
+  // other stories beyond them). The countries beyond are each drawn from what the first leaves, by where they lie and
+  // the world's seed alone; one may hold a story another beyond holds too.
+  static async placed(base: BundleSource, held: Iterable<string>): Promise<string[]> {
+    const library = await WorldAssembler.library(base, 'data/scenarios/library.json');
+    const own = new Set([...held].filter(id => !/^x(m?\d+)y(m?\d+)/.test(id)).map(id => id.replace(/\d+$/, '')));
+    return library.filter(e => e.manifest.modules.some(m => own.has(m.id.replace(/[^A-Za-z0-9]/g, ''))))
       .map(e => e.manifest.id);
   }
+  // What the world holds by its drawing: its installations.
+  static held(campaign: Campaign): string[] { return campaign.installed; }
   // What the works already drawn anywhere in the world are called (b2's eastern country had a second Caelumspir).
   private works(campaign: Campaign): string[] {
     return campaign.module.entities.filter(e => /__w\d+$/.test(e.id)).map(e => e.name);
