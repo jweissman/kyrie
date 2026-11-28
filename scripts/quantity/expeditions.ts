@@ -4,11 +4,11 @@ import type { PlaySession } from '../../src/session/play-session';
 import type { CampaignEvent } from '../../src/campaign/campaign';
 import { HonestPlayer } from '../../test/support/honest-player';
 import { QuantityPlaces } from './places';
-import { DangerSense } from '../../src/presentation/danger-sense';
 import type { Battle } from '../../src/arena';
 import { Tactics } from '../../src/tactics';
 import { QuantityLadder, type Ladder } from './ladder';
 import { QuantityDungeon } from './dungeon';
+import { QuantityCaution } from './caution';
 
 // Five expeditions on the reference seed (OR-1390, the economy review's Priority 0: doc/reviews/conflict-economy-
 // boredom-stimulation.md §8, §9): a rung-3 player with an explicit policy, not a search.
@@ -18,8 +18,11 @@ import { QuantityDungeon } from './dungeon';
 // - It delves room by room as the delver does: whoever is there fought where its reckoning says no one would fall,
 //   what lies about taken up, a room not yet been in first and deeper first, a way the page calls grave gone round,
 //   a trap looked at, prodded and risked where it would not kill; else back by a way not yet taken from where it
-//   stands; no deeper than one level more than the last expedition went.
-// - It turns back when anyone is below three fifths or after so many steps, comes home, and sells what it found below.
+//   stands; no deeper than one level more than the last expedition went. It is careful as a player reading the page
+//   is (QuantityCaution, OR-1860): never beside a band that could kill it, what is heard drawn out before it is gone
+//   in on, a fight going badly broken off.
+// - It turns back when anyone is below three fifths or has fallen, when what could kill it has met it twice, or after
+//   so many steps; comes home, and sells what it found below.
 // Every command is classed (decision, consequence, traversal, recovery, administration, exposition), and each return
 // is set against the last: options newly legal where the company prepares and goes down, the world changed, facts
 // learned, risk changed, what the town remembers. The review's disconfirming test is read from it: five trips whose
@@ -173,16 +176,18 @@ export class QuantityExpeditions {
     }
   }
   private static async down(s: PlaySession, trip: Trip, most: number, avoided: string[]) {
-    const been = new Set<string>(), tried = new Set<string>(), sought = new Set<string>();
-    const place = QuantityPlaces.place(s.campaign, 'region__s1_ud');
+    const been = new Set<string>(), tried = new Set<string>(), sought = new Set<string>(), shunned = new Set<string>();
+    const place = QuantityPlaces.place(s.campaign, 'region__s1_ud'), stood = QuantityCaution.standing(s);
+    const met = { n: 0 }, arrival = { room: '', bands: new Set<string>() };
     for (let i = 0; i < this.steps; i++) {
       if (!s.campaign.running || !this.standing(s)) { trip.approach.turned = 'fell'; return; }
+      if (QuantityCaution.fallen(s, stood)) { trip.approach.turned = 'fallen'; return; }
       if (this.hurt(s, 0.6)) { trip.approach.turned = 'hurt'; return; }
       const here = this.here(s);
       been.add(here);
       trip.approach.deepest = Math.max(trip.approach.deepest, this.depth(s, here));
-      const next = this.next(s, { place, been, tried, most, avoided, sought });
-      if (!next) { trip.approach.turned = 'nothing on'; return; }
+      const next = this.next(s, { place, been, tried, most, avoided, sought, shunned, met, arrival });
+      if (!next) { trip.approach.turned = met.n > 1 ? 'beyond' : 'nothing on'; return; }
       tried.add(next);
       if (next.startsWith('attack(')) { trip.approach.attacks++; }
       if (/^(look_closely|prod|hook)/.test(next)) { trip.approach.traps++; }
@@ -195,11 +200,11 @@ export class QuantityExpeditions {
   }
   private static next(s: PlaySession,
     at: { place?: string; been: Set<string>; tried: Set<string>; most: number; avoided: string[];
-      sought: Set<string> }) {
+      sought: Set<string>; shunned: Set<string>; met: { n: number }; arrival: { room: string; bands: Set<string> } }) {
     // Whoever is there is fought where the company's own reckoning says it would not fall (slight, fair or hard, and
     // not mortal); one it says could end a life is gone round.
     const ids = this.ids(s), c = s.campaign, attacks = ids.filter(id => id.startsWith('attack('));
-    const beyond = new Set(attacks.filter(id => this.mortal(s, /^attack\(([^,)]+)/.exec(id)?.[1] ?? '')));
+    const beyond = new Set(attacks.filter(id => QuantityCaution.mortal(s, QuantityCaution.band(id))));
     at.avoided.push(...[...beyond].filter(id => !at.avoided.includes(id)));
     const fight = attacks.find(id => !beyond.has(id));
     if (fight) { return fight; }
@@ -210,18 +215,24 @@ export class QuantityExpeditions {
     if (light) { return light; }
     const words = this.policy.grammar ? this.words(Journey.of(s).choices(), at.tried) : undefined;
     if (words) { return words; }
-    // A pile of two finds or more taken up in one act, where the page offers it (OR-1870: never what lies in a lair).
-    // (Its command is the same in every room: tried in this one, by where it was taken up.)
-    const pile = ids.find(id => id.startsWith('take_pile(') && !at.tried.has(`${this.here(s)}:${id}`));
+    // One that could kill the company here, not talked round, that came or comes at it: stepped back from toward the
+    // way out (met a second time, home); one that warns it off, left by any way at once (QuantityCaution.away).
+    const away = QuantityCaution.away(s, [...beyond], at), back = QuantityCaution.back(s, ids, 'region__s1_ud');
+    if (away === 'home') { return undefined; }
+    if (away === 'back') { return back; }
+    // A pile of two finds or more taken up in one act, where the page offers it (OR-1870: never what lies in a lair),
+    // and never where the company is leaving. (Its command is the same in every room: tried in this one, by where.)
+    const pile = away === 'leave' ? undefined : ids.find(id => id.startsWith('take_pile(') && !at.tried.has(`${this.here(s)}:${id}`));
     if (pile) { at.tried.add(`${this.here(s)}:${pile}`); for (const f of this.pile(s)) { this.found.add(f); } return pile; }
-    const loot = this.loot(Journey.of(s).choices(), at.tried, act => this.kindOf(s, act), act => this.guarded(s, act));
+    const loot = away === 'leave' ? undefined : this.loot(Journey.of(s).choices(), at.tried, act => this.kindOf(s, act), act => this.guarded(s, act));
     if (loot) { this.found.add(this.itemOf(loot)); return loot; }
     // A way the page says is grave (it could be lost, what lies in wait there) is gone round, not into.
     const grave = new Set(Journey.of(s).choices().filter(x => x.grave).map(x => x.command));
     at.avoided.push(...ids.filter(id => grave.has(id) && id.startsWith('go(') && !at.avoided.includes(id)));
     const ways = ids.filter(id => id.startsWith('go(') && !grave.has(id))
       .map(id => ({ id, to: /,([^,)]+)\)$/.exec(id)?.[1] ?? '' }))
-      .filter(w => QuantityPlaces.place(c, w.to) === at.place && w.to !== 'region__s1_ud' && this.depth(s, w.to) <= at.most);
+      .filter(w => QuantityPlaces.place(c, w.to) === at.place && w.to !== 'region__s1_ud' && this.depth(s, w.to) <= at.most
+        && !at.shunned.has(w.to));
     // Listened for first where a way can be listened at (the halls' sounds): one that tells of what lies in wait is
     // gone round by the grave branch above, once heard.
     const listen = this.policy.grammar ? ids.find(id => id.startsWith('listen(') && !at.tried.has(id)) : undefined;
@@ -229,12 +240,13 @@ export class QuantityExpeditions {
     const seek = this.seek(s, { ways, ever, sought: at.sought, depth: this.depth(s, this.here(s)) });
     const on = this.onward(ways, { now: at.been, ever, depth: new Map(ways.map(w => [w.to, this.depth(s, w.to)])),
       ...listen ? { listen } : {}, ...seek ? { seek } : {} });
-    if (on) { return on; }
+    if (away === 'leave') { return on?.startsWith('go(') ? on : back; }
+    if (on) { return QuantityCaution.ahead(ids, at.tried, on); }
     // A trap is risked only where the page says it would not kill.
     const deadly = new Set(Journey.of(s).choices().filter(x => /could kill/.test(x.label)).map(x => x.command));
     return ['look_closely(', 'prod(', 'hook', 'change_thing(', 'risk(', 'light_item(', ...this.policy.grammar ? ['search('] : []]
       .map(v => ids.find(id => id.startsWith(v) && !at.tried.has(id) && !grave.has(id) && !deadly.has(id)))
-      .find(Boolean) ?? this.least(ways, at);
+      .find(Boolean) ?? QuantityCaution.ahead(ids, at.tried, this.least(ways, at));
   }
   // A band that talks, which the reckoning says could end a life, is answered with words before it is gone round:
   // the answer the page gives the best odds (talking round, then a lie, then a warning, where they are as good); and
@@ -270,7 +282,7 @@ export class QuantityExpeditions {
     const w = s.campaign.world, item = this.itemOf(act), where = w.one('at', item) ?? w.one('at', w.one('inside', item) ?? '');
     return !!where && w.related('lair').some(r => r.args[1] === where
       && w.test({ kind: 'call', name: 'able', args: [r.args[0]!] })
-      && !w.test({ kind: 'call', name: 'tolerates', args: [r.args[0]!, 'party'] }) && this.mortal(s, r.args[0]!));
+      && !w.test({ kind: 'call', name: 'tolerates', args: [r.args[0]!, 'party'] }) && QuantityCaution.mortal(s, r.args[0]!));
   }
   // The way on: a room never yet been in, on any expedition, deeper first (the halls' well and mourners' hall lay
   // beside the way through, and a company that took the way through each time never went in: OR-1620); else a level's
@@ -345,12 +357,11 @@ export class QuantityExpeditions {
       return event;
     } catch { return undefined; }
   }
-  // A fight fought by the company's own tactics, and run from once one of the company is down to a third.
+  // A fight fought by the company's own tactics, and run from once it goes badly (QuantityCaution.flees).
   static readonly fled = { n: 0 };
   private static fight(b: Battle) {
     const legal = b.legalCommands(), flee = legal.find(c => c.ability === 'flee');
-    const low = b.state.combatants.some(f => f.team === 'fighters' && f.hp > 0 && f.hp < f.maxHp / 3);
-    if (flee && low) { this.fled.n++; return flee; }
+    if (flee && QuantityCaution.flees(b.state.combatants)) { this.fled.n++; return flee; }
     return Tactics.choose(b.state, b.plain(legal));
   }
   // What the company knows, holds and has done, and the world round it, at a return.
@@ -428,10 +439,6 @@ export class QuantityExpeditions {
   private static least(ways: { id: string; to: string }[], at: { been: Set<string>; tried: Set<string> }) {
     const way = ways.find(w => !at.tried.has(w.id));
     return way?.id;
-  }
-  private static mortal(s: PlaySession, group: string): boolean {
-    const r = DangerSense.reckon(s.campaign, group);
-    return !!r && (r.mortal === true || r.danger === 'grave' || r.danger === 'deadly');
   }
   private static standing(s: PlaySession): boolean {
     const c = s.campaign;
