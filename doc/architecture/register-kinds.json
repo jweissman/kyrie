@@ -3714,6 +3714,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "27 Nov: a second instrument is wanted (ES-F16); nothing promises one"
+  },
+  "OR-1862": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "28 Nov: a way of playing wanted beside OR-1853's contract (the way out by its next leg), not an observed failure"
   }
  },
  "blockedBy": {
