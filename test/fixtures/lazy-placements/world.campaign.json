@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "name": "Lowmouth and Farholm",
+ "modules": [
+  {
+   "id": "home",
+   "bundle": "home/module.json"
+  },
+  {
+   "id": "drover",
+   "bundle": "../../../data/goings-on/drover/module.json",
+   "imports": {
+    "party": "home.party",
+    "green": "home.green",
+    "taproom": "home.taproom",
+    "road": "home.road"
+   },
+   "context": {
+    "folk": "human",
+    "townName": "Lowmouth",
+    "taken": [
+     "Aud",
+     "Hamo"
+    ]
+   }
+  },
+  {
+   "id": "fever",
+   "bundle": "../../../data/goings-on/fever/module.json",
+   "imports": {
+    "party": "home.party",
+    "green": "home.far_green",
+    "road": "home.road"
+   },
+   "context": {
+    "folk": "human",
+    "townName": "Farholm",
+    "taken": [
+     "Aud",
+     "Hamo"
+    ]
+   }
+  }
+ ],
+ "party": [
+  {
+   "name": "Aud",
+   "raceId": "human",
+   "classId": "warrior"
+  }
+ ],
+ "lazy": [
+  {
+   "id": "drover",
+   "modules": [
+    "drover"
+   ]
+  },
+  {
+   "id": "fever",
+   "modules": [
+    "fever"
+   ]
+  }
+ ]
+}

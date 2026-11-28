@@ -92,6 +92,10 @@
   {
    "file": "test/reference-campaign-isolation.test.ts",
    "why": "two reference-game campaigns with local kinds, interleaved against their standalone receipts"
+  },
+  {
+   "file": "test/lazy-placements-s0.test.ts",
+   "why": "s0 begun eagerly and lazily: its held-back placements the same to the company and, taken up, what they would have been (a story or rule change that breaks waiting)"
   }
  ],
  "budget": {

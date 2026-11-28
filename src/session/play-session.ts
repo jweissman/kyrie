@@ -36,7 +36,9 @@ export interface Drawn { party: CreatureGenerationContext[]; terrain?: string; o
   // The debt's chain fixed (salvage, carry, recover: see DebtShapes), as an author fixes a dimension of a kit.
   standing?: string[]; chain?: string;
   // A stock opening chosen at creation, begun in ahead of the origin (see StockOpenings): none where none was chosen.
-  opening?: string }
+  opening?: string;
+  // Its far placements held back until first neared (see PendingPlacements): a replay draws it so again.
+  lazy?: boolean }
 // Chooses the next command for the player's side. Must return one of battle.legalCommands().
 export type CombatController = (battle: Battle) => Promise<Command>;
 // Version 2 carries the focus and the conversation under way (OR-1451), so that a game taken up again mid-talk opens on

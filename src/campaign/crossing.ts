@@ -28,6 +28,36 @@ interface Open extends At { running: boolean; operators: Operators; operator(id:
 //   (the wild country's guided and bearing). Rules are the world's, and only the act's own changes are held to this;
 //   the page walks any hex they change on the map all the same (see JourneyCourse).
 export class Crossing {
+  // How many hexes lie between where a place stands and the nearest of others on the same land (a road stands on every
+  // cell it runs over), the land set out in hexes as the page's map draws it (as Terrain.hexes counts them); none, if
+  // the first or every other stands on no land, or another. What a placement held back waits on (PendingPlacements).
+  static hexes(module: Module, from: string, places: readonly string[]): number | undefined {
+    const here = this.cells(module, from), width = here && module.charts?.[here.land]?.width;
+    if (!here || !width) { return undefined; }
+    let least: number | undefined;
+    for (const place of places) {
+      const at = this.cells(module, place);
+      if (at?.land !== here.land) { continue; }
+      for (const a of here.cells) {
+        for (const b of at.cells) { least = Math.min(least ?? Infinity, this.apart(width, a, b)); }
+      }
+    }
+    return least;
+  }
+  private static cells(module: Module, id: string): { land: string; cells: number[] } | undefined {
+    const hex = id ? HexBoundary.hex(module, id) : undefined;
+    if (!hex) { return undefined; }
+    const [land, a, road] = hex.split(':') as [string, string, string?];
+    return { land, cells: a === 'road' ? module.charts?.[land]?.roads[road!] ?? [] : [Number(a)] };
+  }
+  private static apart(width: number, a: number, b: number): number {
+    const [q1, r1] = this.cube(width, a), [q2, r2] = this.cube(width, b), dq = q1 - q2, dr = r1 - r2;
+    return (Math.abs(dq) + Math.abs(dr) + Math.abs(dq + dr)) / 2;
+  }
+  private static cube(width: number, c: number): [number, number] {
+    const y = Math.floor(c / width);
+    return [c % width - (y - (y & 1)) / 2, y];
+  }
   // The leg of a journey being taken (its destination), for as long as the journey takes it: what Travel.go confers
   // on the one command it plans, never what a command says of itself.
   private leg?: string;

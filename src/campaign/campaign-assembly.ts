@@ -6,6 +6,7 @@ import { EngineDeclarations } from './engine-declarations';
 import type { Assembly } from './load-cache';
 import { ModuleBundle } from './module-bundle';
 import { ModuleInstallations } from './module-installations';
+import { PendingPlacements } from './pending-placements';
 import { StoryCasts } from './story-casts';
 import type { VocabularyContext } from '../lang';
 
@@ -28,9 +29,11 @@ export class CampaignAssembly {
     // Its stories drawn apart in its order, from its country's people and those cast before them (OR-418).
     const modules = [...manifest.modules], names = await StoryCasts.drawApart(modules, { seed, source,
       among: manifest.names });
+    const held = new Set<string>(); let last = modules.length - 1;
     for (const [i, request] of modules.entries()) {
+      if (held.has(request.id)) { continue; }
       await step?.(i, modules.length);
-      if (campaign) { await campaign.install(request, source, false, i === modules.length - 1); continue; }
+      if (campaign) { await campaign.install(request, source, false, i === last); continue; }
       const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations,
         party: party?.length, canonless: manifest.canon === false, kinds: canon?.module.catalog, vocabulary,
         names }, source);
@@ -41,6 +44,13 @@ export class CampaignAssembly {
       // The names its world holds, for what it installs after (see StoryCasts).
       if (names.length) { first.campaign!.names = names; }
       campaign = new Campaign(seed, first, vocabulary, { dated: CanonInstall.dated(manifest) });
+      // What it may hold back until the company nears it, held back, the country being in (see PendingPlacements).
+      if (at.lazy && manifest.lazy?.length) {
+        const pending = await PendingPlacements.hold(campaign, manifest.lazy, modules, { source, path });
+        PendingPlacements.keep(campaign, pending);
+        for (const r of pending.flatMap(p => p.requests)) { held.add(r.id); }
+        last = modules.findLastIndex(r => !held.has(r.id));
+      }
     }
     // Settled when the last is in: everyone's facts projected once (as the last is taken in, before its rules settle;
     // here again only what settling changed), and the joined whole checked.

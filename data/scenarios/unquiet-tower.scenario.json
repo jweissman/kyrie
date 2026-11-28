@@ -70,5 +70,6 @@
         "market"
       ]
     }
-  ]
+  ],
+  "lazy": true
 }

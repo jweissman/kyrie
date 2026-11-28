@@ -1,0 +1,15 @@
+Module home "Lowmouth and the far green" {
+  // A country of two towns a road apart, ten hexes of open country between them: what a placement held back until it
+  // is neared is proved in against the same world installed whole (PendingPlacements).
+  Company party "Your company" of 1 at green.
+  Place region "The country" is region.
+  Place lowmouth "Lowmouth" is settlement within region.
+  Place green "Lowmouth green" is room within lowmouth.
+  Place taproom "the Lowmouth taproom" is room within lowmouth.
+  Place road "the long road" is room.
+  Place farholm "Farholm" is settlement within region.
+  Place far_green "Farholm green" is room within farholm.
+  Passage green_taproom "the taproom door" is door between green and taproom taking 1 minute.
+  Passage green_road "the road out" is path between green and road taking 10 minutes.
+  Passage road_far "the road on to Farholm" is path between road and far_green taking 1 hour.
+}

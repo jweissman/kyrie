@@ -1,0 +1,4 @@
+{ "version": 1, "source": "home.kyr", "rules": ["world"], "globals": ["party"],
+  "exports": { "party": "party", "green": "green", "taproom": "taproom", "road": "road", "far_green": "far_green" },
+  "chart": { "width": 20, "height": 14, "cover": "", "rivers": [], "roads": {}, "parts": {},
+    "places": { "lowmouth": 21, "farholm": 31, "t1": 26 } } }

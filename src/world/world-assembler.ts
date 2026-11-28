@@ -27,7 +27,7 @@ import { Histories } from './history/histories';
 import { WorldGrid } from './world-grid'; import { ReferenceSettlement } from './reference-settlement';
 import { StrategicAtlas } from './strategic-atlas';
 import { ScenarioWord } from './scenario-word';
-import { Livelihoods } from './livelihoods';
+import { Livelihoods } from './livelihoods'; import type { LazyUnit } from '../campaign/pending-placements';
 import { RegionWorks } from './region-works';
 import { WorldDrawings } from './world-drawings';
 
@@ -54,6 +54,8 @@ export interface ScenarioManifest {
   // A hook is a fact the scenario establishes (module.export) that people pass on through some channels; unless it
   // `opens: false`, hearing it reveals the way in.
   hooks?: { fact: string; topic: string; channels: Carrier['channel'][]; opens?: boolean }[];
+  // Whether its placement in a first country may wait until the company nears it (see PendingPlacements.unfit).
+  lazy?: boolean;
 }
 export interface Placement {
   scenario: string; instance: string; bindings: Record<string, string>; generated: string[];
@@ -105,8 +107,9 @@ export class WorldAssembler {
     // The family an origin makes the protagonist's own are of the protagonist's people: a human mage's brother had
     // been an elf ranger, the town's folk (play 10).
     const family = { own: party[0]!.name, ...origin?.manifest.binder === 'kin' ? { folk: party[0]!.raceId } : {} };
+    const lazy: LazyUnit[] = [];
     this.spread(placements, { library: [...library, ...heralds, ...standing], base, region, contacts, context, files,
-      root, modules, family });
+      root, modules, family, lazy });
     // Where the life begins: its origin, a stock opening chosen ahead of it, and what comes with them (WorldStart).
     const told = await WorldStart.begun(base, origin, options.opening, { seed, region, placements, party, contacts,
       root, files, modules });
@@ -124,7 +127,7 @@ export class WorldAssembler {
     // Its stories' people drawn apart from its own people's names (OR-418: see StoryCasts).
     const names = StoryPeople.held(region, files, `${root}/region/`);
     files[path] = JSON.stringify({ version: 1, name: region.name, modules: [...modules, ...kits], party, names,
-      calendar: region.calendar,
+      calendar: region.calendar, ...lazy.length ? { lazy } : {},
       pitch: { heading: `A company in ${region.name}`, text: `${region.name} is ${RegionWriter.terrain(region.terrain)} `
         + `country, home to ${RegionWriter.peoples(region)}, who keep the faith of ${region.deity}. Nobody hires a `
         + 'company for nothing: listen in the taprooms, at the shrines and on the roads, and go where the trouble is. '
@@ -214,7 +217,7 @@ export class WorldAssembler {
   // Each placement's modules, and the module that spreads word of it.
   private static spread(placements: Placement[], at: { library: Entry[]; base: BundleSource; region: Region;
     contacts: Contact[]; context: Record<string, string>; files: Record<string, string>; root: string;
-    modules: BundleRequest[]; family?: { folk?: string; own?: string } }) {
+    modules: BundleRequest[]; family?: { folk?: string; own?: string }; lazy?: LazyUnit[] }) {
     const { library, base, region, context, files, root, modules } = at;
     placements.forEach((placement, i) => {
       const entry = library.find(e => e.manifest.id === placement.scenario)!;
@@ -222,11 +225,15 @@ export class WorldAssembler {
       modules.push(...this.requests(entry, placement, base, { context: { ...context, ...this.wild(placement, region),
         ...StoryPeople.folk(placement, region, kin ? at.family : { own: at.family?.own }) }, region }));
       const word = ScenarioWord.of(entry.manifest, placement, { region, contacts: at.contacts });
+      const own = [`${root}/word-${placement.instance}/module.json`, `${root}/word-${placement.instance}/word.kyr`];
       if (word) {
-        files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);
-        files[`${root}/word-${placement.instance}/word.kyr`] = word.source;
-        modules.push({ id: `${this.prefix(placement.rid)}word${i + 1}`,
-          bundle: `${root}/word-${placement.instance}/module.json`, imports: word.imports });
+        files[own[0]!] = JSON.stringify(word.manifest); files[own[1]!] = word.source;
+        modules.push({ id: `${this.prefix(placement.rid)}word${i + 1}`, bundle: own[0]!, imports: word.imports });
+      }
+      // A placement in the first country its scenario lets wait, with its word: held back until neared, where the
+      // life asks it to be (see PendingPlacements).
+      if (entry.manifest.lazy && placement.rid === RegionWriter.id && word) {
+        at.lazy?.push({ id: placement.instance, modules: [...placement.modules, `word${i + 1}`], files: own });
       }
     });
   }

@@ -5,6 +5,8 @@ import type { CreatureGenerationContext } from '../content';
 // so that one that yields lets its host hear what has been asked meanwhile.
 export interface Assembly {
   party?: CreatureGenerationContext[]; step?: (done: number, of: number) => void | Promise<void>;
+  // The placements its manifest offers held back until first neared (see PendingPlacements): the life's choice.
+  lazy?: boolean;
 }
 
 // Memoizes deterministic loads per bundle source. Sources are assumed not to change underneath a running process.

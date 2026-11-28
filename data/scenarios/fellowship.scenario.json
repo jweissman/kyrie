@@ -25,5 +25,6 @@
   ],
   "hooks": [
     { "fact": "fellowship.rumour", "topic": "the fellowship whose head sits at {a}, and the hall that will not answer it", "channels": ["tavern", "road", "market"], "opens": false }
-  ]
+  ],
+  "lazy": true
 }
