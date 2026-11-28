@@ -25,7 +25,7 @@ const town = `
   Goal false.`;
 const party = [{ name: 'Thora', raceId: 'human' as const, classId: 'warrior' as const, outfit: 'own' as const }];
 const under = async () => {
-  const t = await Tiny.start(town, { party });
+  const t = await Tiny.start(town, { party, horizon: ['belongings'] });
   for (const way of ['go(t__mouth,t__adit)', 'go(t__cut,t__drain)', 'go(t__gap,t__runs)']) { await t.perform(way); }
   return t;
 };

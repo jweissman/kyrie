@@ -24,7 +24,7 @@ class Dark {
 }
 describe('the way into the dark, with nothing to see by', () => {
   it('is not gold, and the need says why', async () => {
-    const t = await Tiny.start(store);
+    const t = await Tiny.start(store, { horizon: ['belongings'] });
     Dark.out(t);
     t.follow('rats');
     expect(t.gold).toEqual([]);
@@ -32,7 +32,9 @@ describe('the way into the dark, with nothing to see by', () => {
     expect([t.costs.region, t.costs.world]).toEqual([undefined, undefined]);
   });
   it('is gold with a light to hand', async () => {
-    const t = await Tiny.start(store);
+    const t = await Tiny.start(store, { horizon: ['belongings'] });
+    const lights = new Set(t.world.related('lightsUp').map(r => r.args[0]!));
+    expect(t.world.related('ownedItem').some(r => lights.has(t.world.one('itemKind', r.args[0]!) ?? ''))).toBe(true);
     t.follow('rats');
     expect(t.gold.map(a => a.label)).toEqual([expect.stringMatching(/cellar/)]);
   });
@@ -41,7 +43,7 @@ describe('the way into the dark, with nothing to see by', () => {
       Place shop "the chandler's" is room at 1, 0 indoors.
       Passage shop_door "the chandler's door" is door between store and shop.
       Person nell "Nell" at shop { Role "a chandler". Ancestry human. Peaceable. Pronouns she. Sells candle for 1 coin from 9. }
-      Goal false.`);
+      Goal false.`, { horizon: ['services', 'inhabitants'] });
     // Been in the chandler's already, doing nothing there: still the way to a light (a monk in the laboratory).
     for (let n = 0; n < 2; n++) {
       await t.perform('go(t__shop_door,t__shop)');
@@ -67,7 +69,7 @@ describe('the way into the dark, with nothing to see by', () => {
       Company party "You" of 1 at green.
       Person mik "Mik" at shop { Role "a salter". Ancestry human. Peaceable. Pronouns he. }
       Objective job when true toward mik "Ask Mik about the rats.".
-      Goal false.`);
+      Goal false.`, { horizon: ['belongings'] });
     await t.perform('go(t__stair,t__cellar)');
     await t.perform('go(t__arch,t__under)');
     Dark.out(t);
@@ -90,7 +92,7 @@ describe('the way into the dark, with nothing to see by', () => {
       Company party "You" of 1 at green.
       Person nell "Nell" at shop { Role "a chandler". Ancestry human. Peaceable. Pronouns she. Sells candle for 1 coin from 9. }
       Objective rats when true toward cellar "Clear the rats out of {cellar}.".
-      Goal false.`);
+      Goal false.`, { horizon: ['services'] });
     await t.perform('go(t__shop_door,t__shop)');
     await t.perform('go(t__shop_door,t__green)');
     await t.perform('go(t__store_door,t__store)');

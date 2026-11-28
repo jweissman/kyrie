@@ -16,7 +16,7 @@ const face = `
 
 describe('in the dark, beside a danger', () => {
   it('leads with the light, then the danger', async () => {
-    const t = await Tiny.start(face);
+    const t = await Tiny.start(face, { horizon: ['inhabitants', 'belongings'] });
     await t.perform('go(t__cut,t__face)');
     expect(t.glance.acts[0]?.why).toBe('dark');
     expect(t.glance.offer?.primary[0]?.type).toBe('light');
@@ -27,7 +27,7 @@ describe('in the dark, beside a danger', () => {
   it('gilds the light, with an aim followed', async () => {
     const t = await Tiny.start(`${face.replace('Goal false.', '')}
       Objective spoil when true toward face "Clear the beetles out of {face}.".
-      Goal false.`);
+      Goal false.`, { horizon: ['inhabitants', 'belongings'] });
     t.follow('spoil');
     await t.perform('go(t__cut,t__face)');
     expect(t.gold.map(a => a.why)).toEqual(['dark']);

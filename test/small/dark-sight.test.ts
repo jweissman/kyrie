@@ -18,7 +18,7 @@ const hall = `
 
 describe('what is seen, in the dark', () => {
   it('is not learned until there is light, nor its aim held', async () => {
-    const t = await Tiny.start(hall);
+    const t = await Tiny.start(hall, { horizon: ['belongings'] });
     const knows = () => t.world.test(ModuleWriter.call('knows', 'party', 't__flag_seen'));
     await t.perform('go(t__door,t__hall)');
     expect([t.screen.dark, knows(), (t.screen.aims ?? []).length]).toEqual([true, false, 0]);
