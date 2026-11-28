@@ -1,10 +1,9 @@
 import type { DeemValue } from 'deem';
-import { Costs } from '../costs';
+import { Costs } from '../costs'; import { Content } from '../content';
 import { RoleRequirements, type RoleContract } from './role-requirements';
 import { WorldConstructs } from '../lang/world-constructs';
 import { LocalKinds } from '../canon/local-catalog';
 import { RandomStreams } from '../random-streams';
-import { Content } from '../content';
 import { ModuleParser } from '../lang/module-parser';
 import { KeptParses } from '../lang/kept-parses';
 import type { VocabularyContext, ReadAmong, KindReads } from '../lang';
@@ -149,6 +148,12 @@ export class ModuleBundle {
   private static parsed(context: VocabularyContext, file: SourceFile, declared: FileSource['declared'] = []): Module {
     try { return structuredClone(this.kept(context, file.text, declared)); }
     catch (error) { throw Diagnostics.parse(error, file.path); }
+  }
+  // One file's parse as it is kept, uncopied, for a reader that writes nothing of it: the shared rules' files, read
+  // for each install by the verbs the vocabulary binds (FantasyVerbs.forRules), had each been copied whole for every
+  // install (OR-1744; test/frozen-modules: the parses kept, frozen, read so).
+  private static uncopied(context: VocabularyContext, file: SourceFile): Module {
+    try { return this.kept(context, file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
   }
   // The parse kept, uncopied (each caller copies what it changes: KeptParses), its own kinds declared again.
   private static kept(context: VocabularyContext, text: string, declared: FileSource['declared'] = []): Module {
@@ -388,7 +393,7 @@ export class ModuleBundle {
     // Its own files first, each read among every kind they declare (see `own`), and then the shared rules; or its own
     // as they were compiled before beside the same rules (see CompiledModules).
     const own = files.slice(0, situationPaths.length), rules = files.slice(situationPaths.length);
-    const ruleSources = rules.map(file => ({ file: file.path, module: this.parsed(options.vocabulary.fork(), file) }));
+    const ruleSources = rules.map(f => ({ file: f.path, module: this.uncopied(options.vocabulary.fork(), f) }));
     const vocabulary = options.vocabulary.withRuleSources(ruleSources);
     const { key, kept, mine, sources, read } = await this.reading(vocabulary, own, rules, { manifest, path, source });
     const seed = this.seeded(options.seed, kept?.id ?? mine[0]!.id, request);
