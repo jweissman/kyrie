@@ -106,10 +106,14 @@ export class Act {
     const journal = Surfaces.has(app.state.frame?.screen, 'the_journal');
     return Act.backstage.filter(view => view !== 'pack' && (journal || !['journal', 'story'].includes(view)));
   }
-  static Sheets({ app }: { app: ReaderApp }) {
+  // Each page of the Book by its tab's name and the key that opens it.
+  static named(app: ReaderApp): Record<string, [string, string]> {
     const many = (app.state.frame?.screen.party.length ?? 0) > 1;
-    const named: Record<string, [string, string]> = { company: [many ? 'Company' : 'Character', 'c'],
-      journal: ['Notes', 'j'], pack: ['Pack', 'i'], story: ['Story', 'h'] };
+    return { company: [many ? 'Company' : 'Character', 'c'], journal: ['Notes', 'j'], pack: ['Pack', 'i'],
+      story: ['Story', 'h'] };
+  }
+  static Sheets({ app }: { app: ReaderApp }) {
+    const named = Act.named(app);
     const sheets = Act.pages(app).map(view => [view, ...named[view]!] as [View, string, string]);
     // One page has no tabs.
     if (sheets.length < 2) { return null; }

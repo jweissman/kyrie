@@ -15,9 +15,12 @@ interface Drawn { text: string; where: string; rect: [number, number, number, nu
 // the median of a line over a painting hides the bright patch a light line crosses, and the 10th percentile is the
 // worst tenth of what the eye meets along the line, without letting one stray pixel decide it.
 export class SheetContrast {
-  // Every text drawn transparent, so that what is behind it is seen; the page's own layout untouched.
-  static readonly hide = '* { color: transparent !important; text-shadow: none !important; -webkit-text-stroke: 0 '
-    + '!important; caret-color: transparent !important } ::placeholder { color: transparent !important }';
+  // Every text drawn transparent, so that what is behind it is seen; the page's own layout untouched. A drop cap too
+  // (::first-letter, which * does not reach): left drawn, it stood behind its own line as a background, and the
+  // encyclopedia's chapter lede measured 1:1 against its own initial (OR-1830).
+  static readonly hide = '*, *::first-letter, *::first-line { color: transparent !important; text-shadow: none !important; '
+    + '-webkit-text-stroke: 0 !important; caret-color: transparent !important } '
+    + '::placeholder { color: transparent !important }';
   static async measure(page: Page): Promise<PageContrast> {
     const lines = await page.evaluate(SheetContrast.lines);
     if (!lines.length) { return { lines: 0, failing: 0, worst: [] }; }
