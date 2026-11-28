@@ -30,31 +30,34 @@ export class Agency {
   // modules, is searched afresh). Someone who looked a long way (a quarter of all a search may look at, or more) and
   // found nothing tries again an hour later, whatever has changed meanwhile: that is the world's, kept with the
   // campaign's own state (waiting), so a game kept and opened again, undone, or only looked at, goes as it would have
-  // (the architecture review's A1: a cache in the process, written by the page).
+  // (the architecture review's A1: a cache in the process, written by the page). Kept by the module searched in, and
+  // let go with it: one map of the process keyed by text had held the module of every life it searched in (OR-1740).
   static readonly retry = 6;
   private static readonly maxNodes = 2000;
-  private static readonly fruitless = new Map<string, { module: object; reads: string[]; stamped: number[] }>();
+  private static readonly fruitless = new WeakMap<object, Map<string, { reads: string[]; stamped: number[] }>>();
   private static plan(world: World, actor: CampaignActor, operators: Operators,
     at: { goal: GoalAssessment; waiting?: Record<string, number>; looking?: boolean }) {
     const { goal, waiting } = at, target = actor.goals.find(g => g.id === goal.id)!.target;
     const key = `${actor.id}\u0000${goal.id}`, watch = world.number(ModuleWriter.call('watch', 'clock'));
     if ((waiting?.[key] ?? -1) > watch) { return null; }
-    const kept = this.fruitless.get(key);
-    if (kept?.module === world.module && world.agrees(kept.reads, kept.stamped)) { return null; }
+    const fruitless = this.fruitless.get(world.module) ?? new Map<string, { reads: string[]; stamped: number[] }>();
+    this.fruitless.set(world.module, fruitless);
+    const kept = fruitless.get(key);
+    if (kept && world.agrees(kept.reads, kept.stamped)) { return null; }
     const tally = { expanded: 0 }, found = Planner.search(world, target, w => this.allowed(w, actor, operators),
       { maxNodes: this.maxNodes, timeRemaining: Infinity, maxSteps: actor.horizon, tally });
     if (found?.actions.length) {
-      this.fruitless.delete(key);
+      fruitless.delete(key);
       if (waiting && key in waiting && !at.looking) { delete waiting[key]; }
       return found;
     }
     // What its own actions read, as schemas: an action with parameters is no operator until it is bound (the memory
     // once read the target alone, and so outlived a gate opened on the walker's way home).
-    const own = new Set(actor.actions), reads = kept?.module === world.module ? kept.reads
+    const own = new Set(actor.actions), reads = kept ? kept.reads
       : Reads.names(world.module, [target, ...world.module.actions.filter(a => own.has(a.id))
         .flatMap(a => [a.requires, ...a.success, ...a.failure ?? []])]);
-    if (this.fruitless.size > 4000) { this.fruitless.clear(); }
-    this.fruitless.set(key, { module: world.module, reads, stamped: world.stamped(reads) });
+    if (fruitless.size > 4000) { fruitless.clear(); }
+    fruitless.set(key, { reads, stamped: world.stamped(reads) });
     if (waiting && !at.looking && tally.expanded >= this.maxNodes / 4) { waiting[key] = watch + this.retry; }
     return found;
   }
