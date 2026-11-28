@@ -40,7 +40,7 @@ const act = async (t: Tiny, command: string) => {
 const note = (t: Tiny, re: RegExp) => t.screen.knowledge.find(k => re.test(k.text));
 describe('one act that is a deed and a note', () => {
   it('is the same act, at the same time, and the company\'s own, in the Story and the Notes', async () => {
-    const t = await Tiny.start(verge, { seed: 'deed' });
+    const t = await Tiny.start(verge, { seed: 'deed', horizon: [] });
     await t.play('An hour');
     const entry = await act(t, 't__lend_hand'), kept = note(t, /out of the ditch/)!;
     expect(entry.said).toBe('Offer the wagoner a hand, for a coin');
@@ -49,7 +49,7 @@ describe('one act that is a deed and a note', () => {
     expect(kept.kind).toBe('seen');
   });
   it('keeps a question\'s answer as its speaker\'s telling, at the time the Story asks it', async () => {
-    const t = await Tiny.start(verge, { seed: 'deed' });
+    const t = await Tiny.start(verge, { seed: 'deed', horizon: [] });
     const entry = await act(t, 't__ask_mill'), kept = note(t, /mill at the ford/)!;
     expect(entry.notes.some(n => n.includes('The mill at the ford burned'))
       || entry.lines.some(l => l.includes('Burned in the spring'))).toBe(true);
