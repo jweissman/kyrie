@@ -28,7 +28,7 @@ describe('the war stays outside the reference first hour', () => {
     look();
     await j.play('To the landing at Oakhythe');
     look();
-    await j.play('Into the old woods above Oakhythe by the path up into the old woods');
+    await j.play('Into the old woods above Oakhythe');
     look();
     await j.play('To the old ride');
     look();

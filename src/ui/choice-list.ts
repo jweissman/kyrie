@@ -6,6 +6,7 @@ import type { Mark } from '../presentation/glance-types';
 import { ChoiceWords } from './choice-words';
 import { ChoiceTries } from './choice-tries';
 import { TradeModel } from './trade-model';
+import { WayNames } from './way-names';
 
 export type Tone = 'way' | 'person' | 'creature' | 'thing' | 'company' | 'item' | 'member' | 'ability' | 'spell';
 // One thing the player can choose. A choice either performs its command when chosen or opens a short list of
@@ -164,8 +165,8 @@ export class ChoiceList {
     const choices = exits.flatMap((e, i) => {
       const label = still.has(told[i]!) && e.way ? `${told[i]!} by ${this.inline(e.way)}`
         : twice.has(labels[i]!) ? told[i]!
-          : (e.several && e.transition === 'enter' || e.oneWay) && e.way
-            ? `${labels[i]!} by ${this.inline(this.unrepeated(e.way, e.scope))}` : labels[i]!;
+          : (e.several && e.transition === 'enter' || e.oneWay) && e.way && !WayNames.named(e.way, e.scope ?? e.destination.name)
+            ? `${labels[i]!} by ${this.inline(WayNames.unrepeated(e.way, e.scope))}` : labels[i]!;
       return this.way(e, OutOf.once(label)).map(c => e.local ? { ...c, local: true } : c).map(c => e.oneWay && c.command
         ? { ...c, grave: ChoiceList.oneWay } : c);
     });
@@ -175,13 +176,6 @@ export class ChoiceList {
   private static lead(label: string, room: string): string {
     return ChoiceList.whereabouts.test(label) ? this.upper(room) : `${label.split(' ')[0]} ${room}`;
   }
-  // A way into an enclosure named for it ("the first flight of the Stair", into the Duelling Stair) is said without
-  // the enclosure again: "Into the Duelling Stair by the first flight", where it had said the Stair twice (BOF-36).
-  private static unrepeated(way: string, scope?: string): string {
-    const of = / of (?:the )?([^,]+)$/.exec(way);
-    return of && scope && this.tail(of[1]!) === this.tail(scope) ? way.slice(0, of.index) : way;
-  }
-  private static tail(name: string): string { return name.split(' ').pop()!.toLowerCase(); }
   private static alike(labels: string[]): Set<string> {
     return new Set(labels.filter((l, i) => labels.indexOf(l) !== i));
   }
