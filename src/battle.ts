@@ -42,7 +42,7 @@ export class Battle {
   private readonly terms: NonNullable<Scenario['terms']>;
   private readonly upright: Set<string>;
   // And what was said in the fights before this one, so that it is not said again in it (see Barks).
-  private broke = false; private tested = false; private barked: string[] = [];
+  private broke = false; private readonly tested = new Set<string>(); private barked: string[] = [];
   // How often the company has called on the other side to yield, and been refused (see Parley).
   private refused = 0;
   constructor(scenario: Scenario, seed: string, private maxTurns = 500, private lease?: CreatureLease) {
@@ -374,12 +374,14 @@ export class Battle {
       this.history.push({ type: 'flee', turn: this.turn, actor: f.id, success: true });
     }
   }
-  // A thinking band no author waits on the fall of, half of it down: each of it standing makes its morale save, once.
+  // A band no author waits on the fall of, as its heart is tried (Morale.due): a thinking band once half of it is down;
+  // a band of beasts at the first of it fallen, and again at half. Each of it standing makes its morale save.
   private shaken(): Fighter[] {
-    const band = this.terms.morale && !this.tested ? Morale.broken(this.fighters, this.departed) : [];
-    if (!band.length || !band.every(f => Parley.thinking(this.catalog, f))) { return []; }
-    this.tested = true;
-    return Morale.shaken(band.map(f => ({ f, wisdom: Effects.scores(f).wisdom })),
+    const foes = this.terms.morale ? this.fighters.filter(f => f.team !== 'fighters' && f.hp > 0 && !f.summoner) : [];
+    // A band of beasts loses heart only where it is skittish (wary); a pack set on to guard holds (Bowle's mastiffs).
+    const heart = Parley.heart(this.catalog, foes, !!this.terms.skittish);
+    const band = heart ? Morale.due(this.fighters, this.departed, { tested: this.tested, beasts: heart === 'beasts' }) : [];
+    return !band.length ? [] : Morale.shaken(band.map(f => ({ f, wisdom: Effects.scores(f).wisdom })),
       { turn: this.turn, events: this.history, dice: this.expressions });
   }
   private depart(f: Fighter) {

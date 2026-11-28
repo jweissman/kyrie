@@ -7,6 +7,8 @@ import { Tiny } from './tiny';
 // - a question too long for a narrow terminal;
 // - two instruments, both bearing on the moment once night comes on;
 // - acts that change once one is done (a question asked once, a companion who will come along once asked).
+// - rats in the cellar that fight to the last (the cellar waits on their fall, so that they do not lose heart: the
+//   fight comes down to one foe, the move made at it without asking at whom).
 // Creation goes through the same picker from the engine's own steps (see TerminalCreation.menu).
 export class Awkward {
   static readonly kyr = `
@@ -38,6 +40,7 @@ export class Awkward {
     Says "'I've got it,' says Dunn. He hasn't.".
   }
   Person rats "the rats" at cellar { Role "rats, fat and bold". Species rat. Numbers 3. Level 1. Lair cellar. }
+  Observe cellar_cleared at cellar when not able(rats) "Nothing scuttles in the cellar now.".
   Observe green_scene at green when true "A green by the river, and a wagon with a wheel off.".
   Objective ford when not knows(party, ford_known) toward green "Find out where the old ford is.".
   Goal false.`;
