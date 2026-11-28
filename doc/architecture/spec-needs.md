@@ -175,6 +175,12 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/eelbell.test.ts` | The authored Eel Bell campaign and its full sequence of distinct bellmaking, promises and ending paths; lint is also checked. Negative conditions need mutation proof before narrowing. |
 | `test/encyclopedia-browser.test.ts` | The built site and browser at two tablet orientations, using a populated Encyclopedia with illustrations. Its contrast, layout and rendering checks cannot be replaced by a bare fragment without changing the claim. |
 | `test/encyclopedia.test.ts` | The handbook and canon corpus, published Encyclopedia and authored lands. Its chapter, catalog, canon and output filtering claims depend on the real content. |
+| `test/ending.test.ts` | The ending and fallen probe campaigns, including an actual fight and saved campaign. These are fixture worlds, not a generated world; retain the competing and fatal ending witnesses. |
+| `test/endings-held.test.ts` | The rivals probe campaign plus isolated parser and ordering checks. The multiple held endings and their order are exercised through a played fixture, not a corpus. |
+| `test/endings-lint.test.ts` | Two fixture campaigns for Kyr lint, one with one-way passages and shadowed endings, the other with a rule-moved room. No generated world is needed. |
+| `test/endings-split.test.ts` | An in-memory overlay module and campaign with two Kyr source files; it needs the campaign loader and module assembly, not a generated world. |
+| `test/endow-and-roll-call.test.ts` | The manual and roll-call probe campaigns with real player actions and level-dependent choices. Its negative choices need a counterfactual witness before setup is narrowed. |
+| `test/engagement.test.ts` | A watch-house fixture and the authored Long Man campaign. Fight, flight, narration, pursuit and replay claims use both; the static corpus label does not mean all campaigns. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
