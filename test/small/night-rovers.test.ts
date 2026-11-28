@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { RegionRovers } from '../../src/world/region-rovers';
 import { RegionTracts } from '../../src/world/region-tracts';
+import { ModuleSource } from '../../src/lang';
 
 // Danger at night, a little (OR-1235; the owner, 26 November, as AGENTS.md has it: "danger is genuine; roads carry a
 // little"): every country with rovers has one band besides its footpads that goes about by night (a pack, or the
@@ -10,7 +11,8 @@ import { RegionTracts } from '../../src/world/region-tracts';
 describe('the night\'s band', () => {
   for (const seed of ['iscoed', 'a1', 'thorn', 's0']) {
     it(`goes about ${seed} by night alone, warns first, and keeps off its towns`, () => {
-      const region = WorldAssembler.region(seed, [0, 0]), lines = RegionRovers.lines(region);
+      // Read as Kyr: where a rover goes about is declared as values (ModuleSource, AX-04).
+      const region = WorldAssembler.region(seed, [0, 0]), lines = ModuleSource.text(RegionRovers.lines(region));
       const comes = lines.filter(l => /Rule wr\d+n_comes when .* and dark\(\) and /.test(l));
       expect(comes).toHaveLength(1);
       const id = /Rule (wr\d+n)_comes/.exec(comes[0]!)![1]!;
