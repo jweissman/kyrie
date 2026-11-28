@@ -56,20 +56,36 @@ export class Sittings {
       taken.push(new Set(people.flatMap(id => this.own(campaign, id) ?? [])));
       for (const id of people) { of.set(id, n); }
     });
-    const ids = campaign.module.entities.map(e => e.id).filter(x => of.has(x));
-    const sole = this.sole(campaign, ids, creatures);
+    const all = campaign.module.entities.map(e => e.id).filter(x => of.has(x));
+    const placed = new Set(all.filter(id => Likeness.placed(this.asked(campaign, id, creatures))));
+    const ids = this.order(all, id => placed.has(id)), sole = this.sole(campaign, all, creatures);
     for (const id of ids) {
       const n = of.get(id)!, held = new Set([...given].filter(([, c]) => c !== String(n)).map(([p]) => p));
       // A country drawn beyond the march gives its own people none the world holds already: where none is left,
-      // they are met by their emblem (a ship's cook and an eel-man over the march had shared one).
-      const beyond = /^x[mp]\d+y[mp]?\d+__/.test(id);
-      const painting = this.fit(campaign, id, beyond ? { taken: new Set([...taken[n]!, ...held]), creatures, sole }
-        : { taken: taken[n]!, held, creatures, sole });
+      // they are met by their emblem (a ship's cook and an eel-man over the march had shared one). Nor does one whose
+      // words place them nowhere, but a life's own cast (see order).
+      const apart = this.beyond(id) || (!placed.has(id) && !this.life(id));
+      const painting = this.fit(campaign, id, apart ? { taken: new Set([...taken[n]!, ...given.keys()]), creatures,
+        sole } : { taken: taken[n]!, held, creatures, sole });
       chosen.set(id, painting);
       if (painting) { taken[n]!.add(painting); if (!given.has(painting)) { given.set(painting, String(n)); } }
     }
     return chosen;
   }
+  // The order the world's people are painted in: the order the world holds them, but a life's own cast first (its
+  // origin's people: the pedlar robbed on the road in, the boy in the bracken, the wagoner), met in its first steps
+  // though the world holds them last (a country of two hundred had left them none: OR-1764); and whoever no word
+  // places (painted only as one of the middling folk of their sex: OR-1761) after everyone it places, from what is
+  // left, so that they never take a pedlar's painting nor hang in one another holds. A country drawn beyond the march
+  // after all of these, so that its coming changes no face held before.
+  static order(ids: readonly string[], placed: (id: string) => boolean): string[] {
+    const rank = new Map(ids.map(id => [id, (this.life(id) ? 0 : this.beyond(id) ? 4 : 2) + (placed(id) ? 0 : 1)]));
+    return ids.map((id, i) => [id, i] as const).sort((a, b) => rank.get(a[0])! - rank.get(b[0])! || a[1] - b[1])
+      .map(([id]) => id);
+  }
+  // One of a life's own cast: its origin's people.
+  private static life(id: string): boolean { return id.startsWith('origin__'); }
+  private static beyond(id: string): boolean { return /^x[mp]\d+y[mp]?\d+__/.test(id); }
   // The people of each country, as the world holds them: a country by the first of its people, and its people in
   // turn, so that whoever the world comes to hold later is painted after everyone it held before.
   private static countries(campaign: Campaign, creatures: Map<string, Creature>): string[][] {

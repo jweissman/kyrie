@@ -39,7 +39,8 @@ export class Likeness {
     wayfarer: 'wanderer', tracker: 'hunter', pilgrim: 'penitent', chandler: 'candlemaker', salter: 'merchant',
     steward: 'reeve', bailiff: 'reeve', landlord: 'tavernkeeper', landlady: 'tavernkeeper', foreman: 'mason',
     barge: 'sailor', boatman: 'sailor', ferryman: 'sailor', carter: 'peasant', drover: 'shepherd',
-    'alehouse-keeper': 'tavernkeeper', alehouse: 'tavernkeeper', speaks: 'reeve', shrine: 'prayer' };
+    'alehouse-keeper': 'tavernkeeper', alehouse: 'tavernkeeper', speaks: 'reeve', shrine: 'prayer', preacher: 'priest',
+    sexton: 'deacon' };
   // The stations a family of work is painted in, first the likeliest.
   static readonly families: Record<string, string[]> = { trade: ['middling', 'labouring'],
     learning: ['learned', 'middling'], stage: ['player', 'artist'], faith: ['religious'], court: ['high'],
@@ -93,8 +94,8 @@ export class Likeness {
   // A painting for someone the world has not given one, from the words it knows them by: their work, and what they
   // are to others, which says their age (a mother is no girl: the follow-up review saw one younger than her son), and
   // the title they go by (Mother Ysolt is a woman of years). It is a painting of their work, or of someone of their
-  // sex and station; where nothing says their station, or no painting is of it, there is none, and they are met in
-  // words (Mother Ysolt was a young Samson, an alehouse-keeper a preacher, the inn's dog an auctioneer).
+  // sex and station, never of another sex or years (Mother Ysolt was a young Samson, an alehouse-keeper a preacher);
+  // where nothing says their station, of the middling folk of their sex (see of).
   // The painting of someone's work, where their work has one of its own (a tavernkeeper's), whoever else holds it.
   static work(at: Asked): string | undefined {
     const { concept } = this.read(at);
@@ -111,10 +112,14 @@ export class Likeness {
     const concept = words.slice(0, k < 0 ? undefined : k).map(w => this.resolve(w)).find(Boolean);
     return { words, ...kin ? { kin } : {}, ...concept ? { concept } : {} };
   }
+  // Whether someone's words place them (their work's painting or station, its family's, whose they are), or they
+  // would be painted only as one of the middling folk of their sex (see of).
+  static placed(at: Asked): boolean { return !!this.of({ ...at, placed: true }); }
   // `sole`: whether their work's own painting is theirs (CO-03): it is one worker's in a world, and every other of
   // the work is painted by their station, as one whose work has no painting is.
-  static of(at: Asked & { key?: string; taken?: ReadonlySet<string>; held?: ReadonlySet<string>; sole?: boolean }):
-    string | undefined {
+  // placed: only as their words place them, never as one of the middling folk (see placed).
+  static of(at: Asked & { key?: string; taken?: ReadonlySet<string>; held?: ReadonlySet<string>; sole?: boolean;
+    placed?: boolean }): string | undefined {
     if (at.own && this.ids.has(at.own)) { return at.own; }
     const { words, kin, concept: read } = this.read(at);
     const concept = at.sole === false && read && this.work(at) ? undefined : read;
@@ -130,15 +135,19 @@ export class Likeness {
     const age = words.map(w => this.ages[w]).find(Boolean) ?? title?.age;
     if (!sex && concept && this.sitters.has(concept) && !this.unfit.has(concept) && !at.taken?.has(concept)
       && !at.held?.has(concept)) { return concept; }
-    // Someone known only by whose they are (the child's mother, the drover's son) is one of the working people.
-    if (!station && !kin) { return undefined; }
+    // Someone known only by whose they are (the child's mother, the drover's son) is one of the working people; and
+    // one whose words place them in no station (the sexton, an old man with a stick, the kitchen boy) one of the
+    // middling folk of their sex and years: a portrait of someone who could be them, never their page in type, which
+    // had looked broken in conversation (the owner, 26 November: a painting for nearly everyone met; the painting
+    // misses of a new life's first steps, 27 November, OR-1761). Only where nothing says their sex, none.
+    if (!station && !kin && (!sex || at.placed)) { return undefined; }
     const mourning = /\b(widow|widower|mourning|grieving|bereaved|in black)\b/i.test(`${at.role ?? ''} ${at.name ?? ''}`);
     // Known by nothing but whose they are ("the child's mother"), not by a work said after it ("who cooks at the inn");
     // or someone's parent, whose work is no painting's (the mother of one come home had been the one grown woman of
     // the working people's paintings, stern under a wreath: play 10).
     const parent = words.some(w => this.parents.has(w));
     const homely = !concept && !!kin && (this.clauses(at.role ?? '').length === 1 || parent);
-    const painted = station ?? 'labouring', wanted: Wanted = { ...sex ? { sex } : {}, ...concept ? { concept } : {},
+    const painted = station ?? (kin ? 'labouring' : 'middling'), wanted: Wanted = { ...sex ? { sex } : {}, ...concept ? { concept } : {},
       ...age ? { age } : {}, ...mourning ? { mourning } : {}, ...homely ? { homely } : {},
       ...parent ? { elder: true } : {}, ...words.some(w => this.youths.has(w)) ? { youth: true } : {} };
     // Where none of their station is left to them (the country's people hold every grown woman of the working people's
