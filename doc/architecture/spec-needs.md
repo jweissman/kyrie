@@ -11,6 +11,13 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/the-grand-tour-autoplay.test.ts` | Four seeded autoplay policies play and replay the authored Sennet campaign with per-turn invariants. Keep all policies, actual commands and replay. |
+| `test/the-grand-tour-builds.test.ts` | The authored Sennet campaign plays calling- and background-specific approaches. Keep the monk, bard and sailor contrasts and actual routes. |
+| `test/the-grand-tour-company.test.ts` | The authored Sennet campaign plays the bard's observations and song, contrasting a thief without the verse. Keep the party-specific routes and witnesses. |
+| `test/the-grand-tour-outcomes.test.ts` | The authored Sennet campaign plays many distinct ending routes and parties using recorded action fixtures. Keep every ending and the actual choices leading to it. |
+| `test/the-grand-tour-placed.test.ts` | Generated kite places and enters Sennet, then plays its independent ending and a further generated-world route. Keep the province integration and both actual outcomes. |
+| `test/the-grand-tour-second.test.ts` | The authored Sennet campaign plays the Sexton, bell and Watch routes added in the second pass. Keep the actual timed and contrasting outcomes. |
+| `test/the-grand-tour.test.ts` | The authored Sennet campaign is linted and played through the principal Tour and a mid-route save/replay. Keep the actual four courts, ending and canonical continuation. |
 | `test/terraces.test.ts` | The single terraces probe plays the quay and stair and checks outdoor settled state. A fragment is a candidate if actual way labels and the indoor negative survive with a witness. |
 | `test/text-bound.test.ts` | One synthetic module plays bound text and ending interpolation and separately rejects an unbound variable. A fragment is a candidate if both real compiler and played text cases remain. |
 | `test/the-book-of-faces-placed.test.ts` | Generated kite places Ombra and plays its news, frontier entry and delta road. Keep the actual province placement and installed journey. |
