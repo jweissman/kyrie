@@ -931,7 +931,8 @@
        "feature": "creation",
        "pins": [
         "Character › Creation with meaningful differentiation",
-        "three callings in the laboratory"
+        "three callings in the laboratory",
+        "Interface › Creation behind its curtain"
        ],
        "default": true
       },

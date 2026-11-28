@@ -1,4 +1,4 @@
-import { useEffect, useState, type AnimationEvent, type ChangeEvent, type CSSProperties } from 'react';
+import { useEffect, useState, type ChangeEvent } from 'react';
 import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
 import { Identity } from '../../src/presentation/identity';
@@ -9,6 +9,7 @@ import { PageFrame } from './page-frame';
 import { BeginMenu } from './begin-menu';
 import { PressGuard } from './press-guard';
 import { OpeningPages, type PageRow } from '../../src/creation/opening-pages';
+import { Embers } from './embers';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
@@ -46,8 +47,8 @@ export class TitlePage {
     return <PageFrame.View kind="title" className={`opening title-page beat-${beat}`}
       attrs={{ 'data-mode': over ? s.phase : 'title' }}
       body="title-main" hidden={beat === 'ident' || beat === 'dark'}
-      background={<>{beat !== 'ident' && asked.hints.backdrop === 'embers' && <TitlePage.Motes />}
-        {beat === 'ident' && !TitlePage.early() && <Ident.View studio={named.studio} />}</>}
+      backdrop={beat !== 'ident' ? asked.hints.backdrop : undefined}
+      background={beat === 'ident' && !TitlePage.early() && <Ident.View studio={named.studio} />}
       // No hero (OR-501, the owner, 24 November: "it doesn't need a huge 'Westernesse'"): the game's name, the page's
       // heading, small in the frame's own type at the head of the ways in, at the hard right, the studio's emblem
       // beside it and the page's line under it (OR-529); the embers keep the space. How a new game begins asks in its place (BeginMenu), the name not kept over it.
@@ -75,37 +76,9 @@ export class TitlePage {
       document.querySelector<HTMLElement>(`[data-way="${way}"]`)?.focus({ preventScroll: true });
     }
   }
-  // Sparks going up slowly through the dark over the country, as off a fire out of sight below the title: a few, each
-  // its own way across and its own pace, the same every time (no chance in it), gone for one who asks for less motion.
-  // Back as they were before look-7 (IG-14, the owner: the title was much better with them; quiet never meant still):
-  // their own slow drift, answering nothing the hand does. Cooled toward the night's blue-white, the first step of their
-  // becoming the sky (OR-530). One passage, never begun again: each mote is where the page's one clock has it, so that
-  // the title, how a life begins, the country being drawn and the first page of the choosing, each drawing them anew,
-  // carry the same sparks on where they were (TO-03). settle: creation's, the sparks going out as its painting comes
-  // up, once, then gone.
-  // Once gone they stay gone until the title draws them again (Back from the sky does not bring them up anew).
-  static Motes({ settle }: { settle?: boolean }) {
-    const [since] = useState(TitlePage.since), [, go] = useState(false);
-    if (!settle) { TitlePage.settled = false; } else if (TitlePage.settled) { return null; }
-    const out = (e: AnimationEvent<HTMLDivElement>) => {
-      if (e.target === e.currentTarget) { TitlePage.settled = true; go(true); }
-    };
-    return (
-      <div className={`motes${settle ? ' settling' : ''}`} aria-hidden="true" onAnimationEnd={settle ? out : undefined}>
-        {Array.from({ length: TitlePage.motes }, (_, i) => <i key={i} style={{ '--x': `${(i * 37 + 11) % 100}%`,
-          '--d': `${-((i * 7919) % 23) - since}s`, '--t': `${16 + (i * 13) % 11}s`, '--s': `${2 + (i % 3)}px` } as CSSProperties} />)}
-      </div>
-    );
-  }
-  static readonly motes = 34;
-  // The motes' one clock: seconds since they were first drawn in this page's life.
-  static since(): number {
-    const now = typeof performance === 'undefined' ? 0 : performance.now();
-    TitlePage.lit ??= now;
-    return Math.round(now - TitlePage.lit) / 1000;
-  }
-  private static lit: number | undefined;
-  private static settled = false;
+  // The title's embers (see Embers), by its old name: what the specs and the loading page draw.
+  static readonly Motes = Embers.View;
+  static readonly motes = Embers.count;
   // How long the title takes to come up.
   static readonly reveal = 3200;
   // Where the opening has got to: the ident once a session (and when the address asks, ?ident or ?studio=), then

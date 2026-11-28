@@ -10,11 +10,10 @@ import { PageFrame, type PageParts } from '../page-frame';
 
 // What every step's page shares: the page's own classes and marks, its rail (back, another country, set out now) and
 // what stands over it (the life so far, signed).
-type Frame = Pick<PageParts, 'className' | 'attrs' | 'rail' | 'over'>;
+type Frame = Pick<PageParts, 'className' | 'attrs' | 'rail' | 'over' | 'backdrop'>;
 import { ComposedOptions, type Offer } from './composed-options';
 import { Observatory } from './observatory';
 import { Signature } from './signature';
-import { TitlePage } from '../title-page';
 
 // Creation as one composition in the game's own grammar (the owner, 15 November): every step
 // is the engine's (CreationFlow: its question, its options in its order, which is chosen), and every step is answered
@@ -36,7 +35,10 @@ export class ComposedCreation {
     if (!s.setting || !s.catalog || !s.party[0]) { return null; }
     const steps = app.opening.steps(), ids = ComposedCreation.ids(app), i = ids.indexOf(at);
     const step = steps.find(x => x.id === at), next = () => app.opening.move('onward');
+    // The page's backdrop is the engine's hint, the step's or the making's (the curtain: OR-1800), drawn by the frame.
+    const hints = step?.hints ?? s.creation?.hints;
     const frame = { className: 'creation composed', attrs: { 'data-mode': 'create', 'data-page': step?.id ?? 'go' },
+      backdrop: hints?.backdrop,
       // The rail is marks (the owner, M21; M22's second review, OR-42: Back, Set out now and Another country had read
       // as loose links beside the menu), each named on asking; but setting out is said in its words, as the first
       // choice of a new game says it (the owner, 19 November: "the existing 'set out now' is just an explore icon with
@@ -95,14 +97,14 @@ export class ComposedCreation {
       if (step.present === 'sky' && !still) { flared(id); window.setTimeout(send, ComposedCreation.flare); } else { send(); }
     };
     const look = (id: string) => { if (ComposedRow.moved()) { consider(id); } };
-    const sky = step?.present === 'sky', [zoom, row, out] = ComposedCreation.useZoom(sky && !!step?.all, consider);
+    const sky = step?.hints?.instrument === 'stars', [zoom, row, out] = ComposedCreation.useZoom(sky && !!step?.all, consider);
     if (shown !== step?.id) { show(step?.id); consider(first); flared(undefined); leaving.current = false; out(); }
     if (!step) { return ComposedCreation.go(app, frame); }
     // Over the sky the entry stands under the rows, the wheel having the room beside the question (OR-89).
     const entry = <ComposedCreation.Entry card={step.cards.find(c => c.id === lit)} />;
     return <PageFrame.View kind="creation" {...frame} body="composed-step"
       column="composed-col"
-      background={!sky ? <TitlePage.Motes settle /> : <><Observatory.View signs={app.state.catalog!.signs} focus={lit}
+      background={sky && <><Observatory.View signs={app.state.catalog!.signs} focus={lit}
         chosen={step.chosen} flare={flare} onFocus={look} onChoose={choose} whole={!!step.all} zoom={zoom} onOut={out} />
         {zoom && <ChoiceRow.Button className="sky-out" data={{ action: 'whole-sky' }} label="All twelve"
           plain="neutral" onClick={out} />}</>}

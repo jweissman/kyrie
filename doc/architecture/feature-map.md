@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 236 pins (205 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 731 live rows, 241 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 231 pins (200 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 734 live rows, 241 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -536,9 +536,11 @@ page's colours and opportunities.)
   - requirement OB-17 P1: M22's first phase is done only when several cold-play reports in a row are positive (the owner, 17…
   - direction WD-14 P3: A module cannot begin the company in a place of its own: the company is declared in the region's…
   - requirement AT-08 P2: The first choices present in the first quarter hour (the owner's thought, 19 November): help…
-- **Character creation** · 3 pins · 4 defects · 9 asks
+- **Character creation** · 5 pins · 4 defects · 9 asks
   - ✓ makes a mage with a school and spells, and a warrior with neither, from the same flow
   - ○ a calling, a people and a past each open a way through one problem the others do not
+  - ✓ hints the curtain for every page of the making, and the stars where the sky is asked
+  - ✓ is drawn by the frame, the embers before it, and no painting behind it
   - ✓ each see acts the others do not
   - direction OPR-07 P2: Creation's order unchanged; the pack has no physical model
   - requirement OR-153 P1: Perk selection as the last stage of character creation: the owner, "I do think adding perk…
@@ -671,14 +673,7 @@ page's colours and opportunities.)
 
 ### Pictures
 
-- **Paintings and portraits** · 8 pins · 11 defects · 7 asks
-  - ✓ paints one whose words name no work as one of the middling folk of their sex, of their years
-  - ✓ reads a preacher as the faith and a sexton as the church's servant
-  - ✓ paints a life's own cast first, then whoever words place, then whoever they do not, then over the march
-  - ✓ gives a kind whose paintings are all of a dry day to what it lies in, in rain, fog and storm
-  - ✓ gives a kind painted only by day to the town's night after dark
-  - ✓ paints the sky's own weather first: the rain in the rain, the fog in the fog
-  - ✓ opens the way in on the land, or the wild, where its own land has nothing for the sky
+- **Paintings and portraits** · 1 pins · 10 defects · 7 asks
   - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
   - requirement CP-02 P3: Paintings the first hour lacks (toll-house hall and counting-house, a warehouse, a muck pit, cave…
   - direction OR-467 P3: A place's painting chosen by its kind is not held to its family (Scenery.of picks from the…
@@ -784,7 +779,7 @@ page's colours and opportunities.)
   - requirement R10-05 P2: Acceptance defect B6 (11 November): one combined replay through the headless projection and the…
   - requirement OR-525 P1: Restoration, carried as a beta commitment at alpha's close (trust-contracts.md: "to do") and never…
   - requirement MT-27 P2: Saves carry the compiled module rather than chiefly state (Finding F: a 2.8 MB checkpoint, 1.6 MB…
-- **Start-up and loading** · 1 pins · 7 defects · 11 asks
+- **Start-up and loading** · 1 pins · 8 defects · 14 asks
   - ✓ keeps the game once, however many legs it goes
   - direction SP-02 P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB…
   - requirement SP-03 P2: Reuse compiled module and operator definitions across sessions; cache one player frame per response
@@ -797,6 +792,9 @@ page's colours and opportunities.)
   - requirement OR-144 P1: Set out now is still slow (the owner's playtest, 20 November: "We should be able to set out now…
   - requirement OR-137 P1: The start itself to about a second, and kept: restored across loads rather than drawn again (9-17…
   - requirement OR-126 P1: The first fifteen seconds as four clicks in about 4 s: new game, accept the world, generate a…
+  - requirement OR-1741 P2: Deem keeps every expression it has parsed as its whole ohm MatchResult, the matcher's memo table…
+  - requirement OR-1742 P2: The caches of what was parsed and compiled are keyed by whole texts: CompiledModules' key joins…
+  - requirement OR-1746 P2: Kept parses and compiled modules are still copied where they are kept and where a module's own…
 
 ### The engine
 
