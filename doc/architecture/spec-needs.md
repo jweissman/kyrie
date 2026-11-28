@@ -59,6 +59,12 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/arcology.test.ts` | Generated worlds over seven seeds for placement, plus House discovery and mechanisms in play. The placement matrix and generated world cannot be replaced by a single fragment. |
 | `test/as-rolled.test.ts` | Pure creation calculations and a generated `iscoed` world with its actual warrior and rats. It explicitly witnesses rats and checks combat odds, not just generated attributes. |
 | `test/asked-again-live.test.ts` | A named authored campaign and one generated `s0` world. The generated copy count is witnessed; the authored empty-result claim needs a positive copy witness before narrowing. |
+| `test/asked-again.test.ts` | The Long Man campaign and its people at the well. The original and repeated answers, changes and world key must remain; the before-and-after topic assertions have actual offered witnesses. |
+| `test/author-path.test.ts` | A synthetic pair of scaffolded adventures, linked rules and the real CLI verification path. The conflicting names, unreachable topic, endings and lint findings are integration witnesses. |
+| `test/authored-land.test.ts` | The Pellam authored campaign and its actual land chart, walked roads and map. The Lisk and Fair's geography is the claim, not merely a generic map. |
+| `test/autoplay-engaged.test.ts` | One `turns-on` fixture module with `inhabitants`. Retained on full rules: bypassing engaged-row filtering makes its wait assertion fail, but bypassing the destination guard does not fail its no-journey assertion; a destination witness is needed. |
+| `test/autoplay-tempers.test.ts` | Three generated worlds with distinct origins, parties and autoplay policies, plus pure invariant examples. The varied 60-step worlds are the claim and are not interchangeable with one fragment. |
+| `test/autoplay.test.ts` | Pure draw and shrinking checks, catalog encounter runs and an `a1` world played and replayed. Each different layer is asserted; the replay and fight workload must remain. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
