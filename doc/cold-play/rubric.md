@@ -1,6 +1,7 @@
 # Cold-play rubric: first-hour experience
 
-**Proposed · id `first-hour` · version `1`**. This rubric has not been accepted or used to score a play.
+**Accepted · id `first-hour` · version `1`** (the owner's delegation, 27 November; regimen.md). It is calibrated by its
+first three rounds; a change is a new version, applied only to later rounds.
 Earlier cold plays reported an overall score, but did not use a recorded criterion rubric.
 
 An independent agent plays the rendered page without a route or source knowledge. Record its kind, revision, date,
