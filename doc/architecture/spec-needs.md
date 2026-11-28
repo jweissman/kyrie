@@ -7,6 +7,9 @@ expensive evidence the claims actually require; an unlisted file has not been as
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/action-identity.test.ts` | A generated `wren` campaign shared by the engine host and a resumed terminal session. The cross-client equivalence needs both clients; the follow and repeated-aim assertions are conditional, so retain it until their witnesses are made explicit. |
+| `test/anchor-lint.test.ts` | Two fixture campaigns, one for each distinct lint finding; no generated world. Both authored conditions and exact diagnostics are the claims. |
+| `test/assembly-projected-once.test.ts` | One Fells fixture campaign with more than two modules. Its projection-count assertion depends on multi-module assembly, so retain the fixture. |
 | `test/small/arrival-attention.test.ts` | The single `arrivals.kyr` track and its narrated arrival matrix. Narrowed to the inhabitants, probing and services rules; the fixture path remains statically classified as world. |
 | `test/small/perceived-rows.test.ts` | The same track, comparing each perceived row with the frame's own row. Narrowed with the shared fixture. |
 | `test/small/player-choice-rows.test.ts` | The same track, including a cold revision cache and the real choice rows. Narrowed with the shared fixture without pre-building a page. |
