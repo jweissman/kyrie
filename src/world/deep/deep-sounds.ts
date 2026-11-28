@@ -1,4 +1,5 @@
 import type { DeepLayout } from './deep-layout';
+import { DeepMechanisms } from './deep-mechanisms';
 
 // Who can be heard from the next room before they are met, while they are there and able: a band that falls on
 // whoever comes in, or keeps its ground, or one of the deep's worst. Told in every room a way leads from. What lies
@@ -26,6 +27,18 @@ export class DeepSounds {
     elite: 'From {room} comes a sound you do not like at all: something large, that is not in any hurry.',
     // One of the worst who is someone, not something (a robbers' captain): heard as a man or a woman is.
     leader: 'From {room} comes the scrape of a whetstone on steel, slow and even: whoever is in there is in no hurry.' };
+  // What a band that falls on whoever comes in, or one of the deep's worst, leaves on the ways to it, by what it is: a
+  // second sign of its own kind beside its sound, seen by a light (OR-1854: the owner's ruling of 27 November, that an
+  // unwarned fight is only very occasionally lethal and the place forebodes it; the barrow's forecourt dead had come
+  // at a company whose way in had said only that it heard a sound).
+  static readonly spoor: Record<string, string> = {
+    undead: 'The dust on the way to {room} is marked by feet that drag, and none of the marks come back.',
+    beast: 'Gnawed bones lie on the way to {room}, and the air there has the rank smell of a lair.',
+    person: 'Fresh boot-marks go in and out of {room}, many of them.',
+    aberration: 'A trail of slime, dried to a shine, goes in at the way to {room}.',
+    construct: 'The floor at the way to {room} is scored with long, fresh scrapes.',
+    elemental: 'The stone at the way to {room} is cracked and stained, as if by great heat or cold.',
+    any: 'Bones lie scattered at the way to {room}, picked clean.' };
   // What a band sounds like from far off, carried through the stone to a listening-room: anything that is about its
   // business there is heard, the wary too; what lies in wait is not.
   static readonly far: Record<string, string> = { savage: 'something breathing',
@@ -40,7 +53,7 @@ export class DeepSounds {
     const worst = elite ? person ? 'leader' : 'elite' : undefined;
     const said = this.sounds[worst ?? (this.sounds[kindly] ? kindly : temperament)];
     const ways = layout.links.filter(l => [l.a, l.b].includes(room));
-    const next = [...new Set(ways.map(l => l.a === room ? l.b : l.a))];
+    const next = [...new Set([...ways.map(l => l.a === room ? l.b : l.a), ...this.outside(layout, room)])];
     const by = !elite && temperament === 'ambush' ? ' as sign noticed by woodcraft' : '';
     // What falls on whoever comes in, or is one of the worst, can be drawn out to be met (inhabitants.kyr).
     const drawn = said && (elite || temperament === 'savage') ? [`  Initially Assert drawable(${id}).`] : [];
@@ -53,7 +66,20 @@ export class DeepSounds {
       + ` and at(${id}, ${room}) ${this.q(said.replace('{room}', `{${room}}`))}.`) : [],
     ...seen ? next.map(n => `  Observe ${id}_seen_${room}_${n} at ${n} when able(${id}) and at(${id}, ${room})`
       + ` ${this.q(seen.replace('{room}', `{${room}}`))}.`) : [],
+    ...drawn.length ? this.tracks(band, next) : [],
     ...this.carried(layout, band, this.far[worst ?? (person ? 'person' : this.far[kindly] ? kindly : temperament)])];
+  }
+  // The way in outside a room, where it has one: the first room's (the stair down to the forecourt), and the vent's,
+  // whose rungs climb to it (DeepMechanisms): it is heard from there, as from any next room.
+  private static outside(layout: DeepLayout, room: string): string[] {
+    const mouth = layout.levels[0]?.rooms[0]?.id === room, vent = DeepMechanisms.room(layout, 'vent')?.id === room;
+    return mouth || vent ? [layout.site] : [];
+  }
+  // The spoor of a band that falls on whoever comes in, or of one of the worst, at each way to it, by its kind.
+  private static tracks(band: Band, next: string[]): string[] {
+    const { id, room } = band, kind = band.person ? 'person' : this.spoor[band.kind ?? ''] ? band.kind! : 'any';
+    const text = this.q(this.spoor[kind]!.replace('{room}', `{${room}}`));
+    return next.map(n => `  Observe ${id}_spoor_${room}_${n} at ${n} when able(${id}) and at(${id}, ${room}) ${text}.`);
   }
   // A thing that carries the sound of its level (a listening-room's bowl) can be listened at; once it has been, what
   // is about its business on that level is heard in it, small and near, while it is there.
