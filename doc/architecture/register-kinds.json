@@ -3624,6 +3624,18 @@
    "was": "defect",
    "pri": "P2",
    "why": "27 Nov: the remainder of OR-1520, wanted (the flagship's fifth expedition), not an observed failure of a claimed contract"
+  },
+  "OR-1720": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "27 Nov: lazy realisation of the level below wanted (the reference game's direction, SP-02), not an observed failure of a claimed contract"
+  },
+  "OR-1721": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: the remainder of OR-1622's economy (the long haul's wares bought with the deep's things), not an observed failure of a claimed contract"
   }
  },
  "blockedBy": {
@@ -3697,7 +3709,8 @@
   "OR-747": "TB-09",
   "GR-24": "OR-745",
   "OR-881": "OR-741",
-  "OR-920": "OR-741"
+  "OR-920": "OR-741",
+  "OR-1720": "SP-02"
  },
  "OR-1490": {
   "kind": "defect",

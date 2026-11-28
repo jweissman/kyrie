@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 230 pins (199 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 729 live rows, 239 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 230 pins (199 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 731 live rows, 240 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -201,7 +201,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 20 defects · 19 asks
+- **Aims and the gold thread** · 16 pins · 20 defects · 18 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -231,7 +231,6 @@ page's colours and opportunities.)
   - direction OR-469 P3: The First Aims' other horizons (the direction's §9: find Dun Rìerdan, explore the southern…
   - requirement OR-650 P2: A shut place with nothing found leads nowhere in its site: at Porthalen Hall's press-door (iscoed,…
   - requirement OR-1390 P1: The reference loop is not measured as a loop: no five-expedition transcript classes each command…
-  - requirement OR-1622 P2: The reference dungeon is spent by the fourth expedition: on s0 the fifth brings 24, so the second…
   - direction TS-01 P2: Philosophical schools that argue in good faith, teach by dialectic (for a fee, improving speech…
   - direction TS-02 P2: Persuading a crowd as a contested roll against the crowd; a disputation narrated as mass…
   - direction TS-03 P2: A party's end continues as a relative (the brother) in the same world, as it was, not a reload…
@@ -291,7 +290,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 2 defects · 12 asks
+- **Markets and prices** · 0 pins · 2 defects · 13 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
@@ -301,6 +300,7 @@ page's colours and opportunities.)
   - direction OR-1204 P2: Life structured around small exchanges of resources aligned with the Atlas's colours (meat and…
   - direction OR-1206 P2: Five resources in a regular tournament (each beats two and is beaten by two), aligned with the…
   - requirement OR-1440 P1: Five expeditions on the reference seed prepare and go about much the same way (the economy…
+  - requirement OR-1721 P2: The deep's wonders sell nowhere in the reference town: Trader 2 buys no thing worth more than…
   - requirement BO-12 P1: A verb gained by a lesson in the first hour: the mentor named in the first exchange, a pin over…
   - direction WD-04 P2: No price follows a country's want: a merchant's stock and prices are by trade, the same wherever…
   - requirement WD-07 P1: Expedition gains open no new way into the world: home ÷ spend 4–5 (sites/economy-now.md); after a…
@@ -385,7 +385,7 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 18 pins · 8 defects · 22 asks
+- **Dungeons and sites** · 18 pins · 9 defects · 23 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ rolls what newcomers carry on Deem by their kind and depth, more deeper
   - ✓ sends one band after another into the room emptied, each leaving what it carried where it fell
@@ -423,6 +423,7 @@ page's colours and opportunities.)
   - direction OR-85 P2: Variability as a direction, with deeper Kyr and Deem interactions (the owner, 18 November,…
   - requirement OR-1500 P2: Pointless wandering on the reference game was not measured: the owner's playtest of 27 November…
   - requirement OR-1640 P3: The Pitch of the Glass's thin parts (doc/adventures/pitchpass/friction.md): no beat reads the…
+  - requirement OR-1720 P3: The old dark below the reference dungeon is written with its site, not realised when first…
   - requirement ST-03 P1: The last sea-gate: the saboteur's interest acting inside the six-day window (obstruction, blame, a…
   - requirement ST-06 P2: The critique's rebuild set (fever on the green, the cold pans, the boundary stones, the stranger…
   - requirement ST-07 P3: The critique's hierarchy edits: the Bound Howe given one governing question; the Silent Lord's…
@@ -882,7 +883,7 @@ page's colours and opportunities.)
 
 ## Negative space
 
-### Common blockers (12)
+### Common blockers (13)
 
 Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
@@ -910,6 +911,8 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - OR-541 (Narration)
 - **OR-745** P2: The page cold play's driver spec red on the nightly of 25 Nov (run 45574847769, browser specs 3/3): test/page-walk-browser's walk out of the adit finds no row… · blocks 1 (0 P0/P1) over 1 capabilities
   - GR-24 (Aims and the gold thread)
+- **SP-02** P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB RSS): deterministic lazy materialization, proven against eager · blocks 1 (0 P0/P1) over 1 capabilities
+  - OR-1720 (Dungeons and sites)
 
 ### Capabilities neither built nor asked for (0)
 
@@ -928,7 +931,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **News and rumour** (Conversation): OR-365
 - **Passage arranged between cities** (Travel): OR-452
 - **First Aims, nested and optional** (Undertakings): OR-457
-- **Markets and prices** (Trade): CP-07, PV-01, OR-678, OR-1128, OR-1210, OR-1394, OR-1204, OR-1206, OR-1440, BO-12, WD-04, WD-07
+- **Markets and prices** (Trade): CP-07, PV-01, OR-678, OR-1128, OR-1210, OR-1394, OR-1204, OR-1206, OR-1440, OR-1721, BO-12, WD-04, WD-07
 - **Countries and regions** (The land): PV-03, OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, OR-640, OR-642, OR-1208, OR-1106, WD-01, WD-02, WD-03, WD-09, WD-16, SS-01, WB-01, WB-02, WB-03
 - **Weather, sky and season** (The land): OR-1393, IM-01
 - **The planes** (The land): GT-01, GT-03
