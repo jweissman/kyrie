@@ -94,7 +94,11 @@ export class CreationFlow {
   private at?: CreationStepId | 'go';
   private rolls = 0;
   // Who one is, chosen by the player (the owner's playtest, 26 November, OR-1272: ancestry and presentation had shown
-  // as chosen before they were): until a step of these is chosen, none of its cards is marked chosen.
+  // as chosen before they were): until a step is chosen, none of its cards is marked chosen. So of every step (the
+  // owner's play, 27 November, OR-1684: "Things were pre-selected that might have been 'good' but it wasn't clear why
+  // they were selected"): what a life would set out with unchosen is drawn or defaulted, never suggested for a reason,
+  // so it is not shown as chosen. Set out at once, a life is still what they make it; the cards that suit the calling
+  // still lead (ranked).
   private readonly owned = new Set<CreationChoice>();
   // The hands of trades dealt since the kind of life last changed (see trades).
   private dealt = 0;
@@ -108,6 +112,10 @@ export class CreationFlow {
   }
   // The reason for having come is not asked: the world gives it, as where the life begins (the owner, 17 November:
   // "remove the abstract origin-quest selection in favor of diegetic starting circumstances"; see circumstance).
+  // A step's card shown as chosen, once the player has chosen at that step (OR-1272, OR-1684).
+  private mine(step: CreationChoice, value?: string): { chosen?: string } {
+    return this.owned.has(step) && value !== undefined ? { chosen: value } : {};
+  }
   steps(): CreationStep[] {
     const all = this.unranked();
     return all.map((step, i) => ({ ...step, cards: this.ranked(step), place: { at: i + 1, of: all.length + 1 },
@@ -185,10 +193,10 @@ export class CreationFlow {
       // The sky they were born under (data/imbar/sky.json): a sign of Imbar's own months, which the world can read in
       // them. A page may draw it as a sky; the terminal names it. The owner, 14 November: the observatory (TO-04).
       // All twelve at once, the whole zodiac beside them (FM-02: a fixed set's instrument, the four's exception).
-      { id: 'sign', ask: 'Under which stars were you born?', present: 'sky', all: true, chosen: m.sign, cards: c.signs.map(x => ({
+      { id: 'sign', ask: 'Under which stars were you born?', present: 'sky', all: true, ...this.mine('sign', m.sign), cards: c.signs.map(x => ({
         id: x.id, name: x.name.replace(/^the /, 'The '), line: `${x.month}: ${x.line}`, emblem: x.id, aside: x.month,
         say: x.line, ...CreationFlow.has(x.entry) })) },
-      { id: 'calling', ask: 'Choose your calling', present: 'cards', chosen: m.classId, cards: c.callings
+      { id: 'calling', ask: 'Choose your calling', present: 'cards', ...this.mine('calling', m.classId), cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
           text: x.text, emblem: x.id, ...CreationFlow.said(x), ...CreationFlow.has(CreationEntries.calling(x)) })) },
       ...this.specialty(), ...this.spells(),
@@ -196,18 +204,20 @@ export class CreationFlow {
       // November, OR-88: "it's reasonable to show all of them rather than force multiple pages… some indication from
       // the encyclopedia of what the choice means"); then the trade within it, asked in its own words (OR-90).
       { id: 'before', ask: 'What did you do before this?', present: 'list', all: true,
-        chosen: open.find(b => b.id === m.backgroundId)?.kind,
+        ...this.mine('before', open.find(b => b.id === m.backgroundId)?.kind),
         cards: c.kinds.filter(k => open.some(b => b.kind === k.id))
           .map(k => ({ id: k.id, name: k.name, line: k.does, emblem: `life_${k.id}`, ...k.life ? { say: k.life } : {},
             entry: k.entry })) },
       ...this.trades(),
       // A perk, the last thing chosen of who one is (OR-153): one of each of the Atlas's five families (CreationPerks).
       ...c.perks?.length ? [{ id: 'perk' as const, ask: 'What sets you apart?', present: 'rows' as const, all: true as const,
-        chosen: m.perk, cards: c.perks.map(x => ({ id: x.id, name: x.name, line: x.line, say: x.line,
+        ...this.mine('perk', m.perk), cards: c.perks.map(x => ({ id: x.id, name: x.name, line: x.line,
+          say: CreationPerks.said(x),
           emblem: CreationPerks.emblems[x.id] ?? x.id })) }] : [],
       // The names of your people as one list, a hand of them at a time (creation's one dense menu: the owner, 17
       // November), another hand dealt on asking, and a field to write your own in.
-      { id: 'name', ask: 'Choose your name', present: 'list', all: true, chosen: m.name, write: 'Or write your own',
+      { id: 'name', ask: 'Choose your name', present: 'list', all: true, ...this.mine('name', m.name),
+        write: 'Or write your own',
         roll: 'other names of your people', again: 'Roll again', cards: CreationDefaults.table(m, this.setting, this.rolls)
           .map(name => ({ id: name, name, say: '' })), names: CreationDefaults.names(m, this.setting) },
     ];
@@ -220,7 +230,7 @@ export class CreationFlow {
     const c = this.catalog, m = this.member, calling = c.callings.find(x => x.id === m.classId);
     const ask = CreationFlow.asks[m.classId ?? ''], forbids = c.ancestries.find(a => a.id === m.raceId)?.forbids ?? [];
     if (!calling || !ask || !calling.specializations.some(t => t.of)) { return []; }
-    return [{ id: 'specialty', ask, present: 'list', all: true, emblems: true, chosen: m.traits?.[0], cards: calling.specializations
+    return [{ id: 'specialty', ask, present: 'list', all: true, emblems: true, ...this.mine('specialty', m.traits?.[0]), cards: calling.specializations
       .map(t => ({ id: t.id, name: t.name, emblem: t.id, ...t.line ? { line: t.line } : {},
         ...t.text ? { say: t.text } : {}, ...forbids.includes(t.id) ? { shut: 'Not for your people' } : {},
         entry: { ...CreationFlow.way(t), ...CreationSpells.shown(t, calling.name.toLowerCase(), m) } })) }];
@@ -247,7 +257,7 @@ export class CreationFlow {
         - CreationFlow.fit(a.qualities, wants) || a.name.localeCompare(b.name));
     if (!this.past || !kind || of.length < 2) { return []; }
     const hand = CreationDefaults.hand(of, this.dealt, CreationFlow.trades);
-    return [{ id: 'trade', ask: kind.asks ?? 'What did you do before this?', present: 'list', all: true, chosen: was!.id,
+    return [{ id: 'trade', ask: kind.asks ?? 'What did you do before this?', present: 'list', all: true, ...this.mine('trade', was!.id),
       ...hand.length < of.length ? { roll: 'other trades', again: 'More…' } : {}, cards: hand.map(b => ({ id: b.id, emblem: `life_${kind.id}`,
         name: BackgroundCatalog.called(b, m.pronouns), say: b.text && `${Words.upper(b.text)}.`,
         entry: CreationEntries.trade(b) })) }];
@@ -297,7 +307,7 @@ export class CreationFlow {
   }
   private settled(step: CreationChoice, value: string) {
     const m = this.member, was = m.classId, people = m.raceId;
-    if (step === 'you' || step === 'presenting') { this.owned.add(step); }
+    this.owned.add(step === 'drawn' ? 'name' : step);
     if (step === 'origin') { this.origin = value; this.asked = true; return; }
     if (step === 'weapon') { m.weapon = value; return; }
     if (step === 'drawn') { m.name = value; this.named = false; return; }

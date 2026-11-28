@@ -90,7 +90,8 @@ export interface Catalog {
   // words.
   // The perks a life may begin with, one of each of the Atlas's five families (see CreationPerks), each as the
   // reference says it.
-  perks: { id: string; name: string; line: string; family: string }[];
+  // buys: what it buys in play, in the rule's own terms (Creation.buys).
+  perks: { id: string; name: string; line: string; family: string; buys?: string }[];
   signs: { id: string; name: string; month: string; line: string; stars: number[][]; lines: number[][];
     figure?: string; gifts: { id: string; name: string; text: string; does: string }[]; entry?: CatalogEntry }[];
   campaigns: CampaignChoice[];
