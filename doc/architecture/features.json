@@ -4,6 +4,7 @@
   "files": {
    "conflict/fights-cost": "fight",
    "conflict/fights-foretold": "fight",
+   "conflict/small-fights": "fight",
    "conflict/words-before-blows": "fight",
    "conflict/parley": "fight",
    "world/kings-door": "discovery",

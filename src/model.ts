@@ -70,8 +70,9 @@ export interface Scenario {
 // What a fight is for, when it is not lives, as the world says of the band fought (core.kyr): a bout to yielding, over
 // at the first fall and killing nobody (yields); a band that breaks and runs when half of it is down (breaks); a band
 // nothing waits on the fall of, which may lose heart once half of it is down, each of it that can (morale: see
-// Morale.shaken).
-export interface Terms { yields?: boolean; breaks?: boolean; morale?: boolean }
+// Morale.shaken); and of those, a wary band, quick to run (skittish: a band of beasts loses heart at the first of
+// it to fall, Morale.due).
+export interface Terms { yields?: boolean; breaks?: boolean; morale?: boolean; skittish?: boolean }
 export interface Command { actor: string; ability: string; target: string }
 export type Outcome = Team | 'draw' | 'escaped';
 export type CombatEvent = (

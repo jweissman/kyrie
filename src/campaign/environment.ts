@@ -28,7 +28,10 @@ export class Environment {
     if (yields || breaks) { return { ...yields ? { yields } : {}, ...breaks ? { breaks } : {} }; }
     const temper = against && world.relates('temperament') ? world.one('temperament', against) ?? '' : '';
     const fierce = /temper_(savage|obedient)$/.test(temper);
-    return against && !fierce && !FallAwaited.of(world.module, against) ? { morale: true } : undefined;
+    // A wary band (rats that live on what the mound gives up) is quick to run: skittish (OR-1855).
+    const skittish = /temper_wary$/.test(temper);
+    const morale = !!against && !fierce && !FallAwaited.of(world.module, against);
+    return morale ? { morale, ...skittish ? { skittish } : {} } : undefined;
   }
   // A company that drew out what it fights, and waited for it (inhabitants.kyr): its members meet it ready.
   static ready(world: World, at: { actor?: string; against?: string }, members: string[]): { ready?: string[] } {
