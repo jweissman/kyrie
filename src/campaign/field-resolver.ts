@@ -74,6 +74,7 @@ export class FieldResolver {
     }
     if (call.name === 'purchase') { this.purchase(call, host); return this.take(call, host); }
     if (call.name === 'acquire') { return this.take(call, host); }
+    if (call.name === 'gather_pile') { return this.gather(action.resolve!.args, call.args[1]!, host); }
     if (call.name === 'rummage') {
       const actor = host.actors.find(a => a.id === call.args[0]);
       const environment = actor && Environment.of(host.world, actor.id);
@@ -131,6 +132,13 @@ export class FieldResolver {
       lease.creatures.find(c => c.id === seller.members[0])!.state.gold += price;
       lease.commit(lease.creatures);
     } finally { lease.release(); }
+  }
+  // A pile taken up in one act (take_pile): each thing that lies loose there (the rules' loose, read as the act's
+  // effects will read it) taken up as one taken alone would be, by the one who carries it all.
+  private static gather([actor, , site]: string[], owner: string, host: FieldHost): CombatEvent[] {
+    const w = host.world, call = ModuleWriter.call;
+    return w.related('at').filter(r => r.args[1] === site && w.test(call('loose', r.args[0]!, actor!, site!)))
+      .flatMap(r => this.take(call('acquire', r.args[0]!, w.one('itemKind', r.args[0]!) ?? '', owner), host));
   }
   // Something taken up; a treasure, the first time, is a quarter of its worth in experience for each of the company
   // (finding is the deed; selling is only coin).

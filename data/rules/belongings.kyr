@@ -91,6 +91,30 @@ Module belongings "What the company carries" {
     On success { Retract at(find, site). Assert recovered(find). }
     Result "{recipient} takes {find}.".
   }
+  // A pile in one act (OR-1870, the cold-play review's Wave 2: "collect an unambiguous pile in one act and say who
+  // carries it"): what lies about a place plainly the company's to take up (seen, no one's, not for sale, and light to
+  // see it by), two things or more, taken up at once by the one who leads the company (or, where they cannot, by
+  // whoever can), who carries it all. Each find had been an act of its own, a back-stone's six finds six presses, and
+  // pickup two thirds of the delver's administration (cold round A1; scripts/quantity/expeditions.ts).
+  // Not what lies where one able and unfriendly makes its home: the king's crown, lifted from his grave, had brought
+  // him out of his refuge (scripts/quantity/expeditions.ts), a take that is a choice of its own.
+  Query loose(find: item, actor: group, site: place) means at(find, site) and not forSale(find) and noticed(find, actor)
+    and itemKind(find, ?form) and not owns(?owner, find) and not keptBy(site, actor).
+  Query keptBy(site: place, actor: group) means lair(?keeper, site) and able(?keeper) and not tolerates(?keeper, actor).
+  Query lying(actor: group, site: place) means loose(?find, actor, site).
+  Query pile(actor: group, site: place) means loose(?a, actor, site) and loose(?b, actor, site) and distinct(?a, ?b).
+  Query leadAwake(actor: group) means memberOf(?m, actor) and awake(?m) and not companion(?m).
+  Relation pileGathered(group, place).
+  Action take_pile(actor: group, recipient: member, site: place) "Gather up what lies here, for {recipient}" {
+    Time 2 minutes.
+    Requires able(actor) and at(actor, site) and not benighted(actor) and pile(actor, site)
+      and memberOf(recipient, actor) and awake(recipient) and (not companion(recipient) or not leadAwake(actor)).
+    Resolve gather_pile(actor, recipient, site).
+    On success { Assert pileGathered(actor, site). }
+    Result "{recipient} gathers up what lies here.".
+  }
+  Rule gathered when pileGathered(?a, ?s) and loose(?f, ?a, ?s) { Retract at(?f, ?s). Assert recovered(?f). }
+  Rule gathered_all when pileGathered(?a, ?s) and not lying(?a, ?s) { Retract pileGathered(?a, ?s). }
   Action take_out(actor: group, find: item, form: itemkind, box: thing, recipient: member, site: place) "Take {find} out of {box} for {recipient}" {
     Time 1 minute.
     Requires able(actor) and at(actor, site) and at(box, site) and inside(find, box) and not shut(box)
