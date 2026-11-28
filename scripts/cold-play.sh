@@ -8,16 +8,18 @@
 #   scripts/cold-play.sh --n 7 --world iscoed --as human/warrior/Wenna [--rev origin/main] [--agent none|claude|codex]
 #     [--turns 120] [--dir /var/tmp/kyrie/cold/7]
 #   scripts/cold-play.sh --stop /var/tmp/kyrie/cold/7
+# --kind '<disposition>': the player's kind as doc/cold-play/regimen.md names them (default the careful reader).
 # --page <url> [--query '?world=iscoed']: on the deployed page in one headless Chromium (scripts/cold-play/page-runner.ts,
 #   OB-05), not the runner on a revision built here; the browser's libraries as the host needs them (LD_LIBRARY_PATH).
 set -euo pipefail
 here="$(cd "$(dirname "$0")" && pwd)"; repo="$(cd "$here/.." && pwd)"; kit="$here/cold-play"
-n=""; world=""; as=""; rev="origin/main"; agent="none"; turns=120; dir=""; stop=""; page=""; query=""
+n=""; world=""; as=""; rev="origin/main"; agent="none"; turns=120; dir=""; stop=""; page=""; query=""; kind="a careful reader: you read everything, and follow what the world suggests"
 while [ $# -gt 0 ]; do
   case "$1" in
     --n) n="$2"; shift 2 ;; --world) world="$2"; shift 2 ;; --as) as="$2"; shift 2 ;; --rev) rev="$2"; shift 2 ;;
     --agent) agent="$2"; shift 2 ;; --turns) turns="$2"; shift 2 ;; --dir) dir="$2"; shift 2 ;;
     --stop) stop="$2"; shift 2 ;; --page) page="$2"; shift 2 ;; --query) query="$2"; shift 2 ;;
+    --kind) kind="$2"; shift 2 ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
 done
@@ -33,7 +35,7 @@ if [ -n "$page" ]; then
   # The deployed page, played where it is served: what it says it was built from (version.json) is what was played.
   cp "$kit/send.sh" "$kit/show.py" "$dir/"; chmod +x "$dir/send.sh"
   : > "$dir/lines.txt"; : > "$dir/out.jsonl"; : > "$dir/err.txt"
-  sed -e "s#{DIR}#$dir#g" -e "s#{N}#$n#g" -e "s#{TURNS}#$turns#g" "$kit/prompt.md" > "$dir/prompt.md"
+  sed -e "s#{DIR}#$dir#g" -e "s#{N}#$n#g" -e "s#{TURNS}#$turns#g" -e "s#{KIND}#$kind#g" "$kit/prompt.md" > "$dir/prompt.md"
   built=$(curl -s "${page%/*}/version.json" || echo '?')
   printf 'the deployed page %s%s, built %s\n' "$page" "$query" "$built" > "$dir/played.txt"
   setsid bash -c "cd '$repo' && tail -n +1 -f '$dir/lines.txt' | bun scripts/cold-play/page-runner.ts '$page' '$query' \
@@ -48,7 +50,7 @@ if [ ! -e "$tree/node_modules" ]; then ln -s "$repo/node_modules" "$tree/node_mo
 played="$(git -C "$tree" rev-parse --short HEAD)"
 cp "$kit/send.sh" "$kit/show.py" "$dir/"; chmod +x "$dir/send.sh"
 : > "$dir/lines.txt"; : > "$dir/out.jsonl"; : > "$dir/err.txt"
-sed -e "s#{DIR}#$dir#g" -e "s#{N}#$n#g" -e "s#{TURNS}#$turns#g" "$kit/prompt.md" > "$dir/prompt.md"
+sed -e "s#{DIR}#$dir#g" -e "s#{N}#$n#g" -e "s#{TURNS}#$turns#g" -e "s#{KIND}#$kind#g" "$kit/prompt.md" > "$dir/prompt.md"
 printf 'world %s, as %s, at %s (%s)\n' "$world" "$as" "$played" "$rev" > "$dir/played.txt"
 # The runner, fed from lines.txt one line at a time, in a process group of its own so that --stop ends it whole.
 setsid bash -c "cd '$tree' && tail -n +1 -f '$dir/lines.txt' | bin/kyrie run --world '$world' --as '$as' \
