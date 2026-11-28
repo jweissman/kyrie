@@ -58,7 +58,9 @@ and free to depart from:
    - the viewport;
    - the full sha played;
    - a unique session identity;
-   - the move count and the fictional time elapsed.
+   - the move count and the fictional time elapsed;
+   - **clarity /10** and **wanting to go on /10**, as beta's earlier reports asked, kept beside the rubric for
+     continuity (doc/design/cold-play-8-to-8-5-2026-11-27.md). They are recorded fields, not a change to rubric v1.
 
    Its transcript and screens are checked in beside it.
 5. **Freshness:** the health meter counts the last three rounds of different sessions within 21 days. A round older
@@ -74,6 +76,14 @@ The first three rounds calibrate rubric v1:
 
 A change to the rubric is explicit and versioned *prospectively* (v2, its own id). It is never applied silently to
 earlier results, which keep the version they were scored under.
+
+### The 8–8.5 bar
+
+A cold result is called 8–8.5 only after **three consecutive milestone rounds** each meet all of: mean clarity and
+wanting to go on at least 8.0, neither below 7.5; rubric at least 80% with trust 4/4; no P0/P1, softlock, lost state or
+false promise encountered; at least two player kinds plainly wanting a fifth expedition; one phone round among them
+(doc/design/cold-play-8-to-8-5-2026-11-27.md's exit rule). A trust failure is never averaged away: it invalidates the
+round and becomes a regression test first.
 
 ## A longitudinal expedition
 
