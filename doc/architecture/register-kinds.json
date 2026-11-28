@@ -3777,5 +3777,30 @@
   "kind": "defect",
   "pri": "P2",
   "why": "the owner's ruling against ovals, observed on the fight page"
+ },
+ "OR-1880": {
+  "kind": "requirement",
+  "pri": "P1",
+  "why": "the owner's ruling on the diamond, the rail's folding and the character's tools, made true in engine and page"
+ },
+ "OR-1881": {
+  "kind": "requirement",
+  "pri": "P3",
+  "why": "literacy is not modelled; a wanted behaviour the owner named, not a broken contract"
+ },
+ "OR-1882": {
+  "kind": "defect",
+  "pri": "P1",
+  "why": "a perk chosen at creation was lost before play: creation claims it is held as a trait"
+ },
+ "OR-1883": {
+  "kind": "defect",
+  "pri": "P1",
+  "why": "a fold-out drawn in the narration, against the ruling that text is just text and nothing floats over it"
+ },
+ "OR-1884": {
+  "kind": "requirement",
+  "pri": "P2",
+  "why": "the compass as the owner's instrument (points of interest marked on it), beyond the places lens it is today"
  }
 }
