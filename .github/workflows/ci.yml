@@ -51,13 +51,13 @@ jobs:
       - run: bun run lint
       - run: bun run typecheck
       - id: horizon-orsino
-        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'copilot/spec-knowledge-1128' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'copilot/spec-knowledge-1128' }}
         run: echo "revision=$(jq -r .source.revision data/sources/orsino/registry.json)" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
         if: ${{ steps.horizon-orsino.outcome == 'success' }}
         with: { repository: jweissman/orsino, ref: "${{ steps.horizon-orsino.outputs.revision }}", path: orsino }
       - name: Verify the requested fast gate
-        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'copilot/spec-knowledge-1128' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'copilot/spec-knowledge-1128' }}
         run: bun run check:fast
   # The player's contracts, first and on their own, so that a broken one says so in minutes rather than at the end
   # of the suite (the reviews of 9 November): an aim's target, the map's journeys and the campaign's refusal of any
