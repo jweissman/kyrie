@@ -115,6 +115,13 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/creature-pipeline.test.ts` | Creature catalogs and portraits plus one inline eel module in an overlay campaign, not a generated country. Every catalog kind and both saved eels are witnesses; a narrower rules list has not been tested. |
 | `test/creature-variation.test.ts` | Orsino registry and creature catalogs plus one inline guardian module in an overlay campaign. Variation mechanics, invalid combinations and both saved authored creatures are distinct claims; narrower rules have not been tested. |
 | `test/crossing-knowledge.test.ts` | A generated `a1` country expanded across its frontier and one invalid-knowledge fixture campaign. The nonempty taught-facts witness and actual crossing, as well as rejection of invalid initial knowledge, must remain. |
+| `test/crossing-order.test.ts` | One generated home country and six frontier drawings in different orders, including a save between crossings. The purchased item and hundreds of generated ids witness persistence; the deliberately failing order-independence case and `KYRIE_LONG` gate are part of the claim. |
+| `test/crow-route-country.test.ts` | Two generated countries and their mapped itineraries. The empty long-route list has no explicit witness that eligible destinations exist; retain the generated cases until that witness is established. |
+| `test/crown-sold.test.ts` | One generated `iscoed` world with the actual crown, agent, sale and restored game. The sale and won state are witnessed, but the absence of the old question has no explicit pre-sale question witness; do not narrow it on that negative alone. |
+| `test/crypt-led.test.ts` | One generated `kahitude` world with the actual dead job, crypt, ossuary and companion. Its led path, encountered enemy and need are witnesses; the separate no-search and no-continuation negatives need mutation checks before narrowing. |
+| `test/cut-order.test.ts` | Two fixture campaigns, one timed wait and one place's authored lines. Their exact ordered prose is the claim; no full generated world is started. |
+| `test/danger-ahead.test.ts` | One generated `a1` world and Eamon's actual warning, followed by the asynchronous danger calculation. Nonempty bands and at least one settled result witness the checks. |
+| `test/danger-verdict.test.ts` | One generated `a1` world with its actual bands, comparing bounded and whole fight reckonings. More than three bands and one beyond the company witness the comparison. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
