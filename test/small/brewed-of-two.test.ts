@@ -8,7 +8,7 @@ import { PlayerView } from '../../src/presentation/player-view';
 const made = async (kinds: string[]) => {
   const t = await Tiny.start(`Place yard "the yard" is room at 0, 0 outdoors. Company party "You" of 1 at yard.
     ${kinds.map((k, n) => `Item i${n} is ${k} at yard.`).join(' ')} Goal false.`,
-  { party: [{ name: 'Hild', raceId: 'dwarf', classId: 'cleric' }] });
+  { horizon: ['making', 'canon'], party: [{ name: 'Hild', raceId: 'dwarf', classId: 'cleric' }] });
   for (let n = 0; n < kinds.length; n++) {
     const take = PlayerView.choices(t.campaign).find(r => /^take_item\(/.test(r.choice.id) && r.choice.id.includes(`t__i${n}`));
     await t.session.leg(take!.choice.id);
