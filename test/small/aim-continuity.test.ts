@@ -20,16 +20,17 @@ const hold = (aim: string, more = '') => `
   ${aim}
   Goal false.`;
 const debt = 'Objective debt when quantity(party, gold) < 50 toward hold "You owe fifty coin: what is in such places could pay it.".';
+const words = 'Relation read(entity). Objective words when not read(writing) toward writing "Copy the old writing in {hold}.".';
 describe('how the aim followed goes on', () => {
   it('is its step, gold, where an act here is the step', async () => {
-    const t = await Tiny.start(hold('Relation read(entity). Objective words when not read(writing) toward writing "Copy the old writing in {hold}.".'));
+    const t = await Tiny.start(hold(words), { horizon: ['probing', 'inhabitants'] });
     await t.follow('words').play('To the hall');
     expect(t.glance.continuance).toMatchObject({ kind: 'step' });
     expect(t.gold.map(a => a.choice)).toEqual([(t.glance.continuance as { witness: string }).witness]);
   });
   // The counterexample: the debt's gold may not walk the hold's rooms (PL-23), and it had then said nothing.
   it('says a frontier, never nothing, where nothing within is known to hold what it waits on', async () => {
-    const t = await Tiny.start(hold(debt));
+    const t = await Tiny.start(hold(debt), { horizon: ['probing', 'inhabitants'] });
     await t.follow('debt').play('To the hall');
     expect(t.gold).toEqual([]);
     expect(t.glance.continuance).toEqual({ kind: 'frontier',
@@ -38,8 +39,9 @@ describe('how the aim followed goes on', () => {
   // A bar across the way to the step: what is done to it is the step, gold (b2's strongroom door, with nothing to do
   // to it, says "… bars the way, and nothing here opens it yet": scripts/gold-continuity.ts).
   it('is gold on what bars the way to the step', async () => {
-    const t = await Tiny.start(hold('Relation read(entity). Objective words when not read(writing) toward writing "Copy the old writing in {hold}.".',
-      'Thing grille "an iron grille" on cleft { State down blocking "An iron grille is down across the cleft.". }'));
+    const t = await Tiny.start(hold(words,
+      'Thing grille "an iron grille" on cleft { State down blocking "An iron grille is down across the cleft.". }'),
+    { horizon: ['probing', 'inhabitants'] });
     await t.follow('words').play('To the hall');
     expect(t.gold.map(a => a.command)).toEqual(['push(t__grille)']);
     expect(t.glance.continuance?.kind).toMatch(/^(step|gilded)$/);
@@ -54,7 +56,7 @@ describe('how the aim followed goes on', () => {
       Kind pawl_kind "the sea-gate's pawl" is gear worth 6 weighing 6 described "A tooth of iron.".
       Item pawl "the sea-gate's pawl" is pawl_kind at well.
       Objective bring when not holding(party, pawl_kind) toward well "Bring the sea-gate's pawl up out of the gate-well.".
-      Goal false.`);
+      Goal false.`, { horizon: ['belongings', 'inhabitants'] });
     t.follow('bring');
     expect(t.gold.map(a => a.command)).toEqual([expect.stringMatching(/^take_item\(t__pawl,/)]);
     expect(t.glance.continuance?.kind).toMatch(/^(step|gilded)$/);
