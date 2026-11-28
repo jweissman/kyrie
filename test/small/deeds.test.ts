@@ -23,7 +23,8 @@ describe('deeds', () => {
     expect(Deeds.counts(campaign)).toEqual({ won: 2, camps: 1 });
   });
   it('are none on the screen of a fresh company', async () => {
-    const t = await Tiny.start(`Place hall "the hall" is room at 0, 0 indoors. Company party "You" of 1 at hall. Goal false.`);
+    const t = await Tiny.start(`Place hall "the hall" is room at 0, 0 indoors. Company party "You" of 1 at hall. Goal false.`,
+      { horizon: [] });
     expect(t.screen.deeds).toEqual([]);
   });
 });
