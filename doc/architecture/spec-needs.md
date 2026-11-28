@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/told-newest-browser.test.ts` | Opt-in browser test builds the page and replays the cold-play lines in generated iscoed at desk and phone widths. Keep the actual long narration, replay and geometry. |
+| `test/told-way.test.ts` | Generated a1 stages knowledge of a named destination and its way, then plans each itinerary. Keep the actual country topology and both knowledge states. |
+| `test/toll-talk.test.ts` | Four generated countries play the toll talk and compare believed with refused outcomes. Keep their placements, outcomes and positive/negative choice witnesses. |
+| `test/toll.test.ts` | Generated a1 stages approach to the bridge and plays turning off, returning, passing, paying and danger display. Keep actual road topology and all contrasting outcomes. |
+| `test/topic-offered-once.test.ts` | A synthetic module plays a topic outside and inside talk, checking the displayed grouping and response. A fragment is a candidate if the once-only and no-leave contrasts remain proved. |
+| `test/torch-out.test.ts` | Generated kahitude stages the company in the nest and a torch near expiry, then plays its search and fight feedback. Keep the actual event and narration; the expiry setup is staged. |
+| `test/town-entry.test.ts` | Generated kahitude stages three positions and a followed errand to compare town entry marks, ordering and negatives. Keep the real geography and stated setup. |
+| `test/town-plan.test.ts` | Generated thorn and a1 stage positions to inspect settlement, building, keep and underground plans. Keep the actual generated layouts and distinct contexts. |
 | `test/ties-forms.test.ts` | Three tie forms play on a synthetic host and one kin form in generated thorn, with some placement staged. Keep all forms, the generated integration and timing contrasts. |
 | `test/ties.test.ts` | Generated kahitude checks five settlement ties and plays a tie and a thread, with locations staged. Keep the actual generated town/site relationships. |
 | `test/time-value.test.ts` | A synthetic module is parsed, written and played to check computed action durations and invalid measures. A fragment is a candidate if parser, runtime and rejection cases remain. |
