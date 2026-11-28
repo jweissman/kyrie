@@ -3224,6 +3224,15 @@ The worlds that ship with the game.
 
 > Calamy is a city of paper at the mouth of the Calam, where the tide turns the mills twice a day and every household keeps a book that knows it. Its books are entangled with its money, its law, its prayers and its quarrels, and lately some of them have begun to talk. In nine days it is the Kindling, when the city burns last year's almanacks to light the new year in.
 
+### The Pitch of the Glass
+
+*Kyr* · `campaign:pitchpass`
+
+- Regions and sites: pitchpass
+- Kits placed: —
+
+> What is asked, and why it matters.
+
 ### Quittance
 
 *Kyr* · `campaign:quittance`
