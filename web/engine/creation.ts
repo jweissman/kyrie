@@ -23,6 +23,7 @@ import { Fighting } from '../../src/rules/fighting';
 import { Creation as RulesCreation } from '../../src/rules/creation';
 import { ItemCatalog } from '../../src/item-catalog';
 import { MechanicsText } from '../../src/presentation/mechanics-text';
+import { Checks } from '../../src/rules/checks';
 import type { Trait } from '../../src/rules/catalog-schema';
 import { ProtagonistNames } from '../../src/world/protagonist-names';
 import { FirstSpells } from '../../src/creation/first-spells';
@@ -60,13 +61,13 @@ export class Creation {
       // Each kind of background, and what the skill its people know is for.
       kinds: Object.entries(Canon.backgroundKinds).map(([id, k]) => ({ id, name: k.name,
         ...k.asks ? { asks: k.asks } : {}, ...k.life ? { life: k.life } : {},
-        does: (k.skills ?? []).map(s => `${Canon.skills[s]?.name ?? s}: ${Canon.skills[s]?.description ?? ''}`).join(' '),
+        does: (k.skills ?? []).map(s => Creation.does(s)).join(' '),
         entry: ReferenceCatalog.kind(id) })),
       presets: companies.map(c => ({ ...c, members: structuredClone(c.members) })),
       signs: sky.signs.map(s => ({ ...structuredClone(s), gifts: s.gifts.map(g => Creation.skyGift(g)),
         entry: ReferenceCatalog.entry(`sign:${s.id}`) })),
       perks: CreationPerks.offered.map(([id, family]) => ({ id, name: Traits.of(id)?.name ?? id,
-        line: Traits.of(id)?.description ?? '', family })),
+        line: Traits.of(id)?.description ?? '', family, buys: Creation.buys(Traits.of(id)) })),
       campaigns: [...Scenarios.list.map(s => ({ id: s.manifest, title: s.title, note: s.note, detail: s.detail,
         seed: s.seed, ...s.recommended ? { recommended: true } : {} })),
       { id: this.generated, title: 'A generated region', seed: 'thorn',
@@ -130,6 +131,25 @@ export class Creation {
   private static gifts(id: string): string[] {
     return (Canon.ancestries[id]?.traits ?? []).map(t => Canon.traits[t]).filter((t): t is Trait =>
       t?.category === 'lineage' && !t.unsupported).map(t => `${t.name}: ${this.gift(t)}`);
+  }
+  // What a perk buys in play, from its own trait (OR-1684: "Perks are completely unclear as to what they buy"): each
+  // skill it teaches, by what knowing it adds to that skill's checks at the first level (Checks.proficiency) and when
+  // the skill is used (its own words), then what its modifiers do (MechanicsText): "Insight +2, for reading what
+  // someone means from how they say it; +1 to will saves". Initiative says what it changes: who acts first in a fight.
+  static buys(t?: Trait): string {
+    if (!t) { return ''; }
+    const skills = (t.skills ?? []).map(id => {
+      const s = Canon.skills[id], when = s?.description.split(':')[0]!.replace(/\.$/, '');
+      return `${s?.name ?? id} +${Checks.proficiency(1)}${when ? `, for ${when.charAt(0).toLowerCase()}${when.slice(1)}` : ''}`;
+    });
+    const mods = MechanicsText.modifiers(t.modifiers ?? {})
+      .map(m => /initiative$/.test(m) ? `${m}: you act sooner when a fight begins` : m);
+    return [...skills, ...mods].join('; ');
+  }
+  // A kind of life's skill, by its name and what it is for.
+  private static does(id: string): string {
+    const s = Canon.skills[id];
+    return `${s?.name ?? id}: ${s?.description ?? ''}`;
   }
   private static gift(t: Trait): string {
     const said = /\d/.test(t.description ?? '') && !t.omits ? t.description!.replace(/\.$/, '') : '';

@@ -48,7 +48,8 @@ describe('a life before, and a caster\'s art', () => {
     const trade = step(flow, 'trade')!, sailors = Creation.catalog().backgrounds.filter(b => b.kind === 'water');
     expect(trade.ask).toBe('What did you do on the water?');
     expect(trade.cards.every(c => sailors.some(b => b.id === c.id))).toBe(true);
-    expect(trade.cards.map(c => c.id)).toContain(trade.chosen!);
+    // The life's trade is among them, none shown as chosen until the player chooses (OR-1684).
+    expect([trade.cards.map(c => c.id).includes(flow.member.backgroundId!), trade.chosen]).toEqual([true, undefined]);
     flow.choose('trade', 'fisherman');
     // The trade chosen, the perk is asked next, the last before the name (OR-153).
     expect([flow.member.backgroundId, flow.current()]).toEqual(['fisherman', 'perk']);

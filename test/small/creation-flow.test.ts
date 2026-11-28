@@ -41,7 +41,9 @@ describe('making the protagonist', () => {
     flow.choose('calling', 'mage');
     expect(flow.member.backgroundId).toBe(own('mage'));
     const before = flow.steps().find(s => s.id === 'before')!;
-    expect(before.cards.map(c => c.id)).toContain(before.chosen ?? '');
+    // Its kind is among the cards, not shown as chosen until the player chooses (OR-1684).
+    expect(before.cards.map(c => c.id)).toContain(catalog.backgrounds.find(b => b.id === own('mage'))!.kind);
+    expect(before.chosen).toBeUndefined();
     const wandering = new CreationFlow(setting, catalog);
     wandering.choose('origin', 'wanderer');
     wandering.choose('calling', 'warrior');

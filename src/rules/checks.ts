@@ -47,11 +47,13 @@ export class Checks {
   static bonus(catalog: ItemCatalog, c: Creature, skill: string, rests?: Attribute): { modifier: number;
     stat: Attribute; trained: number; tool: number; using?: string; usingName?: string } {
     const stat = this.qualities[skill] ?? rests ?? 'wisdom', modifier = Math.floor((catalog.quality(c, stat) - 10) / 2);
-    const trained = PartyCapabilities.skilled(catalog, skill, c) ? 2 + Math.floor((c.base.level - 1) / 4) : 0;
+    const trained = PartyCapabilities.skilled(catalog, skill, c) ? this.proficiency(c.base.level) : 0;
     const using = PartyCapabilities.tool(catalog, skill, c);
     return { modifier, stat, trained, tool: using ? this.toolBonus : 0, ...using ? { using,
       usingName: catalog.get(using).name } : {} };
   }
+  // What knowing a skill adds to its checks, by level: two at the first, one more each four levels.
+  static proficiency(level: number): number { return 2 + Math.floor((level - 1) / 4); }
   private static added(b: { modifier: number; trained: number; tool: number }): number {
     return b.modifier + b.trained + b.tool;
   }
