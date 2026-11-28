@@ -223,8 +223,7 @@ export class QuantityExpeditions {
     // One that could kill the company here, not talked round, that came or comes at it: stepped back from toward the
     // way out (met a second time, home); one that warns it off, left by any way at once (QuantityCaution.away).
     const away = QuantityCaution.away(s, [...beyond], at), back = QuantityCaution.back(s, ids, 'region__s1_ud');
-    if (away === 'home') { return undefined; }
-    if (away === 'back') { return back; }
+    if (away === 'home' || away === 'back') { return away === 'back' ? back : undefined; }
     // A pile of two finds or more taken up in one act, where the page offers it (OR-1870: never what lies in a lair),
     // and never where the company is leaving. (Its command is the same in every room: tried in this one, by where.)
     const pile = away === 'leave' ? undefined : ids.find(id => id.startsWith('take_pile(') && !at.tried.has(`${this.here(s)}:${id}`));
