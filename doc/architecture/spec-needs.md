@@ -11,6 +11,13 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/the-third-night-wander.test.ts` | Three parties and two seeds wander the authored Third Night with per-turn invariants and a conditional verdict. Keep the actual campaign, seeded choices and party variants. |
+| `test/the-third-night.test.ts` | The authored Third Night campaign is linted and played through many timed routes, parties and verdicts, including generated-world integration. Keep the real story and outcomes. |
+| `test/thing-described.test.ts` | The local-kind probe renders two things, contrasting a described jar with an undescribed ox. A fragment is a candidate if both local kinds and the negative contrast remain. |
+| `test/thing-kept.test.ts` | Generated cov11 stages the party in a lit store and plays the notebook, comparing scene and attention projections. Keep the real notebook and distinguish staged placement. |
+| `test/thing-nowhere.test.ts` | A synthetic module is parsed and played before and after things appear, including a hidden item. A fragment is a candidate if the parser and before/after negatives remain proved. |
+| `test/thrume-depth.test.ts` | The authored Thrume campaign and several depth fixtures play the second-pass sites, party voices and payoffs. Keep the actual places, combats and route alternatives. |
+| `test/thrume.test.ts` | The authored Thrume campaign plays its long route, alternate outcome and tomb fixture trials. Keep the actual journey and different choices. |
 | `test/the-lull-revised.test.ts` | The authored Lull and five-calling fixture play perception and Hester's contrasting cleric and lone-warrior outcomes. Keep both parties and their actual paths. |
 | `test/the-lull-wander.test.ts` | Three Lull parties walk seeded offered choices with invariants and wait toward an ending. Keep the actual authored world, seeds, party variants and conditional outcome checks. |
 | `test/the-lull.test.ts` | The authored Lull is linted and played through many timed routes, character builds and distinct endings. Keep the real campaign and action fixtures. |
