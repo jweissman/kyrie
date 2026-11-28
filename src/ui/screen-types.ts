@@ -269,8 +269,9 @@ export interface Screen {
   overland?: true;
   // The towns the known roads go to besides, which the map and the notes can set out for (not the place's own leads).
   roads?: NonNullable<Screen['destinations']>;
-  // The other places of the town the company is in, further than a step (by its square), to walk to directly.
-  around?: NonNullable<Screen['destinations']>;
+  // The other places of the town the company is in, further than a step (by its square), to walk to directly; and the
+  // places below it that the company has made sure, gone down to in one act (descent: see Descents).
+  around?: (NonNullable<Screen['destinations']>[number] & { descent?: true })[];
   // The quarters of the town the company is in, its own first (see Quarters): what Go… sets the town out by.
   quarters?: QuarterRow[];
   // Every other place the map draws that the company knows a way to (see Itineraries.mapped), to set out for from it.
