@@ -29,7 +29,7 @@ export class WorldMemoryPeel {
   static readonly caches: Cache[] = [
     ['KeptParts (the frame\'s parts)', KeptParts, 'by', 'tokens'],
     ['KeptReading (readings kept by world)', KeptReading, 'memoed', 'diffs'],
-    ['Agency.fruitless (plans that came to nothing, with their module)', Agency, 'fruitless'],
+    ['Agency.fruitless (plans that came to nothing, by their module)', Agency, 'fruitless'],
     ['Campaign.loads (the loaded campaign each life is a fork of)', Campaign, 'loads'],
     ['ParseCache (parses of Kyr texts, in the process)', ParseCache, 'parsed'],
     ['ModuleBundle.parses and rulesets (parses kept by text)', ModuleBundle, 'parses', 'rulesets', 'drawn'],
@@ -61,9 +61,8 @@ export class WorldMemoryPeel {
   static async peel(holder: Open, kb: () => Promise<number>): Promise<Peel> {
     const life: Peeled[] = [], caches: Peeled[] = [];
     this.was = await kb();
-    const campaign = (holder.session as { campaign: Campaign }).campaign as unknown as Open;
     delete holder.runner; await this.step(life, 'the runner and its first frame', kb);
-    for (const part of this.parts) { campaign[part] = undefined; await this.step(life, `campaign.${part}`, kb); }
+    await this.parted(holder, life, kb);
     for (const key of Object.keys(holder)) { delete holder[key]; }
     await this.step(life, 'the rest of the life (the campaign, its session and journey)', kb);
     for (const [label, owner, ...fields] of this.caches) {
@@ -71,6 +70,13 @@ export class WorldMemoryPeel {
       await this.step(caches, label, kb);
     }
     return { life, caches, left: this.was };
+  }
+  // The campaign's parts let go in turn, in a frame of their own: a campaign held by the peel's own frame had kept the
+  // life (what is kept by it, WeakMap<Campaign, …>, a framed life's readings and revision) to the peel's end, so that a
+  // framed life seemed to keep 70 MB that its letting go frees (OR-1740).
+  private static async parted(holder: Open, life: Peeled[], kb: () => Promise<number>): Promise<void> {
+    const campaign = (holder.session as { campaign: Campaign }).campaign as unknown as Open;
+    for (const part of this.parts) { campaign[part] = undefined; await this.step(life, `campaign.${part}`, kb); }
   }
   // Each installed module's share of the joined module (entities, actions, rules, people, observations, initial
   // facts, queries), by the JSON of what is its own (its ids begin with its installation's).
