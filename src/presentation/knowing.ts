@@ -34,6 +34,11 @@ export class Knowing {
   // Where the company stands (the place itself, whatever kind of place): asked of the campaign as well, by what works
   // its own rows out (which the projection of the revision is built from) and by any reader of where it is.
   get here(): string | undefined { return Knowing.here(this.campaign); }
+  // How whole one of the company is: their hit points as they stand (who goes first at a hazard: Leaders, OR-1873).
+  whole(member: string): number {
+    const id = this.campaign.module.entities.find(e => e.id === member)?.creatureId ?? member;
+    return this.campaign.readout.creatures.find(c => c.id === id)?.state.hp ?? 0;
+  }
   static here(campaign: Campaign): string | undefined {
     return campaign.playerActor ? campaign.world.one('at', campaign.playerActor) : undefined;
   }
