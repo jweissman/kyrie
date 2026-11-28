@@ -15,6 +15,7 @@ export interface Choice {
   id: string; label: string; tone: Tone;
   command?: string; children?: Choice[];
   note?: string; about?: string; risk?: boolean; minutes?: number; disabled?: string; gutters?: string;
+  roused?: string;
   // What it is called standing alone, out of its group (see Act.alone).
   alone?: string;
   // One question standing for many it folds (see Act.folds).
@@ -208,6 +209,7 @@ export class ChoiceList {
         ...(only.moves ? { moves: true } : {}), about: only.about ?? about,
         ...(note ? { note } : {}), ...(only.minutes ? { minutes: only.minutes } : {}),
         ...(only.risk ? { risk: true } : {}), ...(only.gutters ? { gutters: only.gutters } : {}),
+        ...(only.roused ? { roused: only.roused } : {}),
         ...(only.grave ? { grave: only.grave } : {}) }];
     }
     return this.tries(e, label, about);
@@ -305,6 +307,7 @@ export class ChoiceList {
     return { id, label, tone, ...(a.command ? { command: a.command } : {}), ...(note ? { note } : {}),
       ...(a.minutes ? { minutes: a.minutes } : {}), ...(about ? { about } : {}),
       ...(a.risk ? { risk: true } : {}), ...(a.gutters ? { gutters: a.gutters } : {}),
+      ...(a.roused ? { roused: a.roused } : {}),
       ...(a.disabled ? { disabled: a.disabled } : {}),
       ...(a.does ? { does: a.does } : {}), ...(a.targets ? { targets: a.targets } : {}),
       ...(a.moves ? { moves: true } : {}), ...(a.teaches ? { teaches: true } : {}),
@@ -360,9 +363,11 @@ export class ChoiceList {
     const titles: Record<string, string> = { strike: 'Strike', away: 'Get away', abilities: 'Abilities', spells: 'Spells',
       carried: 'What you carry', words: 'Words', other: 'Defend, wait or withdraw' }, dire = ['grave', 'deadly'];
     // A fight reckoned grave or deadly offers its way out beside the blow, not behind Other (OR-1391: each dangerous
-    // fight wants a truthful witness and at least one response that is no attack).
+    // fight wants a truthful witness and at least one response that is no attack); so does one the company's blows
+    // barely bite, by the third round (OR-1858: FightTurn), saying why.
     return Object.entries(titles).map(([id, title]): Section => {
-      const list = c.abilities.filter(a => (dire.includes(c.danger ?? '') && a.id === 'flee' ? 'away' : this.kind(a)) === id)
+      const list = c.abilities.filter(a => ((c.grind || dire.includes(c.danger ?? '')) && a.id === 'flee' ? 'away'
+        : this.kind(a)) === id)
         .sort((a, b) => (a.spell?.level ?? 0) - (b.spell?.level ?? 0)
           || this.last.indexOf(a.id) - this.last.indexOf(b.id));
       // And what cannot be used now, in its place, saying why (the completion plan, §2.4).
@@ -417,8 +422,8 @@ export class ChoiceList {
     const scope = ends ? `${a.odds === undefined ? '' : a.odds >= 1 ? 'sure, now · ' : `${this.odds(a.odds)} · `}${ends}` : a.targets.length ? ''
       : ({ party: 'the whole company', allies: 'every ally', enemies: 'every foe', all: 'everyone' } as Record<string, string>)[a.scope] ?? '';
     const note = [cost, a.gist, scope].filter(Boolean).join(' · ');
-    const base = { id: `ability:${a.id}`, label: a.name, tone, about: a.text, ...(note ? { note } : {}),
-      ...SpellSchools.field([a.id]) };
+    const base = { id: `ability:${a.id}`, label: a.name, tone, about: a.id === 'flee' && c.grind ? `${c.grind} ${a.text}` : a.text,
+      ...(note ? { note } : {}), ...SpellSchools.field([a.id]) };
     if (!a.targets.length) { return { ...base, command: `${a.id}>` }; }
     const fighters = [...c.foes, ...c.allies];
     // With only one possible target there is nothing to choose: the choice names it and acts at once.

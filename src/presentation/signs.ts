@@ -18,7 +18,8 @@ export class Signs {
   static readonly marks: Record<MarkKind, string> = { 'one-way': 'no way back', grave: 'cannot be undone',
     fight: 'a fight', trap: 'a risk', unlooked: 'not looked at', heard: 'something heard', lurks: 'something waits',
     exposed: 'a cold night',
-    warned: 'they will not wait', night: 'after dark', gutters: 'the light gives out' };
+    warned: 'they will not wait', night: 'after dark', gutters: 'the light gives out',
+    roused: 'what goes about' };
   // A way to a place with nothing new to give for now (Glance.idle): drawn dim, and said so where nothing dims.
   static readonly idle = 'nothing new';
   // A way's bearing in a site (Offers.borne, EX-02): the frontier, not yet taken, its contents unknown; or back to

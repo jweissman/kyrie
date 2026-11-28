@@ -18,7 +18,7 @@ import { CombatTelling } from './combat-telling';
 import { Tactics } from '../tactics';
 import { Positions } from '../rules/positions';
 import { DangerSense } from '../presentation/danger-sense';
-import { FoeLore } from './foe-lore';
+import { FoeLore } from './foe-lore'; import { FightTurn } from './fight-turn';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../lang/item-names';
 import type { CombatantRow, CombatScreen } from './screen-types';
@@ -67,6 +67,7 @@ export class CombatModel {
       ...moment ? { moment: battle.opening, reckoned: moment.text } : {},
       ...(moment ?? standing) ? { danger: (moment ?? standing)!.danger } : {},
       ...standing ? { standing } : {},
+      ...this.grind(battle, ours),
       ...this.lore(battle),
       // Who is still to act this round: not those who have fallen since it began (play 8's "then the second of the
       // risen dead", down).
@@ -78,6 +79,11 @@ export class CombatModel {
       round: battle.events.filter(e => e.type === 'initiative').length,
       exchanges: CombatTelling.exchanges(battle.events, state, said).map((t, n) => ({ n, ...t })),
     };
+  }
+  // A fight the company's blows barely bite, said in its own turn (see FightTurn).
+  private static grind(battle: Battle, ours: boolean): Pick<CombatScreen, 'grind'> {
+    const grind = ours && !battle.state.outcome ? FightTurn.grind(battle.events, battle.state.combatants) : undefined;
+    return grind ? { grind } : {};
   }
   // In the fight's first round, what the company's skills tell of the kinds it faces (OR-1432: FoeLore).
   private static lore(battle: Battle): Pick<CombatScreen, 'known'> {
