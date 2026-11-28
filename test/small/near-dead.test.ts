@@ -14,7 +14,7 @@ const yard = (dies: boolean) => `
   Observe y at yard when true "A shearing yard.".
   Goal false.`;
 const told = async (dies: boolean) => {
-  const t = await Tiny.start(yard(dies));
+  const t = await Tiny.start(yard(dies), { horizon: ['care'] });
   await t.perform('wait_hour');
   return (t.leaf.exchange?.lines ?? []).map(l => l.text);
 };
