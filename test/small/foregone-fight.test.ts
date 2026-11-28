@@ -14,7 +14,8 @@ import type { Asking } from '../../src/cli/terminal-input';
 const cellar = (foe: string, level = foe === 'rat' ? 10 : 2) => Tiny.start(`
   Place cellar "the cellar" is room at 0, 0.
   Person foe "${foe === 'rat' ? 'a rat' : 'an owlbear'}" at cellar { Role "what is in the cellar". Species ${foe}. }
-  Company party "You" of 1 at cellar.`, { party: [{ name: 'Wat', raceId: 'human', classId: 'warrior', level }] });
+  Company party "You" of 1 at cellar.`, { horizon: ['inhabitants'],
+  party: [{ name: 'Wat', raceId: 'human', classId: 'warrior', level }] });
 const attack = (t: Tiny) => PlayerView.choices(t.campaign).find(r => r.action.schema === 'attack')!.choice;
 describe('a foregone fight', () => {
   it('is reckoned so for a rat, and not for an owlbear', async () => {
