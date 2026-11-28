@@ -17,7 +17,7 @@ const yard = `
 
 describe('the roll of who is here', () => {
   it('is said apart, and the page leaves out only it', async () => {
-    const t = await Tiny.start(yard), leaf = t.leaf;
+    const t = await Tiny.start(yard, { horizon: ['probing'] }), leaf = t.leaf;
     expect(leaf.roll).toBe('Bask, a corn-factor, is here.');
     expect(leaf.presence).toEqual(expect.arrayContaining([leaf.roll, 'The miller’s cart is here.']));
     const app = { state: { frame: { leaf } } } as unknown as ReaderApp;

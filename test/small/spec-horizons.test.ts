@@ -10,7 +10,7 @@ import { SpecHorizons } from '../../scripts/spec-horizons';
 // the whole shared rules, 444 one world, 691 the corpus.
 // 14 → 16 on rebasing onto main: the way on (the kernel) and rest within reach (probing) put on their horizons.
 // 16 → 20: the gamma probes, each file on the kernel and the packages its probes read.
-const kept = { horizon: 37, rules: 224 };
+const kept = { horizon: 39, rules: 222 };
 describe('the specs by horizon', () => {
   const now = SpecHorizons.census();
   it('moves no spec off its horizon, and starts no new tiny world on the whole of the shared rules', () => {
