@@ -8,6 +8,8 @@ import type { Ladder } from './ladder';
 // What the quantity gate reads, over the worlds and the walks (scripts/quantity/quantity.ts gathers them).
 export interface Readings { golden?: Walked; gold: Walked[]; countries: Read[]; stranded?: Record<string, string[]>;
   delved?: Delved[]; expeditions?: Trip[]; ladder?: Ladder; leads?: Led[];
+  // The five expeditions of each reference life (QuantityExpeditions.lives), the first's also as expeditions.
+  lives?: Record<string, Trip[]>;
   takes?: { id: string; take: number }[] }
 // A number as read: one for the measure, and where it is read per seed or walk, each (a band holds each).
 export interface Reading { value: number | null; each?: Record<string, number>; note: string }
@@ -21,7 +23,7 @@ export type Reckoned = 'fights' | 'places' | 'roads' | 'returned' | 'again' | 'b
   | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit' | 'handed'
   | 'stranded' | 'bestiary' | 'delved' | 'renewed' | 'prepared' | 'routine' | 'answered' | 'kept'
   | 'identity' | 'mouth' | 'strayed' | 'colours' | 'connected' | 'aimless' | 'rungs' | 'rung1' | 'rung2' | 'bought'
-  | 'take1' | 'take2';
+  | 'take1' | 'take2' | 'takeBelow' | 'fifth';
 
 // The measures, each with its kind and why it is held so (doc/architecture/quantity.md says them at length). A band's
 // floor and ceiling here are its first; baseline.json holds them after.
@@ -138,7 +140,8 @@ export class QuantityMeasures {
         + '1,500), the long haul (OR-1124)', read: 'rungs' },
     { id: 'rung1', label: '3. Expeditions to afford the first rung (its first ware)', kind: 'band', floor: 1,
       ceiling: 2, why: 'OR-1124: the first rung after one or two expeditions, read from the gold-follower\'s five '
-        + 'expeditions (the dearest said beside it); a band since the take met it (OR-1520)', read: 'rung1' },
+        + 'expeditions (the dearest said beside it); a band since the take met it (OR-1520); the purse the median of '
+        + 'three reference lives, s0, s4 and s7 (OR-1622: one life is a lottery)', read: 'rung1' },
     { id: 'rung2', label: '3. Expeditions to afford the second rung (its first ware)', kind: 'band', floor: 3,
       ceiling: 6, why: 'OR-1124: the second rung after three to six expeditions; past the fifth return, the purse\'s '
         + 'mean gain carried on, 99 for none; a band since the take met it (OR-1520)', read: 'rung2' },
@@ -150,6 +153,13 @@ export class QuantityMeasures {
         + 'reason to go deeper (OR-1129); read on s0 before anyone goes down', read: 'take1' },
     { id: 'take2', label: '3. Coin and what a dealer pays for the second level of the reference dungeon', kind: 'band',
       floor: 251, ceiling: 1500, why: 'the second level pays the second rung (251 to 1,500: OR-1129)', read: 'take2' },
+    { id: 'takeBelow', label: '3. Coin and what a dealer pays for the level below the makers\' works', kind: 'band',
+      floor: 1501, why: 'the old dark under the reference dungeon pays the long haul (above 1,500): a reason to go '
+        + 'deeper than the makers did (OR-1622)', read: 'takeBelow' },
+    { id: 'fifth', label: '3. What the fifth expedition brings home (coin)', kind: 'band', floor: 26,
+      why: 'the fifth expedition is worth making: at least a first-rung ware (26), by what the world does when the '
+        + 'company is away and below where it has been (OR-1622); its share of the best take said beside it',
+      read: 'fifth' },
     { id: 'identity', label: 'Consequential people with a name (%)', kind: 'report',
       why: 'OR-304, OR-281: unbaselined at first', read: 'identity' }];
 }

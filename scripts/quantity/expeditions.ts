@@ -45,6 +45,8 @@ export interface Trip {
 }
 export class QuantityExpeditions {
   static readonly seed = 's0';
+  // The lives the ladder is read over (QuantityLadder.median): the reference seeds whose town is the reference game's.
+  static readonly seeds = ['s0', 's4', 's7'];
   static readonly steps = 30;
   // The gear the company goes down with, never sold (the jar of noonlight the halls' bane, OR-1620).
   static readonly kept =
@@ -62,10 +64,10 @@ export class QuantityExpeditions {
     return 'decision';
   }
   static policy: Policy = { grammar: true };
-  static async run(trips = 5, policy: Policy = { grammar: true }): Promise<Trip[]> {
+  static async run(trips = 5, policy: Policy = { grammar: true }, seed = this.seed): Promise<Trip[]> {
     this.policy = policy;
     this.found = new Set();
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', this.seed, '--as', 'human/warrior/Wenna',
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', seed, '--as', 'human/warrior/Wenna',
       '--opening', 'none', '--origin', 'wanderer']));
     const s = journey.session, out: Trip[] = [], start = this.coin(s), wares = QuantityLadder.wares(s.campaign);
     this.takes = QuantityDungeon.takes(s.campaign, 'region__s1_ud_site');
@@ -84,6 +86,20 @@ export class QuantityExpeditions {
   // level of the dungeon held to carry home before the first went down (OR-1129).
   static ladder?: Ladder;
   static takes: { id: string; take: number }[] = [];
+  // Five expeditions in each life (the first, the seed's own, whose trips and takes are kept as read), the ladder read
+  // over all of them.
+  static async lives(seeds = this.seeds): Promise<{ trips: Trip[]; ladder: Ladder;
+    takes: { id: string; take: number }[]; lives: Record<string, Trip[]> }> {
+    const ladders: Record<string, Ladder> = {}, lives: Record<string, Trip[]> = {};
+    let first: { trips: Trip[]; takes: { id: string; take: number }[] } | undefined;
+    for (const seed of seeds) {
+      const trips = await this.run(5, { grammar: true }, seed);
+      first ??= { trips, takes: this.takes };
+      ladders[seed] = this.ladder!;
+      lives[seed] = trips;
+    }
+    return { ...first!, ladder: QuantityLadder.median(ladders), lives };
+  }
   // One expedition, from the town and back to it.
   private static async trip(s: PlaySession, n: number, seen: Map<string, Set<string>>): Promise<Trip> {
     const from = s.campaign.history.length, before = this.items(s), trip: Trip = { n, prepared: [], approach:
@@ -156,7 +172,7 @@ export class QuantityExpeditions {
     }
   }
   private static async down(s: PlaySession, trip: Trip, most: number, avoided: string[]) {
-    const been = new Set<string>(), tried = new Set<string>();
+    const been = new Set<string>(), tried = new Set<string>(), sought = new Set<string>();
     const place = QuantityPlaces.place(s.campaign, 'region__s1_ud');
     for (let i = 0; i < this.steps; i++) {
       if (!s.campaign.running || !this.standing(s)) { trip.approach.turned = 'fell'; return; }
@@ -164,7 +180,7 @@ export class QuantityExpeditions {
       const here = this.here(s);
       been.add(here);
       trip.approach.deepest = Math.max(trip.approach.deepest, this.depth(s, here));
-      const next = this.next(s, { place, been, tried, most, avoided });
+      const next = this.next(s, { place, been, tried, most, avoided, sought });
       if (!next) { trip.approach.turned = 'nothing on'; return; }
       tried.add(next);
       if (next.startsWith('attack(')) { trip.approach.attacks++; }
@@ -177,7 +193,8 @@ export class QuantityExpeditions {
     trip.approach.turned = 'steps';
   }
   private static next(s: PlaySession,
-    at: { place?: string; been: Set<string>; tried: Set<string>; most: number; avoided: string[] }) {
+    at: { place?: string; been: Set<string>; tried: Set<string>; most: number; avoided: string[];
+      sought: Set<string> }) {
     // Whoever is there is fought where the company's own reckoning says it would not fall (slight, fair or hard, and
     // not mortal); one it says could end a life is gone round.
     const ids = this.ids(s), c = s.campaign, attacks = ids.filter(id => id.startsWith('attack('));
@@ -185,9 +202,14 @@ export class QuantityExpeditions {
     at.avoided.push(...[...beyond].filter(id => !at.avoided.includes(id)));
     const fight = attacks.find(id => !beyond.has(id));
     if (fight) { return fight; }
+    // In the dark, a light lit before anything else: what lies in a dark room is not seen, and a company that lit a
+    // torch only once it had nowhere else to go had walked past the halls' newcomers' things where they fell.
+    const light = c.world.test({ kind: 'call', name: 'benighted', args: ['party'] })
+      ? ids.find(id => id.startsWith('light_item(')) : undefined;
+    if (light) { return light; }
     const words = this.policy.grammar ? this.words(Journey.of(s).choices(), at.tried) : undefined;
     if (words) { return words; }
-    const loot = this.loot(Journey.of(s).choices(), at.tried, act => this.kindOf(s, act));
+    const loot = this.loot(Journey.of(s).choices(), at.tried, act => this.kindOf(s, act), act => this.guarded(s, act));
     if (loot) { this.found.add(this.itemOf(loot)); return loot; }
     // A way the page says is grave (it could be lost, what lies in wait there) is gone round, not into.
     const grave = new Set(Journey.of(s).choices().filter(x => x.grave).map(x => x.command));
@@ -199,8 +221,9 @@ export class QuantityExpeditions {
     // gone round by the grave branch above, once heard.
     const listen = this.policy.grammar ? ids.find(id => id.startsWith('listen(') && !at.tried.has(id)) : undefined;
     const ever = new Set(c.world.related('been').filter(r => r.args[0] === 'party').map(r => r.args[1]!));
+    const seek = this.seek(s, { ways, ever, sought: at.sought, depth: this.depth(s, this.here(s)) });
     const on = this.onward(ways, { now: at.been, ever, depth: new Map(ways.map(w => [w.to, this.depth(s, w.to)])),
-      ...listen ? { listen } : {} });
+      ...listen ? { listen } : {}, ...seek ? { seek } : {} });
     if (on) { return on; }
     // A trap is risked only where the page says it would not kill.
     const deadly = new Set(Journey.of(s).choices().filter(x => /could kill/.test(x.label)).map(x => x.command));
@@ -224,23 +247,54 @@ export class QuantityExpeditions {
   // What lies about is taken up (a thing found, a thing in a pack or a chest, the coins gathered), once each, but the
   // gear the company goes down with: read by the act, not its words (the page draws a find's row as "Take" under the
   // thing's name, and a policy reading "Collect" had taken up nothing but coins: OR-1620).
+  // Nor what lies in the lair of one the reckoning says could end a life, while it is able and has not let the company
+  // be: the king's crown, lifted from his grave while he kept to his refuge, had brought him out on the fifth
+  // expedition, and the company fell.
   static loot(offered: readonly { command: string; label: string }[], tried: Set<string>,
-    kind: (act: string) => string): string | undefined {
+    kind: (act: string) => string, guarded?: (act: string) => boolean): string | undefined {
     return offered.find(x => (/^(take_item|take_out)\(/.test(x.command) || x.label.startsWith('Gather up'))
-      && !tried.has(x.command) && !this.kept.test(kind(x.command)))?.command;
+      && !tried.has(x.command) && !this.kept.test(kind(x.command)) && !guarded?.(x.command))?.command;
+  }
+  private static guarded(s: PlaySession, act: string): boolean {
+    const w = s.campaign.world, item = this.itemOf(act), where = w.one('at', item) ?? w.one('at', w.one('inside', item) ?? '');
+    return !!where && w.related('lair').some(r => r.args[1] === where
+      && w.test({ kind: 'call', name: 'able', args: [r.args[0]!] })
+      && !w.test({ kind: 'call', name: 'tolerates', args: [r.args[0]!, 'party'] }) && this.mortal(s, r.args[0]!));
   }
   // The way on: a room never yet been in, on any expedition, deeper first (the halls' well and mourners' hall lay
   // beside the way through, and a company that took the way through each time never went in: OR-1620); else a level's
   // way through, known and unchanged (DeepKnown, OR-1448), taken in one act, not room by room; else a room not been in
   // on this one, deeper first. Where a way can be listened at, it is listened at before a room is gone into.
+  // Else, before the way through, the first step toward a room of this level never been in, by rooms that have
+  // (seek): the halls' well, passed by off the long gallery on the way down, had never been gone into (OR-1622).
   static onward(ways: { id: string; to: string }[],
-    at: { now: Set<string>; ever: Set<string>; depth: Map<string, number>; listen?: string }): string | undefined {
+    at: { now: Set<string>; ever: Set<string>; depth: Map<string, number>; listen?: string; seek?: string }):
+    string | undefined {
     const fresh = this.deepest(ways.filter(w => !at.now.has(w.to) && !at.ever.has(w.to)), at.depth);
     if (fresh) { return at.listen ?? fresh.id; }
+    if (at.seek) { return at.seek; }
     const through = ways.find(w => /^go\([^,]*_through,/.test(w.id) && !at.now.has(w.to));
     if (through) { return through.id; }
     const unseen = this.deepest(ways.filter(w => !at.now.has(w.to)), at.depth);
     return unseen ? at.listen ?? unseen.id : undefined;
+  }
+  // The first step toward the nearest room of the level the company is on that it has never been in, each sought
+  // once an expedition: by a way offered and not grave, and so gone round where the way to it is.
+  private static seek(s: PlaySession, at: { ways: { id: string; to: string }[]; ever: Set<string>; sought: Set<string>;
+    depth: number }): string | undefined {
+    const c = s.campaign, here = this.here(s), level = c.module.entities.find(e => e.id === here)?.space?.parent;
+    const rooms = c.module.entities.filter(e => e.space?.parent === level && e.space?.kind === 'room' && !at.ever.has(e.id)
+      && !at.sought.has(e.id)).map(e => e.id);
+    const routes = rooms.map(r => ({ r, way: this.route(c, here, r) })).filter(x => x.way.length > 0)
+      .sort((a, b) => a.way.length - b.way.length);
+    for (const { r, way } of routes) {
+      const step = at.ways.find(w => w.id === `go(${way[0]![0]},${way[0]![1]})`);
+      if (step) { at.sought.add(r); return step.id; }
+    }
+    return undefined;
+  }
+  private static route(c: PlaySession['campaign'], from: string, to: string): [string, string][] {
+    try { return Journey.way(c.world, from, to); } catch { return []; }
   }
   private static deepest(ways: { id: string; to: string }[], depth: Map<string, number>) {
     return [...ways].sort((a, b) => (depth.get(b.to) ?? 0) - (depth.get(a.to) ?? 0))[0];
@@ -372,9 +426,12 @@ export class QuantityExpeditions {
     const c = s.campaign;
     return c.readout.creatures.some(k => c.readout.partyIds.includes(k.id) && k.state.hp > 0);
   }
+  // Whether any of the company still standing is hurt: one fallen below is not hurt, and had held the company at the
+  // mouth on every expedition after (s1, the mine's crossing).
   private static hurt(s: PlaySession, below = 1): boolean {
     const c = s.campaign;
-    return c.readout.creatures.some(k => c.readout.partyIds.includes(k.id) && k.state.hp < k.base.maxHp * below);
+    return c.readout.creatures.some(k => c.readout.partyIds.includes(k.id) && k.state.hp > 0
+      && k.state.hp < k.base.maxHp * below);
   }
   private static zero(): Record<Kind, number> {
     return { decision: 0, consequence: 0, traversal: 0, recovery: 0, administration: 0, exposition: 0 };
@@ -382,6 +439,9 @@ export class QuantityExpeditions {
 }
 
 if (import.meta.main) {
-  const grammar = !process.argv.includes('--before');
-  for (const t of await QuantityExpeditions.run(5, { grammar })) { console.log(JSON.stringify(t)); }
+  const grammar = !process.argv.includes('--before'), at = process.argv.indexOf('--seed');
+  const seed = at > 0 ? process.argv[at + 1]! : QuantityExpeditions.seed;
+  const n = Number(process.argv[process.argv.indexOf('--trips') + 1]) || 5;
+  for (const t of await QuantityExpeditions.run(n, { grammar }, seed)) { console.log(JSON.stringify(t)); }
+  console.log(JSON.stringify({ takes: QuantityExpeditions.takes, ladder: QuantityExpeditions.ladder?.coin }));
 }

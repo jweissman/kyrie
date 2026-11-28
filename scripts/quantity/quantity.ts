@@ -47,9 +47,11 @@ export class Quantity {
       for (const seed of seeds) { r.delved.push(await QuantityDelver.walk(seed)); console.error(`delved ${seed}`); }
     }
     if (groups.includes('expeditions')) {
-      r.expeditions = await QuantityExpeditions.run();
-      r.ladder = QuantityExpeditions.ladder;
-      r.takes = QuantityExpeditions.takes;
+      const lives = await QuantityExpeditions.lives();
+      r.expeditions = lives.trips;
+      r.ladder = lives.ladder;
+      r.takes = lives.takes;
+      r.lives = lives.lives;
       console.error('expeditions');
     }
     if (groups.includes('leads')) { r.leads = await QuantityLeads.run(); console.error('leads'); }

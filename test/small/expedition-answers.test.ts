@@ -30,6 +30,8 @@ describe('the expeditions\' answers', () => {
     expect(QuantityExpeditions.loot(lying, new Set(), kind)).toBe('take_item(mirror,me)');
     expect(QuantityExpeditions.loot(lying, new Set(['take_item(mirror,me)']), kind)).toBe('take_out(ring,pack,me)');
     expect(QuantityExpeditions.loot(lying.slice(0, 1), new Set(), kind)).toBeUndefined();
+    // Nor what lies in the lair of one that could end a life (the king's crown under the king: OR-1622).
+    expect(QuantityExpeditions.loot(lying, new Set(), kind, act => act.includes('mirror'))).toBe('take_out(ring,pack,me)');
   });
   it('go into a room never been in before the way through, deeper first (OR-1620)', () => {
     const ways = [{ id: 'go(halls_through,kings_door)', to: 'kings_door' }, { id: 'go(g,well)', to: 'well' },
@@ -42,6 +44,10 @@ describe('the expeditions\' answers', () => {
     const all = { ...at, ever: new Set([...at.ever, 'well']) };
     expect(QuantityExpeditions.onward(ways, all)).toBe('go(halls_through,kings_door)');
     expect(QuantityExpeditions.onward(ways, { ...all, now: new Set(['kings_door', 'well']) })).toBe('go(g,mourners)');
+    // A room of the level never been in, out of reach of a step, is gone toward before the way through (OR-1622: the
+    // halls' well, passed by off the long gallery); a room never been in next door still first.
+    expect(QuantityExpeditions.onward(ways, { ...all, seek: 'go(g,mourners)' })).toBe('go(g,mourners)');
+    expect(QuantityExpeditions.onward(ways, { ...at, seek: 'go(g,mourners)' })).toBe('go(g,well)');
   });
   it('count each command as the answer it is', () => {
     expect(['attack(cap)', 'pass_off(cap)', 'face_down(cap)', 'cap_tells', 'listen(door)', 'change_thing(seal)',

@@ -14,7 +14,8 @@ import type { Trip } from './expeditions';
 //   expedition carried on (a purse that gains nothing never affords it: `never`).
 // - The company buys nothing dear on the way (the policy's purchases are a light, a ration, a firebomb and a pallet),
 //   so its purse at each return is what it has saved.
-export interface Ladder { start: number; wares: [string, number][]; coin: number[] }
+// Where it is read over several lives, each one's purses (each) beside the median the rungs are read from.
+export interface Ladder { start: number; wares: [string, number][]; coin: number[]; each?: Record<string, number[]> }
 export interface Rung { n: number; name: string; floor: number; ceiling: number }
 export class QuantityLadder {
   static readonly rungs: Rung[] = [{ n: 0, name: 'the start', floor: 0, ceiling: 25 },
@@ -37,6 +38,20 @@ export class QuantityLadder {
   static of(start: number, wares: [string, number][], trips: Trip[]): Ladder {
     return { start, wares, coin: trips.map(t => t.coin) };
   }
+  // The ladder over several lives (OR-1622): the purse at each return the median of theirs, a life that fell keeping
+  // what it last came home with. One life's five expeditions are a lottery: s0's purse after five went 309, 15, 851
+  // and 403 under changes each of which moved one act of its first expedition.
+  static median(lives: Record<string, Ladder>): Ladder {
+    const all = Object.values(lives), first = all[0]!, n = Math.max(...all.map(l => l.coin.length));
+    const coin = Array.from({ length: n }, (_, i) => this.mid(all.map(l => l.coin[Math.min(i, l.coin.length - 1)]
+      ?? l.start)));
+    return { start: first.start, wares: first.wares, coin,
+      each: Object.fromEntries(Object.entries(lives).map(([seed, l]) => [seed, l.coin])) };
+  }
+  static mid(xs: number[]): number {
+    const s = [...xs].sort((a, b) => a - b), h = Math.floor(s.length / 2);
+    return s.length % 2 ? s[h]! : Math.round((s[h - 1]! + s[h]!) / 2);
+  }
   static on(l: Ladder, rung: Rung): [string, number][] {
     return l.wares.filter(([, p]) => p >= rung.floor && p <= rung.ceiling);
   }
@@ -56,7 +71,21 @@ export class QuantityLadder {
     if (!on.length) { return { value: this.never, note: `no ware on ${rung.name}` }; }
     const [first, dearest] = [on[0]!, on.at(-1)!], opened = this.expeditions(l, first[1]);
     return { value: opened, note: `${on.length} wares, ${first[0]} ${first[1]} after ${opened}, `
-      + `${dearest[0]} ${dearest[1]} after ${this.expeditions(l, dearest[1])}; purse ${l.start} then ${l.coin.join(', ')}` };
+      + `${dearest[0]} ${dearest[1]} after ${this.expeditions(l, dearest[1])}; purse ${l.start} then ${l.coin.join(', ')}`
+      + this.lives(l) };
+  }
+  // What the fifth expedition brought home, and its share of the best one's (OR-1622: the dungeon had been spent by the
+  // fourth, and the fifth brought 24).
+  static fifth(l: Ladder | undefined): Reading {
+    if (!l || l.coin.length < 5) { return { value: null, note: l ? `${l.coin.length} expeditions` : 'not read' }; }
+    const purses = [l.start, ...l.coin], takes = purses.slice(1).map((c, i) => c - purses[i]!);
+    const best = Math.max(...takes), fifth = takes[4]!;
+    return { value: fifth, note: `takes ${takes.join(', ')}; the fifth ${best > 0 ? Math.round((100 * fifth) / best) : 0}% `
+      + `of the best${this.lives(l)}` };
+  }
+  // Each life's purses, where the ladder is read over several.
+  private static lives(l: Ladder): string {
+    return l.each ? `; ${Object.entries(l.each).map(([seed, c]) => `${seed} ${c.join(', ')}`).join('; ')}` : '';
   }
   // The rungs with a ware on them, of the four.
   static rungsHeld(l: Ladder | undefined): Reading {
