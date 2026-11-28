@@ -23,7 +23,8 @@ export interface Journeyed {
 // at: where on the way the world's words were said, for a telling of a leg passed (GR-07).
 export interface Brought { text: string; own?: true; at?: string }
 // How the company stands before a leg and after it: its hurts, and whether it is weary, hungry or out at night.
-export interface Condition { hp: number; weary: boolean; hungry: boolean; dark: boolean }
+// unlit: under the ground with no light to see by (benighted), where what lies in wait is not seen.
+export interface Condition { hp: number; weary: boolean; hungry: boolean; dark: boolean; unlit: boolean }
 // What a journey does to the campaign: one ordinary command at a time, as the page would do it.
 export interface Traveller {
   // id: the act the way's row is of, as the row it was chosen from has it, so that it is not looked for again.
@@ -55,7 +56,7 @@ export class Travel {
         break;
       }
       if (plan) { legs = [...plan.legs]; }
-      const why = await this.step(t, legs.shift()!, done);
+      const why = await this.step(t, { ...legs.shift()!, inward: this.under(t.campaign, destination) }, done);
       if (this.at(t.campaign, destination)) { done.arrived = true; break; }
       if (why) { done.stopped = why; break; }
       // Water seen across the way ahead: where a way round is known, it is taken, said in passing on the leg; only
@@ -78,7 +79,9 @@ export class Travel {
   // Its way, and whether the company is held where it lies, are all a leg asks of what is on offer: those two alone are
   // grounded and worded, not the whole frame (which had been built on every leg only to find the way in it).
   private static readonly ways: ReadonlySet<string> = new Set(['go', 'lie_still']);
-  private static async step(t: Traveller, leg: Leg, done: Journeyed): Promise<string | undefined> {
+  // inward: the journey goes down under the ground (see unlit).
+  private static async step(t: Traveller, leg: Leg & { inward: boolean }, done: Journeyed):
+    Promise<string | undefined> {
     const offered = PlayerFrame.only(t.campaign, this.ways);
     const choice = offered.find(c => /^go\(/.test(c.choice.id) && c.choice.id.startsWith(`go(${leg.passage},`));
     // A company held where it lies (asleep, stunned) goes nowhere until it can: the map had set out from beside a
@@ -146,7 +149,16 @@ export class Travel {
     return { hp: campaign.readout.creatures.filter(c => ids.includes(c.id)).reduce((s, c) => s + c.state.hp, 0),
       weary: world.relates('weary') && world.test(ModuleWriter.call('weary', actor)),
       hungry: world.relates('hungry') && world.test(ModuleWriter.call('hungry', actor)),
-      dark: this.dark(campaign) };
+      dark: this.dark(campaign), unlit: this.unlit(campaign) };
+  }
+  // Whether the company is under the ground with nothing to see by: a journey down a way made sure (Descents) had
+  // walked on from the daylit forecourt into the dark of the passage-grave, past what a light would have shown.
+  private static unlit(campaign: Campaign): boolean {
+    const world = campaign.world, here = world.one('at', campaign.playerActor!);
+    return !!here && this.under(campaign, here) && world.declares('benighted') && world.test(ModuleWriter.call('benighted', campaign.playerActor!));
+  }
+  private static under(campaign: Campaign, place: string): boolean {
+    return EntityIndex.of(campaign.module.entities).byId.get(place)?.space?.shelter === 'underground';
   }
   // Whether it is night, as the world has it (its dark, at the hours the campaign keeps), else by the world's clock:
   // a journey had stopped for night at eight while the world stayed light until nine, and walked on into A Winter in
@@ -211,7 +223,7 @@ export class Travel {
   // Why a journey stops after a leg, if it does: in the words the page will show under where it stopped; and what came
   // on the leg and asked nothing, kept as passed on it and told with it.
   private static interrupted(campaign: Campaign, event: CampaignEvent, before: Condition,
-    { leg, made }: { leg: Leg; made: Journeyed['legs'][number] }): string | undefined {
+    { leg, made }: { leg: Leg & { inward?: boolean }; made: Journeyed['legs'][number] }): string | undefined {
     const attention = this.attention(campaign, event, before, leg);
     if (attention.passed) { made.passed = attention.passed; }
     return attention.requiresDecision ? attention.stop : undefined;
@@ -222,7 +234,8 @@ export class Travel {
   // (ArrivalAttention.asks); else it is passed, and the journey goes on (the owner's trust contracts, G: a pedlar's
   // wave and a hayward's word had stopped journeys every few legs, nothing to be done but go on). Until 25 November a
   // leg with something said built the whole screen and the narrator's leaf to ask its glance (Travel.weighty).
-  static attention(campaign: Campaign, event: CampaignEvent, before: Condition, leg: Pick<Leg, 'to' | 'way'>): Attention {
+  static attention(campaign: Campaign, event: CampaignEvent, before: Condition,
+    leg: Pick<Leg, 'to' | 'way'> & { inward?: boolean }): Attention {
     const now = this.condition(campaign), here = campaign.world.one('at', campaign.playerActor!);
     // Set upon is a fight fought, not anything in the fight's log (a light going out stopped a journey for nothing).
     if (event.prelude || event.combat.some(e => e.type === 'end')) { return this.stops('set-upon', 'You were set upon on the way'); }
@@ -234,7 +247,7 @@ export class Travel {
       ...hostile ? ['hostile' as const] : groups.length ? ['tolerated' as const] : []];
     if (heard.why && asks.length) { return { requiresDecision: true, reasons, stop: heard.why }; }
     if (hostile) { return { requiresDecision: true, reasons, stop: 'There is danger here' }; }
-    const passed = heard.why ? { passed: heard.why } : {}, after = this.after(now, before);
+    const passed = heard.why ? { passed: heard.why } : {}, after = this.after(now, before, !!leg.inward);
     return after ? { requiresDecision: true, reasons: [...reasons, after.reason], stop: after.stop, ...passed }
       : { requiresDecision: false, reasons, ...passed };
   }
@@ -242,8 +255,12 @@ export class Travel {
     return { requiresDecision: true, reasons: [reason], stop };
   }
   // Night, weariness or hunger come on with the leg.
-  private static after(now: Condition, before: Condition): { reason: AttentionReason; stop: string } | undefined {
+  // And, on a journey going down, the dark with no light burning (see unlit); a way out walked on in the dark is not
+  // stopped by it.
+  private static after(now: Condition, before: Condition, inward: boolean):
+    { reason: AttentionReason; stop: string } | undefined {
     if (now.dark && !before.dark) { return { reason: 'dark', stop: 'Night has come on' }; }
+    if (inward && now.unlit && !before.unlit) { return { reason: 'dark', stop: 'It is dark here, and no light burns' }; }
     if (now.weary && !before.weary) { return { reason: 'weary', stop: 'You are weary' }; }
     if (now.hungry && !before.hungry) { return { reason: 'hungry', stop: 'You are hungry' }; }
     return undefined;

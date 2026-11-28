@@ -28,6 +28,8 @@ export class DeepShortcuts {
       `    Change make ${q(s.make)} from unmade to made${needs}.`, '  }',
       `  Observe ${id}_made at ${room.id} when state(${id}, made) and not knows(party, ${known}) ${q(s.told)}`
         + ` teaches ${known}.`,
+      // Made, it secures the room it hangs into: a staging point gone down to from above in one act (Descents).
+      `  Initially Assert securedBy(${id}, ${room.id}). Initially Assert secureWhen(${id}, made).`,
       `  Passage ${id}_way ${q(s.way)} is ${s.kind} between ${layout.site} and ${room.id} taking ${s.minutes} minutes`
         + ` hidden until ${known}.`];
   }

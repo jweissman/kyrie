@@ -18,6 +18,7 @@ import { KeptParts } from './kept-parts';
 import { KnownWays, type Leg, type Tree } from './known-ways';
 import { Passages } from './passages';
 import { KnownCountry } from './known-country';
+import { Descents } from './descents';
 
 export type { Leg } from './known-ways';
 // The way to a known place over ways the company knows: the place asked for, the room the way comes to, its legs in
@@ -137,6 +138,10 @@ export class Itineraries {
     at: { here?: string; id: string; ways: readonly Call[]; entities: readonly Entity[] }): boolean {
     const { here, id, ways, entities } = at;
     return !!here && [`${id}_site`, SiteScale.behind(entities, id, ways)].some(site => site && this.within(byId, here, site));
+  }
+  // Whether a way out sets out from a place below the company made sure (Descents.up).
+  static secured(campaign: Campaign, plan: Pick<Itinerary, 'legs'>): boolean {
+    return Descents.up(plan, this.country(campaign));
   }
   static within(entities: Map<string, Entity>, id: string, place: string): boolean {
     return id === place || Spatial.ancestry(entities, id).some(e => e.id === place);
@@ -279,7 +284,10 @@ export class Itineraries {
     const leads = inside ? [] : aim ? this.destinations(campaign, aim) : this.destinations(campaign);
     const lists = inside ? { destinations: [], roads: [] }
       : this.lists(campaign, { at, names, leads, region, ...aim ? { roads: this.roads(campaign, leads, aim) } : {} });
-    return { ...lists, around: around.map(d => Passages.leaving(leaving, this.named(d, names))),
+    // And the ways down the company has made sure, from above ground in the town (Descents).
+    const down = Descents.of(campaign, this.plan.bind(this), this.country(campaign))
+      .map(d => ({ ...this.named(d, names), name: d.name, descent: true as const }));
+    return { ...lists, around: [...around.map(d => Passages.leaving(leaving, this.named(d, names))), ...down],
       ...aim ? { overland: true as const } : {} };
   }
   // The journey of the aim followed alone (to a place it names, or a town or site one lies within): planned where its
