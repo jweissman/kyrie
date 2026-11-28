@@ -1,4 +1,4 @@
-import type { Change, Observation, Operator, Predicate } from './module';
+import type { Change, Entity, Observation, Operator, Predicate } from './module';
 import type { PassageSpec } from './world-constructs';
 import { ModuleParser } from './module-parser';
 import { TemplatedPredicates } from './templated-predicates';
@@ -18,9 +18,10 @@ export interface Provenance { generator: string; construct: string }
 // at: where its line was in the file's text, by the character (see parted); a passage is the parser's own field for
 // it, declared as the line would be, an observation and a topic the Module elements their lines make.
 // An initial, the Change its Initially line makes; a field, a declaration's as the parser makes it of its line (a
-// Topic put once), declared as the line's is (ModuleDeclarations.declare: its latch, its asking again).
+// Topic put once, a Place), declared as the line's is (ModuleDeclarations.declare: a topic's latch, its asking again).
+export type DeclaredField = { field: 'action'; value: Operator & { once: true } } | { field: 'place'; value: Entity };
 export type Declared = ({ observation: Observation } | { action: Operator } | { passage: PassageSpec }
-  | { initial: Change } | { field: { field: 'action'; value: Operator & { once: true } } })
+  | { initial: Change } | { field: DeclaredField })
   & { kyr: string; provenance: Provenance; at?: number };
 // One file's declarations made here. Each keeps its place among the file's own by where its line was (at): a file's
 // observations and actions are made by many of its declarations (a thing's states, a discovery's finds, a thing's
@@ -47,6 +48,10 @@ export class ModuleSource {
   // A line standing for a Passage made as a value: the parser's field for its line.
   static passage(passage: PassageSpec, kyr: string, provenance: Provenance): string {
     return ModuleSource.asText ? kyr : ModuleSource.line({ passage, kyr, provenance });
+  }
+  // A line standing for a declaration made as the parser's field for its line.
+  static field(field: DeclaredField, kyr: string, provenance: Provenance): string {
+    return ModuleSource.asText ? kyr : ModuleSource.line({ field, kyr, provenance });
   }
   // A line standing for an Initially made as a value: the Change its line makes.
   static initially(initial: Change, kyr: string, provenance: Provenance): string {

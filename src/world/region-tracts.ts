@@ -81,9 +81,9 @@ export class RegionTracts {
   }
   // One stretch: its place, how it is told, and its ways into the stretches about it.
   private static stretch(region: Region, c: number, at: { parent: string; cells: Set<number> }): string[] {
-    const land = RegionGeography.atlas(region).land, q = JSON.stringify, id = this.id(c);
-    return [`  Place ${id} ${q(this.name(region, c))} is room within ${at.parent} at ${c % land.width}, `
-      + `${Math.floor(c / land.width)} outdoors${this.unnamed(region, c)}.`, `  Initially Assert tract(${id}).`,
+    const land = RegionGeography.atlas(region).land, id = this.id(c);
+    return [TractValues.stretch({ id, name: this.name(region, c), parent: at.parent,
+      at: [c % land.width, Math.floor(c / land.width)], alias: this.alias(region, c) }), TractValues.fact('tract', id),
     TractValues.seen(`${id}_scene`, id, { aspect: 'fixture', text: this.told(region, c) }),
     ...this.neighbours(c, land.width, land.height).filter(m => m > c && at.cells.has(m)).map(n => TractValues.way(
       `tw${c}_${n}`, 'the way across country', [id, this.id(n)], this.minutes(region, c, n)))];
@@ -163,7 +163,7 @@ export class RegionTracts {
         if (!seen.has(fact)) {
           seen.add(fact);
           lines.push(`  Entity ${fact}: fact ${q(`${this.upper(what.afar!)}, seen across the open country.`)}.`,
-            `  Initially Assert leadsTo(${fact}, ${what.id}).`);
+            TractValues.fact('leadsTo', fact, what.id));
         }
         // Said as from any height (RegionSights), so the page sets each out on its compass, with setting out for it.
         lines.push(TractValues.seen(`${this.id(c)}_saw_${s.id}`, this.id(c), { aspect: 'sign',
@@ -197,11 +197,11 @@ export class RegionTracts {
   // A stretch named for where it lies from a town is seen by its land alone until the company has seen that town
   // (its green by day teaches why the place is there, <town>_why): "the woods south-east of Windscar" had named, at
   // Newmeet, a town nobody had told of (OR-812; the roads between towns likewise, RegionRoads.unnamed).
-  static unnamed(region: Region, cell: number): string {
+  static alias(region: Region, cell: number): { name: string; until: string } | undefined {
     const atlas = RegionGeography.atlas(region), near = this.nearest(region, cell);
     if (region.settlements.some(s => s.cell === cell) || atlas.zones.some(z => z.parts.some(p => p.includes(cell)))
-      || !near || near.distance > 5) { return ''; }
-    return ` seen as ${JSON.stringify(this.lie(atlas.land.cover[cell]!).name)} until ${near.id}_why`;
+      || !near || near.distance > 5) { return undefined; }
+    return { name: this.lie(atlas.land.cover[cell]!).name, until: `${near.id}_why` };
   }
   private static xy(c: number, W: number): Pt { return [c % W, Math.floor(c / W)]; }
   private static nearest(region: Region, cell: number):

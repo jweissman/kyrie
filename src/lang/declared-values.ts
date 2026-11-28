@@ -1,11 +1,11 @@
 import type { Module } from './module';
-import type { Declared } from './module-source';
+import type { Declared, DeclaredField } from './module-source';
 import { ModuleDeclarations } from './module-declarations';
 import type { VocabularyContext } from './vocabulary';
 
 type Into = Parameters<typeof ModuleDeclarations.declare>[3];
 // A value as the module's sites tell it (DeclarationSites): what it is, its name, where its line was and who made it.
-export interface Placed { kind: 'passage' | 'observation' | 'action' | 'initial'; name: string; at: number; generator: string }
+export interface Placed { kind: 'passage' | 'observation' | 'action' | 'initial' | DeclaredField['field']; name: string; at: number; generator: string }
 // What a generator declared for a text as values, declared as the parser comes to where each line was (ModuleSource;
 // AX-04, generated-ir.md): before the first of the text's declarations that begins after it, the rest after the last.
 // So a file's observations and actions are in the order its lines were written, with nothing of the values in the

@@ -4,4 +4,4 @@
 // the generators' folder may not import without closing a cycle (test/small/cycles).
 export { ModuleSource } from '../lang/module-source';
 export { ModuleWriter } from '../lang/module-writer';
-export type { Change, Observation, Predicate } from '../lang/module';
+export type { Change, Entity, Observation, Predicate } from '../lang/module';
