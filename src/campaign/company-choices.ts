@@ -1,5 +1,6 @@
 import { Content, type CreatureGenerationContext } from '../content';
 import { Callings } from '../ports/callings';
+import { Traits } from '../ports/traits';
 import { SettingPort } from '../setting-port';
 import { PresentationResources } from '../ports/presentation-resources';
 import { Creation } from '../rules/creation';
@@ -73,6 +74,7 @@ export class CompanyChoices {
       }
       // So is a sign one of Imbar's sky's (OR-13: chosen at creation, it had reached no creature).
       if (context.sign && !SettingPort.sky.signs.some(x => x.id === context.sign)) { throw new Error('Unknown sign'); }
+      if (context.perk && Traits.of(context.perk)?.category !== 'perk') { throw new Error('Unknown perk'); }
       // Rolls placed at creation are six, one to each quality, each three dice.
       const rolled = context.rolled;
       if (rolled && (Object.keys(rolled).length !== 6
@@ -92,6 +94,9 @@ export class CompanyChoices {
         ...(context.rolled ? { rolled: { ...context.rolled } } : {}),
         ...(context.likeness ? { likeness: context.likeness } : {}),
         ...(context.sign ? { sign: context.sign } : {}),
+        // The perk chosen at creation (CreationPerks), a trait borne (Content.borne): it had been left out here, so no
+        // perk chosen was ever held in play (OR-1882).
+        ...(context.perk ? { perk: context.perk } : {}),
         ...(context.pronouns ? { pronouns: context.pronouns } : {}) };
       const entity = draft.instance.module.entities.find(e => e.creatureId === entry.id);
       if (entity) { entity.name = context.name; }
