@@ -21,7 +21,7 @@ const hall = `
 
 describe('conversations that open a consequential answer', () => {
   it('counts the invitation and proves its answer changes the world', async () => {
-    const t = await Tiny.start(hall);
+    const t = await Tiny.start(hall, { horizon: [] });
     expect(Consequence.census(t.campaign.module).map(a => a.id)).toEqual(['t__respite']);
     expect(t.journey.offers('Agree to stand beside Nell')).toBe(false);
     await t.perform('t__invitation');
@@ -38,7 +38,7 @@ describe('conversations that open a consequential answer', () => {
       Person keeper "Nell" at hall { Role "keeper". Ancestry human. Peaceable. }
       Topic weather with keeper "Ask Nell about the weather" when true once {
         Says "'Wet,' she says." again "'Still wet.'".
-      }`);
+      }`, { horizon: [] });
     expect(Consequence.census(t.campaign.module).map(a => a.id)).toEqual(['t__weather']);
     await t.perform('t__weather');
     expect(t.journey.offers('Ask Nell again about the weather')).toBe(true);
@@ -55,7 +55,8 @@ describe('conversations that open a consequential answer', () => {
         Requires at(actor, hall) and tried_plead(actor).
         On success { Assert opened(actor). }
       }
-      Observe admitted at hall when opened(party) "The porter opens the door.".`);
+      Observe admitted at hall when opened(party) "The porter opens the door.".`,
+    { horizon: [] });
     expect(Consequence.census(t.campaign.module)).toEqual([]);
     expect(t.journey.offers('Present a written petition instead')).toBe(false);
     t.journey.roll('fail');

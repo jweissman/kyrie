@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 365,
+    "kyr": 366,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1049,7 +1049,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 42,
+      "kyr": 43,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -16671,6 +16671,13 @@
   {
    "id": "campaign:parliament-of-books",
    "title": "A Parliament of Books",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:pitchpass",
+   "title": "The Pitch of the Glass",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

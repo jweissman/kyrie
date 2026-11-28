@@ -2,6 +2,11 @@
 
 What it is for, who comes to it, and what is open.
 
+The [final literary and language assessment](../../../doc/adventures/theemptyseat/review.md)
+and [detailed friction log](../../../doc/adventures/theemptyseat/friction.md)
+separate the executable proof from the promised kingdom saga and record the
+post-rebase publication limits.
+
 ## Current slice
 
 This is a standalone four-act causal proof in Dun Rìerdan and its gate cottages: the dead king's two sons, the
@@ -11,7 +16,7 @@ campaign or a defeat of the dark lord. The Venturing Guild retains its
 three-coin membership, level-three ranger for four coin, world-backed mathematical-relic lead and strange paper
 prize. The shared succession facts live in [events.kyr](../../imbar/events.kyr).
 
-All forty adventure entries in [countries.json](../countries.json) introduce a member of their own cast through
+The original forty adventure entries in [countries.json](../countries.json) introduce a member of their own cast through
 succession and advancing-Ash rumours. Each area's Kyr now also has a `seat_reflection` exchange, earned by its own
 local knowledge or events, which teaches a durable `seat_witness` record: a personal complication and a reason to
 meet again at the council. The new council is a smaller proving slice, not a reunion of all forty witnesses.
@@ -306,6 +311,13 @@ advisor's persuasive speech is not proof of competence. The wall and gate remain
 
 ### The returning company: every area has a job
 
+The rebase also brings in the Organ Stair. Marta Vellacott's reflection waits
+for the mirror's answered signal, then nominates Gnomon before a king who would
+discard the people whose labour an instrument saves. Her proposed siege role
+is organising signal crews and carriers, with the Cut's fatal silence behind
+her refusal to treat an unheard warning as no danger. This is a conditional
+contribution to the sketch below, not a newly implemented capital reunion.
+
 These are **conditional contributions**, not a requirement to finish forty adventures. A trusted witness can act,
 an estranged one may bring a difficult bargain, and an absent one may send testimony already earned. Never invent
 a completed local outcome. A dead person remains dead; a lost person is not conveniently recovered for the finale.
@@ -496,8 +508,9 @@ gear, not authored treasure-cache placements.
 This remains a bounded city-and-expedition proof. Arbitrary planar destinations,
 physically simulated load limits, a full siege battle and forty-character
 metropolis convergence are not implemented. The city-placement blocker remains
-open; no browser journey, contact sheet, human acceptance, commit or landing is
-claimed. The final war act and the lower door remain directions, not shipped
+open. No browser journey, contact sheet, human acceptance or main landing is
+claimed; branch review and publication evidence live in the assessment linked
+above. The final war act and the lower door remain directions, not shipped
 endings.
 
 ## Mathematical-world follow-up
@@ -518,8 +531,10 @@ their intended composition rather than claiming it is built.
 The follow-up passes 30 focused tests across ten files, with 204 assertions.
 Root and browser typechecks, targeted lint and the browser build pass.
 Handbooks were regenerated; the generator reports four problems, which this
-follow-up does not resolve. The earlier full-corpus conversation census was
-not rerun, nor was an assembled-world population census or visual acceptance.
+follow-up does not resolve. That follow-up did not rerun the earlier full-corpus
+conversation census, an assembled-world population census or visual acceptance.
+The later publication checks reran the inert-act ratchet and retired two more
+Wrong Boat topic entries; that is not an assembled-world population reading.
 The work is carried on the `copilot/empty-seat-saga` review branch; this
 follow-up does not claim to resolve the capital-overlay blocker.
 

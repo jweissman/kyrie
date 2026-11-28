@@ -32,13 +32,12 @@ const halls = `
   Initially Assert forSale(sale_cup).
   Goal false.`;
 
-const rules = ['world', 'venturing'];
 const surveyRows = (t: Tiny) => PlayerFrame.of(t.campaign).rows
   .filter(row => row.action.schema === 'guild_survey');
 
 describe('world-backed Venturing Guild surveys', () => {
   it('shares fresh leads across halls, teaches a real location, and guides the chosen expedition through recovery', async () => {
-    const t = await Tiny.start(halls, { rules });
+    const t = await Tiny.start(halls, { horizon: ['venturing', 'canon'] });
     const report = 't__cup__guild_survey';
     expect(surveyRows(t).map(row => row.action.bindings?.find)).toEqual(['t__cup']);
     expect(Knowing.of(t.campaign).teaches(surveyRows(t)[0]!.action)).toBe(true);
@@ -56,13 +55,13 @@ describe('world-backed Venturing Guild surveys', () => {
     expect(t.screen.aims?.some(aim => aim.id === report)).not.toBe(true);
     await t.play('>t__east', 'Ask Eastkeeper for another survey');
     expect(t.journey.taken.at(-1)?.told).toContain('No fresh local find');
-    const other = await Tiny.start(halls, { rules });
+    const other = await Tiny.start(halls, { horizon: ['venturing', 'canon'] });
     expect(surveyRows(other).map(row => row.action.bindings?.find)).toEqual(['t__cup']);
     expect(other.journey.holds('knows', 'party', report)).toBe(false);
   });
 
   it('queries new installations after exhaustion and preserves issued leads through save and resume', async () => {
-    const t = await Tiny.start(halls, { rules });
+    const t = await Tiny.start(halls, { horizon: ['venturing', 'canon'] });
     await t.play('Ask Westkeeper for a lead to the silver cup');
     expect(surveyRows(t)).toEqual([]);
     const source = new OverlayBundleSource(NodeBundleSource.shared, {
@@ -97,7 +96,7 @@ describe('world-backed Venturing Guild surveys', () => {
       Topic move_chest with westkeeper "Send the chest north" when true once {
         Says "'The chest has gone north.'".
         On discuss { Retract at(chest, vault). Assert at(chest, far_vault). }
-      }`), { rules });
+      }`), { horizon: ['venturing', 'canon', 'probing'] });
     expect(surveyRows(t).map(row => row.action.bindings?.find)).toEqual(['t__cup']);
     await t.play('Ask Westkeeper for a lead to the silver cup');
     t.follow('cup__guild_survey');
@@ -112,7 +111,7 @@ describe('world-backed Venturing Guild surveys', () => {
 
   it('rejects an authored identity that collides with a generated survey', async () => {
     await expect(Tiny.start(`${halls}
-      Entity cup__guild_survey: fact "An unrelated report".`, { rules }))
+      Entity cup__guild_survey: fact "An unrelated report".`, { horizon: ['venturing', 'canon'] }))
       .rejects.toThrow('Guild survey identity already declared: t__cup__guild_survey');
   });
 });
