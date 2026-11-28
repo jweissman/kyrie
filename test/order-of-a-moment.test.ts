@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { PlaySession } from '../src/session/play-session';
-import { NodeBundleSource } from '../src/campaign/node-bundle-source';
-import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
+import { Tiny } from './support/tiny';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 
@@ -20,8 +19,7 @@ class Moment {
 describe('the order of a moment', () => {
   it('makes a timed action\'s changes as it begins, takes no time for talk, and rises a stamped measure once a watch',
     async () => {
-      const source = new OverlayBundleSource(NodeBundleSource.shared, {
-        'om/site.kyr': `Module om "Order" { Place field "Field" is wilderness.
+      const t = await Tiny.start(`Module p "Order" { Place field "Field" is wilderness.
           Place yard "the yard" is room within field at 0, 0. Company party "You" of 1 at yard.
           Relation sawn(group). Measure heat(group). Measure heatAt(group). Measure said(group).
           Person tom "Tom" at yard { Peaceable. }
@@ -31,11 +29,8 @@ describe('the order of a moment', () => {
           Rule seen when sawn(party) once says "The log is sawn at {watch(clock) as time}." { }
           Rule warms when heatAt(party) < watch(clock) { Increase heat(party) by 1. Set heatAt(party) to watch(clock). }
           Rule counts when true { Increase said(party) by 1. } }`,
-        'om/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'], globals: ['party'],
-          exports: { party: 'party' } }),
-        'om.campaign.json': JSON.stringify({ version: 1, name: 'om', modules: [{ id: 'p', bundle: 'om/module.json' }],
-          party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
-      const s = await PlaySession.start(source.resolve('om.campaign.json'), 'om', source);
+      { horizon: [], seed: 'om', party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] });
+      const s = t.session;
       const [heat, said] = [Moment.measure(s, 'heat'), Moment.measure(s, 'said')];
       const talk = await Moment.choose(s, 'Ask Tom about the weather');
       await Moment.choose(s, 'Ask Tom about the weather');
