@@ -7,7 +7,8 @@ import { Tiny } from './support/tiny';
 describe('a band of people', () => {
   it('is called by its names, and paid as many', async () => {
     const j = (await Tiny.start(readFileSync('test/fixtures/probes/called-band/site.kyr', 'utf8'),
-      { horizon: ['inhabitants'], party: [{ name: 'Pip', raceId: 'human', classId: 'thief' }] })).journey;
+      { horizon: ['inhabitants'], seed: 'journey',
+        party: [{ name: 'Pip', raceId: 'human', classId: 'thief' }] })).journey;
     const ids = j.campaign.readout.inhabitants['calledband__sons'] ?? [];
     expect(j.campaign.readout.creatures.filter(c => ids.includes(c.id)).map(c => c.name)).toEqual(['Abel', 'Cain', 'Seth']);
     await j.play('Wait a while');
