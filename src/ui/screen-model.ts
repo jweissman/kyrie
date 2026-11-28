@@ -22,7 +22,8 @@ import { CompanyRecall } from '../presentation/company-recall'; import { DangerS
 import { FightHelp } from '../presentation/fight-help';
 import { ChoiceGrouping, type Grouped } from './choice-grouping';
 import { ObservationText } from '../lang/observation-text';
-import { ChartModel } from './chart-model'; import { Carriers } from './carriers'; import { CarriedFlame } from './carried-flame';
+import { ChartModel } from './chart-model'; import { Carriers } from './carriers';
+import { CarriedFlame } from './carried-flame';
 import { Overlays } from '../overlays'; import { ItemStow } from './item-stow'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
 import { Services } from './services'; import { Headings } from './headings'; import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
 import { Seats } from '../world/seats'; import { TalkWeight } from '../presentation/talk-weight';
@@ -53,9 +54,9 @@ export class ScreenModel {
     const names = new KnownNames(campaign), prices = ScreenPrices.items(world), knowing = frame.knowing;
     const present = new Set(view.present.map(p => p.id)), teaches = knowing.teaches.bind(knowing);
     const passageOf = this.passageOf(world, view.location?.id ?? ''), fees = ScreenPrices.fees(campaign), catalog = campaign.catalog;
-    const ground = TopicGrounds.said.bind(TopicGrounds, view, names, view.actor);
+    const ground = TopicGrounds.said.bind(TopicGrounds, view, names, view.actor), bearer = knowing.whole.bind(knowing);
     const grouped = ChoiceGrouping.group(Withheld.rows(campaign, frame.rows), { present, names, prices, passageOf, fees,
-      tell: ScreenModel.tell, ground, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
+      tell: ScreenModel.tell, ground, bearer, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
       world, reckon: DangerSense.reckon.bind(DangerSense, campaign), worn: Carriers.worn(campaign), teaches, catalog,
       ...(view.actor ? { carrier: Carriers.carrier.bind(null, catalog, world, view.actor) } : {}) });
     const here = view.location?.id ?? '', passages = new Passages(entities, world, view.actor);

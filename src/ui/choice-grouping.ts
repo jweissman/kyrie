@@ -15,6 +15,7 @@ import type { Act, Passage } from './screen-types';
 import type { Names } from './known-names';
 import { Exposure } from './exposure';
 import { Carriers } from './carriers';
+import { Leaders } from './leaders';
 import { ChoiceIds } from './choice-ids';
 import { ChoiceWords } from './choice-words';
 import { ChoiceTries } from './choice-tries';
@@ -52,8 +53,9 @@ export interface GroupingContext {
   tell?: (id: string) => string | undefined;
   // Who takes an item the company picks up or buys; the other hands are not offered.
   carrier?: (item: string) => string | undefined;
-  // Whom each thing is offered to, of those the choices offer it to (see Carriers.hands).
-  hands?: Map<string, string>;
+  // Whom each thing is offered to, of those the choices offer it to (see Carriers.hands); how whole each of the company
+  // is, for who goes first at a hazard asked once (see Leaders).
+  hands?: Map<string, string>; bearer?: (member: string) => number;
   // One who has come alone does everything themselves: who would do a thing is not said ("A torch · Ilse").
   solo?: boolean;
   // The world as it is, by which a choice is reckoned as long as the clock will reckon it (ActionTime): a step through
@@ -208,7 +210,8 @@ export class ChoiceGrouping {
     }
     const several = new Set([...ways].filter(([, w]) => w.size > 1).map(([d]) => d));
     const struck = this.struck(rows), hands = context.carrier ? Carriers.hands(rows, context.carrier) : undefined;
-    for (const row of rows) { this.place(out, row, { ...context, several, struck, ...hands ? { hands } : {} }); }
+    const each = { ...context, several, struck, ...hands ? { hands } : {} };
+    for (const row of Leaders.only(rows, context)) { this.place(out, row, each); }
     NewsFold.of(out.targets, context.names, NewsFold.known(context.world));
     for (const acts of [...out.targets.values(), ...out.items.values(), ...out.members.values(), out.camp,
       ...[...out.exits.values()].map(e => e.acts)]) { this.distinguish(acts); }
