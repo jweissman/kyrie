@@ -4,6 +4,7 @@ import { Countries } from '../src/world/countries';
 import { RegionBorders } from '../src/world/region-borders';
 import type { Region } from '../src/world/region-writer';
 import { SettlementWriter } from '../src/world/settlement-writer';
+import { ModuleSource } from '../src/lang';
 
 // The country next door says what came of a country by which way it went there, where the country says which: the
 // Quiet in the Sky's after said one thing whether the Daily came back or Halt was chosen, so it had been written to
@@ -14,7 +15,9 @@ describe('what comes down of a country seen through', () => {
   const region = { name: 'Thorn', settlements: [{ id: 's1', name: 'Thorn' }] } as unknown as Region;
   it('is told by the way the country marks, and else by its one word', () => {
     const standing = spyOn(SettlementWriter, 'standing').mockReturnValue('s1_taproom');
-    const lines = RegionBorders.rumour({ room: 'gate_larum', way: 'the road west', seat: 0 }, beyond, region).join('\n');
+    // Read as the Kyr its values stand for (ModuleSource: the keepers' topics are declared as values, AX-04).
+    const lines = ModuleSource.text(RegionBorders.rumour({ room: 'gate_larum', way: 'the road west', seat: 0 }, beyond,
+      region)).join('\n');
     standing.mockRestore();
     expect(lines).toContain('Entity gate_larum_beyond_loud: fact');
     const quiet = new RegExp('Topic gate_larum_beyond_back_s1 with .* when stale\\(gate_larum_beyond\\)'

@@ -42,15 +42,17 @@ export class DeclaredValues {
     if ('observation' in d) { return { kind: 'observation', name: d.observation.id, at, generator }; }
     // (An Initially names nothing of its own, as its line does not: DeclarationSites.named.)
     if ('initial' in d) { return { kind: 'initial', name: '', at, generator }; }
+    if ('field' in d) { return { kind: d.field.field, name: d.field.value.id, at, generator }; }
     return { kind: 'action', name: d.action.id, at, generator };
   }
-  // A passage as its line's field is declared; an observation, a topic or an initial fact as the Module element its
-  // line makes; a copy each, the value being the generator's.
+  // A passage or a field as its line's field is declared; an observation, a topic or an initial fact as the Module
+  // element its line makes; a copy each, the value being the generator's.
   private static place(context: VocabularyContext, module: Module, d: Declared, into: Into) {
     if ('passage' in d) { ModuleDeclarations.declare(context, module,
       { field: 'passage', value: structuredClone(d.passage) }, into); }
     else if ('observation' in d) { (module.observations ??= []).push(structuredClone(d.observation)); }
     else if ('initial' in d) { module.initial.push(structuredClone(d.initial)); }
+    else if ('field' in d) { ModuleDeclarations.declare(context, module, structuredClone(d.field), into); }
     else { module.actions.push(structuredClone(d.action)); }
   }
 }
