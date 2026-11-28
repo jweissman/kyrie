@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 74 capabilities; 260 pins (229 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 762 live rows, 254 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 74 capabilities; 260 pins (229 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 762 live rows, 253 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -119,7 +119,7 @@ page's colours and opportunities.)
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
   - requirement OR-1447 P2: OR-1392 asks a territorial hazard of the first level, a maintained mechanism of the second and…
-- **Fights that cost** · 11 pins · 18 defects · 18 asks
+- **Fights that cost** · 11 pins · 18 defects · 19 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -141,6 +141,7 @@ page's colours and opportunities.)
   - requirement OA-08 P2: Review D2, every fight reconciled from events: the forecast, the log, the turning points and "what…
   - requirement PV-05 P2: **The Eye:** a mixed party (warrior, thief, mage) against a discerner or a dragon. **Pinned (15…
   - requirement OR-1780 P2: A press on an enemy's card is no attack: the fight's cards carry no engine row, so a player who…
+  - requirement OR-1952 P3: Two bands to draw out of one room, neither of them the deep's newcomers, would still be two acts…
   - requirement OR-1434 P2: The fight's first frame says what was seen of the foe before, and offers the place's own means and…
   - direction OR-1207 P3: Spells that share DNA: abilities as effect sentences are made of clauses, and knowing a spell's…
   - direction OR-1077 P2: The lenses' rail carries into a fight (the owner: "we could retain some of our idioms into combat;…
@@ -212,7 +213,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 22 defects · 18 asks
+- **Aims and the gold thread** · 16 pins · 21 defects · 18 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
