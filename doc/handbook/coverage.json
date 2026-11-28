@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 373,
+    "kyr": 376,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 325,
+      "kyr": 328,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -15829,6 +15829,13 @@
    "section": "world-rules/rules-inhabitants"
   },
   {
+   "id": "rule:inhabitants.deepHeld",
+   "title": "deepHeld",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
    "id": "rule:inhabitants.pay_tribute",
    "title": "pay tribute",
    "status": "kyr",
@@ -15852,6 +15859,13 @@
   {
    "id": "rule:inhabitants.awaiting_over",
    "title": "awaiting_over",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.drawnFirst",
+   "title": "drawnFirst",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"
@@ -16041,6 +16055,13 @@
   {
    "id": "rule:world_passages.keyholder",
    "title": "keyholder, barsFrom",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-passages"
+  },
+  {
+   "id": "rule:world_passages.securedBy",
+   "title": "securedBy, secureWhen",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-passages"

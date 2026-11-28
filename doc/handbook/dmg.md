@@ -1652,7 +1652,7 @@ Also kept, without comment: arrival, plea, greeting, greeted, petted, warned, yi
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 30 | 3 | 3 | 23 | 6 |
+| 1 | 31 | 3 | 4 | 23 | 6 |
 
 #### temperament
 
@@ -2036,6 +2036,12 @@ What changes a deep level's known ground (DeepKnown): a band there that does not
 
 Since when a deep band has been where it is (its day), and one that has made a place its own (DeepTime, DeepLoosed).
 
+#### deepHeld
+
+*Kyr · relation(group, place)* · `rule:inhabitants.deepHeld`
+
+The room a band of the deep's newcomers moved into, held by it until it dies or is put to flight (DeepTime).
+
 #### pay tribute
 
 *Kyr · action (group, group, place)* · `rule:inhabitants.pay_tribute`
@@ -2072,6 +2078,12 @@ What lies in wait in a place, whose sign shows at the mouth of each way to it (t
 
 > Then: Retract awaits(?c, ?g).
 
+#### drawnFirst
+
+*Kyr · query(lurker: group, whence: place)* · `rule:inhabitants.drawnFirst`
+
+What is in a room is one act to draw out, whoever is there: where the deep's newcomers have moved in (deepHeld) beside a band that was there before them, the one there before comes first. Two bands to draw out of one room had been two acts of the same words, and the engine refused to draw the page at all ("Ambiguous public command"): s4's haulage, its pump's dwellers and the newcomers come in where the cave hounds fell (OR-1950).
+
 #### draw out
 
 *Kyr · action (group, group, place, passage, place)* · `rule:inhabitants.draw_out`
@@ -2082,7 +2094,7 @@ What lies in wait in a place, whose sign shows at the mouth of each way to it (t
 
 Make a noise at the way in, and step back to meet whatever comes, weapons out.
 
-> Needs: able(actor); company(actor); at(actor, site); drawable(lurker); able(lurker); not (routed(lurker)); at(lurker, whence); connects(way, whence, site); visibleTo(way, actor); passable(way, lurker)
+> Needs: able(actor); company(actor); at(actor, site); drawable(lurker); able(lurker); not (routed(lurker)); at(lurker, whence); drawnFirst(lurker, whence); connects(way, whence, site); visibleTo(way, actor); passable(way, lurker)
 
 > Then: Assert at(lurker, site). Assert awaits(actor, lurker).
 
@@ -2196,7 +2208,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 11 | 42 | 2 | 25 | 0 | 6 |
+| 11 | 44 | 2 | 26 | 0 | 6 |
 
 #### scenery
 
@@ -2299,6 +2311,12 @@ What a way needs going to one of its ends only (Passage … needing breath going
 *Kyr · relation(group, entity); relation(entity, place)* · `rule:world_passages.keyholder`
 
 Who holds the key to what bars a way, and those who serve them, go through it as if it were open; and so does a company at the other end of a way barred from one end only (`Thing toll … on ladder from foot`: down is free, and only the way up pays; Behind the Wainscot's F5).
+
+#### securedBy, secureWhen
+
+*Kyr · relation(entity, place); relation(entity, condition)* · `rule:world_passages.securedBy`
+
+A place below made sure by the company, a staging point to go down to from above in one act (Descents): a rope left hanging in a shaft, a winding-gear set working (the cold-play review's Wave 2, doc/design/cold-play-8-to-8-5-2026-11-27.md). It is sure while the thing that made it so stands as it was left.
 
 #### harmless
 
