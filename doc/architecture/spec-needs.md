@@ -17,6 +17,11 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/small/declaration-parses.test.ts` | Parses the rule, origin, kit and three adventure corpora, without starting a world. Its broad source coverage is the claim and must remain. |
 | `test/small/bran-sent.test.ts` | One fixture campaign containing a stand-in country module, the hall scenario module and their cross-country binding. The interaction between those modules is the claim; one isolated module cannot replace it. |
 | `test/small/fight-refresh.test.ts` | A tiny fight injected into an engine host, not a loaded corpus. Retained as-is: its conditional assertion for a removed row needs a non-vacuous witness before narrowing. |
+| `test/small/origins-referenced.test.ts` | Two seeded country drawings and the origin catalog, not a running campaign. The seed-specific origin-placement claims need those drawings and catalog. |
+| `test/small/every-adventure-placed.test.ts` | The adventure directory names and country index only; no world starts. Both are needed to check the index against the actual directories. |
+| `test/small/fate-chain-lint.test.ts` | Synthetic fragments and the Warm Wall's named module, without a running world. The named module is needed for its authored-fates claim. |
+| `test/small/sky-given.test.ts` | Setting-port, calendar and sky data, without a running world. The Imbar setting is needed to prove restoration after installing the other setting. |
+| `test/small/kyr-symbol-table.test.ts` | Synthetic parsed modules and canon vocabulary contexts, not a running campaign. Its `data/adventures` filename in synthetic input causes the static corpus label. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
