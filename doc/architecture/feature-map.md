@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 252 pins (221 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 750 live rows, 251 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 252 pins (221 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 755 live rows, 252 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -314,7 +314,7 @@ page's colours and opportunities.)
 
 ### The land
 
-- **Countries and regions** · 0 pins · 7 defects · 22 asks
+- **Countries and regions** · 0 pins · 8 defects · 22 asks
   - requirement PV-03 P2: **The Landholder:** acquire a parcel, commission a change, leave, return, find it part of the…
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
@@ -390,7 +390,7 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 18 pins · 9 defects · 24 asks
+- **Dungeons and sites** · 18 pins · 9 defects · 27 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ rolls what newcomers carry on Deem by their kind and depth, more deeper
   - ✓ sends one band after another into the room emptied, each leaving what it carried where it fell
@@ -430,10 +430,13 @@ page's colours and opportunities.)
   - requirement OR-1500 P2: Pointless wandering on the reference game was not measured: the owner's playtest of 27 November…
   - requirement OR-1640 P3: The Pitch of the Glass's thin parts (doc/adventures/pitchpass/friction.md): no beat reads the…
   - requirement OR-1720 P3: The old dark below the reference dungeon is written with its site, not realised when first…
+  - requirement OR-1788 P3: The Venturing Guild is one safehouse with a finite survey (ES-F11): reports of actual finds,…
+  - direction OR-1789 P3: Generated prose is not generated plot (ES-F12): Act IV's 33 of 38 deliveries are drawn, but…
+  - requirement OR-1790 P3: One permanent sense is not an instrument portfolio (ES-F16): the counting glass earns structural…
   - requirement ST-03 P1: The last sea-gate: the saboteur's interest acting inside the six-day window (obstruction, blame, a…
   - requirement ST-06 P2: The critique's rebuild set (fever on the green, the cold pans, the boundary stones, the stranger…
   - requirement ST-07 P3: The critique's hierarchy edits: the Bound Howe given one governing question; the Silent Lord's…
-- **Adventures and their endings** · 4 pins · 1 defects · 8 asks
+- **Adventures and their endings** · 4 pins · 1 defects · 9 asks
   - ○ an adventure reaches different endings by different deeds, each told as its own
   - ✓ lints clean
   - ✓ is carried up for Oyelle, filled behind the falls with Tobi, and poured with her, and the rain comes
@@ -445,6 +448,7 @@ page's colours and opportunities.)
   - requirement OR-780 P3: The Calf in the Tail-Race's thin parts (doc/adventures/tailrace/friction.md): the Dam is a sound…
   - requirement OR-1110 P3: Wet Drusilla's thin parts (doc/adventures/wetdrusilla/friction.md): the cleric and performance…
   - requirement OR-1114 P3: Over Exall's thin parts (doc/adventures/over-exall/friction.md): its rolls (arguing Saley, spiking…
+  - requirement OR-1783 P2: A returning name is not a returning person (ES-F02): the Empty Seat's Gosse, Tallis, Bet or Agnes…
   - direction WB-06 P3: The report's premise laboratories and its six-work portfolio (a city, a romance, a wilderness…
 - **Wonders and traps** · 9 pins · 0 defects · 0 asks
   - ✓ is the thing, whence it comes, how rare and what for, each a fact of its own
@@ -914,7 +918,7 @@ page's colours and opportunities.)
 
 ## Negative space
 
-### Common blockers (12)
+### Common blockers (13)
 
 Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
@@ -942,6 +946,8 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - GR-24 (Aims and the gold thread)
 - **SP-02** P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB RSS): deterministic lazy materialization, proven against eager · blocks 1 (0 P0/P1) over 1 capabilities
   - OR-1720 (Dungeons and sites)
+- **WM-06** P2: One metropolis many adventures add to: Dun Rìerdan only an identity; the King's Players builds its own; several adventures interleaved in one region;… · blocks 1 (0 P0/P1) over 1 capabilities
+  - OR-1784 (Countries and regions)
 
 ### Capabilities neither built nor asked for (0)
 
