@@ -77,6 +77,12 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/calling-portability.test.ts` | Many shipped campaigns and generated provinces with different parties. Its cross-installation calling identity and authored voices are corpus-wide claims, not one module. |
 | `test/capability-market.test.ts` | Generated `kite` worlds for a ranger and a mage, with the actual town's trainers and shops. The purchases, training and caster-specific availability are separate witnesses. |
 | `test/castellan-answered.test.ts` | One generated `kahitude` world and its actual castellan encounter. The two offered answers and conditional response/state agreement must survive any narrowing. |
+| `test/changed-once.test.ts` | The cold-5 golden walk and its gatehouse return. The arrival and sawn pin are positive witnesses for the no-duplicate narration assertion. |
+| `test/checkpoint-race.test.ts` | The ordinary fixture campaign plus the Long Man campaign in the real engine host. Its controlled asynchronous command, save refusal and host serialization are essential. |
+| `test/circus-phase2.test.ts` | The multi-module circus fixture and its timed, branching Fair and Revels stories. Each outcome's persistent state and played sequence are part of the authored claim. |
+| `test/cleave.test.ts` | The authored Cleave campaign and its saved journey steps. Its lint, weather, choices and distinct endings span the actual adventure. |
+| `test/client-parity.test.ts` | A generated `wren` world shared through a checkpoint between host and terminal. Some commands and travel are optional, so their witnesses must be made explicit before narrowing. |
+| `test/cold-start.test.ts` | Two generated worlds and the real host, parse cache and start timings. This performance integration test cannot use a fragment without changing the workload. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
