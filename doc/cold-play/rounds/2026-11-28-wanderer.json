@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-28",
+  "sha": "95043a89c895f69225a8a983f297f938e773761b",
+  "kind": "wanderer",
+  "session": "cold-C3-2026-11-28T07:10Z",
+  "rubric": {
+    "id": "first-hour",
+    "version": "1"
+  },
+  "criteria": {
+    "beginning": {
+      "score": 4,
+      "max": 4
+    },
+    "agency": {
+      "score": 3,
+      "max": 4
+    },
+    "trust": {
+      "score": 2,
+      "max": 4
+    },
+    "discovery": {
+      "score": 4,
+      "max": 4
+    },
+    "continuation": {
+      "score": 3,
+      "max": 4
+    }
+  },
+  "total": 80,
+  "clarity": 8,
+  "wantingToGoOn": 8,
+  "moves": 95,
+  "fictionalTime": "the morning and afternoon of 30 Haysel, day 1",
+  "configuration": {
+    "agent": "claude -p (Claude Code 2.1.312 native binary)",
+    "model": "claude-sonnet-5-5",
+    "tools": [
+      "send.sh",
+      "show.py (by path)"
+    ],
+    "prompt": "scripts/cold-play.sh at 95043a89c (regimen v1, --kind; the runner offering the rows the menu draws, OR-1850)"
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "audit": "The first round on the mended runner: no look row timed out. The lead checked the citations against out.jsonl. Trust 2 is kept, though its first citation does not hold. At T54\u201362 the store's frame offered its wares and talk:back only. The leave and the exits the agent sent were not offered, and were refused as not on the page, so 'offered rows that are rejected' is the agent's memory of the place, not the page. Its second citation is the game's: in a fight, auto takes one actor's turn, and 'Press on to the end' is offered only when pressing on would not halt (PressOn, by design). No score is moved, since the regimen moves none toward a target. The store's 21 Haggle rows stand (OR-1852, being mended). Defect 3, talk re-printing the exchange, is the conversation's kept history, as in A1. Defects 4 and 5, the aims' order and the writing split over two places, are worth a look by the reference game's authoring.",
+  "filed": [],
+  "evidence": [
+    "doc/cold-play/rounds/2026-11-28-wanderer/out.jsonl",
+    "doc/cold-play/rounds/2026-11-28-wanderer/lines.txt",
+    "doc/cold-play/rounds/2026-11-28-wanderer/report.md"
+  ]
+}

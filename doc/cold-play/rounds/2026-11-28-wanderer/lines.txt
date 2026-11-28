@@ -1,0 +1,116 @@
+{"look":true}
+{"act":"region__s1_altar#look"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__s1_taproom"}
+{"act":"region__s1_innkeeper#talk"}
+{"act":"region__s1_innkeeper/0:Talk/0:Say you are going up to the old stones"}
+{"act":"region__s1_innkeeper/0:Talk/0:Ask Thal what the matter is in Windworth"}
+{"act":"region__s1_innkeeper/0:Talk/0:Ask Thal what the old folk say of the old dead under the old woods"}
+{"act":"region__s1_innkeeper/0:Pay Thal 5 coin to teach Wulfstan to read the woods"}
+{"act":"region__s1_innkeeper#leave"}
+{"act":"region__s1_traveller#talk"}
+{"act":"region__s1_traveller/0:Talk/0:Ask Roscoe whether he would come along"}
+{"act":"region__s1_traveller/0:Ask Roscoe to join the company — 6 coin"}
+{"act":"region__s1_traveller#leave"}
+{"act":"travel:region__s1_wood_edge"}
+{"act":"exit:region__s1_wood_ride"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s1_wood_burners"}
+{"act":"company/0:Search here"}
+{"act":"region__s1_wood_lamp#look"}
+{"act":"region__s1_wood_lamp/0:Take"}
+{"act":"region__s1_wood_oil#look"}
+{"act":"region__s1_wood_oil/0:Take"}
+{"act":"exit:region__s1_wood_stones"}
+{"act":"region__s1_wood_doorstone/0:Listen at it"}
+{"act":"company/0:Fill a burner's old lamp from the burner's lamp-oil, in a stoppered flask and light it"}
+{"act":"exit:region__s1_ud"}
+{"act":"region__s1_ud_makers#look"}
+{"act":"region__s1_ud_waiting#talk"}
+{"act":"region__s1_ud_makers/0:Read the marks on the post-stone"}
+{"act":"region__s1_ud_makers#back"}
+{"act":"region__s1_ud_waiting#talk"}
+{"act":"region__s1_ud_waiting/0:Talk/0:Ask Nest whether she would come down with you"}
+{"act":"region__s1_ud_waiting#leave"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s1_ud_adit_mouth"}
+{"act":"company/0:Copy the old writing into your book, stroke by stroke"}
+{"act":"exit:region__s1_ud"}
+{"act":"region__s1_ud_left_food#look"}
+{"act":"region__s1_ud_left_food/0:Take"}
+{"act":"region__s1_ud_left_rope#look"}
+{"act":"region__s1_ud_left_rope/0:Take"}
+{"act":"travel:region__s1_green"}
+{"act":"exit:region__s1_shrine"}
+{"act":"region__s1_priest#talk"}
+{"act":"region__s1_priest/0:Talk/0:Give Tomas the brothers' letter"}
+{"act":"region__s1_priest/0:Talk/0:Show Tomas what you copied at the old dead under the old woods"}
+{"act":"region__s1_priest/0:Talk/0:Ask Tomas what lies past the adit level"}
+{"act":"region__s1_priest#leave"}
+{"act":"travel:region__s1_shop"}
+{"act":"region__s1_merchant#talk"}
+{"act":"talk:trade"}
+{"act":"region__s1_merchant#leave"}
+{"act":"travel:region__s1_wood_edge"}
+{"act":"exit:region__s1_wood_ride"}
+{"act":"region__s1_merchant#leave"}
+{"act":"travel:region__s1_wood_edge"}
+{"act":"exit:region__s1_wood_ride"}
+{"act":"region__s1_merchant#leave"}
+{"act":"travel:region__s1_wood_edge"}
+{"act":"exit:region__s1_wood_ride"}
+{"look":true}
+{"act":"talk:back"}
+{"act":"region__s1_merchant#leave"}
+{"act":"travel:region__s1_wood_edge"}
+{"act":"exit:region__s1_wood_ride"}
+{"act":"exit:region__s1_wood_stones"}
+{"act":"exit:region__s1_ud"}
+{"act":"region__s1_ud_waiting#talk"}
+{"act":"region__s1_ud_waiting/0:Talk/0:Ask Nest whether she would come down with you"}
+{"act":"region__s1_ud_waiting/0:Ask Nest to join the company — 6 coin"}
+{"act":"region__s1_ud_waiting#leave"}
+{"act":"exit:region__s1_ud_adit_mouth"}
+{"look":true}
+{"act":"region__s1_ud_adit_race_head_dwellers/0:Attack"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:through"}
+{"look":true}
+{"act":"onward"}
+{"act":"mend:region__party_1"}
+{"act":"region__s1_ud_adit_mouth_dwellers/0:Tell the goblins you are after the same thing · an even chance · one try"}
+{"act":"exit:region__s1_ud_adit_adit"}
+{"act":"region__s1_ud_adit_adit_dwellers/0:Attack"}
+{"act":"fight:through"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"onward"}
+{"act":"region__s1_ud_adit_adit_find0/0:Take"}
+{"act":"region__s1_ud_adit_adit_left0#look"}
+{"act":"region__s1_ud_adit_adit_left0/0:Take a ring of minor protection from a rotted pack"}
+{"act":"region__s1_ud_adit_adit_notebook#look"}
+{"act":"region__s1_ud_adit_adit_notebook/0:Unstrap the notebook and read it"}
+{"act":"region__s1_ud_adit_adit_notebook#back"}
+{"act":"region__s1_ud_adit_adit_coins#look"}
+{"act":"region__s1_ud_adit_adit_coins/0:Gather up the coins"}
+{"act":"exit:region__s1_ud_adit_crossing"}
+{"act":"region__s1_ud_adit_adit_gem0/0:Take"}
+{"act":"exit:region__s1_ud_adit_crossing"}
+{"look":true}
+{"act":"exit:region__s1_ud_adit_stope/0:Hook the wire with the pole and pull, from well back"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:through"}
+{"act":"ability:melee"}
+{"act":"onward"}
+{"act":"exit:region__s1_ud_adit_stope"}
+{"look":true}
+{"act":"exit:region__s1_ud_adit_stope/0:Go"}
