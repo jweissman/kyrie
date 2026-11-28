@@ -101,14 +101,12 @@ export class TalkQuestion {
     return [...q.answers, ...q.shown.map(c => c === 'trade' ? { id: this.trade, label: 'Trade', tone: 'person' as const,
       command: 'focus:trade:on' } : c), q.talk.leave, ...next];
   }
-  // Trading: what they would buy of the company's, the one haggle over all their wares before the wares it prices
-  // (OR-1852), each thing on their counter that can be bought (a row for each of the company where it is bought for
-  // one of them), the rest of what is had of them, and Back to what is said.
+  // Trading: what they would buy of the company's, each thing on their counter that can be bought (a row for each of
+  // the company where it is bought for one of them), the rest of what is had of them (the one haggle over all their
+  // wares among it, OR-1852), and Back to what is said, in the order the page's trade draws them.
   private static trading(q: Omit<TalkAsked, 'rows' | 'marks'>): Choice[] {
     const bought = q.wares.flatMap(w => !w.buy ? [] : w.buy.children?.length ? w.buy.children : [w.buy]);
-    const haggles = q.services.filter(c => /^haggle(_|$)/.test(c.does ?? ''));
-    return [...q.sales, ...haggles, ...bought, ...q.services.filter(c => !haggles.includes(c)),
-      { id: this.back, label: 'Back', tone: 'person', command: 'focus:trade:off' }];
+    return [...q.sales, ...bought, ...q.services, { id: this.back, label: 'Back', tone: 'person', command: 'focus:trade:off' }];
   }
   // What each thing to say bears, as the talk drawer marks it: itself, or what it opens; asked again, or put already
   // in this talk, nothing (see MenuTree.replies).
