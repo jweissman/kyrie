@@ -130,6 +130,14 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/debt-ironkeep.test.ts` | One generated `a1` world and its actual gold-followed Ironkeep path. Arrival and the steel-coin row witness the no-exit claim. |
 | `test/decision-frame.test.ts` | One generated `kite` world for the actual bridge, brother and notice sequence, plus synthetic frame cases. Both the live authored outcomes and pure frame scenarios must remain. |
 | `test/deed-once.test.ts` | One generated `a1` world and its actual wagoner deed. The first page contains the deed before a wait witnesses that its subsequent absence is not an empty setup. |
+| `test/deep-argument.test.ts` | Generated `wren` shrine play and four generated site purposes. The argued checks, shrine consequences and site-specific banes are separate integration claims; several absent-option and no-duplicate assertions need mutation evidence before narrowing. |
+| `test/deep-barrow.test.ts` | Generated `a1`, `wren` and `cov13` worlds with their actual barrows and maker differences, plus a pure trap-generation comparison. Its mechanisms, light, treasure and trap wording are distinct claims. |
+| `test/deep-camps.test.ts` | One generated `cov2` world and two specific deep-site observations. Their distinct first and later camp text is the claim. |
+| `test/deep-expedition.test.ts` | Generated `wren` worlds played from the inn into the actual deep site. The route, torch clock, goblin negotiation and later refilling are full expedition claims; empty inappropriate-action lists need mutation checks before narrowing. |
+| `test/deep-history.test.ts` | Two generated worlds with different successors and their actual deep-site observations and objects. Both histories and their resulting scenes are necessary to the contrast. |
+| `test/deep-land.test.ts` | The generated `wren` deep site's surroundings for two callings and after its keeper dies. The ranger and before/after observations witness the paired absences. |
+| `test/deep-rivals.test.ts` | Generated `wren` and `b2` worlds with real rival parties, stages, prices, keeper and prize. The distinct offer, descent, failure, success and sale sequences must remain; the held-prize absent-options check needs a prior witness before narrowing. |
+| `test/deep-singing.test.ts` | Generated `d4` worlds with the Stone-Singers' actual hall, doors, bell and keeper, across multiple callings. The open and blocked paths and before/after listening are comparison witnesses. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
