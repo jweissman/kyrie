@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/walk-danger.test.ts` | Generated a1 plays several callings against the Walk's raid and alternatives. Keep each party and outcome; its cleric final assertion is tautological even on the full world. |
+| `test/walk-ends.test.ts` | Generated a1 forks one start and stages conditions for five distinct Walk endings. Keep all endings and their four-town consequences, with staged levers explicit. |
+| `test/walk-minutes.test.ts` | Generated kahitude compares a planned short town journey to elapsed time. Keep real town geography and the completed journey. |
+| `test/walk-play.test.ts` | Plays the Walk on foot in generated a1 through its licensed ending and return. Keep the whole journey, clock and observable consequences. |
+| `test/walk-seeds.test.ts` | Seven generated countries check Walk placement, generated names and its first appearance. Keep all seeds and their distinct placement witnesses. |
+| `test/wanderer-work.test.ts` | Generated thorn plays the wanderer to the inn and checks the notice's leads and aims. Keep actual first-town words and route. |
+| `test/warmwall.test.ts` | Lints and plays the authored Warm Wall campaign through many divergent decisions and endings. Keep the full scenario and all routes. |
+| `test/warner-fallen.test.ts` | One seized probe checks a warning before and after the warner is staged unable. A fragment is a candidate if both sides of the comparison survive. |
 | `test/undertown-unasked.test.ts` | Generated kahitude stages dead rats and checks that no unasked job or payment is claimed. Keep the actual job context; the negative needs a positive counterexample before narrowing. |
 | `test/unknown-of-a-kind.test.ts` | A synthetic module rejects an unknown manner with named alternatives. A fragment is a candidate if the same validation and diagnostic remain. |
 | `test/unmarked.test.ts` | One unmarked-way probe plays discovery by reading and visiting, checking labels before and after. A fragment is a candidate if all discovery states remain. |
