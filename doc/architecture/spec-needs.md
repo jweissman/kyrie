@@ -161,6 +161,9 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/dorothea-oil.test.ts` | The authored Dorothea campaign's tide-gated Holm and the Pharos oil carried between lights. Both tide phases and the two independently lit lamps are necessary witnesses. |
 | `test/dorothea-reach.test.ts` | The authored Dorothea campaign's sea chart and ship voyage. Individual station locations and the changing on-board map witness chart continuity. |
 | `test/dorothea-routes.test.ts` | The authored Dorothea campaign's different calls, fares, sea events, second voyage and restored save. Several before/after fare and station comparisons are positive witnesses; the full route matrix is intentional. |
+| `test/dorothea-sea.test.ts` | The authored Dorothea voyage over several seeds with its actual sea table. At least two drawn troubles and their answers witness the seeded passage checks. |
+| `test/dorothea-skerrow.test.ts` | The two authored Dorothea and Skerrow campaigns, with manually asserted cross-campaign events. Their separate endings and event-conditioned dialogue are the claim; these are not one continuous shared-world session. |
+| `test/dorothea-voices.test.ts` | The authored Dorothea campaign played to Port Ness and the Antlers with its preset company. The calling-specific observations at each place are separate witnesses. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
