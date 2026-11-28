@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/small/quantity.test.ts` | Synthetic fixed readings exercise each quantity measure, bands, ratchets and ladder, against the checked-in quantity baseline; no world starts. Keep the actual baseline wiring and synthetic edge cases. |
+| `test/small/quarry-pit.test.ts` | Two laboratory fixture lives contrast ranger and mage perception and a third plays one-time finds. Keep the actual generated fixture, both perception paths and before/after finds. |
+| `test/small/rats-heard-dark.test.ts` | The laboratory fixture stages the party in the cellar and walks to the dark runs, checking knowledge before and after. Keep the actual authored hearing rule and dark witness. |
+| `test/small/reference-settlement.test.ts` | Draws seeded regions and their written source, comparing the forest reference town to other terrain and checking actual catalog prices. No campaign starts; keep the source and seeded contrast. |
+| `test/small/reference-start.test.ts` | Draws three reference countries and origin placements, then checks the starting town's nearby sites, offered origins and written source. Keep all three seeded draws; no world starts. |
+| `test/small/relation-exports.test.ts` | Synthetic bundles compile against canonical vocabulary to check relation and measure exports, import mismatches and source identities. No campaign starts; keep actual compilation and re-export chain. |
+| `test/small/rest-coloured.test.ts` | One synthetic Tiny scene compares witnessed marks on actual rest rows between page and terminal; positive row and tablet counts prevent empty comparisons. A fragment is a candidate if those witnesses remain. |
+| `test/small/row-made.test.ts` | Pure row validation plus a synthetic Tiny scene checks a real unavailable stealing act and its reason. A fragment is a candidate if that shut act remains offered and its negative is proved. |
 | `test/small/one-projection.test.ts` | The Atlas fixture spans 20 kind, place and aim combinations through page, terminal and runner, plus three pressed cases. Keep all clients and the full comparison grid; verify nonempty offered witnesses when reducing. |
 | `test/small/opened-borne.test.ts` | Two synthetic tablet scenes render the real page and compare row colours and lens pagination. A fragment is a candidate if all three tablet choices and the fourth-page witness remain. |
 | `test/small/payoff.test.ts` | Plays one authored barrow fixture through the runner, frees the trader's barrow, leaves and returns to a cheaper torch. Keep the actual act, durable bond and before/after prices. |
