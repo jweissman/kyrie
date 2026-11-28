@@ -12,7 +12,8 @@ import { SpecHorizons } from '../../scripts/spec-horizons';
 // 16 → 20: the gamma probes, each file on the kernel and the packages its probes read.
 // 20 → 21: the chart kept without where the company stands, on the kernel.
 // 21 → 23: the grounded questions and the character within reach, on the kernel.
-const kept = { horizon: 23, rules: 234 };
+// 23 → 24, 234 → 233: the knowledge indicator's wagoner on the kernel (PR #25), over main.
+const kept = { horizon: 24, rules: 233 };
 describe('the specs by horizon', () => {
   const now = SpecHorizons.census();
   it('moves no spec off its horizon, and starts no new tiny world on the whole of the shared rules', () => {
