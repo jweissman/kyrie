@@ -198,6 +198,12 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/failures-said.test.ts` | Isolated storage and grounding failures, plus one Long Man session in the engine host with a deliberately failing save. The static corpus label exceeds the single campaign used. |
 | `test/family-identity.test.ts` | Generated kin worlds for four peoples and the user-supplied-name case, plus the household naming model by itself. Each checks a different identity or naming case. |
 | `test/family.test.ts` | Two generated kin worlds with the authored drover and portraits. The family identity, face continuity, conversation and later oxen lead are separate play claims. |
+| `test/features/character/company-faces.pin.test.ts` | The Iscoed world and engine frames through recruitment and combat. The companion's emblem and every fight frame witness continuity. |
+| `test/features/choice/first-aims-followed.pin.test.ts` | The golden Iscoed walk and honest-player continuation through a followed undertaking, with the continuity census at each turn. The world and specific journey are the claim. |
+| `test/features/choice/first-aims.pin.test.ts` | The golden Iscoed walk continued through the corn-store and proclamation. Unfollowed achievement, availability and once-only rewards are distinct witnesses. |
+| `test/features/choice/payoff-followed.pin.test.ts` | The Iscoed world with the honest player following the held drove's aims through sale and the westward lead. The sequence and payment require the actual story. |
+| `test/features/choice/store-apprentice.pin.test.ts` | One generated `w5` world and forked saves for the apprentice corn-store situation. Its two outcomes, unattended departure and no-fight assertions are distinct; the latter need counterfactual proof before narrowing. |
+| `test/features/choice/store-runaway.pin.test.ts` | One generated `kite` world and forked saves for the runaway corn-store situation. The two destinations, unattended loss and no-fight assertions are distinct; the latter need counterfactual proof before narrowing. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
