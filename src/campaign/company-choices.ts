@@ -7,7 +7,6 @@ import { Creation } from '../rules/creation';
 import type { ModuleDraft } from './module-namespace';
 import { Formations } from '../rules/formations';
 import { Canon } from '../canon/canon';
-import { Traits } from '../ports/traits';
 import { CreatureSchema } from '../creature';
 import { ModuleWriter } from '../lang/module-writer';
 
