@@ -12,10 +12,11 @@ describe('the act an exchange tells', () => {
       Place adit "the old adit" is room at 0, 0 underground.
       Company party "You" of 1 at adit.
       Initially Assert unlit(adit).
-      Goal false.`);
+      Goal false.`, { horizon: ['belongings'] });
     await t.perform('light_item(t__party_1__torch)');
     expect(t.leaf.exchange?.act).toBe('light_item');
     const care = readFileSync('data/rules/care.kyr', 'utf8');
+    expect(CharacterPage.grows.size).toBeGreaterThan(0);
     expect([...CharacterPage.grows].filter(a => !new RegExp(`Action ${a}\\(`).test(care))).toEqual([]);
   });
 });
