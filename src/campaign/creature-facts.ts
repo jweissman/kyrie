@@ -269,7 +269,8 @@ export class CreatureFacts {
     const known = new Set([...learned, ...Object.keys(scope.catalog.abilities(c))]);
     const useful = scope.field.filter(a => CreatureFacts.helps(a, c) && !Tended.blocks(a, c));
     if (has.has('relieves')) {
-      changes.push(...this.set(scope, 'relieves', reference, kinds.filter(k => this.relieves(scope.catalog, k.id, c)).map(k => k.id)));
+      changes.push(...this.set(scope, 'relieves', reference, this.relievers(scope)
+        .filter(r => !r.remedy || this.helps(r.remedy, c)).map(r => r.id)));
     }
     // Orsino's gate outside combat too: a spell or levelled skill above ⌈level / 2⌉ cannot be used yet.
     // And, for the company alone, a spell it could cast at a band outside a fight (CF-03: FieldUse.cast).
@@ -321,11 +322,21 @@ export class CreatureFacts {
   // A kind of thing used up on someone relieves them if it would help them; one that is no remedy (it does what it
   // does, whoever takes it) always does, but one aimed at a foe (a flask of fire to throw) is for a fight, not for one
   // of the company. Kept by the kind's use as well as its id (see ItemCatalog.use).
-  private static relieves(catalog: ItemCatalog, kind: string, c: Creature): boolean {
-    const ability = catalog.use(kind);
-    if (!ability || ability.effects.every(e => /enem/.test(e.target))) { return false; }
-    const remedy = ability.effects.some(e => ['heal', 'remove', 'apply'].includes(e.kind));
-    return !remedy || this.helps(ability, c);
+  // The kinds that relieve anyone, in the kinds' order, each with the remedy it gives where only some it helps: found
+  // once for a projection, not for each member over every kind (the lead's profile of 27 November: a member's facts had
+  // been most of a world's first projection).
+  private static readonly relieving = new WeakMap<Scope, { id: string; remedy?: ArenaAbility }[]>();
+  private static relievers(scope: Scope): { id: string; remedy?: ArenaAbility }[] {
+    const kept = this.relieving.get(scope);
+    if (kept) { return kept; }
+    const found = scope.kinds.flatMap(k => {
+      const ability = scope.catalog.use(k.id);
+      if (!ability || ability.effects.every(e => /enem/.test(e.target))) { return []; }
+      const remedy = ability.effects.some(e => ['heal', 'remove', 'apply'].includes(e.kind));
+      return [{ id: k.id, ...remedy ? { remedy: ability } : {} }];
+    });
+    this.relieving.set(scope, found);
+    return found;
   }
   // The relations the projection writes from a member to many things: item first for what a member owns or wears,
   // the member first for the rest.
