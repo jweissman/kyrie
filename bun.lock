@@ -5,7 +5,7 @@
     "": {
       "name": "kyrie",
       "dependencies": {
-        "deem": "git+https://github.com:443/jweissman/deem.git#cc2f3b66f6fe0ef79db9827002ccb2ccc83a3ac9",
+        "deem": "git+https://github.com:443/jweissman/deem.git#0327e1111e8db782a2857b27e3852e3f70f5ad51",
         "eslint": "^10.13.0",
         "languages": "git+https://github.com:443/jweissman/languages.git#b6e78c30e7024072c5f378e730d7f7b3121e30f2",
         "ohm-js": "^17.5.0",
@@ -147,7 +147,7 @@
 
     "debug": ["debug@4.4.3", "", { "dependencies": { "ms": "^2.1.3" } }, "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA=="],
 
-    "deem": ["deem@git+https://github.com:443/jweissman/deem.git#cc2f3b66f6fe0ef79db9827002ccb2ccc83a3ac9", { "dependencies": { "eslint": "^9.35.0", "ohm-js": "^17.5.0" }, "peerDependencies": { "typescript": ">=6 <8" }, "bin": { "deem": "./bin/deem.ts" } }, "cc2f3b66f6fe0ef79db9827002ccb2ccc83a3ac9"],
+    "deem": ["deem@git+https://github.com:443/jweissman/deem.git#0327e1111e8db782a2857b27e3852e3f70f5ad51", { "dependencies": { "eslint": "^9.35.0", "ohm-js": "^17.5.0" }, "peerDependencies": { "typescript": ">=6 <8" }, "bin": { "deem": "./bin/deem.ts" } }, "0327e1111e8db782a2857b27e3852e3f70f5ad51"],
 
     "deep-is": ["deep-is@0.1.4", "", {}, "sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ=="],
 
