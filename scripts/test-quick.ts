@@ -5,7 +5,7 @@
 // be, so that a slow new spec cannot make the quick suite slow (it had come to twenty minutes, with 268 specs
 // untimed); keep the timings again when specs are added. What a change touches is `bun run test:changed`; everything
 // is CI's.
-//   bun scripts/test-quick.ts [seconds=2] [--workers=6]
+//   bun scripts/test-quick.ts [seconds=2] [--workers=6] [--parts=6]
 import { Glob } from 'bun';
 import { readFileSync } from 'node:fs';
 import { TestWorkers } from './test-workers';
@@ -26,9 +26,18 @@ class QuickSuite {
     // --no-isolate: each worker keeps one module registry across the files it runs, so the engine is imported once a
     // worker, not once a file: 34 s and 321 CPU-s had become 9.6 s, all 663 tests passing in runs at 4, 6 and 10
     // workers (mission-20/test-loop.md, item 1). A spec that leaks state into another shows here first.
-    return Bun.spawnSync(['bun', 'test', `--parallel=${TestWorkers.allowed(Number(workers))}`, '--no-isolate',
-      '--timeout=30000', ...quick],
-      { stdout: 'inherit', stderr: 'inherit' }).exitCode ?? 1;
+    // In parts, one worker process after another: a worker keeps what every world it starts leaves in the process's
+    // caches, so that the whole quick suite in one had peaked at 3.0 GB, and in six parts at 1.5 GB for the same time
+    // (the lead's measure of 27 November), room for another worker on the machine.
+    const parts = Number(/^--parts=(\d+)$/.exec(args.find(a => a.startsWith('--parts=')) ?? '')?.[1] ?? '6');
+    const size = Math.ceil(quick.length / Math.max(1, parts));
+    let code = 0;
+    for (let i = 0; i < quick.length; i += size) {
+      const part = Bun.spawnSync(['bun', 'test', `--parallel=${TestWorkers.allowed(Number(workers))}`, '--no-isolate',
+        '--timeout=30000', ...quick.slice(i, i + size)], { stdout: 'inherit', stderr: 'inherit' }).exitCode ?? 1;
+      code = code || part;
+    }
+    return code;
   }
 }
 process.exit(QuickSuite.run(process.argv.slice(2)));
