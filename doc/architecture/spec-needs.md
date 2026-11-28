@@ -12,7 +12,7 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 | Spec | Need and decision |
 | --- | --- |
 | `test/world-drawn-once.test.ts` | Compares a cached drawing, fresh generated world and creation output, including isolated copies. Keep actual generated files and reports. |
-| `test/world-kept-once.test.ts` | A Tiny Promise fixture checks semantic module identity and engine-host save messages. A declared horizon is a candidate if the Promise and all saves remain. |
+| `test/world-kept-once.test.ts` | A Tiny Promise fixture checks semantic module identity and engine-host save messages. PR #85 proposes the kernel; mutation proofs retain the copy, unchanged-world and changed-world witnesses. |
 | `test/world-lint.test.ts` | Lints five generated worlds and plays an unsupported wonder in a1. Keep all seeds, full lint and actual encounter. |
 | `test/world-shape.test.ts` | Checks global geography across seeds, generated first countries and an ocean frontier. Keep all seed and boundary cases. |
 | `test/world-starts.test.ts` | Starts generated cov2 for two origins and cov24 to check priest and prior regressions. Keep each generated configuration. |
