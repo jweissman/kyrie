@@ -122,6 +122,14 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/cut-order.test.ts` | Two fixture campaigns, one timed wait and one place's authored lines. Their exact ordered prose is the claim; no full generated world is started. |
 | `test/danger-ahead.test.ts` | One generated `a1` world and Eamon's actual warning, followed by the asynchronous danger calculation. Nonempty bands and at least one settled result witness the checks. |
 | `test/danger-verdict.test.ts` | One generated `a1` world with its actual bands, comparing bounded and whole fight reckonings. More than three bands and one beyond the company witness the comparison. |
+| `test/dark-heard.test.ts` | A generated `kite` world with the actual tower's risen dead and crypt, plus pure passage grammar. Darkness and subsequent light both witness the change in perception. |
+| `test/dark-senses.test.ts` | One dark-shore fixture campaign with audible surf and a torch. The scene's appearance when lit witnesses both dark-state absences. |
+| `test/darkness-and-light-browser.test.ts` | A built site and generated `iscoed` opening in a browser at desktop and phone sizes. The gallery appearing after lighting witnesses its initial absence; gated by `KYRIE_BROWSER`. |
+| `test/darkness.test.ts` | One Serewater March fixture campaign played by two ready companies, not a loaded campaign corpus. The actual torch, crock and mage light sequences witness visibility and expiry. |
+| `test/debt-first-errand.test.ts` | Generated `kahitude` worlds, the debt's actual town, hobs, cave and key. Multiple full walks and before/after capability comparisons are separate claims; some absent-row checks need mutation evidence before narrowing. |
+| `test/debt-ironkeep.test.ts` | One generated `a1` world and its actual gold-followed Ironkeep path. Arrival and the steel-coin row witness the no-exit claim. |
+| `test/decision-frame.test.ts` | One generated `kite` world for the actual bridge, brother and notice sequence, plus synthetic frame cases. Both the live authored outcomes and pure frame scenarios must remain. |
+| `test/deed-once.test.ts` | One generated `a1` world and its actual wagoner deed. The first page contains the deed before a wait witnesses that its subsequent absence is not an empty setup. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
