@@ -53,6 +53,12 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/aim-successor.test.ts` | One generated `kahitude` world, the cellar rat-job chain and its light and warren exit. The held successor, absent separate aim and continuing row are distinct claims. |
 | `test/aim-unasked.test.ts` | Generated `iscoed` and `kahitude` worlds, Gek's actual answers and the worlds' objective text. The offer has two positive witnesses; the objective-text loop would need nonempty witnesses before narrowing. |
 | `test/aim-who.test.ts` | One generated `a1` world and its notice, shrine and father errand. The optional father lookup can pass if the errand is absent; establish that witness before narrowing. |
+| `test/aims-apart.test.ts` | One generated `kahitude` world and its dead and spiders jobs. The spiders aim is witnessed, but the optional crypt `about` text needs a positive witness before narrowing its negative assertion. |
+| `test/arcology-house.test.ts` | Generated `kahitude` worlds with the Numbered House, its inhabitants and linked town. Many authored mechanisms are played; any smaller fixture must preserve each mechanism and the town interactions. |
+| `test/arcology-ways.test.ts` | Generated `kahitude` worlds and the House-to-town bindings. Its rescue, service way, marshal, sluice and owlbear scenarios cross those bindings; the ignored chain-pickup error needs a witness before narrowing. |
+| `test/arcology.test.ts` | Generated worlds over seven seeds for placement, plus House discovery and mechanisms in play. The placement matrix and generated world cannot be replaced by a single fragment. |
+| `test/as-rolled.test.ts` | Pure creation calculations and a generated `iscoed` world with its actual warrior and rats. It explicitly witnesses rats and checks combat odds, not just generated attributes. |
+| `test/asked-again-live.test.ts` | A named authored campaign and one generated `s0` world. The generated copy count is witnessed; the authored empty-result claim needs a positive copy witness before narrowing. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
