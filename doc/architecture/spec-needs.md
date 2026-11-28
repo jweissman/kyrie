@@ -1,9 +1,9 @@
 # Spec needs census
 
-This is an **incomplete** examination of the world- and corpus-labelled specs at
-`b7f3c2a1a0e1555a815d36886fc2ad9160f5d13f`. The static census had 444 world and 694 corpus files. A static label
-is a reason to inspect a file, not proof that it loads a world or the corpus. Entries below describe the most
-expensive evidence the claims actually require; an unlisted file has not been assessed.
+This examines all 1,138 world- and corpus-labelled specs at
+`b7f3c2a1a0e1555a815d36886fc2ad9160f5d13f`: 444 world and 694 corpus files. A static label is a reason to
+inspect a file, not proof that it loads a world or the corpus. Entries describe the most expensive evidence the
+claims require; candidates are not proven reductions until tested, including their negative claims.
 
 Separately, the rules-tier `test/small/commander.test.ts` passes on the kernel. Removing the `call_on` colocation
 condition makes the remote-order negative fail, but the earlier unled-order negative has not been shown to fail when
@@ -11,6 +11,13 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/world-drawn-once.test.ts` | Compares a cached drawing, fresh generated world and creation output, including isolated copies. Keep actual generated files and reports. |
+| `test/world-kept-once.test.ts` | A Tiny Promise fixture checks semantic module identity and engine-host save messages. A declared horizon is a candidate if the Promise and all saves remain. |
+| `test/world-lint.test.ts` | Lints five generated worlds and plays an unsupported wonder in a1. Keep all seeds, full lint and actual encounter. |
+| `test/world-shape.test.ts` | Checks global geography across seeds, generated first countries and an ocean frontier. Keep all seed and boundary cases. |
+| `test/world-starts.test.ts` | Starts generated cov2 for two origins and cov24 to check priest and prior regressions. Keep each generated configuration. |
+| `test/wrongboat-2.test.ts` | Plays numerous authored Wrong Boat branches, timing, companions and save behavior. Keep the actual scenario and all contrasting outcomes. |
+| `test/wrongboat.test.ts` | Lints and plays the authored Wrong Boat campaign through many pursuit, choice and ending paths. Keep every journey and outcome. |
 | `test/witnessed.test.ts` | A synthetic module plays two offscreen pursuits during travel and checks events exist but are not witnessed. A fragment is a candidate if both positive events and negatives remain. |
 | `test/word-leads.test.ts` | Generated wren checks several known-place itinerary cases, staging some knowledge and hearing another lead. Keep actual topology and knowledge contrasts. |
 | `test/work-stock.test.ts` | Generated wren stages a cache search and travels to a work twice to check discovery rewards. Keep actual work and both visits. |
