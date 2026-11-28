@@ -22,6 +22,8 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/as-told.test.ts` | Generated `thorn`, `wren`, `d4` and `a1` worlds plus pure prose cases. Generated people, places and inventory are the evidence; several negative claims need their own counterfactuals before narrowing. |
 | `test/aside-journey.test.ts` | One aside-way fixture campaign and its two-leg Travel journey, including the companion's actual remark. Retain the fixture and both legs. |
 | `test/at-hand-folds.test.ts` | One generated `a1` country and the real rotted pack projected to the page. Both pack actions are witnessed; the no-child-row claims need a counterfactual before narrowing. |
+| `test/authorability-probes.test.ts` | Many independent authoring fixture campaigns, each playing or linting a distinct probe; no generated world. Some sleep claims are conditional, and several absences need counterfactuals before narrowing their fixtures. |
+| `test/authorability.test.ts` | One inline author-created adventure on an overlay source, its catalog definitions and save/resume. It uses full rules; a declared horizon may suffice but the creature, item, interaction and saved identities must all survive. |
 | `test/small/arrival-attention.test.ts` | The single `arrivals.kyr` track and its narrated arrival matrix. Narrowed to the inhabitants, probing and services rules; the fixture path remains statically classified as world. |
 | `test/small/perceived-rows.test.ts` | The same track, comparing each perceived row with the frame's own row. Narrowed with the shared fixture. |
 | `test/small/player-choice-rows.test.ts` | The same track, including a cold revision cache and the real choice rows. Narrowed with the shared fixture without pre-building a page. |
