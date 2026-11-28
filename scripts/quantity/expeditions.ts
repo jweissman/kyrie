@@ -189,11 +189,7 @@ export class QuantityExpeditions {
     for (let i = 0; i < this.steps; i++) {
       if (!s.campaign.running || !this.standing(s)) { trip.approach.turned = 'fell'; return; }
       if (QuantityCaution.fallen(s, stood)) { trip.approach.turned = 'fallen'; return; }
-      if (this.hurt(s, 0.6)) {
-        const tend = QuantityCaution.tend(s);
-        if (!tend || !await this.act(s, tend)) { trip.approach.turned = 'hurt'; return; }
-        continue;
-      }
+      if (this.hurt(s, 0.6) && !await QuantityCaution.mend(s, id => this.act(s, id))) { trip.approach.turned = 'hurt'; return; }
       const here = this.here(s);
       been.add(here);
       trip.approach.deepest = Math.max(trip.approach.deepest, this.depth(s, here));
