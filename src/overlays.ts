@@ -156,7 +156,9 @@ export class Overlays {
   }
   // Among its campaign's kinds (see ItemCatalog.among).
   static declareGear(instance: CampaignInstance, catalog: ItemCatalog) {
-    const module = instance.module;
+    // What the module declares already, kept as entities are added (a scan of every entity for each kind of each
+    // creature's gear had been quadratic in a world's people: the lead's profile of 27 November).
+    const module = instance.module, declared = new Set(module.entities.map(e => e.id));
     for (const c of instance.campaign?.creatures ?? []) {
       const carried = (c.context.gear ?? []).map(k => catalog.itemId(k));
       const gear = c.context.outfit === 'own' ? [carried] : [...this.of(c.context).map(([, o]) => o.gear ?? []),
@@ -164,11 +166,11 @@ export class Overlays {
       for (const kinds of gear) {
         for (const kind of kinds) {
           const id = this.gearId(c.id, kind);
-          if (module.entities.some(e => e.id === id)) { continue; }
-          if (!module.entities.some(e => e.id === kind)) {
-            module.entities.push({ id: kind, type: 'itemkind', name: catalog.get(kind).name });
+          if (declared.has(id)) { continue; }
+          if (!declared.has(kind)) {
+            module.entities.push({ id: kind, type: 'itemkind', name: catalog.get(kind).name }); declared.add(kind);
           }
-          module.entities.push({ id, type: 'item', name: ItemNames.called(catalog.get(kind).name) });
+          module.entities.push({ id, type: 'item', name: ItemNames.called(catalog.get(kind).name) }); declared.add(id);
           module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'itemKind', args: [id, kind] } });
         }
       }
