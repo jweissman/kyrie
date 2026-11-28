@@ -20,7 +20,8 @@ import { SpecHorizons } from '../../scripts/spec-horizons';
 // 97 → 103: the Empty Seat's specs on their horizons.
 // 103 → 104: the foreboding and small fights' specs on their horizons.
 // 104 → 106: the haggle, the pile and who goes first on their horizons.
-const kept = { horizon: 106, rules: 176 };
+// 106 → 107: a life let go after its first frame (OR-1740), on the kernel.
+const kept = { horizon: 107, rules: 176 };
 describe('the specs by horizon', () => {
   const now = SpecHorizons.census();
   it('moves no spec off its horizon, and starts no new tiny world on the whole of the shared rules', () => {
