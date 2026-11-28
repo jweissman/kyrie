@@ -16,6 +16,7 @@ echo "gating $sha" >> "$S/${TAG}-run.log"
 git -C "$R" worktree remove --force "$G" 2> /dev/null
 git -C "$R" worktree add -q --detach "$G" "$sha" && cd "$G" && bun install --frozen-lockfile > /dev/null 2>&1 \
   || { echo "worktree failed" >> "$S/${TAG}-run.log"; exit 9; }
+"$L/../machine/cache-seed.sh" in "$G"
 done_() { cd /; git -C "$R" worktree remove --force "$G"; exit "$1"; }
 "$L/rebase-register.sh" >> "$S/${TAG}-run.log" 2>&1 || { echo "rebase exit $?" >> "$S/${TAG}-run.log"; done_ 1; }
 "$L/reverts-guard.sh" >> "$S/${TAG}-run.log" 2>&1 || { echo "reverts guard exit $?" >> "$S/${TAG}-run.log"; done_ 1; }

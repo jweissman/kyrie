@@ -47,7 +47,7 @@
     "preview": "bin/kyrie preview",
     "kyrie": "bin/kyrie",
     "lint": "eslint . --max-warnings=0",
-    "lint:fast": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint/",
+    "lint:fast": "eslint . --max-warnings=0 --cache --cache-strategy content --cache-location node_modules/.cache/eslint/cache.json",
     "lint:fix": "eslint . --fix",
     "check": "bun run lint && bun run typecheck && bun run test",
     "check:fast": "bun run typecheck:fast && bun run lint:fast && bun run test:quick",

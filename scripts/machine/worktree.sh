@@ -30,4 +30,5 @@ if [ -z "${FULL:-}" ]; then
 fi
 git -C "$P" read-tree -mu HEAD
 (cd "$P" && bun install --frozen-lockfile > /dev/null)
+"$here/cache-seed.sh" in "$P"
 if [ -n "${FULL:-}" ]; then echo "$P (full)"; else echo "$P (without assets/)"; fi

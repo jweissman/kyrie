@@ -8,6 +8,7 @@
 #   scripts/support queue-add <file> <tag> <worktree|-> <sha[,sha…]>   add a line to a queue file
 #   scripts/support rebase                                  rebase this worktree onto origin/main, register by row
 #   scripts/support guard                                   the reverts guard, after a rebase
+#   scripts/support cache-seed in|out <worktree>            seed a worktree's caches, or keep a warm one's as the seed
 #   scripts/support red                                     is main's last push run red? (exit 0 if it is)
 #   scripts/support health                                  the project health meter, read only (the nightly records it)
 D=$(cd "$(dirname "$0")" && pwd)
@@ -21,8 +22,9 @@ case "$cmd" in
   queue-add) f=${1:?file}; echo "${2:?tag} ${3:?worktree or -} ${4:?sha}" >> "$f"; echo "queued ${2} in $f" ;;
   rebase) exec "$D/landing/rebase-register.sh" ;;
   guard) exec "$D/landing/reverts-guard.sh" ;;
+  cache-seed) exec "$D/machine/cache-seed.sh" "$@" ;;
   health) exec bun "$D/planning-instruments.ts" health --no-record "$@" ;;
   red) c=$(gh run list --workflow ci.yml --branch main --event push --limit 1 --json conclusion -q '.[0].conclusion')
     echo "main: ${c:-pending}"; [ "$c" = failure ] ;;
-  help|*) sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'; [ "$cmd" = help ] ;;
+  help|*) sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'; [ "$cmd" = help ] ;;
 esac
