@@ -4,6 +4,8 @@ import { DeepCarried } from '../../../src/world/deep/deep-carried';
 import type { DeepLayout, DeepRoom } from '../../../src/world/deep/deep-layout';
 import type { DeepContent } from '../../../src/world/deep/deep-pacing';
 import type { DeepPurpose } from '../../../src/world/deep/deep-purposes';
+import { FallAwaited } from '../../../src/campaign/fall-awaited';
+import { Environment } from '../../../src/campaign/environment';
 import { Tiny } from '../../support/tiny';
 
 // Each probe on the kernel and the packages it reads (OR-407).
@@ -78,5 +80,29 @@ describe('World › The deep renewed', () => {
     await away(t);
     expect(t.where('t__pit_top_newcomers2')).toBe('t__hall');
     expect(t.where('t__pit_top_newcomers3')).toBe('t__pit_top_beyond');
+  });
+  // OR-1864: the renewal had waited on the dwellers' death alone, and a band whose fall is waited on never loses heart,
+  // so the first bands of every level fought to the last. Put to flight, they leave the room as their dead would, and
+  // the room says so truly: not "the dead you left".
+  it('moves in where the dwellers were put to flight, as where they died, and so lets them lose heart', async () => {
+    const t = await start(kyr, { seed: 'r0', party });
+    expect(FallAwaited.of(t.campaign.module, 't__rats')).toBe(false);
+    expect(Environment.terms(t.world, 't__rats')?.morale).toBe(true);
+    // Routed, with nowhere to fall back to, they go off to their holes (Aftermath).
+    const c = t.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    const rout = (band: string) => c.commit(c.world.apply([
+      { kind: 'assert', call: { kind: 'call', name: 'routed', args: [band] } },
+      { kind: 'retract', call: { kind: 'call', name: 'at', args: [band, 't__hall'] } }]));
+    rout('t__rats');
+    await away(t);
+    expect(t.where('t__pit_top_newcomers')).toBe('t__hall');
+    const told = t.leaf.situation.join(' ') + JSON.stringify(t.leaf);
+    expect(told).toContain(DeepTime.said.routed);
+    expect(told).not.toContain('The dead you left here');
+    // The newcomers too: put to flight, the next band comes into the room they held.
+    expect(FallAwaited.of(t.campaign.module, 't__pit_top_newcomers')).toBe(false);
+    rout('t__pit_top_newcomers');
+    await away(t);
+    expect(t.where('t__pit_top_newcomers2')).toBe('t__hall');
   });
 });

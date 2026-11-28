@@ -18,7 +18,9 @@ interface Wave { id: string; group: DeepGroup; rank: number; after?: string }
 // in wait beyond the workings, one after another. The first dawn after the company has killed a room's dwellers and
 // gone off that level, the first band moves in there; once it too is killed, the next comes the dawn after, a rank
 // stronger, into the room where the last fell. Each brings what such dwellers carry (DeepCarried), and leaves it
-// where it falls: a return finds danger and reward both (OR-1622).
+// where it falls: a return finds danger and reward both (OR-1622). A room's dwellers put to flight leave it as their
+// dead would: the first band moves in where they were routed as where they died (OR-1864), and so they may lose heart
+// (FallAwaited); what the room tells of them is said truly of either.
 export class DeepTime {
   static readonly q = JSON.stringify;
   // How many bands wait beyond a level, one after another, under the reference game's woods: its dungeon is the one
@@ -69,7 +71,10 @@ export class DeepTime {
     ...this.seen({ id, beyond, level: level.id, entry: DeepKnown.entry(layout, level)?.id,
       temperament: group.temperament }),
     ...w.after ? [this.moves({ id, beyond, level: level.id, rule: `${id}_follows`,
-      when: `dead(${w.after}) and at(${w.after}, ?r) and distinct(?r, ${beyond})`, to: '?r' })] : [],
+      when: `dead(${w.after}) and at(${w.after}, ?r) and distinct(?r, ${beyond})`, to: '?r' }),
+    // Put to flight, the band before them is gone from the room it held, wherever it ran (deepHeld).
+    this.moves({ id, beyond, level: level.id, rule: `${id}_follows_routed`,
+      when: `routed(${w.after}) and not dead(${w.after}) and deepHeld(${w.after}, ?r)`, to: '?r' })] : [],
     // The first follow whoever the company killed in a room, wherever they fell; those after them, the band before
     // them, into the room it held.
     ...held.flatMap((c, n) => [...this.succession({ id, beyond, level: level.id, gone: w.after ?? c.dwellers!.id,
@@ -82,6 +87,8 @@ export class DeepTime {
   static readonly said = {
     sign: 'The dust at the way onto this level is trodden fresh, and not by you. New dwellers have come in since you were'
       + ' last down.',
+    routed: 'Those you put to flight from here have not come back. The place smells of something else now: whoever'
+      + ' lives here came after you went.',
     settled: 'The newcomers have made this place their own. They have heaped the old bones at the door, and they do not'
       + ' wait to warn.',
   };
@@ -106,12 +113,17 @@ export class DeepTime {
     const { id, beyond, level, rule, when, to } = at;
     return `  Rule ${rule} when ${when} and at(${id}, ${beyond}) and untilLight(clock) == 1`
       + ` and not (at(party, ?p) and deepLevelOf(?p, ${level}))`
-      + ` { Retract at(${id}, ${beyond}). Assert at(${id}, ${to}). Set deepMoved(${id}) to day(clock). }`;
+      + ` { Retract at(${id}, ${beyond}). Assert at(${id}, ${to}). Assert deepHeld(${id}, ${to}).`
+      + ` Set deepMoved(${id}) to day(clock). }`;
   }
   private static succession(at: Succession): string[] {
     const { id, beyond, level, gone, room, n, first } = at;
     const seen = first ? `${gone}_succession` : `${id}_after_${n}`;
-    return [...first ? [this.moves({ id, beyond, level, rule: `${gone}_succeeded`, when: `dead(${gone})`, to: room })] : [],
+    return [...first ? [this.moves({ id, beyond, level, rule: `${gone}_succeeded`, when: `dead(${gone})`, to: room }),
+      this.moves({ id, beyond, level, rule: `${gone}_succeeded_routed`, when: `routed(${gone}) and not dead(${gone})`,
+        to: room })] : [],
+      `  Observe ${seen}_routed at ${room} when routed(${gone}) and not dead(${gone}) and at(${id}, ${room})`
+        + ` ${this.q(this.said.routed)}.`,
       `  Observe ${id}_settled_${room} at ${room} when dugIn(${id}) and at(${id}, ${room}) and able(${id})`
         + ` ${this.q(this.said.settled)}.`,
       `  Observe ${seen} at ${room} when dead(${gone}) and at(${id}, ${room}) ${this.q('The dead you left here have been dragged into a corner and picked over, and the place smells of something else now: whoever lives here came after you went.')}.`];
