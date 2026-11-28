@@ -187,5 +187,104 @@
     5000
    ]
   }
+ },
+ "carriedThings": {
+  "discriminator": "kind",
+  "groups": {
+   "humanoid": [
+    1,
+    1,
+    2,
+    2,
+    3
+   ],
+   "undead": [
+    0,
+    1,
+    1,
+    2
+   ],
+   "beast": [
+    0,
+    0,
+    1
+   ],
+   "monstrosity": [
+    0,
+    1,
+    1,
+    2
+   ],
+   "any": [
+    0,
+    1,
+    1,
+    2
+   ]
+  }
+ },
+ "carriedPurse": {
+  "discriminator": "kind",
+  "groups": {
+   "humanoid": [
+    6,
+    8,
+    10,
+    12
+   ],
+   "undead": [
+    2,
+    4,
+    6,
+    8
+   ],
+   "beast": [
+    0,
+    0,
+    2,
+    4
+   ],
+   "monstrosity": [
+    0,
+    2,
+    4,
+    6
+   ],
+   "any": [
+    2,
+    4,
+    6
+   ]
+  }
+ },
+ "carriedTier": {
+  "discriminator": "depth",
+  "groups": {
+   "d0": [
+    "negligible",
+    "negligible",
+    "minor"
+   ],
+   "d1": [
+    "minor",
+    "minor",
+    "major"
+   ],
+   "d2": [
+    "minor",
+    "major",
+    "major"
+   ],
+   "d3": [
+    "major",
+    "major",
+    "grand"
+   ],
+   "d4": [
+    "major",
+    "grand",
+    "grand"
+   ]
+  }
  }
 }
