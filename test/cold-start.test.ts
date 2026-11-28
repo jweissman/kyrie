@@ -1,7 +1,8 @@
-import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test';
+import { afterAll, afterEach, beforeAll, describe, expect, it, mock, spyOn } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import { ModuleParser } from '../src/lang/module-parser';
 import { ParseCache } from '../src/lang/parse-cache';
+import { LeanCaches } from './support/lean-caches';
 import type { Frame, Message } from '../src/creation/protocol';
 
 // OR-121: the start itself made cheap, a cold Set out now (nothing drawn ahead) on a country never drawn before in the
@@ -29,6 +30,9 @@ class Cold {
   }
 }
 
+// What the player's caches keep is what this measures, not a spec worker's lean ones (test/support/lean-caches).
+beforeAll(() => { LeanCaches.use(LeanCaches.player); });
+afterAll(() => { LeanCaches.use(LeanCaches.lean); });
 describe('A cold set-out', () => {
   afterEach(() => { mock.restore(); });
   it('parses each text it reads once, and who each topic is put to once, within its budgets', async () => {
