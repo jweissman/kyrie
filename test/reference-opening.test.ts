@@ -31,11 +31,12 @@ describe('the reference opening, over the hills', () => {
     Undertakings.follow(c, 'origin__work');
     const gold = Narrator.leaf(c, ScreenModel.build(c)).glance!.acts.filter(a => a.aspects.includes('undertaking'));
     expect(gold.map(a => a.command)).toEqual(['travel:region__s1_taproom']);
-    // At the house, the next aim asks Finnan by name, there to be seen: none of his description.
+    // At the house, the next aim asks Finnan by name and his calling's first words, never his whole description.
     j.put('party', 'region__s1_taproom');
     await j.play('Wait a while');
     const next = ScreenModel.build(c).objectives[0]!;
-    expect(next).toMatch(/^Ask \w+ about the old woods/);
-    expect(next.split(/\s+/).length).toBeLessThanOrEqual(16);
+    expect(next).toMatch(/^Ask \w+, woodwright at \w+, about the old woods/);
+    expect(next).not.toMatch(/who trades|hears what is seen/);
+    expect(next.split(/\s+/).length).toBeLessThanOrEqual(18);
   }, 60000);
 });
