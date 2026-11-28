@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/windfall.test.ts` | Lints and plays the authored Windfall campaign through its clock, routes and endings. Keep all scenario outcomes and mends. |
+| `test/winter-in-carth-callings.test.ts` | Plays the authored Carth campaign with several callings, largely at staged places and times, to check voices and alternatives. Keep every calling and contrast. |
+| `test/winter-in-carth-placed.test.ts` | Enters Carth from a generated frost country, plays its opening and waits for its ending while the world continues. Keep integration and world continuation. |
+| `test/winter-in-carth-shipped.test.ts` | Plays the shipped lone bard through the first-leaf alternative and ending. Keep the actual route and calling-specific contrast. |
+| `test/winter-in-carth-small.test.ts` | Plays numerous authored Carth routes, callings and city strands. Keep every path and consequence, despite the filename. |
+| `test/winter-in-carth-wander.test.ts` | Four parties and two seeds wander the authored Carth campaign with per-turn invariants and eventual endings. Keep all parties, seeds and invariants. |
+| `test/winter-in-carth.test.ts` | Lints and plays Carth's principal journeys and endings, including save/resume and deterministic replay. Keep the whole authored scenario and all outcomes. |
+| `test/winter-sky.test.ts` | Generated frost kite travels to another town and checks departure voice. Keep actual terrain, route and all departure lines. |
 | `test/what-tessary-owes-wander.test.ts` | Four seeded random walks exercise the authored Tessary campaign with per-turn invariants. Keep the actual scenario, seeds and invariants. |
 | `test/what-tessary-owes.test.ts` | Lints and plays the authored Tessary campaign through many endings, failure paths, saves and a generated-world province entry. Keep every journey and integration case. |
 | `test/whom-named.test.ts` | Generated kite stages job completion and follows its aim toward the merchant. Keep the actual town, person and staged state. |
