@@ -35,6 +35,8 @@ silently waived. The whole small suite was not rerun after this port.
 Typechecks, lint and the browser build pass; regenerated handbooks contain
 3,242 entries and still report four problems. Canonical-city placement remains
 a landing blocker. This material is for a **review branch**, not a main landing.
+The code and these reports are published on
+[`copilot/empty-seat-saga`](https://github.com/jweissman/kyrie/tree/copilot/empty-seat-saga).
 
 ## What the language did well
 
@@ -175,6 +177,11 @@ Then integrate one actual provincial reunion, with preserved identity and
 state, before expanding the whole council. For procedural growth, try two
 coherent station situations with different needs and solutions, not ten more
 descriptions of the same clerk.
+
+For mathematical exploration, make one genuinely different second instrument.
+Another counting glass is not another permanent faculty. The three-dimensional
+stellar map and eclipse prediction require a world model the current drawings
+do not provide; they should not be promised by a pretty display.
 
 These are recommendations, not newly implemented scenes or commissions.
 
