@@ -23,8 +23,60 @@ concurrency: { group: "ci-${{ github.ref }}-${{ github.event_name }}", cancel-in
 defaults:
   run: { working-directory: kyrie }
 jobs:
+  tier-measure:
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'copilot/spec-tier-measure-1128' }}
+    name: same-runner tier samples
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: before, ref: b7f3c2a1a0e1555a815d36886fc2ad9160f5d13f, sparse-checkout: "/*\n!/assets/", sparse-checkout-cone-mode: false }
+      - uses: actions/checkout@v4
+        with: { path: after, ref: ec59784b, sparse-checkout: "/*\n!/assets/", sparse-checkout-cone-mode: false }
+      - id: tier-orsino
+        working-directory: before
+        run: echo "revision=$(jq -r .source.revision data/sources/orsino/registry.json)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with: { repository: jweissman/orsino, ref: "${{ steps.tier-orsino.outputs.revision }}", path: orsino }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - name: Install both revisions
+        working-directory: .
+        run: |
+          (cd before && bun install --frozen-lockfile)
+          (cd after && bun install --frozen-lockfile)
+      - name: Measure cold individual processes
+        working-directory: .
+        run: |
+          for tree in before after; do
+            echo "=== $tree ==="
+            (
+              cd "$tree"
+              for spec in test/small/kind-words.test.ts test/small/tiny-costs.test.ts test/give-kind.test.ts test/small/haggle.test.ts; do
+                echo "=== $tree $spec ==="
+                /usr/bin/time -v bun test "$spec"
+              done
+              echo "=== $tree kernel horizon ==="
+              /usr/bin/time -v bun test test/small/tiny-horizon.test.ts -t 'kernel alone where nothing is named'
+              echo "=== $tree one generated country ==="
+              /usr/bin/time -v bun test test/desert-country.test.ts -t 'is played into'
+            )
+          done
+      - name: Measure one push-lane shard
+        working-directory: .
+        run: |
+          for tree in before after; do
+            echo "=== $tree push lane shard 1/8 ==="
+            (
+              cd "$tree"
+              files=$(bun scripts/test-lane.ts push | tr '\n' ' ')
+              test -n "$files" || { echo "the push lane is empty"; exit 1; }
+              /usr/bin/time -v bun test --parallel --timeout=30000 --shard=1/8 --timings=test/timings.json $files
+            )
+          done
   check:
     name: lint and types
+    if: ${{ github.event_name != 'workflow_dispatch' || github.ref_name != 'copilot/spec-tier-measure-1128' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -65,6 +117,7 @@ jobs:
   # The suite below runs them again with everything else.
   intent:
     name: player contracts
+    if: ${{ github.event_name != 'workflow_dispatch' || github.ref_name != 'copilot/spec-tier-measure-1128' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -95,7 +148,7 @@ jobs:
   # assets/. Every other job, and a builder's worktree (tools/worktree.sh), is without it (the owner, 25 November).
   images:
     name: the images
-    if: ${{ github.event_name != 'workflow_dispatch' || github.ref_name != 'copilot/spec-fixtures-gates-1128' }}
+    if: ${{ github.event_name != 'workflow_dispatch' || (github.ref_name != 'copilot/spec-fixtures-gates-1128' && github.ref_name != 'copilot/spec-tier-measure-1128') }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -151,7 +204,7 @@ jobs:
   # had brought each run back to twenty and thirty minutes; the 267 slow files, nine tenths of the suite's time, go to
   # the night, and the night is kept green). Sixteen shards, balanced by the files' kept times.
   suite:
-    if: ${{ github.event_name != 'workflow_dispatch' || github.ref_name != 'copilot/spec-fixtures-gates-1128' }}
+    if: ${{ github.event_name != 'workflow_dispatch' || (github.ref_name != 'copilot/spec-fixtures-gates-1128' && github.ref_name != 'copilot/spec-tier-measure-1128') }}
     name: suite ${{ matrix.shard }}/${{ github.event_name == 'push' && 8 || 16 }}
     runs-on: ubuntu-latest
     # Forty-five while the Book of Faces' specs are balanced by estimates, not kept timings (a shard ran past thirty).
