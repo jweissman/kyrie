@@ -6,6 +6,9 @@ import type { DeepContent } from '../../../src/world/deep/deep-pacing';
 import type { DeepPurpose } from '../../../src/world/deep/deep-purposes';
 import { Tiny } from '../../support/tiny';
 
+// Each probe on the kernel and the packages it reads (OR-407).
+const start: typeof Tiny.start = (kyr, options = {}) => Tiny.start(kyr, { horizon: ['inhabitants', 'probing'], ...options });
+
 // The deep renewed (OR-1622): a level emptied is not emptied for good. Bands wait beyond the workings one after
 // another; the first moves into a room the company emptied, the first dawn after it is gone off the level, and once
 // it is killed the next comes, a rank stronger, into the room where it fell. Each brings what such dwellers carry,
@@ -56,7 +59,7 @@ describe('World › The deep renewed', () => {
     expect(at('humanoid', 2).reduce((n, r) => n + r.coin, 0)).toBeGreaterThan(at('humanoid', 0).reduce((n, r) => n + r.coin, 0));
   });
   it('sends one band after another into the room emptied, each leaving what it carried where it fell', async () => {
-    const t = await Tiny.start(kyr, { seed: 'r0', party });
+    const t = await start(kyr, { seed: 'r0', party });
     await t.perform('attack(t__rats)');
     expect(t.world.test({ kind: 'call', name: 'dead', args: ['t__rats'] })).toBe(true);
     // Off the level a night: the robbers, the depth's other kind, have moved in, their things still with them beyond.
