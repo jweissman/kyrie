@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/weir-mage-odds.test.ts` | Generated iscoed recruits Gesk and simulates 200 seeded rat fights before and after hiring. Keep the actual combatants and both measured bands. |
+| `test/weir-resumed.test.ts` | Replays cold-play lines in generated iscoed and resumes twice through the sea-gate consequences. Keep the actual transcript, checkpoint and downstream witness. |
+| `test/weir-route.test.ts` | Plays generated iscoed from recruitment through fights, payment and the sea-gate route using the ordinary player. Keep the full integrated journey. |
+| `test/wetdrusilla-placed.test.ts` | Checks Wet Drusilla's placement across generated seeds and travels from kite through its frontier. Keep the geography and cross-module arrival. |
+| `test/wetdrusilla.test.ts` | Lints and plays the authored Wet Drusilla campaign across its branches, endings and integration mends. Keep every journey and outcome. |
+| `test/what-it-takes.test.ts` | Generated a1 stages several barrow rooms to play and inspect equipment, traps, sale, enemies and healing; one pure prose case also runs. Keep each distinct claim. |
+| `test/what-tessary-owes-browser.test.ts` | Opt-in browser test builds and plays the authored campaign at desk and phone sizes. Keep real page interactions and observations. |
+| `test/what-tessary-owes-company.test.ts` | Plays the authored Tessary campaign with thief and warrior parties, including quay contrasts and off-road observations. Keep both parties and all outcomes. |
 | `test/ways-incremental.test.ts` | Compares cached known-way trees with fresh searches on all continuity census walks. Keep the actual replays and every observed search. |
 | `test/weary-fights.test.ts` | Checks isolated combat and condition release, then plays two fights, checkpoint and replay in generated wren. Keep both isolated and world-level claims. |
 | `test/weary-told.test.ts` | Generated kite stages near-weariness and plays a tower climb to check narration order. Keep the real action and timing setup. |
