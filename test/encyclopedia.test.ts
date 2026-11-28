@@ -58,16 +58,16 @@ describe('the Encyclopedia of Imbar', () => {
     expect(page).toContain('Merrowdale');
     expect(page).toContain(lands.find(l => l.name === 'Merrowdale')!.heard.replace(/'/g, '&#39;').slice(0, 30));
   });
+  // In what is told of it near and once heard; not in what is said a country further off, which the saga's last pass
+  // left to each country's own sight (doc/adventures/theemptyseat/review.md: no repeated succession footer).
   it('carries the succession crisis and a local cast member through every adventure', () => {
     const adventures = countries.filter(country => country.province);
     expect(adventures.length).toBeGreaterThan(0);
     for (const adventure of adventures) {
       expect(adventure.rumour).toMatch(/succession/i);
       expect(adventure.heard).toMatch(/succession/i);
-      expect(adventure.far).toMatch(/succession/i);
       expect(adventure.rumour).toContain('Ash');
       expect(adventure.heard).toContain('Ash');
-      expect(adventure.far).toContain('Ash');
       expect(adventureCastNames(adventure).some(name => adventure.rumour?.includes(name))).toBe(true);
     }
   });
