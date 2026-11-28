@@ -69,10 +69,16 @@
   "take2": {
    "floor": 251,
    "ceiling": 1500
+  },
+  "takeBelow": {
+   "floor": 1501
+  },
+  "fifth": {
+   "floor": 26
   }
  },
  "ratchets": {
-  "routine": 71,
+  "routine": 76,
   "fair": 100,
   "unwitnessed": 0,
   "variety": 6,
@@ -83,7 +89,7 @@
   "handed": 14,
   "bestiary": 49,
   "delved": 3.33,
-  "answered": 8,
+  "answered": 6,
   "mouth": 15,
   "strayed": 0,
   "colours": 3,

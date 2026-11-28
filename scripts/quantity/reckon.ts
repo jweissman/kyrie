@@ -3,6 +3,7 @@ import type { Reading, Readings } from './measures';
 import type { Walked } from './walks';
 import { QuantityBestiary } from './bestiary';
 import { QuantityLadder } from './ladder';
+import type { Trip } from './expeditions';
 
 // How each quantity is worked out from what was read (see QuantityMeasures for what each is held to).
 export class Reckon {
@@ -176,19 +177,29 @@ export class Reckon {
       .join('; ') };
   }
   // The kinds of answer the five expeditions gave what they met below, and each one's own (OR-1392).
+  // Read over each reference life where there are several, the median held, each said (OR-1622: one life's five
+  // expeditions are a lottery).
   static answered(r: Readings): Reading {
     const ts = r.expeditions;
     if (!ts) { return { value: null, note: 'not read' }; }
-    return { value: new Set(ts.flatMap(t => t.answers)).size,
-      note: ts.map(t => `${t.n}: ${t.answers.join(' ') || 'none'}`).join('; ') };
+    return this.lived(r, l => new Set(l.flatMap(t => t.answers)).size,
+      ts.map(t => `${t.n}: ${t.answers.join(' ') || 'none'}`).join('; '));
   }
   static routine(r: Readings): Reading {
-    const ts = (r.expeditions ?? []).slice(1);
     if (!r.expeditions) { return { value: null, note: 'not read' }; }
-    const all = ts.reduce((n, t) => n + Object.values(t.moves).reduce((a, b) => a + b, 0), 0);
-    const routine = ts.reduce((n, t) => n + t.moves.traversal + t.moves.administration, 0);
-    const below = ts.reduce((n, t) => n + (t.routine?.below ?? 0), 0);
-    return { value: this.pct(routine, all), note: `${routine} of ${all} moves, ${below} of them below` };
+    const first = this.moved(r.expeditions);
+    return this.lived(r, l => { const x = this.moved(l); return this.pct(x.routine, x.all); },
+      `${first.routine} of ${first.all} moves, ${first.below} of them below`);
+  }
+  private static moved(l: Trip[]): { all: number; routine: number; below: number } {
+    const ts = l.slice(1), all = ts.reduce((n, t) => n + Object.values(t.moves).reduce((a, b) => a + b, 0), 0);
+    return { all, routine: ts.reduce((n, t) => n + t.moves.traversal + t.moves.administration, 0),
+      below: ts.reduce((n, t) => n + (t.routine?.below ?? 0), 0) };
+  }
+  private static lived(r: Readings, value: (trips: Trip[]) => number, note: string): Reading {
+    if (!r.lives) { return { value: value(r.expeditions!), note }; }
+    const each = Object.fromEntries(Object.entries(r.lives).map(([seed, l]) => [seed, value(l)]));
+    return { value: QuantityLadder.mid(Object.values(each)), note: `${this.said(each)}; ${Object.keys(each)[0]}: ${note}` };
   }
   static kept(r: Readings): Reading {
     const ts = (r.expeditions ?? []).slice(1);
@@ -204,6 +215,11 @@ export class Reckon {
   // What a level of the reference dungeon holds to carry home, coin and sold (QuantityDungeon.takes).
   static take1(r: Readings): Reading { return this.take(r, 0); }
   static take2(r: Readings): Reading { return this.take(r, 1); }
+  static takeBelow(r: Readings): Reading {
+    const n = (r.takes ?? []).findIndex(l => l.id.endsWith('_below'));
+    return n < 0 ? { value: null, note: r.takes ? 'no level below' : 'not read' } : this.take(r, n);
+  }
+  static fifth(r: Readings): Reading { return QuantityLadder.fifth(r.ladder); }
   private static take(r: Readings, n: number): Reading {
     const level = r.takes?.[n];
     return level ? { value: level.take, note: (r.takes ?? []).map(l => `${l.id.replace(/^region__s1_ud_/, '')} ${l.take}`)

@@ -140,5 +140,28 @@ describe('the quantity gate', () => {
     const takes = [{ id: 'region__s1_ud_barrow', take: 53 }, { id: 'region__s1_ud_halls', take: 495 }];
     expect([Reckon.take1({ ...fixed, takes }).value, Reckon.take2({ ...fixed, takes }).value]).toEqual([53, 495]);
     expect(Reckon.take2({ ...fixed, takes: takes.slice(0, 1) }).value).toBeNull();
+    // And the level below the makers' works, by its id, wherever it falls among the levels (OR-1622).
+    const below = [...takes, { id: 'region__s1_ud_below', take: 1707 }];
+    expect([Reckon.takeBelow({ ...fixed, takes }).value, Reckon.takeBelow({ ...fixed, takes: below }).value])
+      .toEqual([null, 1707]);
+    // The fifth expedition's take, net of what it spent; none read before five.
+    expect([at('fifth').value, at('fifth').note]).toEqual([0, 'takes -3, -9, 77, -2, 0; the fifth 0% of the best']);
+    expect(at('fifth', { ...ladder, coin: [27, 39, 37, 285, 309] }).value).toBe(24);
+    expect(at('fifth', { ...ladder, coin: [9, 0] }).value).toBeNull();
+    // Read over several lives, the purse at each return is their median, a life that fell keeping its last.
+    const lives = QuantityLadder.median({ s0: { ...ladder, coin: [29, 23, 23, 21, 403] },
+      s4: { ...ladder, coin: [169, 175] }, s7: { ...ladder, coin: [67, 185, 182, 205, 244] } });
+    expect(lives.coin).toEqual([67, 175, 175, 175, 244]);
+    expect(at('rung1', lives).note).toContain('s4 169, 175');
+  });
+  it('reads the expeditions\' ratchets as the median of the reference lives (OR-1622)', () => {
+    const trip = (answers: string[], traversal: number, decision: number) => ({ n: 1, answers,
+      moves: { decision, consequence: 0, traversal, recovery: 0, administration: 0, exposition: 0 } });
+    const life = (k: number) => [trip([], 0, 0), trip(['fight', 'round', 'listen'].slice(0, k), k, 4 - k)];
+    const lives = { s0: life(1), s4: life(2), s7: life(3) } as unknown as Readings['lives'];
+    const read = (id: string) => Reckon[QuantityMeasures.all.find(m => m.id === id)!.read]({ ...fixed,
+      expeditions: lives!.s0, lives });
+    expect([read('answered').value, read('answered').note.startsWith('s0 1, s4 2, s7 3')]).toEqual([2, true]);
+    expect(read('routine').value).toBe(50);
   });
 });
