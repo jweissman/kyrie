@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/travel-ways-oracle.test.ts` | Compares the optimized travel row projection with the full-frame oracle on the golden walk and three generated countries. Keep both paths and every seeded journey. |
+| `test/travel.test.ts` | Generated kite, wren and f1 exercise road destinations, Merrowdale, bridge narration and journey naming, plus a pure night check. Keep the actual worlds and navigation cases. |
+| `test/treasure.test.ts` | Generated a1 plays barrow treasure, merchant sale and replenishment, with location and merchant funds staged. Keep generated goods, economy and both paths. |
+| `test/troubles.test.ts` | Generated kahitude plays its town's multiple situations and outcomes with some placement and knowledge staged. Keep the actual generated arcs and contrasts. |
+| `test/turns-on.test.ts` | A single turns-on probe plays hostility, warning and subsequent attack. A fragment is a candidate if both warning and delayed attack remain non-vacuous. |
+| `test/two-fights.test.ts` | Generated cov2 stages two opponents for consecutive combat and checks their narration; a pure narration example also runs. Keep both real fights and the staged circumstances. |
+| `test/two-modules-one-town.test.ts` | Generated a1 inspects choices in every room of six co-located module owners. Keep the actual composition and locality checks. |
+| `test/two-ways-in.test.ts` | One authored probe plays alternative entries and checks their distinct labels. A fragment is a candidate if both entries and the single-entry contrast remain. |
 | `test/town-return.test.ts` | Generated kite stages treasure, wealth and experience for trade and training, and plays a named-work lead. Keep the actual traders, lessons and aim with staged setup explicit. |
 | `test/traces.test.ts` | Replays every kept trace or transcript against its recorded place, time and narration. Keep all recorded campaigns and traces, not a representative substitute. |
 | `test/trade-short.test.ts` | Generated kahitude stages the dealer's coin and ownership of a treasure, comparing the counter before and after replenishment. Keep that real dealer and both states. |
