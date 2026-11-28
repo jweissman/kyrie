@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 74 capabilities; 258 pins (227 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 763 live rows, 255 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 74 capabilities; 260 pins (229 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 763 live rows, 255 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -105,7 +105,7 @@ page's colours and opportunities.)
 
 ### Conflict
 
-- **Engagements and warnings** · 8 pins · 9 defects · 5 asks
+- **Engagements and warnings** · 8 pins · 8 defects · 5 asks
   - ○ before a fight the company is told what is at risk, as it reckons it, in words
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same
@@ -119,13 +119,15 @@ page's colours and opportunities.)
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
   - requirement OR-1447 P2: OR-1392 asks a territorial hazard of the first level, a maintained mechanism of the second and…
-- **Fights that cost** · 9 pins · 18 defects · 18 asks
+- **Fights that cost** · 11 pins · 18 defects · 18 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
   - ✓ can kill where the company's reckoning says grave or deadly, and is won where it says fair or slight
   - ✓ keeps a boss on its feet past the first round
   - ✓ says a fight a first-level ${as.split('/')[1]} cannot win is grave before it starts, and never says less
+  - ✓ says after three rounds that the blows barely bite the banshees, and offers the way out beside the blow
+  - ✓ says nothing of it where the blows bite (zombies), nor before the third round
   - ✓ does not tell five rats as able to bring down a warrior they cannot bite through
   - ✓ has a band of rats lose heart, and is over sooner for it
   - ✓ offers words to the bands that would hear them, each at a turn it gives, and none to a band that comes at once
@@ -820,7 +822,7 @@ page's colours and opportunities.)
   - requirement R10-05 P2: Acceptance defect B6 (11 November): one combined replay through the headless projection and the…
   - requirement OR-525 P1: Restoration, carried as a beta commitment at alpha's close (trust-contracts.md: "to do") and never…
   - requirement MT-27 P2: Saves carry the compiled module rather than chiefly state (Finding F: a 2.8 MB checkpoint, 1.6 MB…
-- **Start-up and loading** · 1 pins · 7 defects · 15 asks
+- **Start-up and loading** · 1 pins · 8 defects · 15 asks
   - ✓ keeps the game once, however many legs it goes
   - direction SP-02 P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB…
   - requirement SP-03 P2: Reuse compiled module and operator definitions across sessions; cache one player frame per response
