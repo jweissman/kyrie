@@ -16,7 +16,7 @@ describe('Interface › The oracle', () => {
       Place lane "the lane" is room at 0, 0 outdoors.
       Place hall "the hall" is room at 1, 0.
       Passage door "the door" is door between lane and hall taking 2 minutes.
-      Company party "You" of 1 at lane.`);
+      Company party "You" of 1 at lane.`, { horizon: [] });
     // The game the host plays, as begin would have left it (a world's begin is seconds; a fragment's is not).
     const host = new EngineHost(() => undefined);
     (host as unknown as { session: PlaySession }).session = t.session;
