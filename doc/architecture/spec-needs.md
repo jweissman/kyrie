@@ -32,6 +32,11 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/small/barred-means.test.ts` | One tower fixture module on the shared rules, not a corpus. The blocked way and the named chandler's rope are the positive witnesses. |
 | `test/small/turn-attribution.test.ts` | Toy synchronous and asynchronous functions and an injected clock; it starts no world. Its imported measurement script also imports the golden-walk machinery, so splitting the reusable timer from that script is a possible further reduction. |
 | `test/small/laboratory-retreat.test.ts` | One laboratory fixture with combat, retreat, a purchase and a second descent. The complete sequence and persistent enemy state are the claim. |
+| `test/acid-splash.test.ts` | Combat and catalog cases plus a single generated laboratory module. Its caster-generation check and the combat hit, miss and resistance cases must all survive any narrowing. |
+| `test/acquainted.test.ts` | One `acquainted` fixture campaign, with a greeting followed by the changed name. A smaller fragment may prove the same behavior but has not been checked. |
+| `test/action-hours.test.ts` | Parser fragments and one `the-hour` fixture campaign. The timed actions and narration in the campaign are required witnesses. |
+| `test/aim-inside-site.test.ts` | A generated `kite` world with its actual tower and site placement. Its specific in-site aim and exit must both be present in any cheaper reproduction. |
+| `test/aim-now.test.ts` | One Silkholme fixture campaign spanning the brood's related modules. The original and revised aim across both encounters are the claim. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
