@@ -46,6 +46,13 @@ describe('back in town with what was won', () => {
     const s = await Session.start(w.path, 'kite', w.source);
     const { Undertakings } = await import('../src/presentation/undertakings');
     const before = new Set(Undertakings.held(s.campaign).map(o => o.id));
+    // The cisterns heard of first, as asking after them needs (OR-1680: never asked on no grounds), as the innkeeper
+    // tells of them.
+    const { TopicGrounds } = await import('../src/ui/topic-grounds');
+    const { ModuleWriter } = await import('../src/lang/module-writer');
+    const ask = s.campaign.module.actions.find(a => a.topic && /_rivals_asked$/.test(a.id))!;
+    const heard = TopicGrounds.of(ask.requires).find(g => g.kind === 'knows')!.on;
+    s.campaign.commitWorld(s.campaign.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', heard) }]));
     await s.leg(PlayerView.choices(s.campaign).find(x => /^Ask .*old cisterns/.test(x.choice.name))!.choice.id);
     // The aim it gives followed, as the player chooses it (the owner, 12 November: none is followed for them).
     Undertakings.follow(s.campaign, Undertakings.held(s.campaign).find(o => !before.has(o.id))!.id);

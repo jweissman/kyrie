@@ -11,12 +11,16 @@
 // - the robbers' tunnel out of the ossuary is hidden now until the robbers' captain tells of it or the ossuary is
 //   searched (OR-1443): the company searches the ossuary once its fight is over (line 82), and takes the tunnel by the
 //   play's own next line (83), as it did.
+// - the agent on the green is asked about the king-barrow only by one who has heard of it (OR-1680: the cold player
+//   had asked after a barrow never heard of): in the taproom (line 20) the innkeeper is asked what the matter is and
+//   about the barrow, so the play's own question to the agent (line 26) has its grounds.
 import { readFileSync } from 'node:fs';
 
 const act = (id: string) => JSON.stringify({ act: id });
 export class ColdFour {
   static readonly path = 'doc/architecture/mission-22/cold/cold-4-lines.txt';
   static readonly after: Readonly<Record<number, readonly string[]>> = {
+    20: [act('region__s1_innkeeper_matter'), act('region__w8_rumour')],
     27: [act('region__wr173r/0:Ask two footpads to let you by · an even chance · one try'), act('fight:through'),
       act('travel:region__w8'), act('company/0:Wait until first light')],
     54: [act('fight:through')],
