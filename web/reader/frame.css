@@ -185,6 +185,14 @@ html, body { overflow: hidden; }
     var(--violet-t), var(--gold-t), var(--red-t), var(--green-t)) 50% 0 / 100% 300%;
   box-shadow: 0 0 22px -6px var(--violet-t), 0 0 22px -6px var(--gold-t);
   animation: indicator-rise 1s var(--ease) both, indicator-flow 2.8s linear both; }
+/* The indicator stands in its own place, the sparks struck from it set by it (Ident.sparks, OR-1804): each a point of
+   neutral light at the height the tip had risen to, thrown up and aside and gone, once. */
+.ident .stand { position: relative; display: block; }
+.ident .spark { position: absolute; left: 50%; bottom: var(--sh); width: var(--ss); height: var(--ss);
+  margin: 0 0 calc(var(--ss) / -2) calc(var(--ss) / -2); border-radius: 50%; background: rgb(236, 234, 230);
+  box-shadow: 0 0 8px 1px rgba(236, 234, 230, .6); opacity: 0; animation: spark var(--st) var(--sd) ease-out both; }
+@keyframes spark { 0% { opacity: 0; transform: translate(0, 0); } 12% { opacity: .95; }
+  100% { opacity: 0; transform: translate(var(--sx), var(--sy)); } }
 @keyframes indicator-rise { from { transform: scaleY(0); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
 @keyframes indicator-flow { from { background-position: 50% 0; } to { background-position: 50% 100%; } }
 .ident .studio { margin: 0; font: 300 clamp(11px, 1.15vw, 15px)/1 var(--do); letter-spacing: .5em; padding-left: .5em;

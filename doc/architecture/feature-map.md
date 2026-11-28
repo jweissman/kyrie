@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 238 pins (207 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 734 live rows, 241 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 240 pins (209 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 734 live rows, 241 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -512,7 +512,7 @@ page's colours and opportunities.)
 
 ### Beginning
 
-- **The title and Play** · 14 pins · 2 defects · 11 asks
+- **The title and Play** · 16 pins · 2 defects · 11 asks
   - ✓ carries each spark in a gust that crosses the dark from the left, the lighter further
   - ✓ moves the sparks only, by the wind's one cycle, in no colour, and not at all for less motion
   - ✓ gives the title its rows and hints: the ways in, Options and Quit, over the embers, its name heading
@@ -524,6 +524,8 @@ page's colours and opportunities.)
   - ✓ knows the terminal's kept game, and refuses one it cannot open
   - ✓ holds nothing on the title, how a game begins, creation's rows or the opening's Continue
   - ✓ takes every press at once, a quick second tap on the page just drawn among them
+  - ✓ strikes sparks from the indicator's tip as it rises, each out before the mark goes
+  - ✓ draws them in no colour, once, by their light and place alone
   - ✓ offers New Game, Continue, Options and Quit, in that order, Continue only with a life to continue
   - ✓ is drawn as those rows and nothing else to press
   - ✓ takes Quit honestly: the game put away, kept, and a way back to the title
