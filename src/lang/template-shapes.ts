@@ -21,7 +21,8 @@ export interface Held { from: number; to: number; field?: Field }
 interface Mark { fill: string; number: boolean }
 interface Holed { lines: string[]; marks: Mark[]; used: Set<number>[] }
 export class TemplateShapes {
-  private static readonly placeholder = /\{(!?)([a-z]+)\}/y;
+  // What the holes are read past: an escape (before a placeholder or not), a quote, a comment, a placeholder.
+  private static readonly token = /\\(?:(\{(!?)([a-z]+)\})|[\s\S]?)|"|\/\/|\{(!?)([a-z]+)\}/g;
   private static readonly mark = /qz(\d+)zq/g;
   private static readonly numbered = /90909(\d{4})/g;
   private static readonly base = 909090000;
@@ -71,32 +72,35 @@ export class TemplateShapes {
   // One line with its placeholders as holes or text (KyrTemplates.fill's placeholders: "{name}", "{!name}" as it is).
   private static line(line: string, values: Record<string, string>,
     hole: (fill: string, number: boolean) => string): string | undefined {
-    let out = '', quoted = false;
-    for (let i = 0; i < line.length;) {
-      this.placeholder.lastIndex = i;
-      const m = line[i] === '{' ? this.placeholder.exec(line) : null, v = m ? values[m[2]!] : undefined;
-      if (m && typeof v === 'string') {
-        if (/qz\d+zq|90909/.test(v)) { return undefined; }
-        if (m[1]) { out += v; quoted = this.quoting(v, quoted); }
-        else { out += this.put(v, quoted, [out.at(-1) ?? '', line[i + m[0].length] ?? ''], hole); }
-        i += m[0].length; continue;
+    let out = '', quoted = false, last = 0;
+    const token = this.token;
+    token.lastIndex = 0;
+    for (let m = token.exec(line); m; m = token.exec(line)) {
+      out += line.slice(last, m.index); last = token.lastIndex;
+      const t = m[0];
+      if (t === '"') { quoted = !quoted; out += t; continue; }
+      if (t === '//') {
+        if (!quoted) { return out + line.slice(m.index); }
+        out += t; continue;
       }
-      const c = line[i]!;
-      if (!quoted && c === '/' && line[i + 1] === '/') { return out + line.slice(i); }
-      if (quoted && c === '\\') {
-        // An escape before a placeholder escapes the value's first character, as the filled text has it.
-        this.placeholder.lastIndex = i + 1;
-        const p = line[i + 1] === '{' ? this.placeholder.exec(line) : null, pv = p ? values[p[2]!] : undefined;
-        if (p && typeof pv === 'string') {
-          if (p[1]) { return undefined; }
-          out += c + this.escaped(pv); i += 1 + p[0].length; continue;
+      if (t[0] === '\\') {
+        const v = m[1] !== undefined ? values[m[3]!] : undefined;
+        // Outside a string a backslash is only itself; in one, an escape, and an escape before a placeholder escapes
+        // the value's first character, as the filled text has it.
+        if (!quoted) { out += '\\'; last = token.lastIndex = m.index + 1; continue; }
+        if (typeof v === 'string') {
+          if (m[2]) { return undefined; }
+          out += `\\${this.escaped(v)}`; continue;
         }
-        out += line.slice(i, i + 2); i += 2; continue;
+        out += t; continue;
       }
-      if (c === '"') { quoted = !quoted; }
-      out += c; i++;
+      const v = values[m[5]!];
+      if (typeof v !== 'string') { out += t; continue; }
+      if (/qz\d+zq|90909/.test(v)) { return undefined; }
+      if (m[4]) { out += v; quoted = this.quoting(v, quoted); continue; }
+      out += this.put(v, quoted, [out.at(-1) ?? '', line[last] ?? ''], hole);
     }
-    return out;
+    return out + line.slice(last);
   }
   // A value where its placeholder is: in a string, a hole for its words; outside one, a hole for a name or a part of
   // one (beside: the characters either side) or for a whole number; else its text, as KyrTemplates.fill puts it.

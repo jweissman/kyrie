@@ -114,9 +114,20 @@ export class ModuleSource {
     return conditions.reduceRight((right, left) => ({ kind: 'and', left, right }));
   }
   private static assert(name: string, ...args: string[]): Change { return ModuleSource.change('assert', name, ...args); }
-  private static line(d: Declared): string { return `${ModuleSource.mark}${JSON.stringify(d)}`; }
+  // The declarations a line was made for lately, by the line: read again and again as a country is written (its files
+  // parted by their Kyr's length, its quarters read from it), each had been parsed from its words each time. A
+  // read not kept is parsed, as before; read, a declaration is the one kept, never to be changed.
+  private static readonly lately = new Map<string, Declared>();
+  private static line(d: Declared): string {
+    const line = `${ModuleSource.mark}${JSON.stringify(d)}`;
+    if (ModuleSource.lately.size >= 60000) { ModuleSource.lately.clear(); }
+    ModuleSource.lately.set(line, d);
+    return line;
+  }
   static is(line: string): boolean { return line.startsWith(ModuleSource.mark); }
-  static read(line: string): Declared { return JSON.parse(line.slice(ModuleSource.mark.length)) as Declared; }
+  static read(line: string): Declared {
+    return ModuleSource.lately.get(line) ?? JSON.parse(line.slice(ModuleSource.mark.length)) as Declared;
+  }
   // A writer's lines as Kyr, each value written as its line (for inspection, and for what reads a writer's words).
   static text(lines: readonly string[]): string[] {
     return lines.map(l => ModuleSource.is(l) ? ModuleSource.read(l).kyr : l);
