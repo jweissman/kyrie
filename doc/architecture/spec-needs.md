@@ -47,6 +47,12 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/aims.test.ts` | A generated `kite` world with the order origin, the tower aim and its feedback, plus a pure place-id case. Both the actual aim transition and the pure case must remain. |
 | `test/alias-names.test.ts` | One inline module and party. Retained as-is: several negative prose assertions need positive witnesses that the corresponding tellings were present before narrowing. |
 | `test/alone-told.test.ts` | Generated `kite` worlds for two origins, including the actual first-town inn and traveller. The before-and-after talk and narration are required witnesses. |
+| `test/act-budget.test.ts` | One generated `a1` world and Eogan's real four-question sequence. This is a timed integration budget; a fragment would measure a different workload. |
+| `test/action-flat.test.ts` | Two `kahitude` generated-world starts and the actual shrine tower, corn-store door and padlock. The engine-to-page row wording and flattening remain integration claims. |
+| `test/aim-return.test.ts` | One generated `a1` world and the runner's actual Eogan, shop and landing sequence. Its single gold exit after revisiting the landing requires the authored route. |
+| `test/aim-successor.test.ts` | One generated `kahitude` world, the cellar rat-job chain and its light and warren exit. The held successor, absent separate aim and continuing row are distinct claims. |
+| `test/aim-unasked.test.ts` | Generated `iscoed` and `kahitude` worlds, Gek's actual answers and the worlds' objective text. The offer has two positive witnesses; the objective-text loop would need nonempty witnesses before narrowing. |
+| `test/aim-who.test.ts` | One generated `a1` world and its notice, shrine and father errand. The optional father lookup can pass if the errand is absent; establish that witness before narrowing. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
