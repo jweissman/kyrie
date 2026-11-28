@@ -11,6 +11,13 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/the-lull-revised.test.ts` | The authored Lull and five-calling fixture play perception and Hester's contrasting cleric and lone-warrior outcomes. Keep both parties and their actual paths. |
+| `test/the-lull-wander.test.ts` | Three Lull parties walk seeded offered choices with invariants and wait toward an ending. Keep the actual authored world, seeds, party variants and conditional outcome checks. |
+| `test/the-lull.test.ts` | The authored Lull is linted and played through many timed routes, character builds and distinct endings. Keep the real campaign and action fixtures. |
+| `test/the-slack.test.ts` | Generated thorn installs five or six provinces and plays the Slack and ship routes across them, with items and some locations staged. Keep the cross-adventure installation and outcomes; staged possessions are not earned play. |
+| `test/the-third-night-legend.test.ts` | The authored Third Night campaign plays legend, bread and river routes with contrasting parties and timings. Keep those real routes and outcomes. |
+| `test/the-third-night-small.test.ts` | The authored Third Night campaign plays the city's small adventures, different builds and their later consequences. Keep the recorded routes and distinct builds. |
+| `test/the-third-night-voices.test.ts` | The authored Third Night campaign plays calling-specific observations and Bargeman routes; some cross-world knowledge is staged. Keep the party contrasts and mark staged facts. |
 | `test/the-long-man-charter.test.ts` | The authored Long Man campaign plays charter, bell and company routes using actual scene choices and timed events. Keep those different routes and consequences. |
 | `test/the-long-man-company.test.ts` | The authored Long Man campaign compares ranger and non-ranger approaches, company choices and conversations. Keep the actual party differences and played outcomes. |
 | `test/the-long-man-trimmer.test.ts` | The authored Long Man campaign plays the lamp-trimmer's two beats; the second case stages knowledge and location. Keep both conversations and mark the staged setup. |
