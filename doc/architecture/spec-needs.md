@@ -71,6 +71,12 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/begin-flow.test.ts` | The real engine host, headless rendered title and generated countries, including checkpoint and replay paths. The title-to-play and per-life seed interactions are integration claims. |
 | `test/bell-lead.test.ts` | The generated `kite` world with Brightbridge, Joygate, the hobs and the shepherd. It asserts the lead before and after each actual discovery. |
 | `test/bell-walk.test.ts` | The generated `kite` world and a complete bell-and-shepherd expedition, including the planned travel, returned bell and persistent fled state. A fragment cannot replace the walk. |
+| `test/board-update.test.ts` | An `a1` world and multiple actual town journeys, compared with newly built map models. The positive changed-board witness prevents the no-rebuild checks from being empty. |
+| `test/borne-out.test.ts` | An `a1` world and real host frames, a teller and a walked site. Both heard-then-seen and seen-then-heard paths and the once-only notes must remain. |
+| `test/broken-off.test.ts` | The Long Man campaign and its timed storm. The cut flag, storm response and begun narration are a single authored-time integration claim. |
+| `test/calling-portability.test.ts` | Many shipped campaigns and generated provinces with different parties. Its cross-installation calling identity and authored voices are corpus-wide claims, not one module. |
+| `test/capability-market.test.ts` | Generated `kite` worlds for a ranger and a mage, with the actual town's trainers and shops. The purchases, training and caster-specific availability are separate witnesses. |
+| `test/castellan-answered.test.ts` | One generated `kahitude` world and its actual castellan encounter. The two offered answers and conditional response/state agreement must survive any narrowing. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
