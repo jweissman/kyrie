@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/small/save-schemas-once.test.ts` | The ford-road fixture plays commands, saves and resumes, comparing schema IDs, canonical state and further digests. Keep the actual checkpoint boundary and continued play; prove the missing duplicate-schema negative before narrowing. |
+| `test/small/single-module.test.ts` | Runs play and inspect CLI entry points on one bare yard module. Keep the real file, CLI paths and refused purchase explanation. |
+| `test/small/sleep-band.test.ts` | Synthetic rat and undead bands plus the actual laboratory corn-store exercise casting, saves, timing and reload. Keep the authored laboratory outcomes and contrasting creatures; negative sleep and attack claims need mutation proofs. |
+| `test/small/spec-horizons.test.ts` | Reads the static census of every spec and holds its exact horizon and rules counts; no world starts. Keep the actual repository-wide census, not a fixture. |
+| `test/small/spiders-mother.test.ts` | The laboratory fixture stages the spider job and knowledge, applies the real slay consequence and compares objectives before and after. Keep the generated fixture and staged-versus-played distinction. |
+| `test/small/start-settles-once.test.ts` | The fells fixture starts through PlaySession while instrumenting the real settle method. Keep the multi-module assembly and actual call count. |
+| `test/small/surfaces-earned.test.ts` | Synthetic Tiny scenes with real party backgrounds, plus EngineHost, terminal and reader checks, exercise earning and save staleness. Keep the positive map, scribe and library witnesses; prove each empty-surface negative before narrowing. |
+| `test/small/terminal-piped.test.ts` | Runs the actual CLI as subprocesses against the household fixture, with piped input and output comparisons. Keep the subprocess and the real household journey. |
 | `test/small/quantity.test.ts` | Synthetic fixed readings exercise each quantity measure, bands, ratchets and ladder, against the checked-in quantity baseline; no world starts. Keep the actual baseline wiring and synthetic edge cases. |
 | `test/small/quarry-pit.test.ts` | Two laboratory fixture lives contrast ranger and mage perception and a third plays one-time finds. Keep the actual generated fixture, both perception paths and before/after finds. |
 | `test/small/rats-heard-dark.test.ts` | The laboratory fixture stages the party in the cellar and walks to the dark runs, checking knowledge before and after. Keep the actual authored hearing rule and dark witness. |
