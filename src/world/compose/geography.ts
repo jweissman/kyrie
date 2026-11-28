@@ -1,6 +1,7 @@
 import type { Entity, Module } from '../../lang/module';
 import type { Ledger, Provenance } from './ledger';
 import { MinHeap } from '../land/min-heap';
+import { ExportedPairs } from './exported-pairs';
 
 // A region module as the assembler sees it: its installation id, its parsed source, what it exports (only exported
 // places can be bound by kits) and the facts its author fixed in its manifest (a chokepoint, a landmark, the terrain).
@@ -93,25 +94,33 @@ export class Geography {
     const { places, ref, edges } = at;
     const rooms = places.filter(p => p.space!.kind === 'room');
     const owner = new Map(rooms.map(r => [r.id, this.owner(places, r)?.id]));
-    const best = new Map<string, number>();
+    // Each pair keyed by a number (a string per pair had been most of a start's distances, the lead's profile of 27
+    // November); the pairs come out in the order they were first met, as before.
+    const pairs = new ExportedPairs(ref), best = new Map<number, number>();
     for (const room of rooms.filter(r => ref.get(r.id) || ref.get(owner.get(r.id) ?? ''))) {
+      const from = [room.id, owner.get(room.id)];
       for (const [other, ticks] of this.reach(room.id, edges)) {
-        for (const a of [room.id, owner.get(room.id)]) {
+        for (const a of from) {
           for (const b of [other, owner.get(other)]) {
-            if (!a || !b || a === b || !ref.get(a) || !ref.get(b)) { continue; }
-            const key = `${ref.get(a)}|${ref.get(b)}`;
-            best.set(key, Math.min(best.get(key) ?? Infinity, ticks));
+            if (!a || !b || a === b) { continue; }
+            const key = pairs.key(a, b);
+            if (key < 0) { continue; }
+            const had = best.get(key);
+            if (had === undefined || ticks < had) { best.set(key, ticks); }
           }
         }
       }
     }
     // Places with no way between them are a world apart.
-    const exported = [...new Set([...rooms, ...places.filter(p => p.space!.kind !== 'room')].map(p => ref.get(p.id))
-      .filter((id): id is string => !!id))];
+    const exported = [...new Set([...rooms, ...places.filter(p => p.space!.kind !== 'room')].map(p => pairs.of(p.id))
+      .filter(i => i >= 0))];
     for (const a of exported) {
-      for (const b of exported) { if (a !== b && !best.has(`${a}|${b}`)) { best.set(`${a}|${b}`, Geography.apart * 6); } }
+      for (const b of exported) {
+        const key = pairs.joined(a, b);
+        if (a !== b && !best.has(key)) { best.set(key, Geography.apart * 6); }
+      }
     }
-    ledger.measures([...best].map(([key, ticks]) => ({ fact: 'hours', args: key.split('|'), value: Math.ceil(ticks / 6) })),
+    ledger.measures([...best].map(([key, ticks]) => ({ fact: 'hours', args: pairs.ids(key), value: Math.ceil(ticks / 6) })),
       by);
   }
   // Watches from one room to every room reachable from it (Dijkstra), in the order they are reached: the nearest
