@@ -36,4 +36,8 @@ export class LootTables {
     return { treasure: { discriminator: 'tier', groups } };
   }
   static readonly tiers = (LootTables.table().treasure as { groups: Record<string, string[]> }).groups;
+  // Kinds a country cannot name, the shared rules taking their names for a parameter (Put {cargo} in {box}): a world
+  // that placed Orsino's box would not compile ("Parameter shadows entity box"). Kept in the table, so that its draws
+  // are as they were; refused where a thing is placed.
+  static readonly unnamable = new Set(['box']);
 }

@@ -23,7 +23,10 @@ export class Stones {
   static readonly qualities = gems.qualities as Record<string, Way>;
   // Orsino's loot of a tier: what was left lying in a room by those who came after the makers.
   static loot(tier: string, key: string): string | undefined {
-    try { return (new Content(`${key}:loot`).generate('loot', { tier }) as { key: string }).key; }
+    try {
+      const kind = (new Content(`${key}:loot`).generate('loot', { tier }) as { key: string }).key;
+      return LootTables.unnamable.has(kind) ? undefined : kind;
+    }
     catch (error) { if (/No matching options/.test(String(error))) { return undefined; } throw error; }
   }
   // What a band carries (Deem's `carried` template, by its kind and depth: DeepCarried).
