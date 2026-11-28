@@ -31,7 +31,7 @@ const kyr = [`  Place mouth "the mouth" is room at 0, 0.`, `  Place hall "the ha
   `  Passage mouth_hall "the passage" is tunnel between mouth and hall taking 2 minutes.`,
   `  Company party "You" of 1 at hall.`,
   `  Person rats "the rats" at hall { Role "rats". Species rat. Level 1. Temperament wary. }`,
-  ...DeepTime.lines(purpose, layout, content, 'renewed')].join('\n');
+  ...DeepTime.lines(purpose, layout, content, { key: 'renewed', waves: DeepTime.waves })].join('\n');
 const party = [{ name: 'Aud', raceId: 'human', classId: 'warrior', level: 8 }];
 const dawn = async (t: Tiny) => {
   const day = t.world.number({ kind: 'call', name: 'day', args: ['clock'] });

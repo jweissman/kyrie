@@ -21,16 +21,20 @@ interface Wave { id: string; group: DeepGroup; rank: number; after?: string }
 // where it falls: a return finds danger and reward both (OR-1622).
 export class DeepTime {
   static readonly q = JSON.stringify;
-  // How many bands wait beyond a level, one after another.
+  // How many bands wait beyond a level, one after another, under the reference game's woods: its dungeon is the one
+  // gone down again and again. Elsewhere one, as before: three in every deep site of a country had put a new world's
+  // start from 7.1-8.0 s to 8.8-13.3 s, and there is no realising them when first needed yet (SP-02, OR-1720).
   static readonly waves = 3;
-  static lines(purpose: DeepPurpose, layout: DeepLayout, content: DeepContent[], key: string): string[] {
+  static lines(purpose: DeepPurpose, layout: DeepLayout, content: DeepContent[], at: { key: string; waves?: number }):
+    string[] {
+    const { key, waves = 1 } = at;
     return layout.levels.flatMap(level => {
       const held = content.filter(c => c.dwellers && !c.dwellers.elite && c.room.level === level.index);
       const pool = purpose.dwellers.find(d => d.depth === level.index)?.groups ?? [];
       if (!held.length || !pool.length) { return []; }
       const beyond = `${level.id}_beyond`;
       return [`  Place ${beyond} "the workings beyond" is room within ${level.id}.`,
-        ...this.drawn({ purpose, level, content, key, pool }).flatMap(wave =>
+        ...this.drawn({ purpose, level, content, key, pool }, waves).flatMap(wave =>
           this.wave(wave, { layout, level, beyond, held, purpose, key }))];
     });
   }
@@ -38,7 +42,7 @@ export class DeepTime {
   // the depth has others. To the way in, the first are those the purpose says come in from outside (a pack of gnolls
   // out of the hills, OR-1236), where it says any. The first band is drawn as it was before there were more.
   private static drawn(at: { purpose: DeepPurpose; level: DeepLevel; content: DeepContent[]; key: string;
-    pool: DeepGroup[] }): Wave[] {
+    pool: DeepGroup[] }, count: number): Wave[] {
     const { purpose, level, content, key, pool } = at, rank = 1 + level.index;
     const here = new Set(content.filter(c => c.room.level === level.index && c.dwellers)
       .map(c => c.dwellers!.group.label));
@@ -46,7 +50,7 @@ export class DeepTime {
     const first = new Draw(`${key}:newcomers:${level.index}`).pick(incomers.length ? incomers : fresh.length ? fresh
       : pool);
     const waves: Wave[] = [{ id: `${level.id}_newcomers`, group: first, rank }];
-    for (let n = 1; n < this.waves; n++) {
+    for (let n = 1; n < count; n++) {
       const used = new Set(waves.map(w => w.group.label));
       const from = [fresh.filter(g => !used.has(g.label)), pool.filter(g => !used.has(g.label)), pool]
         .find(x => x.length)!;
@@ -64,6 +68,8 @@ export class DeepTime {
       + ` Level ${w.rank}. Temperament ${group.temperament}. }`,
     ...this.seen({ id, beyond, level: level.id, entry: DeepKnown.entry(layout, level)?.id,
       temperament: group.temperament }),
+    ...w.after ? [this.moves({ id, beyond, level: level.id, rule: `${id}_follows`,
+      when: `dead(${w.after}) and at(${w.after}, ?r) and distinct(?r, ${beyond})`, to: '?r' })] : [],
     // The first follow whoever the company killed in a room, wherever they fell; those after them, the band before
     // them, into the room it held.
     ...held.flatMap((c, n) => [...this.succession({ id, beyond, level: level.id, gone: w.after ?? c.dwellers!.id,
@@ -93,12 +99,19 @@ export class DeepTime {
   }
   // The first band's rules keep the names they had when it was the only one (gone_succeeded), so a kept trace reads
   // them as it did; a later band's are its own, and it comes only where the band before it fell.
+  // A band moving in at the first dawn the company is off the level: the first into the room it was written for, one
+  // after it into wherever the band before it fell, by one rule, not one a room (a new world's start).
+  private static moves(at: { id: string; beyond: string; level: string; rule: string; when: string; to: string }):
+    string {
+    const { id, beyond, level, rule, when, to } = at;
+    return `  Rule ${rule} when ${when} and at(${id}, ${beyond}) and untilLight(clock) == 1`
+      + ` and not (at(party, ?p) and deepLevelOf(?p, ${level}))`
+      + ` { Retract at(${id}, ${beyond}). Assert at(${id}, ${to}). Set deepMoved(${id}) to day(clock). }`;
+  }
   private static succession(at: Succession): string[] {
     const { id, beyond, level, gone, room, n, first } = at;
-    const rule = first ? `${gone}_succeeded` : `${id}_follows_${n}`, seen = first ? `${gone}_succession` : `${id}_after_${n}`;
-    return [`  Rule ${rule} when dead(${gone})${first ? '' : ` and at(${gone}, ${room})`} and at(${id}, ${beyond})`
-      + ` and untilLight(clock) == 1 and not (at(party, ?p) and deepLevelOf(?p, ${level}))`
-      + ` { Retract at(${id}, ${beyond}). Assert at(${id}, ${room}). Set deepMoved(${id}) to day(clock). }`,
+    const seen = first ? `${gone}_succession` : `${id}_after_${n}`;
+    return [...first ? [this.moves({ id, beyond, level, rule: `${gone}_succeeded`, when: `dead(${gone})`, to: room })] : [],
       `  Observe ${id}_settled_${room} at ${room} when dugIn(${id}) and at(${id}, ${room}) and able(${id})`
         + ` ${this.q(this.said.settled)}.`,
       `  Observe ${seen} at ${room} when dead(${gone}) and at(${id}, ${room}) ${this.q('The dead you left here have been dragged into a corner and picked over, and the place smells of something else now: whoever lives here came after you went.')}.`];
