@@ -31,14 +31,19 @@ export class Scenery {
   static approach(screen: Screen, country?: string): string | undefined {
     const terrain = screen.region?.terrain?.replace(/^.*__/, '') ?? '';
     const season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
-    // Where the approaches of its land are only old masters, the land's own country (Commissioned).
-    const own = Commissioned.first(this.approaches[terrain] ?? this.approaches.forest, this.views[terrain],
-      this.views.wild);
-    const all = season === 'winter' && !own.some(v => this.winter.has(v)) && this.winterOpen.length ? this.winterOpen
-      : this.seasonal(own, season);
-    // Never against the sky it opens under (BRIEF §3.4): a sunlit way in had been free to open a storm; none, if none.
-    const views = all.filter(v => Fits.fits(screen, v));
-    return country && views.includes(country) ? country : views[this.hash(screen.place.id) % views.length];
+    // Where the approaches of its land are only old masters, the land's own country (Commissioned); and where none of
+    // a list fits the sky it opens under, the next (a marsh's one dusk bog in rain by day had opened on nothing, with
+    // the country's own rain to hand: the painting misses of 27 November, OR-1760).
+    const lists = [this.approaches[terrain] ?? this.approaches.forest, this.views[terrain], this.views.wild];
+    for (const own of lists.filter(l => l?.length).map(l => [...l!])) {
+      const all = season === 'winter' && !own.some(v => this.winter.has(v)) && this.winterOpen.length ? this.winterOpen
+        : this.seasonal(own, season);
+      // Never against the sky it opens under (BRIEF §3.4): a sunlit way in had been free to open a storm.
+      const views = this.own(screen, all.filter(v => Fits.fits(screen, v)));
+      if (!views.length) { continue; }
+      return country && views.includes(country) ? country : views[this.hash(screen.place.id) % views.length];
+    }
+    return undefined;
   }
   // What is painted in winter is shown only in winter (a frozen river with skaters was shown on 23 Midsummer); and in
   // winter, where a kind has a winter painting, one of those (a cold country's town in summer is a grey northern bay,
@@ -74,20 +79,35 @@ export class Scenery {
     const known = named && SceneKinds.views(named, { roofed: false, underground: false });
     // A kind seen from within (a taproom, a cellar) is not painted as the country, nor is one with nothing to show.
     if (known && (!named!.kind.ground || !known.length)) { return undefined; }
-    if (known) { return this.pick(this.seasonal(known, season), screen.place.id, screen); }
+    // A kind none of whose paintings fits the sky now (a sunlit market-place in rain, a garden at night) gives way to
+    // what it lies in, painted for that sky (the town's own rain, its lit windows): never one against it, and never
+    // none while one fits (the painting misses of a new life's first steps, 27 November, OR-1760).
+    const kind = known && this.pick(this.seasonal(known, season), screen.place.id, screen);
+    if (kind) { return kind; }
     // A site's ground, named by a name and no kind (Seolforfyrd), by the kind the map knows it for (a ruin): the
     // toll-house of dressed stone on the water had been a sunny glade with stags in it (Mission 20's first cold round).
     const mark = screen.region?.land?.marks.find(m => m.id === screen.place.id);
     const sited = mark && SceneKinds.kinds.find(k => k.kind === mark.kind)?.ground;
-    if (sited?.length) { return this.pick(this.seasonal(sited, season), screen.place.id, screen); }
+    const site = sited?.length ? this.pick(this.seasonal(sited, season), screen.place.id, screen) : undefined;
+    return site ?? this.land(screen, where, season);
+  }
+  // What a place is painted by where its kind is not: its land's form, its settlement's land, its terrain, its kind
+  // of where; the first of these with a painting that fits the sky now, and after dark its where's night (a town's
+  // lit windows, the wild's moon), which the hour's own rule keeps from the day.
+  private static land(screen: Screen, where: 'site' | 'settlement' | 'wild', season?: string): string | undefined {
     const area = screen.region?.areas.find(a => a.here);
     const form = area?.form?.replace(/^land_/, ''), terrain = screen.region?.terrain?.replace(/^.*__/, '');
     // A site whose own paintings were only old masters is painted by its land (Commissioned).
     const keys = where === 'site' ? ['site', terrain, 'wild'].filter((k): k is string => !!k)
       : [form && `${where}:${form}`, terrain && where === 'settlement' && `settlement:${terrain}`,
         where === 'wild' ? terrain : undefined, where].filter((k): k is string => !!k);
-    const views = keys.map(k => this.seasonal(this.views[k] ?? [], season)).find(v => v.length);
-    return views && this.pick(views, screen.place.id, screen);
+    const night = screen.expedition?.daylight && screen.expedition.daylight !== 'day'
+      ? [`night:${where}`, 'night'] : [];
+    for (const k of [...keys, ...night]) {
+      const view = this.pick(this.seasonal(this.views[k] ?? [], season), screen.place.id, screen);
+      if (view) { return view; }
+    }
+    return undefined;
   }
   // Under a roof or under the ground, a painting of a room of the kind, not of the country (the owner, 4 November:
   // the cellar's page had only words where a picture should be): a taproom by a tankard on its shelf, a crypt by a
@@ -151,9 +171,18 @@ export class Scenery {
   // One of a kind's paintings, the same for a place each time; none from an empty list.
   // Where the place is given, only those that do not show what it denies (see Fits): none, if none fits.
   private static pick(all: string[], id: string, screen?: Screen): string | undefined {
-    const views = screen ? all.filter(v => Fits.fits(screen, v)) : all;
+    const views = screen ? this.own(screen, all.filter(v => Fits.fits(screen, v))) : all;
     return views.length ? views[this.spread(id) % views.length] : undefined;
   }
+  // Of those that fit, the ones painted in the sky's own weather where there are any (rain in the rain, fog in the
+  // fog): a town's lane in fog had stood for its market-place in rain with the lane in rain beside it.
+  static own(screen: Pick<Screen, 'weather'>, views: string[]): string[] {
+    const sky = this.weathers.find(([said]) => said.test(screen.weather ?? ''))?.[1];
+    const own = sky ? views.filter(v => sky.test(Fits.looked(v)?.weather ?? '')) : [];
+    return own.length ? own : views;
+  }
+  private static readonly weathers: [RegExp, RegExp][] = [[/rain|storm|drizzle|squall|sleet|gale/, /rain|storm/],
+    [/fog|mist/, /fog|mist/], [/snow/, /snow/]];
   // A painting of a season (data/paintings/scenery.json: spring, summer, autumn, winter) is shown only in it: an autumn
   // lake had nothing to keep it from a spring morning. Only winter's are preferred in their season.
   private static seasonal(views: string[], season?: string): string[] {
