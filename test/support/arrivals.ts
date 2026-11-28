@@ -1,4 +1,7 @@
-import { PlayTool } from '../../src/cli/play-tool';
+import { readFileSync } from 'node:fs';
+import { SingleModule } from '../../src/campaign/single-module';
+import { Journey } from '../../src/session/journey';
+import { Horizon } from './horizon';
 import { ScreenModel } from '../../src/ui/screen-model';
 import { Narrator } from '../../src/presentation/narrator';
 import { PlayerFrame } from '../../src/presentation/player-frame';
@@ -12,8 +15,11 @@ import type { PlaySession } from '../../src/session/play-session';
 export class Arrivals {
   static readonly file = 'test/fixtures/single/arrivals.kyr';
   static async start(): Promise<PlaySession> {
-    const { journey } = await PlayTool.start(PlayTool.parse([this.file, '--as', 'human/warrior/Wynn']));
-    return journey.session;
+    // Keep the cold session: Tiny.start draws a page, which warms the revision cache these specs exercise.
+    const horizon = new Horizon(['inhabitants', 'probing', 'services']);
+    const one = SingleModule.source(readFileSync(this.file, 'utf8'), { rules: horizon.manifest, own: horizon.canonless,
+      party: [{ name: 'Wynn', raceId: 'human', classId: 'warrior' }] });
+    return (await horizon.within(() => Journey.start(one.campaign, 'journey', { source: one.source }))).session;
   }
   // The company coming back along the track, for the words said only then (returning).
   static returning(s: PlaySession) {
