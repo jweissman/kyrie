@@ -1,0 +1,113 @@
+{
+  "seatStations": {
+    "discriminator": "scene",
+    "groups": {
+      "record": [
+        {"name": "Elsin Ferrier", "occupancy": "inhabited", "arrival": "Elsin Ferrier puts a teacup over the military ledger. 'You may ask. You may not requisition my house.' A kettle is boiling behind the chair.", "limits": "'One loaded exchange,' Elsin says. 'Then disconnect the freight feed. Leave the service door propped. If you want a second, first explain whose house you intend to drop.'"},
+        {"name": "Ilex Marr", "occupancy": "inhabited", "arrival": "Ilex Marr is copying the names of the station's dead. He leaves room at the bottom of the page, then turns it over before you can ask.", "limits": "'One loaded exchange, then disconnection,' Ilex says. 'That is what we have measured. The third socket is not in our accounts. No, not even in the lost ones.'"},
+        {"name": "Elsin Ferrier", "occupancy": "station_empty", "arrival": "The record room is empty.", "limits": "The station ledger specifies one loaded exchange, followed by disconnection of the freight feed. A margin note says to keep the service door propped. The third socket has been crossed out, not explained."}
+      ]
+    }
+  },
+  "seatExpedition": {
+    "discriminator": "moment",
+    "groups": {
+      "lull": ["Hest puts the kettle where the crown stood. 'It serves more people.' He divides the last hot meal and leaves a portion for a late arrival.", "The boots steam beside Hest's kettle. He gives you a meal without asking which brother you chose. The empty chair is not moved."],
+      "lead": ["The kitchen scales alternate: one bowl, then no bowl, while the bowl stays still. Mared has stopped explaining the succession and started measuring the table.", "A spoon rises on one scale while the other falls. Mared ties a cord to the spoon. 'Not a miracle yet. Please don't announce one.'"],
+      "kept": ["Mared lays the retained survey flat. 'They measured a platform. Later clerks called it a throne. Those are not equivalent loads.'", "The old survey has a thumbprint beside the platform's measure. Mared puts her own there, then moves it. 'No. We copy the measure, not the authority.'"],
+      "survey": ["You measure the marked platform and record its supported load. A royal claim is no substitute for the missing length.", "You mark the cord's length beside the platform. There is no old record to improve. For half an hour the work is refreshingly unimportant to either prince."],
+      "gallery": ["An empty bowl rests on a marked platform. A service door has been propped with stone. Beside it, the third socket hangs over an unsupported weight.", "The marked platform is empty except for a bowl and cord. Air comes through the propped door. The third socket has no stop beneath its weight."],
+      "test": ["The empty bowl crosses the marked platform and disappears. The cord now runs through the propped door. Nothing else in the gallery moves.", "You lower the bowl onto the mark. It vanishes without a crash. The cord remains taut through the service door; no person has been put on the platform."],
+      "earth": ["The bowl waits on a stone ledge in the Plane of Earth. Its cord comes through the door from Imbar. A second, lower door is shut; there is no proof of what lies behind it.", "The same chipped bowl stands on the Earth ledge, cord attached. A footprint goes towards a closed lower door. You have not followed it."],
+      "vacant": ["A chair fits neatly beneath the record-room desk. The station ledger remains open to the feed limit. A cold cup has been washed and put away.", "The record room has no resident. There is dust around the chair, not on the ledger's fastening. Leaving was a choice, not necessarily a disaster."],
+      "accounts": ["The resident asks for the household book lost in the alcove. 'You have a war. I have forgotten which neighbour owes me a frying pan.'", "'The household book,' the resident says. 'The army may wait five minutes. My sister has been waiting eleven years for that pan.'"],
+      "return": ["The resident opens the household ledger to a pressed flower. 'I had forgotten this too.' They give you a portion of their supper and turn the page carefully.", "The missing pan has been crossed out in the returned ledger. The resident laughs, then gives you supper. The next page is read in silence."],
+      "compare": ["Mared fits the carried report beside the platform's marks. 'Halm taught me to omit the remainder. Here it is what keeps the load supported.' The comparison saves a ration during calibration.", "Mared follows the carried marks with a finger, not a royal seal. 'A smaller calibration. Less food to spend waiting for the feed to settle.'"],
+      "caution": ["You box the demonstrated exchange. Outside it: UNKNOWN. One supported load is proved. Not a kingdom. Not the people behind a door you haven't opened.", "The bowl's journey and the survey agree. The arrow pointing beyond the lower door is erased. A proof ends somewhere."],
+      "military": ["'A victory would be pleasant,' Mared says. She draws one missing counterweight instead. 'Before they fix it. Afterwards this proof does nothing for that bridge.'", "Mared marks the causeway's support. 'We can move this. Not their courage, not their food everywhere, not the Ferryman. This.'"],
+      "crossing": ["The refugee carts cross to the surveyed Earth station with a meal for the journey. You disconnect the freight feed. The service door stays propped; nobody has been ordered to remain there.", "The carts pass one platform load through the marked exchange. Their destination is the measured Earth ledge, not an unknown third socket. The freight feed is disconnected behind them."],
+      "strike": ["The causeway's counterweight crosses to Earth. Its unsupported span falls into the ditch. You disconnect the feed. Across the wall, the Ferryman's army begins carrying planks.", "One enemy supply span falls when its counterweight crosses. The freight feed is disconnected. No throne changes hands; an enemy carpenter has work to do."],
+      "closed": ["You disconnect the freight feed without choosing a load. The service door stays propped. Mared puts the unused order under the bowl.", "The loaded exchange remains unspent. You disconnect its feed. Mared writes the date beside the decision, not the word failure."],
+      "after": ["The gallery has stopped counting. From behind the lower door comes a single knock. You can count it without knowing who made it.", "The freight feed is quiet. Under the stone, three taps: too few to be a proof, too deliberate to forget."],
+      "cadi": ["Cadi draws the carts close together on the survey. 'Less time on the feed. Less food waiting. I will arrange it. I won't promise to stay behind.' She leaves room beside the route for another person's choice.", "Cadi marks a return beside the crossing. 'Not another place where people are told to wait.' Her preparation saves a ration; it does not answer Tarian for her."],
+      "tarian": ["Tarian lays the sold route beside the new survey. 'The listening stair needs a brace. Here.' He does the work without asking Cadi to watch. The short way is usable; his earlier bargain remains on record.", "Tarian braces the service stair. 'He paid me for a way in. This one can carry people out.' Neither the enemy companies nor his old promise has disappeared."],
+      "nerys": ["Nerys looks for a return on the survey before agreeing to prepare the carts. 'No one is to be left where a calculation cannot see them.' Her preparation shortens their wait at the feed.", "Nerys puts a finger on the measured refuge. 'This place. Not whatever is behind the third door.' She orders the carts prepared, not the people sealed in."],
+      "salt": ["The courier unfolds a packet of Earth salt. 'Cut it out of the wall myself. Would exchange it for anything that isn't a wall.' One meal changes hands.", "'The King's order?' The courier folds the salt away. 'Is it edible?' You offer a meal instead. The packet is yours."],
+      "clock_ask": ["'I am paid to wait,' the courier says. 'Until four. My clock is locked in the reserve case.' They consider this. 'It has been a profitable morning. I would prefer to see my daughter.'", "The courier points to the record room. 'My clock. The hand is holding its own case shut. They called that efficient storage.' You are asked to recover it, not improve the station."],
+      "clock_open": ["The measured hand balances against the cord. You lift it without breaking the clock. Inside, the stopped hour has been circled in a child's handwriting.", "You release the balanced hand. The clock has not run for years. A folded receipt inside the case says DELIVERY BEFORE SUPPER."],
+      "clock_return": ["The courier winds the returned clock and gives you two meals from the delivery basket. 'She will be older now.' They set the hand forward before closing the lid.", "'Four at last,' the courier says. They hand over two meals, then reopen the clock. 'No. I can go early.' The delivery is no longer waiting."]
+    }
+  },
+  "seatVisitors": {
+    "discriminator": "evidence",
+    "groups": {
+      "kept": [
+        {
+          "name": "Absalom Gosse",
+          "arrival": "Absalom Gosse arrives dressed as a royal washerwoman. He has brought six actors, no washing, and an invitation addressed to the late king. 'We were engaged before he died. Death is not a cancellation clause.'",
+          "confidence": "'They gave us the names for a coronation play,' Gosse says. 'Aled's part was a nephew. I have crossed it out. Don't ask me to put it back.' His actors can pass people through a gate disguised as a rehearsal.",
+          "aid": "escort"
+        },
+        {
+          "name": "Amos Tallis",
+          "arrival": "Amos Tallis arrives with the parish cooks and a coronation provisioner. 'He tried to hire them for life,' the verger says. The provisioner insists that the clause means only the duration of the festivities. Tallis asks how long a kingship lasts.",
+          "confidence": "'Pay them by the meal,' Tallis says. 'They will feed strangers as carefully as princes. Bind them for life and they won't carry a spoon.' He has brought the disputed supper, but no permanent hiring oath.",
+          "aid": "food"
+        }
+      ],
+      "burned": [
+        {
+          "name": "Bet Kettering",
+          "arrival": "Bet Kettering puts a singed book on Hest's table. 'Not your letters. A cookery book. I came to stop you burning the wrong things next.' She has bookmarked the page for a wedding cake.",
+          "confidence": "'I cannot prove whose son he is,' Bet says. 'I can say who let us through a locked door when it mattered.' She asks Nerys to speak without a clerk improving her words. A witness is not a replacement document.",
+          "aid": "food"
+        },
+        {
+          "name": "Agnes Ruddle",
+          "arrival": "Agnes Ruddle arrives with a sack of mismatched mittens. 'For the watch. Nobody gave me their sizes.' Gareth tries one on. It has two thumbs. She tells him to find a soldier with ambition.",
+          "confidence": "'The names stayed with me because I stayed,' Agnes says. 'Your Queen stayed too. That is what I can swear to.' The people who came with her will help at the gate, if they are allowed to leave afterwards.",
+          "aid": "escort"
+        }
+      ]
+    }
+  },
+  "seatSupper": {
+    "discriminator": "moment",
+    "groups": {
+      "relief": [
+        "The coronation crown is holding down a curling menu. Gareth reaches for it; Seren puts a bowl on the other corner instead. For a moment they are only people trying to fit round a table.",
+        "Aled takes the burnt side of the loaf. Gareth exchanges it for his own, then discovers that his is worse. Neither will exchange again. Nerys starts laughing before she can stop herself."
+      ]
+    }
+  },
+  "seatNewsVoices": {
+    "discriminator": "event",
+    "groups": {
+      "vacancy": ["'Nobody in Dun Rì knows who gets the big chair. They have started selling cushions.'", "'The king is dead. The baker says he still owed for Tuesday.'"],
+      "letters": ["'The Queen kept the letters. Now every cousin in the kingdom is checking his handwriting.'", "'Proof on the table at last. They'll need a larger table for the objections.'"],
+      "ashes": ["'She burned the letters. I expect the chimney has a claim now.'", "'The Queen says her word will do. My landlord has never accepted mine.'"],
+      "gathering": ["'A visitor came to the royal supper without permission. That seems to be the qualification for an advisor.'", "'They have invited people who work for a living. The court has ordered extra chairs.'"],
+      "siege": ["'The armies are at the gate. The advisors are arguing about which gate counts.'", "'The north road is shut. My sister got her washing in just before it.'"],
+      "shelter": ["'They opened the gate. The coronation linen is bedding now.'", "'Refugees in the ward. The Queen's kitchens are cooking without a guest list.'"],
+      "barred": ["'They shut the gate before the last carts. Don't tell me it was tidy.'", "'The ward is safe for now. The people on the road aren't.'"],
+      "compact": ["'Gareth has the command until the siege is over. Even his mother asked for that in writing.'", "'They agreed to a temporary command. Let us see who remembers the temporary bit.'"],
+      "crown": ["'Aled has the crown. The soldiers want to know whose orders feed them.'", "'Aled is named. They used the old coronation menu to light the kitchen stove.'"],
+      "loss": ["'The column got into the ward. Hest is still finding beds. He doesn't ask which side you're on.'", "'Grey banners in the ward. The council's answer came too late, or couldn't be made to stand.'"]
+    }
+  },
+  "seatHeadlines": {
+    "discriminator": "event",
+    "groups": {
+      "vacancy": ["KING DEAD! SEVEN TOWERS, NO BOTTOM!", "WHO GETS THE CHAIR? COURT DECLINES TO SIT!"],
+      "letters": ["QUEEN'S PRIVATE LETTERS! TWO SONS, ONE THRONE!", "ROYAL HANDWRITING SCANDAL! PALACE ADMITS SECOND SON!"],
+      "ashes": ["QUEEN BURNS THE PROOF! CHIMNEY REFUSES COMMENT!", "ASHES OF A LOVE AFFAIR! HER MAJESTY ASKS TO BE BELIEVED!"],
+      "gathering": ["UNINVITED AT THE PALACE! WHO ATE THE KING'S SUPPER?", "COMMONERS AT COURT! EXTRA SPOONS DEMANDED!"],
+      "siege": ["DARK LORD AT THE GATES! ADVISORS STILL TALKING!", "NORTH ROAD CUT! PALACE DEBATES THE WORD EMERGENCY!"],
+      "shelter": ["CORONATION CANCELLED! ROYAL LINEN IN REFUGEE BEDS!", "GATES OPEN! QUEEN'S KITCHEN LOSES ITS GUEST LIST!"],
+      "barred": ["GATES SHUT! LAST CARTS LEFT OUTSIDE!", "WARD SAVED, ROAD ABANDONED! WHO WILL ANSWER?"],
+      "compact": ["GARETH TAKES COMMAND! CROWN STILL DISPUTED!", "TEMPORARY RULER! PALACE ASKED HOW TEMPORARY!"],
+      "crown": ["ALED NAMED KING! PALACE PROMISES MORE THAN A CHAIR!", "SECOND SON, FIRST OATH! BROTHERS ANSWER FOR THE GATE!"],
+      "loss": ["GREY BANNERS IN THE WARD! WHO LEFT THE GATE UNANSWERED?", "CITY DIVIDED! GUILD KEEPS ITS BEDS OPEN!"]
+    }
+  }
+}

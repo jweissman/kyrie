@@ -1,4 +1,9 @@
 Module thrume "Thrume" {
+  Entity seat_witness: fact "Sir Odo Varne will bring the red-salt warrants to Dun Rì; his own blank seal authorised the blood trade.".
+  Topic seat_reflection with varne "Ask Varne what Saltgrave has taught the next king" when knows(actor, salt_is_blood) once {
+    Says "'A lordship for a head,' says Varne. 'And we were standing on a body large enough to be a country.' He unrolls a warrant. His seal is at the foot. 'I signed blank orders to get the miners fed. The Office filled in the rest.' He folds it without hiding it. 'At the council I shall testify against myself. If I start sounding noble, interrupt me.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Description "Saltgrave: the Salt Office, the dream-houses, the night carts.".
 
   Place salt_office "the Salt Office" is building within saltgrave.

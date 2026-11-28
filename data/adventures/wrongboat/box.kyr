@@ -1,15 +1,14 @@
 Module wrongboat "The Wrong Boat" {
   // ── The hamper, and what is under the cakes ────────────────────────────────────────────────────────────────────
   // Mother Cobbold gives the company a hamper for the Maud's cook. The Maud has gone. The Mary has not. Under the
-  // cakes is a music box that Hob Garrod, the Mary's owner, took from the widow of a man he never paid, and left at
-  // the Heron to be carried to a buyer at the Last Pint while he went to sit out his debts in Pelham gaol. Bess
-  // Lowther, who is owed three months' wages by the toll and the whole of a marriage by Hob, has found out it has gone
-  // aboard a barge, and cannot tell which. What she and the company think the box is, it is not.
+  // cakes is Bess's wedding gift, stolen by Hob to sell. The private verse under its comb makes Sergeant Brill
+  // ridiculous; he wants the original silenced, Bess wants her husband's voice, and Hob wants forty coin.
+  // The river knows the public tune, not the little song Tom wrote for Bess alone.
   Relation hamperOpened(group). Relation boxWound(group). Relation drawerOpen(group). Relation boxKnown(group).
   Measure windings(group).
   Kind hamper_kind "Mother Cobbold's hamper" is gear worth 0 weighing 3 described "A wicker hamper with a cloth tied over it and a luggage-label that says MAUD COOK, DO NOT OPEN, in a hand that has pressed hard.".
-  Kind wage_slip_kind "a bargeman's wage-slip" is document teaching wage_slip_read described "A slip of blue paper, stamped with the Patient Mary's anchor and signed by a hand that has made the same signature a thousand times.".
-  Discovery wage_slip_read "The slip is Tom Lowther's last wage-slip from the Patient Mary: seven months unpaid at his death, the sum underlined twice, and under it in Hob Garrod's hand: SET AGAINST A DEBT OF HONOUR. The box is not the Trust's. It never was.".
+  Kind private_verse_kind "Tom's private wedding verse" is document teaching private_verse_read described "A folded blue sheet, with Tom Lowther's name beneath four lines and Hob Garrod's delivery instruction on the back.".
+  Discovery private_verse_read "Four lines in Tom's hand: 'Brill in my coat wept into cake; / His donkey knew which road to take. / He rode tail-first. Let rivers fuss. / This foolish little tune is us.' Beneath: For Bess alone. Hob has written FOSSE, FORTY on the back.".
   Discovery tune_known "The box plays The Miller's Daughter, a song with thirty verses that every bargeman on the Aldwater knows, and nobody knows who wrote.".
   Discovery maker_known "Inside the box's back-plate, scratched with a pin: B.L. FROM T.L., THE DAY WE WERE WED. The song the crew sings was written by a bargeman for his wife, and the box was made to play it.".
 
@@ -31,7 +30,7 @@ Module wrongboat "The Wrong Boat" {
     Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and windings(actor) >= 2 and windings(actor) < 5 and not drawerOpen(actor).
     Time 1.
     Resolve check(actor, trapwork, dc_fair).
-    On success { Assert drawerOpen(actor). Increase windings(actor) by 1. Give wage_slip_kind to actor. }
+    On success { Assert drawerOpen(actor). Increase windings(actor) by 1. Give private_verse_kind to actor. }
     On failure { Increase windings(actor) by 1. }
     Result "The comb is a false bottom. It lifts. In the hollow beneath it lies a folded blue slip. On the back plate, where the lamp falls, someone has scratched a few words with a pin.".
     Otherwise "You turn it every way. The comb does what combs do. You have the feeling of a thing that is waiting for you to be a little kinder to it.".
@@ -60,7 +59,7 @@ Module wrongboat "The Wrong Boat" {
   }
   Relation soldHonest(group).
   Relation gaveHob(group).
-  Action give_hob(actor: group, site: place) "Put the box in Hob Garrod's hands, since he is the owner" {
+  Action give_hob(actor: group, site: place) "Put the box in Hob Garrod's hands, though it is not his" {
     Speaker hob.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lockup) and holding(actor, music_box) and not gaveHob(actor) and not bessAlly(actor).
     Time 0.
@@ -69,7 +68,7 @@ Module wrongboat "The Wrong Boat" {
   }
   Action surrender_box(actor: group, site: place) "Give the box up to the lads" {
     Speaker lads.
-    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and holding(actor, music_box) and not caught(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and holding(actor, music_box) and not caught(actor) and not verseSung(actor).
     Time 0.
     On success { Spend music_box from actor. Assert caught(actor). }
     Result "The larger takes it, winds it, and looks at nothing as it plays. 'There,' he says. 'No need for the long way.' The smaller one keeps his eyes on the water. They go off along the towpath, and one of them, as he goes, hums the second line.".

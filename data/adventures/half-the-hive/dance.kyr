@@ -1,4 +1,9 @@
 Module hume "Half the Hive" {
+  Entity seat_witness: fact "Kestrel Dunn will take the Searchers' routes to Dun Rì; a court map copies her lost sister's dance but omits the resting places.".
+  Topic seat_reflection with kestrel "Ask Kestrel what the Leaving teaches a king" when knows(actor, sites_named) once {
+    Says "'Everybody praises the swarm. Nobody volunteers to carry the old,' says Kestrel. She lays a court map on her knee. 'My sister's dance. Every turn correct. Every resting place rubbed out.' Her two missing fingers follow the road. 'They call it a fast march. I call it deciding who will not arrive.' She rolls it up. 'At Dun Rì we shall put the rests back. You may have to stop me hitting the cartographer.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── Who dances for what ───────────────────────────────────────────────────────────────────────────────────────────
   // tally(place) is how many dance for it: the Sisters' own scouts (two for the Far Brow, one for the Dell, and one more
   // for the Dell once the brocks are no danger), and the Searchers: Kestrel for the Far Brow, Hannet for the Gallowtree,

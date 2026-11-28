@@ -18,7 +18,7 @@ const fields = {
     'compel', 'forceTarget', 'guard', 'drains', 'stacking', 'omits', 'unsupported', 'source', 'grants', 'begins',
     'ends', 'unheld', 'perAmount'],
   trait: ['name', 'category', 'description', 'modifiers', 'requires', 'perks', 'excludes', 'spellAccess', 'grants',
-    'omits', 'unsupported', 'source', 'skills'],
+    'omits', 'unsupported', 'source', 'skills', 'automaticChecks'],
   item: ['name', 'category', 'description', 'value', 'slot', 'use', 'casterLevel', 'modifiers', 'weapon', 'armor',
     'hooks', 'fuel', 'charges', 'grants', 'unsupported', 'source', 'tool', 'aids', 'omits', 'rank', 'portrait', 'points',
     'tier', 'drops',
@@ -54,9 +54,12 @@ export class CatalogFields {
       ['item', Canon.items], ['ancestry', Canon.ancestries], ['class', Canon.classes], ['skill', Canon.skills],
       ['plant', Canon.plants], ['deity', Canon.deities], ['domain', Canon.domains], ['material', Canon.materials],
       ['habitat', Canon.habitats], ['variation', Canon.variations]];
-    return families.flatMap(([family, records]) => Object.entries(records)
+    return [...families.flatMap(([family, records]) => Object.entries(records)
       .filter(([id]) => !Canon.installed.has(id))
-      .flatMap(([id, r]) => CatalogFields.of(`${family} ${id}`, family, r as Record_)));
+      .flatMap(([id, r]) => CatalogFields.of(`${family} ${id}`, family, r as Record_))),
+    ...Object.entries(Canon.traits).flatMap(([id, t]) => (t.automaticChecks ?? [])
+      .filter(s => !Canon.skills[s] || !t.skills?.includes(s))
+      .map(s => `trait ${id}: automatic check ${s} must name a granted skill`))];
   }
   private static of(where: string, family: keyof typeof fields, r: Record_): string[] {
     const nested = { species: ['statistics'], item: ['weapon', 'armor'] } as Record<string, (keyof typeof fields)[]>;

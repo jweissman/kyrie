@@ -6,6 +6,7 @@ import { Creation } from '../rules/creation';
 import type { ModuleDraft } from './module-namespace';
 import { Formations } from '../rules/formations';
 import { Canon } from '../canon/canon';
+import { Traits } from '../ports/traits';
 import { CreatureSchema } from '../creature';
 import { ModuleWriter } from '../lang/module-writer';
 
@@ -26,7 +27,9 @@ export class CompanyChoices {
     const callings = own ? Object.keys(Callings.table()) : Content.playableClasses;
     return this.one(c, 'ancestry', c.raceId!, Content.playableRaces)
       ?? this.one(c, 'calling', Creation.classId(c.classId!), callings)
-      ?? (c.backgroundId ? this.one(c, 'background', c.backgroundId, Object.keys(Canon.backgrounds)) : undefined);
+      ?? (c.backgroundId ? this.one(c, 'background', c.backgroundId, Object.keys(Canon.backgrounds)) : undefined)
+      ?? (c.perk !== undefined ? this.one(c, 'perk', c.perk,
+        Object.entries(Traits.table()).filter(([, trait]) => trait.category === 'perk').map(([id]) => id)) : undefined);
   }
   private static one(c: CreatureGenerationContext, what: string, id: string, ids: string[]): string | undefined {
     return ids.includes(id) ? undefined : `${c.name}: ${id} is no playable ${what}; ${this.near(id, ids).join(', ')}?`;
@@ -92,6 +95,7 @@ export class CompanyChoices {
         ...(context.rolled ? { rolled: { ...context.rolled } } : {}),
         ...(context.likeness ? { likeness: context.likeness } : {}),
         ...(context.sign ? { sign: context.sign } : {}),
+        ...(context.perk ? { perk: context.perk } : {}),
         ...(context.pronouns ? { pronouns: context.pronouns } : {}) };
       const entity = draft.instance.module.entities.find(e => e.creatureId === entry.id);
       if (entity) { entity.name = context.name; }

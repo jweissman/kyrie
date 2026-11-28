@@ -1,4 +1,9 @@
 Module muster "The Long Muster's Road" {
+  Entity seat_witness: fact "Marra Tellis will send Greta Hennick a warning for Dun Rì; the royal march order still uses the rotten Third Arch.".
+  Topic seat_reflection with marra "Ask Marra what the Third Arch teaches a king" when knows(actor, gallery_known) once {
+    Says "'The arch is rotten whether a duke crosses it or a goat,' says Marra. 'The goat is likelier to notice.' She points to a royal march order. 'Third Arch. Two companies. Drums. They bought the road from a man who has never walked it.' She folds a warning for Greta. 'She will take it to Dun Rì if I cannot. Do not call either of us brave for refusing a stupid road. We have places to be alive in.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ---------------------------------------------------------------------------------------------------------------
   // What the roads are, as Kell Ford knows them.
   Discovery wyvern_known "A wyvern stoops on the open stretch of the High Road at noon, unless the wind keeps it down. The Gallery and the Ledge are sheltered from it.".

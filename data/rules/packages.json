@@ -42,6 +42,9 @@
       "care": "ability, canCast: a spell that looses an element",
       "probing": "burning: fire's try"
     },
-    "devotion": {}
+    "devotion": {},
+    "venturing": {
+      "belongings": "forSale: surveys exclude goods offered for sale"
+    }
   }
 }

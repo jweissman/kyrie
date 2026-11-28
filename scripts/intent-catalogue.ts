@@ -21,7 +21,7 @@ export class IntentCatalogue {
   // are one capability: see `distinct`.
   static readonly table: Record<Family, string[]> = {
     perception: ['look_closely', 'look_down', 'examine', 'listen', 'read_item', 'appraise', 'appraise_beyond'],
-    discovery: ['search', 'prod', 'pry', 'experiment'],
+    discovery: ['search', 'prod', 'pry', 'experiment', 'guild_survey', 'guild_no_lead'],
     movement: ['go', 'arrive', 'depart', 'slip_past', 'plane_shift'],
     social: ['talk_to', 'ask', 'tell', 'talk_round', 'pass_off', 'sing_supper', 'pay_tribute', 'make_offering', 'haggle', 'haggle_item'],
     manipulation: ['take_item', 'take_from', 'take_out', 'put_item', 'put_in', 'give', 'give_back', 'give_valuable',
@@ -34,14 +34,14 @@ export class IntentCatalogue {
     reflection: ['wait', 'watch_sky', 'wait_hour', 'wait_watch', 'wait_for_dark', 'wait_for_light', 'rest', 'rest_unfed', 'camp',
       'take_lodging', 'take_lodging_guest', 'sleep_own_room', 'take_healing', 'take_raising', 'take_restoration', 'take_feat_rest'],
     organization: ['buy_goods', 'buy_item', 'sell', 'sell_valuable', 'sell_ware', 'change_thing_paying',
-      'change_thing_spending', 'take_leave'],
+      'change_thing_spending', 'take_leave', 'guild_enrol'],
   };
   // Capabilities, not labels: schemas that only vary the thing acted on collapse to one.
   static readonly distinct: Record<string, string> = { take_lodging_guest: 'take_lodging', light_item: 'light',
     light_lamp: 'light', change_thing_paying: 'change_thing', change_thing_spending: 'change_thing',
     appraise_beyond: 'appraise', wait_hour: 'wait', wait_watch: 'wait', rest_unfed: 'rest', sell_ware: 'sell',
     sell_valuable: 'sell', buy_item: 'buy_goods', haggle_item: 'haggle', wait_for_dark: 'wait', wait_for_light: 'wait',
-    take_raising: 'take_healing', take_restoration: 'take_healing' };
+    take_raising: 'take_healing', take_restoration: 'take_healing', guild_no_lead: 'guild_survey' };
   // The proof a family has, a spec in which the player meets, recognizes, does and is told the result of its intent
   // (an authoritative fixture or a real walk); none, and the family is named as unproven, not claimed. (15 November)
   static readonly pins: Record<Family, string | undefined> = {

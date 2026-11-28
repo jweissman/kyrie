@@ -1,0 +1,187 @@
+Module theemptyseat "The Empty Seat" {
+  Relation ordersGiven(group). Relation crowned(group). Relation compactMade(group).
+  Relation siegeSettled(group).
+  Relation pledgedWatchArrived(group).
+  Relation approachNamed(group). Relation approachUsed(group).
+  Relation cadiAnswered(group). Relation cadiApart(group).
+  Query courtPresent(who: group, site: place) means (at(who, site) and alert(who))
+    or (at(party, site) and travelsWith(who, party) and joinedAs(?m, who) and memberOf(?m, party) and awake(?m)).
+  Query gateWatchReady() means escortReserve(ward) >= gateEscorts(ward).
+  Measure wardDefence(place). Measure assaultStrength(place). Measure assaultAt(group).
+  Entity pressure_report: fact "The enemy has four companies at the north gate.".
+  Entity refugees: group "the people from the last refugee carts".
+  Entity ash_column: group "the Ferryman's occupying column".
+  Entity siege_warning: fact "The war council is meeting in the oath hall; the gate must be held or sealed before the attack.".
+  Initially Assert established(siege_warning). Initially Assert leadsTo(siege_warning, oath_hall).
+  Initially Assert leadsTo(ri_siege_begun, oath_hall).
+  Initially Set wardDefence(ward) to 0.
+  Initially Assert at(refugees, north_gate). Initially Assert holds(queen, ward).
+
+  Rule siege_arrives when councilScheduled(party) and watch(clock) >= councilAt(party) and not befell(ri_siege_begun) {
+    Assert befell(ri_siege_begun). Set assaultAt(party) to watch(clock) + 8.
+    Retract at(aled, song_hall). Assert at(aled, oath_hall).
+    Retract at(seren, song_hall). Assert at(seren, oath_hall).
+  }
+  Rule betrayed_assault when befell(ri_siege_begun) and befell(ri_court_betrayed) and not enemyInformed(party) {
+    Assert enemyInformed(party). Increase assaultStrength(ward) by 2.
+  }
+  Rule pledged_watch when befell(ri_siege_begun) and watchPledged(party) and not pledgedWatchArrived(party) {
+    Assert pledgedWatchArrived(party). Increase escortReserve(ward) by 1.
+  }
+  Rule courier_to_council when befell(ri_siege_begun) and not occasionOver(council)
+    and at(courier, guild_hall) and able(courier) {
+    Retract at(courier, guild_hall). Assert at(courier, oath_hall).
+  }
+  Rule scout_to_council when befell(ri_siege_begun) and not occasionOver(council)
+    and at(scout, guild_hall) and able(scout)
+    and not travelsWith(scout, party) {
+    Retract at(scout, guild_hall). Assert at(scout, oath_hall).
+  }
+  Relation enemyInformed(group).
+  Observe siege_report at oath_hall when befell(ri_siege_begun) and not siegeSettled(party)
+    "{pressure_report} The captain lays six wooden counters on the open-gate plan, eight on the Disk's, seven on the sealed gate. 'The last plan leaves the carts out.'" teaches siege_warning.
+  Observe enemy_approach at oath_hall as feature when befell(ri_siege_begun) and befell(ri_court_betrayed)
+    "A runner puts two more enemy counters beside the first. They came by the blind approach on Tarian's sold route.".
+  Observe watch_thin at oath_hall as feature when befell(ri_siege_begun) and not gateWatchReady()
+    "The second escort's bench is empty. The captain crosses out the open-gate plan. 'Not with the watch we have here. Those orders cannot be recalled in time.'".
+  Observe named_carts at oath_hall as feature when befell(ri_siege_begun) and cartsCounted(party)
+    "Hest's roll of names lies under the gate plan. There is a goose in the last line. The captain leaves it there; one escort can bring the listed carts through.".
+  Observe courier_dispute at oath_hall as feature when matterOpen(shelter) and not approachNamed(party)
+    and courtPresent(gareth, oath_hall) and courtPresent(queen, oath_hall) and courtPresent(courier, oath_hall)
+    "Gareth asks for a guard for Tarian. Nerys asks for the map first. 'He sold it,' Gareth says. 'Then he knows it,' she answers. Neither lets the courier look away.".
+
+  Occasion council "the council at the first incursion" at oath_hall when befell(ri_siege_begun) {
+    Matter shelter "The first shot strikes the outer gate. Nerys asks for the refugee carts to come in. A clerk asks whether they are on the guest list. Gareth takes the list out of his hands. 'They are at the gate.'" for 50 minutes until ordersGiven(party).
+    Matter war_command "A second shot shakes dust onto the table. 'Whose orders?' the watch captain asks. Aled looks at the gate report before he looks at the crown." for 20 minutes until crowned(aled) or compactMade(party).
+    Closes "The captain leaves with an order, or with no answer. Seren goes to the kitchens. No one has finished the coronation speech.".
+  }
+  Action hold_open(actor: group, site: place) "Commit the watch and stores to bring the refugee carts in" {
+    Requires able(actor) and at(actor, site) and at(actor, oath_hall) and matterOpen(shelter)
+      and not ordersGiven(party) and gateWatchReady() and stores(ward) >= 2.
+    Time 10 minutes.
+    On success { Assert ordersGiven(party). Set wardDefence(ward) to 6.
+      Decrease escortReserve(ward) by gateEscorts(ward). Decrease stores(ward) by 2. Assert befell(ri_refugees_admitted). }
+    Result "Gareth gives the watch to the crossing. Nerys gives the coronation stores to the kitchens. The carts pass under the raised gate. The wall has no fresh reserve now; this order will have to stand.".
+  }
+  Action disk_gate(actor: group, site: place) "Spend the Ninefold Disk to hold the gate for the refugees" {
+    Requires able(actor) and at(actor, site) and at(actor, oath_hall) and matterOpen(shelter)
+      and not ordersGiven(party) and carries(actor, ninefold_disk) and stores(ward) >= 2.
+    Time 10 minutes.
+    On success { Spend ninefold_disk from actor. Assert ordersGiven(party). Set wardDefence(ward) to 8.
+      Decrease stores(ward) by 2. Assert befell(ri_refugees_admitted). }
+    Result "The Disk's rings are cut apart and fixed across the gate's winch. Each crossing uses one of the old proofs. By the last cart there is no whole Disk to take back to the College.".
+  }
+  Action seal_gate(actor: group, site: place) "Seal the north gate before the last carts arrive" {
+    Requires able(actor) and at(actor, site) and at(actor, oath_hall) and matterOpen(shelter) and not ordersGiven(party).
+    Time 10 minutes.
+    On success { Assert ordersGiven(party). Set wardDefence(ward) to 7. Assert befell(ri_refugees_barred). }
+    Result "The captain repeats the order so that there is no mistake. Aled puts the coronet down. 'Then not me.' Beyond the door, Seren is still waiting for the carts.".
+  }
+  Topic courier_reparation with courier "Ask Tarian to name the Ferryman's blind approach" when matterOpen(shelter)
+    and knows(actor, courier_deal) once {
+    Says "Tarian draws the drain beneath the old dyeworks. 'He wanted me inside when he came. Put your watch here. Not where he expects it.' He gives the captain his court summons. 'Use the back. I won't need it.'".
+    On discuss { Assert approachNamed(party). }
+  }
+  Rule approach_defended when approachNamed(party) and ordersGiven(party) and not approachUsed(party) {
+    Assert approachUsed(party). Increase wardDefence(ward) by 1.
+  }
+  Rule cadi_decides when matterOpen(war_command) and courtPresent(scout, oath_hall) and courtPresent(courier, oath_hall)
+    and approachNamed(party) and befell(ri_refugees_admitted) and not cadiAnswered(scout) {
+    Assert cadiAnswered(scout).
+  }
+  Rule cadi_leaves when matterOpen(war_command) and courtPresent(scout, oath_hall) and courtPresent(courier, oath_hall)
+    and (not approachNamed(party) or not befell(ri_refugees_admitted)) and not cadiAnswered(scout) {
+    Assert cadiAnswered(scout). Assert cadiApart(scout).
+  }
+  Observe cadi_reply at oath_hall as feature when matterOpen(war_command) and cadiAnswered(scout)
+    and not cadiApart(scout) and courtPresent(scout, oath_hall) and courtPresent(courier, oath_hall)
+    "The captain asks which brother commands. Across the table Cadi asks Tarian, 'Are you coming back?' He looks at the back of his surrendered summons. 'If I can.' She takes his hand. 'That answer I believe. Come back from the gate, not his court.'".
+  Observe cadi_refusal at oath_hall as feature when matterOpen(war_command) and cadiApart(scout) and not approachNamed(party)
+    and courtPresent(scout, oath_hall) and courtPresent(courier, oath_hall)
+    "While the captain waits for a ruler, Tarian asks Cadi to wait a little longer. She puts her mended boot on. 'For what? You keep calling it our future, and leaving me out.' She tightens the lace. 'I can love you and still leave.'".
+  Observe cadi_outside at oath_hall as feature when matterOpen(war_command) and cadiApart(scout) and approachNamed(party)
+    and courtPresent(scout, oath_hall) and courtPresent(courier, oath_hall)
+    "Cadi looks from Tarian's warning to the sealed-gate order. 'You told them the way. Now tell me. Those people are still outside.' He puts a finger on the map. She touches his shoulder, then puts her boot on. 'I believe you. I am not staying here to wait.'".
+  Topic crown_aled with aled "Ask Aled to take the crown and answer for the open gate" when matterOpen(war_command)
+    and befell(ri_refugees_admitted) and befell(ri_evidence_kept) once {
+    Says "'My mother's name first,' Aled says. Nerys reads Seren's name from the letters before the towers. Gareth holds the coronet while Aled fastens the captain's torn cuff. Then he lets his brother put it on.".
+    On discuss { Assert crowned(aled). }
+  }
+  Topic crown_aled_witnessed with aled "Ask Aled to take the crown and answer for the open gate" when matterOpen(war_command)
+    and befell(ri_refugees_admitted) and befell(ri_evidence_sacrificed) and guestConfided(burned_guest)
+    and knows(actor, burned_confidence) and at(burned_guest, oath_hall) and able(burned_guest) once {
+    Says "'My mother's name first,' Aled says. Nerys names Seren before the towers. {burned_guest} stands beside her; there are no letters to read. Gareth holds the coronet while Aled fastens the captain's torn cuff. Then he lets his brother put it on.".
+    On discuss { Assert crowned(aled). }
+  }
+  Topic gareth_compact with gareth "Give Gareth the defence command until the siege is over" when matterOpen(war_command)
+    and not crowned(aled) once {
+    Says "'Not the crown,' Nerys says. Gareth starts to object. He looks at his brother, then at the captain. 'The command. Until the siege is over. Put the limit where everyone can read it.'".
+    On discuss { Assert compactMade(party). }
+  }
+  Rule unanswered_gate when matterDone(shelter) and not ordersGiven(party) {
+    Assert ordersGiven(party). Set wardDefence(ward) to 3. Assert befell(ri_refugees_barred).
+  }
+  Rule refugees_sheltered when befell(ri_refugees_admitted) and at(refugees, north_gate) {
+    Retract at(refugees, north_gate). Assert at(refugees, palace_kitchen).
+  }
+  Rule households_to_kitchen when occasionOver(council) and royalGuest(?g) and not crowned(?g) and at(?g, oath_hall) {
+    Retract at(?g, oath_hall). Assert at(?g, palace_kitchen).
+  }
+  Rule courier_to_gate when occasionOver(council) and not siegeSettled(party)
+    and approachNamed(party) and at(courier, oath_hall)
+    and able(courier) {
+    Retract at(courier, oath_hall). Assert at(courier, north_gate).
+  }
+  Rule scout_stays when occasionOver(council) and cadiAnswered(scout) and not cadiApart(scout)
+    and at(scout, oath_hall) and able(scout) and not travelsWith(scout, party) {
+    Retract at(scout, oath_hall). Assert at(scout, palace_kitchen).
+  }
+  Rule scout_returns when occasionOver(council) and cadiApart(scout) and at(scout, oath_hall)
+    and able(scout) and not travelsWith(scout, party) {
+    Retract at(scout, oath_hall). Assert at(scout, guild_hall).
+  }
+  Rule courier_returns when siegeSettled(party) and not befell(ri_succession_fractured)
+    and approachNamed(party) and at(courier, north_gate) and able(courier) {
+    Retract at(courier, north_gate). Assert at(courier, palace_kitchen).
+  }
+  Topic courier_road with courier "Ask Tarian to take the road instead of a place at court" when siegeSettled(party)
+    and not befell(ri_succession_fractured) and approachNamed(party)
+    and not willing(courier, actor) and not travelsWith(courier, actor) once {
+    Says "'Three coin for the road,' Tarian says. 'Not for a coat. Mine will do.' He leaves space on the bench. 'Cadi chooses her road. I can at least choose mine.'".
+    On discuss { Assert willing(courier, actor). }
+  }
+  Observe cadi_after at palace_kitchen when siegeSettled(party) and cadiAnswered(scout) and not cadiApart(scout)
+    and courtPresent(scout, palace_kitchen) and courtPresent(courier, palace_kitchen)
+    "Tarian returns without a court coat. Cadi sets another boot beside hers. 'You can mend your own,' she says. He sits down. For once he does not promise to.".
+  Rule incursion_held when befell(ri_siege_begun) and watch(clock) >= assaultAt(party) and not siegeSettled(party)
+    and ordersGiven(party) and wardDefence(ward) >= assaultStrength(ward) {
+    Assert siegeSettled(party).
+  }
+  Rule incursion_lost when befell(ri_siege_begun) and watch(clock) >= assaultAt(party) and not siegeSettled(party)
+    and wardDefence(ward) < assaultStrength(ward) {
+    Assert siegeSettled(party). Assert befell(ri_succession_fractured).
+    Retract holds(queen, ward). Assert holds(ash_column, ward).
+  }
+  Rule aled_confirmed when siegeSettled(party) and crowned(aled) and not befell(ri_succession_fractured)
+    and not befell(ri_succession_united) {
+    Assert befell(ri_succession_united). Retract holds(queen, ward). Assert holds(aled, ward).
+  }
+  Rule compact_confirmed when siegeSettled(party) and compactMade(party) and not befell(ri_succession_fractured)
+    and not befell(ri_emergency_compact) {
+    Assert befell(ri_emergency_compact). Retract holds(queen, ward). Assert holds(gareth, ward).
+  }
+
+  Objective council_warning when (knows(party, siege_warning) or knows(party, ri_siege_begun)) and not ordersGiven(party)
+    toward oath_hall "Take part in the war council before the gate is lost.".
+  Ending aled_reigns "The beds without crowns" when befell(ri_succession_united) and within(party, ward)
+    "The first incursion breaks against the gate. The enemy's armies remain outside. Aled has the crown, and an order to answer for. In the kitchen Seren has found enough sheets. Gareth helps her make the last bed; neither mentions whose coronation it was.".
+  Ending emergency_reign "Until the siege is over" when befell(ri_emergency_compact) and befell(ri_refugees_admitted) and within(party, ward)
+    "The gate holds. Gareth's command has a written end, though the siege does not yet. Aled carries the empty coronet to the kitchen. Nerys asks whether anyone can find a use for it. Seren puts the last loaf in it.".
+  Ending closed_reign "The unused linen" when befell(ri_emergency_compact) and befell(ri_refugees_barred) and within(party, ward)
+    "The gate holds. Gareth has the command, not his brother's assent. The carts remain outside. Seren folds the unused linen; she does not thank the council for keeping it clean.".
+  Ending divided_city "The gate without an order" when befell(ri_succession_fractured) and within(party, ward)
+    "The first column enters the ward. There is still a coronation seating plan on Hest's table. He turns it over and begins writing down the people who need a bed.".
+  Ending unnamed_city "An order without a crown" when siegeSettled(party) and not crowned(aled) and not compactMade(party)
+    and not befell(ri_succession_fractured) and within(party, ward)
+    "The watch has held the gate without settling who commands it. The siege goes on. The captain leaves a torn cuff on the council table beside the unanswered papers.".
+}

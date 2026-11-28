@@ -188,7 +188,7 @@ Module hessel "The Banns at Hessel" {
   }
   // The Old Town's way: not into Lady Wenlock's drawing room, but up the aisle of Saint Ebba's on Sunday, with the
   // chairmen standing at the back of the church.
-  Topic hetty_church with hetty "Ask Hetty to come up to Saint Ebba's on Sunday morning and say it herself, with the chairmen at the back" when knows(actor, rupert_married) and (stoodWith(actor) or goodwill(chairmen) >= 3) and not hettyWilling(hetty) and not hettyChurch(hetty) and not bannsWithdrawn(ebbas) once {
+  Topic hetty_church with hetty "Ask Hetty to come up to Saint Ebba's on Sunday morning and say it herself, with the chairmen at the back" answering hetty_ultimatum when knows(actor, rupert_married) and (stoodWith(actor) or goodwill(chairmen) >= 3) and not hettyWilling(hetty) and not hettyChurch(hetty) and not bannsWithdrawn(ebbas) once {
     Says "'In church?' Hetty stops sewing. 'Stand up in Saint Ebba's in front of the Season and say he's mine?' She looks at the cradle, and at the hat on the peg. 'I said Monday, on the steps. I said I'd not make a scene.' Then: 'Lanyon'd be there? At the back?' You say the chairmen will be at the back, all of them, in their blue coats. Hetty puts down the bonnet. 'Then I'll come,' she says. 'Sunday. Come for me at half past ten. If I've thought better of it, carry me.'".
     On discuss { Assert hettyChurch(hetty). }
   }

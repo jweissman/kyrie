@@ -104,7 +104,7 @@ export type CombatEvent = (
   | { type: 'defend' | 'death' | 'skip' | 'random'; turn: number; actor: string }
   // A check made outside a fight (see Checks): unrolled when it could not have gone otherwise.
   | { type: 'check'; turn: number; actor: string; skill: string; rolled: number; difficulty: number; success: boolean;
-    die?: number; stat?: string; modifier?: number; trained?: number; unrolled?: boolean;
+    die?: number; stat?: string; modifier?: number; trained?: number; unrolled?: boolean; proof?: boolean;
     // What a tool to hand added, and which kind of thing it was (thieves' tools, at a lock), by its kind's name too.
     tool?: number; using?: string; usingName?: string }
   // A guard takes a blow meant for the one they guard; a creature winds up a big blow, or loses it to a stun.

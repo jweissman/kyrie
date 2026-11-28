@@ -1,4 +1,9 @@
 Module wetdrusilla "Wet Drusilla" {
+  Entity seat_witness: fact "Captain Pomfret will bring the crew's verses to Dun Rì; the court bought a shortened song that erased the women who carried the water.".
+  Topic seat_reflection with pomfret "Ask Pomfret what Drusilla's song teaches a king" when knows(actor, chorus_known) once {
+    Says "'A chorus is not everybody singing the captain's verse,' says Pomfret. She holds up the court's shortened version of the song. 'They kept the hauling. Cut the women with the water. Said it was more stirring.' She rolls it into a tight tube. 'We shall sing the long one at Dun Rì. Every verse, even Bartle's. If the advisors leave early, I shall assume they prefer swimming.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Kind ds_bucket "Alfie Wenlow's bucket" is treasure worth 1 weighing 2 described "A wooden bucket bound with three iron hoops, the staves worn silver where a hand held them. It has been scrubbed so often it smells of nothing. Inside the rim someone has cut, with a knife, a very small W.".
   Kind ds_wax "a lump of stopping-wax" is gear worth 0 weighing 0 described "A greasy lump of yellow wax, pared thin in places where bits have been pinched off.".
   Kind ds_cask "Drusilla's cask" is treasure worth 1 weighing 3 described "A small oak cask no longer than a forearm, tarred at the seams and sealed with a plug of red wax. Burned into the end are the letters D.S. and a drop of water. It sloshes.".

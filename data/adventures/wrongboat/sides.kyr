@@ -1,7 +1,7 @@
 Module wrongboat "The Wrong Boat" {
   // ── Bess, face to face ──────────────────────────────────────────────────────────────────────────────────────────
   Topic bess_where with bess "Hear what Bess has to say" when confronted(party) and not bessMet(party) and not bessTook(party) once {
-    Says "'You have a hamper,' says Bess Lowther. 'Or you had. It came out of the Heron on Mother Cobbold's hip, and onto this river on yours.' She wipes her hands on her sleeves. 'I am not the Trust. I am a woman who is owed three months, and I would trade every one of them for what was in it. Sergeant Brill would trade me for the same, and a good deal less. Where is it?'".
+    Says "'You have a hamper,' says Bess. 'Or you had. Mother Cobbold gave it you.' She wipes her hands on her sleeves. 'Tom made the thing inside for our wedding. Everyone sings his tune. That box is the bit he made for me. Brill wants the verse under the comb. Don't give it him. Where is it?'".
   }
   Topic bess_give with bess "Put the box in her hands" answering bess_where when holding(actor, music_box) and not bessMet(party) {
     Says "She does not take it at once. She puts both hands under it as you would under a bird. It starts to play, because the spring is loose, and she stands there with her eyes shut, and the whole of the river has the grace to make less noise.".
@@ -11,14 +11,14 @@ Module wrongboat "The Wrong Boat" {
     Says "She takes it, and turns it to the label, and reads it twice. 'DO NOT OPEN,' she says. She sets it on her hip the way Mother Cobbold did, and her mouth does something that is not a smile. 'I'll open it at home.'".
     On discuss { Spend hamper_kind from actor. Assert boxReturned(actor). Assert bessMet(party). }
   }
-  Topic bess_hob with bess "Tell her it was Hob Garrod who put it aboard" answering bess_where when not bessMet(party) and not bessKnows(party) and not ladsSwept(party) and (hobKnown(actor) or knows(actor, wage_slip_read) or hobMet(actor)) {
+  Topic bess_hob with bess "Tell her it was Hob Garrod who put it aboard" answering bess_where when not bessMet(party) and not bessKnows(party) and not ladsSwept(party) and (hobKnown(actor) or knows(actor, private_verse_read) or hobMet(actor)) {
     Says "'I know it was,' says Bess. 'I came to Staithe to be told by someone else.' She sits down on a bollard, or a sack, or the ground. 'Come with me, then. Come and say it to his face. I'll not hurt you. Nobody on the river thinks I could.'".
     On discuss { Assert bessAlly(actor). Assert bessMet(party). Assert following(bess, actor). }
   }
   // Without anything in your hands to show it, "it was Hob Garrod" is a thing you heard shouted on a quay.
   Action bess_hob_bluff(actor: group, site: place) "Tell Bess the porter shouted Hob Garrod's name, and you know no more" {
     Speaker bess.
-    Requires able(actor) and company(actor) and at(actor, site) and at(bess, site) and confronted(party) and not bessMet(party) and not bessAlly(party) and not bessKnows(party) and not ladsSwept(party) and accused(party) and not hobKnown(actor) and not knows(actor, wage_slip_read) and not hobMet(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(bess, site) and confronted(party) and not bessMet(party) and not bessAlly(party) and not bessKnows(party) and not ladsSwept(party) and accused(party) and not hobKnown(actor) and not knows(actor, private_verse_read) and not hobMet(actor).
     Time 0.
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert bessAlly(actor). Assert bessMet(party). Assert following(bess, actor). }
@@ -37,9 +37,11 @@ Module wrongboat "The Wrong Boat" {
     Result "She takes this without moving her face. 'No,' she says. 'It is not.' She lets it lie. 'Then you will want to be a long way off, because the Trust's lads think it is theirs, and they do not ask.' She turns and goes, and she is the least dignified thing you have seen all week.".
     Otherwise "'Not mine,' says Bess. 'No.' She says it so softly that for a moment you think you have won. Then both her hands are under the box, and it is hers, and she is gentle about it.".
   }
-  Topic bess_wage with bess "Ask Bess what she is owed and by whom" when bessMet(party) or bessAlly(party) {
-    Says "'Three months by the Trust,' says Bess. 'Seven by Hob Garrod, for a man dead four years. I could have lived on the first and I could not on the second.' She turns the coin-scale in her hand. 'Sergeant Brill has the idea that if I come home without the box I lose the room over the toll-house. He has the idea that if I come home with it I lose it anyway, because he wants it. He is not a stupid man, and nor am I.'".
+  Topic bess_private with bess "Ask Bess why Brill wants a wedding song" when bessMet(party) or bessAlly(party) once {
+    Says "'He cried at our wedding. In Tom's good coat. Then he rode home backwards on a donkey.' Bess almost smiles. 'Tom put it in the private verse. Brill thinks every laugh is a mutiny. If the fair learns it, his lads can't put it back in the box.' Her hand closes. 'But then it won't be ours any more.'".
+    On discuss { Assert knows(actor, verse_choice). }
   }
+  Discovery verse_choice "Hoby's fairground audience could make Tom's private verse impossible to suppress, but Bess would lose its privacy.".
   Topic bess_hob_known with bess "Tell her Hob is in the Pelham lock-up and asking for her" when bessMet(party) and hobMet(party) and not bessAlly(party) once {
     Says "She stands still. 'In the lock-up,' she says. 'For a bill.' She laughs once, a little, through her nose. 'Then he will keep,' she says. She does not ask for the box. She asks you the way to the Magpie.".
     On discuss { Assert bessPitied(actor). Assert hobTold(actor). }
@@ -131,8 +133,18 @@ Module wrongboat "The Wrong Boat" {
     Says "'Perfect!' says Hoby. 'Hands on the scale, a face like a closed door, a long black sleeve!' He is already chalking it on the wall. 'By tomorrow,' he says, 'every child in Pelham will boo a woman they have never met, and will know her on sight.'".
     On discuss { Assert hobyPlay(actor). }
   }
-  Topic hoby_hob with hoby "A bargeman who owes everybody" answering hoby_villain when true {
-    Says "'A bargeman!' says Hoby. 'Done! He falls in the river in the second act and nobody helps!' He rubs out the toll-clerk with his sleeve, whistling.".
+  Topic hoby_hob with hoby "A bargeman who steals wedding presents" answering hoby_villain when true {
+    Says "'A bargeman!' says Hoby. 'Done! He falls in the river in the second act and nobody helps!' He rubs out the toll-clerk. 'Got a song? Children carry a song further than a warrant.'".
+    On discuss { Assert hobyAgainstHob(actor). Assert knows(actor, verse_choice). }
+  }
+  Relation hobyAgainstHob(group). Relation verseSung(group).
+  Action sing_private_verse(actor: group, site: place) "Give Hoby Tom's private verse for the fair to sing" {
+    Speaker hoby.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, puppet_booth) and at(hoby, site) and able(hoby) and hobyAgainstHob(actor) and knows(actor, verse_choice) and knows(actor, private_verse_read) and not verseSung(actor).
+    Grave "Bess's private wedding verse will belong to the crowd. It cannot be gathered back.".
+    Time 3.
+    On success { Assert verseSung(actor). }
+    Result "The crocodile borrows the king's coat and mounts the donkey backwards. Children learn four lines before Hoby finishes them. Outside, a grey-coated man hears his sergeant's name, looks at the children, and goes to find his mate. 'Who's us?' asks a child. Hoby tells them Bess's name. They learn that too.".
   }
   Topic hoby_me with hoby "Yourself, for putting up with this" answering hoby_villain when true {
     Says "He puts down the crocodile. 'I'll put you on,' he says. 'I'll give you the baby.' He is pleased with himself, and you have, for the length of a fair-day, the best hiding place in Pelham.".
@@ -243,7 +255,7 @@ Module wrongboat "The Wrong Boat" {
   Observe sluice_news at weir when ladsSwept(party) "Below the apron the water has taken back a stretch of bank. One grey coat is on the far shingle, on all fours, being sick; the other is not there. Wilfred Auster is coming down the path with a boathook, looking at the water.".
   Action pay_lads(actor: group, site: place) "Pay the lads fifteen coin to find the wrong woman" {
     Speaker lads.
-    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and quantity(actor, gold) >= 15 and ladsMetAt(party) > 0 and not ladsPaid(actor) and not ladsRouted(actor) and not ladsSwept(actor) and not caught(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and quantity(actor, gold) >= 15 and ladsMetAt(party) > 0 and not ladsPaid(actor) and not ladsRouted(actor) and not ladsSwept(actor) and not caught(actor) and not verseSung(actor).
     Time 2.
     On success { Decrease quantity(actor, gold) by 15. Assert ladsPaid(actor). Retract at(lads, site). }
     Result "The larger lad counts them, twice, in his palm. 'There's a woman at Highfoot,' he says, without conviction, 'who's got the look.' They go off along the bank, arguing about who will say what to the sergeant.".

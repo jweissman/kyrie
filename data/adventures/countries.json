@@ -18,10 +18,10 @@
    "name": "Merrowdale",
    "topic": "the forty crowns in Merrowdale",
    "terrain": "mountain",
-   "rumour": "'Up the north road there is Merrowdale,' says {keeper}. 'There is a long ridge across the head of the dale, and they say a giant king is buried under it. Something tall walks the crest at night. The steward has posted forty crowns to have it laid.'",
-   "heard": "Up the north road lies Merrowdale, where a giant king is said to be buried under the long ridge, and something tall walks its crest at night.",
+   "rumour": "'Up the north road there is Merrowdale,' says {keeper}. 'There is a long ridge across the head of the dale, and they say a giant king is buried under it. Something tall walks the crest at night. The steward has posted forty crowns to have it laid. Word from Dun Rì is that the succession is open and the Ash is counting roads north. The grey board already marks the Long Man's sluice; Aldous Venn says whoever sits next in Dun Rì must hear the dale before the water is taken.'",
+   "heard": "Up the north road lies Merrowdale, where a giant king is said to be buried under the long ridge, and something tall walks its crest at night. The Rì's succession is open and the Ash is counting north; its grey board marks the Long Man's sluice, and Venn wants the dale heard before the water is taken.",
    "skyline": "a long ridge laid straight across the head of a dale, too straight for a hill",
-   "far": "a giant king is buried under a long ridge, and something tall walks its crest at night",
+   "far": "a giant king is buried under a long ridge, and something tall walks its crest at night; the Ash has marked the sluice while the Rì's succession is open",
    "notice": {
     "name": "a notice from Merrowdale",
     "text": "A notice in a clerk's hand, carried down from Merrowdale and nailed up where travellers will see it: WHOEVER LAYS THE MOWER THAT WALKS THE LONG MAN SHALL HAVE FORTY CROWNS OF THE STEWARD. A. VENN, FOR THE LORD. Under it someone has written: up the north road, three days at most.",
@@ -54,10 +54,10 @@
    "topic": "Saltgrave, in the east of the country",
    "terrain": "mountain",
    "among": "independent",
-   "rumour": "'Away in the east of the country, under the fells, there is a salt town, Saltgrave,' says {keeper}. 'People pay to sleep there, and some of them do not come home. And the giants have come down off the mountain, they say, for the first time anyone remembers.'",
-   "heard": "Away in the east of the country lies Saltgrave, a salt town under the fells, where people pay to sleep and some do not come home, and the giants have come down off the mountain.",
+   "rumour": "'Away in the east of the country, under the fells, there is a salt town, Saltgrave,' says {keeper}. 'People pay to sleep there, and some of them do not come home. And the giants have come down off the mountain, they say, for the first time anyone remembers. Word from Dun Rì is that the succession is open and the Ash is advancing. Sir Odo Varne asks which claimant will protect Saltgrave as the giants come down.'",
+   "heard": "Away in the east of the country lies Saltgrave, a salt town under the fells, where people pay to sleep and some do not come home, and the giants have come down off the mountain. The Rì's succession is open as the Ash advances. Sir Odo Varne asks who will protect Saltgrave as the giants descend.",
    "skyline": "smoke going up from salt-pans under the fells",
-   "far": "people pay to sleep in a salt town under the fells, and some of them do not come home",
+   "far": "people pay to sleep in a salt town under the fells, and some of them do not come home; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The talk of Saltgrave in the east has changed in the telling: the salt did not come for a week and then it did, and nobody who drinks it will say what is different.",
     "told": "{keeper} listens to all of it, the salt town and the sleeping houses and the giants in their hall, with one hand flat on the bar. 'There was a week the salt did not come up the road,' {keeper} says, 'and then there was salt again. I did not ask what had been done to it.' {keeper} pours a drink and slides it across, and does not pour one for the company's account. 'I'll thank you not to tell me while I'm serving.'"
@@ -78,10 +78,10 @@
    "topic": "the room of glass in the Strewnfield",
    "terrain": "marsh",
    "among": "independent",
-   "rumour": "'South, in the Strewnfield,' says {keeper}, 'a room of glass fell into a barley field by Cobble Ring. It grows, they say, wherever nobody is watching it. They sit up with it all night on stools.'",
-   "heard": "South of here lies the Strewnfield, where a room of glass fell into a barley field by Cobble Ring, and grows wherever nobody watches it.",
+   "rumour": "'South, in the Strewnfield,' says {keeper}, 'a room of glass fell into a barley field by Cobble Ring. It grows, they say, wherever nobody is watching it. They sit up with it all night on stools. Word from Dun Rì is that the succession is open and the Ash is advancing. Kezu refuses to let a claimant turn the growing glass into a royal weapon.'",
+   "heard": "South of here lies the Strewnfield, where a room of glass fell into a barley field by Cobble Ring, and grows wherever nobody watches it. The Rì's succession is open as the Ash advances. Kezu will not let a claimant turn the growing glass into a royal weapon.",
    "skyline": "a flash in the fields, like a window where no house stands",
-   "far": "a room of glass fell into a barley field, and grows wherever nobody is watching it",
+   "far": "a room of glass fell into a barley field, and grows wherever nobody is watching it; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The carters down from the south say Cobble Ring has settled what to do about the room in the barley, and will not agree among themselves which way it went.",
     "told": "{keeper} hears you out about Cobble Ring and the barley and the stools, and the long glass hall under the city. 'They voted to keep it,' {keeper} says at last. 'Sat up with it three nights and voted to go on sitting.' {keeper} turns a cup over. 'I'd have sold it. I'd have sold it and slept.'",
@@ -119,10 +119,10 @@
    "topic": "the mountain over the Corrow",
    "terrain": "mountain",
    "among": "independent",
-   "rumour": "'West of here is the Corrow,' says {keeper}. 'There is a mountain hangs over it in the sky, on a chain, and they say it is drifting. And there is a well there nobody has been to the bottom of.'",
-   "heard": "Away in the west of the country lies the Corrow, where a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of.",
+   "rumour": "'West of here is the Corrow,' says {keeper}. 'There is a mountain hangs over it in the sky, on a chain, and they say it is drifting. And there is a well there nobody has been to the bottom of. Word from Dun Rì is that the succession is open and the Ash is advancing. Agnes Ruddle asks whether the next Rì can stop the chained mountain before it drifts over the well.'",
+   "heard": "Away in the west of the country lies the Corrow, where a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of. The Rì's succession is open as the Ash advances. Agnes Ruddle asks whether the next Rì can stop the chained mountain.",
    "skyline": "a mountain hanging in the sky, with nothing under it but air",
-   "far": "a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of",
+   "far": "a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The talk of the Corrow has changed: the mountain that hung in the sky on a chain is down, or gone, or was never there, depending whom the carter drinks with.",
     "told": "{keeper} hears you out about the mountain, the well and the Margin, and says nothing for so long that the fire shifts. 'Down the Peleth road they say the Corrow remembered something,' {keeper} says at last. 'Out loud. All at once.' They look at the hearth. 'I have never heard of a place having a memory and wanting it back.'",
@@ -165,10 +165,10 @@
    "topic": "the Ghessil Uplands",
    "terrain": "mountain",
    "among": "independent",
-   "rumour": "'West, up on the Ghessil Uplands,' says {keeper}, 'there is a light lies on the glass that slows whatever drinks it. There are people standing in it, they say, that went in last autumn and are standing there yet, alive.'",
-   "heard": "Away in the west of the country lie the Ghessil Uplands, where a light on the glass slows whatever drinks it, and people stand in it alive since last autumn.",
+   "rumour": "'West, up on the Ghessil Uplands,' says {keeper}, 'there is a light lies on the glass that slows whatever drinks it. There are people standing in it, they say, that went in last autumn and are standing there yet, alive. Word from Dun Rì is that the succession is open and the Ash is advancing. Rusk asks what the next Rì will do for those still held in the glass.'",
+   "heard": "Away in the west of the country lie the Ghessil Uplands, where a light on the glass slows whatever drinks it, and people stand in it alive since last autumn. The Rì's succession is open as the Ash advances. Rusk asks what the next Rì will do for those held in the glass.",
    "skyline": "a light lying on the uplands that does not move when the clouds do",
-   "far": "a light lies on the glass that slows whatever drinks it, and people stand in it alive",
+   "far": "a light lies on the glass that slows whatever drinks it, and people stand in it alive; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The talk of the Ghessil Uplands has changed. The light on the glass is the subject of a different argument now, in a different voice, and the carters who have been up the Collar road will tell you which only if you buy.",
     "told": "{keeper} hears you out about the light, the Pit and the Corbel hanging over it, and does not interrupt even at the Concord. 'It was a long year up there, by what the carters said,' {keeper} says at last. 'A long year, and a long way down.' {keeper} turns a cup over on its saucer. 'I can't tell whether you saved them or only changed what it was that was killing them. I'll pour either way.'",
@@ -212,10 +212,10 @@
    "topic": "the falling water at Ammerlin",
    "terrain": "hills",
    "among": "independent",
-   "rumour": "'Away in the south of the country there's a city down the inside of a crater, Ammerlin,' says {keeper}. 'Their lake's been going down three years, and nobody there will believe anybody else about why. So they've sent out for someone from outside to measure it, and put their name to the answer. The Office of Measures pays, if you can count.'",
-   "heard": "Away in the south of the country lies the Bowl of Ammerlin, a city down the inside of a crater, whose lake has been falling for three years; its Office of Measures wants someone from outside to measure it and say why.",
+   "rumour": "'Away in the south of the country there's a city down the inside of a crater, Ammerlin,' says {keeper}. 'Their lake's been going down three years, and nobody there will believe anybody else about why. So they've sent out for someone from outside to measure it, and put their name to the answer. The Office of Measures pays, if you can count. The Rì's succession is open and the Ash is pressing for Ammerlin's measure. Teodor Halm says the lake was falling long before the crown went empty; no claimant gets to call his count a royal one until the Office signs it.'",
+   "heard": "Away in the south of the country lies the Bowl of Ammerlin, a city down the inside of a crater, whose lake has been falling for three years; its Office of Measures wants someone from outside to measure it and say why. The Rì's succession is open as the Ash presses for the measure; Teodor Halm says the numbers predate the empty seat and must bear the Office's mark, not a claimant's.",
    "skyline": "the rim of a great crater, with smoke going up out of it",
-   "far": "a city down the inside of a crater is losing its lake, and nobody there believes anybody else about why",
+   "far": "a city down the inside of a crater is losing its lake, and the Ash is pressing for its measure while the Rì's succession is open",
    "after": {
     "talk": "The talk of the Bowl of Ammerlin has gone off with the lake: the carters say the Office of Measures has put its name to an answer, and half of them say it was the right one.",
     "told": "{keeper} hears you out about the Bowl, the Office of Measures and the lake going down, and is quiet a while. 'Three years,' {keeper} says. 'And nobody would believe anybody. And they sent for someone from outside.' They take a long breath. 'I always thought it would be the lake that was lying.'",
@@ -249,10 +249,10 @@
    ],
    "name": "the Ossel delta",
    "terrain": "marsh",
-   "rumour": "'Down the east road, where the marsh meets the sea, there's Tessary on the Ossel,' says {keeper}. 'Their legions came home from the war a week back, and they say some of the soldiers are getting up in the night and walking into the sea. Barefoot, in step, eyes open. An eel-wife there has put up a notice: she'll give her savings to anyone who can tell her where her boy went.'",
-   "heard": "Away in the east of the country lies Tessary on the Ossel, where the legions have come home from the war and some of the soldiers walk into the sea at night; an eel-wife there offers her savings for news of her son.",
+   "rumour": "'Down the east road, where the marsh meets the sea, there's Tessary on the Ossel,' says {keeper}. 'Their legions came home from the war a week back, and they say some of the soldiers are getting up in the night and walking into the sea. Barefoot, in step, eyes open. An eel-wife there has put up a notice: she'll give her savings to anyone who can tell her where her boy went. Word from Dun Rì is that the succession is open and the Ash is advancing. Lucius Haverick says a crown cannot command the soldiers out of the sea.'",
+   "heard": "Away in the east of the country lies Tessary on the Ossel, where the legions have come home from the war and some of the soldiers walk into the sea at night; an eel-wife there offers her savings for news of her son. The Rì's succession is open as the Ash advances. Lucius Haverick says a crown cannot command the soldiers out of the sea.",
    "skyline": "the smoke of a town where the marsh meets the sea",
-   "far": "the legions have come home from the war, and some of the soldiers walk into the sea at night",
+   "far": "the legions have come home from the war, and some of the soldiers walk into the sea at night; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The east road's news of Tessary has gone from soldiers walking into the sea to a quarrel about paper. Nobody can say who has the note, only that somebody does.",
     "told": "{keeper} hears you out, the legions and the sea-walkers and the note, and is quiet while the lamp is trimmed. 'They stopped walking into the sea,' {keeper} says. 'That much came up the east road. The rest came as a quarrel about paper, and I never could follow a quarrel about paper.' {keeper} thinks. 'An eel-wife used to put up a notice about her boy. I am told it has come down. Whether because she has her answer, no one would say.'"
@@ -271,10 +271,10 @@
    "name": "the vale of the Wray",
    "topic": "the bridge at Wrayford",
    "terrain": "hills",
-   "rumour": "'Down the south road, where the drove roads come down off the fells, there's Wrayford, on the Wray,' says {keeper}, and lowers their voice. 'The carters rose against the bridge toll there a few nights back, and the lord's riders hanged three of them off the gatehouse on the bridge, and they're hanging there yet. The reeve says they stay till the lord's captain comes. Drovers coming through say the whole town goes and stands under them, and nobody will say a word.'",
-   "heard": "Away in the south of the country lies Wrayford, the bridge-city on the Wray, where the lord's riders hanged three carters from the gatehouse on the bridge after a rising against the toll, and the reeve keeps them hanging until the lord's captain comes.",
+   "rumour": "'Down the south road, where the drove roads come down off the fells, there's Wrayford, on the Wray,' says {keeper}, and lowers their voice. 'The carters rose against the bridge toll there a few nights back, and the lord's riders hanged three of them off the gatehouse on the bridge, and they're hanging there yet. The reeve says they stay till the lord's captain comes. Drovers coming through say the whole town goes and stands under them, and nobody will say a word. Word from Dun Rì is that the succession is open and the Ash is advancing. Amos Pinch has put the names of the hanged carters at the top of the toll ledger; he says the next Rì can collect from the living.'",
+   "heard": "Away in the south of the country lies Wrayford, the bridge-city on the Wray, where the lord's riders hanged three carters from the gatehouse on the bridge after a rising against the toll, and the reeve keeps them hanging until the lord's captain comes. The Rì's succession is open and the Ash is advancing; Amos Pinch is said to have put the dead carters' names before the tolls in the ledger.",
    "skyline": "a town at a bridge, far down where the drove roads come off the fells",
-   "far": "the lord's riders hanged three carters from the gatehouse on the bridge, and they hang there yet",
+   "far": "the lord's riders hanged three carters from a bridge after a toll rising; the Ash is advancing while the Rì's succession is open, and Amos Pinch has put the dead before the tolls",
    "after": {
     "talk": "The south road's news of Wrayford has gone to one sentence, which the carters say with their eyes on the table: the captain came, and the rail is bare, and nobody will tell it twice the same.",
     "told": "{keeper} hears you out, the bridge and the rail and the captain's verdict, and refills your cup before you have finished. 'The drovers coming through said it went quiet after,' {keeper} says at last. 'They said a town can go quiet in two ways, and would not tell me which.' {keeper} turns the cup a quarter-turn on the bar. 'Do not tell me which. I shall have to pour for both kinds.'"
@@ -293,10 +293,10 @@
    "name": "Calamy",
    "topic": "the city of paper at the mouth of the Calam",
    "terrain": "marsh",
-   "rumour": "'Away in the east of the country, where the cold country comes down to the sea and the river runs out through miles of reeds, there is Calamy, at the mouth of the Calam,' says {keeper}. 'A city of paper: tide-mills and binders and printers, and every house there keeps a book that knows it. They say the books have started to talk. And they burn their old almanacks at the Kindling, which is near, and this year nobody can say whether they ought.'",
-   "heard": "Away in the east of the country lies Calamy, at the mouth of the Calam, where every house keeps a book that knows it, and the books have begun to talk, and the Kindling is near.",
+   "rumour": "'Away in the east of the country, where the cold country comes down to the sea and the river runs out through miles of reeds, there is Calamy, at the mouth of the Calam,' says {keeper}. 'A city of paper: tide-mills and binders and printers, and every house there keeps a book that knows it. They say the books have started to talk. And they burn their old almanacks at the Kindling, which is near, and this year nobody can say whether they ought. Word from Dun Rì is that the succession is open and the Ash is advancing. Bet Kettering says the talking books must be heard before a court orders the almanacs burned.'",
+   "heard": "Away in the east of the country lies Calamy, at the mouth of the Calam, where every house keeps a book that knows it, and the books have begun to talk, and the Kindling is near. The Rì's succession is open as the Ash advances. Bet Kettering says the talking books must be heard before anyone orders the almanacs burned.",
    "skyline": "the sails of tide-mills turning along a coast of reeds",
-   "far": "the books of a city of paper have begun to talk, and the Kindling is near",
+   "far": "the books of a city of paper have begun to talk, and the Kindling is near; the Rì's succession is open while the Ash advances.",
    "among": "independent",
    "after": {
     "talk": "A barge-man up from the east says Calamy has had its Kindling, and that the books were in the room for it, and will say no more than that he did not stop to see.",
@@ -321,10 +321,10 @@
    "name": "the vale of the Arle",
    "topic": "the Trial of the Wheel at Pentrice",
    "terrain": "hills",
-   "rumour": "'Away in the west of the country, where the Ise falls into the Arle, there's Pentrice,' says {keeper}. 'A minster town, very grand, where they license every word said on a stage and fine you for the rest. This week it's their Trial of the Wheel: three companies of players, three nights in a round playhouse over the river, and the best of them given a house of its own for ever.' {keeper} grins. 'They say old Absalom Gosse is going back for it, after forty years. They banned him from every stage inside the walls the last time. He started a riot.'",
+   "rumour": "'Away in the west of the country, where the Ise falls into the Arle, there's Pentrice,' says {keeper}. 'A minster town, very grand, where they license every word said on a stage and fine you for the rest. This week it's their Trial of the Wheel: three companies of players, three nights in a round playhouse over the river, and the best of them given a house of its own for ever.' {keeper} grins. 'They say old Absalom Gosse is going back for it, after forty years. They banned him from every stage inside the walls the last time. He started a riot. The Rì's succession is open and the Ash is approaching. Asked who should wear the next crown, Gosse is said to have answered, \"Whoever remembers the second act.\" He says this with the face of a man who knows the royal family.'",
    "skyline": "a minster tower over a river town, where one river falls into another",
-   "far": "a minster town licenses every word said on a stage, and holds its Trial of the Wheel",
-   "heard": "Away in the west of the country lies Pentrice, a minster town that licenses every word said on a stage; this week it holds its Trial of the Wheel, three companies of players for three nights, and Absalom Gosse's company is going back after forty years' banishment.",
+   "far": "a minster town licenses every word said on a stage; Absalom Gosse makes jokes about the open Rì's succession as the Ash approaches",
+   "heard": "Away in the west of the country lies Pentrice, a minster town that licenses every word said on a stage; this week it holds its Trial of the Wheel, three companies of players for three nights, and Absalom Gosse's company is going back after forty years' banishment. The Rì's succession is open as the Ash approaches; Gosse is said to have answered a question about the next king with a joke about the second act.",
    "notice": {
     "name": "a playbill of the Trial of the Wheel",
     "text": "A bill in red and black, much handled and rained on: THE TRIAL OF THE WHEEL AT PENTRICE. THREE COMPANIES OF PLAYERS. THREE NIGHTS. THE PATENT OF THE WHEEL TO BE GIVEN BY THE BENCH. BY LEAVE OF THE OFFICE OF PLAIN SPEECH. Under it someone has written in pencil: west road, a day; and drawn a bear.",
@@ -358,10 +358,10 @@
    "name": "Pellam on the Lisk",
    "topic": "the Frost Fair at Pellam",
    "terrain": "hills",
-   "rumour": "'West, up the country, where the North Road comes down to the Lisk, there's Pellam, the wool city,' says {keeper}. 'The river's frozen there for the first time in thirty-one winters, they say, bank to bank, and they're holding a Frost Fair on it: booths and a gin-tent and an ox roasting on the ice. And the ice has its own law while it lasts. A lie's no crime on it, and a handshake's the Court's.' {keeper} laughs. 'Half the rogues in the country will be there by now. The other half are on the way.'",
-   "heard": "Away in the west of the country lies Pellam on the Lisk, a wool city whose river has frozen for the first time in thirty-one winters; they are holding a Frost Fair on the ice, under the ice's own law: a lie is no crime on it, and a handshake is the Court's.",
+   "rumour": "'West, up the country, where the North Road comes down to the Lisk, there's Pellam, the wool city,' says {keeper}. 'The river's frozen there for the first time in thirty-one winters, they say, bank to bank, and they're holding a Frost Fair on it: booths and a gin-tent and an ox roasting on the ice. And the ice has its own law while it lasts. A lie's no crime on it, and a handshake's the Court's.' {keeper} laughs. 'Half the rogues in the country will be there by now. The other half are on the way. Word from Dun Rì is that the succession is open and the Ash is advancing. Amos Tallis says the Fair's ice-law binds a claimant as tightly as a carter.'",
+   "heard": "Away in the west of the country lies Pellam on the Lisk, a wool city whose river has frozen for the first time in thirty-one winters; they are holding a Frost Fair on the ice, under the ice's own law: a lie is no crime on it, and a handshake is the Court's. The Rì's succession is open as the Ash advances. Amos Tallis says the Fair's ice-law binds a claimant as tightly as a carter.",
    "skyline": "a city on a river white with ice from bank to bank",
-   "far": "a river has frozen bank to bank under a wool city, and they hold a fair on it where a lie is no crime and a handshake is the law",
+   "far": "a river has frozen bank to bank under a wool city, and they hold a fair on it where a lie is no crime and a handshake is the law; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "There is no Frost Fair talk on the north road any more; the carters say the Lisk went out in lumps on the fourth morning, and what was landed at the Glove Post before it did is good, and what was not, is not.",
     "told": "{keeper} hears you out about the Fair, the Glove Post and the Court on the ice, and laughs in the places a lie is no crime, and once does not. 'Landed,' {keeper} says. 'Everything shaken before the thaw holds to the sea.' {keeper} looks at their own hand a moment, as if for the first time. 'I shall be careful who I shake with.'",
@@ -393,10 +393,10 @@
    "name": "the Lim valley",
    "topic": "the Season at Hessel",
    "terrain": "hills",
-   "rumour": "'Up in the north of the country, down in the Lim valley, there's Hessel,' says {keeper}, 'where the water comes up out of the hill hot, and the old go to be mended and the young to be married. It's the end of their Season. They say there's a rich old woman there who cooked for the navvies, buying husbands for all her family before she dies, and a house in the best street that's kept its shutters closed nine years, with the fires lit, in the warm.'",
-   "heard": "Up in the north of the country lies Hessel in the Lim valley, a spa where the water comes up hot and the old go to be mended and the young to be married; its Season is ending, a rich old woman there is buying husbands for her family before she dies, and a house in its best street has kept its shutters closed nine years.",
+   "rumour": "'Up in the north of the country, down in the Lim valley, there's Hessel,' says {keeper}, 'where the water comes up out of the hill hot, and the old go to be mended and the young to be married. It's the end of their Season. They say there's a rich old woman there who cooked for the navvies, buying husbands for all her family before she dies, and a house in the best street that's kept its shutters closed nine years, with the fires lit, in the warm. Word from Dun Rì is that the succession is open and the Ash is advancing. Mrs Abigail Cherrett asks who inherits the house with its shutters shut; one family has waited nine years already.'",
+   "heard": "Up in the north of the country lies Hessel in the Lim valley, a spa where the water comes up hot and the old go to be mended and the young to be married; its Season is ending, a rich old woman there is buying husbands for her family before she dies, and a house in its best street has kept its shutters closed nine years. The Rì's succession is open as the Ash advances. Mrs Abigail Cherrett asks who inherits the house with its shutters shut.",
    "skyline": "steam going up out of a green valley, where the water comes up out of the hill hot",
-   "far": "the water comes up out of a hill hot, and the old go there to be mended and the young to be married",
+   "far": "the water comes up out of a hill hot, and the old go there to be mended and the young to be married; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The coaches down from the Lim valley are full of people who have been mended, married or merely billed, and none of them will say who won.",
     "told": "{keeper} hears you out about the Season, the Pump Room and the shuttered house with the fires lit, and puts down the cloth. 'Nine years,' {keeper} says. 'With the fires on, and nobody in. And she cooked for navvies.' {keeper} shakes their head slowly. 'Well. Somebody had to know what was behind those shutters. I had rather it was somebody who tells it.'",
@@ -424,10 +424,10 @@
    "name": "the Levels of Gaunt",
    "topic": "the fell road to Gaunt",
    "terrain": "frost",
-   "rumour": "'Up in the north of the country the fell road goes up over Carth Fell and down to Gaunt,' says {keeper}, 'the city of the Minster, on the Levels, where they'll sell you somebody else's penance by the day. There's a heretic to be tried there on Ash Day, a barefoot man who used to do penance for half the Guildhall. They say a beadle went down the march road to fetch him, and has not come back up it.'",
-   "heard": "Up in the north of the country the fell road climbs over Carth Fell and comes down to Gaunt, a walled city on the Levels where penance is bought and sold by the day, and a barefoot heretic is to be tried on Ash Day.",
+   "rumour": "'Up in the north of the country the fell road goes up over Carth Fell and down to Gaunt,' says {keeper}, 'the city of the Minster, on the Levels, where they'll sell you somebody else's penance by the day. There's a heretic to be tried there on Ash Day, a barefoot man who used to do penance for half the Guildhall. They say a beadle went down the march road to fetch him, and has not come back up it. Word from Dun Rì is that the succession is open and the Ash is advancing. Ninian Hern says the Ash Day trial must not become a coronation's excuse for vengeance.'",
+   "heard": "Up in the north of the country the fell road climbs over Carth Fell and comes down to Gaunt, a walled city on the Levels where penance is bought and sold by the day, and a barefoot heretic is to be tried on Ash Day. The Rì's succession is open as the Ash advances. Ninian Hern says the Ash Day trial must not become a coronation's excuse for vengeance.",
    "skyline": "a walled city on a white plain, with a great church in it that has one tower and the stump of another",
-   "far": "penance is bought and sold by the day, and a barefoot heretic is to be tried at the Minster on Ash Day",
+   "far": "penance is bought and sold by the day, and a barefoot heretic is to be tried at the Minster on Ash Day; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The fell road's news of Gaunt has gone quiet since Ash Day. A beadle has come back down the march road after all, without his man, and will not say where he left him.",
     "told": "{keeper} listens to the whole of it, the barefoot man and the Consistory and the Gate of Ash, and does not interrupt even at the penance by the day. 'Ash Day came and went up there,' {keeper} says. 'A beadle came down the road a week after, without his man, and sat where you are sitting, and asked for water, and then asked what Lent it was.' {keeper} sets down the cloth. 'I did not know how to answer him. I am not sure I know how to answer you.'"
@@ -448,10 +448,10 @@
    "name": "the Gannet Reach",
    "topic": "the wreck on the Gannet Reach",
    "terrain": "marsh",
-   "rumour": "'North, up the country, the coast road goes down to the Gannet Reach,' says {keeper}, 'where the sea goes out twice a day and leaves nine miles of sand. There's a town on it called Skeel that lives off wrecks, and a big ship went onto the sands there a few nights back in fair weather, which ships don't. They're stripping her now. The Wreck Court sits on her in two days, and if nothing came ashore of her alive, she's theirs. They say there's a dog.'",
-   "heard": "Up in the north of the country the coast road goes down to the Gannet Reach, a tidal sea of sands and islands where the wrecking town of Skeel is stripping a merchantman that went onto the sands in fair weather; its Wreck Court sits in two days, and she is the town's only if nothing came ashore of her alive.",
+   "rumour": "'North, up the country, the coast road goes down to the Gannet Reach,' says {keeper}, 'where the sea goes out twice a day and leaves nine miles of sand. There's a town on it called Skeel that lives off wrecks, and a big ship went onto the sands there a few nights back in fair weather, which ships don't. They're stripping her now. The Wreck Court sits on her in two days, and if nothing came ashore of her alive, she's theirs. They say there's a dog. Word from Dun Rì is that the succession is open and the Ash is advancing. Mother Jago says the Wreck Court, not the next Rì, must decide who owns the ship.'",
+   "heard": "Up in the north of the country the coast road goes down to the Gannet Reach, a tidal sea of sands and islands where the wrecking town of Skeel is stripping a merchantman that went onto the sands in fair weather; its Wreck Court sits in two days, and she is the town's only if nothing came ashore of her alive. The Rì's succession is open as the Ash advances. Mother Jago says the Wreck Court, not the next Rì, must decide who owns the ship.",
    "skyline": "a great flat shining to the west, sand or sea, with islands standing in it and a tower on one of them",
-   "far": "a ship went onto the sands of a tidal reach in fair weather, and the wrecking town there will have her if nothing came ashore alive",
+   "far": "a ship went onto the sands of a tidal reach in fair weather, and the wrecking town there will have her if nothing came ashore alive; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "Nobody talks of the Gannet Reach this week except to say the Wreck Court has sat on the ship in Skeel, and nobody quite agrees how it went.",
     "told": "{keeper} hears you out about Skeel and the Court and the dog, and shakes their head slowly. 'A town that prays for wrecks,' {keeper} says. 'And it got one, and then it got you.' Whatever {keeper} thinks of that is kept for later."
@@ -470,10 +470,10 @@
    "name": "the Wold of Hume",
    "topic": "the Wold of Hume, and its bees",
    "terrain": "hills",
-   "rumour": "'South, up on the Wold of Hume, past the mountains, there's a town lives inside a honeycomb under a cliff,' says {keeper}. 'Bees as big as hounds, and they'll sting a stranger dead unless he smells right. The candles come from there, the ones that burn three nights. And the word down the drove road is that their old queen's going to swarm, and half the town will walk off after her and never come back. They want hands to help them look for where.'",
-   "heard": "Away in the south of the country, past the mountains, lies the Wold of Hume, where a town lives inside a honeycomb under a cliff among bees as big as hounds; their old queen is about to swarm, half the town will walk after her, and their Searchers want hands to find where.",
+   "rumour": "'South, up on the Wold of Hume, past the mountains, there's a town lives inside a honeycomb under a cliff,' says {keeper}. 'Bees as big as hounds, and they'll sting a stranger dead unless he smells right. The candles come from there, the ones that burn three nights. And the word down the drove road is that their old queen's going to swarm, and half the town will walk off after her and never come back. They want hands to help them look for where. Word from Dun Rì is that the succession is open and the Ash is advancing. Kestrel Dunn asks who will remain in Hume if the queen's swarm takes half the town.'",
+   "heard": "Away in the south of the country, past the mountains, lies the Wold of Hume, where a town lives inside a honeycomb under a cliff among bees as big as hounds; their old queen is about to swarm, half the town will walk after her, and their Searchers want hands to find where. The Rì's succession is open as the Ash advances. Kestrel Dunn asks who will remain in Hume if the queen's swarm takes half the town.",
    "skyline": "a long grey brow of rock on the hills, and under it a glow like a lamp behind a curtain",
-   "far": "a town lives inside a honeycomb under a cliff, and half of it is about to walk away after a swarm",
+   "far": "a town lives inside a honeycomb under a cliff, and half of it is about to walk away after a swarm; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The word down the drove road is that the bees on the Wold of Hume have swarmed, and half the town under the Brow walked off after them, and nobody yet knows where they have built.",
     "told": "{keeper} hears you out about the Wold, the Comb and the Leaving, and is quiet a while. 'Half of them,' {keeper} says at last. 'Just walked off. And the other half stood and watched them go.' {keeper} leans closer, then, and sniffs, and sits back with an odd look. 'You smell of honey,' {keeper} says. 'Did you know that? Like a summer field. It's in your clothes.'"
@@ -494,10 +494,10 @@
    "name": "the Lull",
    "topic": "the Lull, in the north of the country",
    "terrain": "forest",
-   "rumour": "'Up in the north of the country there's a hamlet called Sixways,' says {keeper}, 'and above it a stone, and past the stone a valley you can only walk into one day in seven. The other six the road goes round a hill and back. The Lull, they call it. They don't work in there: whatever's done there without meaning it comes apart at sunset, bread and money and all. And if you sleep a night in it, you lose a week out here.'",
-   "heard": "Up in the north of the country, above the hamlet of Sixways, a road goes down from a standing stone one day in seven into the Lull, a valley where whatever is done without meaning it comes apart at sunset, and a night slept is a week gone outside.",
+   "rumour": "'Up in the north of the country there's a hamlet called Sixways,' says {keeper}, 'and above it a stone, and past the stone a valley you can only walk into one day in seven. The other six the road goes round a hill and back. The Lull, they call it. They don't work in there: whatever's done there without meaning it comes apart at sunset, bread and money and all. And if you sleep a night in it, you lose a week out here. Word from Dun Rì is that the succession is open and the Ash is advancing. Dorcas Trewin says a road open one day in seven will not wait for a royal settlement.'",
+   "heard": "Up in the north of the country, above the hamlet of Sixways, a road goes down from a standing stone one day in seven into the Lull, a valley where whatever is done without meaning it comes apart at sunset, and a night slept is a week gone outside. The Rì's succession is open as the Ash advances. Dorcas Trewin says the road will not wait for a royal settlement.",
    "skyline": "a bare green hill with a standing stone on it, and a road that goes round the hill and comes back",
-   "far": "there is a valley you can only walk into one day in seven, where nothing done without meaning it lasts the day",
+   "far": "there is a valley you can only walk into one day in seven, where nothing done without meaning it lasts the day; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The talk from the north of the country is that something has changed in the Lull, and the carters of Sixways cannot agree whether for better.",
     "told": "{keeper} hears you out about the Lull, the stone and the bridge and the Watching, and is quiet a while. 'One day in seven,' {keeper} says at last. 'I've often thought I could do with that.' Then, after a moment: 'Or maybe not. Maybe I'd mean too little of it.'"
@@ -518,10 +518,10 @@
    "name": "Larum and the Pass",
    "topic": "the quiet over the Larum Pass",
    "terrain": "mountain",
-   "rumour": "'West, up the country, at the head of a long valley, there's a hamlet called Larum under a high pass,' says {keeper}. 'For nine hundred years, on a still day, you could hear the dead fighting up there in the snow: like a smithy the size of the sky, faint, all day, and stopping at dusk. Larum sold their ballads. Forty days ago it stopped. The carters say Larum can't sleep for the quiet.'",
-   "heard": "Away in the west of the country, at the head of a long valley, lies Larum, under a high pass where for nine hundred years the warrior dead could be heard fighting in the snow, and stopped forty days ago; the carters say Larum cannot sleep for the quiet.",
+   "rumour": "'West, up the country, at the head of a long valley, there's a hamlet called Larum under a high pass,' says {keeper}. 'For nine hundred years, on a still day, you could hear the dead fighting up there in the snow: like a smithy the size of the sky, faint, all day, and stopping at dusk. Larum sold their ballads. Forty days ago it stopped. The carters say Larum can't sleep for the quiet. Word from Dun Rì is that the succession is open and the Ash is advancing. Bet Garside fears the silence will outlast the songs before anyone is crowned.'",
+   "heard": "Away in the west of the country, at the head of a long valley, lies Larum, under a high pass where for nine hundred years the warrior dead could be heard fighting in the snow, and stopped forty days ago; the carters say Larum cannot sleep for the quiet. The Rì's succession is open as the Ash advances. Bet Garside fears the silence will outlast the songs.",
    "skyline": "a high pass full of a white cloud that never moves, between two shoulders of black rock",
-   "far": "the dead who fought every day in the snow above a mountain hamlet have stopped, and nobody knows why",
+   "far": "the dead who fought every day in the snow above a mountain hamlet have stopped, and nobody knows why; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The carters coming down from the west say there is news out of Larum, and cannot agree whether the dead up the Pass have started again or not, and argue about it at the tables.",
     "told": "{keeper} hears you out about Larum and the Pass and the town of shields, and is quiet a while. 'The dead,' {keeper} says at last. 'Making bread.' {keeper} shakes their head. 'My grandfather fought at Coldharbour. He always said he hoped there was nothing after. I'll not tell him.' Then, after a moment, looking at your hands: 'You're cold. Come to the fire.'",
@@ -547,10 +547,10 @@
    "name": "the Hollins country",
    "topic": "the house on the hill at Hollins, over the march",
    "terrain": "hills",
-   "rumour": "'Up in the north of the country, in the hills, there's a village called Bootscrape,' says {keeper}, 'built on a doorstep. A giant's doorstep: the house it belongs to is as big as a hill, and stood shut three hundred years. The giantess has come home to it, they say, to die, and her woman wants a ratcatcher. Two crowns a day.' {keeper} lowers their voice. 'The carters say there's more than rats in the walls.'",
-   "heard": "Up in the north of the country, in the hills, the village of Bootscrape is built on the doorstep of Hollins, a giant's house as big as a hill, shut three hundred years. The giantess has come home to die, and her companion is hiring a ratcatcher; the carters say there is more than rats in the walls.",
+   "rumour": "'Up in the north of the country, in the hills, there's a village called Bootscrape,' says {keeper}, 'built on a doorstep. A giant's doorstep: the house it belongs to is as big as a hill, and stood shut three hundred years. The giantess has come home to it, they say, to die, and her woman wants a ratcatcher. Two crowns a day.' {keeper} lowers their voice. 'The carters say there's more than rats in the walls. Word from Dun Rì is that the succession is open and the Ash is advancing. Jory Mudge asks who will bury the giantess if war reaches her hill.'",
+   "heard": "Up in the north of the country, in the hills, the village of Bootscrape is built on the doorstep of Hollins, a giant's house as big as a hill, shut three hundred years. The giantess has come home to die, and her companion is hiring a ratcatcher; the carters say there is more than rats in the walls. The Rì's succession is open as the Ash advances. Jory Mudge asks who will bury the giantess if war reaches her hill.",
    "skyline": "a grey hill with a roof on it, and windows in its side as tall as churches",
-   "far": "a giantess has come home to die in a house as big as a hill, and there are people living in its walls",
+   "far": "a giantess has come home to die in a house as big as a hill, and there are people living in its walls; the Rì's succession is open while the Ash advances.",
    "notice": {
     "name": "a notice from Hollins",
     "text": "A notice in a clear, pinched hand, carried down by a carter and nailed up where travellers will see it: WANTED, A RATCATCHER, FOR HOLLINS, THE HOUSE BEING OVERRUN. TWO CROWNS THE DAY, AND TWOPENCE THE TAIL. APPLY AT THE MAT, BOOTSCRAPE, TEN UNTIL TWO. D. PYECROFT. Under it, in pencil, someone has written: north over the march, and mind the cat.",
@@ -579,10 +579,10 @@
    "name": "Sennet",
    "topic": "the Grand Tour at Sennet",
    "terrain": "marsh",
-   "rumour": "'Away in the east of the country, down on the coast, there's Sennet,' says {keeper}. 'A port, all glass-houses, with a House of Doors on the headland whose doors open on the planes, and a hill floating over the bay with the gentry living on it, and the merfolk living in the drowned streets underneath.' {keeper} leans on the bar. 'The Rector there has proclaimed a Grand Tour, the first in two hundred years. Whoever brings her the four petals of the Rose goes first through the Door of Doors, that opens on anywhere.' {keeper} lowers their voice. 'And a young lord went off the edge of the floating hill the night she proclaimed it, they say, in the fog.'",
-   "heard": "Away in the east of the country, down on the coast, lies Sennet: a port with a House of Doors whose doors open on the planes, a hill floating over its bay with the gentry on it, and merfolk in the drowned streets beneath. Its Rector has proclaimed a Grand Tour for the four petals of the Rose; the prize is to be first through the Door of Doors.",
+   "rumour": "'Away in the east of the country, down on the coast, there's Sennet,' says {keeper}. 'A port, all glass-houses, with a House of Doors on the headland whose doors open on the planes, and a hill floating over the bay with the gentry living on it, and the merfolk living in the drowned streets underneath.' {keeper} leans on the bar. 'The Rector there has proclaimed a Grand Tour, the first in two hundred years. Whoever brings her the four petals of the Rose goes first through the Door of Doors, that opens on anywhere.' {keeper} lowers their voice. 'And a young lord went off the edge of the floating hill the night she proclaimed it, they say, in the fog. Word from Dun Rì is that the succession is open and the Ash is advancing. Peg Arklow says four petals cannot buy a claimant the right to the Door of Doors.'",
+   "heard": "Away in the east of the country, down on the coast, lies Sennet: a port with a House of Doors whose doors open on the planes, a hill floating over its bay with the gentry on it, and merfolk in the drowned streets beneath. Its Rector has proclaimed a Grand Tour for the four petals of the Rose; the prize is to be first through the Door of Doors. The Rì's succession is open as the Ash advances. Peg Arklow says four petals cannot buy a claimant the right to the Door of Doors.",
    "skyline": "far off over the sea, a hill hanging in the sky with houses on it, and a chain coming down from it",
-   "far": "a hill of houses floats over a bay, and the Rector of its House of Doors has proclaimed a Grand Tour",
+   "far": "a hill of houses floats over a bay, and the Rector of its House of Doors has proclaimed a Grand Tour; the Rì's succession is open while the Ash advances.",
    "notice": {
     "name": "the Rector's proclamation of the Grand Tour",
     "text": "A printed sheet in four colours under a seal of a door: BY THE RECTOR OF THE HOUSE OF DOORS AT SENNET. THE GRAND TOUR IS PROCLAIMED, THE FIRST IN TWO HUNDRED YEARS. WHOSOEVER BRINGS TO THE HOUSE THE FOUR PETALS OF THE ROSE OF THE WINDS SHALL GO FIRST THROUGH THE DOOR OF DOORS. I. QUANCE, RECTOR. Under it, in pencil: east, down the coast road; and someone has drawn a little door, and beside it a little figure falling out of the sky.",
@@ -615,10 +615,10 @@
    "topic": "the Assured City of Quittance",
    "terrain": "marsh",
    "among": "independent",
-   "rumour": "'Up the north road there is Quittance,' says {keeper}. 'A river-port, eighty thousand souls, burned to the ground in my grandmother's time and built again on credit. Every house wears a plate over the door to say which Office will put it out. The brigades argue about whose door it is while it burns. They say the thing under the Exchange has not been paid, and that this year's Receipt is blank. The Offices take adjusters on, if you can add. I should insure your hat before you go in.'",
-   "heard": "Up the north road lies Quittance, a river-port that burned once and was rebuilt on credit, where every house wears the mark of the Office that will save it; and Reckoning is near, and the Receipt is said to be blank.",
+   "rumour": "'Up the north road there is Quittance,' says {keeper}. 'A river-port, eighty thousand souls, burned to the ground in my grandmother's time and built again on credit. Every house wears a plate over the door to say which Office will put it out. The brigades argue about whose door it is while it burns. They say the thing under the Exchange has not been paid, and that this year's Receipt is blank. The Offices take adjusters on, if you can add. I should insure your hat before you go in. Word from Dun Rì is that the succession is open and the Ash is advancing. Mr Prest asks which claimant will pay when the city burns and every Office denies the door.'",
+   "heard": "Up the north road lies Quittance, a river-port that burned once and was rebuilt on credit, where every house wears the mark of the Office that will save it; and Reckoning is near, and the Receipt is said to be blank. The Rì's succession is open as the Ash advances. Mr Prest asks which claimant will pay when the city burns.",
    "skyline": "smoke from a hundred chimneys, and not one of them rising straight",
-   "far": "a city insured house by house sits on something that has not been paid, and Reckoning is near",
+   "far": "a city insured house by house sits on something that has not been paid, and Reckoning is near; the Rì's succession is open while the Ash advances.",
    "covers": [
     "meadow",
     "fen"
@@ -646,10 +646,10 @@
    "name": "Ombra",
    "topic": "the Drawing at Ombra",
    "terrain": "marsh",
-   "rumour": "'Away in the west, down in the delta where the river can't make up its mind, there is Ombra,' says {keeper}. 'It rains nine days in ten. By day nobody there is anybody; they go masked, bakers and ferrywomen and the Warden of Locks, and it is a hanging crime to say aloud who is under one.' {keeper} wipes a cup. 'Their Registrar's dead. The one who keeps the book of who is who. And there's a Drawing on the ninth night that has to be read by somebody, or every Office in the city runs out at midnight. They've sent for a stranger. It has to be a stranger.'",
-   "heard": "Away in the west, down in the delta, lies Ombra, a rainy city where everyone goes masked by day and it is a crime to say who is under a mask. Its Registrar is dead and the book of faces is gone, and unless somebody holds the Drawing on the ninth night, every Office in the city dissolves at midnight. The Watch has hired a stranger to look.",
+   "rumour": "'Away in the west, down in the delta where the river can't make up its mind, there is Ombra,' says {keeper}. 'It rains nine days in ten. By day nobody there is anybody; they go masked, bakers and ferrywomen and the Warden of Locks, and it is a hanging crime to say aloud who is under one.' {keeper} wipes a cup. 'Their Registrar's dead. The one who keeps the book of who is who. And there's a Drawing on the ninth night that has to be read by somebody, or every Office in the city runs out at midnight. They've sent for a stranger. It has to be a stranger. Word from Dun Rì is that the succession is open and the Ash is advancing. Ferris Moll says the Drawing must be read by a stranger before midnight, crown or no crown.'",
+   "heard": "Away in the west, down in the delta, lies Ombra, a rainy city where everyone goes masked by day and it is a crime to say who is under a mask. Its Registrar is dead and the book of faces is gone, and unless somebody holds the Drawing on the ninth night, every Office in the city dissolves at midnight. The Watch has hired a stranger to look. The Rì's succession is open as the Ash advances. Ferris Moll says the Drawing must be read by a stranger before midnight.",
    "skyline": "far off to the west, low on the water under a lid of cloud, a city of grey roofs where every window has a lamp in it by day",
-   "far": "a rainy delta city goes masked by day, and its Registrar has died with the book of faces missing, nine days before the Drawing",
+   "far": "a rainy delta city goes masked by day, and its Registrar has died with the book of faces missing, nine days before the Drawing; the Rì's succession is open while the Ash advances.",
    "notice": {
     "name": "the Watch's notice from Ombra",
     "text": "A square of grey paper stamped with a bare white oval, nailed up where travellers will see it: THE MASKED WATCH OF OMBRA WILL HIRE ONE STRANGER UNDER THE SEVENTY-FIRST ARTICLE OF THE CONCORD. NO NAME, NO MASK, NO STANDING REQUIRED. APPLY AT THE GATE OF STRANGERS ON THE FIRST DAY OF THE NOVENA, AT THE THIRD BELL. The bottom has been torn off, and in pencil, in a different hand: Nine days. It is always raining.",
@@ -682,10 +682,10 @@
    "name": "Tolleth and the Skerrow passage",
    "topic": "the sailing to Skerrow out of Tolleth",
    "terrain": "hills",
-   "rumour": "'Down the coast, at Tolleth, there's a ketch called the Dorothea,' says {keeper}, 'that sails for an island nobody goes to. Skerrow. A night and a morning out, past a reef they call the Combs. There's a lamp on it, older than the roads. The captain's short of hands, and short of money, and sails on the noon ebb whether you're aboard or no.'",
-   "heard": "Down the coast at Tolleth the ketch Dorothea sails on the noon ebb for Skerrow, an island a night and a morning out past a reef called the Combs, where a lamp has burned since before the roads.",
+   "rumour": "'Down the coast, at Tolleth, there's a ketch called the Dorothea,' says {keeper}, 'that sails for an island nobody goes to. Skerrow. A night and a morning out, past a reef they call the Combs. There's a lamp on it, older than the roads. The captain's short of hands, and short of money, and sails on the noon ebb whether you're aboard or no. Word from Dun Rì is that the succession is open and the Ash is advancing. Captain Ingrith Bascom sails on the noon ebb; the king's funeral will not hold the tide.'",
+   "heard": "Down the coast at Tolleth the ketch Dorothea sails on the noon ebb for Skerrow, an island a night and a morning out past a reef called the Combs, where a lamp has burned since before the roads. The Rì's succession is open as the Ash advances. Captain Ingrith Bascom sails on the noon ebb, whatever happens at court.",
    "skyline": "masts, close as reeds, in a harbour the colour of slate",
-   "far": "a ketch sails from a slate-grey harbour to an island with a lamp older than the roads",
+   "far": "a ketch sails from a slate-grey harbour to an island with a lamp older than the roads; the Rì's succession is open while the Ash advances.",
    "herald": {
     "scenario": "factors.scenario.json",
     "exports": [
@@ -729,10 +729,10 @@
    "name": "Tallow Edge",
    "topic": "the pale ridge that swallows a river",
    "terrain": "hills",
-   "rumour": "'West of here there is a long white ridge called Tallow Edge,' says {keeper}, 'and a river that goes into it at one end and comes out the other. There was a mine in it once. The village at the foot of it, Swallet, will not talk of it, except Lowen Pook at the Chandler's Arms, who will tell you the half she can bear. There is a smugglers' road underneath, they say, and something older than that.'",
-   "heard": "West of here lies Tallow Edge, a long pale ridge that swallows a river, with an abandoned mine in it, a smugglers' road under it, and something older than either.",
+   "rumour": "'West of here there is a long white ridge called Tallow Edge,' says {keeper}, 'and a river that goes into it at one end and comes out the other. There was a mine in it once. The village at the foot of it, Swallet, will not talk of it, except Lowen Pook at the Chandler's Arms, who will tell you the half she can bear. There is a smugglers' road underneath, they say, and something older than that. Word from Dun Rì is that the succession is open and the Ash is advancing. Lowen Pook refuses to open the old mine for a royal war.'",
+   "heard": "West of here lies Tallow Edge, a long pale ridge that swallows a river, with an abandoned mine in it, a smugglers' road under it, and something older than either. The Rì's succession is open as the Ash advances. Lowen Pook refuses to open the old mine for a royal war.",
    "skyline": "a long bare ridge, white as tallow, with a thread of mist coming out of its foot",
-   "far": "a river goes in at one end of a white ridge and comes out the other, and nobody in the village will talk about what is between",
+   "far": "a river goes in at one end of a white ridge and comes out the other, and nobody in the village will talk about what is between; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "There is talk along the carters' road of a village under a white ridge that has put a page up on a beam. Nobody can say what is on it. A drover swears the brandy that came through the ridge last year does not come through any more.",
     "told": "{keeper} hears you out about the ridge and the dead and the hill under the hill, and takes the names from you one at a time, as you give them, saying each over under {keeper}'s breath. 'Fourteen,' {keeper} says at the end. 'My mother's cousin was in the Company's shaft the winter they broke the wall. We were told Porthwen. We were told he had gone for work.' {keeper} writes something on the back of a bill and puts it in a drawer with the keys. 'I'll not say anything to her,' {keeper} says. 'But I'll go and look at that page myself, in spring.'",
@@ -758,10 +758,10 @@
    "name": "the Hesper Fells",
    "topic": "the old road over the Hesper Fells",
    "terrain": "mountain",
-   "rumour": "'East of here, up in the Hesper Fells, there is a village called Kell Ford,' says {keeper}, 'where a paved road begins that nobody has finished walking, and a reeve, Greta Hennick, who keeps the road-book and will let you read it. The soldiers built it. They say it goes sixty miles over the fells to a place where somebody still lights the lamps. Every spring somebody in Kell puts a lamp in the window, and nobody will say for whom.'",
-   "heard": "East of here, in the Hesper Fells, lies Kell Ford, where an old soldiers' road begins that goes sixty miles over the mountains to a place where, they say, someone still lights the lamps.",
+   "rumour": "'East of here, up in the Hesper Fells, there is a village called Kell Ford,' says {keeper}, 'where a paved road begins that nobody has finished walking, and a reeve, Greta Hennick, who keeps the road-book and will let you read it. The soldiers built it. They say it goes sixty miles over the fells to a place where somebody still lights the lamps. Every spring somebody in Kell puts a lamp in the window, and nobody will say for whom. Word from Dun Rì is that the succession is open and the Ash is advancing. Marra Tellis asks whether the next Rì will light the old road or leave the fells dark.'",
+   "heard": "East of here, in the Hesper Fells, lies Kell Ford, where an old soldiers' road begins that goes sixty miles over the mountains to a place where, they say, someone still lights the lamps. The Rì's succession is open as the Ash advances. Marra Tellis asks whether the next Rì will light the old road.",
    "skyline": "a pale paved road climbing out of a huddle of grey houses into the fells and being lost",
-   "far": "an old soldiers road goes sixty miles over the fells, and at the far end someone is said to still light the lamps",
+   "far": "an old soldiers road goes sixty miles over the fells, and at the far end someone is said to still light the lamps; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The talk from the fells this season is of the paved road, and of whether the lamps at the far end are still lit, and of a reeve called Hennick who has had something to say about it to everyone who passes. Nobody has said what.",
     "told": "{keeper} hears you out about the road and the Cohort and what was said in the forum, and for a while does not speak. 'Sixty miles,' {keeper} says, 'and every mile paved by somebody who thought it would be walked.' {keeper} stands, and goes to the window, and looks out at the road that goes east, which is not paved. 'Do you know,' {keeper} says, 'I have never once asked where it went.' And then, without turning: 'I think I will light the lamp tonight. You needn't tell me for whom.'"
@@ -783,10 +783,10 @@
    "name": "the Aldwater",
    "topic": "the Staithe quay, where two barges lie side by side",
    "terrain": "hills",
-   "rumour": "'Down at Staithe quay,' says {keeper}, 'they keep two barges side by side that no one can tell apart, the Maud and the Mary. A person once got on the wrong one, and the river has never forgiven him.'",
-   "heard": "South of here, at the Staithe quay on the Aldwater, two barges lie side by side that nobody can tell apart.",
+   "rumour": "'Down at Staithe quay,' says {keeper}, 'they keep two barges side by side that no one can tell apart, the Maud and the Mary. A person once got on the wrong one, and the river has never forgiven him. Word from Dun Rì is that the succession is open and the Ash is advancing. Bess Lowther says the river will not wait for the court to choose the right barge.'",
+   "heard": "South of here, at the Staithe quay on the Aldwater, two barges lie side by side that nobody can tell apart. The Rì's succession is open as the Ash advances. Bess Lowther says the river will not wait for the court to choose the right barge.",
    "skyline": "a brown river between willows with a line of masts on it",
-   "far": "two barges that nobody can tell apart lie side by side on a river, and one of them is the wrong one",
+   "far": "two barges that nobody can tell apart lie side by side on a river, and one of them is the wrong one; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The barges are still side by side at the Staithe, they say, and still alike. What has changed is that nobody on the quay will now say which is which, and they say it with some pride.",
     "told": "{keeper} laughs before you have finished, and then stops, and asks you to go back to the part about the box. 'The Maud and the Mary,' {keeper} says, shaking a head. 'A woman off a boat last month swore the Maud had never been so heavy. Another swore it was the Mary that sank.' {keeper} leans across. 'They are both afloat. I have it from a man who has sat on both.'"
@@ -808,10 +808,10 @@
    "name": "Scarth Holm",
    "topic": "the lighthouse at the end of the Scarth causeway",
    "terrain": "marsh",
-   "rumour": "'There is a light at the end of the Scarth sands,' says {keeper}, 'and a causeway that dries for three hours at noon, and a keeper called Seddon who has never once turned a traveller from his kitchen door. Cross after twelve and you sleep out there. People do, and are glad of the tea, and do not much talk of the night.'",
-   "heard": "East of here, a lighthouse stands on a rock at the end of a tidal causeway, and the road to it is only dry for three hours.",
+   "rumour": "'There is a light at the end of the Scarth sands,' says {keeper}, 'and a causeway that dries for three hours at noon, and a keeper called Seddon who has never once turned a traveller from his kitchen door. Cross after twelve and you sleep out there. People do, and are glad of the tea, and do not much talk of the night. Word from Dun Rì is that the succession is open and the Ash is advancing. Edmund Seddon keeps his kitchen door open to travellers, whoever wears the crown.'",
+   "heard": "East of here, a lighthouse stands on a rock at the end of a tidal causeway, and the road to it is only dry for three hours. The Rì's succession is open as the Ash advances. Edmund Seddon keeps his kitchen door open to travellers, whoever wears the crown.",
    "skyline": "a white tower on a grey flat, with posts going out to it",
-   "far": "a lighthouse stands at the end of a causeway that the sea closes every day, and people who cross late stay the night",
+   "far": "a lighthouse stands at the end of a causeway that the sea closes every day, and people who cross late stay the night; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The coast road has stopped telling people to cross before twelve. It has not started saying why. A carter who has been out to the Scarth light says only that the tea is as good as ever, and puts his hand flat on the table.",
     "told": "{keeper} hears you out about the light and the sands and the cistern, and does not say a word until you have finished. Then {keeper} gets up and puts the shutters across the window on the sea side, which was not what you expected, and comes back. 'My father used to say the Scarth keepers were the only men in the county who slept with their boots on,' {keeper} says. 'I took it for a joke.' Then, quietly: 'Was there tea?' You say there was. 'Good,' says {keeper}. 'That's something.' {keeper} sets the shutter right. 'The oil comes down from Tolleth, the carters say, and the ketch that sails from there goes to a lamp like yours. I had thought them two stories.'",
@@ -837,10 +837,10 @@
    "name": "the vale of the Brimble",
    "topic": "the ford at Sallowfield, where a coach has cracked its axle",
    "terrain": "hills",
-   "rumour": "'There's a village on the Brimble called Sallowfield,' says {keeper}, 'a ford, a mill, sixty souls, and Nan Ashworth at the Ploughshare, who gives a bed to anyone and an opinion to everyone. A coach broke its axle there this week, and I'm told there's a company of the Margrave's unpaid soldiers coming down the east road behind it with nothing in their bellies. Whoever's passing would do well to be passing quickly.' {keeper} wipes a mug. 'The smith will tell you three days for the axle. I'd say the soldiers will be quicker.'",
-   "heard": "West of here, on the Brimble, lies Sallowfield: a ford, a mill, sixty people, and a coach with a cracked axle, with a company of the Margrave's unpaid soldiers coming down the east road behind it.",
+   "rumour": "'There's a village on the Brimble called Sallowfield,' says {keeper}, 'a ford, a mill, sixty souls, and Nan Ashworth at the Ploughshare, who gives a bed to anyone and an opinion to everyone. A coach broke its axle there this week, and I'm told there's a company of the Margrave's unpaid soldiers coming down the east road behind it with nothing in their bellies. Whoever's passing would do well to be passing quickly.' {keeper} wipes a mug. 'The smith will tell you three days for the axle. I'd say the soldiers will be quicker. Word from Dun Rì is that the succession is open and the Ash is advancing. Nan Ashworth says the unpaid soldiers will reach the village before the court names a king.'",
+   "heard": "West of here, on the Brimble, lies Sallowfield: a ford, a mill, sixty people, and a coach with a cracked axle, with a company of the Margrave's unpaid soldiers coming down the east road behind it. The Rì's succession is open as the Ash advances. Nan Ashworth says the unpaid soldiers will reach the village before the court names a king.",
    "skyline": "a river valley with a mill-race and a chapel tower, and smoke going straight up from every chimney",
-   "far": "a village at a ford is waiting, and nobody in it knows yet what to do about the soldiers on the road",
+   "far": "a village at a ford is waiting, and nobody in it knows yet what to do about the soldiers on the road; the Rì's succession is open while the Ash advances.",
    "after": {
     "talk": "The talk this week is of Sallowfield on the Brimble, and of the Margrave's unpaid company, and of which of the two is still standing. Nobody here has been there. Everyone has a cousin who has.",
     "told": "{keeper} hears you out about the ford and the green and the three nights, and does not interrupt, which for {keeper} is a kind of tribute. 'Sixty souls,' {keeper} says at the end, 'and a coach.' {keeper} turns the mug on the bar. 'The coach went on, I suppose. They always do.' And then, setting it down: 'Nan Ashworth sent me a letter at Michaelmas, last year, about a cheese. I've never answered it. I think I'll answer it.'",
@@ -873,10 +873,10 @@
    "name": "the Sere country",
    "topic": "the Weather Drove at Wickering, where a cloud is driven like cattle",
    "terrain": "desert",
-   "rumour": "'South, toward the edge of the sand,' says {keeper}, 'there's a salt town called Wickering where they drive the weather. A drover brings a cloud in over the pans every year, and this year it has not come.'",
-   "heard": "South of here, toward the sand, lies Wickering in the Sere country: a salt town that waits every year on a cloud driven in like cattle, and this year it has not come.",
+   "rumour": "'South, toward the edge of the sand,' says {keeper}, 'there's a salt town called Wickering where they drive the weather. A drover brings a cloud in over the pans every year, and this year it has not come. Word from Dun Rì is that the succession is open and the Ash is advancing. Hannibal Muckle says no crown can order a cloud into the salt pans.'",
+   "heard": "South of here, toward the sand, lies Wickering in the Sere country: a salt town that waits every year on a cloud driven in like cattle, and this year it has not come. The Rì's succession is open as the Ash advances. Hannibal Muckle says no crown can order a cloud into the salt pans.",
    "skyline": "a white salt town under a sky with one cloud in it",
-   "far": "a salt town waits on a cloud that a drover drives in like cattle, and this year it is late"
+   "far": "a salt town waits on a cloud that a drover drives in like cattle, and this year it is late; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "eelbell",
@@ -901,10 +901,10 @@
    "name": "the Quillet washes",
    "topic": "Quillet on the washes, whose church tower has no bell",
    "terrain": "marsh",
-   "rumour": "'East, along the sea-bank,' says {keeper}, 'there's an eel town called Quillet on the washes, where the sea stands higher than the fields. Their church tower has no bell in it, and the bell-founder they have sent for has no metal to cast another.'",
-   "heard": "East along the sea-bank lies Quillet on the washes, an eel town under a sea higher than its fields. Its church tower has no bell, and its bell-founder no metal.",
+   "rumour": "'East, along the sea-bank,' says {keeper}, 'there's an eel town called Quillet on the washes, where the sea stands higher than the fields. Their church tower has no bell in it, and the bell-founder they have sent for has no metal to cast another. Word from Dun Rì is that the succession is open and the Ash is advancing. Perpetua Sount says the missing bell matters more than a claimant's seal while the sea stands above the fields.'",
+   "heard": "East along the sea-bank lies Quillet on the washes, an eel town under a sea higher than its fields. Its church tower has no bell, and its bell-founder no metal. The Rì's succession is open as the Ash advances. Perpetua Sount says the missing bell matters more than a claimant's seal.",
    "skyline": "a church tower with no bell over flat shining washes, and the sea above them",
-   "far": "an eel town under a sea higher than its fields has a bell-founder and no bell"
+   "far": "an eel town under a sea higher than its fields has a bell-founder and no bell; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "hexworth",
@@ -928,10 +928,10 @@
    "name": "the Hexworth country",
    "topic": "Hexworth on the Sour Edge, whose bell has cracked",
    "terrain": "hills",
-   "rumour": "'North, on the lip of the Sour Edge,' says {keeper}, 'there's a town called Hexworth that rings a bell at dusk to bring the peat-cutters in off the moor. They say it cracked this week with nobody near it. The last haul comes in with the fog.'",
-   "heard": "North, on the lip of the Sour Edge, Hexworth rings its bell at dusk to bring the peat-cutters home off the moor. The bell has cracked.",
+   "rumour": "'North, on the lip of the Sour Edge,' says {keeper}, 'there's a town called Hexworth that rings a bell at dusk to bring the peat-cutters in off the moor. They say it cracked this week with nobody near it. The last haul comes in with the fog. Word from Dun Rì is that the succession is open and the Ash is advancing. Gundred Ludlam says the peat-cutters need their dusk bell before the next Rì can call anyone to arms.'",
+   "heard": "North, on the lip of the Sour Edge, Hexworth rings its bell at dusk to bring the peat-cutters home off the moor. The bell has cracked. The Rì's succession is open as the Ash advances. Gundred Ludlam says the peat-cutters need their dusk bell before anyone calls them to arms.",
    "skyline": "a bare timber bell-frame over low roofs at the edge of a brown moor",
-   "far": "a town at the edge of a moor that swallows carts has cracked the bell it rings the cutters home by"
+   "far": "a town at the edge of a moor that swallows carts has cracked the bell it rings the cutters home by; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "warmwall",
@@ -955,10 +955,10 @@
    "name": "the Seethe country",
    "topic": "the bath-house at Seethe, with a wall through its middle",
    "terrain": "mountain",
-   "rumour": "'West, up on the fell,' says {keeper}, 'the drove road ends in steam, at a place called Seethe. There's a bath-house there on a hot spring, one long roof with a brick wall through the middle of it and a door at each end, the Hot Side's and the Cold Side's.'",
-   "heard": "West, up on the fell, the drove road ends at Seethe: a bath-house on a hot spring, one long roof with a brick wall through it and a door to each side.",
+   "rumour": "'West, up on the fell,' says {keeper}, 'the drove road ends in steam, at a place called Seethe. There's a bath-house there on a hot spring, one long roof with a brick wall through the middle of it and a door at each end, the Hot Side's and the Cold Side's. Word from Dun Rì is that the succession is open and the Ash is advancing. Maud Veale says the bath-house wall is older than every claimant and will outlast their banners.'",
+   "heard": "West, up on the fell, the drove road ends at Seethe: a bath-house on a hot spring, one long roof with a brick wall through it and a door to each side. The Rì's succession is open as the Ash advances. Maud Veale says the bath-house wall is older than every claimant.",
    "skyline": "a long roof smoking at both ends, high on a black-walled fell",
-   "far": "a bath-house on a hot spring is one roof with a wall through the middle of it"
+   "far": "a bath-house on a hot spring is one roof with a wall through the middle of it; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "leaving",
@@ -982,10 +982,10 @@
    "name": "the Haddle country",
    "topic": "Haddle Cross, where sixty soldiers wait on a supper",
    "terrain": "hills",
-   "rumour": "'South, at Haddle Cross,' says {keeper}, 'there's a company of sixty soldiers camped on the glebe that will not march until their captain has eaten a supper she thinks right. She has praised nine and marched after none, and the town is down to four days of grain.'",
-   "heard": "South, at Haddle Cross, sixty soldiers camped on the glebe will not march until their captain has eaten a supper she thinks right. She has praised nine and marched after none.",
+   "rumour": "'South, at Haddle Cross,' says {keeper}, 'there's a company of sixty soldiers camped on the glebe that will not march until their captain has eaten a supper she thinks right. She has praised nine and marched after none, and the town is down to four days of grain. Word from Dun Rì is that the succession is open and the Ash is advancing. Captain Hester Gannick will not march sixty soldiers until supper is right, no matter who claims the throne.'",
+   "heard": "South, at Haddle Cross, sixty soldiers camped on the glebe will not march until their captain has eaten a supper she thinks right. She has praised nine and marched after none. The Rì's succession is open as the Ash advances. Captain Hester Gannick will not march sixty soldiers until supper is right.",
    "skyline": "the smoke of sixty cooking fires going straight up over a low wall",
-   "far": "soldiers camped on a town will march when their captain has eaten the right supper, and nine were not"
+   "far": "soldiers camped on a town will march when their captain has eaten the right supper, and nine were not; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "raingourd",
@@ -1010,10 +1010,10 @@
    "name": "Lantana Cay",
    "topic": "Palla on Lantana Cay, waiting on the rains",
    "terrain": "hills",
-   "rumour": "'Out past the point, where the coasters put in,' says {keeper}, 'there's a village called Palla, white houses on stilts round a bay. At the end of the dry they carry a gourd up to the falls and pour it out on a stone, and then it rains. This year the gourd has not gone up.'",
-   "heard": "Out past the point lies Palla on Lantana Cay, a village on stilts round a bay. At the end of the dry its gourd goes up to the falls to bring the rains, and this year it has not gone.",
+   "rumour": "'Out past the point, where the coasters put in,' says {keeper}, 'there's a village called Palla, white houses on stilts round a bay. At the end of the dry they carry a gourd up to the falls and pour it out on a stone, and then it rains. This year the gourd has not gone up. Word from Dun Rì is that the succession is open and the Ash is advancing. Oyelle Marre will not promise a rain the gourd has not brought.'",
+   "heard": "Out past the point lies Palla on Lantana Cay, a village on stilts round a bay. At the end of the dry its gourd goes up to the falls to bring the rains, and this year it has not gone. The Rì's succession is open as the Ash advances. Oyelle Marre will not promise a rain the gourd has not brought.",
    "skyline": "white houses on stilts round a green bay, and a coaster at anchor off the point",
-   "far": "a village on stilts waits on its rains, and the gourd that brings them has not gone up to the falls"
+   "far": "a village on stilts waits on its rains, and the gourd that brings them has not gone up to the falls; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "windfall",
@@ -1038,10 +1038,10 @@
    "name": "the Saltings",
    "topic": "Hythe on the Saltings, whose orchard has begun to walk",
    "terrain": "marsh",
-   "rumour": "'East, out on the Saltings,' says {keeper}, 'there's a village called Hythe on the last dry ground before the sea. The Wardens' orchard behind it has begun to walk toward the churchyard, a step a night, and the Reeve has sent a bailiff to fell it.'",
-   "heard": "East on the Saltings lies Hythe, forty houses on the last dry ground before the sea. The Wardens' orchard behind it walks a step a night toward the churchyard.",
+   "rumour": "'East, out on the Saltings,' says {keeper}, 'there's a village called Hythe on the last dry ground before the sea. The Wardens' orchard behind it has begun to walk toward the churchyard, a step a night, and the Reeve has sent a bailiff to fell it. Word from Dun Rì is that the succession is open and the Ash is advancing. Tamsin Soames says an orchard already walking will not stop for a coronation.'",
+   "heard": "East on the Saltings lies Hythe, forty houses on the last dry ground before the sea. The Wardens' orchard behind it walks a step a night toward the churchyard. The Rì's succession is open as the Ash advances. Tamsin Soames says an orchard already walking will not stop for a coronation.",
    "skyline": "a squat grey church over flat salt fen, beside an orchard in rows too even for an accident",
-   "far": "an orchard on the salt fen walks a step a night toward a churchyard"
+   "far": "an orchard on the salt fen walks a step a night toward a churchyard; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "goingbank",
@@ -1065,10 +1065,10 @@
    "name": "the Gape country",
    "topic": "the Gape at Tarrow Lip, whose grass-rope bridge comes out short",
    "terrain": "hills",
-   "rumour": "'North, at Tarrow Lip,' says {keeper}, 'there's a gorge they call the Gape, with a bridge of plaited grass across it to Ketter on the far side. This spring it came out nine paces short, and there's a wedding to be held in the middle of it.'",
-   "heard": "North at Tarrow Lip a bridge of plaited grass crosses the Gape to Ketter. This spring it came out nine paces short of the far bank.",
+   "rumour": "'North, at Tarrow Lip,' says {keeper}, 'there's a gorge they call the Gape, with a bridge of plaited grass across it to Ketter on the far side. This spring it came out nine paces short, and there's a wedding to be held in the middle of it. Word from Dun Rì is that the succession is open and the Ash is advancing. Pipit Anstey says the wedding will not wait for the bridge or the court to decide what may cross.'",
+   "heard": "North at Tarrow Lip a bridge of plaited grass crosses the Gape to Ketter. This spring it came out nine paces short of the far bank. The Rì's succession is open as the Ash advances. Pipit Anstey says the wedding will not wait for the court.",
    "skyline": "a long green hill beyond a gorge, and a thread of bridge that stops short of it",
-   "far": "a grass-rope bridge over a gorge came out short of the far bank this spring"
+   "far": "a grass-rope bridge over a gorge came out short of the far bank this spring; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "tailrace",
@@ -1092,10 +1092,10 @@
    "name": "the Tolt shore",
    "topic": "Tolt, whose mill-wheel has stopped",
    "terrain": "hills",
-   "rumour": "'East, down the loch road,' says {keeper}, 'there's a tide-mill at Tolt with a whale calf wedged in its race. The Rì's gauger is on his way with a copper to boil it.'",
-   "heard": "East at the head of a sea-loch lies Tolt, whose tide-mill has stood still eleven days with a whale calf in its race.",
+   "rumour": "'East, down the loch road,' says {keeper}, 'there's a tide-mill at Tolt with a whale calf wedged in its race. The Rì's gauger is on his way with a copper to boil it. Word from Dun Rì is that the succession is open and the Ash is advancing. Mabet says no gauger may boil the whale calf before the mill has its wheel back.'",
+   "heard": "East at the head of a sea-loch lies Tolt, whose tide-mill has stood still eleven days with a whale calf in its race. The Rì's succession is open as the Ash advances. Mabet says no gauger may boil the whale calf before the mill has its wheel back.",
    "skyline": "a long grey sea-loch shut by a bar of pale sand, and a great mill-wheel standing still",
-   "far": "a whale calf is wedged in a tide-mill's race at the head of a sea-loch"
+   "far": "a whale calf is wedged in a tide-mill's race at the head of a sea-loch; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "wetdrusilla",
@@ -1115,10 +1115,10 @@
    "name": "the Ebb",
    "topic": "Dryquay on the Ebb, where a sand-ship carries a dead woman's ashes out to be sung over",
    "terrain": "desert",
-   "rumour": "'South, where the road gives out into white sand,' says {keeper}, 'there is a harbour called Dryquay with no sea in it, and a sand-ship called the Contrary Mary that sails at two. She is carrying the ashes of Wet Drusilla Sarsby two days out across the Ebb, to be sung over, and the Captain is short of hands.'",
-   "heard": "South, where the road gives out into white sand, lies Dryquay, a harbour with no sea. A sand-ship called the Contrary Mary sails from it at two, two days out across the Ebb with a dead woman's ashes, to be sung over.",
+   "rumour": "'South, where the road gives out into white sand,' says {keeper}, 'there is a harbour called Dryquay with no sea in it, and a sand-ship called the Contrary Mary that sails at two. She is carrying the ashes of Wet Drusilla Sarsby two days out across the Ebb, to be sung over, and the Captain is short of hands. Word from Dun Rì is that the succession is open and the Ash is advancing. Captain Pomfret sails the ashes before the court settles the succession.'",
+   "heard": "South, where the road gives out into white sand, lies Dryquay, a harbour with no sea. A sand-ship called the Contrary Mary sails from it at two, two days out across the Ebb with a dead woman's ashes, to be sung over. The Rì's succession is open as the Ash advances. Captain Pomfret sails the ashes before the court settles the succession.",
    "skyline": "a white wall at the edge of a plain so bright it has no far side",
-   "far": "a harbour with no sea sends a sand-ship out across the dry bed of it, to scatter a dead woman's ashes and sing"
+   "far": "a harbour with no sea sends a sand-ship out across the dry bed of it, to scatter a dead woman's ashes and sing; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "overexall",
@@ -1142,10 +1142,10 @@
    "name": "the Brackmoor",
    "topic": "Exall on the Brackmoor, where a drift-whale hangs by its lip from the steeple",
    "terrain": "hills",
-   "rumour": "'North, up on the Brackmoor,' says {keeper}, 'there's a ridge town called Exall with a whale hung on its church. A drift-whale, come down out of the high cloud in the night, by the lip on the steeple, and it sinks a house-height every dusk.'",
-   "heard": "North on the Brackmoor lies Exall, three hundred people on a ridge, with a drift-whale hung by its lip from the steeple of St Ebba's. It sinks a house-height each dusk.",
+   "rumour": "'North, up on the Brackmoor,' says {keeper}, 'there's a ridge town called Exall with a whale hung on its church. A drift-whale, come down out of the high cloud in the night, by the lip on the steeple, and it sinks a house-height every dusk. Word from Dun Rì is that the succession is open and the Ash is advancing. Judith Sowden says the falling whale is no omen any claimant can order away.'",
+   "heard": "North on the Brackmoor lies Exall, three hundred people on a ridge, with a drift-whale hung by its lip from the steeple of St Ebba's. It sinks a house-height each dusk. The Rì's succession is open as the Ash advances. Judith Sowden says the falling whale is no omen any claimant can order away.",
    "skyline": "a ridge-top town under a long grey shape that is not a cloud, hung from a church spire",
-   "far": "a drift-whale hangs by its lip from a church spire on a ridge, and sinks a house-height each dusk"
+   "far": "a drift-whale hangs by its lip from a church spire on a ridge, and sinks a house-height each dusk; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "romance",
@@ -1168,10 +1168,10 @@
    "name": "the Summermark",
    "topic": "Orlane in the Summermark, under the black hill where a red dragon keeps the abbey of Saint Arda",
    "terrain": "hills",
-   "rumour": "'South, in the Summermark,' says {keeper}, 'there's a valley town called Orlane gone quiet. A red dragon took their abbey bell at midsummer, and three young fools went up the hill after it. Somebody heard them singing.'",
-   "heard": "South in the Summermark lies Orlane, a valley of wild roses, and above it Saint Arda's ruined abbey, where the red dragon Avarrax keeps the town's stolen bell.",
+   "rumour": "'South, in the Summermark,' says {keeper}, 'there's a valley town called Orlane gone quiet. A red dragon took their abbey bell at midsummer, and three young fools went up the hill after it. Somebody heard them singing. Word from Dun Rì is that the succession is open and the Ash is advancing. Maelin Vale says the abbey bell is no trophy for a new king.'",
+   "heard": "South in the Summermark lies Orlane, a valley of wild roses, and above it Saint Arda's ruined abbey, where the red dragon Avarrax keeps the town's stolen bell. The Rì's succession is open as the Ash advances. Maelin Vale says the abbey bell is no trophy for a new king.",
    "skyline": "a green valley with one black hill in it, and a roofless abbey on the hill that glows red even at noon",
-   "far": "a roofless abbey on a black hill holds a red glimmer even at noon, above a valley gone over to wild roses"
+   "far": "a roofless abbey on a black hill holds a red glimmer even at noon, above a valley gone over to wild roses; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "cleave",
@@ -1193,10 +1193,10 @@
    "name": "the Cleave",
    "topic": "the Cleave, a gorge whose silk bridge has gone dead, with a birth waiting on the far side",
    "terrain": "mountain",
-   "rumour": "'West, at the Cleave,' says {keeper}, 'the spiders' bridge has gone dead, and nobody can get the old midwife over to the far side, where there's a woman near her time.'",
-   "heard": "West lies the Cleave, a gorge crossed by a road of spider-silk that nine great spiders keep, and the road is dead: they will not spin it again.",
+   "rumour": "'West, at the Cleave,' says {keeper}, 'the spiders' bridge has gone dead, and nobody can get the old midwife over to the far side, where there's a woman near her time. Word from Dun Rì is that the succession is open and the Ash is advancing. Hesper Lunn says the midwife and her patient cannot wait for the next Rì to mend the bridge.'",
+   "heard": "West lies the Cleave, a gorge crossed by a road of spider-silk that nine great spiders keep, and the road is dead: they will not spin it again. The Rì's succession is open as the Ash advances. Hesper Lunn says the midwife and her patient cannot wait for the next Rì.",
    "skyline": "a black gorge in the high country, and a bridge across it of grey silk, hanging slack",
-   "far": "a road of grey silk hangs slack across a black gorge, and great shapes sit still on the hub at its middle"
+   "far": "a road of grey silk hangs slack across a black gorge, and great shapes sit still on the hub at its middle; the Rì's succession is open while the Ash advances."
   },
   {
    "id": "pitchpass",

@@ -1066,7 +1066,7 @@ The kind of work the company has done (its backgrounds' families): what those wh
 
 *Kyr · kind; relation(group, surface)* · `rule:world_core.surface`
 
-What of the game's own surfaces the company has earned (compactification, the owner, 26 November: "surfaces are earned"): each lens, the map, the encyclopedia and the journal, shown to every client once earned and kept after. The engine writes it (CreatureFacts), never a module: every lens once any of the company has come to the fourth level (act II); the encyclopedia once it has stood in a library; the journal once one of it has done the work of learning (a scholar, a scribe). Nothing writes the map's while compactification holds.
+What of the game's own surfaces the company has earned (compactification, the owner, 26 November: "surfaces are earned"): each lens, the map, the encyclopedia and the journal, shown to every client once earned and kept after. The engine writes it (CreatureFacts), never a module, and only by a find (the owner's playtest of 27 November: level alone earns nothing): the map once one of the company carries a map of the land; the encyclopedia once it has stood in a library; the journal once one of it has done the work of learning (a scholar, a scribe). No find grants a lens yet, so none is earned.
 
 #### library
 
@@ -2954,33 +2954,73 @@ Where a night in the open costs something (the cold on a pass, after dark), and 
 
 > Then: Set lastSlept(actor) to watch(clock). Retract weary(actor).
 
+### The Venturing Guild's surveys
+
+Also kept, without comment: guild_member, guildHall, guildKeeper, guildRange, guildIssued, guildSurvey, guildWarned.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 0 | 7 | 0 | 3 | 2 | 3 |
+
+#### guild enrol
+
+*Kyr · action (group, group, place)* · `rule:venturing.guild_enrol`
+
+- Shown as: Pay three coin to join the Venturing Guild
+- Takes: 0 minutes
+- Costs: 1
+
+> Needs: able(actor); guildKeeper(keeper); able(keeper); together(actor, keeper); at(actor, site); guildHall(site); not (unseen(keeper, actor)); quantity(actor, gold) >= 3; not (guild_member(actor))
+
+> Then: Decrease quantity(actor, gold) by 3. Assert guild_member(actor).
+
+#### guild survey
+
+*Kyr · action (group, group, place, item, fact, place)* · `rule:venturing.guild_survey`
+
+- Shown as: Ask {keeper} for a lead to {find}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); guild_member(actor); guildKeeper(keeper); able(keeper); together(actor, keeper); at(actor, site); not (unseen(keeper, actor)); guildLead(actor, site, find, report, destination)
+
+> Then: Assert knows(actor, report). Retract assumesFalse(actor, report). Assert toldBy(actor, keeper, report). Assert guildIssued(actor, find).
+
+#### guild no lead
+
+*Kyr · action (group, group, place)* · `rule:venturing.guild_no_lead`
+
+- Shown as: Ask {keeper} for another survey
+- Takes: 0 minutes
+- Costs: 1
+
+> Needs: able(actor); guild_member(actor); guildKeeper(keeper); able(keeper); together(actor, keeper); at(actor, site); guildHall(site); not (unseen(keeper, actor)); not (guildLead(actor, site, ?find, ?report, ?destination))
+
+> Then: nothing changes
+
+#### guild_survey_outdated
+
+*Kyr · rule* · `rule:venturing.guild_survey_outdated`
+
+> When: guildSurvey(?report, ?find, ?place); not (guildLocated(?find, ?place)); not (recovered(?find)); not (stale(?report))
+
+> Then: Assert stale(?report).
+
+#### guild_survey_warns
+
+*Kyr · rule* · `rule:venturing.guild_survey_warns`
+
+Says: "The Guild's survey is out of date: {?report} The find is no longer there."
+
+> When: guildIssued(?company, ?find); guildSurvey(?report, ?find, ?place); stale(?report); not (guildWarned(?company, ?report))
+
+> Then: Assert guildWarned(?company, ?report).
+
 ## Making worlds
 
 A generated world is assembled from a region's geography and kits. A kit is a situation that can be placed: slots it fills from the region (a road with a chokepoint, an inn within four hours), proposals it draws from its tables (who keeps the toll), and the facts it provides once placed. The assembler places a kit only where its slots can be filled, and records every choice it made in the world's report.
 
 ### Kits
-
-#### A raiders' hold
-
-*Kyr* · `kit:raider_hold`
-
-- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey)); area (areaOf(?approach, ?area))
-- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
-- Provides: 7 facts
-- Modules: 4
-
-> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
-
-#### A tinker at work
-
-*Kyr* · `kit:tinker`
-
-- Fills: town (settlement(?town)); market (square(?town, ?market))
-- Draws: kind from tinker_practitioner by terrain
-- Provides: 1 facts
-- Modules: 4
-
-> A practitioner of a craft at their characteristic work, and an opportunity for the company to take part (Fun Fridays, 20 November; doc/design/fun-fridays-tinker-kit.md): here tinkering, written so that the same pattern serves a carpenter, a cook, a shepherd or a physician. The settlement and its square are bound to the region; who is at the work, and so what the work is, how they take a stranger's help and what comes of it, is Deem's to propose (a travelling tinker, generated, with a child's toy; an apprentice alone with an instrument they have made worse; a master of the craft short of a part; or, wherever someone who lives there already practises the craft, that resident, bound from the ledger and made up by nobody: the old pump on the square). One occasion of the craft to a settlement; each passes: the tinker moves on, the master shuts the shop.
 
 #### A price on a power
 
@@ -2993,6 +3033,17 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 > A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, the people the power acts through, and where it holds out (which the offer puts on the company's map); who offers the money, and what they want for it, is Deem's to propose.
 
+#### A raiders' hold
+
+*Kyr* · `kit:raider_hold`
+
+- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey)); area (areaOf(?approach, ?area))
+- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
+- Provides: 7 facts
+- Modules: 4
+
+> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
+
 #### A toll on a road
 
 *Kyr* · `kit:toll_road`
@@ -3003,6 +3054,17 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 - Modules: 2
 
 > A band that has made a stretch of road between two settlements its own: it stops whoever comes and takes a toll, and buys its bread on credit at the nearest inn. While the road is tolled the settlements it joins pay more for their meal and are not restocked; an inn bought empty means the band comes for bread in the night. Where the road runs and which inn feeds it are bound to the region; who keeps the toll is Deem's to propose, and each kind is dealt with differently.
+
+#### A tinker at work
+
+*Kyr* · `kit:tinker`
+
+- Fills: town (settlement(?town)); market (square(?town, ?market))
+- Draws: kind from tinker_practitioner by terrain
+- Provides: 1 facts
+- Modules: 4
+
+> A practitioner of a craft at their characteristic work, and an opportunity for the company to take part (Fun Fridays, 20 November; doc/design/fun-fridays-tinker-kit.md): here tinkering, written so that the same pattern serves a carpenter, a cook, a shepherd or a physician. The settlement and its square are bound to the region; who is at the work, and so what the work is, how they take a stranger's help and what comes of it, is Deem's to propose (a travelling tinker, generated, with a child's toy; an apprentice alone with an instrument they have made worse; a master of the craft short of a part; or, wherever someone who lives there already practises the craft, that resident, bound from the ledger and made up by nobody: the old pump on the square). One occasion of the craft to a settlement; each passes: the tinker moves on, the master shuts the shop.
 
 ### Frameworks
 
@@ -3323,6 +3385,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > Three years you have been on the far side of the fells, hiring out with the droves. Your mother's letter took a week to find you: your father went out on the road with the cart, it said, and did not come home. Now you are coming down the drove road to Wrayford, the bridge-city on the Wray, on an August morning, a week late.
+
+### The Empty Seat
+
+*Kyr* · `campaign:theemptyseat`
+
+- Regions and sites: theemptyseat, city-news, guild-news
+- Kits placed: —
+
+> A king is dead. Two sons have claims. A courier is selling the summons route; before the armies reach the gate, the towers must find someone whose orders they will obey.
 
 ### Thrume
 

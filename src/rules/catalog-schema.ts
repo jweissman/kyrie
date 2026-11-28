@@ -87,6 +87,8 @@ export interface Trait {
   grants?: { abilities?: string[] }; omits?: Omissions; unsupported?: Omissions; source: Source;
   // Skills its holder brings as one trained in them (a sign's gift: the Fox's stealth, OR-118), as a background's are.
   skills?: string[];
+  // Checks this trait settles by proof rather than chance, once their evidence has been encountered.
+  automaticChecks?: string[];
 }
 export type AbilityKind = 'technique' | 'spell' | 'natural';
 export interface Ability {

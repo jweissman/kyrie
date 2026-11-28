@@ -1,4 +1,10 @@
 Module romance "The Rose of Orlane" {
+  Entity seat_witness: fact "Maelin Vale will bring Saint Arda's words to Dun Rì; the court has quoted the steel and cut out the open hand.".
+  Topic seat_reflection with maelin "Ask Maelin what the returned bell teaches a king"
+    when bellReturned(actor) and bookRead(actor) once {
+    Says "Maelin takes the bell-rope in one hand. 'The living came down. The bell came after. That is an order worth remembering.' She unfolds a royal banner: STEEL FOR THE PROUD. 'They ran out of cloth before the open hand, apparently.' She laughs without letting go of the rope. 'I shall bring Arda's book to Dun Rì. If a prince wants to be rescued from a dragon, he can begin by noticing the prisoners.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Description "A green valley, a ruined abbey and the red dragon that keeps its bell, its prisoners and its book of spells.".
   Place summermark "the Summermark" is region within imbar.
   Place orlane "Orlane" is settlement within summermark at 0, 0.

@@ -4,9 +4,10 @@ import { Expressions } from '../../expressions';
 // Chris Doty-Humphrey's sfc32, seeded from the key's hashes. The same key always gives the same stream.
 export class Draw {
   private a: number; private b: number; private c: number; private d: number;
+  static seed(key: string): number { return Expressions.seed(key); }
   constructor(key: string) {
-    this.a = Expressions.seed(`${key}:a`); this.b = Expressions.seed(`${key}:b`);
-    this.c = Expressions.seed(`${key}:c`); this.d = Expressions.seed(`${key}:d`);
+    this.a = Draw.seed(`${key}:a`); this.b = Draw.seed(`${key}:b`);
+    this.c = Draw.seed(`${key}:c`); this.d = Draw.seed(`${key}:d`);
     for (let i = 0; i < 12; i++) { this.next(); }
   }
   // A number from 0 up to (not including) 1.
@@ -40,7 +41,7 @@ export class Draw {
   // added to or taken from the list moves no other (AR-17: a province added re-seeded every world's wild, because the
   // whole list was shuffled). The order of the list given does not matter.
   static ranked(key: string, list: readonly number[]): number[] {
-    const rank = new Map(list.map(n => [n, Draw.mix(Expressions.seed(`${key}:${n}`))]));
+    const rank = new Map(list.map(n => [n, Draw.mix(Draw.seed(`${key}:${n}`))]));
     return [...list].sort((a, b) => rank.get(a)! - rank.get(b)! || a - b);
   }
   // murmur3's finaliser, so that keys alike but for their last characters are ranked far apart.

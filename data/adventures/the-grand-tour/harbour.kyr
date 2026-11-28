@@ -1,4 +1,9 @@
 Module sennet "The Grand Tour" {
+  Entity seat_witness: fact "Peg Arklow will take the air-bell chart to Dun Rì; her estranged brother has sold its evacuation berths as seats at the coronation.".
+  Topic seat_reflection with peg "Ask Peg what the rooms under the sea teach a king" when knows(actor, air_bell_known) once {
+    Says "'A fine view is not the same thing as a way out,' says Peg. She unfolds a chart of the air-bells with numbers beside the doors. 'My brother is selling these berths as coronation seats. Still has my best tablecloth, too.' Her laugh goes hard at the edges. 'At Dun Rì I shall reclaim the cloth and the exits. Perhaps in that order. I expect you to look surprised when he calls me his dear sister.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── The Quay and the Fish Stairs ──────────────────────────────────────────────────────────────────────────────────
   // The harbour is the city's oldest people: the families who came up out of the lower town on the night it drowned,
   // and stayed by the water, and sell what comes out of it. Nothing here touches the Rose. The harbour has its own

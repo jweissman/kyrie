@@ -1,0 +1,331 @@
+Module theemptyseat "The Empty Seat" {
+  Entity mathematical_rubbing: itemkind "a Mathematical rubbing".
+  Entity station_offstage: place "the unvisited station wing".
+  Place stillhouse "the Stillhouse" is level within doors_tower.
+  Place instrument_landing "the instrument landing" is room within stillhouse at 0, 0 indoors.
+  Place listening_stair "the listening stair" is room within stillhouse at 0, 1 underground.
+  Place dry_gallery "the dry gallery" is room within stillhouse at 0, 2 underground.
+  Place record_room "the record room" is room within earth_station at 1, 2 underground.
+  Place lost_alcove "the lost-property alcove" is room within earth_station at 1, 1 underground.
+  Place still_earth "the Stillhouse's counterweight station" is region within inner_earth elsewhere.
+  Place earth_station "the counterweight station" is wilderness within still_earth at 0, 0 elsewhere.
+  Place earth_ledge "the counterweight ledge" is room within earth_station at 0, 0.
+  Passage instrument_door "the instrument door" is door between palace_kitchen and instrument_landing hidden until instrument_lead.
+  Passage public_stair "the broad service stair" is steps between instrument_landing and dry_gallery taking 30 minutes.
+  Passage listening_entry "the listening stair" is steps between instrument_landing and listening_stair
+    opening when approachNamed(party) and routeBraced(party) "".
+  Passage listening_exit "the braced stair" is steps between listening_stair and dry_gallery taking 5 minutes.
+  Passage records_door "the record-room door" is door between earth_ledge and record_room.
+  Passage alcove_door "the lost-property door" is door between record_room and lost_alcove.
+  Passage earth_door "the propped Earth door" is door between dry_gallery and earth_ledge
+    opening when testedExchange(party) "".
+
+  Person mared "Mared" at instrument_landing {
+    Role "Halm's former pupil, a mathematician". Ancestry human. Calling mage. Level 4. Peaceable. Pronouns she.
+  }
+  Person resident "the station's resident" at station_offstage {
+    Role "keeper of a counterweight station". Ancestry human. Calling commoner. Level 3. Peaceable.
+  }
+  Entity inhabited: fact "the record room has a living resident".
+  Entity station_empty: fact "the resident has left the record room".
+  Relation stationProfile(place, fact). Relation residentPlaced(group).
+  Relation recoveredMeal(group). Relation instrumentsReady(group).
+  Relation testedExchange(group). Relation comparedRubbing(group). Relation engineCommitted(group).
+  Relation domesticAccountReturned(group). Relation causewayEmplaced(place).
+  Relation routeBraced(group). Relation civilianPlan(group).
+  Measure instrumentAt(group). Measure emplaceAt(place).
+  Entity proof_dc: difficulty "a Mathematical proof".
+  Initially Set toBeat(proof_dc) to 30.
+  Initially Set quantity(resident, rations) to 2.
+  Entity instrument_lead: fact "The kitchen scales alternate their measure. Mared is examining the old survey at the instrument landing.".
+  Entity old_survey: fact "The retained royal records identify the marked platform and its measured load.".
+  Entity test_return: fact "The empty bowl crossed to the Earth ledge. The service door remains propped; the freight feed is separate.".
+  Entity bounded_exchange: fact "The Equivalence Engine exchanges one supported platform load with its Earth counterweight station. This proves neither the third socket nor the lower door.".
+  Entity station_limits: fact "The station's ledger specifies a single loaded exchange before the freight feed must be disconnected.".
+  Entity proof_question: fact "Does the marked platform exchange a load, or merely its weight? Mared can compare the experiment with the survey.".
+  Entity military_limit: fact "The siege causeway can be displaced before its counterweight is fixed. That cuts one supply crossing, not the army or the war.".
+  Initially Assert leadsTo(instrument_lead, instrument_landing).
+  Initially Assert leadsTo(proof_question, instrument_landing).
+  Initially Assert leadsTo(bounded_exchange, record_room).
+  Entity iv_lull: fact "Hest sets a kettle beside the boots. The room has stopped shaking.".
+  Entity iv_lead: fact "The kitchen scales move without a hand. Mared asks for the old survey.".
+  Entity iv_kept: fact "The retained survey identifies a platform, not a throne.".
+  Entity iv_survey: fact "Mared measures the platform again. A missing record is not a missing world.".
+  Entity iv_gallery: fact "An empty bowl sits on a marked platform. The third socket has no stop.".
+  Entity iv_test: fact "The bowl vanishes. Its cord runs through the propped service door.".
+  Entity iv_earth: fact "The bowl waits on a stone ledge in Earth. The other rooms are still unknown.".
+  Entity iv_resident: fact "A clerk closes a household ledger. The bowl was expected; soldiers were not.".
+  Entity iv_vacant: fact "A chair has been pushed under the desk. The ledger has not been taken.".
+  Entity iv_limits: fact "The clerk specifies one loaded exchange, then disconnection. The third socket is not in the ledger.".
+  Entity iv_accounts: fact "The clerk asks for a household ledger, not a coronation.".
+  Entity iv_return: fact "The clerk finds a pressed flower in the returned ledger and gives you supper.".
+  Entity iv_compare: fact "Mared compares the carried rubbing with the platform's marks.".
+  Entity iv_caution: fact "Mared draws a box around the demonstrated result. Outside it she writes UNKNOWN.".
+  Entity iv_military: fact "Nerys asks for a victory. Mared offers one missing counterweight.".
+  Entity iv_crossing: fact "The carts cross to the surveyed Earth station. The freight feed is disconnected.".
+  Entity iv_strike: fact "The causeway's counterweight crosses. Its unsupported span falls. The army remains.".
+  Entity iv_closed: fact "You disconnect the freight feed. The service door stays propped for a return.".
+  Entity iv_after: fact "The instrument is quiet. Behind the lower door, a knock has not been explained.".
+  Entity iv_cadi: fact "Cadi arranges the carts without promising to stay behind.".
+  Entity iv_tarian: fact "Tarian braces the route he once sold. It is not a pardon.".
+  Entity iv_nerys: fact "Nerys accepts a measured destination for the carts, not another sealed door.".
+  Kind trial_bowl "an experimental bowl" is gear worth 0 weighing 1 described "A chipped bowl with a cord tied to its handle.".
+  Item test_bowl "the chipped trial bowl" is trial_bowl at dry_gallery.
+
+  Rule instrument_clock when siegeSettled(party) and not instrumentsReady(party) {
+    Assert instrumentsReady(party). Set instrumentAt(party) to watch(clock) + 3.
+    Set emplaceAt(ward) to watch(clock) + 51.
+  }
+  Rule station_resident when stationProfile(record_room, inhabited) and not residentPlaced(resident) {
+    Assert residentPlaced(resident). Retract at(resident, station_offstage). Assert at(resident, record_room).
+  }
+  Topic kitchen_recovery with guildkeeper "Share the kettle after the first incursion" when siegeSettled(party)
+    and not recoveredMeal(actor) once {
+    Says "{iv_lull}".
+    On discuss { Assert recoveredMeal(actor). Increase quantity(actor, rations) by 1. }
+  }
+  Topic kitchen_instrument with queen "Ask why the kitchen scales will not settle" when instrumentsReady(party)
+    and watch(clock) >= instrumentAt(party) once {
+    Says "{iv_lead}".
+    On discuss { Assert knows(actor, instrument_lead). }
+  }
+  Topic hest_instrument with guildkeeper "Ask Hest what Mared found after the incursion" when instrumentsReady(party)
+    and watch(clock) >= instrumentAt(party) and not knows(actor, instrument_lead) once {
+    Says "{iv_lead}".
+    On discuss { Assert knows(actor, instrument_lead). }
+  }
+  Topic mared_records with mared "Compare the retained royal survey with Mared's platform" when befell(ri_evidence_kept)
+    and knows(actor, instrument_lead) once {
+    Says "{iv_kept}".
+    On discuss { Assert knows(actor, old_survey). }
+  }
+  Topic tarian_brace with courier "Ask Tarian to brace the listening stair he once sold" when siegeSettled(party)
+    and approachNamed(party) and knows(actor, instrument_lead) once {
+    Says "{iv_tarian}".
+    On discuss { Assert routeBraced(party). }
+  }
+  Topic cadi_crossing with scout "Ask Cadi to arrange a civilian crossing, not to wait behind" when
+    knows(actor, bounded_exchange) and knows(actor, station_limits) and not engineCommitted(party) once {
+    Says "{iv_cadi}".
+    On discuss { Assert civilianPlan(actor). }
+  }
+  Topic nerys_crossing with queen "Ask Nerys to accept a measured refuge instead of an unknown door" when
+    knows(actor, bounded_exchange) and knows(actor, station_limits) and not engineCommitted(party) once {
+    Says "{iv_nerys}".
+    On discuss { Assert civilianPlan(actor). }
+  }
+  Action replace_survey(actor: group, site: place) "Measure the platform to replace the missing survey" {
+    Requires able(actor) and at(actor, site) and at(actor, instrument_landing) and knows(actor, instrument_lead)
+      and not knows(actor, old_survey).
+    Time 30 minutes.
+    On success { Assert knows(actor, old_survey). }
+    Result "{iv_survey}".
+  }
+  Observe gallery_unproved at dry_gallery when not testedExchange(party) "{iv_gallery}".
+  Action bowl_trial(actor: group, site: place) "Test the marked platform with an empty bowl and a cord" {
+    Requires able(actor) and at(actor, site) and at(actor, dry_gallery) and knows(actor, old_survey)
+      and not testedExchange(party) and (at(test_bowl, dry_gallery) or carries(actor, test_bowl)).
+    Time 10 minutes.
+    On success { Assert testedExchange(party). Retract at(test_bowl, dry_gallery).
+      Spend test_bowl from actor. Assert at(test_bowl, earth_ledge). }
+    Result "{iv_test}".
+  }
+  Observe bowl_on_earth at earth_ledge when testedExchange(party) and at(test_bowl, earth_ledge) and not knows(party, test_return)
+    "{iv_earth}" teaches test_return.
+  Action prove_exchange(actor: group, site: place) "Work out what the marked exchange proves" {
+    Requires able(actor) and not benighted(actor) and at(actor, site) and at(actor, dry_gallery) and knows(actor, test_return)
+      and not knows(actor, bounded_exchange) and not knows(actor, proof_question).
+    Time 10 minutes. Resolve check(actor, mathematics, proof_dc).
+    On success { Assert knows(actor, bounded_exchange). }
+    On failure { Assert knows(actor, proof_question). }
+    Result "{iv_caution}".
+    Otherwise "The marks do not resolve. The bowl's journey is evidence; the third socket is not. Mared can help compare the two.".
+  }
+  Action measure_exchange(actor: group, site: place) "Measure the bowl's journey without trusting the inscription" {
+    Requires able(actor) and not benighted(actor) and at(actor, site) and at(actor, dry_gallery) and knows(actor, test_return)
+      and not knows(actor, bounded_exchange).
+    Time 30 minutes.
+    On success { Assert knows(actor, bounded_exchange). }
+    Result "{iv_caution}".
+  }
+  Topic mared_question with mared "Ask Mared whether the platform moves a load or only its weight" when
+    knows(actor, proof_question) and knows(actor, test_return) and not knows(actor, bounded_exchange) once {
+    Says "{iv_caution}".
+    On discuss { Assert knows(actor, bounded_exchange). }
+  }
+  Topic mared_rubbing with mared "Show Mared a Mathematical rubbing" when
+    (carries(actor, ?p) and itemKind(?p, mathematical_rubbing))
+    and not comparedRubbing(actor) once {
+    Says "{iv_compare}".
+    On discuss { Assert comparedRubbing(actor). }
+  }
+  Observe room_inhabited at record_room when stationProfile(record_room, inhabited) and at(resident, record_room)
+    "{iv_resident}".
+  Observe room_vacant at record_room when stationProfile(record_room, station_empty) "{iv_vacant}".
+  Topic resident_limit with resident "Ask the resident how many loaded exchanges the station can bear" when
+    knows(actor, bounded_exchange) once {
+    Says "{iv_limits}".
+    On discuss { Assert knows(actor, station_limits). }
+  }
+  Action read_station(actor: group, site: place) "Read the unguarded station ledger" {
+    Requires able(actor) and not benighted(actor) and at(actor, site) and at(actor, record_room) and knows(actor, bounded_exchange)
+      and not knows(actor, station_limits) and (stationProfile(record_room, station_empty) or not able(resident)).
+    Time 10 minutes.
+    On success { Assert knows(actor, station_limits). }
+    Result "{iv_limits}".
+  }
+  Kind household_account "a household ledger" is gear worth 0 weighing 1 described "A station household's washing, debts and pressed flowers. Not a military calculation.".
+  Item lost_account "the misplaced household ledger" is household_account at lost_alcove owned by resident.
+  Entity account_question: fact "The station resident asks for the household ledger in the lost-property alcove.".
+  Initially Assert leadsTo(account_question, lost_alcove).
+  Topic resident_accounts with resident "Ask what the station resident needs for themselves" when
+    not domesticAccountReturned(actor) once {
+    Says "{iv_accounts}".
+    On discuss { Assert knows(actor, account_question). Assert lends(resident, lost_account, actor). }
+  }
+  Action restore_account(actor: group, site: place) "Return the household ledger to the station resident" {
+    Requires able(actor) and at(actor, site) and at(resident, site) and able(resident)
+      and carries(actor, lost_account) and knows(actor, account_question) and quantity(resident, rations) >= 1
+      and not domesticAccountReturned(actor).
+    Time 5 minutes.
+    On success { Give lost_account to resident. Retract lends(resident, lost_account, actor).
+      Assert domesticAccountReturned(actor).
+      Decrease quantity(resident, rations) by 1. Increase quantity(actor, rations) by 1. }
+    Result "{iv_return}".
+  }
+  Hazard unproved_socket "the unproved third socket" means "Deal (1d6) physical damage to ally.".
+  Action force_socket(actor: group, site: place) "Force the unproved third socket; its unsupported weight may fall" {
+    Requires able(actor) and at(actor, site) and at(actor, dry_gallery) and not engineCommitted(party)
+      and not triedSocket(actor).
+    Time 5 minutes.
+    On success { Assert triedSocket(actor). Assert strikes(unproved_socket, actor). }
+    Result "The unsupported weight falls. Nothing passes through the socket. The empty bowl was not a proof of this.".
+  }
+  Relation triedSocket(group).
+  Person salt_carrier "the stone-courier" at earth_ledge {
+    Role "a carrier waiting for the station clock". Ancestry human. Calling commoner. Level 2. Peaceable.
+  }
+  Initially Set quantity(salt_carrier, rations) to 2.
+  Kind earth_salt "salt from Earth" is gear worth 6 weighing 1 described "A packet of salt cut from a wall. Its wrapping is a receipt for one ordinary meal.".
+  Item carrier_salt "the courier's packet of Earth salt" is earth_salt at station_offstage owned by salt_carrier.
+  Entity iv_salt: fact "The courier offers Earth salt for a meal. No military order is accepted as payment.".
+  Topic carrier_trade with salt_carrier "Trade one meal for the courier's Earth salt" when quantity(actor, rations) >= 1 once {
+    Says "{iv_salt}".
+    On discuss { Decrease quantity(actor, rations) by 1. Give carrier_salt to actor. }
+  }
+  Entity clock_question: fact "The stone-courier's pocket clock is in the record room's reserve case. Its stopped hand is holding the lid shut.".
+  Initially Assert leadsTo(clock_question, record_room).
+  Entity iv_clock_ask: fact "The courier asks for a pocket clock. They have been paid for waiting, but cannot tell when to stop.".
+  Entity iv_clock_open: fact "You release the reserve case's balanced hand. The clock inside is stopped, not broken.".
+  Entity iv_clock_return: fact "The courier sets the returned clock and gives you two meals. The delivery can finally begin.".
+  Kind reserve_clock "a pocket clock" is gear worth 8 weighing 1 described "A clock for an Earth carrier. Its hand stops at an agreed delivery hour.".
+  Thing reserve_case "the clock's reserve case" at record_room {
+    Marvel. Holds.
+    State clock_held closed "A clock hand has been fitted across the lid. Forcing it would break the clock, not unlock a door.".
+    State clock_released "The balanced hand has been lifted. The pocket clock can be taken.".
+  }
+  Item carrier_clock "the courier's stopped pocket clock" is reserve_clock in reserve_case owned by salt_carrier.
+  Topic carrier_clock_ask with salt_carrier "Ask why the stone-courier is still waiting" when true once {
+    Says "{iv_clock_ask}".
+    On discuss { Assert knows(actor, clock_question). Assert lends(salt_carrier, carrier_clock, actor). }
+  }
+  Action prove_clock(actor: group, target: thing) "Resolve the reserve case's balanced hand" {
+    Requires able(actor) and not benighted(actor) and at(actor, record_room) and at(target, record_room)
+      and state(target, clock_held) and knows(actor, clock_question).
+    Time 10 minutes. Resolve check(actor, mathematics, proof_dc).
+    On success { Retract state(target, clock_held). Assert state(target, clock_released). }
+    Result "{iv_clock_open}".
+    Otherwise "The hand does not balance. It can still be measured with a cord; nothing needs to be forced.".
+  }
+  Action measure_clock(actor: group, target: thing) "Balance the reserve case's hand with a measured cord" {
+    Requires able(actor) and not benighted(actor) and at(actor, record_room) and at(target, record_room)
+      and state(target, clock_held) and knows(actor, clock_question).
+    Time 30 minutes.
+    On success { Retract state(target, clock_held). Assert state(target, clock_released). }
+    Result "{iv_clock_open}".
+  }
+  Action return_clock(actor: group, site: place) "Return the stopped pocket clock to the stone-courier" {
+    Requires able(actor) and at(actor, site) and at(salt_carrier, site) and able(salt_carrier)
+      and carries(actor, carrier_clock) and knows(actor, clock_question) and quantity(salt_carrier, rations) >= 2.
+    Time 5 minutes.
+    On success { Give carrier_clock to salt_carrier. Retract lends(salt_carrier, carrier_clock, actor).
+      Decrease quantity(salt_carrier, rations) by 2. Increase quantity(actor, rations) by 2. }
+    Result "{iv_clock_return}".
+  }
+  Observe socket_smashed at dry_gallery when triedSocket(party) "A fresh dent marks the failed third socket. It is no nearer to being understood.".
+  Thing siege_causeway "the enemy's supply causeway" at station_offstage is scenery {
+    State supported "An enemy supply span rests on a marked counterweight outside the gate.".
+    State broken "The unsupported supply span lies in the ditch. The enemy army still holds its ground.".
+  }
+  Thing siege_weight "the causeway's marked counterweight" at station_offstage is scenery {
+    State resting "A platform-sized counterweight supports the enemy supply span.".
+  }
+  Relation causewayRaised(place).
+  Rule raise_causeway when siegeSettled(party) and not causewayRaised(ward) {
+    Assert causewayRaised(ward). Retract at(siege_causeway, station_offstage).
+    Retract at(siege_weight, station_offstage). Assert at(siege_causeway, north_gate). Assert at(siege_weight, north_gate).
+  }
+  Rule counterweight_fixed when instrumentsReady(party) and watch(clock) >= emplaceAt(ward)
+    and not causewayEmplaced(ward) and state(siege_causeway, supported) {
+    Assert causewayEmplaced(ward).
+  }
+  Topic mared_military with mared "Ask Mared for one demonstrated use against the siege causeway" when
+    knows(actor, bounded_exchange) and knows(actor, station_limits) and not engineCommitted(party) once {
+    Says "{iv_military}".
+    On discuss { Assert knows(actor, military_limit). }
+  }
+  Action civilian_exchange(actor: group, site: place) "Use the one loaded exchange to carry the refugee carts to Earth" {
+    Requires able(actor) and at(actor, site) and at(actor, dry_gallery) and knows(actor, bounded_exchange)
+      and knows(actor, station_limits) and not engineCommitted(party) and quantity(actor, rations) >= 2
+      and (at(refugees, north_gate) or at(refugees, palace_kitchen)).
+    Time 20 minutes.
+    On success { Decrease quantity(actor, rations) by 2. Assert engineCommitted(party).
+      Retract at(refugees, north_gate). Retract at(refugees, palace_kitchen). Assert at(refugees, earth_ledge). }
+    Result "{iv_crossing}".
+  }
+  Action planned_civilian_exchange(actor: group, site: place) "Carry the prepared civilian carts to Earth with one ration" {
+    Requires able(actor) and at(actor, site) and at(actor, dry_gallery) and knows(actor, bounded_exchange)
+      and knows(actor, station_limits) and civilianPlan(actor) and not engineCommitted(party)
+      and quantity(actor, rations) >= 1 and (at(refugees, north_gate) or at(refugees, palace_kitchen)).
+    Time 20 minutes.
+    On success { Decrease quantity(actor, rations) by 1. Assert engineCommitted(party).
+      Retract at(refugees, north_gate). Retract at(refugees, palace_kitchen). Assert at(refugees, earth_ledge). }
+    Result "{iv_crossing}".
+  }
+  Action military_exchange(actor: group, site: place) "Exchange the siege causeway's counterweight, then disconnect the feed" {
+    Requires able(actor) and at(actor, site) and at(actor, dry_gallery) and knows(actor, military_limit)
+      and not causewayEmplaced(ward) and not engineCommitted(party)
+      and watch(clock) + 2 <= emplaceAt(ward) and at(siege_weight, north_gate)
+      and state(siege_causeway, supported) and quantity(actor, rations) >= 2.
+    Time 20 minutes.
+    On success { Decrease quantity(actor, rations) by 2. Assert engineCommitted(party).
+      Retract at(siege_weight, north_gate). Assert at(siege_weight, earth_ledge).
+      Retract state(siege_causeway, supported). Assert state(siege_causeway, broken). }
+    Result "{iv_strike}".
+  }
+  Action assisted_exchange(actor: group, site: place) "Use the compared proof to exchange the siege counterweight with one ration" {
+    Requires able(actor) and at(actor, site) and at(actor, dry_gallery) and knows(actor, military_limit)
+      and comparedRubbing(actor) and not causewayEmplaced(ward) and not engineCommitted(party)
+      and watch(clock) + 2 <= emplaceAt(ward) and at(siege_weight, north_gate)
+      and state(siege_causeway, supported) and quantity(actor, rations) >= 1.
+    Time 20 minutes.
+    On success { Decrease quantity(actor, rations) by 1. Assert engineCommitted(party).
+      Retract at(siege_weight, north_gate). Assert at(siege_weight, earth_ledge).
+      Retract state(siege_causeway, supported). Assert state(siege_causeway, broken). }
+    Result "{iv_strike}".
+  }
+  Action disconnect_engine(actor: group, site: place) "Disconnect the freight feed without making a loaded exchange" {
+    Requires able(actor) and at(actor, site) and at(actor, dry_gallery) and testedExchange(party)
+      and not engineCommitted(party).
+    Time 5 minutes.
+    On success { Assert engineCommitted(party). }
+    Result "{iv_closed}".
+  }
+  Observe stillhouse_after at dry_gallery when engineCommitted(party) "{iv_after}".
+  Observe emplaced_causeway at dry_gallery when causewayEmplaced(ward) and not engineCommitted(party)
+    "The enemy has fixed the counterweight. The one demonstrated strike is no longer possible. A civilian exchange or disconnection remains.".
+  Objective find_instrument when knows(party, instrument_lead) and not knows(party, old_survey)
+    toward instrument_landing "Investigate the changing kitchen measure.".
+  Objective prove_instrument when knows(party, old_survey) and not testedExchange(party)
+    toward dry_gallery "Test a small load before risking a person.".
+}

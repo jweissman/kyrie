@@ -1,4 +1,9 @@
 Module tessary "What Tessary Owes" {
+  Entity seat_witness: fact "Lucius Haverick will bring the Muster's collateral schedule to Dun Rì; a royal lender has offered to buy it under another name.".
+  Topic seat_reflection with haverick "Ask Haverick what the Muster has taught the next king" when knows(actor, collateral) once {
+    Says "'We promised men a home and sold the promise,' says Haverick. 'Now a royal lender offers to buy the paper back. Very generous. He calls the men a succession asset.' He laughs once, wetly. 'I used to write love letters for his mother. She would have boxed his ears.' He gathers both bills. 'At Dun Rì I intend to read the names aloud. Numbers may interrupt. People will not.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── The state of the city's affairs ──────────────────────────────────────────────────────────────────────────────
   // Relations shared by every movement: who is held, whether the Board has voted, how the note stands.
   Relation heldNow(group). Relation voted(place). Relation votePassed(place).

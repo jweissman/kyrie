@@ -1,4 +1,9 @@
 Module overexall "Over Exall" {
+  Entity seat_witness: fact "Judith Sowden will bring the drift-whale lane chart to Dun Rì; her missing wedding guest has been appointed to advise on the sky.".
+  Topic seat_reflection with judith "Ask Judith what a lost lane teaches a king" when knows(actor, lane_lost) once {
+    Says "Judith steps out of the pewter bowl. 'A whale over the roof is a lodger. Put a title on it and the court calls it strategy.' She smooths a chart of the cloud lanes. 'The new sky advisor drew this. He was to attend my wedding. Left with the survey and never came back.' She looks at the dripping ceiling. 'At Dun Rì I shall ask him where he went. Then ask whether he knows where anything else is going.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── Judith Sowden, the Tarpaulin ───────────────────────────────────────────────────────────────────────────────────
   Person judith "Judith Sowden" at taproom {
     Role "keeper of the Tarpaulin". Profession innkeeper. Ancestry human. Pronouns she. Manner stoic. Peaceable.

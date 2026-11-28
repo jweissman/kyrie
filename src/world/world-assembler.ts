@@ -148,8 +148,9 @@ export class WorldAssembler {
     region.beyond = { ...region.beyond, ...at.named }; region.calendar = at.calendar; region.held = at.held;
     region.further = Countries.further(region, seed, at.first);
     const lib = await this.library(base, 'data/scenarios/library.json'), own = await StrategicAtlas.entries(base, region);
+    const recurrent = await this.library(base, this.recurrent);
     const { context, placements } = this.settle(region, lib, { seed: WorldGrid.seed(seed, at.x, at.y), rid,
-      rounds: [3, 2], exclude: at.exclude, heralds: own });
+      rounds: [3, 2], exclude: at.exclude, heralds: own, standing: recurrent });
     const root = `world-${seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world'}/${rid}`;
     const files: Record<string, string> = {};
     // Its own random identity, its cell: every drawn country's Kyr module is `Module region`, and a module is seeded
@@ -157,7 +158,8 @@ export class WorldAssembler {
     // shared seeds between two countries). The first country, drawn above, keeps the seed it had.
     const modules: BundleRequest[] = [{ id: rid, bundle: base.resolve(`${root}/region/module.json`),
       imports: { party: `${RegionWriter.id}.party` }, randomIdentity: rid }];
-    this.spread(placements, { library: [...lib, ...own], base, region, contacts: [], context, files, root, modules });
+    this.spread(placements, { library: [...lib, ...own, ...recurrent], base, region, contacts: [], context, files,
+      root, modules });
     RegionWriter.write(files, root, region, { company: null, taken: this.taken(placements), beyond: true,
       vocabulary: Content.vocabulary() });
     return { requests: modules, source: new OverlayBundleSource(base, files), region,
@@ -203,7 +205,7 @@ export class WorldAssembler {
         if (placement) { placements.push(placement); }
       }
     }
-    // What every first country keeps going round it (a circus on its circuit) is placed last, so nothing drawn moves.
+    // Standing stories and recurrent dungeon families use unclaimed ground after the ordinary draw.
     placements.push(...(at.standing ?? []).filter(x => this.placeable(x.manifest, region, claimed))
       .flatMap(e => this.place(e.manifest, { n: 1, region, claimed, seed: at.seed, rid: at.rid, placements }) ?? []));
     // Its stories' people keep the names their authors gave them, and its own people are named apart from them.
@@ -211,6 +213,7 @@ export class WorldAssembler {
     return { context, eligibility, placements };
   }
   static readonly standing = 'data/scenarios/standing.json';
+  static readonly recurrent = 'data/scenarios/recurrent.json';
   // Each placement's modules, and the module that spreads word of it.
   private static spread(placements: Placement[], at: { library: Entry[]; base: BundleSource; region: Region;
     contacts: Contact[]; context: Record<string, string>; files: Record<string, string>; root: string;
@@ -298,11 +301,7 @@ export class WorldAssembler {
     const sent = new Set(Countries.heralds(region, seed).map(c => `data/scenarios/${c.country.herald!.scenario}`));
     return Promise.all([...sent, ...StrategicAtlas.goings(region)].map(s => StoryPeople.entry(base, base.resolve(s))));
   }
-  static async library(base: BundleSource, index: string): Promise<Entry[]> {
-    const path = base.resolve(index);
-    const list = JSON.parse(await base.read(path)) as { scenarios: string[] };
-    return Promise.all(list.scenarios.map(file => StoryPeople.entry(base, base.resolve(file, path))));
-  }
+  static library(base: BundleSource, index: string): Promise<Entry[]> { return StoryPeople.library(base, index); }
   // Context fit, decided by the same Deem selection the assembler uses, and whether its sites can exist here.
   static fits(s: ScenarioManifest, context: Record<string, string>, region: Region) {
     if (!this.choose([{ path: '', manifest: s }], context, 'fit')) {

@@ -1,4 +1,9 @@
 Module goingbank "The Going Bank" {
+  Entity seat_witness: fact "Pipit Anstey will send Dun Rì a corrected evacuation map; its author omitted the moving bank because nobody asked the children.".
+  Topic seat_reflection with pipit "Ask Pipit what the moving bank teaches a king" when knows(actor, walker_known) once {
+    Says "Pipit swings her bare feet. 'Their map says the bank stays here. The bank cannot read.' She has drawn nine small paces on a royal evacuation plan. 'The man said eight. Mother Yarrow said eight. I am still the one crossing it.' She folds the plan into a boat. 'They want me at Dun Rì to explain it. I want a grown-up to promise they will listen before I go all that way. You can practise now.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── Tarrow Lip ─────────────────────────────────────────────────────────────────────────────────────────────────
 
   Kind gb_cord "Sabra's knotted cord" is treasure worth 1 weighing 1 described "A cord of green grass-twine, knotted along its length at uneven intervals, worn dark where a thumb has run it for forty years.".

@@ -1,4 +1,9 @@
 Module leaving "The Leaving Supper" {
+  Entity seat_witness: fact "Captain Hester Gannick has been offered a royal commission to save Skellet; she will challenge the offer at Dun Rì because Skellet is already a lake.".
+  Topic seat_reflection with gannick "Ask Gannick what would make a royal commission worth taking" when knows(actor, captain_wants_reason) once {
+    Says "'They offer me Skellet if I relieve the city.' Gannick waits for you to answer. 'Skellet is a lake.' She breaks the uneaten loaf, then puts the halves back together. 'I nearly said yes. There is your brave captain.' Her eyes come back to yours. 'If I take their commission in Dun Rì, ask me where supper comes from. Not what they promise to give me afterwards.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Discovery skellet_pot "The Captain is looking for a pot she ate when she was nine, in Skellet, which is a lake now. She cannot name what was in it.".
   Discovery imke_ladle_kept "Imke carried one thing out of Skellet that was not a pot: a ladle split down the handle.".
   Discovery captain_wants_reason "The Captain does not want a fine supper: she wants a reason to go.".

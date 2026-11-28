@@ -42,3 +42,18 @@
 * The cleric side (`side_down`) and the Larum aftermath are lint-clean but not played to the grave; the test plays `side_up`. The shipped-warrior test plays the ice burial only, and the salute's failure branch (`saluteFailed`, `bear_cuff`) is not played.
 * The Old Ice test depends on a seed in which the stair search succeeds (`q2`/`q3`); a failed search is one-shot in the original data.
 * No mage or monk voice; no second grave-site for a company without a cleric (they still choose by topic, as before).
+
+## Corpus-review follow-up, 27 November
+
+Mab's first lasting wound now has an optional act of care between the sparring
+and the Testing. A clean bandage and five minutes earn one point of her existing
+trust. That confidence is read by her existing conversation about Ansel; it is
+not an unused sympathy flag. She admits fear while accepting help, with a joke
+about Ansel's courtesy. The scar stays. Care neither changes the world's death law
+nor calls off the Testing, and it cannot be repeated to farm trust.
+
+[The focused proof](../../../test/small/corpus-aftercare.test.ts) spends a real
+bandage, reaches the existing conversation and restores the one-time memory.
+This mitigates the review's underdeveloped fear through conduct rather than
+another explanation. It does not repair every uneven middle day or replace
+the longer campaign journeys above.

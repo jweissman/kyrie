@@ -1,0 +1,30 @@
+{
+  "succession": [
+    "Ask the herald who succeeds the king",
+    ">theemptyseat__oath_hall",
+    "Ask Gareth if he wants the crown",
+    ">theemptyseat__song_hall",
+    "Ask Seren why the king's name is in her song",
+    "Ask Aled what he wants for himself",
+    "Promise Seren that the people outside the gate will have shelter",
+    ">theemptyseat__oath_hall",
+    "Tell the Queen what Seren said",
+    ">theemptyseat__guild_hall",
+    "Ask Tarian why he is shaking",
+    "Tell Hest about Tarian's bargain",
+    ">theemptyseat__oath_hall"
+  ],
+  "keepEvidence": ["Ask the Queen to keep the letters as proof"],
+  "burnEvidence": ["Ask the Queen to destroy the letters"],
+  "guild": [
+    ">theemptyseat__guild_hall",
+    "Pay three coin to join the Venturing Guild",
+    "Ask Hest for a lead to the Ninefold Disk",
+    "Ask about the Guild's strangest prize",
+    "Ask to hire Cadi",
+    "Ask Cadi to join the company",
+    ">theemptyseat__counting_room",
+    "Search here",
+    "Take"
+  ]
+}
