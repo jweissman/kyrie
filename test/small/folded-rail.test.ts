@@ -16,10 +16,12 @@ describe('the folded lenses', () => {
       Company party "You" of 1 at yard.`;
     const first = await Tiny.start(yard, { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior', level: 1,
       backgroundId: 'soldier' }] });
-    expect(first.leaf.glance?.rail).toEqual({ fold: 'folded', lenses: [] });
+    // The company's own page is kept within reach whatever is earned (OR-1685).
+    const keep = { view: 'company' as const, label: 'Your character' };
+    expect(first.leaf.glance?.rail).toEqual({ fold: 'folded', lenses: [], keep });
     const later = await Tiny.start(yard, { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior', level: 4,
       backgroundId: 'soldier' }] });
-    expect(later.leaf.glance?.rail).toEqual({ fold: 'folded', lenses: [] });
+    expect(later.leaf.glance?.rail).toEqual({ fold: 'folded', lenses: [], keep });
   });
   it('glitter with the tones their marks bear, and none without', () => {
     const mark = (tone?: string) => ({ tone, words: tone ?? 'nothing', icons: [], companion: false, faint: false,

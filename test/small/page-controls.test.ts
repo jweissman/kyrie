@@ -22,8 +22,9 @@ const why: Record<Why, string> = {
 const allowed: Record<string, [string, Why][]> = {
   'web/reader/stage/act.tsx': [['choice', 'row'], ['mode', 'book']],
   'web/reader/stage/choice-row.tsx': [['row', 'row']],
+  // The book's mark, and the company's own page kept within reach where the book is not earned (Rail.keep, OR-1685).
   'web/reader/stage/scene-rail.tsx': [['lens', 'lens'], ['explore', 'lens'], ['explore', 'lens'], ['map-mark', 'map'],
-    ['book', 'book']],
+    ['book', 'book'], ['keep', 'book']],
   'web/reader/stage/lenses.tsx': [['lens-tile', 'lens']],
   // The lenses folded at rest into one diamond (OR-1084): the rail's lens marks behind one more of the rail's own.
   'web/reader/stage/folded-rail.tsx': [['lenses', 'lens']],
@@ -120,10 +121,11 @@ describe('the page\'s own controls', () => {
     expect(Object.values(allowed).flat().filter(([, w]) => !why[w])).toEqual([]);
   });
   // 36 with the folded lenses' diamond (OR-1084, the owner's), a lens's instrument; 38 with the oracle's two (OR-1151),
-  // a developer's, which no player's game draws.
-  it('count no more than they did: 70 in 28 files on 18 November, 53 on the 19th, 35 on the 25th, 38 now', async () => {
+  // a developer's, which no player's game draws; 39 with the company's own page kept within reach, the owner's ask
+  // (OR-1685: "minimally we may always want the book available, even if tucked away"), the engine's Rail.keep.
+  it('count no more than they did: 70 in 28 files on 18 November, 53 on the 19th, 35 on the 25th, 39 now', async () => {
     const drawn = await Source.scan(src => Source.tags(src, '<button').map(t => Source.button(t)));
-    expect(Object.values(drawn).flat().length).toBe(38);
+    expect(Object.values(drawn).flat().length).toBe(39);
   });
   it('make rows of the one row of no kind not named', async () => {
     const drawn = await Source.scan(src => Source.tags(src, '<ChoiceRow.Button').map(t => Source.row(t)));
