@@ -138,6 +138,13 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/deep-land.test.ts` | The generated `wren` deep site's surroundings for two callings and after its keeper dies. The ranger and before/after observations witness the paired absences. |
 | `test/deep-rivals.test.ts` | Generated `wren` and `b2` worlds with real rival parties, stages, prices, keeper and prize. The distinct offer, descent, failure, success and sale sequences must remain; the held-prize absent-options check needs a prior witness before narrowing. |
 | `test/deep-singing.test.ts` | Generated `d4` worlds with the Stone-Singers' actual hall, doors, bell and keeper, across multiple callings. The open and blocked paths and before/after listening are comparison witnesses. |
+| `test/deep-treasure.test.ts` | Treasure-tier table and one generated `thorn` world. The nonempty generated finds and at least one table member witness the claim. |
+| `test/deep-waterworks.test.ts` | Generated `thorn` cisterns across two callings, with actual gates, pump and oath-tablet. Before/after mechanisms and the two keeper approaches are comparison witnesses. |
+| `test/den-aim.test.ts` | One generated `thorn` world and its actual placed den and innkeeper. The asked, seen and driven-off stages witness the changing aim and stale rumour. |
+| `test/depth.test.ts` | One generated `kite` world with its undertown and levels, plus a parser round-trip. The actual generated depth sequence and authored depth syntax are separate claims. |
+| `test/descent.test.ts` | Four generated worlds played to their actual deep-site hearts using recorded choices. Each outcome and party is a distinct long expedition; gated by `KYRIE_LONG`. |
+| `test/desert-country.test.ts` | Three pure desert terrain drawings and one generated desert world played into. The terrain proportions and real settlement discovery are separate claims. |
+| `test/destinations-once.test.ts` | One generated `kite` world with a real ruin's lead and interior visit. The one named destination after return witnesses the deduplication claim. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
