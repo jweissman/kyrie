@@ -11,7 +11,7 @@ import { FreshSeeds } from '../world/fresh-seeds';
 import type { EnginePage } from '../creation/opening-pages';
 
 // A step as it is asked: creation's (CreationFlow), or how the game begins (FirstChoice).
-type Asked = Pick<CreationStep, 'ask' | 'cards' | 'chosen' | 'all' | 'many' | 'picked' | 'place'>;
+type Asked = Pick<CreationStep, 'ask' | 'cards' | 'chosen' | 'drawn' | 'all' | 'many' | 'picked' | 'place'>;
 
 // Who comes into the world, chosen in the terminal as the page chooses: by asking the engine where the making of a
 // life stands and sending it each choice, through the same requests the page's worker answers (world, creation,
@@ -72,7 +72,8 @@ export class TerminalCreation {
     if (shown.length < step.cards.length) { this.say(`  (${step.cards.length - shown.length} more: more)`); }
     // Enter takes the card chosen already, or the first; at a step of many its last, which goes on.
     const last = step.many ? step.cards.at(-1) : undefined;
-    const fallback = last ?? step.cards.find(c => c.id === step.chosen && !c.shut) ?? step.cards.find(c => !c.shut)!;
+    const taken = step.chosen ?? step.drawn;
+    const fallback = last ?? step.cards.find(c => c.id === taken && !c.shut) ?? step.cards.find(c => !c.shut)!;
     for (;;) {
       const answer = (await this.input.ask('> '))?.trim() ?? '';
       if (answer === 'more' && shown.length < step.cards.length) {
@@ -104,14 +105,15 @@ export class TerminalCreation {
     });
     // At a step of many the focus is on going on, once it can be gone on (CreationStep.many).
     const last = step.many ? step.cards.at(-1) : undefined, at = step.all ? rows.length : 4;
-    const chosen = (last && !last.shut ? last.id : undefined) ?? step.chosen ?? step.cards.find(c => !c.shut)?.id;
+    const chosen = (last && !last.shut ? last.id : undefined) ?? step.chosen ?? step.drawn
+      ?? step.cards.find(c => !c.shut)?.id;
     return { title: Typography.plain(step.ask), rows: rows.slice(0, at), rest: rows.slice(at),
       ...chosen ? { focus: chosen } : {} };
   }
   static readonly left = 'The player left before setting out.';
   static asked(state: CreationState): CreationStep | undefined { return state.steps.find(x => x.id === state.at); }
   private async name(step: CreationStep): Promise<string> {
-    const drawn = step.names?.[0] ?? step.chosen ?? '';
+    const drawn = step.names?.[0] ?? step.chosen ?? step.drawn ?? '';
     this.say(`\n${Typography.plain(step.ask)}${drawn ? ` (Enter for ${drawn})` : ''}`);
     return (await this.input.ask('> '))?.trim() ?? '';
   }

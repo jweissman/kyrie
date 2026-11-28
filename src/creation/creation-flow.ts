@@ -61,6 +61,9 @@ export interface CreationStep {
   id: CreationStepId; ask: string; cards: CreationCard[]; chosen?: string; names?: string[]; present: CreationPresent;
   all?: boolean; write?: string; roll?: string; again?: string; leads?: boolean; emblems?: boolean; many?: number;
   picked?: string[];
+  // What the life would set out with at this step unchosen (drawn or defaulted, OR-1684): not shown as chosen, but what
+  // a client that takes a step's own answer (the terminal's Enter) takes, as setting out at once does.
+  drawn?: string;
   // How a choice is made, said once, at the first step: what comes to a row reads it, and a press chooses it (OR-255).
   how?: string;
   // Where the step stands in the making, and how many steps there are with setting out the last (OR-1136, the third
@@ -113,8 +116,8 @@ export class CreationFlow {
   // The reason for having come is not asked: the world gives it, as where the life begins (the owner, 17 November:
   // "remove the abstract origin-quest selection in favor of diegetic starting circumstances"; see circumstance).
   // A step's card shown as chosen, once the player has chosen at that step (OR-1272, OR-1684).
-  private mine(step: CreationChoice, value?: string): { chosen?: string } {
-    return this.owned.has(step) && value !== undefined ? { chosen: value } : {};
+  private mine(step: CreationChoice, value?: string): { chosen?: string; drawn?: string } {
+    return value === undefined ? {} : this.owned.has(step) ? { chosen: value } : { drawn: value };
   }
   steps(): CreationStep[] {
     const all = this.unranked();
