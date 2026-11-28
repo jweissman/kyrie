@@ -62,8 +62,16 @@ export class PageRunner {
     const errors: string[] = [];
     page.on('pageerror', e => errors.push(e.message));
     await page.goto(`${url}${query}`);
-    await page.waitForSelector('[data-mode="create"]', { timeout: 180000 });
-    await page.click('[data-action="start"]');
+    // A new visit opens on the title: New Game first, as a player begins (the title's own first row, OR-1683); then a
+    // new life at once, the stock opening (the runner hands the player no creation's steps yet: the round says so).
+    await page.waitForSelector('[data-mode="create"], [data-action="begin"]', { timeout: 180000 });
+    if (await page.$('[data-action="begin"]')) {
+      await page.click('[data-action="begin"]');
+      await page.waitForSelector('[data-action="set-out-now"], [data-mode="create"]', { timeout: 180000 });
+    }
+    if (await page.$('[data-action="set-out-now"]')) { await page.click('[data-action="set-out-now"]'); } else {
+      await page.click('[data-action="start"]');
+    }
     await page.waitForSelector('[data-mode="explore"], [data-mode="prologue"]', { timeout: 180000 });
     const r = new PageRunner(page, new MonoDriver(page));
     PageRunner.out(await r.said(), errors);
