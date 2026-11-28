@@ -11,6 +11,7 @@
    "world/kings-door": "discovery",
    "world/known-way": "discovery",
    "world/the-way-made-sure": "travel",
+   "world/the-stair-both-ways": "travel",
    "world/delay-costs": "discovery",
    "character/creation-and-checks": "creation", "character/company-faces": "company",
    "choice/consequence": "consequence",

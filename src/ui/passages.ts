@@ -58,12 +58,14 @@ export class Passages {
     const from = this.within(origin, 'level'), to = this.within(destination, 'level');
     if (from && to && from.id !== to.id) { return this.deeper(from, to); }
     // Into somewhere of its own, by its name ("Into the Strongrooms"); within one, out of the light and into the
-    // ground, and back: down to the cellar, up to the corn-store (NVR-18).
+    // ground, and back: down to the cellar, up to the corn-store (NVR-18). Out of one and down, or up out of the ground
+    // into one, the way goes as it goes (OR-1859): the stair between the fallen stones goes down out of the old woods,
+    // and had been "Out to the stair under the fallen stones", the words the way up from below rightly says.
     const a = this.enclosures(origin), b = this.enclosures(destination);
-    if (b.some(id => !a.includes(id))) { return 'enter'; }
-    if (a.some(id => !b.includes(id))) { return 'leave'; }
-    // Underground, from one storey its author gives to another ("underground 2 down"): the vault under the undercroft.
     const [over, under] = [this.under(origin), this.under(destination)];
+    if (b.some(id => !a.includes(id))) { return over && !under ? 'ascend' : 'enter'; }
+    if (a.some(id => !b.includes(id))) { return this.depth(destination) > this.depth(origin) ? 'descend' : 'leave'; }
+    // Underground, from one storey its author gives to another ("underground 2 down"): the vault under the undercroft.
     const [up, down] = [origin, destination].map(id => this.entities.get(id)?.space?.depth ?? 0);
     if (over && under && up && down && up !== down) { return down > up ? 'descend' : 'ascend'; }
     return over === under ? 'walk' : under ? 'descend' : 'ascend';
@@ -76,6 +78,8 @@ export class Passages {
     const [a, b] = [levels.indexOf(from), levels.indexOf(to)];
     return a < 0 || b < 0 ? 'level' : b > a ? 'descend' : 'ascend';
   }
+  // How many storeys under the ground a place is (Depth): none above it.
+  private depth(id: string): number { return Depth.of(this.entities, this.world, id) ?? 0; }
   // Whether a place is underground: a room by its shelter, a level by its rooms.
   private under(id: string, level = false): boolean {
     if (!level) { return this.entities.get(id)?.space?.shelter === 'underground'; }
