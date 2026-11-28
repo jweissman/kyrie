@@ -14,8 +14,9 @@ import type { CompanyRecall } from './company-recall';
 import type { Arrival, Glance } from './glance-types';
 
 type Line = { id: string; text: string };
+// lived: who the life is of, read whether or not its words are said (Lines.life is what is said).
 export interface Lines { sight?: Glance['sight']; life?: Glance['life']; contents?: Glance['contents']; changed: string[];
-  pointed: Set<string> }
+  pointed: Set<string>; lived?: string }
 
 // The glance's few lines (OWN-18): the place's own distinctive line (at most two sentences, never cut inside one), a
 // sign of life now, and on a return what has changed. A line is the place's own when its installation's, set at it,
@@ -42,10 +43,12 @@ export class GlanceLines {
     // Staying, what was done leads: the place and its life are as they were.
     const lively = at.arrival === 'stay' ? undefined
       : this.life(screen, { defs, present, kept: at.kept, own, sight, arrival: at.arrival, recall: at.recall,
-        warned: new Set((at.changes ?? []).flatMap(c => /^\+ warned\(([^,]+),/.exec(c)?.[1] ?? [])),
-        told: at.apart?.texts });
+        warned: new Set((at.changes ?? []).flatMap(c => /^\+ warned\(([^,]+),/.exec(c)?.[1] ?? [])) });
     // Nor, at the opening, anyone's doings: the incident has just said who is at the company's elbow.
     const life = charge && own.length ? undefined : lively;
+    // Who is alive here is read as ever (every client alike, the opening told apart or not); only its words go unsaid
+    // where the opening has just said them (OR-1687).
+    const said = life && at.apart?.texts.has(life.text) ? undefined : life;
     const passing = new Set(screen.observed.filter(o => ['weather', 'ambience'].includes(this.def(defs, o.id)?.aspect ?? ''))
       .map(o => Typography.curl(FictionalTime.prose(o.text))));
     const back = ['return', 'resume'].includes(at.arrival);
@@ -56,7 +59,8 @@ export class GlanceLines {
     const pointed = new Set(screen.observed.flatMap(l => this.named(this.def(defs, l.id)?.text ?? '')));
     const contents = ['first', 'opening'].includes(at.arrival) && !screen.dark && !at.apart?.met
       ? this.contents(campaign, screen, { defs, told: [sight?.id, life?.id, life?.subject], charge }) : undefined;
-    return { ...sight ? { sight } : {}, ...life ? { life } : {}, ...contents ? { contents } : {}, changed, pointed };
+    return { ...sight ? { sight } : {}, ...said ? { life: said } : {}, ...contents ? { contents } : {}, changed,
+      pointed, ...life?.subject ? { lived: life.subject } : {} };
   }
   // The lines as the glance says them.
   static said({ sight, life, contents, changed }: Lines): Pick<Glance, 'sight' | 'life' | 'contents' | 'changed'> {
@@ -127,8 +131,8 @@ export class GlanceLines {
   // someone doing something; a line that is someone's; someone with something to be asked; and the first time only,
   // the place's passing life, or an animal's. Come back to, only what is new since.
   private static life(screen: Screen, at: { defs: Map<string, Observation>; present: Set<string>; kept: Line[];
-    own: Line[]; sight?: Glance['sight']; arrival: Arrival; recall: CompanyRecall; warned: ReadonlySet<string>;
-    told?: ReadonlySet<string> }): Glance['life'] {
+    own: Line[]; sight?: Glance['sight']; arrival: Arrival; recall: CompanyRecall; warned: ReadonlySet<string> }):
+    Glance['life'] {
     const people = screen.people.filter(p => !p.companion && !p.state), first = !['return', 'resume'].includes(at.arrival);
     const threat = people.find(p => p.reckoning);
     if (threat) {
@@ -137,7 +141,7 @@ export class GlanceLines {
     }
     const warner = screen.warned && people.find(p => p.id === screen.warned!.id);
     if (warner) { return { text: this.curl(warner.says?.[0] ?? this.here(warner)), subject: warner.id }; }
-    const fresh = this.unheard.bind(this, first, at.recall, at.told ?? new Set());
+    const fresh = this.fresh.bind(this, first, at.recall);
     // Something heard from the next room, which the way there is marked by: the barrow's whetstone had been held for a
     // look, the north recess marked heard and nothing heard in the prose (cold play 4, CL-48).
     const sound = at.kept.find(l => this.def(at.defs, l.id)?.aspect === 'sound' && fresh(l.text));
@@ -156,10 +160,6 @@ export class GlanceLines {
     if (passing) { return { id: passing.id, text: this.curl(FictionalTime.prose(passing.text)) }; }
     const animal = people.find(p => p.kind === 'animal' && p.says?.length);
     return animal ? { text: this.curl(animal.says![0]!), subject: animal.id } : undefined;
-  }
-  // Fresh, and not what the opening has just told (OR-1687).
-  private static unheard(first: boolean, recall: CompanyRecall, told: ReadonlySet<string>, text: string): boolean {
-    return !told.has(this.curl(text)) && this.fresh(first, recall, text);
   }
   // New since the company was last here: anything, the first time.
   private static fresh(first: boolean, recall: CompanyRecall, text: string): boolean {
