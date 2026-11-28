@@ -12,7 +12,7 @@ describe('a module\'s own creature kind', () => {
     const session = await Tiny.start(`
       Species ash_hound "an ash hound" like wolf temperament territorial described "A wolf grey with old fire.".
       Place yard "the yard" is room at 0, 0 outdoors. Company party "You" of 1 at yard.
-      Person hound "an ash hound" at yard { Role "a hound". Species ash_hound. }`);
+      Person hound "an ash hound" at yard { Role "a hound". Species ash_hound. }`, { horizon: ['inhabitants'] });
     const entry = EncyclopediaEntry.creature(session.campaign.catalog, 'ash_hound');
     expect(entry?.id).toBe('species-wolf');
     expect(CreaturePortraits.painting(session.campaign.catalog, 'ash_hound')).toBe('animals/wolf');
