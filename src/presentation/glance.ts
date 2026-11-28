@@ -31,7 +31,9 @@ import type { Told } from './narrator'; import { ArrivalAttention } from './arri
 // What the narrator hands the glance: the lines it tells of the place now, whether the company has been here before,
 // and what has changed since it was.
 // opened: an opening told why the company came just before, so the first place does not say the aim again (OWN-17).
-export interface Telling { kept: { id: string; text: string }[]; known: boolean; changed: string[]; opened?: boolean }
+// apart: what that opening told (its beats, the meeting on the road), said again in no line of the first place's.
+export interface Telling { kept: { id: string; text: string }[]; known: boolean; changed: string[]; opened?: boolean;
+  apart?: { texts: ReadonlySet<string>; met: boolean } }
 
 // A place at a glance (OWN-18, OWN-19): how the company came to it, its one distinctive line, a sign of life now, on a
 // return what has changed, and the few choices that matter now, each with why; the quiet row of ways; and which ways

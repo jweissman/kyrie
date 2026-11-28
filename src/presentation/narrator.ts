@@ -12,7 +12,7 @@ import { Narration } from './narration'; import { LineMoments, type Typed } from
 import { Spoken } from './spoken';
 import { EntityIndex } from '../lang/entity-index';
 import { Chapters } from '../lang/chapters';
-import type { Opening, Told as Opened } from './prologue';
+import { Prologue, type Opening, type Told as Opened } from './prologue';
 import { Succession } from './succession'; import { Readings } from './readings';
 import { Compass } from './compass'; import { Noted, type Note } from './noted';
 import { Likenesses } from './likenesses'; import { LensSubjects } from './lens-subjects';
@@ -137,7 +137,7 @@ export class Narrator {
     });
     // And, as an aim followed is seen through, what pulls next (see Succession, PL-06).
     const glance = Costs.time('glance', () => Glance.of(campaign, screen, told,
-      { kept, known, changed: fresh, opened: !!opening }));
+      { kept, known, changed: fresh, opened: !!opening, ...opening ? { apart: this.apart(screen, opening) } : {} }));
     const whole = { ...ToldOnce.changed(glance, leaf), ...Succession.next(campaign, screen, told),
       ...Compass.of(campaign, screen, glance) };
     return { ...Introduced.said(leaf, glance, screen), instruments: Instruments.of(campaign, screen),
@@ -183,6 +183,12 @@ export class Narrator {
   private static altered(def: Observation | undefined, event: CampaignEvent): boolean {
     const when = def?.when;
     return when?.kind === 'call' && when.name === 'state' && event.changes.includes(`+ state(${when.args.join(', ')})`);
+  }
+  // What an opening told, in the words the place would say it in, and whether it met someone on the road.
+  private static apart(screen: Pick<Screen, 'observed'>, opening: Opening): { texts: Set<string>; met: boolean } {
+    const told = screen.observed.filter(o => opening.apart.has(o.id));
+    return { texts: new Set(told.map(o => Typography.curl(FictionalTime.prose(o.text)))),
+      met: opening.apart.has(Prologue.meetingId) };
   }
   // What an opening told just before is left out of the place (see Prologue).
   private static unsaid<T extends { id: string }>(lines: T[], opening?: Opening): T[] {

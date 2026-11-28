@@ -4,6 +4,7 @@
   "under": 10000,
   "sentinels": {},
   "away": {
+   "test/reference-opening.test.ts": "a new life drawn on s0, come over the hills, its first frame, its first aim followed and the next said (about ten seconds): CI's suite and the night's, never the push lane's ten seconds",
    "test/first-town-grounds.test.ts": "a fresh life drawn on fresh1 and everyone in its first town spoken with (about ten seconds): CI's suite and the night's, never the push lane's ten seconds",
    "test/focus-parity.test.ts": "three clients begun from one drawn world and walked five steps, about ten seconds: CI's suite and the night's, never the push lane's ten seconds",
    "test/discovery-scale.test.ts": "A measure of how a time grows with the world: on a loaded CI runner it fails one run in a few (16 November: red on f7c1d0d0 and before, best of three already), and every red push run keeps Pages from deploying. Nightly and on demand, where its trend is read.",

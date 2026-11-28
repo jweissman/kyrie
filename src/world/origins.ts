@@ -191,7 +191,9 @@ export class Origins {
     const sight = Foundings.table.foundings[Foundings.of(region, region.settlements.indexOf(s)).kind].sight;
     return { scene: a.scene.replace('{home}', s.name).replace('{trade}', trade).replace('{sight}', sight), home: s.name,
       // then: what a reason's own find opens after it, where a country says (ReferenceOrigins: OR-1505); else nothing.
-      homename: s.name, region: region.name, then: '' };
+      homename: s.name, region: region.name, then: '',
+      // Where work is heard of, as one come over the hills knows it: at the inn, unless the country says (OR-1688).
+      hear: ' The place to hear of it is the inn.' };
   }
   private static way(region: Region): Way {
     return (tables.approach as Record<string, Way>)[region.terrain] ?? tables.approach.forest;

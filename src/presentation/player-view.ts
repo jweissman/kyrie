@@ -315,7 +315,7 @@ export class PlayerView {
       choices: publicChoices.map(c => c.choice), followed: perceiving ? Undertakings.followed(campaign)?.id : undefined,
       // The aims held by the one test every client counts by (Undertakings.held), each in its words.
       ...(campaign.module.objectives?.length ? { objectives: perceiving ? Undertakings.held(campaign)
-        .map(o => ({ id: o.id, text: AimWords.render(world, o) }))
+        .map(o => ({ id: o.id, text: AimWords.render(world, o, location?.id) }))
         .toSorted((a, b) => PlayerView.own(a.id) - PlayerView.own(b.id)) : [] } : {}),
       map: CompanyMap.of(campaign, actor, publicChoices.filter(c => c.choice.category === 'travel').map(c => c.action)) };
   }

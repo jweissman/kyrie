@@ -330,7 +330,9 @@ export class RegionWriter {
     const zones = RegionGeography.atlas(region).zones;
     const ids = ['party', 'region', ...region.settlements.flatMap(s => {
       const has = SettlementWriter.rooms(region, s);
-      return [s.id, `${s.id}_green`, ...has.taproom ? [`${s.id}_taproom`] : [], ...has.shrine ? [`${s.id}_shrine`] : [],
+      // The taproom's door, for a life told where work is heard of to know the way in (OR-1689).
+      return [s.id, `${s.id}_green`, ...has.taproom ? [`${s.id}_taproom`, `${s.id}_inn_door`] : [],
+        ...has.shrine ? [`${s.id}_shrine`] : [],
         ...has.shop ? [`${s.id}_shop`] : [], `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`,
         `${s.id}_country_told`,
         // The deep place under the reference game's woods, for a life's reason to lead to (ReferenceOrigins).
