@@ -3738,6 +3738,24 @@
    "was": "defect",
    "pri": "P3",
    "why": "28 Nov: a way of playing wanted beside OR-1853's contract (the way out by its next leg), not an observed failure"
+  },
+  "OR-1910": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "28 Nov: the cold-play review's Wave 2 asks it (compress the secured descent); walking the way down again breaks no claimed contract"
+  },
+  "OR-1911": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "28 Nov: an instrument's fidelity wanted (presses a player would make), not a failure of a claimed contract"
+  },
+  "OR-1912": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "28 Nov: further staging points the review names, a way of playing wanted, not an observed failure"
   }
  },
  "blockedBy": {
