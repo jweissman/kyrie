@@ -1,5 +1,6 @@
 import text from '../../data/generation/town/undertown.kyrt' with { type: 'text' };
 import { KyrTemplates, type KyrSection } from './kyr-template';
+import { ModuleSource } from './kyr-values';
 import { Outfitters } from './outfitters';
 import { SettlementWriter } from './settlement-writer';
 import { DeepPurposes } from './deep/deep-purposes';
@@ -40,7 +41,7 @@ export class RegionUndertown {
     const sections = KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${t}:undertown`, this.lives(region), fix);
     const values = { ...this.values(t, s.name, company, standing), ratsbane: this.ratsbane(s),
       ...sections.some(x => x.group === 'hand') ? this.hand(region, t) : {} };
-    return [...sections.flatMap(x => KyrTemplates.fill(x.lines, values)), ...this.catacombs(region, s),
+    return [...sections.flatMap(x => KyrTemplates.declared(x.lines, values, 'undertown')), ...this.catacombs(region, s),
       ...RegionMarket.home(region, s), ...this.notice(t, sections, values)];
   }
   // The name of whoever on the green would come along (OR-304: a joiner had been "the drover's lad" and nothing more),
@@ -185,14 +186,15 @@ export class RegionUndertown {
     // What a site placed in the country has from being placed (see RegionSites): that it is named, and found. It
     // lies within the town, under it, so that going down into it is going in, not a journey across the country.
     const deep = DeepSites.lines(region, site, { purpose, values, rivals: false, buried: s.name, wooded })
-      .filter(l => !(taken && /^\s*Measure deepWater/.test(l)));
+      .filter(l => !(taken && /^\s*Measure deepWater/.test(ModuleSource.text([l])[0]!)));
     return [...wooded ? RegionWoods.lines(s, { w, site: site.name, old,
       ...region.calendar ? { sky: RegionWeather.kinds(region, region.calendar) } : {} })
       : this.vaulted(s, { w, site: site.name }),
       // The measures every deep site declares are the country's already when it has one of its own.
       ...deep,
       // What the shrine-keeper can say of each depth below the first, once the company has been above it.
-      ...wooded ? WoodsCounsel.lines({ t, w, priest: `${t}_priest` }, deep, x => DeepSites.defenses(x)) : [],
+      ...wooded ? WoodsCounsel.lines({ t, w, priest: `${t}_priest` }, ModuleSource.text(deep), x => DeepSites.defenses(x))
+        : [],
       ...this.below(region, s, { w, site: site.name })];
   }
   // The way down from the vault under the town, past its keeper (the undertown's own: see catacombs).
@@ -238,6 +240,6 @@ export class RegionUndertown {
     const calling = RegionRecruits.fighting(ancestry);
     const values = { w: at.w, site: at.site, name, he: pronoun, his: pronoun === 'she' ? 'her' : 'his',
       him: pronoun === 'she' ? 'her' : 'him', calling, fee: '6', town: s.name, folk: ancestry };
-    return KyrTemplates.choose(this.ledge, key).flatMap(x => KyrTemplates.fill(x.lines, values));
+    return KyrTemplates.choose(this.ledge, key).flatMap(x => KyrTemplates.declared(x.lines, values, 'undertown below'));
   }
 }

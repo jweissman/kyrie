@@ -26,7 +26,7 @@ export class RegionOutskirts {
   static lines(region: Region, s: Settlement, company = 3): string[] {
     const chosen = this.chosen(region, s, company);
     if (!chosen) { return []; }
-    return [...chosen.sections.flatMap(x => KyrTemplates.fill(x.lines, chosen.filled)),
+    return [...chosen.sections.flatMap(x => KyrTemplates.declared(x.lines, chosen.filled, 'outskirts')),
       ...chosen.peopled ? RegionBonds.lines(s.id) : []];
   }
   // The town's people who practise a craft, as the sections written for it say of them (">> practises {t}_hesper

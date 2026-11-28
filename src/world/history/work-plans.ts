@@ -1,4 +1,5 @@
 import { Draw } from '../land/draw';
+import { ModuleSource } from '../kyr-values';
 import type { Cover } from '../land/land-cover';
 
 // One part of a plan: Kyr lines, how likely it is to be chosen among the others of its group, and the value its
@@ -107,5 +108,13 @@ export class WorkPlans {
   static fill(lines: string[], values: Record<string, string>): string[] {
     return lines.map(line => line.replace(/\{([a-z]+)\}/g, (whole, name: string) => values[name]?.replace(/["\\{}]/g, '\\$&')
       ?? whole));
+  }
+  // The same as the country's declarations, made as values from the plan's Kyr read once with its placeholders as
+  // holes (ModuleSource.filled; OR-1900), where they can be: for a work's lines as its region writes them.
+  // (A plan puts nothing in as it is: "{!name}" is its text.)
+  static declared(lines: string[], values: Record<string, string>, plan: string): string[] {
+    const filled = this.fill(lines, values);
+    return lines.some(l => l.includes('{!')) ? filled
+      : ModuleSource.filled(lines, values, filled, { generator: `work ${plan}`, construct: 'template' });
   }
 }

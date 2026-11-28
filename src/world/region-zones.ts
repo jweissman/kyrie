@@ -39,7 +39,8 @@ export class RegionZones {
   // Leaving the trails and losing the way: the author's, in data/generation/wild/astray.kyrt.
   static readonly template = KyrTemplates.parse(text);
   private static section(group: string, values: Record<string, string>): string[] {
-    return KyrTemplates.fill(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values);
+    return KyrTemplates.declared(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values,
+      `astray ${group}`);
   }
   static readonly table = tables as unknown as Record<Wild, Table>;
   static lines(region: Region): string[] {

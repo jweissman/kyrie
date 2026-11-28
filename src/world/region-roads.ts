@@ -184,7 +184,8 @@ export class RegionRoads {
   // What a ford or a pass asks of a company: the author's, in data/generation/wild/roads.kyrt.
   static readonly template = KyrTemplates.parse(text);
   private static section(group: string, values: Record<string, string>): string[] {
-    return KyrTemplates.fill(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values);
+    return KyrTemplates.declared(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values,
+      `roads ${group}`);
   }
   private static ford(road: Road): string[] {
     return this.section('ford', { w: road.way, on: `road_${road.from.id}_${road.to.id}_on`, river: road.form!.name });

@@ -48,7 +48,7 @@ export class RegionRovers {
       .sort((a, b) => Terrain.distance(land, a.cell!, home) - Terrain.distance(land, b.cell!, home))[0];
     const values = { r: `wr${home}r`, home: RegionTracts.id(home), folk: region.ancestry, town: town?.name ?? region.name };
     const ranges = road.filter(c => Terrain.distance(land, home, c) <= this.range);
-    return [...KyrTemplates.fill(section.lines, values), ...ranges.map(c => this.roams(values.r, c))];
+    return [...KyrTemplates.declared(section.lines, values, 'roving'), ...ranges.map(c => this.roams(values.r, c))];
   }
   // One band besides that goes about by night (roving.kyrt's night group: a pack, or the hungry dead), over a stretch
   // of the country away from its towns, roads and all: met only in the dark, once (the owner, 26 November: danger at
@@ -62,7 +62,7 @@ export class RegionRovers {
     const section = new Draw(key).weighted(options.map(o => [o, o.weight] as const));
     const values = { r: `wr${home}n`, home: RegionTracts.id(home) };
     const ranges = open.filter(c => Terrain.distance(land, home, c) <= this.range);
-    return [...KyrTemplates.fill(section.lines, values),
+    return [...KyrTemplates.declared(section.lines, values, 'roving'),
       ...ranges.map(c => this.roams(values.r, c))];
   }
   // Where a rover goes about, declared as a value (ModuleSource: AX-04), its Kyr beside.
@@ -92,7 +92,7 @@ export class RegionRovers {
       Object.assign(values, { site: lead.site.id, seen: RegionSites.seenAs(lead, region),
         toward: Vantage.bearing(at % W - home % W, Math.floor(at / W) - Math.floor(home / W)) });
     }
-    return [...KyrTemplates.fill(section.lines, values),
+    return [...KyrTemplates.declared(section.lines, values, 'roving'),
       ...where.map(c => this.roams(`wr${home}`, c))];
   }
 }

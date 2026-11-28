@@ -163,9 +163,8 @@ export class RegionWriter {
   static source(region: Region, company: Company | null, taken: Record<string, string>,
     vocabulary: VocabularyContext): string {
     // One text whole (a fixture, an author's look): what was declared as values written as its Kyr.
-    const body = this.body(region, taken, vocabulary).map(l => ModuleSource.is(l) ? ModuleSource.read(l).kyr : l);
-    return [`Module ${this.id} ${JSON.stringify(region.name)} {`, ...body, ...this.company(region, company),
-      '}'].join('\n');
+    const body = ModuleSource.text([...this.body(region, taken, vocabulary), ...this.company(region, company)]);
+    return [`Module ${this.id} ${JSON.stringify(region.name)} {`, ...body, '}'].join('\n');
   }
   // The same, as the files of one module: the country in parts small enough to be read one at a time, then who
   // comes into it in a file of its own, so that the country reads the same whoever comes (see ModuleBundle.warm).
@@ -177,7 +176,9 @@ export class RegionWriter {
     Record<string, string> {
     CommunityWriter.afresh(region);
     const head = `Module ${this.id} ${JSON.stringify(region.name)} {`, parts: string[][] = [[]];
-    const body = this.body(region, taken, vocabulary), own = body.filter(l => RegionWriter.ownKind.test(l));
+    // (Its templates' sections filled as values: ModuleSource.written.)
+    const body = ModuleSource.written(() => this.body(region, taken, vocabulary));
+    const own = body.filter(l => RegionWriter.ownKind.test(l));
     // A file ends only where a statement does: a rule whose words come on the line after its condition had been cut
     // between them (a rover's coming, 11 November: the drowned stair's country failed to parse).
     let depth = 0, size = 0, ended = true;
@@ -192,16 +193,17 @@ export class RegionWriter {
     // What a writer declared as values (ModuleSource) goes beside its file, not in it: its declarations, each at the
     // character its line would have begun at (nothing of it in the text), and their Kyr for inspection, never parsed
     // (AX-04, generated-ir.md).
-    const out: [string, string][] = [];
-    for (const [i, lines] of parts.entries()) {
-      const name = i ? `region-${i + 1}.kyr` : 'region.kyr';
-      const { text, source } = ModuleSource.parted(name, lines, head.length + 1);
-      out.push([name, [head, ...text, '}'].join('\n')]);
-      if (source.declared.length) {
-        out.push([`${name}.ir.json`, JSON.stringify(source)], [`${name}.ir.kyr`, ModuleSource.kyr(source)]);
-      }
-    }
-    return Object.fromEntries([...out, ['company.kyr', [head, ...this.company(region, company), '}'].join('\n')]]);
+    // Who comes in is written so too (the undertown's sections, filled as values: OR-1900).
+    const named = [...parts.map((lines, i) => [i ? `region-${i + 1}.kyr` : 'region.kyr', lines] as const),
+      ['company.kyr', ModuleSource.written(() => this.company(region, company))] as const];
+    return Object.fromEntries(named.flatMap(([name, lines]) => RegionWriter.file(head, name, lines)));
+  }
+  // One file of the module: its text, and what was declared beside it as values (with their Kyr, for inspection).
+  private static file(head: string, name: string, lines: string[]): [string, string][] {
+    const { text, source } = ModuleSource.parted(name, lines, head.length + 1);
+    return [[name, [head, ...text, '}'].join('\n')], ...source.declared.length
+      ? [[`${name}.ir.json`, JSON.stringify(source)], [`${name}.ir.kyr`, ModuleSource.kyr(source)]] as [string, string][]
+      : []];
   }
   // A file the module reads as Kyr (not what stands beside one for inspection, nor its declarations made as values).
   static readsAsKyr(name: string): boolean { return !/\.ir\.(json|kyr)$/.test(name); }

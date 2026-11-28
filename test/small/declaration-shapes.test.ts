@@ -47,8 +47,9 @@ describe('a declaration filled from its shape', () => {
     filled = DeclarationShapes.fills - filled;
     expect(differ).toEqual([]);
     expect(texts).toBeGreaterThan(20);
-    // Shapes became known, and were filled in the second country.
-    expect([...DeclarationShapes.known.values()].filter(v => typeof v === 'object').length).toBeGreaterThan(300);
+    // Shapes became known, and were filled in the second country (fewer since a template's sections are filled as
+    // values, never parsed: TemplateShapes, OR-1900; 268 on 28 November).
+    expect([...DeclarationShapes.known.values()].filter(v => typeof v === 'object').length).toBeGreaterThan(200);
     expect(filled).toBeGreaterThan(1000);
   }, 60000);
 });

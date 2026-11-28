@@ -31,7 +31,7 @@ export class RegionAfoot {
   }
   static lines(region: Region, s: Settlement): string[] {
     const values = this.values(region, s), option = this.drawn(region).get(s.id);
-    return this.template.sections.filter(x => x.option === option).flatMap(x => KyrTemplates.fill(x.lines, values));
+    return this.template.sections.filter(x => x.option === option).flatMap(x => KyrTemplates.declared(x.lines, values, 'afoot'));
   }
   private static values(region: Region, s: Settlement): Record<string, string> {
     return { s: s.id, town: s.name, ...Communities.water(region, s) ? { water: 'yes' } : {} };

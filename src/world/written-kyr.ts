@@ -1,6 +1,7 @@
 import { ModuleParser } from '../lang/module-parser';
 import type { Module } from '../lang/module';
 import type { VocabularyContext } from '../lang';
+import { ModuleSource } from './kyr-values';
 
 // Kyr a generator has written (a work's sections, filled), read as Kyr: parsed, and asked of by what it declares,
 // never searched as text. Its rooms, who is at or lairs in each and whether they are peaceable, the two ends of a
@@ -24,8 +25,10 @@ export class WrittenKyr {
   }
   readonly module: Module;
   private constructor(written: string[], vocabulary: VocabularyContext) {
-    this.module = ModuleParser.parseWithin(vocabulary,
-      ['Module written "what a generator wrote" {', ...written, '  Goal false.', '}'].join('\n'));
+    // What it declared as values (ModuleSource) declared so, as in its region's file.
+    const head = 'Module written "what a generator wrote" {';
+    const { text, source } = ModuleSource.parted('written', [...written, '  Goal false.'], head.length + 1);
+    this.module = ModuleParser.parseWithin(vocabulary, [head, ...text, '}'].join('\n'), source.declared);
   }
   private facts(name: string): string[][] {
     return this.module.initial.flatMap(c => c.kind === 'assert' && c.call.name === name ? [c.call.args] : []);

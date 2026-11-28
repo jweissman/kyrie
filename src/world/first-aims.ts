@@ -1,6 +1,7 @@
 import type { BundleRequest } from '../campaign/module-bundle';
 import type { Region, Settlement } from './region-writer';
 import { RegionUndertown } from './region-undertown';
+import { ModuleSource } from './kyr-values';
 import { SettlementWriter } from './settlement-writer';
 import { Career } from './career';
 
@@ -24,7 +25,7 @@ export class FirstAims {
   // The workings' rooms the town has, as the region writes and exports them (RegionWriter), by their own names.
   static rooms(region: Region, home: Settlement | undefined): { found: string[]; explored: string[] } {
     if (!home || !RegionUndertown.noticed(region, home)) { return { found: [], explored: [] }; }
-    const lines = RegionUndertown.lines(region, home).join('\n');
+    const lines = ModuleSource.text(RegionUndertown.lines(region, home)).join('\n');
     return { found: this.found.filter(r => lines.includes(`Place ${home.id}_u_${r} `)),
       explored: this.explored.filter(r => lines.includes(`Place ${home.id}_u_${r} `)) };
   }

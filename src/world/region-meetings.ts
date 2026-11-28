@@ -95,6 +95,6 @@ export class RegionMeetings {
         toward: Vantage.bearing(at % W - m.cell % W, Math.floor(at / W) - Math.floor(m.cell / W)) });
     }
     const base = this.template.sections.filter(s => s.group === 'base');
-    return KyrTemplates.fill([...base, m.section].flatMap(s => s.lines), values);
+    return KyrTemplates.declared([...base, m.section].flatMap(s => s.lines), values, 'meetings');
   }
 }

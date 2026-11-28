@@ -2,6 +2,8 @@ import type { Change, Entity, Observation, Operator, Predicate } from './module'
 import type { PassageSpec } from './world-constructs';
 import { ModuleParser } from './module-parser';
 import { TemplatedPredicates } from './templated-predicates';
+import { TemplateShapes } from './template-shapes';
+import type { Field } from './module-made';
 
 // What a generator declares as typed values rather than Kyr text (AX-04; doc/architecture/mission-22/generated-ir.md,
 // the review of generated parsing's §1): lowered into the same Module elements the parser makes of the text, before
@@ -18,8 +20,10 @@ export interface Provenance { generator: string; construct: string }
 // at: where its line was in the file's text, by the character (see parted); a passage is the parser's own field for
 // it, declared as the line would be, an observation and a topic the Module elements their lines make.
 // An initial, the Change its Initially line makes; a field, a declaration's as the parser makes it of its line (a
-// Topic put once, a Place), declared as the line's is (ModuleDeclarations.declare: a topic's latch, its asking again).
-export type DeclaredField = { field: 'action'; value: Operator & { once: true } } | { field: 'place'; value: Entity };
+// Topic put once, a Place), declared as the line's is (ModuleDeclarations.declare: a topic's latch, its asking again);
+// or any declaration of a template's, its field filled from the template's holes (TemplateShapes).
+export type DeclaredField = { field: 'action'; value: Operator & { once: true } } | { field: 'place'; value: Entity }
+  | Field;
 export type Declared = ({ observation: Observation } | { action: Operator } | { passage: PassageSpec }
   | { initial: Change } | { field: DeclaredField })
   & { kyr: string; provenance: Provenance; at?: number };
@@ -41,6 +45,17 @@ export class ModuleSource {
   // Written as their Kyr instead, to be parsed as before: the text the values stand for, for the differential
   // harness that holds the two to one module (test/generated-ir), and for nothing in play.
   static asText = false;
+  // Lines filled from a template are made values only while a module's files are written so (written: RegionWriter.
+  // files), where each file is parted and its values written beside it; anywhere else (a fixture, a tool that reads the
+  // lines as words) they are their text.
+  private static writing = 0;
+  // How many of a template family's declarations have been made as values (by its generator's first word: what
+  // test/generated-ir reads).
+  static readonly templated = new Map<string, number>();
+  static written<T>(run: () => T): T {
+    ModuleSource.writing++;
+    try { return run(); } finally { ModuleSource.writing--; }
+  }
   // A line standing for an Observe made as a value.
   static observe(observation: Observation, kyr: string, provenance: Provenance): string {
     return ModuleSource.asText ? kyr : ModuleSource.line({ observation, kyr, provenance });
@@ -56,6 +71,18 @@ export class ModuleSource {
   // A line standing for an Initially made as a value: the Change its line makes.
   static initially(initial: Change, kyr: string, provenance: Provenance): string {
     return ModuleSource.asText ? kyr : ModuleSource.line({ initial, kyr, provenance });
+  }
+  // Lines a generator filled from a template (filled: KyrTemplates.fill's, line for line), each declaration in them
+  // made as the field its text parses to, from the template's own Kyr read once with its placeholders as holes
+  // (TemplateShapes; OR-1900), where it is one; the rest as their text.
+  static filled(lines: readonly string[], values: Record<string, string>, filled: string[], provenance: Provenance):
+    string[] {
+    const held = ModuleSource.asText || !ModuleSource.writing ? undefined : TemplateShapes.declared(lines, values);
+    if (!held) { return filled; }
+    const family = provenance.generator.split(' ')[0]!, made = held.filter(h => h.field).length;
+    ModuleSource.templated.set(family, (ModuleSource.templated.get(family) ?? 0) + made);
+    return held.flatMap(h => h.field ? [ModuleSource.line({ field: h.field,
+      kyr: filled.slice(h.from, h.to + 1).join('\n'), provenance })] : filled.slice(h.from, h.to + 1));
   }
   // `Initially Assert <name>(<args>).`, made as the fact its line asserts.
   static asserted(provenance: Provenance, name: string, ...args: string[]): string {
@@ -95,12 +122,19 @@ export class ModuleSource {
     return lines.map(l => ModuleSource.is(l) ? ModuleSource.read(l).kyr : l);
   }
   // A file's lines parted: the text to be parsed, and what was declared, each at the character where its line would
-  // have begun (start: where the first line begins in the file, after its head).
+  // have begun (start: where the first line begins in the file, after its head). A declaration's lines are kept in the
+  // text as empty ones, so that what follows it keeps its line (a situation's record says the line it was written on:
+  // SemanticRecords), and the grammar has only white space to pass over for it.
   static parted(file: string, lines: string[], start = 0): { text: string[]; source: FileSource } {
     const text: string[] = [], declared: Declared[] = [];
     let at = start;
     for (const line of lines) {
-      if (ModuleSource.is(line)) { declared.push({ ...ModuleSource.read(line), at }); continue; }
+      if (ModuleSource.is(line)) {
+        const d = ModuleSource.read(line), n = d.kyr.split('\n').length;
+        declared.push({ ...d, at });
+        for (let i = 0; i < n; i++) { text.push(''); }
+        at += n; continue;
+      }
       text.push(line); at += line.length + 1;
     }
     return { text, source: { file, declared } };
@@ -113,6 +147,16 @@ export class ModuleSource {
     const files = typeof manifest.source === 'string' ? [manifest.source] : manifest.source;
     return Promise.all(files.map(async f => manifest.ir?.[f]
       ? JSON.parse(await source.read(source.resolve(manifest.ir[f], path))) as FileSource : undefined));
+  }
+  // A file's text with what was declared beside it put back where its lines were (see parted): the file as its writer
+  // wrote it, for what reads a file's words (who the country's people are, as they come).
+  static whole(text: string, source: FileSource | undefined): string {
+    let out = text;
+    for (const d of [...source?.declared ?? []].sort((a, b) => (b.at ?? 0) - (a.at ?? 0))) {
+      const at = d.at ?? 0;
+      out = `${out.slice(0, at)}${d.kyr}\n${out.slice(at + d.kyr.split('\n').length)}`;
+    }
+    return out;
   }
   // The Kyr the declarations stand for, as a file to read (never parsed in play).
   static kyr(source: FileSource): string { return source.declared.map(d => d.kyr).join('\n'); }

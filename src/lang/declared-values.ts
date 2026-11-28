@@ -2,10 +2,12 @@ import type { Module } from './module';
 import type { Declared, DeclaredField } from './module-source';
 import { ModuleDeclarations } from './module-declarations';
 import type { VocabularyContext } from './vocabulary';
+import { DeclarationSites } from './declaration-sites';
 
 type Into = Parameters<typeof ModuleDeclarations.declare>[3];
 // A value as the module's sites tell it (DeclarationSites): what it is, its name, where its line was and who made it.
-export interface Placed { kind: 'passage' | 'observation' | 'action' | 'initial' | DeclaredField['field']; name: string; at: number; generator: string }
+export interface Placed { kind: 'passage' | 'observation' | 'action' | 'initial' | DeclaredField['field'];
+  name: string | undefined; at: number; generator: string }
 // What a generator declared for a text as values, declared as the parser comes to where each line was (ModuleSource;
 // AX-04, generated-ir.md): before the first of the text's declarations that begins after it, the rest after the last.
 // So a file's observations and actions are in the order its lines were written, with nothing of the values in the
@@ -42,7 +44,7 @@ export class DeclaredValues {
     if ('observation' in d) { return { kind: 'observation', name: d.observation.id, at, generator }; }
     // (An Initially names nothing of its own, as its line does not: DeclarationSites.named.)
     if ('initial' in d) { return { kind: 'initial', name: '', at, generator }; }
-    if ('field' in d) { return { kind: d.field.field, name: d.field.value.id, at, generator }; }
+    if ('field' in d) { return { kind: d.field.field, name: DeclarationSites.named(d.field.value), at, generator }; }
     return { kind: 'action', name: d.action.id, at, generator };
   }
   // A passage or a field as its line's field is declared; an observation, a topic or an initial fact as the Module

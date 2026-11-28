@@ -14,7 +14,7 @@ export class RegionWoods {
     const q = JSON.stringify, t = s.id, w = at.w;
     const values = { t, town: s.name, w, site: at.site, old: at.old, dealer: `${t}_innkeeper`,
       wet: this.weather(at.sky, ['rainy', 'stormy']), windy: this.weather(at.sky, ['windy', 'stormy', 'rainy']) };
-    return [...this.template.sections.flatMap(x => KyrTemplates.fill(x.lines, values)),
+    return [...this.template.sections.flatMap(x => KyrTemplates.declared(x.lines, values, 'woods')),
       // What a site placed in the country has from being placed (see RegionSites): that it is named, and found.
       // A discovery, so that a life can begin knowing it (ReferenceOrigins: a dead man's map, a sister's letter).
       `  Discovery ${w}_named ${q(`Under the fallen stones in the old woods above ${s.name} a stair goes down, into ${at.site}.`)}.`,

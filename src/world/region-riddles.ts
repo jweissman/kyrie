@@ -31,7 +31,8 @@ export class RegionRiddles {
   // The door and its words, as the author wrote them (data/generation/works/riddle-door.kyrt).
   static readonly template = KyrTemplates.parse(text);
   private static section(group: string, values: Record<string, string>): string[] {
-    return KyrTemplates.fill(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values);
+    return KyrTemplates.declared(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values,
+      `riddle door ${group}`);
   }
   private static door(w: string, at: { way: string; room: string; riddle: Riddle; offered: string[] }): string[] {
     const id = `${w}_riddle`;

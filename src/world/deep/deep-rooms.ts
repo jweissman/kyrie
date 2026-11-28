@@ -22,7 +22,8 @@ export class DeepRooms {
   static readonly q = JSON.stringify;
   static readonly template = KyrTemplates.parse(text);
   static section(group: string, values: Record<string, string>): string[] {
-    return KyrTemplates.fill(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values);
+    return KyrTemplates.declared(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values,
+      `deep rooms ${group}`);
   }
   static readonly riddles = world.riddles as Record<string, Riddle[]>;
   static readonly answers = (world as unknown as { riddleAnswers: Record<string, string[]> }).riddleAnswers;

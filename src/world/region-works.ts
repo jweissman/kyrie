@@ -52,7 +52,7 @@ export class RegionWorks {
       if (purpose) { return taken[site.id] ? [] : DeepSites.lines(region, site, { purpose, values }); }
       const sections = WorkPlans.choose(plan, `${RegionKey.of(region)}:${work.id}:${work.plan}`, values)
         .filter(s => s.group === 'outside' || !taken[site.id]);
-      const written = sections.flatMap(s => WorkPlans.fill(s.lines, values));
+      const written = sections.flatMap(s => WorkPlans.declared(s.lines, values, work.plan));
       const additions = taken[site.id] ? [] : [
         ...RegionRenewal.work(region, site, { plan, written, values, vocabulary }),
         ...RegionStock.work(region, site, { great: !!plan.great, written, values, vocabulary }),

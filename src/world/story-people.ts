@@ -4,6 +4,7 @@ import type { BundleManifest } from '../campaign/module-bundle';
 import type { Entry, Placement, ScenarioManifest } from './world-assembler';
 import type { Region } from './region-writer';
 import { Outfitters } from './outfitters';
+import { ModuleSource, type FileSource } from './kyr-values';
 import { RegionShops } from './region-shops';
 import { RegionMarket } from './region-market';
 import { RegionTraffic } from './region-traffic';
@@ -60,8 +61,11 @@ export class StoryPeople {
   // below the town, whom the folk do not count, among them), and those of country (OR-418: what a story's generated
   // people are drawn apart from is the world's, never who is installed already: see StoryCasts).
   static held(region: Region, files: Record<string, string>, dir: string): string[] {
-    const written = Object.entries(files).filter(([path]) => path.startsWith(dir) && path.endsWith('.kyr'))
-      .flatMap(([, text]) => [...text.matchAll(this.declared)].map(m => m[2]!).filter(n => this.proper(n)));
+    // Each file as it was written, what was declared beside it as values in its place (ModuleSource.whole).
+    const written = Object.entries(files).filter(([path]) => path.startsWith(dir) && /(?<!\.ir)\.kyr$/.test(path))
+      .map(([path, text]) => ModuleSource.whole(text, files[`${path}.ir.json`]
+        ? JSON.parse(files[`${path}.ir.json`]!) as FileSource : undefined))
+      .flatMap(text => [...text.matchAll(this.declared)].map(m => m[2]!).filter(n => this.proper(n)));
     return [...new Set([...this.country(region), ...written])];
   }
   // Someone with a name of their own ("Odile", "Absalom Gosse"), not what they are ("the brood-mother", "The sick

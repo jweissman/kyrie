@@ -24,7 +24,7 @@ export class RegionTies {
       const values = { t: s.id, town: s.name, site: near.site.id, sitename: near.site.name,
         where: RegionSites.where(near, region) };
       return KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${s.id}:tie`, values)
-        .flatMap(x => KyrTemplates.fill(x.lines, values));
+        .flatMap(x => KyrTemplates.declared(x.lines, values, 'ties'));
     });
   }
 }

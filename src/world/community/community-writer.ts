@@ -22,7 +22,8 @@ export class CommunityWriter {
   // The townspeople's small troubles and knowledge: the author's, in data/generation/town/errands.kyrt.
   static readonly template = KyrTemplates.parse(text);
   private static section(group: string, values: Record<string, string>): string[] {
-    return KyrTemplates.fill(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values);
+    return KyrTemplates.declared(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values,
+      `errands ${group}`);
   }
   // Where the workplaces stand about the green: the spots of its grid the green, inn, shrine and shop leave free.
   static readonly spots: [number, number][] = [[0, 0], [2, 0], [0, 2], [1, 2], [2, 2]];

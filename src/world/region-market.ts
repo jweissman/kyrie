@@ -22,7 +22,8 @@ export class RegionMarket {
   // Who teaches in a town, where, and what is said of it: the author's, in data/generation/town/teachers.kyrt.
   static readonly template = KyrTemplates.parse(text);
   private static section(group: string, values: Record<string, string>): string[] {
-    return KyrTemplates.fill(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values);
+    return KyrTemplates.declared(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values,
+      `teachers ${group}`);
   }
   static readonly techniques = ['cleave', 'riposte', 'shield_bash', 'second_wind', 'dodge', 'rapid_strike',
     'dirty_trick', 'reckless_attack', 'roundhouse', 'whirlwind', 'taunt', 'feint', 'guard', 'dig_in'];

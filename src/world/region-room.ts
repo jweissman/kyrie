@@ -58,6 +58,6 @@ export class RegionRoom {
   // The template's sections for these values: each that is written always, and each whose value it asks for is given.
   private static fill(values: Record<string, string>): string[] {
     return this.template.sections.filter(x => (!x.when || values[x.when]) && (!x.unless || !values[x.unless]))
-      .flatMap(x => KyrTemplates.fill(x.lines, values));
+      .flatMap(x => KyrTemplates.declared(x.lines, values, 'room'));
   }
 }

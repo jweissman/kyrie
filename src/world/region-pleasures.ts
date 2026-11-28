@@ -44,7 +44,7 @@ export class RegionPleasures {
   // The Kyr written for one settlement's three.
   static lines(region: Region, s: Settlement, home = ''): string[] {
     const three = this.of(region, home).get(s.id) ?? [];
-    return KyrTemplates.fill(this.template.sections.filter(x => three.includes(x.group)).flatMap(x => x.lines),
-      { s: s.id, town: s.name });
+    return KyrTemplates.declared(this.template.sections.filter(x => three.includes(x.group)).flatMap(x => x.lines),
+      { s: s.id, town: s.name }, 'pleasures');
   }
 }

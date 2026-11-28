@@ -1,4 +1,5 @@
 import { Draw } from './land/draw';
+import { ModuleSource } from './kyr-values';
 
 // A template of Kyr in data (data/generation/…/*.kyrt), for content that a generator places but an author writes:
 // a heading ("# id: what it is"), comments ("//"), then sections. A section is "--- group" (always written) or
@@ -56,5 +57,11 @@ export class KyrTemplates {
   static fill(lines: string[], values: Record<string, string>): string[] {
     return lines.map(line => line.replace(/\{(!?)([a-z]+)\}/g, (whole, raw: string, name: string) =>
       (raw ? values[name] : values[name]?.replace(/["\\{}]/g, '\\$&')) ?? whole));
+  }
+  // The same lines as the country's declarations: each made as a value, filled from the template's own Kyr read once
+  // with its placeholders as holes (ModuleSource.filled; OR-1900), where it can be; its text where not. For lines that
+  // go into a region's files as they are (RegionWriter.files), never for lines read again as text.
+  static declared(lines: string[], values: Record<string, string>, generator: string): string[] {
+    return ModuleSource.filled(lines, values, this.fill(lines, values), { generator, construct: 'template' });
   }
 }

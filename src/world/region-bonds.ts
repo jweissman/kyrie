@@ -35,6 +35,6 @@ export class RegionBonds {
         giftdesc: p.giftdesc, capability: c.capability, effect: p.effect, after: p.after })];
   }
   private static fill(group: string, values: Record<string, string>): string[] {
-    return KyrTemplates.fill(this.template.sections.find(s => s.group === group)!.lines, values);
+    return KyrTemplates.declared(this.template.sections.find(s => s.group === group)!.lines, values, `bond ${group}`);
   }
 }

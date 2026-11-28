@@ -15,7 +15,8 @@ import type { Module } from '../src/lang/module';
 // six countries, a1 and iscoed,
 // each world begun twice in one process, once with the values written as their Kyr and parsed as before, once lowered
 // into their files' modules, and the two the same module and the same game. A malformed value is refused by the
-// validator that refuses the text.
+// validator that refuses the text. And every template family's sections, filled as values from the template's Kyr
+// read once with its placeholders as holes (TemplateShapes; OR-1900), held so to the text they stand for.
 const seeds = ['kite', 'thorn', 'wren', 'kahitude', 'mere', 'ember', 'a1', 'iscoed'];
 const party = { origin: 'wanderer', party: [{ name: 'W', raceId: 'human', classId: 'warrior' }] };
 async function begun(seed: string, asText: boolean) {
@@ -37,6 +38,11 @@ describe('a drawn country\'s declarations made as values', () => {
       topics += b.actions.filter(x => /_beyond_told_/.test(x.id)).length;
     }
     expect(differ).toEqual([]);
+    // Each template family's sections filled as values from its Kyr read once, with its placeholders as holes
+    // (TemplateShapes; OR-1900): the works' and deep places', the undertown's, the town's people and talk, the wild's.
+    const families = ['work', 'deep', 'undertown', 'teachers', 'errands', 'outskirts', 'ties', 'pleasures', 'afoot',
+      'threads', 'room', 'meetings', 'roving', 'roads', 'astray', 'animals', 'bond', 'riddle'];
+    expect(families.filter(f => !(ModuleSource.templated.get(f) ?? 0))).toEqual([]);
     expect(moved).toBeGreaterThan(seeds.length * 6);
     expect(topics).toBeGreaterThan(seeds.length * 20);
     expect(ways).toBeGreaterThan(seeds.length * 20);

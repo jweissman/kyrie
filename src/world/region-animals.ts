@@ -33,8 +33,8 @@ export class RegionAnimals {
       // Said after its name, so not its name again: "a beetle, as big as a hand", where the record's own looks begin
       // "A beetle as big as a hand" (kyrie lint's role: "a beetle, a beetle as big as a hand").
       const looks = (s.looks ?? s.description).replace(/^./, ch => ch.toLowerCase()).replace(/\.$/, '');
-      return KyrTemplates.fill(lines, { a: `wa${c}`, tract: RegionTracts.id(c), species, name: called,
-        looks: looks.startsWith(`${called} `) ? looks.slice(called.length + 1) : looks });
+      return KyrTemplates.declared(lines, { a: `wa${c}`, tract: RegionTracts.id(c), species, name: called,
+        looks: looks.startsWith(`${called} `) ? looks.slice(called.length + 1) : looks }, 'animals');
     });
   }
 }

@@ -24,7 +24,7 @@ export class RegionThreads {
       const values = { t: s.id, town: s.name, kingdom: region.history?.successors.name ?? 'the old kingdom',
         deity: region.deity, ...near ? { site: near.site.id, sitename: near.site.name,
           where: RegionSites.where(near, region) } : {} };
-      return this.template.sections.filter(x => x.option === option).flatMap(x => KyrTemplates.fill(x.lines, values));
+      return this.template.sections.filter(x => x.option === option).flatMap(x => KyrTemplates.declared(x.lines, values, 'threads'));
     })())];
   }
 }
