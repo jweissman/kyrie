@@ -24,7 +24,7 @@ export type Reckoned = 'fights' | 'places' | 'roads' | 'returned' | 'again' | 'b
   | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit' | 'handed'
   | 'stranded' | 'bestiary' | 'delved' | 'renewed' | 'prepared' | 'routine' | 'answered' | 'kept'
   | 'identity' | 'mouth' | 'strayed' | 'colours' | 'connected' | 'aimless' | 'rungs' | 'rung1' | 'rung2' | 'bought'
-  | 'take1' | 'take2' | 'takeBelow' | 'fifth' | 'unpainted';
+  | 'take1' | 'take2' | 'takeBelow' | 'fifth' | 'unpainted' | 'forebode' | 'swift' | 'forced';
 
 // The measures, each with its kind and why it is held so (doc/architecture/quantity.md says them at length). A band's
 // floor and ceiling here are its first; baseline.json holds them after.
@@ -72,6 +72,19 @@ export class QuantityMeasures {
       why: 'a fight that can end a first-level life is asked before it is begun (Marks.asks: grave, deadly, or '
         + 'its reckoning\'s fights felled the one who plays); it should be '
         + '100%, and may only rise', read: 'fair' },
+    { id: 'forebode', label: '2. First-dungeon bands that fall on whoever comes in, with a way to them under two signs',
+      kind: 'band', ceiling: 0, why: 'an unwarned fight is only very occasionally lethal, and the place itself gives '
+        + 'warning (the owner, 27 November; OR-1854): every way to a band that falls on whoever comes in, or one of '
+        + 'the deep\'s worst, tells it by two signs of its own kind (its sound, its spoor), the way in from outside '
+        + 'among them; none, by the generator\'s own observations', read: 'forebode' },
+    { id: 'swift', label: '1. Rounds of a fight with a swarm of beasts (three or more of a kind), delved (median)',
+      kind: 'down', why: 'small fights quick, so that big ones matter (OR-1855): a wary band of beasts loses heart at '
+        + 'the first of it to fall; a bear, a pack of two, the dead are no swarm. Three rounds or fewer is the aim, a '
+        + 'band once it holds; the deep\'s first bands, whose death the deep renewed waits on, still fight to the last '
+        + '(OR-1864); may only fall (28 November: from 6)', read: 'swift' },
+    { id: 'forced', label: '2. Expeditions of five forced back hurt, or lost (%)', kind: 'report',
+      why: 'OSR-level difficulty with fair warning (the owner, 27 November): the deep should send a careful company '
+        + 'home hurt some of the time, never kill it unwarned; said, a band once it has been read on CI', read: 'forced' },
     { id: 'economy', label: '3. A day\'s coin ÷ (starter kit + dearest ware)', kind: 'band', floor: 0.5, ceiling: 3,
       why: 'a day\'s work buys the kit and goes most of the way to the best thing in town, but not many times over: '
         + 'neither starved nor flooded', read: 'economy' },

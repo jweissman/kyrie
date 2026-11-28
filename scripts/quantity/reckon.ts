@@ -234,6 +234,30 @@ export class Reckon {
     return this.of(each, this.median(Object.values(each)), ds.map(d => `${d.seed} ${d.fights} in ${this.round(d.minutes
       / 60, 10)} h, ${d.rooms} rooms on ${d.levels} levels of ${d.site}`).join('; '));
   }
+  // The first dungeon's bands that fall on whoever comes in with a way to them under two signs, over the seeds.
+  static forebode(r: Readings): Reading {
+    const each = this.each(r.countries.filter(c => c.dungeon?.forebode), c => c.seed,
+      c => c.dungeon!.forebode!.unsigned.length);
+    return this.of(each, Object.values(each).reduce((n, v) => n + v, 0), r.countries.map(c => `${c.seed} `
+      + `${c.dungeon?.forebode?.unsigned.length ?? '—'} of ${c.dungeon?.forebode?.bands.length ?? '—'}`
+      + `${c.dungeon?.forebode?.unsigned.length ? ` (${c.dungeon.forebode.unsigned.slice(0, 2).join(', ')})` : ''}`)
+      .join(', '));
+  }
+  // The median rounds of the delves' fights with a swarm of beasts, by seed, and of all their fights.
+  static swift(r: Readings): Reading {
+    const ds = (r.delved ?? []).filter(d => d.beasts?.length);
+    const each = this.each(ds, d => d.seed, d => this.median(d.beasts!));
+    return this.of(each, this.median(Object.values(each)), ds.map(d => `${d.seed} ${d.beasts!.length} fights, rounds `
+      + `${d.beasts!.join(' ')}; all fights ${this.median(d.rounds ?? [])}`).join('; '));
+  }
+  // Of the five expeditions, those that came home hurt (turned back below three fifths) or not at all.
+  static forced(r: Readings): Reading {
+    const trips = r.expeditions ?? [];
+    if (!trips.length) { return { value: null, note: 'not read' }; }
+    const forced = trips.filter(t => t.fell || ['hurt', 'fell'].includes(t.approach.turned));
+    return { value: this.pct(forced.length, trips.length), note: trips.map(t => `${t.n}: ${t.fell ? 'fell'
+      : t.approach.turned}`).join(', ') };
+  }
   // The bestiary's kinds the deep can field (OR-1230), and beside it how many some generated placement can.
   static bestiary(): Reading {
     const unplaced = QuantityBestiary.unplaced();

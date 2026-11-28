@@ -78,6 +78,9 @@
   },
   "unpainted": {
    "ceiling": 2
+  },
+  "forebode": {
+   "ceiling": 0
   }
  },
  "ratchets": {
@@ -96,6 +99,7 @@
   "mouth": 15,
   "strayed": 0,
   "colours": 3,
-  "aimless": 1
+  "aimless": 1,
+  "swift": 6
  }
 }

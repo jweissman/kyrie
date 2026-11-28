@@ -239,6 +239,28 @@ OR-326 (the gold shuttling on thorn) is closed: down in the adit, dark, a torch 
 leads over lighting it, and the adit the aim's words name is the aim's place. Thorn's fights, blank turns and aims
 moved with it.
 
+## Difficulty for the delver (28 November, OR-1854, OR-1855)
+
+The owner asked for OSR-level difficulty with fair warning (27 November): an unwarned fight only very occasionally
+lethal, the place itself foreboding it. Three measures read it.
+
+- **Foreboding** (`forebode`, a band held at none). The first dungeon's bands that fall on whoever comes in, or are
+  among its worst (drawable), with a way to them whose far end tells fewer than two signs of them. It is read from the
+  module's own observations as the world was made. Before, each such band had one sign, its sound, and the band in the
+  first room had none from the way in outside. Now it has two of its own kind on every way (its sound, and its spoor by
+  a light), the mouth and the vent heard from outside too. 0 of 6, 0 of 5 and 0 of 7 on iscoed, a1 and thorn.
+- **Swift small fights** (`swift`, a ratchet that may only fall, from 6). The median rounds of the delve's fights
+  with a swarm of beasts, three or more of one kind. A wary band of beasts now loses heart at the first of it to fall,
+  and again at half, and the deep's own sounds no longer keep its bands from morale (FallAwaited reads only what holds
+  once a band has fallen). It reads 6 (7 / 4 / 6): the deep's first bands are still waited on by the deep renewed,
+  which asks for their death, so they fight to the last (OR-1864). With a rout meeting that wait too it had read 3 (3 /
+  3 / 2), and broke what the deep renewed tells and a walk of it; three rounds or fewer becomes a band once it holds.
+  A bear, a pair of wolves and the dead are no swarm. The dead of the halls are long fights (OR-1861): 52 rounds over
+  the stair-foot's spirits on thorn, to a delver of three hundred hit points.
+- **Forced back** (`forced`, said). Of the five expeditions on s0, those that came home hurt (turned back below three
+  fifths) or not at all. It reads 50%: the second turned back hurt, and the fourth fell. It is the same on main
+  (OR-1860), and the fifth never goes, so the ladder's rung measures read 99. It becomes a band once it is understood.
+
 ## What it does not read yet
 
 - The day's coin is the best one outing and one job within reach: the most a day can bring, not what a player is

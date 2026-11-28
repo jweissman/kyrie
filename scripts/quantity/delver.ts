@@ -12,6 +12,8 @@ import { BoredomCensus } from '../boredom-census';
 import { NoviceCountry } from '../novice-country';
 import { QuantityDungeon } from './dungeon';
 import { QuantityPlaces } from './places';
+import { Content } from '../../src/content';
+import type { CombatEvent } from '../../src/model';
 
 // A delve into the first dungeon, as the quantity gate walks it (the acceptance ladder's third rung, a cheap automated
 // player; the lead's brief of 26 November: "the walked number must move", for the golden walk and the gold-follower
@@ -20,8 +22,9 @@ import { QuantityPlaces } from './places';
 // by room: a room it has not been in first, the way down before the way back, a working part it has not tried (a
 // wheel, a seal) once, and fights whatever meets it through by the company's own tactics, for so many steps. What it
 // reads: the minutes it spent there and the fights begun, and how far down it came.
+// rounds: each fight's, one initiative a round; beasts: those of the fights with a swarm of beasts (see beasts).
 export interface Delved { name: string; seed: string; site: string; minutes: number; fights: number; levels: number;
-  rooms: number; fell: boolean }
+  rooms: number; fell: boolean; rounds?: number[]; beasts?: number[] }
 export class QuantityDelver {
   static readonly as = 'human/warrior/Wenna';
   static readonly steps = 60;
@@ -48,9 +51,10 @@ export class QuantityDelver {
       if (QuantityDelver.trace) { console.error(here, '->', next); }
       await this.act(r, next);
     }
-    const events = c.history.slice(from);
+    const events = c.history.slice(from), fought = events.filter(e => e.combat.some(x => x.type === 'initiative'));
     return { ...out, minutes: BoredomCensus.minutes(s) - start, levels: levels.size, rooms: been.size,
-      fights: events.filter(e => e.combat.some(x => x.type === 'initiative')).length, fell: !this.standing(s) };
+      fights: fought.length, fell: !this.standing(s), rounds: fought.map(e => this.rounds(e.combat)),
+      beasts: fought.filter(e => this.beasts(c, e.combat)).map(e => this.rounds(e.combat)) };
   }
   // Set down at the way in (the journey there is the gold walk's to measure, not this one's), and made hard to kill
   // (as the fight specs make a warrior of three hundred hit points): what is read is how much the deep holds to fight
@@ -105,6 +109,17 @@ export class QuantityDelver {
     const level = this.level(s, room);
     const levels = s.campaign.module.entities.filter(e => e.space?.kind === 'level');
     return level ? Math.max(0, levels.findIndex(e => e.id === level)) : 0;
+  }
+  private static rounds(combat: CombatEvent[]): number { return combat.filter(x => x.type === 'initiative').length; }
+  // Whether the company fought a swarm: three or more beasts (animals of flesh) of one kind, by who rolled for the
+  // first round (the rats of the barrow's cross-chamber, OR-1855).
+  private static beasts(c: PlaySession['campaign'], combat: CombatEvent[]): boolean {
+    const first = combat.find(x => x.type === 'initiative'), party = new Set(c.readout.partyIds);
+    const foes = first?.type === 'initiative' ? first.order.map(o => o.id).filter(id => !party.has(id)) : [];
+    const races = [...new Set(foes.map(id => c.readout.creatures.find(k => k.id === id)?.raceId ?? ''))];
+    const kind = races.length === 1 ? Content.race(c.catalog, races[0]!) as { kind?: string; type?: string }
+      : undefined;
+    return foes.length >= 3 && kind?.kind === 'animal' && kind.type !== 'undead';
   }
   private static standing(s: PlaySession): boolean {
     const c = s.campaign;
