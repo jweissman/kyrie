@@ -75,6 +75,9 @@
   },
   "fifth": {
    "floor": 26
+  },
+  "unpainted": {
+   "ceiling": 2
   }
  },
  "ratchets": {

@@ -143,7 +143,31 @@ jobs:
           path: kyrie/node_modules/.cache/kyrie-parse
           key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
           restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
-      - run: bun run quantity
+      - run: bun run quantity -- --only walks,delve,expeditions,leads,countries,stranded
+  # The world gate's painting misses (scripts/quantity/painted.ts, OR-1762): a new life begun in each of the hundred
+  # named worlds (pw01 to pw100) and played five steps by the page's leads, every frame's painting judged; held at 2%
+  # or fewer unresolved (the owner, 27 November). Its own job, for it takes about twenty minutes.
+  paintings:
+    name: "2 · quantity, the paintings of a new life's first steps"
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
+      - run: bun run quantity -- --only paintings --lives 100
   # The Kyr lint: every campaign held to errors and recommended content to warnings too; the drawn worlds a1, iscoed
   # and kite held to errors, their warnings told in the log.
   kyr-lint:
@@ -292,7 +316,7 @@ jobs:
   funnel:
     name: the funnel
     if: always()
-    needs: [suite, quality, quantity, kyr-lint, play, long, browser, tour]
+    needs: [suite, quality, quantity, paintings, kyr-lint, play, long, browser, tour]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     defaults: { run: { working-directory: . } }
@@ -300,6 +324,6 @@ jobs:
       - name: Read the stages
         env: { NEEDS: "${{ toJSON(needs) }}" }
         run: |
-          echo "$NEEDS" | jq -r '"| Stage | Job | Result |", "|---|---|---|", (to_entries[] | "| \(if .key == "suite" then "1" elif (.key | IN("quality","quantity","kyr-lint")) then "2" elif .key == "play" then "3 (evidence)" elif .key == "tour" then "4 (evidence)" else "4" end) | \(.key) | \(.value.result) |")' >> "$GITHUB_STEP_SUMMARY"
+          echo "$NEEDS" | jq -r '"| Stage | Job | Result |", "|---|---|---|", (to_entries[] | "| \(if .key == "suite" then "1" elif (.key | IN("quality","quantity","paintings","kyr-lint")) then "2" elif .key == "play" then "3 (evidence)" elif .key == "tour" then "4 (evidence)" else "4" end) | \(.key) | \(.value.result) |")' >> "$GITHUB_STEP_SUMMARY"
           bad=$(echo "$NEEDS" | jq -r 'to_entries[] | select((.key | IN("play","tour")) | not) | select(.value.result != "success") | .key')
           test -z "$bad" || { echo "red at: $bad"; exit 1; }

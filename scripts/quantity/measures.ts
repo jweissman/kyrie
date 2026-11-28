@@ -4,13 +4,14 @@ import type { Delved } from './delver';
 import type { Trip } from './expeditions';
 import type { Led } from './leads';
 import type { Ladder } from './ladder';
+import type { Painted } from './painted';
 
 // What the quantity gate reads, over the worlds and the walks (scripts/quantity/quantity.ts gathers them).
 export interface Readings { golden?: Walked; gold: Walked[]; countries: Read[]; stranded?: Record<string, string[]>;
   delved?: Delved[]; expeditions?: Trip[]; ladder?: Ladder; leads?: Led[];
   // The five expeditions of each reference life (QuantityExpeditions.lives), the first's also as expeditions.
   lives?: Record<string, Trip[]>;
-  takes?: { id: string; take: number }[] }
+  takes?: { id: string; take: number }[]; painted?: Painted[] }
 // A number as read: one for the measure, and where it is read per seed or walk, each (a band holds each).
 export interface Reading { value: number | null; each?: Record<string, number>; note: string }
 // band: held between a floor and a ceiling (either may be open); up, down: a ratchet that may only rise, or only
@@ -23,7 +24,7 @@ export type Reckoned = 'fights' | 'places' | 'roads' | 'returned' | 'again' | 'b
   | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit' | 'handed'
   | 'stranded' | 'bestiary' | 'delved' | 'renewed' | 'prepared' | 'routine' | 'answered' | 'kept'
   | 'identity' | 'mouth' | 'strayed' | 'colours' | 'connected' | 'aimless' | 'rungs' | 'rung1' | 'rung2' | 'bought'
-  | 'take1' | 'take2' | 'takeBelow' | 'fifth';
+  | 'take1' | 'take2' | 'takeBelow' | 'fifth' | 'unpainted';
 
 // The measures, each with its kind and why it is held so (doc/architecture/quantity.md says them at length). A band's
 // floor and ceiling here are its first; baseline.json holds them after.
@@ -160,6 +161,11 @@ export class QuantityMeasures {
       why: 'the fifth expedition is worth making: at least a first-rung ware (26), by what the world does when the '
         + 'company is away and below where it has been (OR-1622); its share of the best take said beside it',
       read: 'fifth' },
+    // Painting misses in a new life's first steps (the owner, 27 November: scripts/quantity/painted.ts).
+    { id: 'unpainted', label: '11. Frames of a new life\'s first five steps with no painting, one against the sky, or a '
+      + 'talk with no portrait (%)', kind: 'band', ceiling: 2, why: 'the painting is the place (the resting scene) and a '
+      + 'conversation is its speaker\'s painting: "no more than 2% paintings unresolved in the first 5 steps of 100 '
+      + 'random worlds" (the owner, 27 November)', read: 'unpainted' },
     { id: 'identity', label: 'Consequential people with a name (%)', kind: 'report',
       why: 'OR-304, OR-281: unbaselined at first', read: 'identity' }];
 }

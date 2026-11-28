@@ -7,8 +7,9 @@
 // the Atlas's marks are, what is near the first town, how varied and how far the first hour's aims, the first
 // dungeon, and what authored content no world reaches. Each composes the instruments that already read it
 // (doc/architecture/quantity.md).
-//   bun scripts/quantity/quantity.ts [--update | --rebase] [--only walks,delve,expeditions,leads,countries,stranded]
-//     [--seeds iscoed,a1,thorn]
+//   bun scripts/quantity/quantity.ts [--update | --rebase]
+//     [--only walks,delve,expeditions,leads,countries,stranded,paintings] [--seeds iscoed,a1,thorn] [--lives 100]
+// --lives: how many of the named worlds the paintings group begins a life in (QuantityPainted.lives by default).
 // Bands are written by hand in baseline.json, each with its reason in measures.ts. --update writes a ratchet where it
 // has moved the right way (or has no baseline yet), so the ratchet holds the gain; --rebase writes every ratchet as
 // read, for when a change is meant to move one the wrong way (say why in the commit).
@@ -21,9 +22,10 @@ import { QuantityWalks } from './walks';
 import { QuantityDelver } from './delver';
 import { QuantityExpeditions } from './expeditions';
 import { QuantityLeads } from './leads';
+import { QuantityPainted } from './painted';
 import { Reckon } from './reckon';
 
-type Group = 'walks' | 'delve' | 'expeditions' | 'leads' | 'countries' | 'stranded';
+type Group = 'walks' | 'delve' | 'expeditions' | 'leads' | 'countries' | 'stranded' | 'paintings';
 export interface Baseline {
   bands: Record<string, { floor?: number; ceiling?: number }>; ratchets: Record<string, number>;
 }
@@ -36,7 +38,7 @@ export class Quantity {
     if (at < 0) { return undefined; }
     return args[at]!.includes('=') ? args[at]!.split('=')[1] : args[at + 1];
   }
-  static async gather(seeds: string[], groups: Group[]): Promise<Readings> {
+  static async gather(seeds: string[], groups: Group[], lives?: number): Promise<Readings> {
     const r: Readings = { gold: [], countries: [] };
     if (groups.includes('walks')) {
       r.golden = await QuantityWalks.golden();
@@ -59,6 +61,7 @@ export class Quantity {
       for (const seed of seeds) { r.countries.push(await QuantityCountry.read(seed)); console.error(`read ${seed}`); }
     }
     if (groups.includes('stranded')) { r.stranded = await ActivationCensus.stranded(seeds); }
+    if (groups.includes('paintings')) { r.painted = await QuantityPainted.run(lives); console.error('paintings'); }
     return r;
   }
   // Whether a reading holds: a band, every value read within it (each seed's or walk's); a ratchet, against its
@@ -113,9 +116,10 @@ export class Quantity {
     } catch { /* A reading not kept is only not said. */ }
   }
   static async run(args: string[]): Promise<number> {
-    const groups = (this.option(args, 'only')?.split(',') ?? ['walks', 'delve', 'expeditions', 'leads', 'countries', 'stranded']) as Group[];
-    const seeds = this.option(args, 'seeds')?.split(',') ?? this.seeds;
-    const readings = await this.gather(seeds, groups), base = this.baseline(), rebase = args.includes('--rebase');
+    const groups = (this.option(args, 'only')?.split(',') ?? ['walks', 'delve', 'expeditions', 'leads', 'countries',
+      'stranded', 'paintings']) as Group[];
+    const seeds = this.option(args, 'seeds')?.split(',') ?? this.seeds, lives = this.option(args, 'lives');
+    const readings = await this.gather(seeds, groups, lives ? Number(lives) : undefined), base = this.baseline(), rebase = args.includes('--rebase');
     const rows = QuantityMeasures.all.map(m => {
       const read = Reckon[m.read](readings);
       return { m, read, ok: this.holds(m, read, base), held: this.held(m, base) };

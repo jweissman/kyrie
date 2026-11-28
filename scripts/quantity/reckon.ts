@@ -4,6 +4,7 @@ import type { Walked } from './walks';
 import { QuantityBestiary } from './bestiary';
 import { QuantityLadder } from './ladder';
 import type { Trip } from './expeditions';
+import { QuantityPainted } from './painted';
 
 // How each quantity is worked out from what was read (see QuantityMeasures for what each is held to).
 export class Reckon {
@@ -208,6 +209,7 @@ export class Reckon {
       note: ts.map(t => `${t.n}: ${t.watches} watches, ${t.rooms} rooms known, coin ${t.coin}`).join('; ') };
   }
   // The economy's ladder (QuantityLadder): its rungs held, the expeditions to each, a rung bought out.
+  static unpainted(r: Readings): Reading { return QuantityPainted.reckon(r.painted); }
   static rungs(r: Readings): Reading { return QuantityLadder.rungsHeld(r.ladder); }
   static rung1(r: Readings): Reading { return QuantityLadder.rung(r.ladder, 1); }
   static rung2(r: Readings): Reading { return QuantityLadder.rung(r.ladder, 2); }
