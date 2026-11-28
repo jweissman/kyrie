@@ -187,6 +187,12 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/engine-writes.test.ts` | Two probe campaigns, a ford-road fixture and source inspection. Lint, offered choices and the engine's recorded visits are distinct checks; negative assertions need witnesses before narrowing. |
 | `test/entity-card.test.ts` | A drawn world at one seed with its merchant and mound, testing player knowledge against author truth and the actual offered action. The static corpus label is not a request for all authored campaigns. |
 | `test/errands.test.ts` | Two errand probe campaigns and an isolated parser round trip. Movement across several ways and the peaceable hound are different witnesses; verify the latter's negative before narrowing. |
+| `test/escort-identity.test.ts` | The Iscoed world twice for deterministic names, comparing generated captive and settlement identities with their world facts and aim text. |
+| `test/exchange-responds.test.ts` | Generated worlds of two terrains, frontier-expanded authored adventures and a persisted checkpoint. Exchange consequences across the Long Man, Low Water and Dorothea are the explicit cross-story claims. |
+| `test/expedition-contract.test.ts` | Three generated worlds and their placed expedition contracts, plus isolated contract and work-plan checks. The tally requires real placements across the stated seeds. |
+| `test/expedition.test.ts` | The Serewater March fixture campaign and its connected hill and rescue modules. Movement, elapsed time, sustenance, lodging and trade are distinct played claims; the camp absences require counterfactual witnesses. |
+| `test/exploration.test.ts` | One drawn world at seed `b2`, the UI land model and rendered panorama. The new-known-hex and no-crossing-control claims follow an actual journey. |
+| `test/export-roles.test.ts` | Three Iscoed manifests and scenario plus in-memory overlay modules loaded with canon vocabulary. It tests actual composition roles and isolated incompatible exports, not a generated world. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
