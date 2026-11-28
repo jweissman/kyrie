@@ -1,22 +1,21 @@
 import { World } from './world';
 import { ModuleWriter } from './module-writer';
 
-// The game's own surfaces, each earned by a find, never by a level (the owner's playtest of 27 November, superseding
-// earn-1126's act II: "no lenses, no map, no rail until genuinely earned";
-// doc/design/direction-2026-11-26-compactification.md §4): the world map once one of the company carries a map of the
-// land (a map found, bought or brought), the encyclopedia once a library has been stood in, the journal and the log
-// once a scholar or a scribe is of the company; and the lenses by a find that grants them, which nothing yet is
-// (everything they gave is a row of the place's one menu: PlaceQuestion). The fact is the world's (core.kyr's earned),
-// written by the engine alone (CreatureFacts) and only ever asserted: what is earned is kept. Every client reads it the
-// same way (Screen.surfaces), and a world that keeps no earning (a fragment without the shared kernel) shows every
-// surface, as before. A perk of the Atlas's tones will be the lenses' writer (a perception perk the look lens, a trade
-// perk the trade lens): a trait of category perk naming the surfaces it earns (earns: ['lens_look']), folded into `now`
-// beside the finds (OR-1243).
+// The game's own surfaces, each earned (the owner's playtest of 27 November, superseding earn-1126's act II: "no
+// lenses, no map, no rail until genuinely earned"; doc/design/direction-2026-11-26-compactification.md §4): the world
+// map once one of the company carries a map of the land (a map found, bought or brought), the encyclopedia once a
+// library has been stood in, the journal and the log once a scholar or a scribe is of the company. The lenses (the
+// owner, 27 November, late, refining it: OR-1880) are had early by a perk that grants one (a keen eye the look lens and
+// the search, a haggler's the people lens: a perk of the Atlas's tones, Earned.perks), and all of them once act I is
+// over (any of the company at the fourth level); until then they stand folded behind the diamond, which every client
+// draws (Surfaces.rail). The fact is the world's (core.kyr's earned), written by the engine alone (CreatureFacts) and
+// only ever asserted: what is earned is kept. Every client reads it the same way (Screen.surfaces), and a world that
+// keeps no earning (a fragment without the shared kernel) shows every surface, as before.
 export type Lens = 'lens_talk' | 'lens_go' | 'lens_look' | 'lens_wait' | 'lens_search';
 export type Surface = Lens | 'the_map' | 'the_encyclopedia' | 'the_journal';
-// What the company is now, for what it earns: whether one of it does the work of learning, and whether one of it
-// carries a map of the land.
-export interface Earning { learning: boolean; mapped: boolean }
+// What the company is now, for what it earns: whether one of it does the work of learning, whether one of it carries
+// a map of the land, the highest level among it, and the perks its people hold.
+export interface Earning { learning: boolean; mapped: boolean; level?: number; perks?: readonly string[] }
 export class Earned {
   static readonly lenses: readonly Lens[] = ['lens_talk', 'lens_go', 'lens_look', 'lens_wait', 'lens_search'];
   static readonly surfaces: readonly Surface[] = [...Earned.lenses, 'the_map', 'the_encyclopedia', 'the_journal'];
@@ -24,9 +23,18 @@ export class Earned {
   // not one.
   static readonly maps: ReadonlySet<string> = new Set(['map', 'ancient_map', 'faded_map', 'tattered_map',
     'dead_mans_map']);
+  // The end of act I (the owner, 26 November: act II, "level 4-6 at least"): every lens once any of the company
+  // reaches it.
+  static readonly act = 4;
+  // The lens a perk grants (data/catalog/traits.json's perks, by the Atlas's tones: OR-1243, OR-1880): the blue keen
+  // eye the look lens and the search, the green haggler's the people it trades with.
+  static readonly perks: Readonly<Record<string, readonly Lens[]>> = { keen_eyed: ['lens_look', 'lens_search'],
+    haggler: ['lens_talk'] };
   // What the company earns now: never anything it has lost (see CreatureFacts, which only asserts).
   static now(world: World, company: string, at: Earning): Surface[] {
-    return [...at.mapped ? ['the_map' as const] : [], ...at.learning ? ['the_journal' as const] : [],
+    const lenses = (at.level ?? 0) >= Earned.act ? Earned.lenses
+      : Earned.lenses.filter(l => (at.perks ?? []).some(p => Earned.perks[p]?.includes(l)));
+    return [...lenses, ...at.mapped ? ['the_map' as const] : [], ...at.learning ? ['the_journal' as const] : [],
       ...Earned.library(world, company) ? ['the_encyclopedia' as const] : []];
   }
   // Whether the company stands in a library, or has stood in one.

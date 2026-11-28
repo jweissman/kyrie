@@ -197,7 +197,8 @@ export class CreatureFacts {
     // The surfaces the player's company has earned (Earned): asserted once earned, never retracted.
     if (has.has('earned') && actor.player) {
       const mapped = members.some(c => (c.state.inventory ?? []).some(i => Earned.maps.has(i.definition)));
-      changes.push(...Earned.now(world, actor.id, { learning: done.has('learning'), mapped })
+      const level = Math.max(0, ...members.map(c => c.base.level)), perks = members.flatMap(c => c.traits ?? []);
+      changes.push(...Earned.now(world, actor.id, { learning: done.has('learning'), mapped, level, perks })
         .map(s => ({ kind: 'assert' as const, call: ModuleWriter.call('earned', actor.id, s) })));
     }
     const alive = members.some(c => c.state.hp > 0);

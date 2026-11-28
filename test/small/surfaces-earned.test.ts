@@ -11,11 +11,13 @@ import type { PlaySession } from '../../src/session/play-session';
 import { CreatureFacts } from '../../src/campaign/creature-facts';
 import { CreatureStore } from '../../src/creature-store';
 import type { CampaignActor } from '../../src/campaign/definition';
+import type { RailLens } from '../../src/presentation/glance-types';
 
-// Surfaces are earned (compactification, the owner, 26 November; OR-1240), and by a find, never a level (the owner's
-// playtest of 27 November, OR-1491): the engine writes earned(company, surface) for the player's company, and only
-// asserts it. The map once one of the company carries a map of the land; the encyclopedia once it has stood in a
-// library; the journal once one of it has done the work of learning (a scribe); no lens, which no find grants yet.
+// Surfaces are earned (compactification, the owner, 26 November; OR-1240), the map and the books by a find (the
+// owner's playtest of 27 November, OR-1491): the engine writes earned(company, surface) for the player's company, and
+// only asserts it. The map once one of the company carries a map of the land; the encyclopedia once it has stood in a
+// library; the journal once one of it has done the work of learning (a scribe); the lenses by a perk, and all of them
+// after act I (OR-1880).
 // The screen says what is earned (Screen.surfaces), and a save from before earning was said is brought up to date,
 // not refused.
 const rooms = 'Place yard "the yard" is room at 0, 0 outdoors. Place books "the reading room" is room at 1, 0. '
@@ -29,10 +31,17 @@ describe('surfaces earned', () => {
     expect(earned(t)).toEqual([]);
     expect(t.screen.surfaces).toEqual([]);
   });
-  it('earns nothing by a level: no lens and no map at the fourth', async () => {
+  // The lenses once act I is over (the owner, 27 November, late, OR-1880: "they unfold after act I"), and early by a
+  // perk; never the map, which a map of the land earns.
+  it('earns every lens at the fourth level, and no map', async () => {
     const t = await Tiny.start(rooms, { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior', level: 4,
       backgroundId: 'soldier' }] });
-    expect(t.screen.surfaces).toEqual([]);
+    expect(t.screen.surfaces).toEqual([...Earned.lenses]);
+  });
+  it('earns a perk\'s lens at the first: the haggler\'s people', async () => {
+    const t = await Tiny.start(rooms, { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior', level: 1,
+      backgroundId: 'soldier', perk: 'haggler' }] });
+    expect(t.screen.surfaces).toEqual(['lens_talk']);
   });
   it('earns the map once a map of the land is carried, and keeps it', async () => {
     const t = await Tiny.start(`${rooms} Item atlas "a map of the district" is map at yard.`, { party: [{ name: 'Wenna',
@@ -80,6 +89,14 @@ describe('the terminal\'s keys, by what is earned', () => {
     expect(keys([...Earned.lenses])).toBe('acglostw');
     expect(keys()).toBe('acglmostw');
   });
+  // With the engine's rail (OR-1880), the compass's G from the start, and the lenses it holds.
+  it('offers the compass from the start, and a lens as the rail holds it', () => {
+    const keys = (lenses: RailLens[]) => Object.keys(TerminalMenus.scene({ first: [], all: [], surfaces: [],
+      rail: { fold: 'folded', lenses, tools: ['compass', 'book'], diamond: [], unfolded: false } }).keys ?? {})
+      .sort().join('');
+    expect(keys([])).toBe('acgos');
+    expect(keys(['look'])).toBe('acglos');
+  });
 });
 // The oracle's reach (OR-1245: "or accessible through oracle"): the report says what is earned and how to earn the
 // rest; the engine's earn earns every surface at once, the stage a spec of an earned surface plays on.
@@ -91,7 +108,7 @@ describe('every surface, earned at once', () => {
     (host as unknown as { session: PlaySession }).session = t.session;
     const frame = await host.handle({ kind: 'earn' }) as Frame;
     expect(frame.screen.surfaces).toEqual([...Earned.surfaces]);
-    expect(frame.leaf.glance?.rail?.lenses).toEqual(['talk', 'go', 'look', 'wait', 'search']);
+    expect(frame.leaf.glance?.rail?.lenses).toEqual(['talk', 'look', 'wait', 'search']);
     expect(Oracle.text(await host.handle({ kind: 'about' }) as OracleReport))
       .toContain(`earned ${Earned.surfaces.join(', ')} · ?earned earns every one`);
     expect(Oracle.text({ build: { commit: 'c', stamp: 's' }, save: { checkpoint: 1, kept: 2 }, surfaces: [] }))

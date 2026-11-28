@@ -33,22 +33,15 @@ type Standing = { lit?: Attested } | { dim: true } | { shut: string } | Record<s
 export class SceneRail {
   static View({ app }: { app: ReaderApp; draw?: Draw }) {
     const search = Pastime.search(app), wait = Pastime.wait(app);
-    // At rest the lenses fold into one emblem where the engine says so (Glance.rail, OR-1084): taken up, they stand
-    // beside it; the map and the book beside it either way. Folded, the strip cannot be pressed: the diamond alone is.
-    // Only the lenses earned stand in it (Surfaces, OR-1241): with none, neither they nor their diamond.
-    const rail = app.state.frame?.leaf.glance?.rail, any = !rail || rail.lenses.length > 0;
-    // No rail until something on it is earned by a find (the owner's playtest of 27 November, OR-1491): a map, the
-    // journal, a lens. But the company's own page is kept within reach, tucked at the rail's place (the engine's
-    // Rail.keep, OR-1685), as well as a row of the place's one menu (PlaceQuestion.yourself).
-    if (!any && !SceneRail.earned(app)) {
-      return rail?.keep ? <nav {...PageFrame.slot('rail')} className="scene-rail kept" aria-label={rail.keep.label}>
-        <SceneRail.Keep app={app} /></nav> : null;
-    }
-    const folded = !!rail && any, open = folded && Folded.open(app);
+    // The rail as the engine says it (Glance.rail; the owner, 27 November, late, OR-1880): the diamond always, the
+    // lenses had folded behind it, unfolded where the engine says so or where it is taken up; the compass and the book
+    // beside it. Folded, the strip cannot be pressed: the diamond alone is. With no hint (a frame made without one),
+    // every lens stands, Go among them.
+    const rail = app.state.frame?.leaf.glance?.rail, open = !!rail && Folded.open(app);
     const lenses = <>
         {Surfaces.lens(rail, 'talk') && <SceneRail.Talk app={app} />}
-        {Surfaces.lens(rail, 'go') && <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go"
-          standing={SceneRail.go(app)} />}
+        {/* With the hint, Go is the compass's (SceneRail.Compass), never a second mark beside it. */}
+        {!rail && <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)} />}
         {Surfaces.lens(rail, 'look') && <SceneRail.Mark app={app} part="look" glyph="look_about" words="Look"
           standing={SceneRail.look(app)} />}
         {/* Each in its own place whether it can be done or not, shut and saying why when not: the rail's marks had moved
@@ -62,13 +55,15 @@ export class SceneRail {
           {...search ? { 'data-action': 'explore' } : {}}
           disabled={!search} aria-label={search ? 'Search: look closely' : 'Search: nothing here to search'}
           onClick={() => app.explore('look')}><Glyphs.View id="search" className="rail-glyph" /></button>}
+        {/* The world map, a tool beyond the compass, folded with the lenses once a map of the land is carried. */}
+        {rail && <SceneRail.MapMark app={app} />}
     </>;
     return (
       <nav {...PageFrame.slot('rail')} className={`scene-rail${open ? ' unfolded' : ''}`}
-        {...folded ? { 'data-fold': 'folded' } : {}} aria-label="Go, look, wait, search, the map and your book">
-        {folded ? <><div className="lenses-fold" id="lenses-fold" role="group" aria-label="The lenses">{lenses}</div>
-          <Folded.Mark app={app} open={open} /></> : any && lenses}
-        {any && SceneRail.earned(app) && <span className="rail-gap" aria-hidden="true" />}
+        {...rail ? { 'data-fold': 'folded' } : {}} aria-label="The lenses, the compass and your book">
+        {rail ? <><div className="lenses-fold" id="lenses-fold" role="group" aria-label="The lenses">{lenses}</div>
+          <Folded.Mark app={app} open={open} /></> : lenses}
+        <span className="rail-gap" aria-hidden="true" />
         <SceneRail.Books app={app} />
       </nav>
     );
@@ -95,70 +90,67 @@ export class SceneRail {
       <Glyphs.View id="someone" className="rail-glyph" />
     </button>;
   }
-  // Inside an enclosed place the map gives way to the compass (CN-02, CN-03): its mark turns the places lens on, the
-  // way out and the way on at its foot (see CompassStage), and nothing across the country is offered from in here.
-  // The map and the book, where they stand on every page of the scene: in talk, and over a thing looked at, as at
-  // rest (the owner, 11 November: no bar of them across the top of the page).
-  // On the map, its mark is pressed, and touched goes back to where the company is (the owner, 11 November: the map
-  // had its own bar of Map and Book across its top).
-  // Each only once earned (OR-1491): the map by a map of the land carried, the book by the journal (its notes); with
-  // neither, no rail (the company's page is the menu's row, and its key).
+  // The compass and the book, the character's own tools from the start (Rail.tools; the owner, 27 November, late,
+  // OR-1880), where they stand on every page of the scene: in talk, and over a thing looked at, as at rest (the owner,
+  // 11 November: no bar of them across the top of the page). On the map, its mark is pressed, and touched goes back to
+  // where the company is (the owner, 11 November: the map had its own bar of Map and Book across its top).
+  // The book opens the journal where it is earned (its notes), else the company's own page (Rail.keep, OR-1685).
   static Books({ app, alone, onMap }: { app: ReaderApp; alone?: boolean; onMap?: boolean }) {
-    if (!onMap && !SceneRail.earned(app)) { return null; }
+    const rail = app.state.frame?.leaf.glance?.rail, journal = Surfaces.has(app.state.frame?.screen, 'the_journal');
     const marks = <>
-      <SceneRail.MapMark app={app} onMap={onMap} />
-      {Surfaces.has(app.state.frame?.screen, 'the_journal') ? <button type="button" className="rail-mark"
+      {onMap ? <SceneRail.MapMark app={app} onMap /> : Surfaces.tool(rail, 'compass') ? <SceneRail.Compass app={app} />
+        : null}
+      {/* Without the engine's rail (the map, a thing looked at), the map's own mark beside the compass, once earned. */}
+      {!onMap && !rail && <SceneRail.MapMark app={app} />}
+      {!Surfaces.tool(rail, 'book') ? null : journal ? <button type="button" className="rail-mark"
         data-action="book" aria-label="Your book" onClick={() => app.show(SceneRail.book(app))}>
         <Glyphs.View id="the_book" className="rail-glyph" /><News.Pip app={app} /></button> : <SceneRail.Keep app={app} />}
     </>;
-    return alone ? <nav {...PageFrame.slot('rail')} className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
+    return alone ? <nav {...PageFrame.slot('rail')} className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The compass and your book">{marks}</nav>
       : marks;
   }
-  // The company's own page, kept within reach whatever is earned (Rail.keep, OR-1685: "minimally we may always want
-  // the book available, even if tucked away"): a quiet mark, faint until the hand or the keys come to it, which opens
-  // the page the engine names, in its words. Where the journal is earned the book's own mark stands in its place.
+  // The company's own page, the book where the journal is not earned (Rail.keep, OR-1685: "minimally we may always
+  // want the book available, even if tucked away"): a mark that opens the page the engine names, in its words.
   static Keep({ app }: { app: ReaderApp }) {
-    const keep = app.state.frame?.leaf.glance?.rail?.keep;
-    return keep ? <button type="button" className="rail-mark keep-mark" data-action="keep" data-view={keep.view}
+    const keep = app.state.frame?.leaf.glance?.rail?.keep ?? Surfaces.keep;
+    return <button type="button" className="rail-mark keep-mark" data-action="keep" data-view={keep.view}
       aria-label={keep.label} onClick={() => app.show(keep.view)}>
-      <Glyphs.View id="the_book" className="rail-glyph" /></button> : null;
+      <Glyphs.View id="the_book" className="rail-glyph" /></button>;
   }
-  // The map's one mark, as it stands: on the map, pressed, back to where the company is; inside an enclosed place, the
-  // compass (the places lens, the way out at its foot); else the map, lit where a journey is the aim's next step.
+  // The compass (CN-02, CN-03; OR-1880): the ways out of the structure the company is in and between the places within
+  // its hex, which is the places lens (Go), never a way into another hex, which is the map's (OR-1242). Its pip the
+  // places lens's own (SceneRail.go); shut where no way on from here is open (in the dark of the adit's fall, OR-211:
+  // the places lens had come up with nothing in it to press).
+  static Compass({ app }: { app: ReaderApp }) {
+    return <SceneRail.Mark app={app} part="go" glyph="the_compass" words="The compass" also="opens-compass"
+      standing={SceneRail.go(app)} />;
+  }
+  // The world map's one mark (the global crawl, a tool apart from the compass: OR-1880), only once earned (OR-1242):
+  // on the map, pressed, back to where the company is; else the map, lit where a journey is the aim's next step.
+  // Inside an enclosed place, none: the compass is the way out.
   static MapMark({ app, onMap }: { app: ReaderApp; onMap?: boolean }) {
-    // Neither the map nor the compass before it is earned (Surfaces, OR-1242): the compass is the places lens.
     const screen = app.state.frame?.screen;
-    if (!onMap && !(CompassStage.of(app) ? Surfaces.has(screen, 'lens_go') : Surfaces.has(screen, 'the_map'))) {
-      return null;
-    }
+    if (!onMap && (CompassStage.of(app) || !Surfaces.has(screen, 'the_map'))) { return null; }
     const local = onMap ? SceneRail.local(app) : undefined, lit = onMap ? undefined : SceneRail.map(app);
-    const compass = !onMap && !!CompassStage.of(app), going = app.state.exploring === 'go';
-    // Shut as Go… is where no way on from here is open (in the dark of the adit's fall, OR-211: the places lens had come
-    // up with nothing in it to press).
-    const shut = compass && SceneRail.noWayOn(app);
     const mark = onMap ? { className: 'rail-mark pressed', 'data-action': 'back-to-place', 'aria-pressed': true,
-      'aria-label': 'The map: back to where you are', 'data-tone': local?.tone, glyph: 'the_map',
-      go: () => app.outdoor(false) }
-      : compass ? { className: `rail-mark opens-compass${lit ? ' lit' : ''}`, 'data-action': 'compass', 'data-key': 'm',
-        'aria-label': shut ? 'The compass: no way on from here' : 'The compass: the way out, and the ways in here',
-        'aria-pressed': going, glyph: 'the_compass', disabled: shut,
-        go: () => { if (!shut) { Explorer.open(app, going ? undefined : 'go'); } } }
-      : { className: `rail-mark${lit ? ' lit' : ''}`, 'data-action': 'mode', 'data-view': 'map', 'data-key': 'm',
-        'aria-label': 'The map', glyph: 'the_map', go: () => app.show('map') };
-    const { glyph, go, ...attrs } = mark;
-    return <button type="button" data-control="map-mark" {...attrs} onClick={go}><Glyphs.View id={glyph} className="rail-glyph" />
+      'aria-label': 'The map: back to where you are', 'data-tone': local?.tone, go: () => app.outdoor(false) }
+      : { className: `rail-mark${lit ? ' lit' : ''}`, 'data-action': 'mode', 'data-view': 'map',
+        'aria-label': 'The map', go: () => app.show('map') };
+    const { go, ...attrs } = mark;
+    return <button type="button" data-control="map-mark" {...attrs} onClick={go}><Glyphs.View id="the_map" className="rail-glyph" />
       {onMap ? <Pip.View mark={local} label={`Where you are: ${local?.words ?? ''}`} /> : <Pip.View mark={lit} />}</button>;
   }
   // Its pip (see Pip): lit, of the tone of what the rows it opens bear (see SceneRail.go), and a companion's icon
   // where one of them is someone who might join; none with nothing; and the whole mark lowered (dim) with nothing new.
   // Never what its rows are not (the owner, 17 November: a companion on Go… and on none of the rows under it).
-  static Mark({ app, part, glyph, words, standing }: { app: ReaderApp; part: 'go' | 'look' | 'wait';
-    glyph: string; words: string; standing: Standing }) {
+  // also: a class of its own beside its lens's (the compass's, which is Go's).
+  static Mark({ app, part, glyph, words, standing, also }: { app: ReaderApp; part: 'go' | 'look' | 'wait';
+    glyph: string; words: string; standing: Standing; also?: string }) {
     const shut = 'shut' in standing ? standing.shut : undefined, lit = 'lit' in standing ? standing.lit : undefined;
     const companion = !!lit?.companion;
     const said = shut ? `${words}: ${shut}` : 'dim' in standing ? `${words}: ${Signs.idle} for now`
       : companion ? `${words}: ${Signs.sensed('companionship')}` : words;
-    return <button type="button" className={`rail-mark opens-${part}${lit ? ' lit' : ''}`
+    return <button type="button" className={`rail-mark opens-${part}${also ? ` ${also}` : ''}${lit ? ' lit' : ''}`
       + `${'dim' in standing ? ' dim' : ''}`} data-action="explore" data-part={part} aria-haspopup="dialog"
         data-condition={Pip.condition({ idle: 'dim' in standing })} data-tone={lit?.tone} data-companion={companion || undefined}
       aria-expanded={app.state.exploring === part} aria-label={said} disabled={!!shut}
@@ -166,13 +158,6 @@ export class SceneRail {
       <Glyphs.View id={glyph} className="rail-glyph" />
       {!shut && <Pip.View mark={lit} />}
     </button>;
-  }
-  // Whether anything of the map's or the book's is earned: the map (or, inside, the compass, which is the places
-  // lens), or the journal.
-  static earned(app: ReaderApp): boolean {
-    const screen = app.state.frame?.screen;
-    return Surfaces.has(screen, 'the_journal')
-      || (CompassStage.of(app) ? Surfaces.has(screen, 'lens_go') : Surfaces.has(screen, 'the_map'));
   }
   // The book's page it opens at: the notes where the journal is earned, else the company, its one page (OR-1244).
   static book(app: ReaderApp): 'journal' | 'company' {
