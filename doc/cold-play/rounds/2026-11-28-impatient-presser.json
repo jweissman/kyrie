@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-28",
+  "sha": "530091964e35b835ed4ab8eaec4b844d8d1f8a18",
+  "kind": "impatient-presser",
+  "session": "cold-D4-2026-11-28T08:25Z",
+  "rubric": {
+    "id": "first-hour",
+    "version": "1"
+  },
+  "criteria": {
+    "beginning": {
+      "score": 4,
+      "max": 4
+    },
+    "agency": {
+      "score": 3,
+      "max": 4
+    },
+    "trust": {
+      "score": 3,
+      "max": 4
+    },
+    "discovery": {
+      "score": 3,
+      "max": 4
+    },
+    "continuation": {
+      "score": 3,
+      "max": 4
+    }
+  },
+  "total": 80,
+  "clarity": 8,
+  "wantingToGoOn": 6,
+  "moves": 87,
+  "fictionalTime": "the morning of 30 Haysel, day 1 (the torch about to give out)",
+  "configuration": {
+    "agent": "claude -p (Claude Code 2.1.312 native binary)",
+    "model": "claude-sonnet-5-5",
+    "tools": [
+      "send.sh",
+      "show.py (by path)"
+    ],
+    "prompt": "scripts/cold-play.sh at 530091964 (regimen v1, --kind; the mended runner)"
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "audit": "The lead checked the citations against out.jsonl. Trust 3 is backed by them: the reckonings and difficulty labels matched the fights (T55, T71 'radiant would serve better'), with tonight's honest forecast (OR-1851) and morale in the build. Defect 3 is confirmed: the row 'Lever the small stones out of the wall, one by one' gave no warning, and the act's noise drew three banshees (OR-1857). Defect 4, the banshee fight as a slog of misses, is filed as OR-1858 beside OR-1861. Defect 2 (onward is not a fight: id) is the agent's guess; the error listed the valid ids. Defect 6, the shop's long list, is a store's, allowed by the one-menu ruling, its haggle rows now one. Defect 7, 'purse None', was show.py printing a field the runner never gives; mended in this commit. Wanting to go on is 6, held down by the banshee slog.",
+  "filed": [
+    "OR-1857",
+    "OR-1858"
+  ],
+  "evidence": [
+    "doc/cold-play/rounds/2026-11-28-impatient-presser/out.jsonl",
+    "doc/cold-play/rounds/2026-11-28-impatient-presser/lines.txt",
+    "doc/cold-play/rounds/2026-11-28-impatient-presser/report.md"
+  ]
+}

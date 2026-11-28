@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 74 capabilities; 256 pins (225 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 762 live rows, 255 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 74 capabilities; 256 pins (225 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 764 live rows, 257 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -105,7 +105,7 @@ page's colours and opportunities.)
 
 ### Conflict
 
-- **Engagements and warnings** · 8 pins · 8 defects · 5 asks
+- **Engagements and warnings** · 8 pins · 10 defects · 5 asks
   - ○ before a fight the company is told what is at risk, as it reckons it, in words
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same

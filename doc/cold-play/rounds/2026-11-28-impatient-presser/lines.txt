@@ -1,0 +1,91 @@
+{"act":"region__s1_priest#talk"}
+{"act":"region__s1_priest/0:Talk/0:Give Thamior the brothers' letter"}
+{"act":"region__s1_priest#leave"}
+{"follow":"region__s1_wood_below"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__s1_taproom"}
+{"act":"region__s1_traveller#talk"}
+{"act":"region__s1_traveller/0:Talk/0:Ask Tigger whether she would come along"}
+{"act":"region__s1_traveller/0:Ask Tigger to join the company — 6 coin"}
+{"act":"region__s1_traveller#leave"}
+{"act":"travel:region__s1_shop"}
+{"act":"region__s1_merchant#talk"}
+{"act":"talk:trade"}
+{"act":"region__s1_merchant/0:Buy/0:A torch — 1 coin"}
+{"act":"region__s1_merchant/0:Buy/0:Bandages — 1 coin"}
+{"act":"talk:back"}
+{"act":"region__s1_merchant#leave"}
+{"act":"travel:region__s1_wood_edge"}
+{"act":"exit:region__s1_wood_ride"}
+{"act":"exit:region__s1_wood_stones"}
+{"act":"exit:region__s1_ud"}
+{"act":"light:region__s1_merchant_torch_1"}
+{"act":"region__s1_ud_waiting#talk"}
+{"act":"region__s1_ud_waiting/0:Talk/0:Ask Mialee Amakiir whether she would come down with you"}
+{"act":"region__s1_ud_waiting#leave"}
+{"act":"exit:region__s1_ud_barrow_mouth/0:Go"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:continue"}
+{"act":"onward"}
+{"act":"exit:region__s1_ud_barrow_passage"}
+{"act":"region__s1_ud_barrow_passage_dwellers/0:Attack"}
+{"act":"fight:auto"}
+{"act":"company/0:Gather up what lies here, for Mindartis"}
+{"act":"exit:region__s1_ud_barrow_chamber"}
+{"act":"region__s1_ud_barrow_chamber_dwellers/0:Attack"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"onward"}
+{"act":"exit:region__s1_ud_barrow_recess/0:Read which of the carvings is set in, and keep your hands from it"}
+{"act":"exit:region__s1_ud_barrow_recess/0:Go"}
+{"act":"region__s1_ud_barrow_recess_dwellers/0:Attack"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"onward"}
+{"act":"company/0:Gather up what lies here, for Mindartis"}
+{"act":"region__s1_ud_barrow_recess_coins#look"}
+{"act":"region__s1_ud_barrow_recess_coins/0:Gather up the coins"}
+{"act":"region__s1_ud_barrow_recess_coins#back"}
+{"act":"region__s1_ud_barrow_recess_find0/0:Take"}
+{"act":"exit:region__s1_ud_barrow_chamber/0:Go"}
+{"act":"exit:region__s1_ud_barrow_back_stone"}
+{"act":"region__s1_ud_barrow_back_stone_dwellers/0:Ask the grave-robbers to let you by · an even chance · one try"}
+{"act":"region__s1_ud_barrow_back_stone_find0/0:Take"}
+{"act":"exit:region__s1_ud_halls_stair_foot"}
+{"act":"light:region__s1_ud_barrow_passage_torch"}
+{"act":"region__s1_ud_halls_bone_hall_dwellers/0:Attack"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:through"}
+{"act":"onward"}
+{"act":"exit:region__s1_ud_halls_bone_hall"}
+{"act":"exit:region__s1_ud_halls_ossuary"}
+{"act":"company/0:Gather up what lies here, for Mindartis"}
+{"act":"region__s1_ud_halls_ossuary_coins#look"}
+{"act":"region__s1_ud_halls_ossuary_coins/0:Gather up the coins"}
+{"act":"region__s1_ud_halls_ossuary_coins#back"}
+{"act":"exit:region__s1_ud_halls_bone_hall"}
+{"act":"company/0:Make out the mark scratched in the small stones · an even chance · one try"}
+{"act":"company/0:Lever the small stones out of the wall, one by one"}
+{"act":"fight:through"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}

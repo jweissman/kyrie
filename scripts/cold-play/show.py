@@ -6,7 +6,8 @@ full="full" in args
 for l in (open(path) if path else sys.stdin):
   try: d=json.loads(l)
   except Exception: print("RAW",l[:2000]); continue
-  print("== turn",d.get("turn"),d.get("moment"),"| at",d.get("at"),"|",d.get("you"),"| purse",d.get("purse"))
+  # The purse is said in the scene's own lines ("12 coin · 2 rations"); a runner that gives one apart is said so.
+  print("== turn",d.get("turn"),d.get("moment"),"| at",d.get("at"),"|",d.get("you"),*(["| purse",d["purse"]] if d.get("purse") is not None else []))
   for x in d.get("scene",{}).get("lines",[]): print("  >",x)
   for k in d:
     # The runner's instruments (what an act changed, what still holds) are the measures', never the player's (CL-61).
