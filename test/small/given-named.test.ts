@@ -15,7 +15,7 @@ const adit = `
 
 describe('a thing given', () => {
   it('is named as a kit\'s own, and its use told once', async () => {
-    const t = await Tiny.start(adit);
+    const t = await Tiny.start(adit, { horizon: ['belongings', 'canon'] });
     await t.play('^Ask Bask for the lantern');
     const fill = t.look().journey.choices().find(c => /^light_lamp\(/.test(c.command))!;
     expect(fill.label).toBe('Fill a lantern from a flask of lamp oil and light it');
