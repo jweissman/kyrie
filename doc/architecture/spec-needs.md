@@ -5,8 +5,20 @@ This is an **incomplete** examination of the world- and corpus-labelled specs at
 is a reason to inspect a file, not proof that it loads a world or the corpus. Entries below describe the most
 expensive evidence the claims actually require; an unlisted file has not been assessed.
 
+Separately, the rules-tier `test/small/commander.test.ts` passes on the kernel. Removing the `call_on` colocation
+condition makes the remote-order negative fail, but the earlier unled-order negative has not been shown to fail when
+its promotion guard is removed. It remains on the whole ruleset until that claim has a non-vacuous witness.
+
 | Spec | Need and decision |
 | --- | --- |
+| `test/small/laboratory-paths.test.ts` | The single generated laboratory fixture is played through force, craft and a merchant's reaction. Keep both earned outcomes, narration and payment; verify the undocked negative before narrowing. |
+| `test/small/laboratory.test.ts` | Compares the laboratory fixture byte-for-byte with its template, then starts that fixture twice and compares the opening and generation costs. Keep the actual template and production start; no country is meant to be drawn. |
+| `test/small/larger-place.test.ts` | Three synthetic multi-module campaigns play completed jobs and compare the next lead with one or two completions and differing known facts. Keep the module installation and played objective transitions. |
+| `test/small/lazy-neighbours.test.ts` | Synthetic home and two lazily installed neighbour modules play trade, alternate install orders and resume. Keep module installation, state and save/resume; prove the no-duplicate negatives before narrowing. |
+| `test/small/lenses.test.ts` | Several synthetic Tiny scenes and the authored march fixture exercise lens projection, promotion, time and nesting. Keep the march's actual prepared spells and the different scene witnesses; prove negative assertions before narrowing. |
+| `test/small/long-cell-draw.test.ts` | Generates 80 deterministic draws from the Long Cell's actual tables and templates against the canonical ancestry catalog; no world starts. Keep the authored tables, all seeds and casting constraints. |
+| `test/small/look-in-place.test.ts` | Synthetic Tiny scene and rendered React markup check one-act and multi-act looks through the real frame. A fragment is a candidate if both actual look choices and markup contrasts remain and negatives are proved. |
+| `test/small/menu-tree.test.ts` | The Atlas fixture runs a 30-case kind, place and aim grid against the menu oracle, plus structured-clone and JSON checks. Keep the entire grid and frame comparison; the empty difference list needs a counterfactual before narrowing. |
 | `test/small/bearing-signs.test.ts` | The authored laboratory journey reaches the cellar and compares page and terminal bearings for two actual ways. Keep the fixture and both positive bearings; a narrower module horizon is a candidate if both clients retain their evidence. |
 | `test/small/callings-differ.test.ts` | Three laboratory lives walk forty turns apiece and compare distinct opportunity sets. Keep the same authored place, three callings and twenty-act pairwise floor; a fragment would not prove the walks. |
 | `test/small/company-pursuit.test.ts` | Parses selected authored Wrong Boat place and pursuit declarations and compares them with the sixty hand-written expansions. No world is started; keep the corpus files and exact pursuit identity comparison. |
