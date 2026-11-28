@@ -24,6 +24,7 @@
    "interface/persistence": "persistence",
    "interface/play": "opening",
    "interface/title-four": "opening",
+   "interface/creation-curtain": "creation",
    "interface/talk-focus": "talk",
    "interface/teaching-outcome": "atlas",
    "pleasure/a-letter-home": "scene",
@@ -1817,7 +1818,8 @@
   "OR-863": "architecture",
   "OR-864": "architecture",
   "OR-791": "architecture",
-  "OR-792": "architecture"
+  "OR-792": "architecture",
+  "OR-1800": "creation"
  },
  "aspects": [
   {

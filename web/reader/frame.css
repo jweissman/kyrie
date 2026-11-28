@@ -121,10 +121,19 @@ html, body { overflow: hidden; }
 .motes i { position: absolute; left: var(--x); bottom: -12px; width: var(--s); height: var(--s); border-radius: 50%;
   background: rgb(212, 224, 248); box-shadow: 0 0 8px rgba(200, 214, 238, .5); opacity: 0;
   animation: mote var(--t) linear var(--d) infinite; }
-/* Carried into the choosing of a life, the sparks go out over its first moments as its painting comes up (TitlePage.
-   Motes, settle): the passage from the title into creation one, not a cut (TO-03, OR-530). Once, by their opacity. */
-.motes.settling { animation: settle 2.4s .2s var(--ease) both; }
-@keyframes settle { to { opacity: 0; } }
+/* Creation's curtain (the owner, 27 November: "black curtain and embers"; OR-1800), the frame's backdrop for every
+   page of the making: a black drape hung the height of the screen, its folds caught faintly by a light from below, the
+   title's embers going up before it. Still: nothing of it moves but the sparks, no painting and nothing panned or
+   zoomed. Neutral throughout: the folds are greys, never a hue. */
+.curtain { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 115%, rgba(236, 230, 217, .045), transparent 70%),
+    radial-gradient(ellipse 85% 75% at 50% 45%, transparent 40%, rgba(0, 0, 0, .55) 100%),
+    repeating-linear-gradient(90deg, rgba(236, 230, 217, 0) 0, rgba(236, 230, 217, .022) 46px,
+      rgba(236, 230, 217, 0) 88px, rgba(0, 0, 0, .3) 122px, rgba(236, 230, 217, 0) 164px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .22) 141px, rgba(0, 0, 0, 0) 263px),
+    linear-gradient(180deg, #040405 0%, #08080a 55%, #0b0b0d 100%); }
+.curtain .motes { z-index: 1; }
 @keyframes mote { 0% { opacity: 0; transform: translate(0, 0); } 12% { opacity: .55; }
   70% { opacity: .3; } 100% { opacity: 0; transform: translate(4vw, -78vh); } }
 .beat-reveal .motes { animation: fade-in 3s 1s var(--ease) both; }
@@ -140,9 +149,7 @@ html, body { overflow: hidden; }
 .frame > .opening.loading.sky-page { position: relative; overflow: hidden; height: var(--frame-h); }
 .sky-page > main { position: relative; z-index: 1; }
 /* A passage between screens is a cut, or at most a short fade in place: nothing slides, scrolls or wipes (the owner,
-   IG-12: "some weird vertical dissolve that seems to scroll a blank screen out of the way when you start"). The
-   country's painting fades in as the choosing begins. */
-.shell.phase-company.creating .ambient:not(.unpainted) { animation: fade-in .4s ease both; }
+   IG-12: "some weird vertical dissolve that seems to scroll a blank screen out of the way when you start"). */
 /* The studio's mark goes out to the title with no black between them, the sky behind faded in place (IG-12: no wipe). */
 .shell:has(.beat-reveal) .ambient { animation: fade-in .5s ease both; }
 .beat-reveal .title-menu :is(.mark, .title-line) { animation: rise 1s .9s var(--ease) both; }
@@ -179,21 +186,16 @@ html, body { overflow: hidden; }
 @keyframes ident-out { 0%, 85% { opacity: 1; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .title-page *, .sky-page *, .ident, .shell .ambient { animation: none !important; }
   .motes { display: none; }
-  /* From the title's dark into the choosing of a life, a plain crossfade of its painting, nothing moving (OR-530). */
-  .shell.phase-company.creating .ambient.ambient:not(.unpainted) { animation: fade-in .6s ease both !important; }
   .title-page * { transition: none !important; } }
 
-/* ---- Creation: the cards and almost nothing else (OWN-14). The whole screen, as the title is: dark, the country's
-   painting faint behind it, a vignette. One question, at the same height on every page so that Continue does not move
+/* ---- Creation: the cards and almost nothing else (OWN-14). The whole screen, as the title is: the curtain behind it
+   and the embers before it (OR-1800), no painting. One question, at the same height on every page so that Continue does not move
    it; its cards centred beneath, all of one proportion; the chosen card's sentence, Details and Continue; Back and Set
    out now quiet words in the corners. What is longer than the screen scrolls, downward, with Continue kept in sight
    at the foot. ---- */
 .shell.creating { --frame-w: 100vw; --frame-h: 100dvh; }
 .shell.creating .frame { background: transparent; border: 0; box-shadow: none; }
 .shell.creating .frame::after { display: none; }
-/* Creation's painting is atmosphere, far and dark, not a picture behind words to be read (the owner, 12 November:
-   the character pages need no full painterly ground; their explanations had stood in grey over the raw image). */
-.shell.creating .ambient { filter: var(--plate-creating); }
 .creation { position: relative; height: var(--frame-h); }
 
 /* Inside the safe zone, as the scene's controls are (the owner, 11 November: creation's Back and Set out now had

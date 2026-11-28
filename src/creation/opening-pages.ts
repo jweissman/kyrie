@@ -7,10 +7,11 @@ import { Identity } from '../presentation/identity';
 // draws them in the one frame (the rows in its menu column), the terminal as numbered lines, and nothing on these
 // screens is a client's own: the title's Options and Quit are its rows, as the ways in are.
 
-// What a client may draw a page with, and may leave: what stands behind it (the embers going up in the dark; the dark
-// alone; a country's painting), an instrument it is read through (the stars), and a heading (the game's own name).
+// What a client may draw a page with, and may leave: what stands behind it (the embers going up in the dark; the black
+// curtain with the embers before it, creation's; the dark alone; a country's painting), an instrument it is read
+// through (the stars), and a heading (the game's own name).
 // There is no placement hint: every page's rows stand in the frame's one column (the call on OR-382).
-export type Backdrop = 'embers' | 'dark' | 'country';
+export type Backdrop = 'embers' | 'curtain' | 'dark' | 'country';
 export type Instrument = 'stars';
 // theme: the backstage's one folio (Folio.theme, OR-1073), which the frame applies to a page read rather than lived:
 // the dark table, its head a quiet line on it, and one parchment leaf of one size; a page without it is the title's.

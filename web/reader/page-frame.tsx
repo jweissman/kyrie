@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import type { Backdrop as Kind } from '../../src/creation/opening-pages';
+import { Backdrop } from './embers';
 
 // The one page (the owner, 16 November night: "a page should always be -- a background, a header, narrative/description
 // block, the four promoted actions, and possibly an icon rail at the bottom"): whatever the surface (the title, a step of
@@ -25,6 +27,9 @@ export interface PageParts {
   // applies, never the page: the dark table under the whole page, the header a quiet line on it, and the narrative and
   // menu on one parchment leaf of one size (.folio-leaf, scrolling, holding .folio-sheet), as every page of the Book is.
   theme?: 'folio';
+  // What stands behind the page as the engine hints it (PageHints.backdrop): drawn by the frame under whatever the page
+  // sets in its background (an instrument, the sky), never chosen by the page (creation's curtain, OR-1800).
+  backdrop?: Kind;
 }
 export type Slot = 'background' | 'header' | 'narrative' | 'menu' | 'rail';
 export class PageFrame {
@@ -34,7 +39,7 @@ export class PageFrame {
     return { 'data-slot': name, ...name === 'menu' ? { 'data-menu': true } : name === 'rail' ? { 'data-rail': true } : {} };
   }
   static View({ kind, className, background, header, narrative, menu, rail, over, attrs, body, hidden, apart,
-    column, theme }: PageParts) {
+    column, theme, backdrop }: PageParts) {
     const head = header && <div className="slot" {...PageFrame.slot('header')}>{header}</div>;
     const told = <>
       {narrative && <div className="slot" {...PageFrame.slot('narrative')}>{narrative}</div>}
@@ -45,7 +50,8 @@ export class PageFrame {
     return (
       <article className={`page-frame${className ? ` ${className}` : ''}`} id="page" data-page={kind}
         {...theme ? { 'data-theme': theme } : {}} {...attrs}>
-        {background && <div className="slot" {...PageFrame.slot('background')}>{background}</div>}
+        {(background || backdrop) && <div className="slot" {...PageFrame.slot('background')}>
+          <Backdrop.View kind={backdrop} />{background}</div>}
         {apart && head}
         {body ? <main className={body} aria-hidden={hidden || undefined}>{slots}</main> : slots}
         {rail && <div className="slot" {...PageFrame.slot('rail')}>{rail}</div>}

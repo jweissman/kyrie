@@ -13,7 +13,7 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 | Creatures: families, special attacks, resistances, behaviour and difficulty | 126 faithful, 131 adapted, 10 represented, 74 kyr, 4 not playable, 104 orsino data only |
 | Equipment, treasure and magic items | 345 faithful, 116 adapted, 9 represented, 119 kyr, 7 not playable, 6 orsino data only |
 | Environment, world and planar rules | 3 adapted, 7 represented, 312 kyr, 180 orsino data only |
-| Content authoring and generation | 46 kyr |
+| Content authoring and generation | 47 kyr |
 
 ## Ancestries, callings, backgrounds and formations
 
@@ -197,7 +197,7 @@ Handbook sections: `dmg:world-rules`, `dmg:orsino-world/orsino-plane`, `dmg:orsi
 
 ## Content authoring and generation
 
-Entries: 46 kyr.
+Entries: 47 kyr.
 
 **What Orsino defines.** Deem tables and templates generate creatures, dungeons, rooms, settlements, shops and treasure; the books are generated from the same tables.
 

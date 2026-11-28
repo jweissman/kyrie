@@ -4,6 +4,7 @@ import { BackgroundCatalog } from '../rules/background-catalog';
 import { CreationRules } from './creation-rules';
 import { Words } from '../presentation/words';
 import type { Catalog, Member, Setting } from './protocol';
+import type { PageHints } from './opening-pages';
 import { CreationPerks } from './creation-perks';
 import { CreationSpells, type SpellStepId } from './creation-spells';
 import { CreationEntries } from './creation-entries';
@@ -70,6 +71,9 @@ export interface CreationStep {
   // review: the steps had looked alike, and nothing said how far through the player was): a hint every client draws
   // quietly (the page over its question, the terminal on the line before it).
   place?: { at: number; of: number };
+  // What the step's page is drawn with (PageHints): the making's curtain behind it (CreationFlow.hints), and the stars
+  // it is read through where it asks the sky. Given every step by steps().
+  hints?: PageHints;
 }
 
 // Making the protagonist, one flow for every client. The engine says the steps in order, each with its question and
@@ -122,11 +126,16 @@ export class CreationFlow {
   steps(): CreationStep[] {
     const all = this.unranked();
     return all.map((step, i) => ({ ...step, cards: this.ranked(step), place: { at: i + 1, of: all.length + 1 },
+      hints: step.present === 'sky' ? { ...CreationFlow.hints, instrument: 'stars' } : CreationFlow.hints,
       ...CreationFlow.leading.includes(step.id) ? { leads: true } : {} }));
   }
   // How one presents leads too: the names asked next are drawn for it, and the page going on before the engine's answer
   // had shown the hand drawn before (a woman's names) and then swapped in the new (OR-119: the names page flickering).
   static readonly leading: CreationStepId[] = ['calling', 'specialty', 'before', 'presenting'];
+  // What every page of the making is drawn over, setting out's too (the owner, 27 November: "We shouldn't have the
+  // background, and especially it shouldn't pan/zoom, if it's going to be so low res; especially during creation, I'd
+  // prefer black curtain and embers"): the black curtain with the title's embers before it, never a painting (OR-1800).
+  static readonly hints: PageHints = { backdrop: 'curtain' };
   // Where the making stands: the step asked now (the first until another), or setting out.
   current(): CreationStepId | 'go' {
     const ids = this.steps().map(x => x.id);

@@ -79,10 +79,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the names page', () => {
     await page.waitForTimeout(600);
     const hands = await page.evaluate(() => (window as unknown as { hands: string[] }).hands);
     expect(hands).toHaveLength(1);
-    // The title's sparks go out once as creation's painting comes up (TitlePage.Motes' settle, OR-530: a passage of
-    // their own, answering nothing the hand does), then are gone; watched only once they are, so that their going out
-    // is not read as the page replacing something under the hand.
-    await page.waitForSelector('.motes', { state: 'detached', timeout: 10000 });
+    // The embers go on before creation's curtain (OR-1800), by their own drift, which replaces nothing on the page.
     await Still.watch(page);
     const rows = page.locator('.composed-list [data-option]');
     for (let i = 0; i < await rows.count(); i++) { await rows.nth(i).hover(); await page.waitForTimeout(60); }

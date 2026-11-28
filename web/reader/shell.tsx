@@ -98,8 +98,8 @@ export class Shell {
     return was;
   }
   static readonly dissolve = 4000;
-  // What lies behind the stage: where the company is, as the place's own scenery would paint it; before a country is
-  // entered, its land, while the life is chosen; on the title, none (see TitlePage.motes). Setting out from the choice
+  // What lies behind the stage: where the company is, as the place's own scenery would paint it; while a life is
+  // chosen, none (the curtain is the frame's: Backdrop); on the title, none (see Embers). Setting out from the choice
   // the page is dark while the world is drawn and its people placed, and the way in comes up as the last of it ends
   // ("Telling where you are"), once, and stays up under the opening's words: the one painting, never shown, put away
   // and faded in again (the owner, 18 November, OR-77: "a flash and fade into the introduction"; it had been the
@@ -113,7 +113,12 @@ export class Shell {
     // In the scene first, the place's own painting, so that talk, the dossier and a fight stand in the place, not
     // on the country behind it (amendment 6, A); in the dark, nothing.
     if (s.phase === 'play' && s.frame) { return s.frame.screen.dark ? undefined : Scenery.seen(s.frame.screen); }
-    if (s.phase === 'company' && s.setting) { return Scenery.country(s.setting.terrain, s.seed); }
+    // Making a life, the country's painting only where the engine's hint asks it: the making's own is the curtain, and
+    // no painting stands behind it (OR-1800). An authored campaign's company page, which has no hints, keeps its land.
+    if (s.phase === 'company' && s.setting) {
+      const asked = s.creation ? s.creation.hints.backdrop === 'country' : !s.setting.generated;
+      return asked ? Scenery.country(s.setting.terrain, s.seed) : undefined;
+    }
     return Shell.approaching(app) ? s.approach : undefined;
   }
   // The way in, as a new game's opening paints it: as its words tell it, and the country the life was chosen over

@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 359,
+    "kyr": 360,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1049,7 +1049,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 41,
+      "kyr": 42,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -16480,20 +16480,6 @@
    "section": "world-rules/rules-services"
   },
   {
-   "id": "kit:raider_hold",
-   "title": "A raiders' hold",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "making-worlds/kits"
-  },
-  {
-   "id": "kit:tinker",
-   "title": "A tinker at work",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "making-worlds/kits"
-  },
-  {
    "id": "kit:bounty",
    "title": "A price on a power",
    "status": "kyr",
@@ -16501,8 +16487,22 @@
    "section": "making-worlds/kits"
   },
   {
+   "id": "kit:raider_hold",
+   "title": "A raiders' hold",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "making-worlds/kits"
+  },
+  {
    "id": "kit:toll_road",
    "title": "A toll on a road",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "making-worlds/kits"
+  },
+  {
+   "id": "kit:tinker",
+   "title": "A tinker at work",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"
@@ -16622,6 +16622,13 @@
   {
    "id": "campaign:parliament-of-books",
    "title": "A Parliament of Books",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:pitchpass",
+   "title": "The Pitch of the Glass",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

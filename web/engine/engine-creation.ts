@@ -4,6 +4,7 @@ import { CreationRules } from '../../src/creation/creation-rules';
 import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../../src/creation/creation-flow';
 import type { Starting } from './engine-starts';
 import type { Catalog, Member, Setting } from '../../src/creation/protocol';
+import type { PageHints } from '../../src/creation/opening-pages';
 
 // Where making a life stands, as the engine holds it for any client: every step as it now is (its question, its
 // cards, the four it leads with first, which is chosen), whom the choices have made so far, why they came, and the
@@ -12,9 +13,11 @@ import type { Catalog, Member, Setting } from '../../src/creation/protocol';
 // life: the life as made so far, in a few sentences (CreationFlow.life), as setting out tells it.
 // at: the step asked now, or setting out ('go'); on: the step a card chosen there goes on to; back: the one before it,
 // where there is one (so that a client shows a press at once, before the engine's answer: see ReaderOpening.pressed).
+// hints: what every page of the making is drawn over, setting out's too (CreationFlow.hints: the curtain).
 type At = CreationStepId | 'go';
 export interface CreationState {
   steps: CreationStep[]; member: Member; origin?: string; country: string; at: At; on: At; back?: At; life: string[];
+  hints: PageHints;
 }
 // The making of a life held by the engine (the owner, 14 November: Kyrie the source of truth for the structure and
 // progression of player workflows; the terminal and the page consume the same decisions rather than each making
@@ -38,7 +41,7 @@ export class EngineCreation {
   state(): CreationState {
     const flow = this.made();
     return { steps: flow.steps(), member: structuredClone(flow.member), ...flow.origin ? { origin: flow.origin } : {},
-      country: this.at!.seed, at: flow.current(), on: flow.beside(1)!, life: flow.life(),
+      country: this.at!.seed, at: flow.current(), on: flow.beside(1)!, life: flow.life(), hints: CreationFlow.hints,
       ...flow.beside(-1) ? { back: flow.beside(-1) } : {} };
   }
   choose(step: CreationChoice, value: string): CreationState {

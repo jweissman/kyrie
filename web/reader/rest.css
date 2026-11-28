@@ -244,8 +244,8 @@
    page): the place stays behind, near and dimmed, their likeness as large as before, and what is said in a panel over
    the place; one with no likeness shows the place through their emblem. */
 .shell.scene-full .ambient { inset: 0; transform: none; filter: blur(1px) saturate(.85) brightness(.78); }
-/* Creation's painting far and dark: atmosphere behind choices to be read, not a picture (see frame.css). */
-.shell.scene-full.creating .ambient, .shell.scene-full.phase-company .ambient { filter: var(--plate-creating); }
+/* An authored campaign's company page keeps its land far and dark (creation's own has none: the curtain, OR-1800). */
+.shell.scene-full.phase-company .ambient { filter: var(--plate-creating); }
 .shell.scene-full .ambient::after { background: linear-gradient(180deg, var(--hour), transparent 55%),
   radial-gradient(ellipse 90% 80% at 40% 45%, transparent 30%, rgba(10, 11, 14, .5) 100%); }
 .shell.scene-full .talk .dialogue { max-width: none; background: linear-gradient(90deg, rgba(11, 12, 16, .84),
