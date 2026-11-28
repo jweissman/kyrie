@@ -75,7 +75,8 @@ export class LandModel {
   // and paths of a country one who knows the lie of it knows as from a map). A place only heard of is on the map, but
   // not the land about it nor the way to it (the owner's corrections of 2026-10-29: hearsay had drawn the land under
   // every place named and the whole of every road to it). The country's roads are drawn where the land is known.
-  land(seen: Seen, ways: WayInfo[], here: string, areas: RegionChart['areas']): Land {
+  // Where the company stands is marked on it after (see placed).
+  land(seen: Seen, ways: WayInfo[], areas: RegionChart['areas']): Omit<Land, 'here' | 'across'> {
     const chart = this.chart, visited = seen.visited, known = this.known(seen);
     const routed = new Set([...seen.routes ?? [], ...ways.filter(w => visited.has(w.from) && visited.has(w.to))
       .map(w => w.passage)]);
@@ -89,17 +90,25 @@ export class LandModel {
     const passages = new Set(ways.map(w => w.passage));
     const roads = Object.fromEntries(Object.entries(chart.roads).filter(([way]) => visited.has(way) || heard.has(way)
       || passages.has(way)));
-    const placed = this.marks({ visited, sighted, heard }, here), towns = this.towns(areas, known);
+    const placed = this.marks({ visited, sighted, heard }), towns = this.towns(areas, known);
     const marks = [...placed, ...this.unmade(new Set([...placed.map(m => m.cell),
       ...Object.keys(towns).map(t => this.chart.places[t])]), known)];
     const named = new Set([...areas.map(a => a.id), ...placed.map(m => m.id)]);
-    const land = { width: chart.width, height: chart.height, cover: chart.cover,
+    return { width: chart.width, height: chart.height, cover: chart.cover,
       rivers: chart.rivers.map((r, i) => LandModel.drawn(chart, r, i)), roads,
-      known: [...known].sort((a, b) => a - b), ...this.at(here), marks, towns, zones: this.zones(areas, known),
+      known: [...known].sort((a, b) => a - b), marks, towns, zones: this.zones(areas, known),
       glosses: Object.fromEntries(Object.entries(chart.glosses ?? {}).filter(([id]) => named.has(id))),
       ...chart.blocks ? { blocks: chart.blocks } : {}, ...this.tracts(), goes: this.goes() };
-    const across = LandCrossing.of(land);
-    return Object.keys(across).length ? { ...land, across } : land;
+  }
+  // The land with where the company stands on it: its cell, each mark it stands within, and the places across the
+  // country from there (see LandCrossing), on a land drawn without them (see land).
+  placed(land: Omit<Land, 'here' | 'across'>, here: string): Land {
+    const line = new Set(Spatial.ancestry(this.entities, here).map(e => e.id));
+    const { width, height, cover, rivers, roads, known, marks, ...rest } = land;
+    const out = { width, height, cover, rivers, roads, known, ...this.at(here),
+      marks: marks.map(m => line.has(m.id) ? { ...m, here: true } : m), ...rest };
+    const across = LandCrossing.of(out);
+    return Object.keys(across).length ? { ...out, across } : out;
   }
   // The cells of the land the company knows: what it has stood in or beside, sighted or looked out over, and along
   // every road it has walked. A way it was told the course of (a guide's directions, a country's roads known as from a
@@ -246,9 +255,8 @@ export class LandModel {
   // Each place on the land the company knows of that is not a settlement or a stretch of wild country (a landmark in
   // a wood, a site, a march-stone), by how much it knows of it: been to, seen, or only heard of. A site is one mark,
   // however many rooms of it are known.
-  private marks(of: { visited: Set<string>; sighted: Set<string>; heard: Set<string> }, here: string): Land['marks'] {
+  private marks(of: { visited: Set<string>; sighted: Set<string>; heard: Set<string> }): Land['marks'] {
     const rows = new Map<string, Land['marks'][number]>(), rank: Knowing[] = ['unknown', 'heard', 'seen', 'visited'];
-    const line = new Set(Spatial.ancestry(this.entities, here).map(e => e.id));
     for (const id of [...of.visited, ...of.sighted, ...of.heard].filter(x => !LandModel.tract.test(x))) {
       const e = this.told(id, of.heard) ?? this.marked(id);
       if (!e?.space || LandModel.areas.includes(e.space.kind)) { continue; }
@@ -263,7 +271,7 @@ export class LandModel {
       const cell = this.chart.places[e.id] ?? this.stands(e.id) ?? this.cell(e.id)
         ?? road?.[Math.floor(road.length / 2)];
       if (cell === undefined) { continue; }
-      rows.set(e.id, { id: e.id, name: e.name, cell, kind, visited: state === 'visited', here: line.has(e.id), state });
+      rows.set(e.id, { id: e.id, name: e.name, cell, kind, visited: state === 'visited', here: false, state });
     }
     return [...rows.values()];
   }

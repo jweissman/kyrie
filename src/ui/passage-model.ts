@@ -35,7 +35,14 @@ export class PassageModel {
     return !dark && w.related('lurks').some(r => r.args[1] === there && w.one('at', r.args[0]!) === there
       && w.test(ModuleWriter.call('able', r.args[0]!)));
   }
-  constructor(private world: World, private actor: string, private entities: Map<string, Entity>) {}
+  // dark: whether the company is in the dark where it stands, where the asker has read it already (see ChartModel),
+  // so that the ways read do not read it again: else read here.
+  constructor(private world: World, private actor: string, private entities: Map<string, Entity>,
+    private readonly benighted?: boolean) {}
+  // Whether the company is in the pitch dark where it stands (see dark).
+  static dark(world: World, actor: string): boolean {
+    return world.declares('benighted') && world.test(ModuleWriter.call('benighted', actor));
+  }
   supported(): boolean { return this.world.module.relations.some(r => r.name === 'connects'); }
   private first(p: Predicate): Record<string, string> | undefined {
     const next = this.world.solve(p, {}).next();
@@ -77,9 +84,7 @@ export class PassageModel {
     return o ? ObservationText.render(o.text, this.world) : undefined;
   }
   // In the pitch dark what bars a way is felt or heard, not seen as it looks (A Winter in Carth's friction 11).
-  private dark(): boolean {
-    return this.world.declares('benighted') && this.world.test(this.call('benighted', this.actor));
-  }
+  private dark(): boolean { return this.benighted ?? PassageModel.dark(this.world, this.actor); }
   visible(passage: string): boolean { return this.world.test(this.call('visibleTo', passage, this.actor)); }
   // The ways from a place, read once for each world and company (a world does not change; another is built for each
   // state): the page, its chart, its itineraries and the road ahead each ask of them, the chart and the itineraries of
@@ -94,7 +99,7 @@ export class PassageModel {
     if (!this.supported()) { return []; }
     let kept = PassageModel.read.get(this.world);
     if (!kept) { kept = new Map(); PassageModel.read.set(this.world, kept); }
-    const key = `${this.actor}\u0000${from}`, now = kept.get(key);
+    const key = `${this.actor}\u0000${from}\u0000${this.benighted ?? ''}`, now = kept.get(key);
     if (now && this.named(now.value)) {
       if (now.kept) { WorldReads.note(now.kept.reads, now.kept.picks); } else { WorldReads.all(); }
       return now.value;
