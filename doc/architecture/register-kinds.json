@@ -3768,6 +3768,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "28 Nov: filed as a requirement: AX-04's next lever (a beta performance target, measured), not a violated contract"
+  },
+  "OR-1952": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "28 Nov: OR-1950's remainder, a case no world is yet seen to reach (two drawable bands, neither the deep's newcomers, in one room); a guard wanted, not an observed failure"
   }
  },
  "blockedBy": {
