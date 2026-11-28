@@ -14,7 +14,7 @@ import type { Campaign } from '../src/campaign/campaign';
 // deep grave and the crown is had with no fight. Not asked, nothing leads to the jar, and the king rises to fight.
 const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
 const offered = (s: Said) => [...s.offer.primary, ...s.offer.rest].flatMap(o => [o, ...o.opens ?? []]);
-const jar = 'Find the jar of day the embalmers kept, before you go down to the king.';
+const jar = 'Find the jar of day the embalmers kept, on the way down to the king.';
 class Barrow {
   static async begin() {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
