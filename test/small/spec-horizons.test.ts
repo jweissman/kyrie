@@ -23,7 +23,8 @@ import { SpecHorizons } from '../../scripts/spec-horizons';
 // 106 → 108: the way down made sure, its spec and pin on their horizons.
 // 108 → 109: a life let go, on the kernel.
 // 109 → 110: fights foreboded and turned, over a life let go.
-const kept = { horizon: 110, rules: 176 };
+// 110 → 111: the stair both ways, on the kernel.
+const kept = { horizon: 111, rules: 176 };
 describe('the specs by horizon', () => {
   const now = SpecHorizons.census();
   it('moves no spec off its horizon, and starts no new tiny world on the whole of the shared rules', () => {
