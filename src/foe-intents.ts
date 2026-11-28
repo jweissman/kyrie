@@ -1,6 +1,6 @@
 import type { Battle } from './battle';
 import type { Fighter } from './model';
-import { PressOn } from './press-on';
+import { Peril } from './peril';
 import { Telegraph } from './telegraph';
 import type { ItemCatalog } from './item-catalog';
 
@@ -15,7 +15,7 @@ type ArenaAbility = Battle['repertoire'][number];
 export class FoeIntents {
   // called: what the company calls each in the fight (BandNames), where a client knows it.
   static lines(battle: Battle, called?: ReadonlyMap<string, string>): string[] {
-    const state = battle.view, pending = new Set(state.order ?? []), threat = PressOn.threat(battle);
+    const state = battle.view, pending = new Set(state.order ?? []);
     const name = FoeIntents.name.bind(undefined, called), out: string[] = [];
     const plain = new Map<string, Readonly<Fighter>[]>();
     for (const foe of state.combatants.filter(f => f.team !== 'fighters' && f.hp > 0)) {
@@ -24,7 +24,8 @@ export class FoeIntents {
       const target = meant && state.combatants.find(f => f.id === meant.target);
       if (!meant || !ability || !target) { continue; }
       const whom = name(target), mine = target.team !== 'fighters';
-      const felled = !mine && PressOn.worst(foe, ability) >= target.hp;
+      // Said only where it is a chance worth weighing (Peril), not wherever the dice at their worst would reach.
+      const felled = !mine && Peril.material(battle, target, [foe]);
       // Plain blows at one of the company, none of them a killing blow, are said together.
       if (!foe.windup && !felled && !mine && ['melee', 'ranged'].includes(ability.id)) {
         plain.set(target.id, [...plain.get(target.id) ?? [], foe]); continue;
@@ -38,7 +39,7 @@ export class FoeIntents {
       const ability = battle.repertoire.find(a => a.id === state.intents?.[one!.id]?.ability)!;
       const line = foes.length === 1 ? FoeIntents.one(one!, ability, target, { catalog: battle.catalog, name })
         : Telegraph.together(foes, target, { who: FoeIntents.joined(foes.map(name)), whom });
-      const together = foes.length > 1 && (threat.get(id)?.harm ?? 0) >= target.hp;
+      const together = foes.length > 1 && Peril.material(battle, target, foes);
       out.push(together ? `${line} Together they could bring ${whom} down.` : line);
     }
     return out;

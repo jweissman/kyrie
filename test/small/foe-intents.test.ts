@@ -2,6 +2,8 @@ import { describe, expect, it } from 'bun:test';
 import { Battle } from '../../src/arena';
 import { Content } from '../../src/content';
 import { FoeIntents } from '../../src/foe-intents';
+import { Peril } from '../../src/peril';
+import { PressOn } from '../../src/press-on';
 import { RunnerFight } from '../../src/cli/runner-fight';
 import { Runner, type Said } from '../../src/cli/runner';
 import { RunnerOffer } from '../../src/cli/runner-offer';
@@ -54,5 +56,40 @@ describe("the other side's intents", () => {
     expect(pressed.moment).toBe('fight');
     expect(pressed.scene.lines.join(' ')).toMatch(/Choose again\./);
     expect([...first.scene.lines, ...pressed.scene.lines].join(' ')).toMatch(/reaches for Ama|at Ama/);
+  });
+});
+
+// Five rats at a hurt warrior: their bites at their worst, crits and all, reach her hit points, but they land one in
+// three for two or three, and the chance they bring her down is long. It is not said as a likelihood beside an offer
+// that called them no match (cold round A1, OR-1851); pressing on still halts, and says it as the long chance it is.
+describe('a killing blow said only where it is a chance worth weighing', () => {
+  // Unarmoured, so that the rats can land a bite at all (in mail they cannot).
+  const swarm = (hp = 10) => {
+    const hero = new Content('w').character('warrior', 'w', 'fighters', 'human');
+    hero.hp = hp;
+    hero.equipment.armorAc = 0;
+    const rats = [0, 1, 2, 3, 4].map(i => new Content(`f${i}`).creature('rat', `f${i}`, 'goblins', 1));
+    const battle = new Battle({ id: 'bout', combatants: [hero, ...rats], abilities: Content.abilities }, 'swarm');
+    while (battle.state.actor !== 'w' && !battle.state.outcome) { battle.step(battle.chosen()); }
+    // Every rat still to strike this round goes for her: she is all there is.
+    expect((battle.state.order ?? []).filter(id => id !== 'w').length).toBeGreaterThan(1);
+    return battle;
+  };
+  it('is not said of five rats at a warrior of ten', () => {
+    const battle = swarm(), w = battle.state.combatants.find(f => f.id === 'w')!;
+    expect(PressOn.threat(battle).get('w')!.harm).toBeGreaterThanOrEqual(w.hp);
+    const chance = Peril.chance(battle, w, Peril.aimed(battle, w));
+    expect(chance).toBeGreaterThan(0);
+    expect(chance).toBeLessThan(Peril.worth);
+    expect(FoeIntents.lines(battle).join(' ')).not.toMatch(/could bring/);
+    expect(PressOn.from(battle.view).halt(battle)).toMatch(/would fall only if every blow coming landed hard\.$/);
+  });
+  it('is said of the same rats at a warrior of four', () => {
+    const battle = swarm(4);
+    expect(FoeIntents.lines(battle).join(' ')).toMatch(/could bring .+ down\./);
+  });
+  it('is said of a bear at a mage', () => {
+    const battle = fight(['bear'], 'mage'), w = battle.state.combatants.find(f => f.id === 'w')!;
+    expect(Peril.chance(battle, w, Peril.aimed(battle, w))).toBeGreaterThanOrEqual(Peril.worth);
   });
 });
