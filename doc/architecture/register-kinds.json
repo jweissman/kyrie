@@ -1,6 +1,12 @@
 {
  "about": "What each live row of the register is, auditable (scripts/register-kinds.ts; the owner, 20 Nov: release-blocking defects, outstanding requirements and future directions kept apart, every reclassification shown with what it was and why, never changing a row's priority, evidence or acceptance). A row not named here is a defect; the families KX, SS, PG, SR, IM are directions by prefix. Each entry: kind, was (its kind before), pri (its priority when reclassified, which the register must still show), why. blockedBy: the architecture row a row waits on; a blocked defect is still a defect.",
  "rows": {
+  "OR-1831": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "28 Nov: the authors' audit instruments in their own register; wanted beside the game, no player-facing contract broken"
+  },
   "OR-1741": {
    "kind": "requirement",
    "was": "defect",

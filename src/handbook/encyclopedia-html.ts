@@ -3,6 +3,7 @@ import type { Chapter, Encyclopedia } from './encyclopedia';
 import { HandbookHtml } from './render-html';
 import { Identity } from '../presentation/identity';
 import { Folio } from './folio';
+import { Signs } from '../presentation/signs';
 import { Emblems } from '../presentation/emblems';
 import { SpellSchools } from '../presentation/spell-schools';
 import { StatBlock } from './stat-block';
@@ -20,14 +21,22 @@ export class EncyclopediaHtml {
     return w ? `<a href="${w.chapter}.html#${HandbookHtml.anchor(id)}">${EncyclopediaHtml.emblem(id, 'emblem inline')}${
       EncyclopediaHtml.esc(w.title)}</a>` : '';
   }
+  // A page of the book by its tab on the table, the open one marked as the Book's are.
+  private static tab(href: string, said: string, open: boolean): string {
+    return `<a class="sheet-key" href="${href}"${open ? ' aria-current="page"' : ''}>${EncyclopediaHtml.esc(said)}</a>`;
+  }
   page(title: string, body: string, current?: string): string {
-    const nav = this.book.chapters.map(c => `<a href="${c.id}.html"${c.id === current ? ' aria-current="page"' : ''}>`
-      + `${EncyclopediaHtml.esc(c.title)}</a>`).join('');
+    const nav = [EncyclopediaHtml.tab('index.html', 'The Encyclopedia', !current),
+      ...this.book.chapters.map(c => EncyclopediaHtml.tab(`${c.id}.html`, c.title, c.id === current))].join('');
+    // Its head on the table, as the Book's is: the way back to the game, then its pages; opened over the game, the
+    // game's head holds the way back (.within).
     return '<!doctype html>\n<html lang="en"><head><meta charset="utf-8">'
       + `<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${Folio.ink.table}">`
-      + `<title>${EncyclopediaHtml.esc(title)}</title><style>${EncyclopediaHtml.css}${Folio.css}</style></head><body>`
-      + `<div class="folio"><header class="bar"><a class="brand" href="../index.html">${Identity.spoken()}</a>`
-      + `<a class="home" href="index.html">The Encyclopedia</a><nav>${nav}</nav></header>${body}</div>`
+      + `<title>${EncyclopediaHtml.esc(title)}</title><style>${Folio.book}${EncyclopediaHtml.css}</style>`
+      + '<script>if (self !== top) { document.documentElement.classList.add(\'within\'); }</script></head><body>'
+      + `<header class="head"><a class="back-to" href="../index.html"><span class="back-sign" aria-hidden="true">${
+        Signs.whither.Out}</span>${Identity.spoken()}</a><nav class="sheets" aria-label="Chapters">${nav}</nav></header>`
+      + `<div class="leaf"><div class="folio">${body}</div></div>`
       + `<script>${EncyclopediaHtml.script}</script></body></html>\n`;
   }
   // The title page: what the book is, its chapters, and a search over everything in it.
@@ -101,72 +110,57 @@ export class EncyclopediaHtml {
       + EncyclopediaHtml.count(s.sections ?? []), 0);
   }
   // Parchment and ink (the owner, 14 November, CN-11: "a coherent parchment-and-ink design, harmonize its
-  // illustrations with that surface, and check readability on tablet"): a bound reference's page, its ground a laid
-  // paper drawn in gradients (no image), its type and rules in ink, a running head over it, an oxblood ink for what can
-  // be gone to. Its illustrations are plates printed onto the page: in sepia, multiplied into the paper within a ruled
-  // frame, never a photograph laid on it. Light by design, in either mode: a book is read on its paper, and every
-  // colour is measured against it (body ink 12:1, the dim ink 6.4:1, the links 7.5:1, the faintest 4.8:1).
+  // illustrations with that surface, and check readability on tablet"), as a page of the game's own Book (the owner,
+  // 27 November: "the change in tone for the encyclopedia is really galling"; OR-1830): laid by Folio.book as the
+  // Book's pages are, in the game's two faces and its type scale (a page's name in the light sans, a kicker's small
+  // capitals, the told words in the book face), its words in the paper's inks alone, never a hue (a link is ink,
+  // underlined with a hair), set ragged right from the safe zone's edge as every page of the Book is, not centred.
+  // Its illustrations are plates printed onto the page: in sepia, multiplied into the paper within a ruled frame,
+  // never a photograph laid on it. Light by design, in either mode: a book is read on its paper, and every ink is
+  // measured against it.
   static readonly css = `
-@font-face { font-family: 'Jost'; src: url(../fonts/jost-normal-latin.woff2) format('woff2'); font-weight: 300 800; }
-@font-face { font-family: 'Newsreader'; src: url(../fonts/newsreader-normal-latin.woff2) format('woff2'); font-weight: 300 700; }
-@font-face { font-family: 'Newsreader'; font-style: italic; src: url(../fonts/newsreader-italic-latin.woff2) format('woff2'); }
 :root { color-scheme: light; --paper: ${Folio.ink.paper}; --paper-deep: ${Folio.ink.deep}; --ink: ${Folio.ink.ink};
-  --dim: ${Folio.ink.dim}; --faint: ${Folio.ink.faint};
-  --rule: ${Folio.ink.rule}; --hair: ${Folio.ink.hair}; --link: ${Folio.ink.link}; --sepia: ${Folio.ink.sepia};
-  --read: 'Newsreader', Georgia, serif; --do: 'Jost', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif; }
+  --dim: ${Folio.ink.dim}; --faint: ${Folio.ink.faint}; --rule: ${Folio.ink.rule}; --hair: ${Folio.ink.hair};
+  --sepia: ${Folio.ink.sepia}; --choice-ground: rgba(42, 33, 25, .05); --choice-edge: rgba(42, 33, 25, .15); }
 * { box-sizing: border-box; }
-body { margin: 0; color: var(--ink); font: 18px/1.6 var(--read); }
-a { color: var(--link); text-decoration: none; } a:hover { text-decoration: underline; text-decoration-thickness: 1px;
-  text-underline-offset: 3px; }
-/* The running head: the book's name and its chapters in small capitals, a double rule beneath. */
-.bar { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 0 18px; align-items: center;
-  padding: 4px 32px 2px; background: var(--paper); border-bottom: 3px double var(--rule);
-  font: 500 11.5px/1.4 var(--do); letter-spacing: .16em; text-transform: uppercase; }
-.bar .brand { color: var(--ink); letter-spacing: .3em; } .bar .home { color: var(--dim); }
-.bar nav { display: flex; flex-wrap: wrap; gap: 8px 16px; }
-/* Each chapter a tab a finger takes (44 px tall, the open one underlined in ink, no colour: OR-1085). */
-.bar nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--dim);
-  border-bottom: 2px solid transparent; }
-.bar nav a[aria-current] { color: var(--ink); border-bottom-color: var(--ink); }
-.landing { max-width: 1000px; margin: 0 auto; padding: 56px 40px 80px; }
-.over, .label, .kind { font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--faint); }
-h1 { font: 400 44px/1.1 var(--read); margin: 6px 0 18px; letter-spacing: .005em; }
-.landing h1 { text-align: center; } .landing .over { text-align: center; }
-.landing h1::after { content: '❦'; display: block; font-size: 18px; color: var(--sepia); margin-top: 14px; }
-.lede { max-width: 62ch; font-size: 19px; color: var(--ink); }
-.landing .lede { margin: 0 auto 8px; text-align: center; font-style: italic; }
-input[type=search] { width: 100%; max-width: 520px; margin: 18px 0; padding: 9px 2px; background: transparent;
-  color: var(--ink); border: 0; border-bottom: 1px solid var(--rule); font: 17px var(--read); font-style: italic; }
-input[type=search]::placeholder { color: var(--faint); } input[type=search]:focus { outline: none; border-bottom-color: var(--ink); }
-.landing input[type=search] { display: block; margin: 22px auto; text-align: center; }
-#found { list-style: none; padding: 0; max-width: 640px; margin: 0 auto; }
+body { color: var(--ink); font: 400 18px/1.6 var(--told); }
+a { color: var(--ink); text-decoration: none; }
+.see a, #found a { text-decoration: underline 1px var(--rule); text-underline-offset: 3px; }
+.folio a:hover { text-decoration: underline 1px var(--ink); text-underline-offset: 3px; }
+.over, .label, .kind { font: 500 11.5px/1.3 var(--do); letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
+/* A page's name on the paper as the Book's are (Notes, The story so far: folio.css). */
+h1 { margin: 0 0 22px; font: 300 34px/1.1 var(--do); letter-spacing: .01em; }
+.landing .over { margin: 0 0 10px; }
+.lede { max-width: 62ch; font: italic 400 19px/1.55 var(--told); color: var(--ink); }
+/* The search as the story's is (stage.css: .story-search). */
+input[type=search] { display: block; width: 100%; max-width: 22em; margin: 18px 0; padding: 9px 12px; color: var(--ink);
+  background: var(--choice-ground); border: 1px solid var(--choice-edge); border-radius: 8px; font: 400 15px/1.3 var(--do); }
+input[type=search]::placeholder { color: var(--dim); } input[type=search]:focus-visible { outline: none; border-color: var(--ink); }
+#found { list-style: none; padding: 0; max-width: 640px; margin: 0; }
 #found li { padding: 6px 0; border-bottom: 1px solid var(--hair); }
-#found .k { color: var(--faint); font: 13px var(--do); margin-left: 10px; }
+#found .k { color: var(--dim); font: 13.5px var(--do); margin-left: 10px; }
 /* The chapters as a book's contents: ruled, not boxed. */
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0 40px; margin-top: 28px;
   border-top: 1px solid var(--rule); }
 .card { display: block; padding: 18px 0 16px; border-bottom: 1px solid var(--hair); color: var(--ink); }
-.card:hover { text-decoration: none; } .card:hover h2 { color: var(--link); }
-.card h2 { font: 400 23px/1.2 var(--read); margin: 0 0 6px; color: var(--ink); border: 0; padding: 0; }
+.folio .card:hover { text-decoration: none; } .card:hover h2 { text-decoration: underline 1px var(--ink); text-underline-offset: 4px; }
+.card h2 { font: 300 24px/1.2 var(--do); margin: 0 0 6px; color: var(--ink); border: 0; padding: 0; }
 .card p { margin: 0 0 8px; color: var(--dim); font-size: 16px; }
-.card .n { font: 500 10.5px var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--faint); }
-.layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto;
-  padding: 0 32px; }
-.toc { position: sticky; top: 52px; align-self: start; max-height: calc(100vh - 60px); overflow: auto; padding: 28px 0;
-  font: 14px/1.55 var(--do); } .toc ol { list-style: none; padding-left: 0; margin: 0; } .toc ol ol { padding-left: 14px; }
-.toc a { color: var(--dim); } .toc a:hover { color: var(--link); } .toc input { margin-top: 0; }
-#book { padding: 36px 0 80px; min-width: 0; }
-#book > h1 { border-bottom: 1px solid var(--rule); padding-bottom: 12px; }
-h2 { font: 400 28px/1.2 var(--read); margin: 52px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule);
-  font-variant: small-caps; letter-spacing: .03em; }
-h3 { font: 600 19px/1.3 var(--read); margin: 0 0 4px; } h4 { font: 500 13px/1.3 var(--do); letter-spacing: .18em;
+.card .n { font: 500 11.5px/1.3 var(--do); letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
+.layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 40px; }
+.toc { position: sticky; top: 0; align-self: start; max-height: 76vh; overflow: auto; padding: 4px 0;
+  font: 400 14.5px/1.55 var(--do); } .toc ol { list-style: none; padding-left: 0; margin: 0; } .toc ol ol { padding-left: 14px; }
+.toc a { color: var(--dim); } .toc a:hover { color: var(--ink); } .toc input { margin-top: 0; }
+#book { min-width: 0; }
+h2 { font: 300 26px/1.2 var(--do); margin: 48px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); }
+h3 { font: 600 19px/1.3 var(--told); margin: 0 0 4px; } h4 { font: 500 11.5px/1.3 var(--do); letter-spacing: .22em;
   text-transform: uppercase; color: var(--dim); margin: 30px 0 10px; }
 .intro { max-width: 66ch; color: var(--dim); font-style: italic; }
 /* Entries set as a reference sets them: in two columns where the page is wide enough for two measures, ruled between,
-   each kept whole. */
+   each kept whole. The one gone to is lit as a row of the Book is, in neutral ink. */
 .entries { columns: 2 330px; column-gap: 44px; column-rule: 1px solid var(--hair); }
-.entry { break-inside: avoid; padding: 14px 0 16px; border-bottom: 1px solid var(--hair); scroll-margin-top: 104px; }
-.entry:target { background: linear-gradient(90deg, rgba(122,46,31,.08), rgba(122,46,31,0)); }
+.entry { break-inside: avoid; padding: 14px 0 16px; border-bottom: 1px solid var(--hair); scroll-margin-top: 16px; }
+.entry:target, tr:target td { background: rgba(42, 33, 25, .07); }
 /* A plate: the picture in sepia, multiplied into the paper inside an inked frame with a margin of paper. */
 .entry .painting { float: right; width: 150px; height: 150px; object-fit: cover; margin: 4px 0 10px 16px; padding: 5px;
   background: var(--paper-deep); border: 1px solid var(--rule); outline: 1px solid var(--hair); outline-offset: 3px;
@@ -177,36 +171,36 @@ h3 { font: 600 19px/1.3 var(--read); margin: 0 0 4px; } h4 { font: 500 13px/1.3 
 .emblem.inline { width: 1.05em; height: 1.05em; margin-right: .25em; vertical-align: -.15em; stroke-width: 1.6; }
 .emblem { width: 26px; height: 26px; flex: none; fill: none; stroke: var(--sepia); stroke-width: 1.4; stroke-linecap: round;
   stroke-linejoin: round; }
-${StatBlock.css('var(--link)')}
+${StatBlock.css('var(--ink)')}
 .entry .text { font-style: italic; margin: 8px 0; } .entry dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px;
-  margin: 8px 0; font: 14px/1.5 var(--do); } .entry dt { color: var(--dim); } .entry dd { margin: 0; }
+  margin: 8px 0; font: 14.5px/1.5 var(--do); } .entry dt { color: var(--dim); } .entry dd { margin: 0; }
 /* Set as a book is set (the owner's second design opinion, 24 November): paragraphs indented, not gapped, ragged
-   right; a drop cap where a chapter or an entry begins, nowhere else. */
+   right; a drop cap where a chapter or an entry begins, nowhere else, in the page's ink. */
 p { text-align: left; hyphens: manual; }
 .text + .text, .lede + .lede, .intro + .intro, .rules p + p { margin-top: 0; text-indent: 1.4em; }
 .entry .text:first-of-type::first-letter, #book > .lede:first-of-type::first-letter { float: left; margin: .06em .08em 0 0;
-  font: 400 3.1em/.82 var(--read); font-style: normal; color: var(--sepia); }
+  font: 400 3.1em/.82 var(--told); font-style: normal; color: var(--ink); }
 .rules { margin-top: 10px; padding-top: 8px; border-top: 1px dotted var(--rule); font-size: 16px; } .rules p { margin: 4px 0; }
 .see { font-size: 15px; margin: 10px 0 0; } .see .label { margin-right: 8px; }
-.scroll { overflow-x: auto; } table { border-collapse: collapse; font: 14px/1.45 var(--do); margin: 8px 0 18px;
-  border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+.scroll { overflow-x: auto; } table { border-collapse: collapse; font: 14.5px/1.45 var(--do); margin: 8px 0 18px;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
 th, td { text-align: left; padding: 6px 14px 6px 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
-th { color: var(--dim); font-weight: 500; border-bottom: 1px solid var(--rule); } tr:target td { color: var(--link); }
+th { color: var(--dim); font-weight: 500; border-bottom: 1px solid var(--rule); }
 /* On a tablet the contents stand over the chapter, and its tables are set to be read and touched (OR-1085: the stat
-   table had been too small to read at 820). */
-@media (max-width: 1024px) { .layout { grid-template-columns: 1fr; gap: 0; padding: 0 28px; }
-  .toc { position: static; max-height: none; padding: 20px 0 0; font-size: 16px; } .toc a { display: inline-block; padding: 10px 0; }
+   table had been too small to read at 820); the chapters, past the head's width, one line that scrolls. */
+@media (max-width: 1024px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .toc { position: static; max-height: none; padding: 0; font-size: 16px; } .toc a { display: inline-block; padding: 10px 0; }
   table { font-size: 16px; } th, td { padding: 10px 16px 10px 0; } body { font-size: 19px; }
-  .bar { flex-wrap: nowrap; } .bar nav { flex: 1; min-width: 0; flex-wrap: nowrap; overflow-x: auto; white-space: nowrap;
-    scrollbar-width: none; } }
-@media (max-width: 760px) { .layout { grid-template-columns: 1fr; } .toc { position: static; max-height: none; }
-  h1 { font-size: 34px; } .entries { columns: 1; } .bar { padding: 4px 16px 2px; } .bar .brand { display: none; } .landing, .layout { padding: 0 18px; } }
+  .head { flex-wrap: nowrap; } .head .sheets { flex: 1; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 28px), transparent); } }
+@media (max-width: 760px) { .entries { columns: 1; } }
 `;
   // The search: on a chapter page, entries and rows hide as you type; on the title page, every entry by its name.
   static readonly script = `
 (() => {
   // The open chapter in view where the chapters run past the bar's width (a tablet's, a phone's: OR-1085).
-  const open = document.querySelector('.bar nav a[aria-current]'), nav = open && open.parentElement;
+  const open = document.querySelector('.head .sheets a[aria-current]'), nav = open && open.parentElement;
   if (nav && nav.scrollWidth > nav.clientWidth) {
     nav.scrollLeft += open.getBoundingClientRect().left - nav.getBoundingClientRect().left - (nav.clientWidth - open.offsetWidth) / 2;
   }

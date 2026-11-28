@@ -76,6 +76,10 @@ export class SheetWalks {
     const cam = SheetWalks.camera(run, page, 'books');
     await cam.step('encyclopedia', 'The encyclopedia', () =>
       page.goto(`file://${join(run.site, 'encyclopedia/index.html')}`));
+    // A chapter, its entries and their plates, as the Book's pages are laid (OR-1830).
+    cam.broken = false;
+    await cam.step('encyclopedia-chapter', 'The encyclopedia: a chapter, its entries', () =>
+      page.goto(`file://${join(run.site, 'encyclopedia/creatures.html')}`));
     for (const [book, said] of [['phb', "The player's handbook"], ['dmg', 'The referee\'s guide'],
       ['mm', 'The bestiary']] as const) {
       cam.broken = false;

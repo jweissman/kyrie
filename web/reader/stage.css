@@ -542,18 +542,16 @@
 .road-led .aim { margin: 0 0 10px; }
 .road-led ol.led { list-style: none; padding: 0; }
 
-/* The encyclopedia over the game (see EncyclopediaOverlay): an entry, and the way to the whole encyclopedia said to
-   open apart. */
-.enc-overlay { position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; background: var(--ground); }
-/* The whole page, the one folio laid on the dark table as every page of the book is (the encyclopedia's own, in the
-   frame: Folio.css), and no chrome of its own about it: it had been a parchment frame of its own under a dark glass
-   scrim, the folio inside it on a table inside that (the owner, 26 November: "can't have this hard dark glass chrome
-   around it"). Its head is a quiet line on the table above the folio, in the game's words and inks. */
-.enc-frame { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
-.enc-head { display: flex; align-items: center; gap: 18px; padding: 10px clamp(10px, 3vw, 40px) 0; }
-.enc-head .label { margin: 0; flex: 1 1 auto; color: var(--dim); }
-.enc-head .enc-apart { font: 400 13px var(--do); color: var(--dim); }
-.enc-page { flex: 1 1 auto; width: 100%; border: 0; background: var(--ground); }
+/* The encyclopedia over the game (see EncyclopediaOverlay): a page of the Book as the others are (OR-1830, the owner,
+   27 November: "the change in tone for the encyclopedia is really galling"; OR-843 before it), the backstage's folio
+   (folio.css) about it: the dark table under the whole screen, its head the Book's quiet line on the table (the way
+   back a quiet word, folio.css's .book-head), and the encyclopedia's own page under it, its chapters on the same table
+   and its leaf where the Book's is (Folio.book). No frame, scrim, box or shadow of its own. */
+.enc-overlay { position: fixed; inset: 0; z-index: 60; display: grid; grid-template-rows: auto minmax(0, 1fr);
+  background: var(--folio-table); --book-in: 0px; }
+.enc-overlay .enc-narrow { display: none; }
+@media (max-width: 599px) { .enc-overlay .enc-whole { display: none; } .enc-overlay .enc-narrow { display: inline; } }
+.enc-page { display: block; width: 100%; height: 100%; border: 0; background: var(--folio-table); }
 .story .story-search { display: flex; align-items: baseline; gap: 12px; margin: 0 0 18px; }
 .story .story-search input { flex: 1 1 auto; max-width: 22em; font: 400 15px/1.3 var(--do); color: var(--ivory); background: var(--choice-ground);
   border: 1px solid var(--choice-edge); border-radius: 8px; padding: 9px 12px; }
