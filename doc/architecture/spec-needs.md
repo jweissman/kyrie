@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/what-tessary-owes-wander.test.ts` | Four seeded random walks exercise the authored Tessary campaign with per-turn invariants. Keep the actual scenario, seeds and invariants. |
+| `test/what-tessary-owes.test.ts` | Lints and plays the authored Tessary campaign through many endings, failure paths, saves and a generated-world province entry. Keep every journey and integration case. |
+| `test/whom-named.test.ts` | Generated kite stages job completion and follows its aim toward the merchant. Keep the actual town, person and staged state. |
+| `test/wild-boar.test.ts` | Checks boar statistics, catalog fidelity and combat, then stages an encounter in generated kite. Keep both isolated rules and actual encounter. |
+| `test/wild-country.test.ts` | Multiple generated countries check landmarks and routes; a1 plays crossing and getting lost with placement staged. Keep seeds and all navigation cases. |
+| `test/wild-features.test.ts` | Checks the wild feature catalog and plays generated wren and pine landmarks with differing callings. Keep catalog-wide and played contrasts. |
+| `test/wild-meetings.test.ts` | Checks meetings across generated regions and plays tracks, cache and travel in thorn and kite. Keep all seeds, placements and outcomes. |
+| `test/windfall-placed.test.ts` | Generated kite checks Windfall's province placement and travels through frontier expansion into it. Keep placement and cross-module arrival. |
 | `test/weir-mage-odds.test.ts` | Generated iscoed recruits Gesk and simulates 200 seeded rat fights before and after hiring. Keep the actual combatants and both measured bands. |
 | `test/weir-resumed.test.ts` | Replays cold-play lines in generated iscoed and resumes twice through the sea-gate consequences. Keep the actual transcript, checkpoint and downstream witness. |
 | `test/weir-route.test.ts` | Plays generated iscoed from recruitment through fights, payment and the sea-gate route using the ordinary player. Keep the full integrated journey. |
