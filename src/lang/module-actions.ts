@@ -72,6 +72,7 @@ export class ModuleActions {
       Action: M.Action, Requires: StatementParser.Requires, Give: StatementParser.Give,
       GiveWhat: StatementParser.GiveWhat, Success: M.Success, Failure: M.Failure,
       Cost: StatementParser.Cost, Resolve: StatementParser.Resolve, ChangeStatement: StatementParser.ChangeStatement,
+      Consequence_guarded: StatementParser.Guarded,
       Interruption: StatementParser.Interruption, Watchful: StatementParser.Watchful,
       Assert: StatementParser.Assert, Retract: StatementParser.Retract, Set: StatementParser.Set,
       Increase: StatementParser.Increase, Decrease: StatementParser.Decrease, Spend: StatementParser.Spend,

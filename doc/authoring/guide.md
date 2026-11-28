@@ -1605,6 +1605,35 @@ Grand Tour's 6; `test/fixtures/probes/the-hour`):
     Result "Up through the cloud into the dark, and the stars over it." when dark().
 ```
 
+### A change only where something holds
+
+A change in `On success` or `On failure` can be made only where something holds as the act is done: `If <condition>,
+<change>.` One act then does what the world makes of it, where it had been written twice, once for each way the world
+might stand, or as an act that latches a flag and two rules that answer it. The last sea-gate's boat is let through
+under the reeve's eyes or not, and the words for the moment say which (Iscoed's gate; `test/small/if-in-consequences`):
+
+```text
+  Action let_through(actor: group, site: place) "Wind the gate up a tide's height and let Ifan's boat through" {
+    Requires at(actor, site) and at(actor, gatehouse) and boatCome(actor) and not letThrough(actor).
+    Result "The boat slides through on the last of the flood. Nobody else sees it.".
+    Result "The boat slides through under the reeve's eyes. 'So that is who,' says the reeve." when reeveSaw(actor).
+    On success {
+      Assert letThrough(actor).
+      If at(reeve, gatehouse), Assert reeveSaw(actor).
+      If at(reeve, gatehouse), Assert at(reeve, green).
+    }
+  }
+```
+
+Each `If` guards one change: several under one condition are each written with it, and two branches are the condition
+and its `not`. The condition is read as the act is done, before its changes are made, so it may not read what a change
+written above it makes: one that does is refused where it is written (`If peered(actor)` under `Assert
+peered(actor).`), and one that reads it through a query as the module is checked. What it reads of a change below it,
+or of its own, it reads as it was: the reeve is moved to the green only where she was at the gate. What the act would
+teach is foreseen on the branch the world is on, and an act that takes some time (a journey, a long task) makes what
+was due as it began. The words for the moment (`Result … when`) are read after the act, so they can say which way it
+went.
+
 ### Numbers in what is said
 
 Any text (an observation, a result, what someone says) can say a measure as it stands when it is told:

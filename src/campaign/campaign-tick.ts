@@ -372,11 +372,16 @@ export class CampaignTick {
       const key = JSON.stringify(Object.entries(b).sort());
       if (seen.has(key)) { continue; }
       seen.add(key);
-      result.push([rule.effects.map(c => 'value' in c
-        ? { ...c, call: this.bind(c.call, b), value: ModuleWriter.calls(c.value, v => this.bind(v, b)) }
-        : { ...c, call: this.bind(c.call, b) }) as Change[], b]);
+      result.push([rule.effects.map(c => this.bound(c, b)), b]);
     }
     return result;
+  }
+  // A change as its binding makes it, its value and its guard (Change.when) bound as its call is.
+  private static bound(c: Change, b: Record<string, string>): Change {
+    const next = { ...c, call: this.bind(c.call, b) } as Change;
+    if ('value' in next) { next.value = ModuleWriter.calls(next.value, v => this.bind(v, b)); }
+    if (next.when) { next.when = ModuleWriter.conditionCalls(next.when, v => this.bind(v, b)); }
+    return next;
   }
   private static bind(call: Call, binding: Record<string, string>): Call {
     return { ...call, args: call.args.map(a => binding[a] ?? a) };

@@ -258,8 +258,12 @@ Kyr {
   Watchful = "Watchful" "."
   Seen = "Seen" string "."
   Requires = "Requires" Predicate "."
-  Success = "On" "success" "{" ChangeStatement* "}"
-  Failure = "On" "failure" "{" ChangeStatement* "}"
+  Success = "On" "success" "{" Consequence* "}"
+  Failure = "On" "failure" "{" Consequence* "}"
+  // A change made only where something holds as the act is done, read before any of its changes are made (OR-1333):
+  // "If lit(lamp), Assert seen(actor, door)."
+  Consequence = kwIf Predicate "," ChangeStatement -- guarded
+              | ChangeStatement
   Cost = "Cost" integer "."
   Time = "Time" integer ("minutes" | "minute") "." -- minutes
        | "Time" integer ("hours" | "hour") "." -- hours
@@ -336,6 +340,7 @@ Kyr {
   plain = ~("(" | ")" | "\"" | "'") any
   string = "\"" (escaped | ~("\"" | "\n" | "\r") any)* "\""
   kwNot = "not" ~identPart
+  kwIf = "If" ~identPart
   kwIn = "in" ~identPart
   kwAnd = "and" ~identPart
   kwOr = "or" ~identPart

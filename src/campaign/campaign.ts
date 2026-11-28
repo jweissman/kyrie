@@ -7,7 +7,7 @@ import { ModuleBundle, type BundleRequest } from './module-bundle'; import type 
 import { ModuleInstallations } from './module-installations'; import { CanonInstall } from './canon-install';
 import { CreatureFacts } from './creature-facts'; import { Progression } from './progression';
 import type { InstalledModule, CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
-import { KeptReading, ModuleCompiler, WorldReads } from '../lang';
+import { Guards, KeptReading, ModuleCompiler, WorldReads } from '../lang';
 import { ModuleWriter } from '../lang/module-writer';
 import { CreatureStore } from '../creature-store'; import { HeldConditions } from './held-conditions';
 import { CommittedWorld } from './committed-world'; import { Endings } from '../lang/endings';
@@ -302,10 +302,11 @@ export class Campaign implements WatchHost {
     this.observations = checkpoint.observations; this.log.length = checkpoint.events;
     this.encounter = checkpoint.encounter; this.commit(checkpoint.world);
   }
-  private complete(action: Operator, checkpoint: ReturnType<Campaign['checkpoint']>, battle?: Battle): CampaignEvent {
+  private complete(given: Operator, checkpoint: ReturnType<Campaign['checkpoint']>, battle?: Battle): CampaignEvent {
     if (battle && !battle.state.outcome) { throw new Error('Encounter must finish before campaign resolution'); }
     const combat = battle?.events ?? [];
-    this.settle(action, battle, combat);
+    // Its guarded changes read once, as its consequence begins, before any of them is made (Guards.settled).
+    this.settle(given, battle, combat); const action = Guards.settled(this.world, given);
     const held = !battle || battle.state.outcome === 'fighters'
       || battle.events.some(e => e.type === 'end' && e.fled?.team === 'goblins');
     let success = held && Checks.passed(combat) && CommandResolutions.survived(action,
