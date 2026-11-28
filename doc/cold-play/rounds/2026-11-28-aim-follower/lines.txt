@@ -1,0 +1,140 @@
+{"act":"region__s1_priest#talk"}
+{"act":"region__s1_priest/0:Talk/0:Give Naillil the brothers' letter"}
+{"act":"region__s1_priest/0:Talk/0:Ask Naillil what the matter is in Willowham"}
+{"act":"talk:trade"}
+{"act":"talk:back"}
+{"act":"region__s1_priest#leave"}
+{"follow":"region__s1_wood_below"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__s1_taproom"}
+{"act":"region__s1_traveller#talk"}
+{"act":"region__s1_traveller/0:Talk/0:Ask Adrian whether she would come along"}
+{"act":"region__s1_traveller/0:Ask Adrian to join the company — 6 coin"}
+{"act":"region__s1_traveller#leave"}
+{"act":"region__s1_innkeeper#talk"}
+{"act":"region__s1_innkeeper/0:Talk/0:Say you are going up to the old stones"}
+{"act":"region__s1_innkeeper/0:Talk/0:Ask Leoric about the old woods"}
+{"act":"region__s1_innkeeper/0:Talk/0:Ask Leoric what the old folk say of the old dead under the old woods"}
+{"act":"region__s1_innkeeper#leave"}
+{"act":"travel:region__s1_wood_edge"}
+{"act":"exit:region__s1_wood_ride"}
+{"act":"exit:region__s1_wood_burners"}
+{"act":"company/0:Search here"}
+{"act":"region__s1_wood_lamp#look"}
+{"act":"region__s1_wood_oil#look"}
+{"act":"region__s1_wood_lamp/0:Take"}
+{"act":"region__s1_wood_oil#look"}
+{"act":"region__s1_wood_oil/0:Take"}
+{"act":"exit:region__s1_wood_stones"}
+{"act":"company/0:Fill a burner's old lamp from the burner's lamp-oil, in a stoppered flask and light it"}
+{"act":"region__s1_wood_doorstone#look"}
+{"act":"region__s1_wood_doorstone#look"}
+{"look":true}
+{"act":"region__s1_wood_doorstone#look"}
+{"act":"exit:region__s1_ud"}
+{"act":"region__s1_ud_waiting#talk"}
+{"act":"region__s1_ud_waiting/0:Talk/0:Ask Edda whether she would come down with you"}
+{"act":"region__s1_ud_waiting/0:Ask Edda to join the company — 6 coin"}
+{"act":"region__s1_ud_waiting#leave"}
+{"act":"region__s1_ud_makers#look"}
+{"act":"company/0:Search here"}
+{"act":"region__s1_ud_makers#look"}
+{"look":true}
+{"act":"region__s1_ud_left_food#look"}
+{"act":"exit:region__s1_ud_adit_mouth"}
+{"act":"region__s1_ud_left_food#look"}
+{"act":"region__s1_ud_left_food/0:Take"}
+{"act":"region__s1_ud_makers#look"}
+{"look":true}
+{"act":"exit:region__s1_ud_adit_mouth"}
+{"act":"region__s1_ud_adit_mouth_gem0#look"}
+{"act":"region__s1_ud_adit_mouth_gem0/0:Take"}
+{"act":"region__s1_ud_adit_mouth_find0#look"}
+{"look":true}
+{"act":"region__s1_ud_adit_mouth_find0#look"}
+{"act":"region__s1_ud_adit_mouth_find0/0:Take"}
+{"act":"exit:region__s1_ud_adit_adit"}
+{"act":"company/0:Search here"}
+{"act":"region__s1_ud_adit_adit_coins#look"}
+{"look":true}
+{"act":"region__s1_ud_adit_adit_coins/0:Gather up the coins"}
+{"act":"region__s1_ud_adit_adit_coins#back"}
+{"act":"region__s1_ud_adit_adit_notebook#look"}
+{"act":"region__s1_ud_adit_adit_notebook/0:Unstrap the notebook and read it"}
+{"act":"region__s1_ud_adit_adit_notebook#back"}
+{"act":"region__s1_ud_adit_crossing_dwellers/0:Attack"}
+{"act":"ability:sweep"}
+{"act":"ability:sweep/region__s1_ud_adit_crossing_dwellers_person"}
+{"act":"fight:auto"}
+{"act":"ability:cleave"}
+{"act":"ability:melee"}
+{"look":true}
+{"act":"onward"}
+{"act":"region__s1_ud_adit_adit_left0#look"}
+{"act":"region__s1_ud_adit_adit_left0/0:Take"}
+{"look":true}
+{"act":"region__s1_ud_adit_adit_left0#look"}
+{"look":true}
+{"act":"exit:region__s1_ud_adit_crossing/0:Look at the wire across the way/0:Look closely"}
+{"act":"exit:region__s1_ud_adit_crossing/0:Hook the wire with the pole and pull, from well back"}
+{"act":"region__s1_ud_adit_adit_left0#look"}
+{"act":"region__s1_ud_adit_adit_left0/0:Take"}
+{"act":"exit:region__s1_ud_adit_crossing"}
+{"act":"region__s1_ud_adit_adit_left0/0:Take a ring of minor protection from a rotted pack"}
+{"act":"exit:region__s1_ud_adit_crossing"}
+{"look":true}
+{"act":"exit:region__s1_ud_adit_vent"}
+{"act":"region__s1_ud_adit_vent_gem0#look"}
+{"act":"region__s1_ud_adit_vent_gem0/0:Take"}
+{"look":true}
+{"act":"region__s1_ud_adit_vent_gem0#look"}
+{"look":true}
+{"act":"region__s1_ud_adit_vent_coins#look"}
+{"act":"region__s1_ud_adit_vent_coins/0:Gather up the coins"}
+{"act":"region__s1_ud_adit_vent_coins#back"}
+{"act":"region__s1_ud_adit_vent_find0#look"}
+{"act":"region__s1_ud_adit_vent_find0#look"}
+{"look":true}
+{"act":"region__s1_ud_adit_vent_find0#look"}
+{"look":true}
+{"act":"exit:region__s1_ud_adit_crossing"}
+{"act":"exit:region__s1_ud_adit_stope/0:Push the switch in with the pole's end, standing clear"}
+{"act":"region__s1_ud_adit_crossing_device/0:Attack"}
+{"act":"ability:melee"}
+{"act":"ability:melee"}
+{"act":"onward"}
+{"act":"exit:region__s1_ud_adit_stope/0:Go"}
+{"act":"region__s1_ud_adit_stope_dwellers/0:Ask the goblins to let you by · an even chance · one try"}
+{"look":true}
+{"act":"exit:region__s1_ud_adit_shaft_head/0:Knock it over with the pole, from well back"}
+{"act":"region__s1_ud_adit_stope_ore0#look"}
+{"act":"region__s1_ud_adit_stope_ore0/0:Take"}
+{"act":"exit:region__s1_ud_adit_shaft_head/0:Go"}
+{"act":"exit:region__s1_ud_haulage_shaft_bottom"}
+{"act":"exit:region__s1_ud_haulage_haulage"}
+{"act":"region__s1_ud_haulage_haulage_order#look"}
+{"look":true}
+{"act":"region__s1_ud_haulage_haulage_order/0:Press down the stamp of the pick"}
+{"act":"region__s1_ud_haulage_haulage_order/0:Press down the stamp of the star"}
+{"act":"region__s1_ud_haulage_haulage_order/0:Press down the stamp of the pick"}
+{"act":"region__s1_ud_haulage_haulage_order/0:Press down the stamp of the wheel"}
+{"look":true}
+{"act":"region__s1_ud_haulage_haulage_order/0:Press down the stamp of the pick"}
+{"act":"region__s1_ud_haulage_haulage_order/0:Press down the stamp of the star"}
+{"look":true}
+{"look":true}
+{"act":"region__s1_ud_haulage_haulage_order_gift/0:Take a Delver's ring from the paymaster's strong-box"}
+{"act":"region__s1_ud_haulage_haulage_order#back"}
+{"act":"exit:region__s1_ud_haulage_hall"}
+{"act":"company/0:Make out the word burned across the paymaster's mark · likely · one try"}
+{"act":"exit:region__s1_ud_haulage_hall_cache_chamber"}
+{"act":"region__s1_ud_haulage_hall_cache_doc#look"}
+{"look":true}
+{"act":"region__s1_ud_haulage_hall_cache_doc#look"}
+{"look":true}
+{"act":"region__s1_ud_haulage_hall_cache_doc#look"}
+{"look":true}
+{"act":"region__s1_ud_haulage_hall_cache_doc#look"}
+{"look":true}
+{"act":"region__s1_ud_haulage_hall_cache_doc#look"}
+{"look":true}

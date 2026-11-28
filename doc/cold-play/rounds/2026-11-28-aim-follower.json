@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-28",
+  "sha": "ab1d5bad1e8087e2ac6731747e164f3cae2a9ed3",
+  "kind": "aim-follower",
+  "session": "cold-B2-2026-11-28T05:40Z",
+  "rubric": {
+    "id": "first-hour",
+    "version": "1"
+  },
+  "criteria": {
+    "beginning": {
+      "score": 4,
+      "max": 4
+    },
+    "agency": {
+      "score": 3,
+      "max": 4
+    },
+    "trust": {
+      "score": 2,
+      "max": 4
+    },
+    "discovery": {
+      "score": 4,
+      "max": 4
+    },
+    "continuation": {
+      "score": 3,
+      "max": 4
+    }
+  },
+  "total": 80,
+  "clarity": 7,
+  "wantingToGoOn": 7,
+  "moves": 114,
+  "fictionalTime": "the morning and afternoon of 30 Haysel, day 1",
+  "configuration": {
+    "agent": "claude -p (Claude Code 2.1.312 native binary)",
+    "model": "claude-sonnet-5-5",
+    "tools": [
+      "send.sh",
+      "show.py (by path)"
+    ],
+    "prompt": "scripts/cold-play.sh at 6cc30f0b9 (regimen v1, --kind)"
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "audit": "The lead checked the citations against out.jsonl. Trust 2 stands. Most of its evidence is the runner's: twenty look rows offered that the page did not draw (OR-1850, mended on runner-1128), and the state 'lagging a move', which is the same failure retried. The game's part is defect 4, the blasting charge marked DANGER yet 'Easily won' beside 'that could bring Adrian down' (OR-1851's kind). Defect 6, the goblins without warning, is OR-1854's kind. Defect 3, the collect rows naming different carriers by page, is OR-1781's family. Defect 5 (the strong-box order) is unhinted only because its marks were unreadable through defect 1. No score is changed. Discovery 4 is backed by T30, T53, T105 and T107.",
+  "filed": [],
+  "evidence": [
+    "doc/cold-play/rounds/2026-11-28-aim-follower/out.jsonl",
+    "doc/cold-play/rounds/2026-11-28-aim-follower/lines.txt",
+    "doc/cold-play/rounds/2026-11-28-aim-follower/report.md"
+  ]
+}

@@ -1,0 +1,1 @@
+the deployed page https://jweissman.github.io/kyrie/, built {"commit":"ab1d5bad","built":"2026-11-28T05:23:07.027Z"}
