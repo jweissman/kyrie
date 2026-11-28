@@ -1,3 +1,4 @@
+import { LootTables } from './loot-tables';
 import { Herbals } from './herbals';
 import { Draw } from './land/draw';
 import { Foundings } from './founding';
@@ -40,7 +41,7 @@ export class GeneralStores {
   }
   // Kinds a country cannot name, the shared rules taking their names for a parameter (Put {cargo} in {box}): a town
   // whose store drew Orsino's box would not compile ("Parameter shadows entity box").
-  static readonly unnamable = new Set(['box']);
+  static readonly unnamable = LootTables.unnamable;
   // What a store has on its shelves: what it always has at the town's size, then some of the rest of Orsino's stock
   // for its kind, drawn for the town, then what the town's own trade makes, cheaper there and more of it.
   static shelves(region: Region, i: number, kind: string): Ware[] {
