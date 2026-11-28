@@ -4,6 +4,7 @@ export class RuntimeCapabilities {
     ...[
       { name: 'purchase', types: ['item', 'itemkind', 'member', 'group', 'group'] },
       { name: 'acquire', types: ['item', 'itemkind', 'member'] },
+      { name: 'gather_pile', types: ['group', 'member', 'place'] },
       { name: 'bless', types: ['shrine', 'faith', 'member'] },
       { name: 'equip', types: ['item', 'member'] },
       { name: 'consume', types: ['item', 'member', 'member'] },

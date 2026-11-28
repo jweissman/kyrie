@@ -90,6 +90,13 @@ export class Knowing {
     return w.relates('warned') && w.test(ModuleWriter.call('warned', group, actor));
   }
   // Whether a thing lying here is spoils to the company: of a valuable kind, and no one else's.
+  // Whether a thing lies loose where the company stands, to be gathered up with the rest of what lies there (the
+  // rules' loose: seen, no one's, not for sale, not in an unfriendly keeper's lair; OR-1870's pile).
+  static loose(campaign: Campaign, item: string): boolean {
+    const w = campaign.world, actor = campaign.playerActor ?? 'party', here = Knowing.here(campaign);
+    return !!here && w.module.queries.some(q => q.name === 'loose')
+      && w.test(ModuleWriter.call('loose', item, actor, here));
+  }
   static spoils(campaign: Campaign, item: string): boolean {
     const w = campaign.world;
     return Knowing.valuable(w, item) && !Knowing.theirs(w, item, campaign.playerActor ?? 'party');

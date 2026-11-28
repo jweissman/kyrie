@@ -110,6 +110,9 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation lightless(place).
   // One who lets another be: does not bar its way or fall on it (a toll paid, a bribe taken, recruits believed).
   Relation tolerates(group, group).
+  // Where one makes its home (inhabitants: a defensive band fights only for it), read by the kernel's other packages
+  // too: what lies there is not gathered up with the rest (belongings' pile, OR-1870).
+  Relation lair(group, place).
   // Someone falling on another: on the company, it starts a fight there and then.
   Relation assails(group, group).
   // Someone stopping another where they stand (a challenge, a hold-up): on the company, whatever it was doing is

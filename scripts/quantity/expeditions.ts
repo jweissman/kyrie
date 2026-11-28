@@ -54,7 +54,8 @@ export class QuantityExpeditions {
   static kind(id: string): Kind {
     if (/^(go\(|travel:)/.test(id)) { return 'traversal'; }
     if (/^(wait|take_lodging|work_keep|camp\(|rest|bed|.*_heal)/.test(id)) { return 'recovery'; }
-    if (/^(light_item|douse|put_item|take_item|take_out|equip_item|give_item|buy_item|buy_goods|haggle)/.test(id)) {
+    if (/^(light_item|douse|put_item|take_item|take_out|take_pile|equip_item|give_item|buy_item|buy_goods|haggle)/
+      .test(id)) {
       return 'administration';
     }
     if (/^(sell_ware|sell_)/.test(id) || /_paid\b|_reward/.test(id)) { return 'consequence'; }
@@ -209,6 +210,10 @@ export class QuantityExpeditions {
     if (light) { return light; }
     const words = this.policy.grammar ? this.words(Journey.of(s).choices(), at.tried) : undefined;
     if (words) { return words; }
+    // A pile of two finds or more taken up in one act, where the page offers it (OR-1870: never what lies in a lair).
+    // (Its command is the same in every room: tried in this one, by where it was taken up.)
+    const pile = ids.find(id => id.startsWith('take_pile(') && !at.tried.has(`${this.here(s)}:${id}`));
+    if (pile) { at.tried.add(`${this.here(s)}:${pile}`); for (const f of this.pile(s)) { this.found.add(f); } return pile; }
     const loot = this.loot(Journey.of(s).choices(), at.tried, act => this.kindOf(s, act), act => this.guarded(s, act));
     if (loot) { this.found.add(this.itemOf(loot)); return loot; }
     // A way the page says is grave (it could be lost, what lies in wait there) is gone round, not into.
@@ -254,6 +259,12 @@ export class QuantityExpeditions {
     kind: (act: string) => string, guarded?: (act: string) => boolean): string | undefined {
     return offered.find(x => (/^(take_item|take_out)\(/.test(x.command) || x.label.startsWith('Gather up'))
       && !tried.has(x.command) && !this.kept.test(kind(x.command)) && !guarded?.(x.command))?.command;
+  }
+  // What a pile taken up here holds: each thing the rules call loose here (data/rules/belongings.kyr).
+  private static pile(s: PlaySession): string[] {
+    const w = s.campaign.world, here = this.here(s);
+    return w.related('at').filter(r => r.args[1] === here
+      && w.test({ kind: 'call', name: 'loose', args: [r.args[0]!, 'party', here] })).map(r => r.args[0]!);
   }
   private static guarded(s: PlaySession, act: string): boolean {
     const w = s.campaign.world, item = this.itemOf(act), where = w.one('at', item) ?? w.one('at', w.one('inside', item) ?? '');

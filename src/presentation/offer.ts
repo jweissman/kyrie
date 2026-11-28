@@ -5,6 +5,7 @@ import type { Screen } from '../ui/screen-types';
 import { Patience } from '../ui/patience';
 import { PlayerFrame } from './player-frame';
 import { Aspects } from './aspects';
+import { PileLead } from './pile-lead';
 import type { Aspect, Mark, Promoted } from './glance-types';
 
 // The kinds of act a player is offered, few enough to read at a glance (the owner, 14 November: a taxonomy of ten or
@@ -54,8 +55,9 @@ export class Offers {
     const graves = out ? live.filter(c => c.marks.some(m => m.kind === 'grave') && !held.has(c.command ?? '')) : [];
     const leaves = new Set(graves.length ? acts.filter(a => out!.has(byChoice.get(a.choice)?.exit ?? '')).map(a => a.choice)
       : []);
-    const promoted = acts.map(a => this.promoted(a, byChoice.get(a.choice))).map(o => leaves.has(o.choice)
-      ? this.ungilded(o) : o);
+    const piled = PileLead.of(acts.map(a => this.promoted(a, byChoice.get(a.choice))).map(o => leaves.has(o.choice)
+      ? this.ungilded(o) : o), live, campaign, c => this.candidate(c)), promoted = piled.promoted;
+    for (const h of piled.held) { held.add(h); }
     const led = [...promoted.filter(o => !leaves.has(o.choice)), ...graves.map(c => this.candidate(c)),
       ...promoted.filter(o => leaves.has(o.choice))]
       .filter((o, i, all) => all.findIndex(x => x.choice === o.choice) === i);

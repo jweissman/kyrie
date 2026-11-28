@@ -396,6 +396,28 @@
        ]
       },
       {
+       "id": "routine",
+       "title": "Routine in one act",
+       "feature": "company",
+       "pins": [
+        "Interface › Routine in one act"
+       ],
+       "words": [
+        "pile",
+        "gather",
+        "haggle",
+        "restock",
+        "replenish"
+       ],
+       "rows": [
+        "OR-1870",
+        "OR-1871",
+        "OR-1872",
+        "OR-1873",
+        "OR-1874"
+       ]
+      },
+      {
        "id": "belongings",
        "title": "Belongings with a history",
        "feature": "company",
