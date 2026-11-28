@@ -66,11 +66,11 @@ export class QuantityCaution {
     if (to && ids.includes(draw) && !whole) { return undefined; }
     return to && ids.includes(draw) && !tried.has(draw) ? draw : act;
   }
-  // Whether everyone of the company standing is at three quarters or more.
-  static whole(s: PlaySession): boolean {
+  // Whether everyone of the company standing is at three quarters or more (or at so much).
+  static whole(s: PlaySession, part = 0.75): boolean {
     const c = s.campaign;
     return c.readout.creatures.filter(k => c.readout.partyIds.includes(k.id) && k.state.hp > 0)
-      .every(k => k.state.hp >= k.base.maxHp * 0.75);
+      .every(k => k.state.hp >= k.base.maxHp * part);
   }
   // Whether a fight is broken off: anyone of the company down to a third; or down to half, the foes still more than
   // half their strength.
@@ -91,6 +91,13 @@ export class QuantityCaution {
     const member = worst && worst.id.replace(/^(region|origin)__/, '');
     return Journey.of(s).choices().map(x => x.command)
       .find(id => id.startsWith('field_spell(') && !!member && id.endsWith(`member_${member})`));
+  }
+  // Tended until no one is below three fifths, or there is nothing more to tend with: whether it is mended.
+  static async mend(s: PlaySession, act: (id?: string) => Promise<unknown>): Promise<boolean> {
+    for (let tend = this.tend(s); tend && !this.whole(s, 0.6); tend = this.tend(s)) {
+      if (!await act(tend)) { break; }
+    }
+    return this.whole(s, 0.6);
   }
   // Whoever of the company stands now, by id.
   static standing(s: PlaySession): Set<string> {
