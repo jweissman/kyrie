@@ -193,6 +193,11 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/expedition.test.ts` | The Serewater March fixture campaign and its connected hill and rescue modules. Movement, elapsed time, sustenance, lodging and trade are distinct played claims; the camp absences require counterfactual witnesses. |
 | `test/exploration.test.ts` | One drawn world at seed `b2`, the UI land model and rendered panorama. The new-known-hex and no-crossing-control claims follow an actual journey. |
 | `test/export-roles.test.ts` | Three Iscoed manifests and scenario plus in-memory overlay modules loaded with canon vocabulary. It tests actual composition roles and isolated incompatible exports, not a generated world. |
+| `test/factors-handoff.test.ts` | One generated mountain world expanded into the authored Long Man and Low Water. Both the unattended bronze handoff and the bought-back alternative are cross-module persistence claims. |
+| `test/failed-exposure.test.ts` | An in-memory overlay campaign with two actual failed exposures, plus an isolated work-plan string check. Preserve the authored and generic failure responses. |
+| `test/failures-said.test.ts` | Isolated storage and grounding failures, plus one Long Man session in the engine host with a deliberately failing save. The static corpus label exceeds the single campaign used. |
+| `test/family-identity.test.ts` | Generated kin worlds for four peoples and the user-supplied-name case, plus the household naming model by itself. Each checks a different identity or naming case. |
+| `test/family.test.ts` | Two generated kin worlds with the authored drover and portraits. The family identity, face continuity, conversation and later oxen lead are separate play claims. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
