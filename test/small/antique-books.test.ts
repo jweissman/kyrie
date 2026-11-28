@@ -42,7 +42,7 @@ describe('antique books', () => {
       { w2: 'another_adventure' })).toEqual([]);
   });
   it('lends a real book, gives an actual route without a proof, and restores a name that opens an expedition', async () => {
-    const t = await Tiny.start(`${start}\n${book()}`, { party: [
+    const t = await Tiny.start(`${start}\n${book()}`, { horizon: ['fantasy', 'canon'], party: [
       { name: 'Elen', raceId: 'human', classId: 'warrior', level: 1, perk: 'mathematician' }] });
     expect(t.glance.acts.some(a => a.label.startsWith('Read the itinerary'))).toBe(false);
     expect(Consequence.census(t.campaign.module).filter(a => a.id.startsWith('t__book_'))).toEqual([]);
@@ -64,7 +64,7 @@ describe('antique books', () => {
     expect(t.where()).toBe('t__ruin');
   });
   it('requires familiarity before an untrained attempt, which keeps its readable route even on failure', async () => {
-    const t = await Tiny.start(`${start}\n${book()}`, { party: [
+    const t = await Tiny.start(`${start}\n${book()}`, { horizon: ['fantasy', 'canon'], party: [
       { name: 'Bran', raceId: 'human', classId: 'warrior', level: 1 }] });
     await t.play('^Ask to borrow ', 'Take');
     expect(t.journey.matches('^Resolve the mathematical appendix')).toHaveLength(0);

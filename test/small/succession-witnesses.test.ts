@@ -101,4 +101,17 @@ describe('the returning succession witnesses', () => {
     expect(reflection(t)).toBeUndefined();
     expect(t.journey.holds('knows', 'party', 'seat_witness')).toBe(false);
   });
+
+  it('lets Marta nominate a mule only after the tower has answered the mirror', async () => {
+    const w = witness('pitchpass');
+    const t = await Tiny.start(`${yard}
+      Person marta "Marta Vellacott" at yard { Role "the muleteer". Peaceable. }
+      Relation answered(group). ${w.fragment} Goal false.`);
+    expect(reflection(t)).toBeUndefined();
+    t.journey.assert('answered', 'party');
+    t.campaign.refreshProjection(); t.look();
+    await t.play('Ask Marta what the mirror teaches a king');
+    expect(t.journey.holds('knows', 'party', 'seat_witness')).toBe(true);
+    expect(t.journey.taken.at(-1)?.told).toContain("I'll carry it for Gnomon first.");
+  });
 });
