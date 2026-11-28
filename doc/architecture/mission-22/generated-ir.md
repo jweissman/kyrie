@@ -68,3 +68,33 @@ play --dump`, the handbook, fixtures and author export. It is never written or r
 Observe from one writer: settlement-writer, the most prolific of the 34. Add `ModuleSource` with `observation()` and
 its `lower()`, join it at loading, and build the differential harness on that one construct over the corpus. The rest
 of Observe, then Initially, follow writer by writer, each a commit with the harness unchanged.
+
+## Where the migration stands (28 November)
+
+Measured by `scripts/performance/fresh-start.ts`: a new world on a named seed, its parse store answering only what
+worlds drawn on other seeds (kite, thorn) asked of it, so s0 and a1 parse their own Kyr as a new player's does. Its
+`--shapes` names the declarations the grammar still matched; `rounds` interleaves seeds and worktrees, one process each,
+every store emptied first.
+
+- **What moved, by what the grammar read on s0:**
+  - the settlement writer's Observe;
+  - the keepers' Topic of the lands beyond;
+  - each stretch's Passage, Observe, Place and facts (RegionTracts);
+  - Initially, the second construct: RegionGrowth's (each stand, each crop) and the stretches' first;
+  - RegionBorders' Topic of a country seen through, put once (the parser's field for its line, declared as the line's
+    is: `ModuleSource.field`);
+  - RegionWeather's Observe;
+  - RegionRovers' facts.
+- **The proof** is the harness unchanged (test/generated-ir), on its eight worlds and on s0 and a1 besides.
+- **What it bought** (three rounds interleaved against 2065bbb38, medians):
+
+  | | parse, before → after | start, before → after | the parse's share |
+  |---|---|---|---|
+  | s0 | 1 398 → 1 166 KB, 1 498 → 1 295 ms | 6 018 → 5 619 ms | 25 % → 23 % |
+  | a1 | 1 660 → 1 377 KB, 1 826 → 1 590 ms | 7 009 → 6 768 ms | 26 % → 23 % |
+
+- **What is left:** the grammar still matches 3 907 of s0's declarations, 767 KB (about 5 300 before). It is spread
+  over some thirty writers, and most of it is template sections filled as text: the works and deep places (about
+  190 KB) and the undertown (undertown.kyrt and below.kyrt, about 170 KB). Then come the settlement's people and talk
+  (about 115 KB). A writer at a time pays less from here. The next lever is the templates' own: a section read once,
+  its holes marked as DeclarationShapes marks a declaration's, and filled as values (OR-1900).
