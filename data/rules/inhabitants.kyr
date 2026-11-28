@@ -295,10 +295,17 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   // marks the way red to a company that can see it (OR-12).
   Relation lurks(group, place).
   Rule awaiting_over when awaits(?c, ?g) and (not together(?c, ?g) or not able(?g)) { Retract awaits(?c, ?g). }
+  // What is in a room is one act to draw out, whoever is there: where the deep's newcomers have moved in (deepHeld)
+  // beside a band that was there before them, the one there before comes first. Two bands to draw out of one room had
+  // been two acts of the same words, and the engine refused to draw the page at all ("Ambiguous public command"): s4's
+  // haulage, its pump's dwellers and the newcomers come in where the cave hounds fell (OR-1950).
+  Query drawnFirst(lurker: group, whence: place) means not deepHeld(lurker, whence)
+    or not (drawable(?o) and able(?o) and not routed(?o) and at(?o, whence) and not deepHeld(?o, whence)).
   Action draw_out(actor: group, lurker: group, whence: place, way: passage, site: place) "Draw out what is in {whence}, and wait for it here" {
     Description "Make a noise at the way in, and step back to meet whatever comes, weapons out.".
     Requires able(actor) and company(actor) and at(actor, site) and drawable(lurker) and able(lurker) and not routed(lurker)
-      and at(lurker, whence) and connects(way, whence, site) and visibleTo(way, actor) and passable(way, lurker).
+      and at(lurker, whence) and drawnFirst(lurker, whence) and connects(way, whence, site) and visibleTo(way, actor)
+      and passable(way, lurker).
     Time 5 minutes.
     On success { Assert at(lurker, site). Assert awaits(actor, lurker). }
     Result "You make a noise at the way into {whence}, and step back to wait, weapons out. Something comes.".
