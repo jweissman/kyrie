@@ -3235,6 +3235,24 @@
    "pri": "P1",
    "why": "a direction for the language, kept whole"
   },
+  "OR-1840": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P1",
+   "why": "a direction for the language, kept whole: OR-1333's rest after its first slice"
+  },
+  "OR-1841": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "what the language cannot yet say, wanted (AU-57, OR-781): not a broken contract"
+  },
+  "OR-1842": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "content written more plainly where it reads better: no contract broken"
+  },
   "OR-1334": {
    "kind": "direction",
    "was": "defect",
