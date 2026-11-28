@@ -10,11 +10,13 @@ import { QuantityLadder, type Ladder } from './ladder';
 import { QuantityDungeon } from './dungeon';
 import { QuantityCaution } from './caution';
 import { QuantityDescents, type Delver } from './descending';
+import { QuantityStaging, type Stager } from './staging';
 
 // Five expeditions on the reference seed (OR-1390, the economy review's Priority 0: doc/reviews/conflict-economy-
 // boredom-stimulation.md §8, §9): a rung-3 player with an explicit policy, not a search.
 // - Each expedition prepares in the town: rests at the shrine when hurt (or works for its keep), spends a level
-//   gained, and buys a light, a ration and a firebomb when it can.
+//   gained, and buys a light, a ration, bandages and a firebomb when it can; and makes the stair below the woods
+//   ready to go on from (QuantityStaging: its ledge searched, the one waiting there taken on).
 // - It goes down into the dead place under the old woods (the first time by the page's gold, as a new life would).
 // - It delves room by room as the delver does: whoever is there fought where its reckoning says no one would fall,
 //   what lies about taken up, a room not yet been in first and deeper first, a way the page calls grave gone round,
@@ -54,9 +56,8 @@ export class QuantityExpeditions {
   // The lives the ladder is read over (QuantityLadder.median): the reference seeds whose town is the reference game's.
   static readonly seeds = ['s0', 's4', 's7'];
   static readonly steps = 30;
-  // The gear the company goes down with, never sold (the jar of noonlight the halls' bane, OR-1620).
-  static readonly kept =
-    /^(torch|candle|rations|oil_firebomb|longsword|chainmail|pole|rope|lamp_oil|lantern|noonlight)$/;
+  // The gear the company goes down with, never sold (QuantityStaging.kept).
+  static readonly kept = QuantityStaging.kept;
   static kind(id: string): Kind {
     if (/^(go\(|travel:)/.test(id)) { return 'traversal'; }
     if (/^(wait|take_lodging|work_keep|camp\(|rest|bed|.*_heal)/.test(id)) { return 'recovery'; }
@@ -125,6 +126,8 @@ export class QuantityExpeditions {
       options += this.offered(s, seen, 'region__s1_green');
       await this.prepare(s);
       options += this.offered(s, seen, 'region__s1_shop');
+      // The stair below the woods made ready to go on from, where there is something there still to do (OR-1920).
+      await QuantityStaging.stage(s, this as unknown as Stager);
       trip.descended = await QuantityDescents.descend(s, n - 1, this as unknown as Delver);
       if (!this.here(s).startsWith('region__s1_ud')) { await this.walk(s, 'region__s1_ud'); }
     }
@@ -146,17 +149,17 @@ export class QuantityExpeditions {
     trip.changed.options = options;
     return trip;
   }
-  // The town: hurt, a pallet at the shrine; then a light, a ration and a firebomb, as the purse allows.
+  // The town: hurt, or ready for a level (a night under a roof, as the sheet says: QuantityStaging.rising), a pallet at
+  // the shrine; then lights, a ration, bandages, a firebomb and a draught, as the purse allows (QuantityStaging.buys).
   private static async prepare(s: PlaySession) {
-    if (this.hurt(s)) {
+    if (this.hurt(s) || QuantityStaging.rising(s)) {
       await this.walk(s, 'region__s1_shrine');
-      await this.act(s, this.ids(s).find(id => id.startsWith('take_lodging(')));
       // Without the coin for a pallet, the keep worked for, else a night slept rough (OR-1392's measure: a company
       // come home poor and hurt had turned back at the mouth three times running).
       // The keep worked for is a bed on the house, taken as offered (OR-1890: s7's company, its keep worked and its
       // bed never taken, could neither pay nor work again, and stood at the stair on 3 of 14 twice).
-      for (const v of ['work_keep(', 'take_lodging_guest(', 'take_lodging(', 'camp(', 'rest']) {
-        if (!this.hurt(s)) { break; }
+      for (const v of ['take_lodging(', 'work_keep(', 'take_lodging_guest(', 'take_lodging(', 'camp(', 'rest']) {
+        if (!this.hurt(s) && !QuantityStaging.rising(s)) { break; }
         await this.act(s, this.ids(s).find(id => id.startsWith(v)));
       }
     }
@@ -166,13 +169,7 @@ export class QuantityExpeditions {
         ?? this.ids(s).find(id => /^raise_quality\([^,]+,constitution\)/.test(id));
       if (!raise || !await this.act(s, raise)) { break; }
     }
-    await this.walk(s, 'region__s1_shop');
-    for (const [kind, want] of [['torch', 2], ['rations', 1], ['oil_firebomb', 1]] as const) {
-      while (this.count(s, kind) < want) {
-        const buy = this.ids(s).find(id => id.startsWith('buy_item(') && id.includes(`_${kind}_`));
-        if (!buy || !await this.act(s, buy)) { break; }
-      }
-    }
+    await QuantityStaging.buy(s, this as unknown as Stager);
   }
   // Down below, as the delver goes: until anyone is down to half, or so many steps.
   private static async delve(s: PlaySession, trip: Trip, most: number) {
@@ -431,7 +428,6 @@ export class QuantityExpeditions {
     return w.related('ownedItem').filter(r => /region__member_party|region__party/.test(r.args[1]!) || r.args[1] === 'party')
       .map(r => w.one('itemKind', r.args[0]!) ?? r.args[0]!).sort();
   }
-  private static count(s: PlaySession, kind: string): number { return this.items(s).filter(k => k === kind).length; }
   // The thing an act is about (its first argument), and its kind.
   private static itemOf(act: string): string { return /^\w+\(([^,)]+)/.exec(act)?.[1] ?? ''; }
   private static kindOf(s: PlaySession, act: string): string {
@@ -447,8 +443,7 @@ export class QuantityExpeditions {
   }
   // Else the way to the room of the place been in fewest times, once from each room: back toward what is unseen.
   private static least(ways: { id: string; to: string }[], at: { been: Set<string>; tried: Set<string> }) {
-    const way = ways.find(w => !at.tried.has(w.id));
-    return way?.id;
+    return ways.find(w => !at.tried.has(w.id))?.id;
   }
   private static standing(s: PlaySession): boolean {
     const c = s.campaign;

@@ -1,9 +1,38 @@
 import { describe, expect, it } from 'bun:test';
 import { QuantityCaution } from '../../scripts/quantity/caution';
+import { QuantityStaging } from '../../scripts/quantity/staging';
+import { ItemCatalog } from '../../src/item-catalog';
+import { Battle } from '../../src/battle';
+import { Content } from '../../src/content';
+import { CreatureStore } from '../../src/creature-store';
+import { DangerSense } from '../../src/presentation/danger-sense';
+import { Tactics } from '../../src/tactics';
 
 // The five expeditions' careful company (OR-1860, scripts/quantity/caution.ts): what it does with what the page says of
 // a danger. The reference seeds had lost a company on every life by lingering where the page said it could die.
 const f = (team: 'fighters' | 'goblins', hp: number, maxHp: number) => ({ team, hp, maxHp });
+// The adit's lineup (s4's first expedition): two warriors of the first level against three goblins, fought by the
+// company's own tactics and broken off as the careful company breaks it off; whether it was broken off, and won.
+const lineup = (seed: string) => {
+  const content = new Content('adit'), catalog = ItemCatalog.canon;
+  const ours = ['wenna', 'rolen'].map(id => content.createCreature(catalog, id, { raceId: 'human', classId: 'warrior' }));
+  const foes = [0, 1, 2].map(i => content.createCreature(catalog, `g${i}`, { raceId: 'goblin' }));
+  return Battle.encounter(new CreatureStore(catalog, [...ours, ...foes]), [...ours.map(c => ({ creatureId: c.id,
+    team: 'fighters' as const })), ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed });
+};
+const adit = (seed: string, careful = true) => {
+  const b = lineup(seed);
+  let broke = false;
+  for (let legal = b.legalCommands(); legal.length; legal = b.legalCommands()) {
+    const flee = legal.find(c => c.ability === 'flee');
+    if (careful && flee && QuantityCaution.flees(b.state.combatants, b.events)) {
+      broke = true; b.step(flee); continue;
+    }
+    b.step(Tactics.choose(b.view, b.plain(legal)));
+  }
+  const ours = b.state.combatants.filter(c => c.team === 'fighters');
+  return { broke, won: b.state.outcome === 'fighters', near: ours.some(c => c.hp <= c.maxHp / 3) };
+};
 describe('the expeditions\' caution', () => {
   it('breaks off a fight going badly: anyone at a third, or at half with the foes still strong', () => {
     // s4's adit: Wenna at 6 of 14, two of three robbers unhurt, fell the next blow.
@@ -39,5 +68,36 @@ describe('the expeditions\' caution', () => {
     expect(QuantityCaution.flees(fighters, events)).toBe(true);
     expect(QuantityCaution.flees(fighters, events.slice(0, 4))).toBe(false);
     expect(QuantityCaution.flees(fighters)).toBe(false);
+  });
+  it('makes the stair below the woods ready: a light to search by, the ledge searched, the one waiting taken on (OR-1920)',
+    () => {
+      const ids = ['light_item(region__party_1__torch)', 'search(region__s1_ud)', 'region__s1_ud_waiting_ask',
+        'recruit(region__s1_ud_waiting)', 'recruit(region__s1_other)', 'go(region__s1_ud_in,region__s1_ud_barrow_mouth)'];
+      expect(QuantityStaging.staged(ids, true)).toBe('light_item(region__party_1__torch)');
+      expect(QuantityStaging.staged(ids, false)).toBe('search(region__s1_ud)');
+      expect(QuantityStaging.staged(ids.slice(2), false)).toBe('region__s1_ud_waiting_ask');
+      expect(QuantityStaging.staged(ids.slice(3), false)).toBe('recruit(region__s1_ud_waiting)');
+      expect(QuantityStaging.staged(ids.slice(4), false)).toBeUndefined();
+      // The bandages bought are gear, never sold at home.
+      expect(QuantityStaging.kept.test('bandages')).toBe(true);
+      expect(QuantityStaging.buys.some(([, kind]) => kind === 'bandages')).toBe(true);
+    });
+  it('binds the worst hurt with what it carries, where no cure is ready (OR-1920: s0, without a healer)', () => {
+    const ids = ['use_item(b1,bandages,region__member_party_1,region__member_s1_traveller_person)',
+      'use_item(b1,bandages,region__member_party_1,region__member_party_1)'];
+    expect(QuantityStaging.dose(ids, 's1_traveller_person')).toBe(ids[0]);
+    expect(QuantityStaging.dose(ids, 'party_1')).toBe(ids[1]);
+    expect(QuantityStaging.dose(ids.slice(1), 's1_traveller_person')).toBeUndefined();
+  });
+  it('says of the adit\'s goblins what such fights come to, over many draws (OR-1921)', () => {
+    // The reckoning plays the fight the company fights (the same fighters, the same place, the same engine), so what it
+    // says holds over draws: s4's two losses there were its first two draws, both in the tail. Two warriors of the
+    // first level against three goblins: not reckoned grave; fought through, won nearly always; broken off by the
+    // careful company's rule, near death in fewer than one in five.
+    const seeds = Array.from({ length: 40 }, (_, i) => `adit:${i}`);
+    expect(DangerSense.grave.has(DangerSense.of(lineup('reckoned')).danger)).toBe(false);
+    const through = seeds.map(seed => adit(seed, false)), careful = seeds.map(seed => adit(seed));
+    expect(through.filter(x => x.won).length).toBeGreaterThanOrEqual(36);
+    expect(careful.filter(x => x.broke && x.near).length).toBeLessThan(seeds.length / 5);
   });
 });
