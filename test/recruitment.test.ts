@@ -2,8 +2,8 @@ import { Telling } from '../src/narrative/telling';
 import { describe, expect, it } from 'bun:test';
 import { Campaign } from '../src/campaign/campaign';
 import { MemoryBundleSource } from '../src/campaign/memory-bundle-source';
-import { ModuleBundle } from '../src/campaign/module-bundle';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { Horizon } from './support/horizon';
 
 // Someone met in play can join the company: once willing, for their hire, they are one of the company from then on,
 // counted, fed and fought beside, and their own group is empty.
@@ -21,15 +21,17 @@ const inn = `Module inn "An inn" {
 }`;
 class Inn {
   static async load() {
-    const rules = await Promise.all(ModuleBundle.world.map(async name => [
+    const horizon = new Horizon([]);
+    const rules = await Promise.all(horizon.installed.map(async name => [
       `data/rules/${name}.kyr`, await Bun.file(`data/rules/${name}.kyr`).text()]));
-    return Campaign.load('campaign.json', 'inn', new MemoryBundleSource({ ...Object.fromEntries(rules),
+    const packages = await Bun.file('data/rules/packages.json').text();
+    return horizon.within(() => Campaign.load('campaign.json', 'inn', new MemoryBundleSource({
+      ...Object.fromEntries(rules), 'data/rules/packages.json': packages,
       'campaign.json': JSON.stringify({ version: 1, name: 'Inn', modules: [{ id: 'inn', bundle: 'module.json' }] }),
-      'module.json': JSON.stringify({ version: 1, source: 'inn.kyr', rules: ['world'], globals: ['party'] }),
-      'inn.kyr': inn }));
+      'module.json': JSON.stringify({ version: 1, source: 'inn.kyr', rules: horizon.manifest, globals: ['party'] }),
+      'inn.kyr': inn })));
   }
 }
-
 describe('a company that takes on someone it meets', () => {
   it('takes on someone willing, for their hire, as one of the company from then on', async () => {
     const c = await Inn.load();

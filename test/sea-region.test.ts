@@ -1,9 +1,7 @@
 import { describe, expect, it } from 'bun:test';
-import { PlaySession } from '../src/session/play-session';
-import { NodeBundleSource } from '../src/campaign/node-bundle-source';
-import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { AuthoredLand } from '../src/world/authored-land';
 import { BoardTiles } from '../web/reader/board/board-tiles';
+import { Tiny } from './support/tiny';
 
 // A sea region (the owner's brief for regions: a sea of ocean tiles with far-flung islands, and a few terrains that
 // no generator draws): opt-in, by an authored region saying `terrain(region, archipelago)`. Nothing else is drawn
@@ -12,17 +10,12 @@ const places = [[0, 0], [2, 0], [0, 1], [3, 2], [1, 3], [5, 1]];
 async function chart(terrain: string | undefined, seed: string, at = places, more = '') {
   const body = at.map(([x, y], i) => `Place i${i} "Isle ${i}" is ${i % 2 ? 'wilderness' : 'settlement'} within reach at ${x}, ${y}.`)
     .join('\n');
-  const source = new OverlayBundleSource(NodeBundleSource.shared, {
-    'sea/site.kyr': `Module sea "Sea" { Place reach "The Reach" is region.
+  const kyr = `Module p "Sea" { Place reach "The Reach" is region.
       ${terrain ? `Initially Assert terrain(reach, ${terrain}).` : ''}
       ${body}
       ${more}
-      Place deck "the deck" is room within i1 at 0, 0. Company party "You" of 1 at deck. }`,
-    'sea/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'], globals: ['party'],
-      exports: { party: 'party' } }),
-    'sea.campaign.json': JSON.stringify({ version: 1, name: 'sea', modules: [{ id: 'p', bundle: 'sea/module.json' }],
-      party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
-  const s = await PlaySession.start(source.resolve('sea.campaign.json'), seed, source);
+      Place deck "the deck" is room within i1 at 0, 0. Company party "You" of 1 at deck. }`;
+  const s = (await Tiny.start(kyr, { seed, horizon: [] })).session;
   const module = s.campaign.world.module, region = module.entities.find(e => e.id.endsWith('reach'))!.id;
   return { land: AuthoredLand.of(module, region)!, ids: places.map((_, i) => module.entities.find(e => e.id.endsWith(`i${i}`))!.id) };
 }

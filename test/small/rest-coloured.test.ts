@@ -38,7 +38,8 @@ class Page {
 
 describe('a row past the four', () => {
   it('is witnessed as the offer reads it, and drawn so alike by the page\'s fold and the terminal', async () => {
-    const t = await Tiny.start(lane), page = Page.of(t), rest = t.glance.offer!.rest.filter(o => o.aspects.length);
+    const t = await Tiny.start(lane, { horizon: ['probing'] });
+    const page = Page.of(t), rest = t.glance.offer!.rest.filter(o => o.aspects.length);
     expect(rest.length).toBeGreaterThan(0);
     // A tablet not looked at, past the four, is worth a look by the reading inside it (Promotion.inside, now the
     // offer's too): lit alike on both, by that row; it had been lit by its own reason, which no row inside it bore.

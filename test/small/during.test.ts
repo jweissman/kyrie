@@ -30,20 +30,24 @@ const conditions = (t: Tiny) => {
 const offered = (t: Tiny) => t.glance.acts.map(a => a.label).filter(l => /bell/.test(l));
 describe('During', () => {
   it('lowers to the conditions written out on each declaration within it, its own first', async () => {
-    expect(conditions(await Tiny.start(scoped))).toEqual(conditions(await Tiny.start(written)));
+    expect(conditions(await Tiny.start(scoped, { horizon: [] })))
+      .toEqual(conditions(await Tiny.start(written, { horizon: [] })));
   });
   it('holds what is written within it to its scene, and moves on as the scene does', async () => {
-    const t = await Tiny.start(scoped);
+    const t = await Tiny.start(scoped, { horizon: [] });
     expect(offered(t)).toEqual(['Ring the bell']);
+    expect(t.journey.choices().map(c => c.label).filter(l => /bell/.test(l))).toEqual(['Ring the bell']);
     await t.play('Ring the bell');
     expect(offered(t)).toEqual(['Bow to the bell']);
+    expect(t.journey.choices().map(c => c.label).filter(l => /bell/.test(l))).toEqual(['Bow to the bell']);
   });
   it('refuses a declaration that says its guard again or denies it', async () => {
     const said = scoped.replace('Requires at(actor, yard).', 'Requires at(actor, yard) and scene(bell) == 0.');
-    await expect(Tiny.start(said)).rejects.toThrow(/ring says again what its During says/);
-    await expect(Tiny.start(scoped.replace('Requires at(actor, yard) and not', 'Requires scene(bell) == 0 and not')))
+    await expect(Tiny.start(said, { horizon: [] })).rejects.toThrow(/ring says again what its During says/);
+    await expect(Tiny.start(scoped.replace('Requires at(actor, yard) and not', 'Requires scene(bell) == 0 and not'),
+      { horizon: [] }))
       .rejects.toThrow(/bow can never hold: it denies what its During says/);
-    await expect(Tiny.start(scoped.replace('Rule first when true', 'Rule first when not rung(bell)')))
+    await expect(Tiny.start(scoped.replace('Rule first when true', 'Rule first when not rung(bell)'), { horizon: [] }))
       .rejects.toThrow(/first can never hold/);
   });
 });
