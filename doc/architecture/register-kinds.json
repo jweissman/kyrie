@@ -3762,6 +3762,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "28 Nov: further staging points the review names, a way of playing wanted, not an observed failure"
+  },
+  "OR-1900": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "28 Nov: filed as a requirement: AX-04's next lever (a beta performance target, measured), not a violated contract"
   }
  },
  "blockedBy": {
