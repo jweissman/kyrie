@@ -29,6 +29,12 @@ Module pitchpass "The Pitch of the Glass" {
     Says "Marta does not look up from the hoof for a long moment. 'Then you had better be right about the fog,' she says. 'And there had better not be any.'".
     On discuss { Assert knows(actor, fog_known). }
   }
+  Entity seat_witness: fact "Marta Vellacott will tell Dun Rì that saving labour must not mean discarding people.".
+  Initially Assert established(seat_witness).
+  Topic seat_reflection with marta "Ask Marta what the mirror teaches a king" when answered(actor) once {
+    Says "'One lamp for nine,' says Marta. 'Tell Dun Rì I won't carry a crown for a man who thinks nine people's work means eight people spare. I'll carry it for Gnomon first. He knows when to stop.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Action marta_fleece(actor: group, site: place) "Pay Marta 3 coin for twenty more fleeces" {
     Speaker marta.
     Requires able(actor) and at(actor, site) and at(marta, site) and quantity(actor, gold) >= 3 and not wrapped(actor) and state(crate, sound).
