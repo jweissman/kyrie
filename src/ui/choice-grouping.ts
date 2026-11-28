@@ -329,7 +329,9 @@ export class ChoiceGrouping {
     const told = rule.tells && b[rule.tells] ? context.tell?.(b[rule.tells]!) : undefined;
     Object.assign(leaf, told ? { about: told } : {});
     const data = { choice: choice.name, b, context };
-    const path = rule.path.map(text => this.fill(text, data));
+    // For whom, where the company is one: no one else to choose ("Gather bay for Wenna", alone, is "Gather bay").
+    const whom = context.solo && rule.path.length > 1 && rule.path.at(-1) === 'for {recipient}';
+    const path = (whom ? rule.path.slice(0, -1) : rule.path).map(text => this.fill(text, data));
     if (!Carriers.handed(rule.path.at(-1), `${schema}|${b.find}`, data, { path, leaf })) { return; }
     const doer = rule.doer && b[rule.doer];
     if (doer && !leaf.by && !context.solo) { leaf.by = [context.names.get(doer) ?? doer]; }
