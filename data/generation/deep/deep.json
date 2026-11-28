@@ -180,6 +180,7 @@
       "loops": []
     }
   ],
+  "below": {"from": "last_gallery", "kind": "crawl", "minutes": 6, "names": ["the crack the firing opened"]},
   "connectors": [
     {
       "kind": "cage",

@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 228 pins (197 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 729 live rows, 239 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 230 pins (199 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 729 live rows, 239 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -385,7 +385,7 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 16 pins · 8 defects · 22 asks
+- **Dungeons and sites** · 18 pins · 8 defects · 22 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ rolls what newcomers carry on Deem by their kind and depth, more deeper
   - ✓ sends one band after another into the room emptied, each leaving what it carried where it fell
@@ -393,6 +393,8 @@ page's colours and opportunities.)
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
   - ✓ gone all three ways with care, grows to the second level, the dead's book opens the way past the keeper, and what 
+  - ✓ goes on one level below the grave, from the guard room, and leaves the levels above as they were
+  - ✓ holds its depth's dwellers and treasure, its den kept for its warden and the hoard under it
   - ✓ trades with both traders, finds the way down in the old woods, descends, retreats, recovers, sells and descends again
   - ✓ leads a new life from the town to the shrine, the stones and down into resistance, and nowhere else
   - ✓ shows the stones from the ride, and the way down between them, to one who has asked nobody

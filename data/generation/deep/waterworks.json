@@ -55,6 +55,7 @@
       "loops": []
     }
   ],
+  "below": {"from": "causeway", "kind": "crawl", "minutes": 6, "names": ["the fall at the causeway's end"]},
   "connectors": [
     { "kind": "stair", "from": ["gatehouse", "stair_head"], "to": ["galleries", "stair_foot"], "mechanism": "winch", "minutes": 3, "names": ["the stair behind the bronze gate"] },
     { "kind": "chute", "from": ["gatehouse", "gate_hall"], "to": ["galleries", "pipe_gallery"], "oneWay": true, "minutes": 1, "names": ["the great pipe, feet first"] },

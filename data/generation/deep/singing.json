@@ -44,6 +44,7 @@
       "loops": []
     }
   ],
+  "below": {"from": "unfinished", "kind": "crawl", "minutes": 6, "names": ["the split in the unfinished wall"]},
   "connectors": [
     { "kind": "stair", "from": ["porch", "stair_head"], "to": ["choir", "stair_foot"], "mechanism": "winch", "minutes": 3, "names": ["the stair behind the pivot-door"] },
     { "kind": "door", "from": ["choir", "deep_door"], "to": ["still", "landing"], "mechanism": "seal", "minutes": 1, "names": ["the singing door"] },

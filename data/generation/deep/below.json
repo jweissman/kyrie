@@ -1,0 +1,88 @@
+{
+  "about": "What lies under the reference game's deep place, below the bottom of what its makers made: the old dark they dug down to, or that came up to meet them (OR-1622: no level below the grave). One level more, of natural caves, written by the deep sites' own generator as the makers' levels are (src/world/deep/deep-below.ts): its rooms by role, its dwellers and its worst drawn for its depth, its treasure of the depth's tier, and in its den a warden lying on a hoard rolled on Deem's carried template. Each deep purpose says from which room of its bottom level the way down goes, in its own words (its `below`). Add a role, a scene or a warden to add a way; nothing in the engine needs to change.",
+  "level": {
+    "id": "below",
+    "names": ["the old dark", "under the works"],
+    "spine": ["fissure", "cavern", "narrows", "den"],
+    "branches": [
+      { "at": "cavern", "roles": ["pool", "?bone_pit"] },
+      { "at": "narrows", "roles": ["?vein"] }
+    ],
+    "loops": [
+      { "from": "pool", "to": "narrows", "kind": "crawl", "chance": 0.5, "names": ["a wet crawl under the flowstone"] }
+    ],
+    "warden": "den"
+  },
+  "walks": ["the cave passage", "the dry watercourse", "the sloping way"],
+  "roles": {
+    "fissure": {
+      "names": ["the foot of the crack"],
+      "scenes": [
+        "The crack comes down into a cleft of raw rock, no tool-mark on it anywhere. Water has worn it, long before anyone dug above. The air is still and colder than the rooms above.",
+        "You come down out of the crack onto a floor of wet stone. Above you the made walls end in a line as clean as a cut. Below it the rock is the mountain's own."
+      ]
+    },
+    "cavern": {
+      "names": ["the great cave"],
+      "scenes": [
+        "A cave too wide for your light, its roof hung with stone grown down in points. The floor is heaped with fallen slabs. Between them a path has been worn by feet that were not yours.",
+        "A cave the size of a hall, its floor a slope of rubble. Pale growths cover the stone in rings. Your steps come back to you from far off, a moment late."
+      ]
+    },
+    "pool": {
+      "names": ["the black pool"],
+      "scenes": [
+        "A pool lies across the floor, black and perfectly still. Your light goes down into it and finds no bottom. Blind white fish turn away from it.",
+        "Water stands in a basin of flowstone, clear as air and very cold. Bones lie at the bottom, picked clean, of animals that came down to drink."
+      ]
+    },
+    "bone_pit": {
+      "names": ["the pit of bones"],
+      "scenes": [
+        "The floor drops into a pit full of bones, most of them gnawed. Among them lie the makers' dead, and older bones under those.",
+        "A hollow in the floor where bones have been thrown, or dragged, for longer than the works above have stood. Among them are buckles and rusted iron."
+      ]
+    },
+    "narrows": {
+      "names": ["the narrows"],
+      "scenes": [
+        "The cave pinches to a passage you must turn sideways to pass. The rock on either side is scored in long parallel lines, at the height of your head.",
+        "A low way between walls that almost meet. The floor is polished smooth, worn by a great weight dragged over it again and again."
+      ]
+    },
+    "vein": {
+      "names": ["the bright seam"],
+      "scenes": [
+        "A seam of crystal runs through the wall here, and your light comes back from it in a hundred colours. Pieces of it lie broken on the floor, prised out and dropped.",
+        "The wall of this cave is shot with a vein of pale stone that glitters. Long ago a miner tried to dig it out, and left a broken pick in the wall."
+      ]
+    },
+    "den": {
+      "names": ["the den"],
+      "scenes": [
+        "The narrows open into a round cave, warm, its floor scraped bare. The smell is thick here. At the far side the floor rises in a low heap that glints when your light touches it.",
+        "A dome of rock, dry and warm as a kitchen. The walls are blackened in streaks. In the middle of the floor lies a heap of old metal, worn into a hollow the shape of a sleeper."
+      ]
+    }
+  },
+  "dwellers": [
+    { "species": "hollow_stalker", "count": 1, "label": "the hollow-stalker", "role": "a thing of the deep caves that hunts by the sound of breath", "temperament": "ambush" },
+    { "species": "grey_render", "count": 1, "label": "the render", "role": "a hulking grey beast that eats what falls down into the dark", "temperament": "territorial" },
+    { "species": "mouther", "count": 1, "label": "the mouther", "role": "a heap of flesh and mouths that lives at the edge of the water", "temperament": "savage" },
+    { "species": "xill", "count": 2, "label": "the xill", "role": "insect-shaped hunters that lay their eggs in the living", "temperament": "ambush" },
+    { "species": "ooze", "count": 1, "label": "the grey ooze", "role": "a grey slime that lies on the stone and eats it", "temperament": "ambush" }
+  ],
+  "elites": [
+    { "species": "mind_destroyer", "count": 1, "label": "the mind destroyer", "role": "a thing of tentacles and will that has made the caves its larder", "temperament": "savage" },
+    { "species": "discerner", "count": 1, "label": "the discerner", "role": "a watcher of the deep that turns those it looks at to stone", "temperament": "territorial" }
+  ],
+  "wardens": [
+    { "species": "dragon", "kind": "dragon", "variations": ["red_lineage", "young"], "count": 1, "level": 8, "label": "the wyrm", "role": "a young red dragon that came up through the deep ways and sleeps on what it found", "temperament": "territorial" },
+    { "species": "dragon", "kind": "dragon", "variations": ["black_lineage", "young"], "count": 1, "level": 8, "label": "the wyrm", "role": "a young black dragon that lairs where the water comes up from below", "temperament": "territorial" },
+    { "species": "mind_destroyer", "kind": "aberration", "count": 1, "level": 8, "label": "the old one", "role": "a mind destroyer grown old in the dark, which keeps what its prey carried", "temperament": "savage" }
+  ],
+  "hoard": {
+    "seen": "The heap in the den is a hoard of coin and old gear, the leavings of those who came down before you.",
+    "said": "With its warden fallen, the hoard it lay on is there for the taking."
+  }
+}

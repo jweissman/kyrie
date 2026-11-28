@@ -25,6 +25,8 @@ export interface DeepHearing { thing: string; heard: string; carried: string }
 // through it; a flooded level stands under water until something drains it.
 export interface DeepLevelSpec {
   id: string; names: string[]; spine: string[]; flooded?: boolean;
+  // The role of the room its warden keeps, which no other band shares (DeepBelow).
+  warden?: string;
   branches?: { at: string; roles: string[] }[];
   loops?: { from: string; to: string; kind: string; chance: number; names: string[] }[];
 }
@@ -101,6 +103,9 @@ export interface DeepPurpose {
   hook: { topic: string; trade?: { topic: string; says: string; brought?: { ask: string; says: string };
     shown?: string }; home?: string; below?: string };
   levels: DeepLevelSpec[]; connectors: DeepConnector[]; roles: Record<string, DeepRole>;
+  // The way down from a room of its bottom level into the old dark below it, where the site is the reference game's
+  // (DeepBelow).
+  below?: { from: string; kind: string; minutes: number; names: string[] };
   dwellers: { depth: number; groups: DeepGroup[] }[];
   // The habitats (data/catalog/habitats.json) whose creatures may also have come to live here: a room's dwellers are
   // either one of the groups written above or a party of them composed for the room's danger (see Parties).
