@@ -99,6 +99,14 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/compiled-modules.test.ts` | One synthetic, two-file module and a temporary campaign, started fresh and cached. The cache-count increase, equal checkpoint and separate catalog are the claim; no generated world is required. |
 | `test/composed-creation-browser.test.ts` | A built site and browser, at two viewports, through character creation and into a generated world. Its page-shape, spell selection and start flow are browser integration and are gated by `KYRIE_BROWSER`. |
 | `test/composition.test.ts` | The Fells fixture with real raider-hold and bounty kits, plus generated marsh, mountain and ember worlds. Fixed and open bindings, chained kits, payouts, band state and regional placement are separate integration claims. |
+| `test/compositions.test.ts` | One generated recorded journey through the real engine host, then three prototype projections of its frames. Its six reached moments and equal choices depend on the recorded walk, not a corpus scan. |
+| `test/conflict.test.ts` | The multi-module Serewater March fixture and a ready company, run across many timed interventions and one checkpoint. The offscreen power's causal history and each different intervention are authored integration claims. |
+| `test/consequences.test.ts` | One generated `a1` country with its actual toll, inn and riders. Both the fine and imprisonment paths need the generated cross-location consequences. |
+| `test/continuation.test.ts` | One generated `thorn` country with a memorial, started and observed at its green. The real memorial's name, place and death text are the claim. |
+| `test/counted.test.ts` | One counted fixture campaign plus a parser round-trip. The one-lamp and two-lamp states witness the before-and-after narration and query; a fragment conversion has not been checked. |
+| `test/countries-seeded-apart.test.ts` | Two generated neighbouring country modules assembled and compiled without starting a campaign. More than three matched creature pairs witness distinct seeds; both independent drawings are required. |
+| `test/country-round.test.ts` | Two generated worlds with their actual inn, sites, map and destinations. At least three heard sites and a corresponding destination witness the claim for each seed. |
+| `test/courier-route.test.ts` | One generated `c3` courier world and its actual held errand and taproom. The real offered gold exit is the route-continuity witness. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
