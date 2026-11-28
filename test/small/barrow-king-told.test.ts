@@ -19,7 +19,8 @@ const howe = `
 
 describe('the barrow-king, for a fresh warrior alone', () => {
   it('is told, marked as beyond him or a fight that could be lost, and left by the steps', async () => {
-    const t = await Tiny.start(howe, { party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] });
+    const t = await Tiny.start(howe, { horizon: ['inhabitants', 'belongings'],
+      party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] });
     await t.perform('light_item(t__party_1__torch)');
     const leg = await t.session.leg('go(t__high,t__throne)');
     expect(t.where()).toBe('t__throne');

@@ -28,7 +28,7 @@ async function fights(remember = true): Promise<Fight[]> {
   const heard = Battle.prototype.heard;
   if (!remember) { Battle.prototype.heard = () => undefined; }
   try {
-    let session = (await Tiny.start(world, { party })).session;
+    let session = (await Tiny.start(world, { horizon: ['inhabitants'], party })).session;
     const out: Fight[] = [];
     for (const i of [0, 1, 2]) {
       const choices = () => Journey.of(session, true).choices();
