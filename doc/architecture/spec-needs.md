@@ -221,6 +221,25 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/features/pleasure/the-rain-gourd.pin.test.ts` | The authored Rain-gourd campaign, its lint, two routes to fill the gourd and their distinct endings. Scenery follows the played weather. |
 | `test/features/pleasure/the-window-table.pin.test.ts` | The Iscoed world and the card-hand engagement, played through, laid down, left and cheated. Focus and no-repeat negatives need counterfactual proof before narrowing. |
 | `test/features/pleasure/tinker-kit.pin.test.ts` | The Iscoed world and five distinct generated or resident tinker occasions, with success, failure and time-dependent departures. These are separate kit-composition and play witnesses. |
+| `test/features/world/a-room-of-ones-own.pin.test.ts` | The Iscoed world with two origins, room rental, stored cargo, a letter and save/resume. Room terms and delayed persistence are distinct claims. |
+| `test/features/world/debt-chains.pin.test.ts` | Three drawn worlds with different generated debt chains and the debt origin. Their different story shapes and outcomes are the claim. |
+| `test/features/world/finds-open-the-deep.pin.test.ts` | The `s0` reference world with map, lost and order origins. Two finds are played through; the order case inspects its authored rule. |
+| `test/features/world/fire-meets-things.pin.test.ts` | The reference dungeon through the shared Embalmers journey, once for a torch and once for Fire Bolt. Both real means must produce the same burning consequences. |
+| `test/features/world/first-cast.pin.test.ts` | Two drawn worlds and their different origins, checking the life-specific first-town hand and willingness to join. Despite its filename, it tests those people, not a spell. |
+| `test/features/world/first-town-aims-uncovered.pin.test.ts` | The `thorn` generated world with keep, Walk and career, contrasting aims before and after the specific investigations that reveal them. |
+| `test/features/world/lives-between-visits.pin.test.ts` | The Iscoed world revisited over several days and hours, with card-playing and conversations establishing what its townspeople remember. |
+| `test/features/world/map-crossing.pin.test.ts` | One `a1` drawn world with the map explicitly earned and the brothers' errand followed. It compares scene rows, gold guidance and map travel; the no-crossing absence needs a counterfactual before narrowing. |
+| `test/features/world/opening-dungeon.pin.test.ts` | The Iscoed golden walk continued through preparation, recruitment, two fights and payment, using offered rows. Its full introductory loop is the claim. |
+| `test/features/world/reading-by-art.pin.test.ts` | The `s0` reference world, bought scroll and makers' marks, with before/after knowledge and action witnesses. |
+| `test/features/world/the-herb-wife-asks.pin.test.ts` | The `s0` reference town and woods, played through conversation, paid teaching and the shrine's question. Several knowledge and offer transitions must remain intact. |
+| `test/features/world/the-ledge-below-the-vault.pin.test.ts` | The Iscoed world with the opening disabled, placed at the secure dungeon entry. It checks recruitment and actual searched supplies through runner rows. |
+| `test/features/world/the-loop-under-porthalen.pin.test.ts` | The Iscoed golden walk and three dungeon routes, with specific inhabitants cleared by the fixture. The repeated expeditions, combat, town response and deeper return are separate long claims. |
+| `test/features/world/the-reference-loop.pin.test.ts` | The `s0` reference world played through repeated descents, retreat, recovery, trade and rope shortcuts. It is the real multi-expedition loop, not an isolated fragment. |
+| `test/features/world/the-sky-in-the-painting.pin.test.ts` | The Iscoed golden walk and scene census, also judging each recorded place under five skies. Its absence of contradictory paintings is coupled to a positive walk and scene count. |
+| `test/features/world/the-spell-foreseen.pin.test.ts` | The reference dungeon through Embalmers, with a mage, Fire Bolt and a deliberately reduced effects port. Forecast and learned consequence are compared against the bare port. |
+| `test/features/world/the-start-is-the-dungeon.pin.test.ts` | The `s0` reference world and honest-player route to its first fight. Visited-place boundaries, hire and combat are all witnessed. |
+| `test/features/world/the-town-frame.pin.test.ts` | Two generated worlds with different churchyard and quarry causes, plus the Iscoed atlas fix and template choices. Their alternate played solutions and generated variation are distinct claims. |
+| `test/features/world/threads-tied.pin.test.ts` | The Iscoed world with the raiders' word, hold, hobs and bell. Spatial ancestry and the connection to the named place are the claim. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
