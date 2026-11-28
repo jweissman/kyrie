@@ -16,6 +16,7 @@ import { DeepRivals } from './deep-rivals';
 import { DeepSounds } from './deep-sounds';
 import { DeepCache } from './deep-cache';
 import { DeepOrder } from './deep-order';
+import { DeepBelow } from './deep-below';
 import type { DeepPurpose, Valuable } from './deep-purposes';
 import type { Region, Site } from '../region-writer';
 import { RegionMarvels, type Fragment } from '../region-marvels';
@@ -37,7 +38,9 @@ export class DeepSites {
   static lines(region: Region, site: Site,
     at: { purpose: DeepPurpose; values: Record<string, string>; rivals?: boolean; buried?: string; wooded?: boolean }):
     string[] {
-    const { purpose, values } = at, key = `${RegionKey.of(region)}:${site.id}:deep`;
+    // Under the reference game's woods, one level more below the makers' last (DeepBelow).
+    const purpose = at.wooded ? DeepBelow.extend(at.purpose) : at.purpose, values = at.values;
+    const key = `${RegionKey.of(region)}:${site.id}:deep`;
     const layout = DeepLayouts.make(purpose, site.id, key), content = DeepPacing.plan(purpose, layout, key);
     const handled = this.handled(layout, content), order = DeepOrder.lines(layout, content, { purpose, key });
     // What the kingdom after the makers did with it, and what its fall left there.
@@ -61,7 +64,7 @@ export class DeepSites {
       ...DeepTime.lines(purpose, layout, content, key), ...DeepParley.lines(layout, content),
       ...DeepLoosed.lines(layout, content, purpose.mechanisms.seal),
       ...DeepHistory.lines(layout, after, values),
-      ...this.keeper(purpose, layout),
+      ...this.keeper(purpose, layout), ...at.wooded ? DeepBelow.lines(purpose, layout, key) : [],
       ...this.bane(purpose, layout), ...this.raised(purpose, layout, values),
       ...this.hooks(purpose, values, this.bane(purpose, layout).length > 0), ...this.answers(purpose, values, layout),
       ...DeepArgument.lines(layout, values, purpose),
@@ -151,12 +154,15 @@ export class DeepSites {
     return layout.levels.flatMap(l => l.rooms).flatMap(r => Array.from({ length: ore.roles[r.role] ?? 0 },
       (_, n) => `  Item ${r.id}_ore${n} ${this.q(ore.name)} is ${ore.kind} at ${r.id}.`));
   }
-  // At the bottom: whatever the makers broke into, and what they died for, which it keeps.
+  // At the bottom of the makers' works: whatever they broke into, and what they died for, which it keeps (its heart's
+  // level, where the old dark lies below it: DeepBelow).
   // It shrinks back into its refuge from what it fears, and keeps the heart while it is there: taken from under it, it
   // comes at once, in its own words or its kind's. The king had let his crown be lifted from his head, said "In a few
   // minutes it will be on you", and never came (cold play 4, CL-44; cold play 2, CL-10).
   private static keeper(purpose: DeepPurpose, layout: DeepLayout): string[] {
-    const bottom = layout.levels.at(-1)!.rooms, heart = bottom.find(r => r.role === 'heart') ?? bottom.at(-1)!;
+    const hearts = layout.levels.flatMap(l => l.rooms).filter(r => r.role === 'heart');
+    const bottom = layout.levels[hearts[0]?.level ?? layout.levels.length - 1]!.rooms;
+    const heart = bottom.find(r => r.role === 'heart') ?? bottom.at(-1)!;
     const q = this.q, k = purpose.keeper, id = `${layout.site}_keeper`, words = Object.entries(k.words ?? {})
       .map(([w, text]) => ` ${w} ${q(text)}.`).join('');
     const refuge = bottom.find(r => r.role === k.refuge);

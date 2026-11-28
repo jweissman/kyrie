@@ -47,6 +47,7 @@
       "loops": []
     }
   ],
+  "below": {"from": "guard_room", "kind": "crawl", "minutes": 6, "names": ["the crack under the guard-benches"]},
   "connectors": [
     { "kind": "stair", "from": ["barrow", "back_stone"], "to": ["halls", "stair_foot"], "mechanism": "winch", "minutes": 3, "names": ["the stair behind the portal stone"] },
     { "kind": "door", "from": ["halls", "kings_door"], "to": ["grave", "antechamber"], "mechanism": "seal", "minutes": 1, "names": ["the king's door"] },

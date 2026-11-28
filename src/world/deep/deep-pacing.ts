@@ -48,8 +48,9 @@ export class DeepPacing {
     const sequence = draw.pick(this.tables.sequences[draw.pick(this.flavors)]!);
     const groups = draw.shuffle(this.groups(purpose.dwellers, level.index));
     const elites = draw.shuffle(this.groups(purpose.elites ?? purpose.dwellers, level.index));
-    // The keeper's rooms are its own: nothing else lives where it does, or where it goes to ground.
-    const kept = new Set(['heart', purpose.keeper.refuge]), laid = new Set<string>();
+    // The keeper's rooms are its own: nothing else lives where it does, or where it goes to ground; nor in a level's
+    // warden's den (DeepBelow).
+    const kept = new Set(['heart', purpose.keeper.refuge, purpose.levels[level.index]?.warden]), laid = new Set<string>();
     // The first band a level holds, from where it is entered, is one that stands (the way in meets resistance: the
     // reference game's town sends a new life down into it, and a level of bats, beetles and robbers who all slink off
     // had given it none); the rest come in their drawn turn.
