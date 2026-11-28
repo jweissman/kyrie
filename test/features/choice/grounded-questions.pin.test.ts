@@ -6,6 +6,9 @@ import { ReferenceSettlement } from '../../../src/world/reference-settlement';
 import { CanonVocabulary } from '../../../src/canon/canon-vocabulary';
 import type { Act } from '../../../src/ui/screen-types';
 
+// Each probe on the kernel and the packages it reads (OR-407).
+const start: typeof Tiny.start = (kyr, options = {}) => Tiny.start(kyr, { horizon: [], ...options });
+
 // Feature pins: see test/features/choice/consequence.pin.test.ts. Choice › A question asked on grounds (the owner's
 // play of 27 November, OR-1680: "how do I know who this person is? Where did I get the information I needed to ask him
 // these questions?"). A question about something in particular is offered only once the company has grounds for it,
@@ -28,7 +31,7 @@ describe('Choice › A question asked on grounds', () => {
     Company party "You" of 1 at yard.
     Goal false.`;
   it('offers the mill only once it is heard of, and says who told it', async () => {
-    const t = await Tiny.start(yard);
+    const t = await start(yard);
     expect(said(t, 'tam').map(a => a.label)).toEqual([]);
     // News is anyone's to ask, and says no ground.
     expect(ground(said(t, 'ida'), /for news/)).toBeUndefined();
@@ -57,7 +60,7 @@ describe('Choice › A question asked on grounds', () => {
   // Known before the life began, from what the company brings (the brothers' letter, the dead man's map, a sister's
   // letter): said so, as anything found in a source is.
   it('says where what was known from the first came from', async () => {
-    const t = await Tiny.start(`
+    const t = await start(`
       Place yard "the yard" is room at 0, 0 outdoors.
       Entity mill: fact "The mill on the weir has stood shut since the spring.".
       Entity letter: source "the brothers' letter". Initially Assert reveals(letter, mill).
