@@ -2,8 +2,8 @@ Module tallow "Tallow Deep" {
   Discovery lc_raven_song_known "The raven will show you a coil of line if you sing her three notes back to her.".
   Discovery lc_raven_line_known "The raven's old line is tucked behind one of the panes.".
   Item lc_raven_line "a coil of the raven's old line" is rope at lc_mirror_array hidden until lc_raven_line_known.
-  Relation lcSongChoosing(group). Relation lcSongPlaying(group). Relation lcSongHigh(group).
-  Relation lcSongLow(group). Relation lcSongMissed(group). Relation lcSongWon(group).
+  Relation lcSongChoosing(group). Relation lcSongPlaying(group).
+  Relation lcSongMissed(group). Relation lcSongWon(group).
   Measure lcSongPattern(group). Measure lcSongStep(group). Measure lcSongAgain(group).
   Query lcSongHighExpected(g: group) means
     (lcSongPattern(g) == 1 and lcSongStep(g) < 2)
@@ -40,31 +40,31 @@ Module tallow "Tallow Deep" {
     "The raven sings low, high, high. Her beak stays open for your answer.".
   Observe lc_song_waiting at lc_mirror_array when lcSongPlaying(party) and lcSongStep(party) > 0 and lcSongStep(party) < 3
     "The raven waits for the next note.".
+  // Each note answered as it is sung: the next of the three where it is the one she sang, and a miss where it is
+  // not, with an hour to wait from when the note is done (it takes its ten minutes, a watch).
   Action lc_song_high(actor: group, site: place) "Sing a high note" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
       and at(lc_mirror_raven, site) and able(lc_mirror_raven) and lcSongPlaying(actor) and lcSongStep(actor) < 3.
     Time 10 minutes.
-    On success { Assert lcSongHigh(actor). }
+    On success {
+      If not lcSongHighExpected(actor), Retract lcSongPlaying(actor).
+      If not lcSongHighExpected(actor), Assert lcSongMissed(actor).
+      If not lcSongHighExpected(actor), Set lcSongAgain(actor) to watch(clock) + 7.
+      If lcSongHighExpected(actor), Increase lcSongStep(actor) by 1.
+    }
     Result "You sing a high note.".
   }
   Action lc_song_low(actor: group, site: place) "Sing a low note" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lc_mirror_array)
       and at(lc_mirror_raven, site) and able(lc_mirror_raven) and lcSongPlaying(actor) and lcSongStep(actor) < 3.
     Time 10 minutes.
-    On success { Assert lcSongLow(actor). }
+    On success {
+      If lcSongHighExpected(actor), Retract lcSongPlaying(actor).
+      If lcSongHighExpected(actor), Assert lcSongMissed(actor).
+      If lcSongHighExpected(actor), Set lcSongAgain(actor) to watch(clock) + 7.
+      If not lcSongHighExpected(actor), Increase lcSongStep(actor) by 1.
+    }
     Result "You sing a low note.".
-  }
-  Rule lc_song_high_right when lcSongHigh(party) and lcSongHighExpected(party) {
-    Retract lcSongHigh(party). Increase lcSongStep(party) by 1.
-  }
-  Rule lc_song_low_right when lcSongLow(party) and not lcSongHighExpected(party) {
-    Retract lcSongLow(party). Increase lcSongStep(party) by 1.
-  }
-  Rule lc_song_high_wrong when lcSongHigh(party) and not lcSongHighExpected(party) {
-    Retract lcSongHigh(party). Retract lcSongPlaying(party). Assert lcSongMissed(party). Set lcSongAgain(party) to watch(clock) + 6.
-  }
-  Rule lc_song_low_wrong when lcSongLow(party) and lcSongHighExpected(party) {
-    Retract lcSongLow(party). Retract lcSongPlaying(party). Assert lcSongMissed(party). Set lcSongAgain(party) to watch(clock) + 6.
   }
   Rule lc_song_abandoned when lcSongPlaying(party)
     and (not at(party, lc_mirror_array) or not able(party)

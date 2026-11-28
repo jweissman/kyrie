@@ -11,6 +11,7 @@
    "world/delay-costs": "discovery",
    "character/creation-and-checks": "creation", "character/company-faces": "company",
    "choice/consequence": "consequence",
+   "choice/watched-consequence": "consequence",
    "choice/first-aims": "undertakings", "choice/first-aims-followed": "undertakings",
    "choice/payoff-followed": "undertakings",
    "choice/store-apprentice": "discovery",

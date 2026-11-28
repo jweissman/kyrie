@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 251 pins (220 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 745 live rows, 249 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 252 pins (221 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 745 live rows, 249 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -487,12 +487,13 @@ page's colours and opportunities.)
 
 ### Consequence
 
-- **Choices that change what follows** · 5 pins · 2 defects · 3 asks
+- **Choices that change what follows** · 6 pins · 2 defects · 3 asks
   - ✓ tells a choice's outcome in its own words, and the world and a save keep what came of it
   - ○ a spared enemy reappears later, as what being spared made of them
   - ○ a promise broken resurfaces in what someone says or will do
   - ○ a dramatic choice (spare or kill) and a mundane one (which town first) each change what follows
   - ○ a fluff choice lets the character say what they think, and it is remembered
+  - ✓ does what the world as it stands makes of one act, and says so in its own words
   - direction WM-06 P2: One metropolis many adventures add to: Dun Rìerdan only an identity; the King's Players builds its…
   - direction WM-08 P3: History the player can investigate, misunderstand and alter
   - requirement OR-355 P2: Choices that change what follows: the capability as its pins hold it (tells a choice's outcome in…
