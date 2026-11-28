@@ -27,7 +27,7 @@ const green = (rule: string) => `
   ${rule}
   Goal false.`;
 const applicability = async (rule = '') => {
-  const l = new CampaignLint('tiny', (await Tiny.start(green(rule))).session);
+  const l = new CampaignLint('tiny', (await Tiny.start(green(rule), { horizon: [] })).session);
   l.applicability();
   return l.findings.filter(f => f.check === 'applicability').map(f => `${f.level}: ${f.message}`).sort();
 };
@@ -63,7 +63,7 @@ describe('a staging the draw did not choose', () => {
   Action chase(actor: group, site: place) "Chase them" { Requires at(actor, site) and driven(beasts). }
   Action sent(actor: group, site: place) "Ask after the child" { Requires at(actor, site) and expects(mother, actor). }
   Goal false.`;
-    const l = new CampaignLint('tiny', (await Tiny.start(den)).session);
+    const l = new CampaignLint('tiny', (await Tiny.start(den, { horizon: [] })).session);
     l.applicability();
     expect(l.findings.filter(f => f.check === 'applicability').map(f => `${f.level}: ${f.message}`).sort()).toEqual([
       'advice: action t__sent waits on expects, not so in this world, and nothing makes it so',
