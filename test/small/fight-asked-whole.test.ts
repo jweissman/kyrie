@@ -16,7 +16,8 @@ const cellar = `
 const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
 describe('a fight', () => {
   it('asked for every choice, a look or a lens, is the fight; its four lead with no draught', async () => {
-    const t = await Tiny.start(cellar, { party: [{ name: 'Wat', raceId: 'human', classId: 'warrior', level: 2 }] });
+    const t = await Tiny.start(cellar, { horizon: ['belongings', 'inhabitants'],
+      party: [{ name: 'Wat', raceId: 'human', classId: 'warrior', level: 2 }] });
     const r = new Runner(t.session);
     let s = await RunnerFind.act(r, r.said(), /^(Ask the priest|Talk to the priest — ask) for the bottles/);
     s = await RunnerFind.act(r, s, /^Attack/);
