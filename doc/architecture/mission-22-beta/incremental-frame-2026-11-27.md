@@ -116,3 +116,53 @@ Measured but not kept: reading the towns the company was told of by each fact's 
 The next costs, ranked: the grounding after a move (OR-1600: some 140 schemas read where the company stands, 6,034 of
 6,656 regroundings on the walk return what they had); the chart worked out again on 44 of 56 screens and the
 itineraries after it (OR-1601); perception and the frame's rows worked out whole for every revision (OR-1602).
+
+## Grounding After a Move, and the Chart Kept Without Here (the second performance builder, 27 November, night)
+
+Two changes, each held by the screen oracle and the kept traces, each measured interleaved with the commit before it
+on this shared machine (load 3.5 to 9; trust the differences, not the absolute readings).
+
+**What a schema asks (OR-1600, closed).** Some 140 schemas read where the company stands on the way to finding that
+nothing they need is there, so every move grounded them again. `SchemaAsks` reads from each schema's compiled
+precondition the parts every act of it must meet (what it asks of the actor or of named things alone; the facts it
+must find apart from the place; the facts it asks of the place the actor stands at, joined through what is bound) and
+asks them before grounding. The first part unmet settles it, and only what that part read is noted in the grounding's
+reading (`WorldReads.apart`), so the existing stale index of `KeptGroundings` (by names read) does the rest: a need
+unmet apart from the place reads nothing of where the company stands, and one unmet at the place is asked again only
+of the new one. Exact by construction (every part holds of any binding that holds); `KYRIE_CHECK_GATES=1` grounds every
+schema found unmet anyway and throws if any of it holds (the oracle and the traces pass with it on). A grounding that
+comes to the same operators is the same list (`KeptGroundings.alike`).
+
+| Reading | Base, two rounds | After, two rounds |
+|---|---|---|
+| Groundings asked again a move (median; fresh Operators warmed on the world before each of 21 moves) | 218, 218 | 86, 86 |
+| A move's grounding, median / p90 (ms, micro-benchmark) | 21.1/46.3, 18.9/35.7 | 12.8/31.5, 10.8/29.2 |
+| Groundings over the walk; of them, the same as they were | 7,912; 5,288 | 4,664; 2,274 |
+| `KeptReading.read` calls over the walk | 10,378 | 7,119 |
+| Decision, median / p95 (quality, local) | 52/161, 41/98 | 44/116, 35/119 |
+| Still turn, median / p95 | 167/295, 134/270 | 155/335, 112/258 |
+| `observe` p50 / `perceive` p50 (frame-parts) | 28.5/12.3, 23.5/11.6 | 20.2/9.3, 19.2/8.0 |
+
+**The chart kept without here (OR-1601, closed).** Where the company stands is read once outside the chart's kept
+reading (`ChartModel.standing`): the plan it is on, below ground or not, the country it is in and the one it may go
+across, and its darkness, through which the ways had told what bars them (benighted's `at(party, ?p)`); the chart is
+kept by that and where it has been, and where it stands is marked on the plan kept (`ChartHere`, `LandModel.placed`).
+The same plan marked at the same place is the same chart, and a chart or region drawn again just as it was is the one it
+was, so that the itineraries, kept by the region's token, keep. Every chart, itinerary and charted journey of the
+golden walk is byte for byte what the base drew.
+
+| Reading | Base, two rounds | After, two rounds |
+|---|---|---|
+| Chart misses of 57 (here alone) | 46 (5) | 41 (0) |
+| Itineraries' misses of 57 | 48 | 40 |
+| The chart's misses over the walk (ms) | 336, 358 | 263, 265 |
+| Median turn / still turn (quality, local) | 107/96, 94/89 | 93/88, 91/86 |
+| Decision, median | 32, 28 | 29, 29 |
+
+No local baseline was lowered: the machine was never quiet (load 3 to 9), though every reading after is under its
+ratchet or within its slack (turn 121, still 131, still95 284, decision95 92; the decision 28 to 29 against 28).
+
+The next costs, ranked: the schemas whose needs pass only through a query or a negation (OR-1700: attack's reaches and
+peaceable, the ways with things, a measure compared; 2,169 groundings of the walk give the nothing they gave, attack
+some 3 ms each); perception and the frame's rows worked out whole for every revision (OR-1602, some 8 and 2 ms a turn);
+the chart drawn whole on 41 screens, 17 of them for a place first come to (OR-1701, some 6 ms each).
