@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 229 pins (198 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 733 live rows, 239 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 229 pins (198 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 734 live rows, 240 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -645,7 +645,7 @@ page's colours and opportunities.)
 
 ### Words
 
-- **Narration** · 3 pins · 16 defects · 17 asks
+- **Narration** · 3 pins · 17 defects · 17 asks
   - ○ the narration of an hour in a1 holds to "you", in the present, by a census of its sentences
   - ○ a place's first telling gives more than sight (sound, smell, touch or weather), within budget
   - ○ the words never contradict the state (a door told shut is shut, the weather told is so)
