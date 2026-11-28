@@ -101,35 +101,37 @@ Module world_services "Lodging, goods and camping" {
       Decrease quantity(seller, goods) by 1. Increase quantity(actor, goods) by 1. }
     Result "{seller} counts the coins and hands over a {goods}.".
   }
-  // Haggling (the owner, 15 November: a skill check for a better price). A company may try the price of one ware of one
-  // seller once: a good argument takes a coin off it; a poor one, and the seller asks a coin more and will hear no more
-  // of it. Never below one coin, and never of a ware the seller has not (the price is the seller's own, as thanks is).
-  Relation haggled(group, good).
-  Action haggle(actor: group, seller: group, goods: good, site: place) "Haggle with {seller} for {goods}" {
-    Description "Argue for a better price, and be heard or not.".
-    Requires able(actor) and able(seller) and distinct(actor, seller) and at(actor, site) and at(seller, site)
-      and not refusesService(seller, actor) and sells(seller, goods) and quantity(seller, goods) >= 1
-      and goodsPrice(seller, goods) > 1 and not haggled(seller, goods).
+  // Haggling (the owner, 15 November: a skill check for a better price): one argument with a trader over everything
+  // they sell, once, things on a shelf (an item for sale, which is how most of what is sold is sold) and goods by the
+  // one alike. A good one, and they ask a coin less for each of their wares, never below one; a poor one, and a coin
+  // more, and they will hear no more of it. A haggle for each ware had made a store's trade twenty-one rows longer
+  // than its wares, each "Haggle with Soveliss for a lantern" (OR-1852, cold round A1).
+  Relation haggledWith(group, group). Relation haggledDown(group). Relation haggledUp(group).
+  Relation haggledItem(item). Relation haggled(group, good).
+  Query haggleable(m: group, site: place) means (soldBy(?w, m) and forSale(?w) and at(?w, site) and price(?w) > 1)
+    or (sells(m, ?g) and quantity(m, ?g) >= 1 and goodsPrice(m, ?g) > 1).
+  Action haggle_wares(actor: group, merchant: group, site: place) "Haggle with {merchant}" {
+    Description "Argue for a better price on everything they sell, and be heard or not.".
+    Requires able(actor) and at(actor, site) and able(merchant) and at(merchant, site) and distinct(actor, merchant)
+      and not refusesService(merchant, actor) and haggleable(merchant, site) and not haggledWith(merchant, actor).
     Time 3 minutes.
     Resolve check(actor, persuasion, dc_fair).
-    On success { Decrease goodsPrice(seller, goods) by 1. Assert haggled(seller, goods). }
-    On failure { Increase goodsPrice(seller, goods) by 1. Assert haggled(seller, goods). }
-    Result "{seller} thinks it over, and names a lower price for the {goods}.".
-    Otherwise "{seller} will not be argued with, and the {goods} is dearer for the asking.".
+    On success { Assert haggledWith(merchant, actor). Assert haggledDown(merchant). }
+    On failure { Assert haggledWith(merchant, actor). Assert haggledUp(merchant). }
+    Result "{merchant} thinks it over, and asks a coin less for each thing on the shelf.".
+    Otherwise "{merchant} will not be argued with, and everything on the shelf is a coin dearer for the asking.".
   }
-  // The same for a ware that is a thing on a shelf (an item for sale), which is how most of what is sold is sold.
-  Relation haggledItem(item).
-  Action haggle_item(actor: group, find: item, merchant: group, site: place) "Haggle with {merchant} for {find}" {
-    Description "Argue for a better price, and be heard or not.".
-    Requires able(actor) and at(actor, site) and at(find, site) and forSale(find) and soldBy(find, merchant)
-      and able(merchant) and not refusesService(merchant, actor) and at(merchant, site) and distinct(actor, merchant)
-      and price(find) > 1 and not haggledItem(find).
-    Time 3 minutes.
-    Resolve check(actor, persuasion, dc_fair).
-    On success { Decrease price(find) by 1. Assert haggledItem(find). }
-    On failure { Increase price(find) by 1. Assert haggledItem(find). }
-    Result "{merchant} thinks it over, and names a lower price for {find}.".
-    Otherwise "{merchant} will not be argued with, and {find} is dearer for the asking.".
+  Rule haggled_down when haggledDown(?m) and soldBy(?w, ?m) and forSale(?w) and price(?w) > 1 and not haggledItem(?w) {
+    Decrease price(?w) by 1. Assert haggledItem(?w).
+  }
+  Rule haggled_up when haggledUp(?m) and soldBy(?w, ?m) and forSale(?w) and not haggledItem(?w) {
+    Increase price(?w) by 1. Assert haggledItem(?w).
+  }
+  Rule haggled_goods_down when haggledDown(?m) and sells(?m, ?g) and goodsPrice(?m, ?g) > 1 and not haggled(?m, ?g) {
+    Decrease goodsPrice(?m, ?g) by 1. Assert haggled(?m, ?g).
+  }
+  Rule haggled_goods_up when haggledUp(?m) and sells(?m, ?g) and not haggled(?m, ?g) {
+    Increase goodsPrice(?m, ?g) by 1. Assert haggled(?m, ?g).
   }
   // A favour remembered in trade: one grateful to a company asks a coin less of it for each of their wares (the
   // remembered-favour pin, CO-16: gratitude had changed words and never a price). Once a ware, and never below one.

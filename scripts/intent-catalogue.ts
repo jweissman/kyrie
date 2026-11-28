@@ -23,7 +23,7 @@ export class IntentCatalogue {
     perception: ['look_closely', 'look_down', 'examine', 'listen', 'read_item', 'appraise', 'appraise_beyond'],
     discovery: ['search', 'prod', 'pry', 'experiment'],
     movement: ['go', 'arrive', 'depart', 'slip_past', 'plane_shift'],
-    social: ['talk_to', 'ask', 'tell', 'talk_round', 'pass_off', 'sing_supper', 'pay_tribute', 'make_offering', 'haggle', 'haggle_item'],
+    social: ['talk_to', 'ask', 'tell', 'talk_round', 'pass_off', 'sing_supper', 'pay_tribute', 'make_offering', 'haggle', 'haggle_wares'],
     manipulation: ['take_item', 'take_from', 'take_out', 'put_item', 'put_in', 'give', 'give_back', 'give_valuable',
       'transfer_item', 'equip_item', 'use_item', 'eat_item', 'draw_out', 'light', 'light_item', 'light_lamp',
       'douse_light', 'push', 'burn', 'loose_at', 'destroy_source', 'bury_companion', 'raise_quality', 'change_thing'],
@@ -40,7 +40,7 @@ export class IntentCatalogue {
   static readonly distinct: Record<string, string> = { take_lodging_guest: 'take_lodging', light_item: 'light',
     light_lamp: 'light', change_thing_paying: 'change_thing', change_thing_spending: 'change_thing',
     appraise_beyond: 'appraise', wait_hour: 'wait', wait_watch: 'wait', rest_unfed: 'rest', sell_ware: 'sell',
-    sell_valuable: 'sell', buy_item: 'buy_goods', haggle_item: 'haggle', wait_for_dark: 'wait', wait_for_light: 'wait',
+    sell_valuable: 'sell', buy_item: 'buy_goods', haggle_wares: 'haggle', wait_for_dark: 'wait', wait_for_light: 'wait',
     take_raising: 'take_healing', take_restoration: 'take_healing' };
   // The proof a family has, a spec in which the player meets, recognizes, does and is told the result of its intent
   // (an authoritative fixture or a real walk); none, and the family is named as unproven, not claimed. (15 November)

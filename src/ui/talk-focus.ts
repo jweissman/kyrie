@@ -11,7 +11,7 @@ export class TalkFocus {
   static readonly flat = 3;
   // The kinds of act had of someone for coin or work (Choice.does, never the command's words).
   static readonly services = new Set(['take_lodging', 'take_lodging_guest', 'take_healing', 'work_keep', 'sing_supper',
-    'sell', 'sell_valuable', 'sell_ware', 'buy_goods', 'haggle', 'haggle_item', 'train_member', 'learn_skill', 'learn_spell', 'learn_reward']);
+    'sell', 'sell_valuable', 'sell_ware', 'buy_goods', 'haggle', 'haggle_wares', 'train_member', 'learn_skill', 'learn_spell', 'learn_reward']);
   // Never a compound act (the owner, 17 November): "Ask › about the mill" is one act, drawn as one simple row with the
   // words of both, and an act that opens others is none of them but its parts.
   static simple(replies: Choice[]): Choice[] {
