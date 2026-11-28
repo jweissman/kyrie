@@ -11,6 +11,17 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/smaller-defects.test.ts` | A synthetic two-module campaign proves local versus distant milestones; other cases use pure summon, membership and assembly inputs. Keep the two-module boundary and actual paid/unpaid milestones. |
+| `test/spatial-journey-browser.test.ts` | Opt-in built-site browser journey plays generated a1 through town, cellar, combat and map travel. Keep the rendered multi-place journey and browser error check. |
+| `test/speaker.test.ts` | The single speaker probe is played before and after staged death and a movement, checking the same blessing is offered only while present and able. A narrower fixture is a candidate if both negatives are proved. |
+| `test/speaking-door-business.test.ts` | A generated a1 world is walked to the speaking door and compared with its actual followed aim and offered words. Keep the generated route, unspent/spent distinction and positive word witnesses. |
+| `test/spending-change.test.ts` | Lints and plays the socket fixture, taking the idol and consuming it through an altar change. Keep the fixture's own kind and actual lint and ownership transition. |
+| `test/spoils.test.ts` | A synthetic single-module fight checks real inventory dropping and collection after the footpad dies. A fragment is a candidate if the carried inventory, death and pickup witnesses persist and negatives are proved. |
+| `test/spoken-roll.test.ts` | Plays one spoken-roll probe through the real talk and a persuasion outcome. Keep the fixture's displayed odds, result and tried/consented state. |
+| `test/stakes.test.ts` | The stakes probe checks the real scene's person order, aimed bridge and a journey into the barrow. Keep the authored party relationships, objective ordering and played route. |
+| `test/small/toll-stops-once.test.ts` | Installs the actual deserter toll-road module on a synthetic host and plays repeated crossings, with and without paying. Keep the module, offered toll and spoken before/after contrast. |
+| `test/small/ways-kept.test.ts` | One ford-road fixture stages unrelated coin and tide changes, comparing cached passage identities and screen status. Keep the real fixture, dependency reads and open/blocked/reopened contrast. |
+| `test/small/why.test.ts` | Synthetic single-module fact explanations and the actual fells composition with raider-hold placement are inspected, alongside pure writer lookup. Keep source provenance, played changes and all three placement seeds. |
 | `test/small/save-schemas-once.test.ts` | The ford-road fixture plays commands, saves and resumes, comparing schema IDs, canonical state and further digests. Keep the actual checkpoint boundary and continued play; prove the missing duplicate-schema negative before narrowing. |
 | `test/small/single-module.test.ts` | Runs play and inspect CLI entry points on one bare yard module. Keep the real file, CLI paths and refused purchase explanation. |
 | `test/small/sleep-band.test.ts` | Synthetic rat and undead bands plus the actual laboratory corn-store exercise casting, saves, timing and reload. Keep the authored laboratory outcomes and contrasting creatures; negative sleep and attack claims need mutation proofs. |
