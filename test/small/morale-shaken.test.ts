@@ -28,8 +28,10 @@ const band = `
   Person cutters "the cutpurses" at yard { Role "cutpurses". Ancestry human. Calling warrior. Level 1. Numbers 4. Temperament territorial. }
   Person brothers "the Skell brothers" at yard { Role "brothers". Ancestry human. Calling warrior. Level 1. Numbers 2. Temperament territorial. }
   Person zealots "the zealots" at yard { Role "zealots". Ancestry human. Calling warrior. Level 1. Numbers 2. Temperament savage. }
+  Person rats "the rats" at yard { Role "rats". Species rat. Numbers 4. Level 1. Temperament wary. }
   Relation avenged(group).
   Rule brothers_fall when dead(brothers) and not avenged(party) { Assert avenged(party). }
+  Observe rats_heard at yard when able(rats) and at(rats, yard) "Something scratches under the boards.".
   Goal false.`;
 
 describe("a band's morale", () => {
@@ -52,15 +54,17 @@ describe("a band's morale", () => {
     expect(saves(fight(['zombie', 'zombie', 'zombie', 'zombie'], { morale: true }, 'z'))).toEqual([]);
     expect(saves(fight(['person', 'person', 'person', 'person'], undefined, 'n'))).toEqual([]);
   });
-  it('tests a band of beasts at its first fallen, and again at half', () => {
-    const half = fight(['wolf', 'wolf', 'wolf', 'wolf'], { morale: true }, 'w');
+  it('tests a wary band of beasts at its first fallen, and again at half', () => {
+    const half = fight(['wolf', 'wolf', 'wolf', 'wolf'], { morale: true, skittish: true }, 'w');
     expect(saves(half).map(e => e.actor).sort()).toEqual(['f2', 'f3']);
+    // A pack that is not wary (set on to guard, territorial) holds: Bowle's mastiffs.
+    expect(saves(fight(['wolf', 'wolf', 'wolf', 'wolf'], { morale: true }, 'w'))).toEqual([]);
     for (let i = 0; i < 12; i++) {
       const hero = new Content('w').character('warrior', 'w', 'fighters', 'human');
       hero.hp = hero.maxHp = 200;
       const rats = [0, 1, 2, 3, 4, 5].map(n => new Content(`f${n}`).creature('rat', `f${n}`, 'goblins', 1));
       rats[0]!.hp = 0;
-      const b = new Battle({ id: 'm', combatants: [hero, ...rats], abilities: Content.abilities, terms: { morale: true } },
+      const b = new Battle({ id: 'm', combatants: [hero, ...rats], abilities: Content.abilities, terms: { morale: true, skittish: true } },
         `r${i}`);
       // The first test, as the fight is joined with one of six down: each of the five standing.
       expect(saves(b).length).toBe(5);
@@ -75,6 +79,9 @@ describe("a band's morale", () => {
     expect(terms('cutters')).toEqual({ morale: true });
     expect(terms('brothers')).toBeUndefined();
     expect(terms('zealots')).toBeUndefined();
+    // What is told while a band is there and able waits on nothing (the deep's sounds: OR-1855); a wary one is
+    // skittish.
+    expect(terms('rats')).toEqual({ morale: true, skittish: true });
   });
 });
 describe("a band's morale, told", () => {
