@@ -42,6 +42,11 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/bout.test.ts` | One authored bout fixture on Journey, at two seeds, covering yielding, routing and a captor. The non-lost-fight prose absence needs a counterfactual before narrowing. |
 | `test/brief-returns.test.ts` | One household fixture through PlaySession, with repeated trips and a companion's changed observation. Keep the actual temporal sequence and the changed text. |
 | `test/bring.test.ts` | Parser fragments plus one inline overlay campaign on full shared rules, not a generated world. Its initial and transient absences need counterfactuals before a smaller declared rule set is accepted. |
+| `test/burden.test.ts` | Generated `wren` and its actual vein, plus a pure local-catalog case. Keep the heavy/light travel comparison and first-light transition; the initial and night-time absences need counterfactuals before narrowing. |
+| `test/buyer-purse.test.ts` | One trade fixture on Journey, with a scholar and a low-coin carter. The successful sale witnesses the trade path; the carter's absent offer needs a counterfactual before narrowing. |
+| `test/called-band.test.ts` | One called-band fixture on Journey, with three named people and their plural payment response. Preserve the authored band and its actual spoken result. |
+| `test/calling-copies.test.ts` | Two inline overlay modules installed in one campaign, not a generated world. Their independently namespaced calling facts are the claim; a single module cannot replace them. |
+| `test/campaign-boundary.test.ts` | Two inline overlay campaigns with distinct rules and catalogs, interleaved through play, save and a suspended command. Their concurrent isolation and boundary errors require both campaigns. |
 | `test/small/arrival-attention.test.ts` | The single `arrivals.kyr` track and its narrated arrival matrix. Narrowed to the inhabitants, probing and services rules; the fixture path remains statically classified as world. |
 | `test/small/perceived-rows.test.ts` | The same track, comparing each perceived row with the frame's own row. Narrowed with the shared fixture. |
 | `test/small/player-choice-rows.test.ts` | The same track, including a cold revision cache and the real choice rows. Narrowed with the shared fixture without pre-building a page. |
