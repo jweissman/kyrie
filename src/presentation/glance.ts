@@ -48,7 +48,7 @@ export class Glance {
       : recall.been(here) || telling.known ? 'return' : 'first';
     const lines = GlanceLines.of(campaign, screen, { ...telling, arrival, recall, changes: told?.event.changes }),
       scene = Attending.place(SceneModel.build(screen)), sensed = Perception.sensed(campaign, screen);
-    const life = lines.life?.subject;
+    const life = lines.lived;
     const reading = this.reading(campaign, screen, { recall, life, pointed: lines.pointed, sensed, told });
     const s: Situation = { threat: scene.subjects.some(x => SceneModel.threat(x)), warned: !!screen.warned,
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
