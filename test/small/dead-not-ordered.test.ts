@@ -15,7 +15,7 @@ const ordered = (t: Tiny) => t.journey.choices().some(c => /^hold_here\(/.test(c
 
 describe('a companion dead', () => {
   it('is asked to stay no more', async () => {
-    const t = await Tiny.start(yard);
+    const t = await Tiny.start(yard, { horizon: [] });
     await t.play('Ask (Hob|him) to join the company');
     expect(ordered(t)).toBe(true);
     const store = (t.campaign as unknown as { creatures: CreatureStore }).creatures;
