@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 74 capabilities; 260 pins (229 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 762 live rows, 253 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 74 capabilities; 263 pins (232 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 763 live rows, 253 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -196,8 +196,9 @@ page's colours and opportunities.)
   - direction OB-19 P3: The middle scale inside a hex (the owner, 15 November): a gallery of existing hexes at local scale…
   - direction OB-20 P2: Wander (the owner, 15 November): a deterministic, authoritative exploration policy over known…
   - direction TR-03 P2: Travel cost (F): a six-to-eight-hex journey differs from one hex only in time
-- **Wayfinding and bearings** · 4 pins · 10 defects · 7 asks
+- **Wayfinding and bearings** · 5 pins · 10 defects · 7 asks
   - ○ a strategic map of countries above the hex map, and a hex view of the places within a hex
+  - ✓ goes down from the stones, up from its head, and out only from the adit mouth
   - ✓ marks the way from the shrine that leads on to the woods not yet seen, the woods' edge walked
   - ✓ marks the way back out of a dead-end recess, toward the gallery not yet entered
   - ✓ is said alike by the terminal and the page, by the way's own command
@@ -213,7 +214,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 21 defects · 18 asks
+- **Aims and the gold thread** · 18 pins · 20 defects · 18 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -221,6 +222,8 @@ page's colours and opportunities.)
   - ✓ waits for the day where only the night stands in its way
   - ✓ goes down by the wheel on the gold alone, never twice in one place under one lead
   - ✓ leads back to the room the way down was seen from, not into a recess not yet seen
+  - ✓ is copied at the stair where it is read, and not offered further in
+  - ✓ says of what the makers feared below that it is found on the way down, after the way in
   - ✓ at the gate-well, the pawl found: taking it (cold play 5's 6)
   - ✓ at the windlass with Gesk hired, the wind gold among the four (its 10); and after a try that did not come off,
   - ✓ turned to Ianto at the staithe: poling his boat among what is had of him, first
@@ -327,7 +330,7 @@ page's colours and opportunities.)
 
 ### The land
 
-- **Countries and regions** · 0 pins · 8 defects · 22 asks
+- **Countries and regions** · 0 pins · 9 defects · 22 asks
   - requirement PV-03 P2: **The Landholder:** acquire a parcel, commission a change, leave, return, find it part of the…
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
@@ -823,7 +826,7 @@ page's colours and opportunities.)
   - requirement R10-05 P2: Acceptance defect B6 (11 November): one combined replay through the headless projection and the…
   - requirement OR-525 P1: Restoration, carried as a beta commitment at alpha's close (trust-contracts.md: "to do") and never…
   - requirement MT-27 P2: Saves carry the compiled module rather than chiefly state (Finding F: a 2.8 MB checkpoint, 1.6 MB…
-- **Start-up and loading** · 1 pins · 7 defects · 15 asks
+- **Start-up and loading** · 1 pins · 7 defects · 16 asks
   - ✓ keeps the game once, however many legs it goes
   - direction SP-02 P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB…
   - requirement SP-03 P2: Reuse compiled module and operator definitions across sessions; cache one player frame per response
@@ -834,6 +837,7 @@ page's colours and opportunities.)
   - requirement LC-03 P2: Waiting costs about 7 s a game day on a drawn country (silent-lord-malice's nine-day wait: 65 s of…
   - requirement LC-04 P2: The rest lane made cheaper (the fast line, 15 Nov). **Kept times refreshed** from the full run…
   - requirement OR-144 P1: Set out now is still slow (the owner's playtest, 20 November: "We should be able to set out now…
+  - requirement OR-1900 P2: A new world's Kyr that templates write is still filled as text and parsed again: once AX-04's…
   - requirement OR-137 P1: The start itself to about a second, and kept: restored across loads rather than drawn again (9-17…
   - requirement OR-126 P1: The first fifteen seconds as four clicks in about 4 s: new game, accept the world, generate a…
   - requirement OR-1741 P2: Deem keeps every expression it has parsed as its whole ohm MatchResult, the matcher's memo table…
