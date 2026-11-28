@@ -65,6 +65,12 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/autoplay-engaged.test.ts` | One `turns-on` fixture module with `inhabitants`. Retained on full rules: bypassing engaged-row filtering makes its wait assertion fail, but bypassing the destination guard does not fail its no-journey assertion; a destination witness is needed. |
 | `test/autoplay-tempers.test.ts` | Three generated worlds with distinct origins, parties and autoplay policies, plus pure invariant examples. The varied 60-step worlds are the claim and are not interchangeable with one fragment. |
 | `test/autoplay.test.ts` | Pure draw and shrinking checks, catalog encounter runs and an `a1` world played and replayed. Each different layer is asserted; the replay and fight workload must remain. |
+| `test/backstage-tabs-browser.test.ts` | A built site, a real browser at two viewport sizes and a generated `a1` world. The keyboard navigation and fixed-position checks are browser integration, gated by `KYRIE_BROWSER`. |
+| `test/barrow-forewarned.test.ts` | The generated `iscoed` world and its actual barrow, innkeeper, jar and king. It compares warned and unwarned outcomes and the equipped-jar timing. |
+| `test/barrow-walked.test.ts` | The generated `iscoed` world walked from the inn through barrow fights for warned and unwarned parties. The actual sequence, outcomes and fights are the claim. |
+| `test/begin-flow.test.ts` | The real engine host, headless rendered title and generated countries, including checkpoint and replay paths. The title-to-play and per-life seed interactions are integration claims. |
+| `test/bell-lead.test.ts` | The generated `kite` world with Brightbridge, Joygate, the hobs and the shepherd. It asserts the lead before and after each actual discovery. |
+| `test/bell-walk.test.ts` | The generated `kite` world and a complete bell-and-shepherd expedition, including the planned travel, returned bell and persistent fled state. A fragment cannot replace the walk. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
