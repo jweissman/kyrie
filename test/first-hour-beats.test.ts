@@ -31,8 +31,12 @@ describe('the drove road\'s first turn', () => {
     expect(Road.text(first)).not.toMatch(Road.town);
     // Owain's talk is the aim's own row, in its words, and asking him takes the aim up: no row to follow it beside it
     // (one row, one act: OR-466).
-    expect(first.offer.primary.map(o => o.id).toSorted()).toEqual(['drove__owain#talk', 'exit:drove__customs',
-      'origin__stick#look', 'region__w8_head#talk']);
+    // The fourth is whoever on the green has something to be asked on the company's grounds: no longer the factor,
+    // whose only question was after a barrow never heard of (OR-1680).
+    const four = first.offer.primary.map(o => o.id);
+    expect([four.length, ...['drove__owain#talk', 'exit:drove__customs', 'origin__stick#look'].map(x => four.includes(x))])
+      .toEqual([4, true, true, true]);
+    expect(four).not.toContain('region__w8_head#talk');
     expect(first.offer.primary.find(o => o.id === 'drove__owain#talk')?.label).toBe('Ask Owain how many head came down');
     // The page's own telling of the place (its setting) is the charge's too; the rest of the green is held for a look.
     const glanced = Narrator.leaf(c, ScreenModel.build(c)).glanced!;

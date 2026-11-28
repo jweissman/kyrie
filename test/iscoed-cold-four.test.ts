@@ -128,9 +128,11 @@ describe('the golden route, after the fourth cold play', () => {
     expect(labels(byLine[0]).join('|')).toMatch(/(^|\|)[A-Z][a-z]+ [A-Z][a-z]+: where his drove went/);
     expect(labels(byLine[0]).join(' ')).not.toMatch(/^Ask the drover|Ask the Guldríce agent/);
     // The company's head is called by its kingdom, not "the factor", beside Aster of the Exchange (CL-49's 12): among
-    // the people here.
-    expect(all(byLine[0])).toContain('Talk to the Guldríce agent');
-    expect(all(byLine[0]).join(' ')).not.toContain('the factor');
+    // the people on the green once the company has heard of the barrow he wants (OR-1680: with nothing heard he has
+    // nothing to be asked, and no row; the innkeeper's word, at line 20, is the play's grounds).
+    const green = told.filter(t => t.at === 'region__s1_green' && t.offer);
+    expect(green.some(t => all(t).includes('Talk to the Guldríce agent'))).toBe(true);
+    expect(green.map(t => all(t).join(' ')).join(' ')).not.toContain('the factor');
     expect(labels(at('drove__customs'))).toContain('Ask Bran what happened');
   });
   // CL-48's 21: the north recess marked heard, and what is heard from it held for a look; it is said on coming.
