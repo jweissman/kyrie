@@ -12,8 +12,10 @@ export interface Great {
   coast?: { side: Side; within: number };
 }
 // A city of the canon built in every world (data/imbar/shape.json's seats): the identity it is (dun_ri), what it is
-// called, and the cells its country may be, read as a great region's; the nearest of them that is land is its.
-export interface Seat { identity: string; name: string; where: Great['where'] }
+// called, and the cells its country may be, read as a great region's; the nearest of them that is land is its; and
+// what is going on in it in every world (data/scenarios/<id>.scenario.json), laid over the city, never a city of its
+// own (The Empty Seat's succession).
+export interface Seat { identity: string; name: string; where: Great['where']; goings?: string[] }
 // The shape of Imbar: certain cells of every generated world's grid of countries (see WorldGrid) are what they are
 // whatever the seed, by rule over the grid rather than by any coordinate an author must know: the Eastern Ocean
 // beyond the first country's eastern march, the Great Desert south beyond its southern neighbour, the Southern Sea
@@ -77,6 +79,13 @@ export class WorldShape {
   // The city of the canon built in a cell's country, if one is.
   static seated(x: number, y: number): Seat | undefined {
     return this.seats.find(s => { const at = this.seat(s.identity); return at?.[0] === x && at[1] === y; });
+  }
+  // What is going on in the cities of the canon a country holds, in every world: placed in it as a country's own
+  // goings-on are (see StrategicAtlas.goings), each in the city its seat says (a scenario's `seat:dun_ri`).
+  static goings(region: { settlements: readonly { seat?: string }[] }): string[] {
+    const held = new Set(region.settlements.flatMap(s => s.seat ? [s.seat] : []));
+    return this.seats.filter(s => held.has(s.identity))
+      .flatMap(s => (s.goings ?? []).map(id => `data/scenarios/${id}.scenario.json`));
   }
   // How far from the first country a seat is looked for.
   private static readonly reach = 8;

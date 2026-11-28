@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "id": "empty-seat",
+  "name": "The Empty Seat",
+  "about": "The succession at Dun Rìerdan, laid over the canon's city in every world: placed in the country its seat makes the city of (data/imbar/shape.json's seats, `goings`), its ward the city itself and its square the city's heart, never a city of its own (doc/adventures/theemptyseat/friction.md, ES-F01). The standalone proof binds the same modules to a stand-in (data/campaigns/theemptyseat.campaign.json).",
+  "kind": "town",
+  "instances": 1,
+  "places": {
+    "city": {
+      "settlement": "seat:dun_ri"
+    }
+  },
+  "modules": [
+    {
+      "id": "theemptyseat",
+      "bundle": "../goings-on/theemptyseat/module.json",
+      "imports": {
+        "party": "@party",
+        "ward": "@city",
+        "square": "@city.green"
+      }
+    },
+    {
+      "id": "city-news",
+      "bundle": "../goings-on/theemptyseat/news.module.json",
+      "imports": {
+        "party": "@party",
+        "news_place": "theemptyseat.entry",
+        "news_carrier": "theemptyseat.herald"
+      }
+    },
+    {
+      "id": "guild-news",
+      "bundle": "../goings-on/theemptyseat/news.module.json",
+      "imports": {
+        "party": "@party",
+        "news_place": "theemptyseat.guild_hall",
+        "news_carrier": "theemptyseat.guildkeeper"
+      }
+    }
+  ],
+  "hooks": []
+}

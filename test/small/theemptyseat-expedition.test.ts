@@ -6,10 +6,10 @@ import { PlaySession } from '../../src/session/play-session';
 import { Journey } from '../../src/session/journey';
 import { Content } from '../../src/content';
 import type { DeemValue } from 'deem';
-import tables from '../../data/adventures/theemptyseat/tables.json';
-import templates from '../../data/adventures/theemptyseat/templates.json';
+import tables from '../../data/goings-on/theemptyseat/tables.json';
+import templates from '../../data/goings-on/theemptyseat/templates.json';
 
-const source = readFileSync('data/adventures/theemptyseat/expedition.kyr', 'utf8');
+const source = readFileSync('data/goings-on/theemptyseat/expedition.kyr', 'utf8');
 const body = source.slice(source.indexOf('{') + 1, source.lastIndexOf('}'));
 const fixture = (occupied = true, kept = true) => `
   Place city "the city" is region within imbar.
@@ -45,7 +45,7 @@ const fixture = (occupied = true, kept = true) => `
 const start = (occupied = true, kept = true, mathematician = true) => Tiny.start(fixture(occupied, kept), {
   party: [{ name: 'Elen', raceId: 'human', classId: 'warrior', level: 3,
     ...mathematician ? { perk: 'mathematician' } : {} }],
-  canon: ['imbar', 'inner_earth', 'ri_evidence_kept'], night: 'none',
+  canon: ['imbar', 'inner_earth', 'ri_evidence_kept'], night: 'none', horizon: ['canon', 'fantasy', 'probing'],
 });
 const enter = async (t: Tiny, kept = true) => {
   await t.play("Pack the expedition's test provisions");

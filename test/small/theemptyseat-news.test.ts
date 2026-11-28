@@ -7,8 +7,8 @@ import { Journey } from '../../src/session/journey';
 import { PlaySession } from '../../src/session/play-session';
 import { Knowing } from '../../src/presentation/knowing';
 import { PlayerFrame } from '../../src/presentation/player-frame';
-import tables from '../../data/adventures/theemptyseat/tables.json';
-import templates from '../../data/adventures/theemptyseat/templates.json';
+import tables from '../../data/goings-on/theemptyseat/tables.json';
+import templates from '../../data/goings-on/theemptyseat/templates.json';
 
 const directory = 'single/seat-news-proof';
 const body = `Module village "A village hearing the city" {
@@ -40,7 +40,7 @@ const start = () => {
     [`${directory}/campaign.json`]: JSON.stringify({ version: 1, name: 'News proof', modules: [
       { id: 'village', bundle: 'module.json' },
       ...[['village-news', 'green', 'keeper'], ['court-news', 'court', 'herald']].map(([id, room, carrier]) => ({
-        id, bundle: NodeBundleSource.shared.resolve('data/adventures/theemptyseat/news.module.json'),
+        id, bundle: NodeBundleSource.shared.resolve('data/goings-on/theemptyseat/news.module.json'),
         imports: { party: 'village.party', news_place: `village.${room}`, news_carrier: `village.${carrier}` },
       })),
     ] }),

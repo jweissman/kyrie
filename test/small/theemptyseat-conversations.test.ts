@@ -2,8 +2,8 @@ import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { Tiny } from '../support/tiny';
 
-const source = readFileSync('data/adventures/theemptyseat/siege.kyr', 'utf8');
-const site = readFileSync('data/adventures/theemptyseat/site.kyr', 'utf8');
+const source = readFileSync('data/goings-on/theemptyseat/siege.kyr', 'utf8');
+const site = readFileSync('data/goings-on/theemptyseat/site.kyr', 'utf8');
 const claim = source.match(/ {2}Topic crown_aled_witnessed\b[\s\S]*?\n {2}}/)?.[0];
 if (!claim) { throw new Error('Missing the witnessed Empty Seat claim'); }
 const present = source.match(/ {2}Query courtPresent\b[\s\S]*?\.\n/)?.[0];
@@ -58,7 +58,7 @@ const options = { rules: ['world', 'venturing'],
 describe('earlier mathematical testimony', () => {
   it('makes Halm’s early reports and caution yield a real diagram that Mared can use', async () => {
     const halm = readFileSync('data/adventures/low-water/halm.kyr', 'utf8');
-    const expedition = readFileSync('data/adventures/theemptyseat/expedition.kyr', 'utf8');
+    const expedition = readFileSync('data/goings-on/theemptyseat/expedition.kyr', 'utf8');
     const comparison = expedition.match(/^ {2}Entity iv_compare:.*$/m)?.[0];
     if (!comparison) { throw new Error('Missing Mared’s comparison'); }
     const declarations = halm.match(new RegExp(

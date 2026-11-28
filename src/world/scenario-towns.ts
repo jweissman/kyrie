@@ -30,7 +30,7 @@ export class ScenarioTowns {
     // A need of no known form is refused, not quietly taken for the first town (Wapshott's Circus friction 17).
     if (!this.forms.some(f => f.endsWith(':') ? need.startsWith(f) : need === f)) {
       throw new Error(`Unknown settlement need '${need}': it is one of ${this.forms.map(f => f === 'toward:' ? `${f}side`
-        : f.endsWith(':') ? `${f}role` : f).join(', ')}`);
+        : f === 'seat:' ? `${f}identity` : f.endsWith(':') ? `${f}role` : f).join(', ')}`);
     }
     // Nothing is set in the reference game's town, while another can hold it (see ReferenceSettlement).
     const fit = region.settlements.filter(t => !ReferenceSettlement.is(region, t)
@@ -43,6 +43,9 @@ export class ScenarioTowns {
     }
     // What goes round the country (a circus, a pedlar) is shared with whatever else is there, and claims nothing.
     if (need === 'largest') { return this.largest(fit.length ? fit : region.settlements).id; }
+    // The city of the canon seated in the country (seat:dun_ri): what is set there is laid over the city itself.
+    // A country that holds no such city holds none of it (the placement is not made).
+    if (need.startsWith('seat:')) { return region.settlements.find(t => t.seat === need.slice(5))?.id ?? ''; }
     // A settlement a country's atlas names (named:Gatesend): what is set there is the country's own (see
     // StrategicAtlas.goings).
     const named = need.startsWith('named:') && region.settlements.find(t => t.name === need.slice(6));
@@ -65,7 +68,7 @@ export class ScenarioTowns {
     claimed.add(town.id);
     return town.id;
   }
-  static readonly forms = ['any', 'largest', 'along:', 'near:', 'toward:', 'named:'];
+  static readonly forms = ['any', 'largest', 'along:', 'near:', 'toward:', 'named:', 'seat:'];
   static readonly sizes: Record<string, number> = { town: 3, village: 2, hamlet: 1 };
   // The biggest settlement, the first of those as big.
   static largest(towns: Settlement[]): Settlement {

@@ -55,15 +55,15 @@ Every region, site, institution and situation is a directory with a `module.json
   entities (abilities, item kinds, capabilities, goods) keep their ids everywhere.
 - `generation` is optional. A situation uses it to cast and label its people and things per setting.
 
-For a causal storytelling example, [The Empty Seat](adventures/theemptyseat/NOTES.md) uses a Deem visitor profile to
+For a causal storytelling example, [The Empty Seat](goings-on/theemptyseat/NOTES.md) uses a Deem visitor profile to
 bind a person's name, words and practical aid together. Kyr's Occasions, Promises and ordinary resource effects
 decide which possibility becomes an event. Variation is not a rerolled explanation for a predetermined result.
 
-Its [news module](adventures/theemptyseat/news.module.json) is a portable reporting kit. Bind `party`, `news_place`
+Its [news module](goings-on/theemptyseat/news.module.json) is a portable reporting kit. Bind `party`, `news_place`
 and `news_carrier` to an existing company's, room's and teller's exports. It reads canonical `befell` events, waits
 for delivery, and offers a local rumour and a carried newspaper edition. Reading uses ordinary ownership, light and
 wakefulness guards. Neither reading nor gossip makes the reported event happen; an old edition is never updated
-into a new one. The standalone campaign demonstrates the kit in the city and at the gate cottages.
+into a new one. In a world it is installed twice in Dun Rìerdan (data/scenarios/empty-seat.scenario.json): in the city's heart and at the Guild safehouse; the standalone campaign does the same over a stand-in city.
 
 ### Conversations that move something
 
@@ -72,7 +72,7 @@ counts that opening, but not the topic's own recall or its merely becoming unava
 character, permit an act, change a relationship or put evidence to use; they need not give money or teach a fact.
 
 Teaching a fact is not by itself literary payoff. Give it a reader: another question, an inference, a route or an
-act that changes the world. The [Empty Seat audit](adventures/theemptyseat/NOTES.md#conversation-audit) distinguishes
+act that changes the world. The [Empty Seat audit](goings-on/theemptyseat/NOTES.md#conversation-audit) distinguishes
 these uses from journal-only hooks and deliberate respite. Deem should draw a coherent motive and difficulty
 together; Kyr carries their consequences forward rather than rerolling them at the next scene.
 

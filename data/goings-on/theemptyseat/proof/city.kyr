@@ -1,4 +1,13 @@
-Module theemptyseat "The Empty Seat" {
+Module seat_city "Dun Rìerdan, for the proof" {
+  // A stand-in for the canon's city, for The Empty Seat's standalone proof campaign alone (data/campaigns/
+  // theemptyseat.campaign.json): what every world builds where its shape seats dun_ri (a drawn country's chief town,
+  // seatOf(dun_ri, it), and its heart), so that the chapter's own rooms, people and clocks can be walked without
+  // drawing a world. In a world the chapter is laid over that city (data/scenarios/empty-seat.scenario.json); this
+  // module is installed nowhere else.
+  Place city "Dun Rìerdan" is region within imbar.
+  Place ward "the seven-tower ward" is settlement within city at 0, 0.
+  Place square "the bell square" is room within ward at 0, 0 outdoors.
+  Initially Assert seatOf(dun_ri, ward).
   Company party "Your company" of 1 at square.
   Initially Set quantity(party, gold) to 10. Initially Set quantity(party, rations) to 2.
 }

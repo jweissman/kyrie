@@ -21,21 +21,32 @@ New literary suggestions are recommendations, not commissioned features.
 
 ## ES-F01: the city cannot be integrated by placing a second city
 
-**Kind:** integration defect. **Status:** open. **Priority:** P1 for this
-branch's landing. **Existing dependency:** WM-06 / M19-107; the broader
-metropolis direction is deferred.
+**Kind:** integration defect. **Status:** closed (27 November, on integration;
+register OR-1782). **Existing dependency:** WM-06 / M19-107 for the broader
+metropolis direction, which stays deferred.
 
-The standalone chapter declares the court, towers and gate. Adding it as an
-ordinary province would create another Dun Rì rather than layering the
-adventure onto the canonical city. Leaving it standalone fails
-[every-adventure-placed](../../../test/small/every-adventure-placed.test.ts).
+The standalone chapter declared the court, towers and gate in a Dun Rìerdan of
+its own. Adding it as an ordinary province would have created another Dun Rì
+rather than layering the adventure onto the canonical city. Leaving it
+standalone failed [every-adventure-placed](../../../test/small/every-adventure-placed.test.ts).
 
-**What was done:** kept the proof standalone and documented the failing gate.
-No allowlist was widened and no directory was moved to evade the check.
+**Repair:** the chapter is laid over the canon's city in every world. The seat
+of `dun_ri` in [the world's shape](../../../data/imbar/shape.json) says what
+goes on in it (`goings`), and the country that seat makes the city of places
+[the scenario](../../../data/scenarios/empty-seat.scenario.json) as a
+country's own goings-on are, by the settlement need `seat:dun_ri`: the
+chapter's `ward` is the city itself and its `square` the city's heart. The
+material moved to `data/goings-on/theemptyseat`, since it is no longer a
+province; it builds the seven towers inside the city and declares no city.
+Its standalone proof campaign binds the same modules to a stand-in
+(`proof/city.kyr`). No allowlist was widened.
 
-**Needed:** a canonical-city overlay with role bindings and installation
-identity. Prove two adventures coexist in one city, then install this chapter
-there. A merely green placement list is not acceptance.
+**Proof:** [placement](../../../test/small/empty-seat-placed.test.ts) and the
+installed city in [Dun Rìerdan](../../../test/dun-rierdan.test.ts).
+
+**Remaining:** in the atlas's worlds the Rì's country's own Tower of the
+Scales going-on and this chapter's tower are two places (OR-1784, blocked by
+WM-06). Reunions with the actual provincial people are ES-F02 (OR-1783).
 
 ## ES-F02: a returning name is not a returning person
 
@@ -234,7 +245,7 @@ available solutions or dramatic reversals.
 
 **Measurement:** 33/38 procedural deliveries in Act IV; the denominator counts
 whole narrative delivery slots, not unique stories, words or plot nodes.
-See the [storyboard](../../../data/adventures/theemptyseat/ACT-IV.md).
+See the [storyboard](../../../data/goings-on/theemptyseat/ACT-IV.md).
 
 **Next experiment:** two table-selected situations with distinct principal
 needs and solutions, each declared as ordinary Kyr. Test agreement between
@@ -295,8 +306,17 @@ ratchet and aim-successor. The cost case also passed in isolation. That does
 not explain the original broader-suite reading: no quarantine, wider bound or
 claimed engine fix hides it. The whole small suite was not rerun after the port.
 The newer main rebase preserves its wagoner horizon improvement; the combined
-census is now 28 horizon files and 233 whole-rule files. ES-F01 remains open and
-prevents a main landing.
+census is now 28 horizon files and 233 whole-rule files.
+
+**Integration (27 November):** the whole small suite, rebased on main, passed
+but for ES-F01 (1,421 of 1,422), aim-successor's cost case included: the
+reading was not reproduced, in a shared process or alone. Timed one at a time
+against main, the world-drawing specs nearest the push lane's ten seconds are
+within noise (a region's Kyr is about 1% larger with the books and traces, its
+writing no slower). The lane's growth is the fifteen new spec files, about
+38 s locally, none over ten seconds. Laying the chapter over the city costs the
+first crossing north about 1.3 s: three more modules, each install about
+430 ms whatever its size (the per-install recheck of AX-03 and T24-11).
 
 ## ES-F15: the verification method has an artistic ceiling
 
@@ -327,7 +347,7 @@ orbital model. A genuine three-dimensional Mathematical Orrery and a prediction
 of the next eclipse cannot honestly be derived from them.
 
 **What was done:** kept those capabilities in the
-[instrument portfolio direction](../../../data/adventures/theemptyseat/MATHEMATICAL-WORLD.md),
+[instrument portfolio direction](../../../data/goings-on/theemptyseat/MATHEMATICAL-WORLD.md),
 not as decorative widgets or invented forecasts. Actual earned senses have
 save/restore proofs; the larger portfolio remains designed, not implemented.
 
@@ -356,9 +376,8 @@ have become known.
 
 ## What to do first
 
-1. Explain the unreproduced broader-suite cost reading and preserve the
-   placement blocker. The horizon port is proved; publish only as a clearly
-   labelled review branch until canonical integration exists.
+1. Done on integration: the chapter is laid over the canonical city (ES-F01)
+   and the cost reading was measured (ES-F14).
 2. Advance conditional act effects as the bounded OR-1333 slice, not a wholesale
    grammar rewrite.
 3. Integrate one actual reunion; prove identity, absence and changed allegiance.
