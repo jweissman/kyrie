@@ -836,7 +836,8 @@
        "feature": "consequence",
        "pins": [
         "Choice & Consequence › Branching at multiple scales",
-        "Choice & Consequence › Visible consequence tracking"
+        "Choice & Consequence › Visible consequence tracking",
+        "Choice & Consequence › A consequence that turns on the world"
        ],
        "default": true,
        "rows": [
