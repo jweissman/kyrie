@@ -14,7 +14,8 @@ import { SpecHorizons } from '../../scripts/spec-horizons';
 // 21 → 23: the grounded questions and the character within reach, on the kernel.
 // 23 → 24, 234 → 233: the knowledge indicator's wagoner on the kernel (PR #25), over main.
 // 24 → 85: Copilot's 51 narrowings of 28 November (PRs #19 to #70), batched; 233 → 179 on the whole rules.
-const kept = { horizon: 85, rules: 179 };
+// 85 → 86 over the stack: the deep renewed on its horizon (inhabitants, probing).
+const kept = { horizon: 86, rules: 179 };
 describe('the specs by horizon', () => {
   const now = SpecHorizons.census();
   it('moves no spec off its horizon, and starts no new tiny world on the whole of the shared rules', () => {
