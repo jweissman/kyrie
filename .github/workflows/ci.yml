@@ -23,35 +23,6 @@ concurrency: { group: "ci-${{ github.ref }}-${{ github.event_name }}", cancel-in
 defaults:
   run: { working-directory: kyrie }
 jobs:
-  horizon_samples:
-    if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'copilot/spec-knowledge-1128' }}
-    name: Tier samples (${{ matrix.version }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    strategy:
-      fail-fast: false
-      matrix:
-        version: [before, after]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          path: kyrie
-          ref: ${{ matrix.version == 'before' && 'b7f3c2a1a0e1555a815d36886fc2ad9160f5d13f' || github.sha }}
-          sparse-checkout: |
-            /*
-            !/assets/
-          sparse-checkout-cone-mode: false
-      - uses: oven-sh/setup-bun@v2
-        with: { bun-version: 1.4.3 }
-      - run: bun install --frozen-lockfile
-      - name: Measure representative specs
-        run: |
-          for spec in test/small/choice-ids.test.ts test/small/asked-answered.test.ts \
-            test/small/blue-teaches.test.ts test/small/bran-sent.test.ts test/small/declaration-parses.test.ts; do
-            echo "::group::$spec"
-            test -n "$spec" && /usr/bin/time -v bun test "$spec"
-            echo "::endgroup::"
-          done
   check:
     name: lint and types
     runs-on: ubuntu-latest
@@ -79,15 +50,6 @@ jobs:
           restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: bun run lint
       - run: bun run typecheck
-      - id: horizon-orsino
-        if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'copilot/spec-knowledge-1128' }}
-        run: echo "revision=$(jq -r .source.revision data/sources/orsino/registry.json)" >> "$GITHUB_OUTPUT"
-      - uses: actions/checkout@v4
-        if: ${{ steps.horizon-orsino.outcome == 'success' }}
-        with: { repository: jweissman/orsino, ref: "${{ steps.horizon-orsino.outputs.revision }}", path: orsino }
-      - name: Verify the requested fast gate
-        if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'copilot/spec-knowledge-1128' }}
-        run: bun run check:fast
   # The player's contracts, first and on their own, so that a broken one says so in minutes rather than at the end
   # of the suite (the reviews of 9 November): an aim's target, the map's journeys and the campaign's refusal of any
   # other way into the next hex, the choices on the page; and the opening played as a player who knows only the page.
