@@ -26,6 +26,7 @@
    "interface/title-four": "opening",
    "interface/creation-curtain": "creation",
    "interface/embers-wind": "opening",
+   "interface/studio-struck": "opening",
    "character/ancestry-cards": "creation",
    "character/peoples-told": "creation",
    "interface/talk-focus": "talk",
@@ -1839,7 +1840,8 @@
   "OR-1800": "creation",
   "OR-1801": "creation",
   "OR-1802": "creation",
-  "OR-1803": "opening"
+  "OR-1803": "opening",
+  "OR-1804": "opening"
  },
  "aspects": [
   {

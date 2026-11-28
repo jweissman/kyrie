@@ -8,7 +8,7 @@ import { Identity } from '../../src/presentation/identity';
 // red, green, blue, violet), held while the studio's name comes up beneath it, and all of it goes out to black. Its
 // colours move within it; nothing flashes or blinks (OR-507). Any key or touch ends it (TitlePage.useBeat). One who
 // asks for less motion is never shown it (TitlePage.first, SiteBuild.early). The seven towers it had been (OR-528)
-// remain the title's emblem (Ident.Glyph).
+// remain the title's emblem (Ident.Glyph). As it rises, sparks are struck from its tip (see sparks).
 export class Ident {
   // Every tone of the Atlas, in its precedence (GRAMMAR.md: gold, red, green, blue, violet), as the stylesheet draws
   // them through the indicator (frame.css); no tone is written as a colour here.
@@ -17,11 +17,24 @@ export class Ident {
   static readonly at = { rise: 120, name: 1300 };
   // Held a little over a second once whole (the owner, 16 November: startup had seemed to take forever; it was 3.7 s).
   static readonly length = 2800;
+  // The sparks struck from the indicator's tip as it rises (the owner, 27 November: "Studio stab could be more
+  // interesting"; OR-1804): each where the tip has risen to when it is struck (near the rise's easing, as a share of
+  // its height), thrown up and aside into the dark and gone, the first of the title's embers. Every one is out before the
+  // mark goes to black (its last sixth), so that the stab keeps its timing; in no colour, once.
+  static readonly sparks = Array.from({ length: 9 }, (_, i) => {
+    const at = 220 + i * 105, risen = Math.min(1, (at - Ident.at.rise) / 1000);
+    return { at, height: Math.round((1 - (1 - risen) ** 4.5) * 100), lasts: 900 + (i % 3) * 180,
+      dx: (i % 2 ? 1 : -1) * (22 + (i * 13) % 36), dy: -(60 + (i * 23) % 70), size: 3 + (i % 2) };
+  });
   static View({ studio }: { studio: string }) {
     const delay = (ms: number): CSSProperties => ({ animationDelay: `${ms}ms` });
     return (
       <div className="ident" style={{ animationDuration: `${Ident.length}ms` }}>
-        <span className="indicator" aria-hidden="true" style={delay(Ident.at.rise)} />
+        <span className="stand" aria-hidden="true">
+          <span className="indicator" style={delay(Ident.at.rise)} />
+          {Ident.sparks.map((x, i) => <i key={i} className="spark" style={{ '--sh': `${x.height}%`, '--sd': `${x.at}ms`,
+            '--st': `${x.lasts}ms`, '--sx': `${x.dx}px`, '--sy': `${x.dy}px`, '--ss': `${x.size}px` } as CSSProperties} />)}
+        </span>
         <p className="studio" style={delay(Ident.at.name)}>{studio}</p>
       </div>
     );
