@@ -181,6 +181,12 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/endings-split.test.ts` | An in-memory overlay module and campaign with two Kyr source files; it needs the campaign loader and module assembly, not a generated world. |
 | `test/endow-and-roll-call.test.ts` | The manual and roll-call probe campaigns with real player actions and level-dependent choices. Its negative choices need a counterfactual witness before setup is narrowed. |
 | `test/engagement.test.ts` | A watch-house fixture and the authored Long Man campaign. Fight, flight, narration, pursuit and replay claims use both; the static corpus label does not mean all campaigns. |
+| `test/engine-one-game.test.ts` | A generated world for an interactive fight, and the Long Man and Thrume campaigns for overlapping games. The worker's concurrency and save isolation need these separate sessions. |
+| `test/engine-owned.test.ts` | An in-memory overlay campaign plus an isolated clock world. Loader rejection and allowed authored writes are contrasted; no generated world is needed. |
+| `test/engine-words.test.ts` | The Long Man campaign through the engine host, comparing a real screen's way label with its recorded words. The static corpus label exceeds the single campaign used. |
+| `test/engine-writes.test.ts` | Two probe campaigns, a ford-road fixture and source inspection. Lint, offered choices and the engine's recorded visits are distinct checks; negative assertions need witnesses before narrowing. |
+| `test/entity-card.test.ts` | A drawn world at one seed with its merchant and mound, testing player knowledge against author truth and the actual offered action. The static corpus label is not a request for all authored campaigns. |
+| `test/errands.test.ts` | Two errand probe campaigns and an isolated parser round trip. Movement across several ways and the peaceable hound are different witnesses; verify the latter's negative before narrowing. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
