@@ -107,6 +107,14 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/countries-seeded-apart.test.ts` | Two generated neighbouring country modules assembled and compiled without starting a campaign. More than three matched creature pairs witness distinct seeds; both independent drawings are required. |
 | `test/country-round.test.ts` | Two generated worlds with their actual inn, sites, map and destinations. At least three heard sites and a corresponding destination witness the claim for each seed. |
 | `test/courier-route.test.ts` | One generated `c3` courier world and its actual held errand and taproom. The real offered gold exit is the route-continuity witness. |
+| `test/creation-choices.test.ts` | Pure creature creation plus generated `wren` and `mere` worlds. Placed-roll propagation, invalid rolls and the actual traveller's sheet and hire price are distinct claims. |
+| `test/creation-conformance.test.ts` | Two real engine hosts on the same generated country, driven through terminal and page creation. The same chosen life and first four offered rows are compared across both clients. |
+| `test/creation-root-steady-browser.test.ts` | A built site and browser at desktop and phone sizes, sampling the actual creation page's root and opacity frame by frame. Four reached steps witness the no-replacement and no-fade checks; gated by `KYRIE_BROWSER`. |
+| `test/creature-groups.test.ts` | One inline cave module in a memory campaign with all shared rules, plus parser round-trip and catalog-generated creatures. Group membership, names, dragon traits and actual combat projection must remain if rules are narrowed. |
+| `test/creature-lifecycle.test.ts` | Pure seeded creature stores and battles plus one wolf-yard fixture campaign. The retreat, live controller and registry cases require the actual campaign adapter in addition to the pure lifecycle claims. |
+| `test/creature-pipeline.test.ts` | Creature catalogs and portraits plus one inline eel module in an overlay campaign, not a generated country. Every catalog kind and both saved eels are witnesses; a narrower rules list has not been tested. |
+| `test/creature-variation.test.ts` | Orsino registry and creature catalogs plus one inline guardian module in an overlay campaign. Variation mechanics, invalid combinations and both saved authored creatures are distinct claims; narrower rules have not been tested. |
+| `test/crossing-knowledge.test.ts` | A generated `a1` country expanded across its frontier and one invalid-knowledge fixture campaign. The nonempty taught-facts witness and actual crossing, as well as rejection of invalid initial knowledge, must remain. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
