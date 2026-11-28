@@ -48,12 +48,15 @@ export class ColourCensus {
     return out;
   }
   // Words in any hue: a rule setting `color` to a hued colour, or an rgb or hex one far from grey, not an indicator's.
+  // A ::before that writes words (content: 'Against you') is words, not an indicator (OR-1832: the fight's foes'
+  // label had stood in ember, passed as a ::before).
   static huedWords(): string[] {
     const out: string[] = [];
     for (const f of this.files()) {
       for (const r of this.rules(readFileSync(join(this.dir, f), 'utf8'))) {
         const color = /(?:^|;)\s*color\s*:([^;]*)/.exec(r.body)?.[1] ?? '';
-        if ((this.hued.test(color) || this.greyless(color)) && !this.indicator.test(r.selector)) {
+        const words = /content\s*:\s*['"][^'"]*[A-Za-z]{2}/.test(r.body);
+        if ((this.hued.test(color) || this.greyless(color)) && (words || !this.indicator.test(r.selector))) {
           out.push(`${f}: ${r.selector}`);
         }
       }

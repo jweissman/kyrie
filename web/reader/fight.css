@@ -39,7 +39,8 @@
 .fight .side::before { font: 500 10.5px/1 var(--do); letter-spacing: .22em; text-transform: uppercase; color: var(--dim);
   margin-bottom: 2px; }
 .fight .side.ours::before { content: 'The company'; }
-.fight .side.foes::before { content: 'Against you'; color: var(--ember); }
+/* Words, in the ink of the company's (the colour grammar; OR-1832): the danger is the fight's diamond's to say. */
+.fight .side.foes::before { content: 'Against you'; }
 /* Each fighter: a card, the name and what is left, the bar, what they are and are under, a foe's intent. */
 .fight .fighter { position: relative; margin: 0; padding: 12px 14px 12px; background: var(--raised); border: 1px solid var(--edge);
   transition: border-color var(--quick), box-shadow var(--settle) var(--ease); }
