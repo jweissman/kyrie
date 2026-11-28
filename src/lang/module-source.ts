@@ -1,4 +1,4 @@
-import type { Change, Observation, Operator } from './module';
+import type { Change, Observation, Operator, Predicate } from './module';
 import type { PassageSpec } from './world-constructs';
 import { ModuleParser } from './module-parser';
 import { TemplatedPredicates } from './templated-predicates';
@@ -17,9 +17,10 @@ import { TemplatedPredicates } from './templated-predicates';
 export interface Provenance { generator: string; construct: string }
 // at: where its line was in the file's text, by the character (see parted); a passage is the parser's own field for
 // it, declared as the line would be, an observation and a topic the Module elements their lines make.
-// An initial, the Change its Initially line makes.
+// An initial, the Change its Initially line makes; a field, a declaration's as the parser makes it of its line (a
+// Topic put once), declared as the line's is (ModuleDeclarations.declare: its latch, its asking again).
 export type Declared = ({ observation: Observation } | { action: Operator } | { passage: PassageSpec }
-  | { initial: Change })
+  | { initial: Change } | { field: { field: 'action'; value: Operator & { once: true } } })
   & { kyr: string; provenance: Provenance; at?: number };
 // One file's declarations made here. Each keeps its place among the file's own by where its line was (at): a file's
 // observations and actions are made by many of its declarations (a thing's states, a discovery's finds, a thing's
@@ -27,8 +28,13 @@ export type Declared = ({ observation: Observation } | { action: Operator } | { 
 // text's declarations (ModuleParser.parse), and the text holds nothing for it. (It had held a stub declaration for
 // each, which kept the order and the parse's cost, which goes by declarations: generated-ir.md.)
 export interface FileSource { file: string; declared: Declared[] }
-// A topic as a generator says it: the parser's Topic, without its optional parts (travelling, answering, once, grave).
-export interface TopicSpec { id: string; keeper: string; title: string; when: string; says: string; knows: string[] }
+// A topic as a generator says it: the parser's Topic, without its optional parts (travelling, answering, grave). when:
+// its condition as Kyr (read once for each text) or made; once: put once; then: what discussing it does, where that
+// is not to teach what it knows (each fact known, and told by its keeper).
+export interface TopicSpec {
+  id: string; keeper: string; title: string; when: string | Predicate; says: string; knows: string[]; once?: boolean;
+  then?: Change[];
+}
 export class ModuleSource {
   private static readonly mark = '\u0000kyr-ir ';
   // Written as their Kyr instead, to be parsed as before: the text the values stand for, for the differential
@@ -57,20 +63,32 @@ export class ModuleSource {
   // given whole (the bytes were its words).
   static topic(t: TopicSpec, kyr: string[], provenance: Provenance): string[] {
     if (ModuleSource.asText) { return kyr; }
-    const told: Change[] = t.knows.flatMap(k => [ModuleSource.assert('knows', 'actor', k),
+    const told: Change[] = t.then ?? t.knows.flatMap(k => [ModuleSource.assert('knows', 'actor', k),
       ModuleSource.assert('toldBy', 'actor', t.keeper, k)]);
+    const when = typeof t.when === 'string' ? TemplatedPredicates.of(t.when, '', ModuleParser.predicate) : t.when;
     const action = { id: t.id, name: t.title, description: '', speaker: t.keeper, topic: true, report: t.says,
-      parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
-      requires: { kind: 'and', left: TemplatedPredicates.topic(t.keeper, false, ModuleParser.predicate),
-        right: TemplatedPredicates.of(t.when, '', ModuleParser.predicate) }, success: told, failure: [], cost: 1, time: 0 } as unknown as Operator;
-    return [ModuleSource.line({ action, kyr: kyr.join('\n'), provenance })];
+      ...t.once ? { once: true } : {}, parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
+      requires: { kind: 'and', left: TemplatedPredicates.topic(t.keeper, false, ModuleParser.predicate), right: when },
+      success: told, failure: [], cost: 1, time: 0 } as unknown as Operator & { once: true };
+    return [ModuleSource.line({ ...t.once ? { field: { field: 'action' as const, value: action } } : { action },
+      kyr: kyr.join('\n'), provenance })];
   }
-  private static assert(name: string, ...args: string[]): Change {
-    return { kind: 'assert', call: { kind: 'call', name, args } };
+  // A change of one fact, as the parser makes `Assert <name>(<args>).` (or Retract).
+  static change(kind: 'assert' | 'retract', name: string, ...args: string[]): Change {
+    return { kind, call: { kind: 'call', name, args } };
   }
+  // Conditions all to hold, as the parser makes `a and b and c` (to the right: a and (b and c)).
+  static all(...conditions: Predicate[]): Predicate {
+    return conditions.reduceRight((right, left) => ({ kind: 'and', left, right }));
+  }
+  private static assert(name: string, ...args: string[]): Change { return ModuleSource.change('assert', name, ...args); }
   private static line(d: Declared): string { return `${ModuleSource.mark}${JSON.stringify(d)}`; }
   static is(line: string): boolean { return line.startsWith(ModuleSource.mark); }
   static read(line: string): Declared { return JSON.parse(line.slice(ModuleSource.mark.length)) as Declared; }
+  // A writer's lines as Kyr, each value written as its line (for inspection, and for what reads a writer's words).
+  static text(lines: readonly string[]): string[] {
+    return lines.map(l => ModuleSource.is(l) ? ModuleSource.read(l).kyr : l);
+  }
   // A file's lines parted: the text to be parsed, and what was declared, each at the character where its line would
   // have begun (start: where the first line begins in the file, after its head).
   static parted(file: string, lines: string[], start = 0): { text: string[]; source: FileSource } {

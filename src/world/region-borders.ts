@@ -1,4 +1,4 @@
-import { ModuleSource } from './kyr-values';
+import { ModuleSource, ModuleWriter, type Predicate } from './kyr-values';
 import borders from '../../data/generation/scenes/borders.json';
 import { RegionGeography } from './region-geography';
 import { RegionRoads } from './region-roads';
@@ -160,13 +160,20 @@ export class RegionBorders {
   }
   // What came down of a country seen through: by which way it went there, where the country says which (each way's
   // word marked stale by it, the first that is), and else its one word (The Quiet in the Sky's friction 4, QIS-02).
-  private static afters(id: string, after: After): { key: string; when: string; talk: string; told: string }[] {
+  // must: what else holds of it besides its being stale, as made (the when's own conditions).
+  private static afters(id: string, after: After)
+    : { key: string; when: string; must: Predicate[]; talk: string; told: string }[] {
     const ways = Object.keys(after.by ?? {});
-    return [{ key: '', when: this.none(id, ways), talk: after.talk, told: after.told },
+    return [{ key: '', when: this.none(id, ways), must: this.unworn(id, ways), talk: after.talk, told: after.told },
       ...ways.map((k, i) => ({ key: `_${k}`, when: ` and stale(${id}_${k})${this.none(id, ways.slice(0, i))}`,
+        must: [this.stale(`${id}_${k}`), ...this.unworn(id, ways.slice(0, i))],
         talk: after.by![k]!.talk ?? after.talk, told: after.by![k]!.told ?? after.told }))];
   }
   private static none(id: string, ways: string[]): string { return ways.map(k => ` and not stale(${id}_${k})`).join(''); }
+  private static unworn(id: string, ways: string[]): Predicate[] {
+    return ways.map(k => ({ kind: 'not', value: this.stale(`${id}_${k}`) }));
+  }
+  private static stale(id: string): Predicate { return ModuleWriter.call('stale', id); }
   // Each way's word, a fact of its own for the country to mark.
   private static ways(id: string, beyond: NonNullable<Region['beyond']>[Border['side']]): string[] {
     return Object.keys(beyond?.after?.by ?? {}).map(k => `  Entity ${id}_${k}: fact ${JSON.stringify(`${id}, ${k}`)}.`);
@@ -182,10 +189,18 @@ export class RegionBorders {
     if (!this.remembers(beyond)) { return []; }
     const q = JSON.stringify, id = `${b.room}_beyond`, keeper = `${sid}_innkeeper`;
     const notice = beyond.notice && posted ? `${b.room}_notice_${sid}` : undefined;
-    return this.afters(id, beyond!.after!).flatMap(a => [
-      `  Topic ${id}_back_${sid}${a.key} with ${keeper} ${q(`Tell {${keeper}} you have been to ${beyond!.name}`)}`
-      + ` when stale(${id})${a.when} once {`,
-      `    Says ${q(a.told.replaceAll('{keeper}', `{${keeper}}`))}.`,
-      ...notice ? [`    On discuss { Retract intact(${notice}). Retract at(${notice}, ${place}). }`] : [], '  }']);
+    const title = `Tell {${keeper}} you have been to ${beyond!.name}`;
+    const then = notice ? [ModuleSource.change('retract', 'intact', notice),
+      ModuleSource.change('retract', 'at', notice, place)] : [];
+    // Declared as a value (ModuleSource: AX-04, by bytes the largest of what the grammar still read on a fresh
+    // world), its Kyr beside.
+    return this.afters(id, beyond!.after!).flatMap(a => {
+      const says = a.told.replaceAll('{keeper}', `{${keeper}}`), topic = `${id}_back_${sid}${a.key}`;
+      return ModuleSource.topic({ id: topic, keeper, title, when: ModuleSource.all(this.stale(id), ...a.must), says,
+        knows: [], once: true, then }, [`  Topic ${topic} with ${keeper} ${q(title)} when stale(${id})${a.when} once {`,
+        `    Says ${q(says)}.`,
+        ...notice ? [`    On discuss { Retract intact(${notice}). Retract at(${notice}, ${place}). }`] : [], '  }'],
+      { generator: 'region-borders', construct: 'Topic' });
+    });
   }
 }
