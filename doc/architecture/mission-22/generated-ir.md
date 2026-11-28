@@ -98,3 +98,35 @@ every store emptied first.
   190 KB) and the undertown (undertown.kyrt and below.kyrt, about 170 KB). Then come the settlement's people and talk
   (about 115 KB). A writer at a time pays less from here. The next lever is the templates' own: a section read once,
   its holes marked as DeclarationShapes marks a declaration's, and filled as values (OR-1900).
+
+## The templates read once, and the shapes that were never filled (28 November, later)
+
+- **Templates as values (OR-1900):** a template's lines, as a writer fills them (`KyrTemplates.declared`,
+  `WorkPlans.declared`), are parsed once with each placeholder a hole and kept by the holed text, in the process and
+  with the parses (`TemplateShapes`). Each use fills the holes of each declaration's field with its values
+  (`ModuleSource.filled`).
+  - A hole is a string's words, a name or part of one, or a whole number; any other value is put in as its text.
+  - Read with the module's other fields, and so kept as text: a module's own kinds, a capability, an ending, a
+    relation, a situation.
+  - Only while a region's files are written (`ModuleSource.written`); elsewhere the lines are their text.
+  - Every family whose lines go into a country's files: the works and deep places, the undertown and the ledge below
+    it, the town's people and talk, the wild's. company.kyr is parted as the region's files are, and a declaration's
+    lines stay in the text as empty lines, so a situation keeps its line.
+- **The proof:** test/generated-ir, unchanged in what it compares, names every family.
+- **What it bought, and what it found:** the templates alone moved some 70 KB of what the grammar matched, because
+  their shapes had mostly been filled already. Looking each matched declaration's shape up (`--shapes`) found the rest
+  in DeclarationShapes:
+  - A declaration with a call in it was never filled, its field saying where its calls were written (the symbol
+    table's references): 2 318 of s0's declarations, 510 KB. A call's span is now moved by its values' lengths.
+  - A shape met once in a world was counted and let go with its process: 1 116, 219 KB. The counts are now kept in
+    the store.
+- **Measured** (three rounds interleaved against 7d2b01ead, one process each, medians):
+
+  | | parse, before → after | start, before → after | the parse's share |
+  |---|---|---|---|
+  | s0 | 1 213 → 970 KB, 1 233 → 568 ms | 5 409 → 4 921 ms | 23 % → 12 % |
+  | a1 | 1 421 → 1 109 KB, 1 435 → 613 ms | 6 012 → 5 502 ms | 24 % → 11 % |
+
+- **What is left (OR-1960):** the grammar matches some 1 100 of s0's declarations (170 KB): its Relations, and the
+  shapes first met in that world. Drawing the country (1.6 s) and composing the world (3.1 s) are now most of the
+  start.

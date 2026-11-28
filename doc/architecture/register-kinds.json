@@ -3768,6 +3768,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "28 Nov: filed as a requirement: AX-04's next lever (a beta performance target, measured), not a violated contract"
+  },
+  "OR-1960": {
+   "kind": "requirement",
+   "was": "requirement",
+   "pri": "P2",
+   "why": "28 Nov: AX-04's measured remainder (a beta performance target), not a violated contract"
   }
  },
  "blockedBy": {
