@@ -1,4 +1,4 @@
-import { ModuleSource } from '../lang/module-source';
+import { ModuleSource } from './kyr-values';
 import borders from '../../data/generation/scenes/borders.json';
 import { RegionGeography } from './region-geography';
 import { RegionRoads } from './region-roads';
