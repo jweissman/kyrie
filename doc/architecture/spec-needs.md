@@ -164,6 +164,17 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/dorothea-sea.test.ts` | The authored Dorothea voyage over several seeds with its actual sea table. At least two drawn troubles and their answers witness the seeded passage checks. |
 | `test/dorothea-skerrow.test.ts` | The two authored Dorothea and Skerrow campaigns, with manually asserted cross-campaign events. Their separate endings and event-conditioned dialogue are the claim; these are not one continuous shared-world session. |
 | `test/dorothea-voices.test.ts` | The authored Dorothea campaign played to Port Ness and the Antlers with its preset company. The calling-specific observations at each place are separate witnesses. |
+| `test/drawn-replay.test.ts` | A generated world, browser engine host and terminal subprocess: replay must redraw from transcript options and reproduce the canonical save. The static corpus label is not a request for all authored campaigns. |
+| `test/drove-answers-after.test.ts` | The Iscoed world with the held drove's authored story, runner and clock. The alternate aftermaths, time-based returns and once-only responses remain distinct claims. |
+| `test/drove-answers.test.ts` | The Iscoed world with the held drove and runner. Four settlement paths compare the precise once-only responses and witnesses; their negative alternatives need mutation checks before narrowing. |
+| `test/drove-reeve.test.ts` | The Iscoed world, held drove and cold-play transcript. The reeve's ruling and the ink path each require their authored participants and consequences. |
+| `test/drove-resumed.test.ts` | The Iscoed world, held drove, cold-play transcript and a serialized resumed session. The digest, money and subsequent answers all witness persistence. |
+| `test/drove-return.test.ts` | The Iscoed world, held drove and cold-play transcript. The return after Bran's release and the independent sale on the clock are separate story claims. |
+| `test/drowned-stair.test.ts` | One generated world at seed `kin` and its actual flooded stair; the scene and way are compared before and after the water is lowered. |
+| `test/dun-rierdan.test.ts` | Generated regions across six seeds and two fully assembled worlds with frontier expansion. The city identity, placement and waystone's changing readings are separate claims. |
+| `test/eelbell.test.ts` | The authored Eel Bell campaign and its full sequence of distinct bellmaking, promises and ending paths; lint is also checked. Negative conditions need mutation proof before narrowing. |
+| `test/encyclopedia-browser.test.ts` | The built site and browser at two tablet orientations, using a populated Encyclopedia with illustrations. Its contrast, layout and rendering checks cannot be replaced by a bare fragment without changing the claim. |
+| `test/encyclopedia.test.ts` | The handbook and canon corpus, published Encyclopedia and authored lands. Its chapter, catalog, canon and output filtering claims depend on the real content. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
