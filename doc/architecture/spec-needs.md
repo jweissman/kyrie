@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/witnessed.test.ts` | A synthetic module plays two offscreen pursuits during travel and checks events exist but are not witnessed. A fragment is a candidate if both positive events and negatives remain. |
+| `test/word-leads.test.ts` | Generated wren checks several known-place itinerary cases, staging some knowledge and hearing another lead. Keep actual topology and knowledge contrasts. |
+| `test/work-stock.test.ts` | Generated wren stages a cache search and travels to a work twice to check discovery rewards. Keep actual work and both visits. |
+| `test/working-set.test.ts` | Synthetic scaling workloads compare startup, observation and action costs as unrelated facts grow. Keep both sizes, repetitions and ratio contracts. |
+| `test/works-variety.test.ts` | Generated f6 and a1 compare work layouts and play two maker-specific clues, with positions staged. Keep both worlds and their actual sites. |
+| `test/world-assembly.test.ts` | Assembles many generated regions and parties to check determinism, placements, contacts and playable scenarios. Keep all seed and terrain comparisons. |
+| `test/world-audit.test.ts` | Audits ten generated worlds and stages missing resources and clues to prove failures are caught. Keep all worlds and negative controls. |
+| `test/world-browser.test.ts` | Opt-in browser test builds and plays generated worlds, save/resume and layout at desktop and phone sizes. Keep real browser and all views. |
 | `test/windfall.test.ts` | Lints and plays the authored Windfall campaign through its clock, routes and endings. Keep all scenario outcomes and mends. |
 | `test/winter-in-carth-callings.test.ts` | Plays the authored Carth campaign with several callings, largely at staged places and times, to check voices and alternatives. Keep every calling and contrast. |
 | `test/winter-in-carth-placed.test.ts` | Enters Carth from a generated frost country, plays its opening and waits for its ending while the world continues. Keep integration and world continuation. |
