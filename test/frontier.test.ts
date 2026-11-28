@@ -11,6 +11,7 @@ import { News } from './support/news';
 import { Journey } from '../src/session/journey';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ScreenModel } from '../src/ui/screen-model';
+import recurrent from '../data/scenarios/recurrent.json';
 
 // A generated world goes on past the edges of its first region: an old road runs out to a march-stone on every side,
 // and the first time the company stands at one the country beyond is drawn from the world's seed and where it lies,
@@ -59,13 +60,15 @@ describe('the world beyond a region', () => {
     const shared = beyond.makers.filter(m => past.makers.some(h => h.art === m.art));
     expect(shared.length).toBeGreaterThan(0);
     expect(shared.map(m => m.fate)).toEqual(shared.map(m => past.makers.find(h => h.art === m.art)!.fate));
-    // Nothing placed in the first region is placed again in the second.
+    // Nothing placed in the first region is placed again in the second, but the dungeon families that recur in every
+    // country, each its own installation on its own ground (data/scenarios/recurrent.json: the arcologies).
     expect(drawn!.region!.sites.length).toBeGreaterThan(4);
+    const recurring = new Set(recurrent.scenarios.map(f => f.replace(/\.scenario\.json$/, '')));
     const bare = (id: string) => id.replace(/^xm1y0/, '').replace(/\d+$/, '');
     const home = new Set(s.campaign.installed.filter(id => !/^(xm1y0|link)/.test(id)).map(bare));
     const there = s.campaign.installed.filter(id => /^xm1y0./.test(id)).map(bare).filter(id => id !== 'word');
     expect(there.length).toBeGreaterThan(0);
-    expect(there.filter(id => home.has(id))).toEqual([]);
+    expect(there.filter(id => home.has(id) && !recurring.has(id))).toEqual([]);
     // Nor is any work there called what one here is, or like it.
     for (const site of drawn!.region!.sites.filter(x => x.work)) {
       expect(w.report.region.sites.filter(x => x.work && RegionLand.confusable(x.name, site.name))).toEqual([]);
