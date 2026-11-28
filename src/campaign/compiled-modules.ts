@@ -17,6 +17,8 @@ export interface Compiled {
   module: Module;
   // The id its first file declares (its seed is drawn by it), and what lint says of its shadowed names.
   id: string; told: string[];
+  // Its own files, as the loading that compiled it named them (where its semantic records say they were written).
+  files?: string[];
 }
 export class CompiledModules {
   private static readonly kept = new Map<string, ReadAmong<Compiled>[]>();
@@ -50,6 +52,18 @@ export class CompiledModules {
     Costs.note('compiled kept', 0, { bytes: key.length });
     context.install(kept.module.catalog);
     return shared ? kept : structuredClone(kept);
+  }
+  // The module compiled before, its semantic records said to be of this loading's own files: kept by its texts, it
+  // was compiled by whatever read them first, wherever it found them (one source names a country's files absolutely,
+  // another from where it runs), and a record had kept the first one's (the AX-04 harness, red on CI's kept store:
+  // wren's situations filed under world-wren/region/company.kyr against /home/runner/…/world-wren/region/company.kyr).
+  static filed(compiled: Compiled, files: readonly string[]): Module {
+    const m = compiled.module, was = new Map((compiled.files ?? []).map((f, i) => [f, files[i]]));
+    if (!m.semantic?.some(r => r.span?.file !== undefined && was.get(r.span.file) !== r.span.file)) { return m; }
+    return { ...m, semantic: m.semantic.map(r => {
+      const file = r.span?.file === undefined ? undefined : was.get(r.span.file);
+      return file === undefined ? r : { ...r, span: { ...r.span!, file } };
+    }) };
   }
   static set(context: VocabularyContext, key: string, compiled: Compiled, reads: KindReads) {
     const variants = context.keep(this.kept.get(key), { value: structuredClone(compiled), reads });
