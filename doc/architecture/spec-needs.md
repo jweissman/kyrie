@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/standing-modules-found.test.ts` | Seven generated countries play three days and map journeys to all three standing modules. Keep all seeded placements, timing and actual map arrivals; some locations are staged. |
+| `test/standing-modules-gates.test.ts` | Generated kahitude starts a fresh game for each of at least 20 placed province gates and expands its frontier. Keep every installed province and the real load boundary. |
+| `test/state-note.test.ts` | The single state-note probe compares screen observations before and after the sluice change. A fragment is a candidate if the real observations and absent identifier notes remain proved. |
+| `test/steady-start-browser.test.ts` | Opt-in built-site browser test watches creation and the opening at desktop and touch sizes. Keep both rendered viewports and actual animation and movement observations. |
+| `test/stock-opening-off.test.ts` | Assembles generated iscoed with and without the stock opening, comparing region text, modules and origin; pure creation choices are also checked. Keep both generated assemblies and the explicit opening contrast. |
+| `test/stones-return.test.ts` | A generated a1 wanderer follows the boundary-stones aim and plays from garden to shrine, checking the actual lead back. Keep the generated origin and played route. |
+| `test/store-wares.test.ts` | Generated iscoed plays the real general-store talk and recruits a traveller, then stages carried items to test carrier choice. Keep the real wares and distinguish staged inventory from played actions. |
+| `test/stories-apart.test.ts` | Generated iscoed compares drove and weir origins, plays story starts and stages one return to the green. Keep both origins, actual lead transitions and runner projection. |
 | `test/smaller-defects.test.ts` | A synthetic two-module campaign proves local versus distant milestones; other cases use pure summon, membership and assembly inputs. Keep the two-module boundary and actual paid/unpaid milestones. |
 | `test/spatial-journey-browser.test.ts` | Opt-in built-site browser journey plays generated a1 through town, cellar, combat and map travel. Keep the rendered multi-place journey and browser error check. |
 | `test/speaker.test.ts` | The single speaker probe is played before and after staged death and a movement, checking the same blessing is offered only while present and able. A narrower fixture is a candidate if both negatives are proved. |
