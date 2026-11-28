@@ -4,7 +4,7 @@ import { OverlayBundleSource } from '../campaign/overlay-bundle-source';
 import { Borders, type Side } from './land/borders';
 import { Career } from './career';
 import { WorldAssembler } from './world-assembler';
-import { ModuleBundle } from '../campaign/module-bundle';
+import { ModuleBundle, type BundleRequest } from '../campaign/module-bundle';
 import { WorldGrid } from './world-grid';
 import { WorldShape } from './world-shape';
 import { RegionWriter, type Region } from './region-writer';
@@ -73,7 +73,9 @@ export class Frontier {
         // campaign is assembled (Campaign.assemble). Everyone's creature facts are projected with each, as before: the
         // order they come to be held in is the order rules read them in.
         const beyond = await this.drawn(campaign, x, y);
-        for (const request of beyond.requests) { await campaign.install(request, beyond.source, false, true); }
+        for (const request of await this.apart(campaign, beyond, [...beyond.names, ...campaign.names])) {
+          await campaign.install(request, beyond.source, false, true);
+        }
         region = beyond.region;
       }
     }
@@ -115,7 +117,9 @@ export class Frontier {
       const name = campaign.module.entities.find(e => e.id === `${RegionWriter.id}__region`)?.name;
       const held = await Renewal.draw(this.seed, this.base, { ...this.made, ...name ? { name } : {} }, n);
       if (!held) { this.none.add(n); }
-      for (const request of held?.requests ?? []) { await campaign.install(request, held!.source, false, true); }
+      for (const request of await this.apart(campaign, held, campaign.names)) {
+        await campaign.install(request, held!.source, false, true);
+      }
     }
   }
   // The countries beyond the march-stones a step from where the company stands, drawn and parsed ahead of its getting
@@ -154,6 +158,15 @@ export class Frontier {
       drawing.catch(() => { if (this.ahead.get(key) === drawing) { this.ahead.delete(key); } });
     }
     try { return this.career(await drawing, installed, at); } finally { if (!keep) { this.ahead.clear(); } }
+  }
+  // What is drawn for the world later, its stories drawn apart in the order they were drawn, from the names among
+  // (the world's, and a country's own people's) and those cast before them (see StoryCasts, OR-418).
+  private async apart(campaign: Campaign, drawn: { requests: BundleRequest[]; source: BundleSource } | undefined,
+    among: readonly string[]): Promise<BundleRequest[]> {
+    const requests = [...drawn?.requests ?? []];
+    await ModuleBundle.drawApart(requests, { seed: this.seed, source: drawn?.source ?? this.base,
+      now: campaign.readout.elapsed, among });
+    return requests;
   }
   // The hunter's career, where the world holds its commission (a world kept from before draws as it did): the dragon
   // in its own country, the warden in the city's (see Career), beside what the country was drawn with.

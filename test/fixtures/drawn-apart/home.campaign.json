@@ -1,0 +1,17 @@
+{
+ "version": 1,
+ "name": "Lowmouth",
+ "modules": [
+  {
+   "id": "home",
+   "bundle": "home/module.json"
+  }
+ ],
+ "party": [
+  {
+   "name": "Aud",
+   "raceId": "human",
+   "classId": "warrior"
+  }
+ ]
+}

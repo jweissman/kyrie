@@ -1,0 +1,9 @@
+Module home "Lowmouth" {
+  // A town's green, its taproom and the road out, and no one in them: what a story drawn apart is set in (OR-418).
+  Company party "Your company" of 1 at green.
+  Place green "the green" is room.
+  Place taproom "the taproom" is room.
+  Place road "the road out" is room.
+  Passage green_taproom "the taproom door" is door between green and taproom taking 1 minute.
+  Passage green_road "the road" is path between green and road taking 10 minutes.
+}

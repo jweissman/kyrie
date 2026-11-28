@@ -123,10 +123,9 @@ export class Campaign implements WatchHost {
       await CanonInstall.before(this, request, source); const startedAt = this.current.elapsed;
       const { seed, elapsed, canonless } = this.current, vocabulary = this.vocabulary.fork();
       const draft = await ModuleBundle.load(request, { seed, elapsed,
-        installed: this.definition.installations, people: this.compiled.entities, canonless,
+        installed: this.definition.installations, names: this.definition.names, canonless,
         kinds: this.compiled.catalog, vocabulary }, source);
-      this.vocabulary = vocabulary;
-      this.installBoundary();
+      this.vocabulary = vocabulary; this.installBoundary();
       if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
       EngineDeclarations.declare(draft, CreatureStore.catalogAmong(this.module.catalog, draft.instance.module.catalog));
       const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world, live: this.world,
@@ -153,6 +152,8 @@ export class Campaign implements WatchHost {
   get persistent(): boolean { return !!this.definition; }
   // What the world could not take (the canon, in a world kept from before it: see CanonInstall), said for the lint.
   get conflicts(): readonly string[] { return this.definition?.conflicts ?? []; }
+  // The names its world holds, which what is drawn for it later is drawn apart from (see StoryCasts).
+  get names(): readonly string[] { return this.definition?.names ?? []; }
   conflict(note: string) { this.definition = { ...this.definition!, conflicts: [...this.conflicts, note] }; }
   // Whether anyone of the company stands, from the live records: read many times a turn (`party` copies each twice);
   // and the one who plays is not dead past raising (LifeLost).

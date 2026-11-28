@@ -1,3 +1,4 @@
+import type { DeemValue } from 'deem';
 import type { BundleSource } from '../campaign/bundle-source';
 import type { BundleManifest } from '../campaign/module-bundle';
 import type { Entry, Placement, ScenarioManifest } from './world-assembler';
@@ -50,6 +51,14 @@ export class StoryPeople {
     return [...new Set([...settled, ...RegionShops.keepers(region), ...RegionMarket.keepers(region),
       ...RegionTraffic.names(region), ...reserved])];
   }
+  // Every name a country's people have as its module was written (its region's files under dir: the ledge-waiter
+  // below the town, whom the folk do not count, among them), and those of country (OR-418: what a story's generated
+  // people are drawn apart from is the world's, never who is installed already: see StoryCasts).
+  static held(region: Region, files: Record<string, string>, dir: string): string[] {
+    const written = Object.entries(files).filter(([path]) => path.startsWith(dir) && path.endsWith('.kyr'))
+      .flatMap(([, text]) => [...text.matchAll(this.declared)].map(m => m[2]!).filter(n => this.proper(n)));
+    return [...new Set([...this.country(region), ...written])];
+  }
   // Someone with a name of their own ("Odile", "Absalom Gosse"), not what they are ("the brood-mother", "The sick
   // child's mother", whom generation names).
   private static proper(name: string): boolean { return name.split(' ').every(w => /^\p{Lu}/u.test(w)); }
@@ -68,5 +77,16 @@ export class StoryPeople {
       }
     }
     return { texts, cast };
+  }
+  // The people of the settlement a placement is set in, for its modules to name their own people by; and the names
+  // the country's people have already, which its people are drawn apart from (two Caelynns on one quay: PT-28).
+  // The protagonist's own family (kin) are of the protagonist's people; and no one of a story is called by the
+  // protagonist's own name (a dwarf's brother had been Harbek, as Harbek was, and a dwarf Rangrim met a Rangrim: the
+  // fresh playtests of 7 November).
+  static folk(placement: Placement, region: Region, kin?: { folk?: string; own?: string }): Record<string, DeemValue> {
+    const town = region.settlements.find(t => Object.values(placement.bindings).includes(t.id));
+    const taken = this.country(region), own = kin?.own ? [kin.own] : [];
+    return { ...town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {}, taken: [...taken, ...own],
+      ...kin?.folk ? { folk: kin.folk, kin: true, ...kin.own ? { own: kin.own } : {} } : {} };
   }
 }

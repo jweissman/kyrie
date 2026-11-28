@@ -26,6 +26,8 @@ export interface CampaignDefinition {
   creatures: { id: string; context: CreatureGenerationContext; gold: number; seed?: string;
     provenance?: Record<string, 'authored' | 'generated' | 'default'> }[];
   conflicts?: string[];
+  // The names its world holds, which a module asking to be drawn apart is drawn apart from (see StoryCasts).
+  names?: string[];
   // Names a module declared that the shared rules have too, which in that module are its own (see ModuleShadow).
   shadows?: string[];
   // Pursuits (and the actions for them) given to an actor another installation declared.
