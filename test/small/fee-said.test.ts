@@ -21,10 +21,10 @@ const rows = async (t: Tiny): Promise<string[]> => {
 };
 describe('a bed that is paid for', () => {
   it('says its fee on its row, and a free one says none', async () => {
-    const paid = await rows(await Tiny.start(inn(3)));
+    const paid = await rows(await Tiny.start(inn(3), { horizon: ['services'] }));
     expect(paid.filter(l => /^Take a bed and supper from Warryn/.test(l)), paid.join(' | '))
       .toEqual(['Take a bed and supper from Warryn · 3 coin']);
-    const free = await rows(await Tiny.start(inn(0)));
-    expect(free.filter(l => /^Take a bed and supper/.test(l)).some(l => /coin/.test(l))).toBe(false);
+    const free = await rows(await Tiny.start(inn(0), { horizon: ['services'] }));
+    expect(free.filter(l => /^Take a bed and supper/.test(l))).toEqual(['Take a bed and supper from Warryn']);
   });
 });

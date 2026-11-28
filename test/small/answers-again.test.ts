@@ -37,7 +37,7 @@ const again = (e: CampaignEvent) => (e.voiced ?? []).find(v => v.kind === 'answe
 
 describe('an answer asked for again', () => {
   it('is told as given again, not word for word, and the Notes keep what it said', async () => {
-    const t = await Tiny.start(world, { party });
+    const t = await Tiny.start(world, { party, horizon: [] });
     await t.perform('talk_to(party,t__hon,t__yard)');
     expect(await asking(t, /^Ask Honoria what/)).toContain(shop);
     const second = await asking(t, /^Ask Honoria again what/), third = await asking(t, /^Ask Honoria again what/);
@@ -46,7 +46,7 @@ describe('an answer asked for again', () => {
     expect(t.world.test({ kind: 'call', name: 'knows', args: ['party', 't__teashop'] })).toBe(true);
   });
   it('is told as it is when what it bears on has changed, and whole after a day', async () => {
-    const t = await Tiny.start(world, { party });
+    const t = await Tiny.start(world, { party, horizon: [] });
     await t.perform('talk_to(party,t__hon,t__yard)');
     expect(await asking(t, /larder/)).toContain('5 days');
     expect(await asking(t, /larder/)).not.toContain('days');
@@ -56,7 +56,7 @@ describe('an answer asked for again', () => {
     expect(await asking(t, /larder/)).toContain('4 days');
   });
   it('goes on from what was answered in a game kept and opened again', async () => {
-    const t = await Tiny.start(world, { party });
+    const t = await Tiny.start(world, { party, horizon: [] });
     await t.perform('talk_to(party,t__hon,t__yard)');
     await asking(t, /^Ask Honoria what/);
     const resumed = kept(t.session), id = resumed.campaign.offered().find(a => /again what/.test(a.name))!.id;

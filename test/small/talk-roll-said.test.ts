@@ -33,7 +33,7 @@ const find = (s: Said, words: RegExp) => RunnerOffer.flat([...s.offer.primary, .
 
 describe("a conversation's check", () => {
   it('is told with its dice by the runner, as the page tells it, and out of one waits for a look', async () => {
-    const t = await Tiny.start(yard, { party });
+    const t = await Tiny.start(yard, { party, horizon: [] });
     t.journey.roll('fail');
     const r = new Runner(t.session);
     const talk = find(r.said(), /^Talk to Wat/)!;
