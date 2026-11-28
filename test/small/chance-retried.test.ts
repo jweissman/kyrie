@@ -14,7 +14,7 @@ const kyr = `Place yard "the yard" is room at 0, 0 outdoors. Company party "You"
     On success { Increase heaved(actor) by 1. }
   }`;
 const tries = async (seed: string): Promise<boolean[]> => {
-  const t = await Tiny.start(kyr, { seed }), out: boolean[] = [];
+  const t = await Tiny.start(kyr, { seed, horizon: [] }), out: boolean[] = [];
   for (let n = 0; n < 20; n++) {
     const before = t.journey.measure('heaved', 'party');
     await t.journey.step('Heave at the stone');
