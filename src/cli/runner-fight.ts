@@ -8,6 +8,7 @@ import { ItemNames } from '../lang/item-names';
 import { CombatChoices } from '../ui/combat-choices';
 import { CombatTelling } from '../ui/combat-telling';
 import { ChoiceList } from '../ui/choice-list';
+import { FightTurn } from '../ui/fight-turn';
 import type { ActType } from '../presentation/offer';
 import { ActionFeedbackView, type ActionFeedback } from '../presentation/action-feedback';
 
@@ -33,6 +34,7 @@ export class RunnerFight {
   private pressed = new Pressing();
   private halted?: string;
   private opened = false;
+  private ground = false;
   // The controller the session's leg is given: each of the company's turns waits for the agent, unless it said through.
   readonly controller = (battle: Battle): Promise<Command> => {
     if (this.rest) {
@@ -53,7 +55,7 @@ export class RunnerFight {
       const b = this.battle;
       this.closing = b && CombatTelling.since(b.events, this.from, b.state).map(t => t.text);
       this.pending = undefined; this.battle = undefined; this.rest = false; this.halted = undefined; this.from = 0;
-      this.opened = false;
+      this.opened = false; this.ground = false;
     }
     return out;
   }
@@ -83,7 +85,10 @@ export class RunnerFight {
     // What is coming before the company's turn comes round again (see FoeIntents).
     const halted = this.halted ? [`${this.halted} Choose again.`] : [], coming = FoeIntents.lines(b);
     this.halted = undefined;
-    return [...opening, ...told, ...coming, ...halted, who];
+    // A fight the company's blows barely bite, said once as it is seen (see FightTurn).
+    const grind = this.ground ? undefined : FightTurn.grind(b.events, b.state.combatants);
+    if (grind) { this.ground = true; }
+    return [...opening, ...told, ...coming, ...grind ? [grind] : [], ...halted, who];
   }
   choices(): FightChoice[] {
     const b = this.pending?.battle;

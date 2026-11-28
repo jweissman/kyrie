@@ -54,6 +54,7 @@ export class Marks {
         ask: true });
     }
     if (c.gutters && c.command) { marks.push({ kind: 'gutters', said: c.gutters, ask: true }); }
+    if (c.roused && c.command) { marks.push({ kind: 'roused', said: c.roused }); }
     if (c.note?.split(' · ').includes(ChoiceList.unexamined)) {
       marks.push({ kind: 'unlooked', said: 'Not looked at closely yet.' });
     }

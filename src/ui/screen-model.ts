@@ -14,10 +14,10 @@ import { Illumination } from './illumination'; import { Standing } from './stand
 import type { ItemCatalog } from '../item-catalog'; import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../campaign/fictional-time'; import { CanonInstall } from '../campaign/canon-install';
 import { Calendar } from '../campaign/calendar'; import type { Entity } from '../lang/module';
-import { Earned } from '../lang/index';
+import { Earned, type World } from '../lang/index';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view'; import { PlayerFrame } from '../presentation/player-frame';
 import type { Campaign } from '../campaign/campaign';
-import { Withheld } from './withheld'; import { LightLeft } from './light-left';
+import { Withheld } from './withheld'; import { LightLeft } from './light-left'; import { Wandering } from './wandering';
 import { CompanyRecall } from '../presentation/company-recall'; import { DangerSense } from '../presentation/danger-sense';
 import { FightHelp } from '../presentation/fight-help';
 import { ChoiceGrouping, type Grouped } from './choice-grouping';
@@ -103,9 +103,14 @@ export class ScreenModel {
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
     // Engaged, only what answers the threat (OR-163).
-    const recall = CompanyRecall.of(campaign), camp = LightLeft.warned(screen.camp, screen.expedition.flame);
+    const recall = CompanyRecall.of(campaign), camp = this.camp(screen, world, here);
     return Engaged.screen({ ...screen, people: FightHelp.on(campaign, screen), camp,
       ...TownPlan.of(screen, entities, world, { visited, recall }) }, campaign.schemaList);
+  }
+  // What the company's light will not last through, and what may find it meanwhile, said beside each act that takes
+  // its time (LightLeft, Wandering).
+  private static camp(screen: Screen, world: World, here?: string): Act[] {
+    return Wandering.warned(LightLeft.warned(screen.camp, screen.expedition.flame), world, here);
   }
   // How someone here stands to the company: with it, one it has a stake in, one with something to be asked now (not
   // only written: the hobs' Gaffer, whose terms wait on a parley, had been led "Talk to the Gaffer" onto nothing to
