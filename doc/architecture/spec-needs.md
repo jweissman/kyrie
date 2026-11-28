@@ -11,6 +11,14 @@ its promotion guard is removed. It remains on the whole ruleset until that claim
 
 | Spec | Need and decision |
 | --- | --- |
+| `test/small/one-projection.test.ts` | The Atlas fixture spans 20 kind, place and aim combinations through page, terminal and runner, plus three pressed cases. Keep all clients and the full comparison grid; verify nonempty offered witnesses when reducing. |
+| `test/small/opened-borne.test.ts` | Two synthetic tablet scenes render the real page and compare row colours and lens pagination. A fragment is a candidate if all three tablet choices and the fourth-page witness remain. |
+| `test/small/payoff.test.ts` | Plays one authored barrow fixture through the runner, frees the trader's barrow, leaves and returns to a cheaper torch. Keep the actual act, durable bond and before/after prices. |
+| `test/small/players-leave.test.ts` | The players' going-on module is installed with a synthetic town host and staged reckoning, then waited through departure both present and elsewhere. Keep the actual installed module, narration and location outcomes. |
+| `test/small/players-told-by-gosse.test.ts` | The players' going-on module on a synthetic town host is played through Gosse's testimony; the party is then placed at each speaker. Keep the before/after offer and each real topic. |
+| `test/small/presentation-resources.test.ts` | Pure scoped-installation checks compare defaults, Westernesse resources and a synthetic presentation; no campaign starts. Keep both real Westernesse resources and scope restoration. |
+| `test/small/promise-corpus.test.ts` | Reads the recorded false-promise cases and exercises their detectors on synthetic turns; no world starts. Keep the actual cases, cold-play IDs and positive/negative detector contrasts. |
+| `test/small/prose-lint.test.ts` | Checks ordinary source prose, the editorial watchlist and the recorded first-hour pages alongside synthetic lint examples; no world starts. Keep all actual source and recorded-page coverage. |
 | `test/small/laboratory-paths.test.ts` | The single generated laboratory fixture is played through force, craft and a merchant's reaction. Keep both earned outcomes, narration and payment; verify the undocked negative before narrowing. |
 | `test/small/laboratory.test.ts` | Compares the laboratory fixture byte-for-byte with its template, then starts that fixture twice and compares the opening and generation costs. Keep the actual template and production start; no country is meant to be drawn. |
 | `test/small/larger-place.test.ts` | Three synthetic multi-module campaigns play completed jobs and compare the next lead with one or two completions and differing known facts. Keep the module installation and played objective transitions. |
