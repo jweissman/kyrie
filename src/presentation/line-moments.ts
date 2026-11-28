@@ -25,9 +25,10 @@ export class LineMoments {
   static readonly credit = /^It is .+ that makes it out\.$/;
   static readonly way = /^The way to .+?: (.+)\.$/;
   static readonly beyond = /^Beyond it, over the march: (.+)\.$/;
-  static readonly rolled = /^(.+?) (makes|fails) the (.+?) check \(d20 (\d+) \+ .+ = (-?\d+) against (\d+)\)\.$/;
-  static readonly unrolled =
-    /^(.+?) (needs no luck for it|has no chance of it) \((.+?): at (?:worst|best) (-?\d+) against (\d+)\)\.$/;
+  static readonly rolled = new RegExp(String.raw`^(.+?) (makes|fails) the (.+?) check \(d20 (\d+) \+ .+ = (-?\d+)`
+    + String.raw` against (\d+)(?:; natural twenty resolves mathematics)?\)\.$`);
+  static readonly unrolled = new RegExp(String.raw`^(.+?) (needs no luck for it|has no chance of it) \((.+?): `
+    + String.raw`(?:at (?:worst|best) (-?\d+)|by proof) against (\d+)\)\.$`);
   static readonly saved =
     /^(.+?) (passes|fails) the (.*?) save \(d20 (\d+) \+ .+ = (-?\d+) against (\d+)(?:; [^)]+)?\)\.$/;
   // Each line with what it is, where it is one of these; the rest as they were.

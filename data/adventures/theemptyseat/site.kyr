@@ -1,0 +1,197 @@
+Module theemptyseat "The Empty Seat" {
+  Description "A king is dead, two sons have claims, and the Ferryman is already buying the city one secret at a time.".
+
+  Place city "Dun Rìerdan" is region within imbar.
+  Place ward "the seven-tower ward" is settlement within city at 0, 0.
+  Place cottages "the carriers' cottages outside the wall" is settlement within city at 0, 0.
+  Place square "the bell square" is room within ward at 0, 0 outdoors.
+
+  Place ri_tower "the Rì's Tower" is building within ward.
+  Place doors_tower "the Tower of Doors" is building within ward.
+  Place cauldron_tower "the Tower of the Cauldron" is building within ward.
+  Place judges_tower "the Tower of the Judges" is building within ward.
+  Place harp_tower "the Harp Tower" is building within ward.
+  Place scales_tower "the Tower of the Scales" is building within ward.
+  Place teulu_tower "the Tower of the Teulu" is building within ward.
+  Place oath_hall "the oath hall" is room within ri_tower at 0, 0.
+  Place palace_kitchen "the palace kitchen" is room within ri_tower at 0, 0.
+  Place song_hall "the song hall" is room within harp_tower at 0, 0.
+  Place guild_house "the Venturing Guild safehouse" is building within cottages.
+  Place guild_hall "the safehouse hall" is room within guild_house at 0, 0.
+  Place counting_room "the sealed counting room" is room within scales_tower at 0, 0.
+
+  Initially Assert seatOf(dun_ri, city).
+  Initially Assert seatOf(tower_of_the_ri, ri_tower).
+  Initially Assert seatOf(tower_of_doors, doors_tower).
+  Initially Assert seatOf(tower_of_the_cauldron, cauldron_tower).
+  Initially Assert seatOf(tower_of_judges, judges_tower).
+  Initially Assert seatOf(tower_of_the_harp, harp_tower).
+  Initially Assert seatOf(tower_of_the_scales, scales_tower).
+  Initially Assert seatOf(tower_of_the_teulu, teulu_tower).
+
+  Initially Assert guildHall(guild_hall).
+  Initially Assert guildKeeper(guildkeeper).
+  Initially Assert guildRange(guild_hall, ward).
+  Measure succession_started_at(group).
+  Relation courierStopped(group). Relation arrivalRerouted(group).
+  Relation cartsCounted(group). Relation watchPledged(group).
+  Relation publiclyProclaimed(group).
+  Measure gateEscorts(place).
+  Initially Set gateEscorts(ward) to 2.
+  Entity seren_confessed: fact "Seren has told the company that Aled is the dead Rì's son.".
+  Entity gareth_refuses: fact "Gareth wants the crown, but will not buy it with his brother's life.".
+  Entity courier_deal: fact "Tarian agreed to sell the summons route for a place at the Ferryman's court; Hest can stop his departure.".
+  Entity aled_wants: fact "Aled wants a public name, but refuses a kingship that closes the gates against the people who sheltered him.".
+  Entity ninefold_lead: fact "The Ninefold Disk lies in the sealed counting room of the Tower of the Scales; enter through the Guild hall.".
+  Entity goose_prize: fact "The Guild has awarded the company the title Deputy Inspector of Geese.".
+  Entity cadi_question: fact "Cadi asks whether Tarian's promised future includes her, or only his place at court.".
+
+  Passage guild_door "the guildhouse door" is door between square and guild_hall.
+  Passage court_door "the oath hall door" is door between square and oath_hall.
+  Passage kitchen_door "the kitchen door" is door between oath_hall and palace_kitchen.
+  Passage harp_door "the Harp Tower door" is door between square and song_hall.
+  Passage counting_door "the counting-room door" is door between guild_hall and counting_room hidden until ninefold_lead.
+
+  Person herald "Rhun" at square { Role "king's herald". Ancestry human. Calling commoner. Level 1. Peaceable. }
+  Person queen "Queen Nerys" at oath_hall { Role "widowed queen". Ancestry human. Calling commoner. Level 2. Peaceable. Pronouns she. }
+  Person gareth "Gareth" at oath_hall { Role "acknowledged heir". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. }
+  Person aled "Aled" at song_hall { Role "Seren's son". Ancestry human. Calling commoner. Level 2. Peaceable. Pronouns he. }
+  Person seren "Seren" at song_hall { Role "king's former singer". Ancestry human. Calling bard. Level 2. Peaceable. Pronouns she. }
+  Person guildkeeper "Hest" at guild_hall { Role "keeper of the safehouse". Ancestry human. Calling commoner. Level 2. Peaceable. }
+  Person scout "Cadi" at guild_hall { Role "adult scout for hire". Ancestry human. Calling ranger. Level 3. Peaceable. Pronouns she. }
+  Person courier "Tarian" at guild_hall { Role "adult royal courier". Ancestry human. Calling thief. Level 2. Peaceable. Pronouns he. }
+  Initially Set hire(scout) to 4.
+  Initially Set hire(courier) to 3.
+
+  Rule succession_begins when not befell(ri_succession_open) {
+    Assert befell(ri_succession_open). Set succession_started_at(party) to watch(clock).
+  }
+  Rule queen_proclaims when befell(ri_succession_open) and watch(clock) >= succession_started_at(party) + 18
+    and able(queen) and not befell(ri_evidence_kept) and not befell(ri_evidence_sacrificed) {
+    Assert publiclyProclaimed(party). Assert befell(ri_heir_revealed). Assert befell(ri_evidence_kept).
+  }
+  Observe public_proclamation at oath_hall when publiclyProclaimed(party)
+    "Nerys has read the letters before the towers. 'I have waited long enough to be called prudent,' she says. The summons are already on the road. The choice was hers when nobody brought her another.".
+  Observe square_scene at square when not invitationsSent(party)
+    "A bell tolls from the Rì's Tower. The king is dead; the seven towers have not named his successor. Grey pennants show on the northern road.".
+  Observe square_rumour at square when befell(ri_succession_open) and not befell(ri_heir_revealed)
+    "A fishwife sells a comic ballad about the two heirs. Nobody laughs until the last verse, when the king's goose steals the crown.".
+  Observe square_betrayal at square when befell(ri_court_betrayed) and not befell(ri_siege_begun)
+    "A runner tears through the square: the Ferryman knows where the towers will meet. The Teulu guard the north gate; the crowd starts taking sides.".
+  Observe cottages_news at guild_hall when true
+    "Beyond the safehouse window stand the carriers' cottages, outside the wall. Riders leave folded papers here before they change horses. Hest reads the bulletin aloud for whoever cannot read it.".
+
+  Topic hear_herald with herald "Ask the herald who succeeds the king" when not knows(actor, ri_succession_open)
+    and not invitationsSent(party) once {
+    Says "'No one yet,' Rhun says. 'The Rì's son Gareth has the court. The towers have called for the old law. By noon, the Ferryman will have chosen a side for us.'".
+    On discuss { Assert knows(actor, ri_succession_open). }
+  }
+  Topic gareth_choice with gareth "Ask Gareth if he wants the crown" when befell(ri_succession_open) once {
+    Says "'Yes,' Gareth says, too quickly. 'I've been learning how since I could read. Aled used to borrow my coronet. Once he lent it to a goose.' He nearly smiles. 'I want it. I won't have him killed for it. Those aren't the same answer.'".
+    On discuss { Assert knows(actor, gareth_refuses). }
+  }
+  Topic gareth_watch with gareth "Ask Gareth to muster volunteers instead of a coronation guard" when
+    knows(actor, gareth_refuses) and not befell(ri_siege_begun) once {
+    Says "Gareth looks at the embroidered guard list. 'They came for my coronation.' He draws a line through the heading. 'Ask them for the gate. Some will go home. Let them.'".
+    On discuss { Assert watchPledged(party). }
+  }
+  Topic aled_choice with aled "Ask Aled what he wants for himself" when knows(actor, seren_confessed) once {
+    Says "'To stop being introduced as a nephew,' Aled says. 'To sing badly without proving anything about my father.' Seren laughs, then looks away. 'The people who hid us live outside the north gate. If being king means shutting them out, Gareth can have it.'".
+    On discuss { Assert knows(actor, aled_wants). }
+  }
+  Topic promise_shelter with seren "Promise Seren that the people outside the gate will have shelter" when knows(actor, aled_wants)
+    and not promiseMade(shelter_promise) once {
+    Says "Seren holds your wrist. 'Not only Aled. You heard him. The laundress who lied for us. The man who left his shed unlocked.' She lets go. 'I will remember what you said.'".
+    On discuss { Assert promiseMade(shelter_promise). }
+  }
+  Promise shelter_promise "to find shelter for the people outside the north gate" to seren
+    kept when befell(ri_refugees_admitted) "Seren gives the captain the coronation linen. 'For beds,' she says, turning the embroidered crowns to the inside." { }
+    broken when befell(ri_refugees_barred) "Seren folds the unused linen. When you enter, she does not look round." { }.
+  Topic seren_truth with seren "Ask Seren why the king's name is in her song" when befell(ri_succession_open) once {
+    Says "Seren stops singing. 'The other boy is Aled. The king came to him in secret, and the Queen kept him alive when the court would have used him as a banner. I have his father's letters.'".
+    On discuss { Assert knows(actor, seren_confessed). }
+  }
+  Topic queen_acknowledges with queen "Tell the Queen what Seren said" when knows(actor, seren_confessed)
+    and not befell(ri_heir_revealed) once {
+    Says "'I will name him before the seven towers,' Nerys says. 'Gareth is our son, Aled is his by Seren. I will not let either boy be spent to buy me a throne.'".
+    On discuss { Assert befell(ri_heir_revealed). }
+  }
+  Topic preserve_letters with queen "Ask the Queen to keep the letters as proof" when befell(ri_heir_revealed)
+    and not befell(ri_evidence_kept) and not befell(ri_evidence_sacrificed) once {
+    Says "Nerys folds the letters into her sleeve. 'Then they will know the truth, and the Ferryman will know where to strike. I will answer for that.'".
+    On discuss { Assert befell(ri_evidence_kept). }
+  }
+  Topic burn_letters with queen "Ask the Queen to destroy the letters" when befell(ri_heir_revealed)
+    and not befell(ri_evidence_kept) and not befell(ri_evidence_sacrificed) once {
+    Says "Nerys feeds the letters to the brazier. 'Aled will have my word, not my proof. Let them call me liar; let the Ferryman find only ash.'".
+    On discuss { Assert befell(ri_evidence_sacrificed). }
+  }
+  Topic courier_confession with courier "Ask Tarian why he is shaking" when befell(ri_heir_revealed)
+    and not knows(actor, courier_deal) once {
+    Says "Tarian puts down the summons. 'A place at court. A coat with my own arms on it. That's what he offered.' He rubs the bare cuff. 'The route leaves with me. Tell Hest before I ride, if you're going to tell him.'".
+    On discuss { Assert knows(actor, courier_deal). }
+  }
+  Topic cadi_future with scout "Ask Cadi what Tarian promised her" when befell(ri_succession_open)
+    and not cadiAnswered(scout) and not siegeSettled(party) once {
+    Says "'The south road after his last royal summons,' Cadi says. 'I was to choose where we stopped. Now he asks what colour looks best at court.' She goes on mending her boot. 'Ask whether I am in this new plan. I would rather have an answer than a better promise.'".
+    On discuss { Assert knows(actor, cadi_question). }
+  }
+  Topic courier_future with courier "Ask Tarian whether Cadi is in his court plans" when knows(actor, cadi_question)
+    and not knows(actor, courier_deal) once {
+    Says "'He offered one place,' Tarian says. 'I told myself I could ask for another when I got there.' His hand leaves his cuff. 'The price was our summons route. Hest can stop me. Cadi should not have to do it.'".
+    On discuss { Assert knows(actor, courier_deal). }
+  }
+  Topic stop_courier with guildkeeper "Tell Hest about Tarian's bargain" when knows(actor, courier_deal)
+    and not courierStopped(party) and not befell(ri_court_betrayed) once {
+    Says "Hest takes the summons. 'You can have your coat,' he tells Tarian. 'Not our addresses.' Tarian sits. He looks less relieved than you expected.".
+    On discuss { Assert courierStopped(party). }
+  }
+  Topic reroute_guest with guildkeeper "Ask Hest to change the arriving witnesses' route" when
+    (knows(actor, courier_deal) or befell(ri_court_betrayed)) and not arrivalRerouted(party)
+    and not occasionBegun(supper) once {
+    Says "Hest tears the blue arrival tickets. 'The fish gate instead. They will complain about the smell. Let them.' He sends a kitchen boy with the new directions. The old route is still sold; this one is not.".
+    On discuss { Assert arrivalRerouted(party). }
+  }
+  Topic guild_hire with guildkeeper "Ask to hire Cadi" when guild_member(party) and not willing(scout, actor)
+    and not travelsWith(scout, actor) and at(scout, guild_hall) and alert(scout) once {
+    Says "'Four coin, and I go where you go,' Cadi says. 'I can read a trail in rain and tell a door from a wall. Usually.'".
+    On discuss { Assert willing(scout, actor). }
+  }
+  Topic guild_prize with guildkeeper "Ask about the Guild's strangest prize" when guild_member(party)
+    and not knows(actor, goose_prize) once {
+    Says "Hest hands over a damp certificate: Deputy Inspector of Geese. 'The last inspector was a goose. She kept the badge and returned the paperwork.'".
+    On discuss { Assert knows(actor, goose_prize). }
+  }
+  Topic goose_roll with guildkeeper "Offer to count the refugee carts as Deputy Inspector of Geese" when
+    knows(actor, goose_prize) and befell(ri_heir_revealed) and not befell(ri_siege_begun) once {
+    Says "'Names, not beaks,' Hest says. You check the cottages' list with him. One woman insists on listing her goose. Hest leaves it in. 'Now one escort can bring them through; the other needn't search every cart for a family we've lost.'".
+    On discuss { Assert cartsCounted(party). Set gateEscorts(ward) to 1. }
+  }
+  Topic courier_route with courier "Ask Tarian to carry the Queen's summons" when befell(ri_heir_revealed)
+    and not courierStopped(party) and not befell(ri_court_betrayed) once {
+    Says "Tarian bows too quickly. 'Of course. Straight to the Harp Tower.' He takes the summons and does not meet your eye.".
+    On discuss { Assert befell(ri_court_betrayed). }
+  }
+
+  Discovery ninefold_found "A brass disk of nine interlocking rings, cut with a proof in the old mathematical hand."
+    { Found by searching counting_room. }
+  Item ninefold_disk "the Ninefold Disk" is map at counting_room hidden until ninefold_found.
+  Initially Assert established(ninefold_lead).
+  Initially Assert leadsTo(ninefold_lead, counting_room).
+  Initially Assert guildSurvey(ninefold_lead, ninefold_disk, counting_room).
+  Initially Assert wonder(ninefold_disk, ninefold_found).
+  Initially Assert wonderFrom(ninefold_disk, from_technological).
+
+  Milestone heir_named "Named Aled as the king's son" worth 25 when befell(ri_heir_revealed).
+  Milestone ninefold_recovered "Recovered the Ninefold Disk" worth 25 when recovered(ninefold_disk).
+  Objective ninefold_survey when guildIssued(party, ninefold_disk) and not recovered(ninefold_disk)
+    and not stale(ninefold_lead)
+    toward counting_room, ninefold_disk "Find the Ninefold Disk in the Tower of the Scales.".
+
+  Rule ferryman_moves when befell(ri_succession_open) and watch(clock) >= succession_started_at(party) + 6
+    and not courierStopped(party) and not befell(ri_court_betrayed) {
+    Assert befell(ri_court_betrayed).
+  }
+  Milestone proof_kept "Kept the letters for the seven towers" worth 10 when befell(ri_evidence_kept).
+  Milestone proof_burned "Put Aled's safety before written proof" worth 10 when befell(ri_evidence_sacrificed).
+}

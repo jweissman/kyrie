@@ -1,4 +1,10 @@
 Module hessel "The Banns at Hessel" {
+  Entity seat_witness: fact "Mrs Abigail Cherrett has sent Josiah's canal map and an invitation to Mopsa to Dun Rì; the flood consultant there once courted her.".
+  Topic seat_reflection with cherrett "Ask Mrs Cherrett what the canal map has taught the next king"
+    when knows(actor, josiah_line) and not gone(cherrett) once {
+    Says "Mrs Cherrett laughs like a dropped scuttle. 'Kings ought to be tested on stairs before they are trusted with a country.' She folds Josiah's map. 'The Palace's flood consultant proposed to me before Josiah did. I refused him for being dull. Apparently that qualified him for government.' Her voice softens. 'I have sent the map to Dun Rì, with Mopsa's name on the invitation as well as mine. If my coach goes empty, she is not to be left behind.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── Mrs Cherrett ──────────────────────────────────────────────────────────────────────────────────────────────────
   // Seventy-four. Her husband cut half the canals in three countries and she cooked for his gangs; now she has forty
   // thousand pounds, a heart that is giving out, and three young people to settle before it does. She takes Dr

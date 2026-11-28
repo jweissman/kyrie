@@ -1,4 +1,9 @@
 Module warmwall "The Warm Wall" {
+  Entity seat_witness: fact "Maud Veale will take the shared spring's measurements to Dun Rì; the Palace has bought a two-wheel design without buying the hatch between them.".
+  Topic seat_reflection with maud "Ask Maud whether the two crews can work together" when knows(actor, overdraw_known) once {
+    Says "Maud folds the towel in thirds. 'The Palace wants copies of both wheelhouses. Not the hatch. They asked us separately, to avoid a quarrel.' She almost smiles. 'Nesta said exactly what I said. We have been furious about it for a week.' She leaves the towel on the shared sill. 'I shall go to Dun Rì if she will. One room. They can practise listening through the wall.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── Who is at Seethe ───────────────────────────────────────────────────────────────────────────────────────────
 
   Person pen "Pen" at yard {

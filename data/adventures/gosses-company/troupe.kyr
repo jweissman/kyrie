@@ -1,4 +1,9 @@
 Module pentrice "Gosse's Company" {
+  Entity seat_witness: fact "Absalom Gosse will perform at Dun Rì; the Palace's commission requires a coronation speech ending in a surrender he refuses to stage.".
+  Topic seat_reflection with gosse "Ask Gosse what the Trial has taught the next king" when knows(actor, riot_rumour) once {
+    Says "Gosse bows to an empty chair. 'I have played every king in Imbar. The trick is letting another actor finish a sentence.' He shows you a Palace commission. The coronation speech ends with the gates opened to the Ferryman. 'They say it is an allegory. I know a stage direction when I see one.' He smiles magnificently. 'Come to Dun Rì. I mean to give the author a very bad evening.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── Gosse's Company ─────────────────────────────────────────────────────────────────────────────────────────────
   // Six players, a prompter and a bear, lodged in the loft over the Painted Moon's stables. By day they are in the loft;
   // in the evening in the taproom; on the fourth night at the Wheel.
@@ -311,7 +316,7 @@ Module pentrice "Gosse's Company" {
     Says "Hepzibah's pencil stops. 'Parts,' she says. 'In the Mayor's Room. Inside the walls.' She looks at you. 'There's not been a woman on a licensed stage in Pentrice for forty years. It's in the Ordinances; the Office put it there the same month it put Absalom out. Corin Fallow's boys play his girls.' She starts writing again. 'He wants her for his wardrobe. He's lost his wardrobe-mistress to a glover.'".
     On discuss { Assert knows(actor, fallow_wardrobe). }
   }
-  Topic dorcas_truth with dorcas "Tell Dorcas what Fallow wants her for" when knows(actor, fallow_wardrobe) and fallowOffered(dorcas) and not dorcasStays(dorcas) and not dorcasGone(dorcas) once {
+  Topic dorcas_truth with dorcas "Tell Dorcas what Fallow wants her for" answering dorcas_fallow when knows(actor, fallow_wardrobe) and fallowOffered(dorcas) and not dorcasStays(dorcas) and not dorcasGone(dorcas) once {
     Says "Dorcas listens without moving. Then she gets up, and puts her darning down on the hamper very gently, and goes to the window, and looks down into the yard as if Corin Fallow were in it. 'His wardrobe,' she says. 'Twenty-five years at the top of the bill, and Corin Fallow wants me to sew his boys into their stays.' She turns round. 'Give me a part,' she says, 'and I'll make him eat his Siege.'".
     On discuss { Assert dorcasStays(dorcas). }
   }

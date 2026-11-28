@@ -1,4 +1,9 @@
 Module wrongboat "The Wrong Boat" {
+  Entity seat_witness: fact "Bess Lowther will bring the story of Tom's wedding song to Dun Rì; the Palace's ferrymen already know the tune.".
+  Topic seat_reflection with bess "Ask Bess what the tune in the box teaches a king" when knows(actor, maker_known) once {
+    Says "Bess unfolds a request from the royal quay: Tom's tune, for the coronation barges. 'Traditional,' she reads. 'It began with a man trying to make his wife laugh.' She folds it. 'Their ferrymen have wives too. At Dun Rì I'll ask who they sing for when nobody important is listening.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── The clock, the barge and the chasers ───────────────────────────────────────────────────────────────────────
   // Time is counted in ten-minute watches from the morning the company first stands on the Staithe quay (t0). The
   // Mary keeps a timetable; the company does not. Bess Lowther starts after them by the old fen road as soon as the
@@ -10,7 +15,7 @@ Module wrongboat "The Wrong Boat" {
   Query ferryCrossing() means ferryPaid(party) and at(party, ferry_stage).
   Query stageHot() means (at(lads, ferry_stage) and not ladsDealt() and not escort()) or (at(bess, ferry_stage) and not bessAlly(party) and not bessMet(party)).
   // The lads hold the towpath at the weir until they are paid, beaten, swept or have the pack; the company does not walk past them. A toll-clerk who walks with the company, and whose sergeant's ledger they are in, is not a thing they stop.
-  Query ladsDealt() means ladsPaid(party) or ladsRouted(party) or ladsSwept(party) or beatenUp(party) or caught(party) or emptyHanded(party).
+  Query ladsDealt() means ladsPaid(party) or ladsRouted(party) or ladsSwept(party) or beatenUp(party) or caught(party) or emptyHanded(party) or verseSung(party).
   Query escort() means bessAlly(party) and together(bess, party).
   Query ladsBlock() means at(lads, weir) and not ladsDealt() and not escort().
   Query aboard() means at(party, deck) or at(party, cabin) or at(party, hold) or at(party, galley).
@@ -40,7 +45,7 @@ Module wrongboat "The Wrong Boat" {
   // Where the Mary lies, told from her deck.
   Relation castOff(group).
   Rule casts_off at deck when at(party, deck) and since(9) and not castOff(party)
-    says "Dolly takes her pipe out. 'Cast off!' she shouts, to the world. Shim has the bow-rope in his hands before she finishes, and the quay goes backward as if somebody had pulled it, with Mother Cobbold on it getting smaller, shouting something about a debt." {
+    says "Dolly takes her pipe out. 'Cast off!' she shouts. Shim has the bow-rope in his hands before she finishes. The quay goes backward, with Mother Cobbold getting smaller, shouting that you have the wrong hamper. Or the wrong boat. The geese drown out which." {
     Assert castOff(party). }
   Observe mary_gone at quay when since(9) "The Patient Mary has gone. Where she lay there is a stripe of clean water, and a child on the bollard staring at it.".
   Observe water_slides at deck when bargeAt(0) and since(9) "The banks slide past at a walking pace. A heron lifts and settles. Forward, Shim is telling the river what he thinks of it.".
@@ -68,7 +73,7 @@ Module wrongboat "The Wrong Boat" {
 
   // The chasers. Bess's first leg is a guess; the rest is hunt.kyr.
   Person bess "Bess Lowther" at toll_counter {
-    Role "a toll-clerk, owed three months' wages". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns she. Manner stoic.
+    Role "a toll-clerk following her stolen wedding gift". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns she. Manner stoic.
     Uses go. Plans 80 steps.
     Greets "A broad woman of forty-odd in a clerk's black sleeves, with a coin-scale in one hand and nothing in the other, turns from a barge-list and looks you over like a column of figures. 'You are not who I'm looking for,' she says. 'Or you are, and you are better at it than he was.'".
     Greets again "Bess Lowther has the coin-scale in one hand and a torn corner of the barge-list in the other. 'Not him,' she says. 'Not the fool. You again. I am beginning to think you are the only person on this river who has seen what I came for.'".
@@ -86,8 +91,8 @@ Module wrongboat "The Wrong Boat" {
     Role "two of Sergeant Brill's men, sent after the music box". Ancestry human. Calling warrior. Level 2. Numbers 2. Peaceable.
     Uses go. Plans 30 steps.
   }
-  Pursuit lads_weir for lads "going to the weir" priority 1 when since(2) and not since(250) and not ladsSwept(party) and not ladsPaid(party) and not together(lads, party) seeks at(lads, weir).
-  Pursuit lads_stage for lads "going down to the Highfoot stage" priority 2 when since(250) and not ladsSwept(party) and not together(lads, party) seeks at(lads, ferry_stage).
+  Pursuit lads_weir for lads "going to the weir" priority 1 when since(2) and not since(250) and not ladsSwept(party) and not ladsPaid(party) and not verseSung(party) and not together(lads, party) seeks at(lads, weir).
+  Pursuit lads_stage for lads "going down to the Highfoot stage" priority 2 when since(250) and not ladsSwept(party) and not verseSung(party) and not together(lads, party) seeks at(lads, ferry_stage).
 
   // Being seen: out in the open Bess knows a face. A bargeman's smock fools her; lavender does not (it is looked at);
   // hiding, or the fen mist, keeps her off; and anyone who has seen the puppet-play of the Wicked Toll-Clerk knows her

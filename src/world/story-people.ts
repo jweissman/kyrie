@@ -18,6 +18,11 @@ import { RegionPeoples } from './region-peoples';
 export class StoryPeople {
   // A person as Kyr declares one (Kyr.ohm: Person ident string "at" ident), by the name its author gave them.
   static readonly declared = /\bPerson\s+([A-Za-z_]\w*)\s+"((?:[^"\\]|\\.)*)"\s+at\s/g;
+  static async library(base: BundleSource, index: string): Promise<Entry[]> {
+    const path = base.resolve(index);
+    const list = JSON.parse(await base.read(path)) as { scenarios: string[] };
+    return Promise.all(list.scenarios.map(file => this.entry(base, base.resolve(file, path))));
+  }
   // A scenario of the library, with the names its modules give their people.
   static async entry(base: BundleSource, path: string): Promise<Entry> {
     const manifest = JSON.parse(await base.read(path)) as ScenarioManifest, named = new Set<string>();

@@ -1,4 +1,9 @@
 Module tailrace "The Calf in the Tail-Race" {
+  Entity seat_witness: fact "Mabet will send Dun Rì her vegetable list and the mill's oil figures; the royal lamps need not be fed with a living calf.".
+  Topic seat_reflection with mabet "Ask Mabet what the mill teaches a king" when knows(actor, press_known) once {
+    Says "'Forty gallons,' says Mabet, with her finger on the grown-up's list. 'The mill makes oil. The calf makes a noise when it wants leek. These are different jobs.' She has copied the figures beneath CABBAGE. 'The royal man said the lamps were more important than my feelings. I did not tell him about my feelings. I told him forty.' She hands you the copy. 'Take it to Dun Rì. I want to know if their king can add.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Relation hornLent(group). Relation boilNow(group). Relation maricJoined(group).
   Discovery hay_known "Agnel will not draw the sill until Hobin Ulkin has been told the sea is coming over his meadow.".
   Discovery parsnip_known "Mabet calls the calf Parsnip. He has heard all the other vegetables.".

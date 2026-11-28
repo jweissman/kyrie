@@ -25,6 +25,7 @@ Module sennet "The Grand Tour" {
   Kind handbook_kind "Murrey's Handbook, sixth edition" is gear worth 3 weighing 1 described "MURREY'S HANDBOOK FOR TRAVELLERS THROUGH THE DOORS, BY DAME PHILIPPA MURREY. SIXTH EDITION. A fat red book on thin paper, with folding maps of planes that do not hold still, and a great many opinions. This copy is a new printing, of last spring, of the edition of forty years ago.".
   Kind philippa_kind "Dame Philippa's own Handbook" is gear worth 0 weighing 1 described "A red book gone brown, swollen, scorched at one corner and stained with salt, that has been through the Doors nine times in a fire-cloak's pocket: the sixth edition, forty years old, the first copy ever printed, with Dame Philippa's own corrections in the margins in green ink, and a pressed flower from the Plane of Air that crumbles if you breathe on it.".
   Item philippa_copy "Dame Philippa's own Handbook" is philippa_kind at offstage.
+  Item fabian_rubbing "Fabian's copy of a door's load diagram" is mathematical_rubbing at offstage owned by fabian.
   Item shop_copy "a Handbook from the pile" is handbook_kind at murrey_shop owned by fabian.
   Action buy_handbook(actor: group, site: place) "Buy a copy of Murrey's Handbook for three coin" {
     Requires able(actor) and company(actor) and at(actor, site) and at(fabian, site) and at(shop_copy, murrey_shop) and quantity(actor, gold) >= 3.
@@ -94,7 +95,8 @@ Module sennet "The Grand Tour" {
     On discuss { Increase fondness(fabian) by 1. }
   }
   Topic fabian_notebook with fabian travelling "Ask Fabian what he has written so far" when wentWith(fabian) once {
-    Says "He shows you. It is not like the Handbook at all. It is short, and written in pencil, and crossed out, and some of it is about the places and a good deal of it is about the people, including, you notice, you. He takes it back before you can read that part. 'It's not ready,' he says. 'It's only true.'".
+    Says "He shows you. Short, in pencil, crossed out: places, people, including you. He covers that part. 'It's not ready. It's only true.' From a margin he copies a door's load diagram, eleven marks with an interval left blank. 'Grandmother filled that in. It wasn't a missing comma.' He gives you the copy. 'If a king asks how many soldiers fit through a door, ask who is on the other side first.'".
+    On discuss { Give fabian_rubbing to actor. }
   }
 
   // His fondness, shown where he shows everything: in what he writes.

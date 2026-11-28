@@ -1,4 +1,10 @@
 Module ombra "The Book of Faces" {
+  Entity seat_witness: fact "Ferris Moll will bring the Wardrobe's measurements to Dun Rì; somebody ordered the king's funeral face before his death.".
+  Topic seat_reflection with moll "Ask Moll what the missing Book teaches a king"
+    when knows(actor, rounds_known) and masked(actor) once {
+    Says "Moll looks at your mask rather than your eyes. 'A face does not become honest because everybody recognises it.' He takes down a measuring cord. 'The Palace ordered the king's funeral face three weeks before he died. Rush work. Paid extra.' His ears go red. 'The woman who collected it used to leave flowers on this counter. I shall take the measurements to Dun Rì. I would rather you asked her the first question.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── Wearing a face ────────────────────────────────────────────────────────────────────────────────────────────────
   // By day nobody in Ombra answers a bare face, and everybody answers a masked one as the mask. A trade's face may be
   // rented at the Wardrobe Annex for the Masked Hours; an Office's is borrowed, stolen, or made to fit. Whoever wears

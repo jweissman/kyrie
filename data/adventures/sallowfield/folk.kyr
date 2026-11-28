@@ -1,4 +1,9 @@
 Module sallowfield "Three Nights at Sallowfield" {
+  Entity seat_witness: fact "Nan Ashworth will bring her cellar accounts to Dun Rì; a royal supplier has charged the same grain to the village and the army.".
+  Topic seat_reflection with ashworth "Ask Nan what the unpaid company teaches a king" when knows(actor, fothergill_known) once {
+    Says "'A hungry company is still a company,' says Nan. 'It does not turn into a weather condition because the Margrave dislikes the bill.' She lays two receipts on the bar. Same sacks, same date, village at one end and royal army at the other. 'My cellar has been eaten twice on paper. Once was ample.' She ties the receipts to her apron-string. 'At Dun Rì I shall ask which advisor has the second stomach.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── The people ───────────────────────────────────────────────────────────────────────────────────────────────
   // Twelve who can be asked to hold a place, each with a nerve (0 will not stand; 1 will if led; 2 will; 3 will and
   // steadies others). Dead is dead: the ending counts them by name.

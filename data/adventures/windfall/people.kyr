@@ -1,4 +1,9 @@
 Module windfall "Windfall" {
+  Entity seat_witness: fact "Tamsin Soames will take a graft to Dun Rì; the court's orchard survey mistakes living roots for saleable timber.".
+  Topic seat_reflection with tamsin "Ask Tamsin what the walking roots teach a king" when knows(actor, salt_known) once {
+    Says "'The trees leave what poisons them,' says Tamsin. 'The court calls it disloyalty.' She wraps a graft in damp cloth, beside a royal timber survey. 'They counted trunks. The roots are holding the sea out. A very profitable mistake for the man who bought the wood.' She ties the cloth. 'At Dun Rì I shall plant this before I answer questions. They can watch a promise take root for once.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── Tamsin Soames, the last grafter ────────────────────────────────────────────────────────────────────────────────
   Person tamsin "Tamsin Soames" at orchard {
     Role "the Wardens' last grafter". Ancestry human. Pronouns she. Manner stoic. Peaceable.

@@ -1,4 +1,9 @@
 Module larum "The Quiet in the Sky" {
+  Entity seat_witness: fact "Bet Garside will take her ballad royalties to Dun Rì; the frontier's drums are playing a funeral refrain as a marching tune.".
+  Topic seat_reflection with bet "Ask Bet Garside what the quiet teaches a king" when knows(actor, quiet_heard) once {
+    Says "'We could not sleep with the fighting. Then we could not sleep without it,' says Bet. She turns a ballad sheet over. 'The Palace bought this for the frontier drums. It is the verse where Halvard's mother asks for her son back.' Her mouth twists. 'I shall collect my royalty in Dun Rì. Then teach their drummer the words. He can explain why he thought it was cheerful.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── The valley road and the hamlet ────────────────────────────────────────────────────────────────────────────────
   Query skyLoud() means outcomeDaily(field_country) or outcomeHalf(field_country).
   Observe march_scene at march_road when not visitedBefore(march_road) "At the head of a long bare valley, a hamlet of turf-roofed houses, and above it a high pass full of a white cloud that does not move. It is very quiet. The road comes up beside a beck going white over stones and stops being a road at the first wall, as if it had set the hamlet down there and gone back. Above the roofs two shoulders of black rock stand up into the cloud, and between them a snowfield goes up into it and does not come out. Sheep. A chapel tower. Smoke going straight up.".

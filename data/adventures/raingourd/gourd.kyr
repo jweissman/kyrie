@@ -1,4 +1,9 @@
 Module raingourd "The Rain-Gourd" {
+  Entity seat_witness: fact "Oyelle Marre will send a rain-stone lesson to Dun Rì; she has refused to sell the rain-gourd as the king's private weather.".
+  Topic seat_reflection with oyelle "Ask Oyelle what carrying the gourd teaches a king" when given(actor) once {
+    Says "'You carry it. You do not own the rain,' says Oyelle. 'A king ought to practise with the empty one first.' She shows you a royal agent's offer for the gourd. On the back she has written NO in bean juice. 'He said the weather needed a single master. I asked if he would carry me down the goat-track. He had an appointment.' She laughs. 'Take that story to Dun Rì. I shall come if somebody remembers I am not a sack of yams.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // What it is, before how it works (BRIEF §6): at the end of the dry, Palla's rain-gourd goes up to the falls and
   // comes down full to be poured on the rain-stone, and the rains come after. Oyelle Marre has carried it for fifty
   // years, and this year her hip will not. Four incidents and its core, the stone; the turn is the first rain on it.

@@ -18,6 +18,7 @@ import { InstalledInstance } from './installed-instance';
 import type { Creature } from '../creature';
 import { Discovery } from '../lang/discovery';
 import { EngineOwned } from '../lang/engine-owned';
+import { VenturingSurveys } from './venturing-surveys';
 
 export class ModuleInstallations {
   static catalogAmong(...kinds: (Module['catalog'] | undefined)[]) {
@@ -181,7 +182,7 @@ export class ModuleInstallations {
       || !module.entities.some(e => e.id === 'clock' && e.type === 'clock')) {
       throw new Error('Campaign rules require shared gold and clock entities');
     }
-    const installed = joining.apply(incoming.module.initial);
+    const installed = VenturingSurveys.add(module, joining.apply(incoming.module.initial));
     if (checked) { this.check(module, installed); }
     return new InstalledInstance(module, installed, definition,
       Math.max(0, ...definition.installations!.flatMap(m => m.deadline === undefined ? [] : [m.deadline])));

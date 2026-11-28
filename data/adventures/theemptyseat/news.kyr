@@ -1,0 +1,124 @@
+Module seat_news "Word from Dun Rì" {
+  Entity party: group "Your company".
+  Place news_place "where the news arrives" is room.
+  Entity news_carrier: group "the local teller".
+  Relation edition(item, fact). Relation newsVoice(fact, fact). Relation newsHeadline(fact, fact).
+  Relation newsNoted(fact). Relation published(fact).
+  Measure newsSince(fact). Measure newsRank(fact). Measure deliveryDelay(place).
+  Query latestNews(e: fact) means published(e) and not (published(?later) and newsRank(?later) > newsRank(e)).
+
+  Entity vacancy_voice: fact "A king is dead, and the succession is open.".
+  Entity letters_voice: fact "The Queen has kept her proof.".
+  Entity ashes_voice: fact "The Queen has burned her proof.".
+  Entity gathering_voice: fact "Witnesses have reached the Guild supper.".
+  Entity siege_voice: fact "The armies have reached the city.".
+  Entity shelter_voice: fact "The refugee carts have been admitted.".
+  Entity barred_voice: fact "The last carts were shut out.".
+  Entity compact_voice: fact "Gareth has a temporary defence command.".
+  Entity crown_voice: fact "Aled has been named king.".
+  Entity loss_voice: fact "The first enemy column has entered the divided ward.".
+  Entity vacancy_headline: fact "KING DEAD!".
+  Entity letters_headline: fact "THE QUEEN'S LETTERS!".
+  Entity ashes_headline: fact "THE QUEEN'S ASHES!".
+  Entity gathering_headline: fact "UNINVITED AT COURT!".
+  Entity siege_headline: fact "THE ENEMY AT THE GATE!".
+  Entity shelter_headline: fact "THE GATE OPENED!".
+  Entity barred_headline: fact "THE GATE SHUT!".
+  Entity compact_headline: fact "COMMAND WITHOUT A CROWN!".
+  Entity crown_headline: fact "ALED NAMED!".
+  Entity loss_headline: fact "GREY BANNERS IN THE WARD!".
+
+  Kind vacancy_print "the vacancy issue of the Evening Tattle" is document
+    described "{vacancy_headline} Below the speculation, a rider's bulletin: {ri_succession_open}".
+  Kind letters_print "the letters issue of the Evening Tattle" is document
+    described "{letters_headline} No private letter is reproduced. The verified bulletin: {ri_evidence_kept}".
+  Kind ashes_print "the ashes issue of the Evening Tattle" is document
+    described "{ashes_headline} Below a drawing of the Queen's chimney: {ri_evidence_sacrificed}".
+  Kind gathering_print "the supper issue of the Evening Tattle" is document
+    described "{gathering_headline} The guest list is mostly guesswork. The rider confirms: {ri_witnesses_gathered}".
+  Kind siege_print "the siege issue of the Evening Tattle" is document
+    described "{siege_headline} The rider's bulletin is short: {ri_siege_begun}".
+  Kind shelter_print "the open-gate issue of the Evening Tattle" is document
+    described "{shelter_headline} The kitchen bulletin confirms: {ri_refugees_admitted}".
+  Kind barred_print "the closed-gate issue of the Evening Tattle" is document
+    described "{barred_headline} No official answer to the editorial. The rider confirms: {ri_refugees_barred}".
+  Kind compact_print "the temporary-command issue of the Evening Tattle" is document
+    described "{compact_headline} The printed order has an end clause: {ri_emergency_compact}".
+  Kind crown_print "the coronation issue of the Evening Tattle" is document
+    described "{crown_headline} The first incursion has been turned back, not the whole war: {ri_succession_united}".
+  Kind loss_print "the divided-city issue of the Evening Tattle" is document
+    described "{loss_headline} A bulletin from the Guild confirms: {ri_succession_fractured}".
+  Item vacancy_issue "the vacancy issue of the Evening Tattle" is vacancy_print nowhere.
+  Item letters_issue "the letters issue of the Evening Tattle" is letters_print nowhere.
+  Item ashes_issue "the ashes issue of the Evening Tattle" is ashes_print nowhere.
+  Item gathering_issue "the supper issue of the Evening Tattle" is gathering_print nowhere.
+  Item siege_issue "the siege issue of the Evening Tattle" is siege_print nowhere.
+  Item shelter_issue "the open-gate issue of the Evening Tattle" is shelter_print nowhere.
+  Item barred_issue "the closed-gate issue of the Evening Tattle" is barred_print nowhere.
+  Item compact_issue "the temporary-command issue of the Evening Tattle" is compact_print nowhere.
+  Item crown_issue "the coronation issue of the Evening Tattle" is crown_print nowhere.
+  Item loss_issue "the divided-city issue of the Evening Tattle" is loss_print nowhere.
+
+  Initially Assert edition(vacancy_issue, ri_succession_open).
+  Initially Assert edition(letters_issue, ri_evidence_kept).
+  Initially Assert edition(ashes_issue, ri_evidence_sacrificed).
+  Initially Assert edition(gathering_issue, ri_witnesses_gathered).
+  Initially Assert edition(siege_issue, ri_siege_begun).
+  Initially Assert edition(shelter_issue, ri_refugees_admitted).
+  Initially Assert edition(barred_issue, ri_refugees_barred).
+  Initially Assert edition(compact_issue, ri_emergency_compact).
+  Initially Assert edition(crown_issue, ri_succession_united).
+  Initially Assert edition(loss_issue, ri_succession_fractured).
+  Initially Assert newsVoice(ri_succession_open, vacancy_voice).
+  Initially Assert newsVoice(ri_evidence_kept, letters_voice).
+  Initially Assert newsVoice(ri_evidence_sacrificed, ashes_voice).
+  Initially Assert newsVoice(ri_witnesses_gathered, gathering_voice).
+  Initially Assert newsVoice(ri_siege_begun, siege_voice).
+  Initially Assert newsVoice(ri_refugees_admitted, shelter_voice).
+  Initially Assert newsVoice(ri_refugees_barred, barred_voice).
+  Initially Assert newsVoice(ri_emergency_compact, compact_voice).
+  Initially Assert newsVoice(ri_succession_united, crown_voice).
+  Initially Assert newsVoice(ri_succession_fractured, loss_voice).
+  Initially Assert newsHeadline(ri_succession_open, vacancy_headline).
+  Initially Assert newsHeadline(ri_evidence_kept, letters_headline).
+  Initially Assert newsHeadline(ri_evidence_sacrificed, ashes_headline).
+  Initially Assert newsHeadline(ri_witnesses_gathered, gathering_headline).
+  Initially Assert newsHeadline(ri_siege_begun, siege_headline).
+  Initially Assert newsHeadline(ri_refugees_admitted, shelter_headline).
+  Initially Assert newsHeadline(ri_refugees_barred, barred_headline).
+  Initially Assert newsHeadline(ri_emergency_compact, compact_headline).
+  Initially Assert newsHeadline(ri_succession_united, crown_headline).
+  Initially Assert newsHeadline(ri_succession_fractured, loss_headline).
+  Initially Set newsRank(ri_succession_open) to 1.
+  Initially Set newsRank(ri_evidence_kept) to 2. Initially Set newsRank(ri_evidence_sacrificed) to 2.
+  Initially Set newsRank(ri_witnesses_gathered) to 3. Initially Set newsRank(ri_siege_begun) to 4.
+  Initially Set newsRank(ri_refugees_admitted) to 5. Initially Set newsRank(ri_refugees_barred) to 5.
+  Initially Set newsRank(ri_emergency_compact) to 6. Initially Set newsRank(ri_succession_united) to 7.
+  Initially Set newsRank(ri_succession_fractured) to 7.
+
+  Rule news_recorded when edition(?page, ?event) and befell(?event) and not newsNoted(?event) {
+    Assert newsNoted(?event). Set newsSince(?event) to watch(clock).
+  }
+  Rule news_delivered when edition(?page, ?event) and newsNoted(?event) and not published(?event)
+    and watch(clock) >= newsSince(?event) + deliveryDelay(news_place) {
+    Assert published(?event). Assert at(?page, news_place).
+  }
+  Observe paper_arrived at news_place as feature when published(?event) and latestNews(?event)
+    "A folded Evening Tattle has arrived with a Guild rider. {news_carrier} has heard the bulletin too.".
+  Action ask_news(actor: group, site: place, event: fact, voice: fact) "Ask {news_carrier} for the latest news from Dun Rì" {
+    Speaker news_carrier.
+    Requires able(actor) and at(actor, site) and at(actor, news_place) and at(news_carrier, site)
+      and latestNews(event) and newsVoice(event, voice) and not knows(actor, event).
+    Time 2 minutes.
+    On success { Assert knows(actor, event). Assert toldBy(actor, news_carrier, event). }
+    Result "{voice} The rider's confirmed bulletin says: {event}".
+  }
+  Action read_tattle(actor: group, page: item, carrier: member, event: fact, headline: fact) "Read {page}" {
+    Requires able(actor) and memberOf(carrier, actor) and awake(carrier) and ownedItem(page, carrier)
+      and not benighted(actor) and edition(page, event) and published(event) and newsHeadline(event, headline)
+      and not knows(actor, event).
+    Time 2 minutes.
+    On success { Assert knows(actor, event). }
+    Result "{headline} Beneath the editorial's speculation, the rider's confirmed bulletin: {event}".
+  }
+}

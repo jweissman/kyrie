@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "source": "news.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "news_place", "news_carrier"],
+  "roles": {
+    "party": { "type": "group" },
+    "news_place": { "type": "place" },
+    "news_carrier": { "type": "group" }
+  },
+  "canon": [
+    "ri_succession_open", "ri_evidence_kept", "ri_evidence_sacrificed",
+    "ri_witnesses_gathered", "ri_siege_begun", "ri_refugees_admitted", "ri_refugees_barred",
+    "ri_emergency_compact", "ri_succession_united", "ri_succession_fractured"
+  ],
+  "generation": {
+    "type": "seatNews",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  }
+}

@@ -1,0 +1,4 @@
+Module theemptyseat "The Empty Seat" {
+  Company party "Your company" of 1 at square.
+  Initially Set quantity(party, gold) to 10. Initially Set quantity(party, rations) to 2.
+}

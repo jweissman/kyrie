@@ -19,6 +19,11 @@ export class Conditions {
   static of(id: string): Condition | undefined { return this.installed().condition(id); }
   static exact(id: string): Condition | undefined { return this.installed().exact(id); }
   static resolve(id: string): string { return this.installed().resolve?.(id) ?? id; }
+  static skips(id: string): boolean {
+    const condition = this.of(id);
+    if (!condition || condition.unsupported) { throw new Error(`Unknown status ${id}`); }
+    return condition.modifiers.noActions === true;
+  }
   // Whether a condition helps, hurts or is neither, as its installed catalog describes it.
   static tone(id: string): 'help' | 'hurt' | 'neutral' {
     const condition = this.of(id);

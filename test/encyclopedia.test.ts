@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { describe, expect, it } from 'bun:test';
 import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 import { CatalogContext } from '../src/item-catalog';
@@ -12,8 +14,9 @@ import { HandbookPublisher } from '../src/handbook/publish';
 describe('the Encyclopedia of Imbar', () => {
   const vocabulary = CanonVocabulary.context();
   const handbooks = new Handbooks(process.cwd(), vocabulary, CatalogContext.canon);
-  const lands = (Handbooks.read(process.cwd(), 'data/adventures/countries.json') as { countries: Land[] }).countries
-    .filter(c => c.heard);
+  const countries = (Handbooks.read(process.cwd(), 'data/adventures/countries.json') as { countries: AdventureCountry[] })
+    .countries;
+  const lands = countries.filter(c => c.heard);
   const book = new Encyclopedia(handbooks, lands, Encyclopedia.canon(process.cwd(), vocabulary),
     HandbookPublisher.tongues());
   const html = new EncyclopediaHtml(book);
@@ -55,4 +58,35 @@ describe('the Encyclopedia of Imbar', () => {
     expect(page).toContain('Merrowdale');
     expect(page).toContain(lands.find(l => l.name === 'Merrowdale')!.heard.replace(/'/g, '&#39;').slice(0, 30));
   });
+  it('carries the succession crisis and a local cast member through every adventure', () => {
+    const adventures = countries.filter(country => country.province);
+    expect(adventures.length).toBeGreaterThan(0);
+    for (const adventure of adventures) {
+      expect(adventure.rumour).toMatch(/succession/i);
+      expect(adventure.heard).toMatch(/succession/i);
+      expect(adventure.far).toMatch(/succession/i);
+      expect(adventure.rumour).toContain('Ash');
+      expect(adventure.heard).toContain('Ash');
+      expect(adventure.far).toContain('Ash');
+      expect(adventureCastNames(adventure).some(name => adventure.rumour?.includes(name))).toBe(true);
+    }
+  });
 });
+
+interface AdventureCountry extends Land {
+  bundle?: string;
+  far?: string;
+  province?: boolean;
+  rumour?: string;
+}
+
+function adventureCastNames(adventure: AdventureCountry): string[] {
+  if (!adventure.bundle) { return []; }
+  const bundlePath = join('data/adventures', adventure.bundle);
+  const bundle = JSON.parse(readFileSync(bundlePath, 'utf8')) as { source?: string[] };
+  return (bundle.source ?? [])
+    .filter(source => source.endsWith('.kyr'))
+    .flatMap(source => [...readFileSync(join(dirname(bundlePath), source), 'utf8')
+      .matchAll(/\bPerson\s+[\w-]+\s+"([^"]+)"/g)].map(match => match[1]!))
+    .filter(name => name[0] === name[0]?.toUpperCase());
+}

@@ -14,7 +14,7 @@ Module wrongboat "The Wrong Boat" {
     Greets again "Mother Cobbold has a second hamper on her hip, this one smaller. 'Which boat?' she says, and then she remembers, and puts her free hand over her mouth. 'Oh, it is you. You went. You came back. Did you open it? Don't tell me.'".
   }
   Topic cobbold_which with cobbold "Say which barge you paid for" when true once {
-    Says "'Hurry up,' says Mother Cobbold. 'I've a kitchen on fire and a man who owes me eleven shillings, and he has left me a hamper for a cook who is on the Maud and will not eat it cold.'".
+    Says "'Hurry up,' says Mother Cobbold. 'I've a kitchen on fire and a man hiding from his own nephew, and he has left me a hamper for a cook who is on the Maud and will not eat it cold.'".
   }
   Topic cobbold_maud with cobbold "The Maud, which has gone" answering cobbold_which when true {
     Says "'Has she?' says Mother Cobbold, looking at the empty water with real surprise. 'Well, then, the Mary will do. They're sisters.' She thrusts the hamper at you. 'Tell the Mary's cook it's for the Maud's, and she will know what to do with it.'".
@@ -35,6 +35,7 @@ Module wrongboat "The Wrong Boat" {
   }
   Topic parr_label with parr "Show Jack Parr the label on the hamper" when holding(actor, hamper_kind) once {
     Says "He peers at it, wipes his eyes, peers again. 'DO NOT OPEN,' he reads, with great feeling. 'That is Hob's hand! Hob Garrod's! He writes a D like a roof coming off!' He lowers his voice to a shout. 'Hob has left that with the old girl to be carried somewhere he's not going himself. I'd not want to be the one carrying it.' He drinks. 'Not that I'd say so. I'm a vault.'".
+    On discuss { Assert hobKnown(actor). }
   }
   Topic parr_woman with parr "Ask Jack Parr about a woman asking after a box" when since(20) {
     Says "'The toll-clerk? Bess?' roars Parr. 'Gone up the Maud, I'd say, with a face like a bailiff! Mind, she'd have gone up the wrong one! She can't tell a Maud from a Mary at forty paces, it's the eyes!' He is perfectly sure. He is wrong, and he will be wrong again tomorrow.".
@@ -98,7 +99,16 @@ Module wrongboat "The Wrong Boat" {
     On discuss { Assert teagueOpen(actor). }
   }
   Topic teague_no with teague "No. I've never lost anything" answering teague_lost when true {
-    Says "'Lucky,' says Mrs Brabant, kindly, as to a child. 'Peel those.' She does not say what the matter is.".
+    Says "'Lucky,' says Mrs Brabant, kindly, as to a child. 'Peel those.' She does not say what the matter is. There is a second knife on the table; you could stay without asking.".
+    On discuss { Assert teagueOffered(actor). }
+  }
+  Relation teagueOffered(group).
+  Action peel_quietly(actor: group, site: place) "Stay and peel beside Mrs Brabant without asking more" {
+    Speaker teague.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, galley) and at(teague, site) and able(teague) and teagueOffered(actor) and not teagueOpen(actor).
+    Time 5.
+    On success { Assert teagueOpen(actor). Increase quantity(actor, rations) by 1. }
+    Result "You peel. She stirs. When the pot is ready she fills your bowl before the crew's. 'You can stand in my steam,' she says. 'If anybody comes asking.' She never tells you what she lost. You have not bought the right to ask.".
   }
   Topic teague_thing with teague "Ask Mrs Brabant if she knows the song the crew sings" when true {
     Says "'Tom's,' she says. 'Tom Lowther's. He left them the tune, and they have been ruining it since.' She stirs. 'There was a box made to play it. His wife had it. I never saw it go.' Her spoon stops.".
@@ -204,15 +214,15 @@ Module wrongboat "The Wrong Boat" {
   // Hob Garrod, in the lock-up, who is not a villain either.
   Person hob "Hob Garrod" at lockup {
     Role "owner of the Patient Mary, in for a debt". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "The man on the bench lifts the hat off his face and sees you, and the shape of what you are carrying. 'Well,' he says. 'You'll have come about the box. Sit. Sit! I've nothing to offer but the bench.' He is perhaps fifty, with a fine ruined voice. 'It was only against a debt. It was only the one thing she kept. Tom would have wanted her to have a regular income.'".
+    Greets "The man on the bench lifts his hat and sees the shape of what you carry. 'The box. Sit!' He has a fine ruined voice. 'She never wound it. Four years, she never wound it. I thought somebody ought to hear it.' He sees your face. 'Forty coin wasn't the only reason.'".
     Greets again "Hob Garrod puts his hat back over his face with the dignity of a man closing a door on a quarrel. 'You went and did it,' he says through the felt. 'I can tell by how you walk. People who have done what I asked always walk as if they are being followed.'".
   }
   // The reunion: she said "come and say it to his face". Bess in the cell, and what is said, which is not heard.
   Rule reunion at lockup when at(party, lockup) and bessAlly(party) and following(bess, party) and not bessReunited(party)
-    says "Hob Garrod takes his hat off his face and sits up. 'Bess,' he says. She puts the coin-scale down on the bench, carefully, between them. You are not asked to stay, and you do not, but you hear the first of it through the hatch from the Magpie's yard: not shouting. A flat voice, reading. It sounds like a ledger. Later it sounds like something else." {
+    says "Hob Garrod takes his hat off his face and sits up. 'Bess,' he says. She puts the coin-scale between them. You leave. Through the hatch you hear her sing four lines, very flatly. Then she says, 'It wasn't yours to make bearable.' He has no answer." {
     Assert bessReunited(party). Assert hobTold(party). Retract following(bess, party). Assert at(bess, lockup). }
   Topic hob_ask with hob "Ask Hob what he thinks he has done" when not bessAlly(party) once {
-    Says "'What I have done,' says Hob, sitting up, 'is nothing the Trust would call a crime. A man dies owing, and the owing goes to his master, which is me, and I take what I am owed. Where I went wrong,' he says, 'is I took it from the widow herself, and did not sit down first and let her say what it was.' He looks at his boots. 'Do you think she'd forgive me?'".
+    Says "'I stole her wedding gift,' says Hob. 'There. No clever name for it.' He looks at his boots. 'Brill heard there was a verse about him under the comb. He wants it shut up. I thought forty coin and a clock-mender might be kinder than his lads.' He looks up. 'Do you think she'd forgive me?'".
   }
   Topic hob_yes with hob "Say she might, if he told her to her face" answering hob_ask when true {
     Says "'To her face,' says Hob, and the laugh is half a sob. 'Yes.' He lies back and puts the hat over his eyes. 'Tell her I'm in the lock-up. Tell her I've no money. Tell her it's the one place on the river she'll know where to find me.'".

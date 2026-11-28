@@ -1,4 +1,9 @@
 Module pellam "The Liberty of the Ice" {
+  Entity seat_witness: fact "Amos Tallis will bring the Book of Frosts to Dun Rì; the emergency oath repeats the wording that once bound hired people for sale.".
+  Topic seat_reflection with verger "Ask Tallis what the ice has taught the next king" when knows(actor, book_of_frosts) once {
+    Says "Tallis rests both hands on the broom. 'The ice goes. The words stay, unless somebody has the nerve to cross them out.' He taps a new emergency oath. 'Same sentence as the old hiring bond. Different border. A very pretty border.' He coughs into his sleeve. 'I shall bring the book to Dun Rì. If the king needs sweeping out, I have the implement.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── The three days, as weather ────────────────────────────────────────────────────────────────────────────────────
   // Each day of the Fair has its own sky, and the sky is the act: a hard blue frost for the farce's first day, when
   // everything is bright and nothing can be checked; the drowned weather of the second, a fog off the Reach in which

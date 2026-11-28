@@ -1,4 +1,9 @@
 Module corrow "Let One Remember" {
+  Entity seat_witness: fact "Agnes Ruddle will bring the Rope and Lantern's guest book to Dun Rì; its unpaid rooms preserve names missing from the royal rolls.".
+  Topic seat_reflection with agnes "Ask Agnes what the Corrow has taught the next king" when knows(actor, low_road_known) once {
+    Says "'A mountain can forget its own road home,' says Agnes. 'The Palace manages it without leaving the breakfast table.' She opens her guest book at a run of unpaid rooms. 'The royal clerk calls these people nonexistent. They owe me nineteen coin, which is considerable existence.' She packs the book. 'I shall take it to Dun Rì. You can introduce me as the kingdom's least forgiving historian.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Description "The Peleth road up the Scarp, and the Stake ruins on the rim of the Emptied Well.".
 
   Place cistern_inn "the Rope and Lantern" is building within stake.

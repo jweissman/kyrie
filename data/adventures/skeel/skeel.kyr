@@ -1,4 +1,9 @@
 Module skeel "Fair Weather" {
+  Entity seat_witness: fact "Mother Jago will bring the wreck charter to Dun Rì; the royal grain contract uses its definition of a living thing to exclude refugees.".
+  Topic seat_reflection with jago "Ask Mother Jago what the wreck charter teaches a king" when knows(actor, charter_known) once {
+    Says "'A bird can be a living thing when grain is at stake,' says Jago. 'Funny how a refugee becomes cargo when a lord needs room.' She puts a royal grain contract beside the charter. The phrase is the same. 'My godson copied this. Thought he was improving his handwriting.' She wipes her hands. 'We are going to Dun Rì together. He can carry the pies and explain his punctuation.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   // ── What everybody in Skeel knows ─────────────────────────────────────────────────────────────────────────────────
   Discovery wreck_known "Three nights ago, in fair weather and a light westerly, the merchantman Constancy, out of the south with grain and wine, steered into the Reach in the dark and struck Scarth Bank, and broke her back. The Lantern on Hobb's Holm was dark that night. Nobody came ashore from her alive, they say, and by morning half Skeel was out on the sands with carts." {
     Known by jago, hender, kerensa, cawse, bartle, jinny, cuddy, huer, hosken, loveday, ebrel, piran, ewan, malachy.

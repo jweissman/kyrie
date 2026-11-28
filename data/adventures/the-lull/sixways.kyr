@@ -1,4 +1,9 @@
 Module lull "The Lull" {
+  Entity seat_witness: fact "Dorcas Trewin will take the Lull's unpaid promises to Dun Rì; her royal correspondent keeps renewing a wedding offer that sunset cannot undo.".
+  Topic seat_reflection with dorcas "Ask Dorcas what the Lull teaches a king" when knows(actor, open_hands) once {
+    Says "'Here a careless promise comes undone at sunset,' says Dorcas. 'The Palace appears to believe it has the same arrangement.' She takes a folded wedding offer from her apron. 'He sends it every seventh day. Outside the Lull it has been twenty years. Inside, I am still deciding.' She laughs, then buttons her good gown. 'I shall see him in Dun Rì. First I want to hear what he has promised everybody else.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Description "Sixways, a hamlet on the march that lives by a valley you can walk into one day in seven; and the Lull, that valley, where it has been the holy day for fifty-seven years and whatever is done without meaning it comes apart at sunset.".
 
   // ── The country ───────────────────────────────────────────────────────────────────────────────────────────────────

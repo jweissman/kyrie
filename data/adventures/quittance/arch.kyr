@@ -1,4 +1,9 @@
 Module quittance "Quittance" {
+  Entity seat_witness: fact "Mr Prest has duplicated a list of condemned blocks for Dun Rì; his engagement ring paid for the second copy.".
+  Topic seat_reflection with prest "Ask Mr Prest what the burning lists teach a king" when knows(actor, d_list_exists) once {
+    Says "'Goods, purpose, intentions,' says Prest. 'The council should declare all three before it sets anybody's house on fire.' He produces two copies of a list. 'They paid me to lose the first. I used the money for the second.' He looks at his bare ring finger. 'The copy cost more than expected. At Dun Rì I shall have to explain to my intended why our engagement has become a filing expense.'".
+    On discuss { Assert knows(actor, seat_witness). }
+  }
   Description "The Declaration Arch and the other ways into Quittance: what the company declares, what the Honest Bell makes of it, and the water-stair, the hearse and the Cinderwall gap.".
 
   // ── Where rewards wait until they are given ─────────────────────────────────────────────────────────────
