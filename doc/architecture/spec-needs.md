@@ -83,6 +83,14 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/cleave.test.ts` | The authored Cleave campaign and its saved journey steps. Its lint, weather, choices and distinct endings span the actual adventure. |
 | `test/client-parity.test.ts` | A generated `wren` world shared through a checkpoint between host and terminal. Some commands and travel are optional, so their witnesses must be made explicit before narrowing. |
 | `test/cold-start.test.ts` | Two generated worlds and the real host, parse cache and start timings. This performance integration test cannot use a fragment without changing the workload. |
+| `test/come-back.test.ts` | One `come-back` fixture campaign, with a returned-to room and a recruited boy. The boy's moved location witnesses the no-repeat assertion; any narrower setup must retain both sequences. |
+| `test/command-atomicity.test.ts` | The ordinary fixture campaign plus a synthetic installable nook. Both expansion failure paths, the undo receipt and the clean replay comparison are necessary; narrowing must preserve installation before failure. |
+| `test/command-contract.test.ts` | Pure combat and effect cases plus the multi-module Serewater March fixture. Its campaign cases require the actual hazard, offscreen hound, lodging and save/restore; they cannot be dropped to make the file cheaper. |
+| `test/command-faults.test.ts` | The ordinary fixture campaign, with injected failures in each named post-act and watch phase. The reached-fault witness, rollback and clean replay comparison must remain for every phase. |
+| `test/commitments.test.ts` | A drop fixture, all linted campaigns and two generated countries. The library-wide and generated-world checks make this broader than the static world label; the empty finding lists need witnesses before narrowing. |
+| `test/community.test.ts` | Several generated countries with actual settlements, schedules, animals, wild growth and named people. The evening-drinker branch is conditional and the duplicate-name scan has no explicit nonempty witness; retain the world cases until those claims can be witnessed. |
+| `test/companion-capability.test.ts` | One reader fixture campaign with Teshen, a capability and a carving. The offered-before and read-after sequence must both remain; a smaller fragment has not been verified. |
+| `test/companion-lines.test.ts` | One inline module assembled through an overlay and played with different parties, not a loaded corpus. Retain the positive companion line and notice as well as the absent-line and downed-companion assertions; narrower rules and negative mutations have not been checked. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
