@@ -51,14 +51,12 @@ export class Panorama {
   }
   // The view told once, in words (the owner, 26 November, OR-1250: a climb had yielded a row for each place seen and
   // "View on map" rows): each way round the compass in one line of prose, a place known for what it is by its name,
-  // and no row of its own, nor any to set out or to look at the map; taking out the map stays an act of its own.
+  // and no row of its own, nor any to set out or to look at the map; taking out the map stays an act of its own. A line
+  // of the telling like any other (the owner, 27 November, late, OR-1883: the view had stood apart under a rule and a
+  // heading of its own, a fold-out in the narration competing with the four; text is just text). What it shows is
+  // known after (Vantage), for the places within the hex to stand where the compass reads them.
   static View({ sights }: { sights: Sight[]; going?: Going[]; choose?: (c: Choice) => void; onMap?: boolean }) {
-    return (
-      <div className="panorama" role="group" aria-label="What can be seen from here" data-id="panorama">
-        <p className="kicker">What can be seen from here</p>
-        <p className="view">{Typography.curl(Panorama.said(sights))}</p>
-      </div>
-    );
+    return <p className="change view" data-id="panorama">{Typography.curl(Panorama.said(sights))}</p>;
   }
   // The sights in one telling: "To the north, not far off, the edge of the wood; to the west, some way off, Fearnglaed."
   static said(sights: Sight[]): string {
