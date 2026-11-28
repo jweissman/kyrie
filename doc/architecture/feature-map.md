@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 229 pins (198 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 733 live rows, 240 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 229 pins (198 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 733 live rows, 239 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -119,7 +119,7 @@ page's colours and opportunities.)
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
   - requirement OR-1447 P2: OR-1392 asks a territorial hazard of the first level, a maintained mechanism of the second and…
-- **Fights that cost** · 7 pins · 19 defects · 17 asks
+- **Fights that cost** · 7 pins · 18 defects · 18 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -136,6 +136,7 @@ page's colours and opportunities.)
   - requirement OA-07 P2: Review D1, the combat diagnostic: for each first-hour band against starting companies, win,…
   - requirement OA-08 P2: Review D2, every fight reconciled from events: the forecast, the log, the turning points and "what…
   - requirement PV-05 P2: **The Eye:** a mixed party (warrior, thief, mage) against a discerner or a dragon. **Pinned (15…
+  - requirement OR-1780 P2: A press on an enemy's card is no attack: the fight's cards carry no engine row, so a player who…
   - requirement OR-1434 P2: The fight's first frame says what was seen of the foe before, and offers the place's own means and…
   - direction OR-1207 P3: Spells that share DNA: abilities as effect sentences are made of clauses, and knowing a spell's…
   - direction OR-1077 P2: The lenses' rail carries into a fight (the owner: "we could retain some of our idioms into combat;…
@@ -889,8 +890,8 @@ page's colours and opportunities.)
 
 Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
-- **TB-09** P1: Workflows are the engine's: the sequence of questions, legal selections, what a choice settles, and the progression between activities have one… · blocks 15 (10 P0/P1) over 8 capabilities
-  - AR-05 (Architecture and layers), TB-10 (Playing in the terminal), OR-149 (Rows, lenses and the frame), R10-01 (Fights that cost), OR-181 (Fights that cost), OR-71 (Narration), CO-20 (Wayfinding and bearings), TR-21 (Wayfinding and bearings), OR-515 (Wayfinding and bearings), OR-141 (Rows, lenses and the frame), GR-25 (Aims and the gold thread), OB-21 (The title and Play), AR-20 (Architecture and layers), OR-162 (Wayfinding and bearings), OR-747 (Playing in the terminal)
+- **TB-09** P1: Workflows are the engine's: the sequence of questions, legal selections, what a choice settles, and the progression between activities have one… · blocks 14 (9 P0/P1) over 8 capabilities
+  - AR-05 (Architecture and layers), TB-10 (Playing in the terminal), OR-149 (Rows, lenses and the frame), R10-01 (Fights that cost), OR-71 (Narration), CO-20 (Wayfinding and bearings), TR-21 (Wayfinding and bearings), OR-515 (Wayfinding and bearings), OR-141 (Rows, lenses and the frame), GR-25 (Aims and the gold thread), OB-21 (The title and Play), AR-20 (Architecture and layers), OR-162 (Wayfinding and bearings), OR-747 (Playing in the terminal)
 - **OR-743** P1: Told from facts, said vs held: told text and paintings assert what the world's facts deny (lanterns lit in a sealed room, "hundreds" of two bats, a door… · blocks 10 (2 P0/P1) over 6 capabilities
   - NP-19 (Narration), NP-18 (Narration), PL-29 (Companions and hirelings), T24-09 (Fights that cost), OR-195 (Fights that cost), GR-23 (Aims and the gold thread), CO-19 (Narration), CP-15 (The Atlas: marks and their witnesses), GR-21 (Aims and the gold thread), CL-50 (Dungeons and sites)
 - **AP-03** P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts with): an act whose effects give the company something to… · blocks 8 (6 P0/P1) over 8 capabilities

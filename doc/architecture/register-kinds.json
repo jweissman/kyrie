@@ -3642,6 +3642,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "27 Nov: the remainder of OR-1520, wanted (the flagship's fifth expedition), not an observed failure of a claimed contract"
+  },
+  "OR-1780": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a wanted affordance split from OR-181, whose broken contract (alignment) is closed; no contract is broken by its absence"
   }
  },
  "blockedBy": {
