@@ -5,5 +5,5 @@ preload = ["./src/canon/setting-install.ts", "./src/paintings/presentation-insta
 
 [test]
 # And every read of a relation no module declares fails the spec that makes it (MT-25; a read that may name another
-# module's relation says so: DeclaredReads.optional).
-preload = ["./src/canon/setting-install.ts", "./src/paintings/presentation-install.ts", "./src/cli/installed-carried.ts", "./test/support/declared-strict.ts"]
+# module's relation says so: DeclaredReads.optional). And a spec worker keeps its caches lean (test/support/lean-caches).
+preload = ["./src/canon/setting-install.ts", "./src/paintings/presentation-install.ts", "./src/cli/installed-carried.ts", "./test/support/declared-strict.ts", "./test/support/lean-caches.ts"]

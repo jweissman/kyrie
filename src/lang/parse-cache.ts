@@ -50,7 +50,8 @@ export class ParseCache {
   // and its world a hundred and fifty, so that a count of ninety-six had let the country's go while the rest of its
   // world was read, and its start parsed the country again (3.5 s of a cold set-out's 7.3: OR-121). The most recently
   // asked for are kept; a world and the next country beyond it fit.
-  static readonly budget = 12 * 1024 * 1024;
+  // A process that starts many different worlds (a spec worker) keeps less (test/support/lean-caches).
+  static budget = 12 * 1024 * 1024;
   private static held = 0;
   private static remember(key: string, variants: ReadAmong<Module>[]) {
     if (this.parsed.delete(key)) { this.held -= key.length; }
