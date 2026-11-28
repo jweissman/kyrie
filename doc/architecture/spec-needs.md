@@ -204,6 +204,13 @@ expensive evidence the claims actually require; an unlisted file has not been as
 | `test/features/choice/payoff-followed.pin.test.ts` | The Iscoed world with the honest player following the held drove's aims through sale and the westward lead. The sequence and payment require the actual story. |
 | `test/features/choice/store-apprentice.pin.test.ts` | One generated `w5` world and forked saves for the apprentice corn-store situation. Its two outcomes, unattended departure and no-fight assertions are distinct; the latter need counterfactual proof before narrowing. |
 | `test/features/choice/store-runaway.pin.test.ts` | One generated `kite` world and forked saves for the runaway corn-store situation. The two destinations, unattended loss and no-fight assertions are distinct; the latter need counterfactual proof before narrowing. |
+| `test/features/conflict/engaged.pin.test.ts` | Two worlds: the generated `a1` corn-store and Iscoed's golden walk to the gate well. Engine rows, rendered map and recovery after combat are compared. |
+| `test/features/conflict/fights-cost.pin.test.ts` | The Iscoed golden walk and first-hour bands fought in repeated seeded trials. Its cost and fairness floors depend on the actual world and broad reachable encounter set. |
+| `test/features/conflict/fights-foretold.pin.test.ts` | Three `s0` generated-world starts by different callings, each with repeated trials against all first-dungeon bands. The difficulty and warning claims require the encounter distributions. |
+| `test/features/conflict/words-before-blows.pin.test.ts` | One generated `s0` world and its first-dungeon bands, comparing offered parley with each band's actual meeting. Both heard and immediate-attack bands are witnessed. |
+| `test/features/interface/day-one-load.pin.test.ts` | The Iscoed golden walk through its first day, checking knowledge, aims and offered news at every turn. The static corpus label exceeds the single world used. |
+| `test/features/interface/fallen-pack.pin.test.ts` | One generated world with scenarios and towns disabled; a party member is fallen and their pack is used through runner and screen. Non-gear absences need mutation checks before narrowing. |
+| `test/features/interface/oracle.pin.test.ts` | A Tiny fragment, engine host, terminal and pure display checks; despite the static corpus label it starts no authored or generated world. Its full shared rules may be reducible to a horizon, subject to checking all claims. |
 
 The shared arrivals fixture's action schemas, ids and labels were compared at each of its 12 places before and after
 the change; they matched. Mutation checks are recorded in the accompanying pull request. The remaining files still
