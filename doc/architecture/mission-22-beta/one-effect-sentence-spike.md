@@ -71,6 +71,40 @@ not an implementation.
 Slice 1 is small, valuable and nearly free of risk, so it is the place to begin. Slices 2 and 3 carry the
 architectural risk and want the target-resolver spike before either.
 
+## The blockers, read from the code (27 November, later)
+
+What stands in each slice's way, checked against main rather than inferred:
+
+- **Slice 1 has no blocker, given one design call.** `Change` (src/lang/module.ts) is a flat union, and some 33 files walk
+  an act's `success`/`failure` as a flat `Change[]`: facets, lints, Outcome, the owed and spoken readers, the writer.
+  - A new `{ kind: 'if' }` variant would reach every one of them.
+  - A guard on the change itself (`when?: Predicate`) reaches only the executors. Every reader of "what this act may
+    write" stays correct as it is, because a guarded change is still a possible write: facets and lints read the
+    superset, which is the right reading for an inferred opportunity.
+  - The executors are `World.apply`/`admits` (src/lang/world.ts) and the campaign tick's binder (campaign-tick.ts,
+    which binds a change's calls). The guard's calls are bound with the same bindings, and ModuleWriter writes it
+    back for the round-trip.
+  - The guard is read against the world *before* the act, as all of a consequence's changes are simultaneous. Outcome
+    foresees by `world.apply(success)`, so it predicts the right branch with no contingency machinery. A guard that
+    reads what the act itself writes is a lint error, not a semantic.
+  - KyrQuick.ohm needs no change; the grammar recipes are regenerated (scripts/grammar-recipes.ts).
+- **Slice 2 is blocked by a draw.** A Deem amount in an act is settled once, when the module is compiled
+  (ModuleCompiler.resolve, module-compiler.ts:245). `Increase gold(actor) by (2d6)` gives the same number for the life
+  of the world. Dice in a world change need a draw at execution, keyed by the act's id, its bindings and the turn
+  (the standing ruling), and Outcome then reads it as a range or a mean. This is the Deem-owns-expressions work: an
+  expression compiled once and evaluated per draw.
+- **Slices 2 and 3 are blocked by the execution context.** An ability's `Deal` runs over the creature store (the fight
+  and FieldUse), and a world change runs over facts. Before an ability can write the world, or an act can hurt, one
+  role resolver must say what `it`, `enemy` and `here` denote in each context. Today the fight binds roles at
+  execution and the world binds terms at grounding (risk 1). The target-resolver spike is the de-risking step: bind
+  the act side's `it` and `here` through the ability resolver, with parity.
+- **Slice 4 is blocked by the installed domain's step 4.** The one clock (OR-1331) is the overlays' recurrence and
+  ending, so duration is designed there, once, and not under this row.
+- **Slice 5 is blocked by slices 2 and 4.** A result reference (OR-1328) reads what a clause did ("the damage dealt"),
+  and that is defined only once the clause executes in one context with one draw.
+- **OR-1329 (topological sets) is blocked by nothing,** but by order: sets over places and ways are a target notion, so
+  they come after the resolver.
+
 ## Recommendation
 
 Give slice 1 to a builder now. It is bounded, it answers the authors' top ask, and its proof is mechanical. Run the
