@@ -1,0 +1,73 @@
+{"act":"region__s1_altar#look"}
+{"act":"region__s1_altar#back"}
+{"act":"region__s1_priest#talk"}
+{"act":"region__s1_priest/0:Talk/0:Give Kaldor the brothers' letter"}
+{"act":"region__s1_priest/0:Talk/0:Ask Kaldor what the matter is in Lilyfen"}
+{"act":"talk:trade"}
+{"act":"talk:back"}
+{"act":"region__s1_priest#leave"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__s1_shop"}
+{"act":"region__s1_merchant#talk"}
+{"act":"region__s1_merchant/0:Talk/0:Ask Granger what the matter is in Lilyfen"}
+{"act":"talk:trade"}
+{"act":"talk:back"}
+{"act":"region__s1_merchant/0:Talk/0:Ask Granger what the old workings are worth"}
+{"act":"region__s1_merchant#leave"}
+{"act":"travel:region__s1_taproom"}
+{"act":"region__s1_innkeeper#talk"}
+{"act":"region__s1_innkeeper/0:Talk/0:Say you are going up to the old stones"}
+{"act":"region__s1_innkeeper/0:Talk/0:Ask Jessica what the matter is in Lilyfen"}
+{"act":"region__s1_innkeeper#leave"}
+{"act":"region__s1_traveller#talk"}
+{"act":"region__s1_traveller/0:Talk/0:Ask Gareth whether she would come along"}
+{"act":"region__s1_traveller/0:Ask Gareth to join the company — 6 coin"}
+{"act":"region__s1_traveller#leave"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__s1_shop"}
+{"act":"region__s1_merchant#talk"}
+{"act":"talk:trade"}
+{"act":"region__s1_merchant/0:Buy/0:Bandages — 1 coin"}
+{"act":"region__s1_merchant/0:Buy/0:An oil firebomb — 2 coin"}
+{"act":"talk:back"}
+{"act":"region__s1_merchant#leave"}
+{"act":"travel:region__s1_wood_edge"}
+{"act":"exit:region__s1_wood_ride"}
+{"act":"exit:region__s1_wood_stones"}
+{"act":"region__s1_wood_doorstone/0:Listen at it"}
+{"look":true}
+{"follow":"region__s1_wood_below"}
+{"act":"exit:region__s1_ud"}
+{"act":"light:region__party_1__torch"}
+{"act":"region__s1_ud_waiting#talk"}
+{"act":"region__s1_ud_waiting#leave"}
+{"act":"region__s1_ud_makers#look"}
+{"act":"region__s1_ud_makers/0:Read the marks on the post-stone"}
+{"act":"region__s1_ud_makers#back"}
+{"act":"company/0:Copy the old writing into your book, stroke by stroke"}
+{"act":"light:region__party_1__candle"}
+{"act":"exit:region__s1_ud_adit_mouth"}
+{"act":"exit:region__s1_ud_adit_adit"}
+{"act":"show"}
+{"act":"region__s1_ud_adit_adit_dwellers/0:Attack"}
+{"act":"ability:cleave"}
+{"act":"ability:cleave/region__s1_ud_adit_adit_dwellers_person"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"look":true}
+{"act":"onward"}
+{"act":"region__s1_ud_adit_adit_coins#look"}
+{"act":"region__s1_ud_adit_adit_after0_doc/0:Read the words on the gate-beam"}
+{"act":"region__s1_ud_adit_adit_coins/0:Gather up the coins"}
+{"act":"region__s1_ud_adit_adit_coins#back"}
+{"act":"region__s1_ud_adit_adit_after0_doc/0:Read the words on the gate-beam"}
+{"follow":"origin__errand_home"}
+{"follow":"origin__errand_home"}
+{"follow":"origin__errand_home"}
+{"act":"exit:region__s1_ud_adit_mouth"}
+{"act":"travel:region__s1_green"}
+{"act":"exit:region__s1_shrine"}
+{"act":"region__s1_priest#talk"}
+{"act":"region__s1_priest/0:Talk/0:Show Kaldor what you copied at the old dead under the old woods"}

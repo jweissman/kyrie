@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 74 capabilities; 258 pins (227 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 764 live rows, 256 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 74 capabilities; 258 pins (227 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 765 live rows, 257 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -169,7 +169,7 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 9 pins · 10 defects · 14 asks
+- **Journeys over known ways** · 9 pins · 11 defects · 14 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
