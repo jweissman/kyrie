@@ -61,14 +61,14 @@ describe('a trader\'s wares', () => {
     t.journey.coin(20); t.look();
     const r = new Runner(t.session);
     const here = flat([...(await ask(r, { look: true })).offer.primary, ...(await ask(r, { look: true })).offer.rest]);
-    expect(here.filter(o => /^(buy_item|haggle_item)\(/.test(o.does ?? '') || /^(Buy|Haggle)\b/.test(o.label))
+    expect(here.filter(o => /^(buy_item|haggle_wares)\(/.test(o.does ?? '') || /^(Buy|Haggle)\b/.test(o.label))
       .map(o => o.label)).toEqual([]);
     expect(here.filter(o => o.id === 't__mabel#talk').length).toBe(1);
     await ask(r, { act: 't__mabel#talk' });
     const trading = await ask(r, { act: 'focus:trade:on' });
     const talk = flat([...trading.offer.primary, ...trading.offer.rest]);
-    // The lantern and the crowbar are dearer than a coin, and may be haggled for; the torch may not.
-    expect(talk.filter(o => /^haggle_item\(/.test(o.does ?? '')).length).toBe(2);
+    // The lantern and the crowbar are dearer than a coin: Mabel may be haggled with, once, over all of it (OR-1852).
+    expect(talk.filter(o => /^haggle_wares\(/.test(o.does ?? '')).length).toBe(1);
     expect(talk.filter(o => /^buy_item\(/.test(o.does ?? '')).length).toBe(3);
   });
 });
