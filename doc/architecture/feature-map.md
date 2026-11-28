@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 73 capabilities; 254 pins (223 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 753 live rows, 250 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 254 pins (223 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 757 live rows, 253 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -105,7 +105,7 @@ page's colours and opportunities.)
 
 ### Conflict
 
-- **Engagements and warnings** · 8 pins · 6 defects · 5 asks
+- **Engagements and warnings** · 8 pins · 8 defects · 5 asks
   - ○ before a fight the company is told what is at risk, as it reckons it, in words
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same
@@ -119,7 +119,7 @@ page's colours and opportunities.)
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
   - requirement OR-1447 P2: OR-1392 asks a territorial hazard of the first level, a maintained mechanism of the second and…
-- **Fights that cost** · 9 pins · 18 defects · 18 asks
+- **Fights that cost** · 9 pins · 19 defects · 18 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -169,7 +169,7 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 8 pins · 10 defects · 13 asks
+- **Journeys over known ways** · 8 pins · 10 defects · 14 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
@@ -186,6 +186,7 @@ page's colours and opportunities.)
   - direction NM-16 P3: Transport services (carter, ferry, paid passage)
   - direction AB-06 P2: People and bands that move on a clock (Route/Pursuit on a person)
   - requirement T24-25 P2: Three of cold review B's fixes unpinned: the hare said to go into the pack as food…
+  - direction OR-1862 P3: A way out of a dungeon the company has secured (a rope left on the stair, a door wedged, a way…
   - requirement OR-344 P2: Journeys over known ways: the capability as its pins hold it (the land is revealed as a journey…
   - requirement OR-1540 P3: What is left blank in the reference game's first level, after the way on was marked (OR-1502):…
   - direction OB-19 P3: The middle scale inside a hex (the owner, 15 November): a gallery of existing hexes at local scale…
