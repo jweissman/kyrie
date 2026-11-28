@@ -153,7 +153,9 @@ export class QuantityExpeditions {
       await this.act(s, this.ids(s).find(id => id.startsWith('take_lodging(')));
       // Without the coin for a pallet, the keep worked for, else a night slept rough (OR-1392's measure: a company
       // come home poor and hurt had turned back at the mouth three times running).
-      for (const v of ['work_keep(', 'take_lodging(', 'camp(', 'rest']) {
+      // The keep worked for is a bed on the house, taken as offered (OR-1890: s7's company, its keep worked and its
+      // bed never taken, could neither pay nor work again, and stood at the stair on 3 of 14 twice).
+      for (const v of ['work_keep(', 'take_lodging_guest(', 'take_lodging(', 'camp(', 'rest']) {
         if (!this.hurt(s)) { break; }
         await this.act(s, this.ids(s).find(id => id.startsWith(v)));
       }
@@ -187,7 +189,11 @@ export class QuantityExpeditions {
     for (let i = 0; i < this.steps; i++) {
       if (!s.campaign.running || !this.standing(s)) { trip.approach.turned = 'fell'; return; }
       if (QuantityCaution.fallen(s, stood)) { trip.approach.turned = 'fallen'; return; }
-      if (this.hurt(s, 0.6)) { trip.approach.turned = 'hurt'; return; }
+      if (this.hurt(s, 0.6)) {
+        const tend = QuantityCaution.tend(s);
+        if (!tend || !await this.act(s, tend)) { trip.approach.turned = 'hurt'; return; }
+        continue;
+      }
       const here = this.here(s);
       been.add(here);
       trip.approach.deepest = Math.max(trip.approach.deepest, this.depth(s, here));
@@ -245,7 +251,7 @@ export class QuantityExpeditions {
     const on = this.onward(ways, { now: at.been, ever, depth: new Map(ways.map(w => [w.to, this.depth(s, w.to)])),
       ...listen ? { listen } : {}, ...seek ? { seek } : {} });
     if (away === 'leave') { return on?.startsWith('go(') ? on : back; }
-    if (on) { return QuantityCaution.ahead(ids, at.tried, on); }
+    if (on) { return QuantityCaution.ahead(ids, at.tried, on, QuantityCaution.whole(s)); }
     // A trap is risked only where the page says it would not kill.
     const deadly = new Set(Journey.of(s).choices().filter(x => /could kill/.test(x.label)).map(x => x.command));
     return ['look_closely(', 'prod(', 'hook', 'change_thing(', 'risk(', 'light_item(', ...this.policy.grammar ? ['search('] : []]
@@ -369,7 +375,7 @@ export class QuantityExpeditions {
   static readonly fled = { n: 0 };
   private static fight(b: Battle) {
     const legal = b.legalCommands(), flee = legal.find(c => c.ability === 'flee');
-    if (flee && QuantityCaution.flees(b.state.combatants)) { this.fled.n++; return flee; }
+    if (flee && QuantityCaution.flees(b.state.combatants, b.events)) { this.fled.n++; return flee; }
     return Tactics.choose(b.state, b.plain(legal));
   }
   // What the company knows, holds and has done, and the world round it, at a return.
